@@ -1,0 +1,74 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Tests\Http;
+
+use Capsule\Http\Request;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\TestCase;
+
+#[CoversClass(Request::class)]
+final class RequestPathNormalizationFutureTest extends TestCase
+{
+    /** @var array<string,mixed> */
+    private array $bkServer = [];
+    /** @var array<string,mixed> */
+    private array $bkGet = [];
+    /** @var array<string,mixed> */
+    private array $bkCookie = [];
+
+    protected function setUp(): void
+    {
+        $this->bkServer = $_SERVER;
+        $this->bkGet    = $_GET;
+        $this->bkCookie = $_COOKIE;
+        $_SERVER = [];
+        $_GET = [];
+        $_COOKIE = [];
+    }
+
+    protected function tearDown(): void
+    {
+        $_SERVER = $this->bkServer;
+        $_GET    = $this->bkGet;
+        $_COOKIE = $this->bkCookie;
+    }
+
+    public function testDotSegmentsAreRemoved(): void
+    {
+        $this->markTestSkipped('Activer quand removeDotSegments() sera implémenté');
+        $_SERVER['REQUEST_METHOD'] = 'GET';
+        $_SERVER['REQUEST_URI']    = '/a/b/../c/./d/..//e';
+
+        $req = Request::fromGlobals();
+
+        // Attendu après RFC 3986 §5.2.4 : /a/c/e
+        $this->assertSame('/a/c/e', $req->path);
+    }
+
+    public function testEncodedSlashIsNotDecoded(): void
+    {
+        $this->markTestSkipped('Activer quand %2F/%5C seront préservés');
+        $_SERVER['REQUEST_METHOD'] = 'GET';
+        $_SERVER['REQUEST_URI']    = '/a%2Fb/c%5Cd';
+
+        $req = Request::fromGlobals();
+
+        // Attendu : on préserve %2F (/) et %5C (\) encodés
+        $this->assertSame('/a%2Fb/c%5Cd', $req->path);
+    }
+
+    public function testControlsAreRejectedAndCompactDoubleSlashes(): void
+    {
+        $this->markTestSkipped('Activer après durcissement complet de la sanitation');
+        $_SERVER['REQUEST_METHOD'] = 'GET';
+        // Mélange de // multiples + dot-segments + octet de contrôle
+        $_SERVER['REQUEST_URI'] = "/x//y/.\x7F/../z";
+
+        $req = Request::fromGlobals();
+
+        // Attendu: contrôle supprimé/neutralisé, dot-segments retirés, doubles slashes compactés
+        $this->assertSame('/x/y/z', $req->path);
+    }
+}

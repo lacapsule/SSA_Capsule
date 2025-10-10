@@ -1,0 +1,34 @@
+# Dépendances PHP
+/vendor/
+
+# Composer caches (pas nécessaires au repo)
+composer.phar
+.phpunit.result.cache
+.phpunit.cache
+composer.lock  # <- Garde-le SI (et seulement si) tu décides de ne pas versionner le lock.
+               # Reco: pour l'appli, supprime cette ligne et commit le lock.
+
+# Outils qualité
+.php-cs-fixer.cache
+/.php-cs-fixer.dist.php   # si tu génères un dist, sinon garde en repo
+
+# Couverture / rapports locaux
+/coverage/
+/phpstan.neon.tmp
+/.phpstan-cache/
+/.psalm/
+/infection.log
+
+# IDE / OS
+/.idea/
+/.vscode/
+*.iml
+.DS_Store
+
+# Logs/var
+/var/*
+!var/.gitkeep
+
+# Build artifacts éventuels
+/public/build/
+/node_modules/   # si frontend

@@ -1,0 +1,107 @@
+:root {
+    /* COLORS */
+    --background: #ffffff;
+    --foreground: #000000;
+    --primary: #fdb544;
+    --accent: #43c466;
+    --textVariant: #364a6b;
+    --shadow: #b8b8b8;
+
+    /* TAILLES */
+    --padSmall: 15px;
+    --padMedium: 30px;
+    --padLarge: 60px;
+    --fontSizeSmall: 16px;
+    --fontSizeMedium: 18px;
+    --fontSizeLarge: 30px;
+
+    /* FONTS */
+    --fontPrimary: "lacapsule", sans-serif;
+    --fontSecondary: "Roboto", sans-serif;
+
+    /* OMBRAGE - Exemple : .button { box-shadow: var(--shadow-light); } */
+    --shadow-light: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+    --shadow-medium: 0 4px 6px rgba(0, 0, 0, 0.16), 0 2px 4px rgba(0, 0, 0, 0.23);
+    --shadow-strong: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+
+    /* VITESSE DE TRANSITION - Exemple : .button { transition: box-shadow var(--transition-slow), transform var(--transition-slow); } */
+    --transition-fast: 150ms ease-in-out;
+    --transition-slow: 400ms ease-in-out;
+
+    /* EFFETS & TRANSFORMATIONS */
+    --textShadow: 2px 2px 2px #00000020;
+    --radius: 8px;
+    --listType: none;
+    --clipPath: polygon(
+        100% 0%,
+        0% 0%,
+        0% 93.19%,
+        2% 92.88%,
+        4% 92.59%,
+        6% 92.32%,
+        8% 92.09%,
+        10% 91.9%,
+        12% 91.77%,
+        14% 91.69%,
+        16% 91.67%,
+        18% 91.7%,
+        20% 91.8%,
+        22% 91.95%,
+        24% 92.15%,
+        26% 92.39%,
+        28% 92.66%,
+        30% 92.96%,
+        32% 93.27%,
+        34% 93.58%,
+        36% 93.89%,
+        38% 94.17%,
+        40% 94.43%,
+        42% 94.64%,
+        44% 94.81%,
+        46% 94.93%,
+        48% 94.99%,
+        50% 94.99%,
+        52% 94.94%,
+        54% 94.82%,
+        56% 94.66%,
+        58% 94.44%,
+        60% 94.19%,
+        62% 93.91%,
+        64% 93.61%,
+        66% 93.29%,
+        68% 92.98%,
+        70% 92.68%,
+        72% 92.41%,
+        74% 92.16%,
+        76% 91.96%,
+        78% 91.81%,
+        80% 91.71%,
+        82% 91.67%,
+        84% 91.69%,
+        86% 91.76%,
+        88% 91.89%,
+        90% 92.08%,
+        92% 92.3%,
+        94% 92.57%,
+        96% 92.86%,
+        98% 93.16%,
+        100% 93.48%
+    );
+}
+
+@font-face {
+    font-family: "outfit";
+    src: url("../fonts/outfit.ttf") format("truetype");
+}
+
+.zoomHover {
+    transition: transform 0.3s ease;
+}
+.zoomHover:hover {
+    transform: scale(1.08);
+}
+
+.invertColorHover:hover {
+    color: var(--accent);
+    font-style: var(--textVariant);
+}
