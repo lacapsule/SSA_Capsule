@@ -5,6 +5,7 @@ declare(strict_types=1);
 // Autoload
 require dirname(__DIR__) . '/src/Autoload.php';
 
+use App\Middleware\LangMiddleware;
 use Capsule\Http\Message\Request;
 use Capsule\Http\Emitter\SapiEmitter;
 use Capsule\Kernel\KernelHttp;
@@ -33,6 +34,7 @@ $middlewares = [
     $container->get(ErrorBoundary::class),
     $container->get(\Capsule\Http\Middleware\DebugHeaders::class),
     $container->get(SecurityHeaders::class),
+    $container->get(LangMiddleware::class),
     $container->get(\Capsule\Http\Middleware\AuthRequiredMiddleware::class),
 ];
 
