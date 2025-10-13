@@ -16,16 +16,17 @@
       <li><a href="/projet">{{str.nav_project}}</a></li>
       <li><a href="/galerie">{{str.nav_galerie}}</a></li>
       <li><a href="/#contact">{{str.nav_contact}}</a></li>
-
       <li>
-        <form method="get" action="">
-            <select name="lang" id="lang-switch">
-            {{#each languages}}
-              <option value="{{code}}" {{#selected}}selected{{/selected}}>{{label}}</option>
-            {{/each}}
-          </select>
-        </form>
+        <a href="?lang=fr">FR</a> • <a href="?lang=br">BR</a>
       </li>
+    <!-- FIX: Marche pas (souci niveau JS à voir plus tard) -->
+        <!-- <form method="get" action="" id="lang-form"> -->
+        <!--   <select name="lang" id="lang-switch" aria-label="Choisir la langue"> -->
+        <!--     {{#each languages}} -->
+        <!--       <option value="{{code}}" {{#selected}}selected{{/selected}}>{{label}}</option> -->
+        <!--     {{/each}} -->
+        <!--   </select> -->
+        <!-- </form> -->
 
       {{#isAuthenticated}}
         <li><a class="icons" href="/dashboard/account">

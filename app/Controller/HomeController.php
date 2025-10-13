@@ -25,6 +25,15 @@ final class HomeController extends BaseController
      * @param null|array<object>|\Traversable<object> $raw
      * @return list<array{date:string,time:string,title:string,summary:string,location:string,ics_datetime:string}>
      */
+    /** @param null|array<object>|\Traversable<object> $raw
+      * @return list<array{
+      *   id:int,
+      *   date:string,time:string,
+      *   title:string,summary:string,location:string,ics_datetime:string,
+      *   titre:string,resume:string,
+      *   image:string,category:string
+      * }>
+      */
     private function mapArticles(null|array|\Traversable $raw): array
     {
         if ($raw === null) {
@@ -36,16 +45,29 @@ final class HomeController extends BaseController
             $date = (string)($a->date_article ?? '');
             $time = substr((string)($a->hours ?? ''), 0, 5);
 
+            $id = (int)($a->id ?? 0);              // <= indispensable pour /article/{id}
+            $title = (string)($a->titre ?? '');    // source côté BDD = "titre"
+            $summary = (string)($a->resume ?? '');
+
             return [
+                // — clés Agenda (existantes) —
                 'date' => $date,
                 'time' => $time,
-                'title' => (string)($a->titre ?? ''),
-                'summary' => (string)($a->resume ?? ''),
+                'title' => $title,
+                'summary' => $summary,
                 'location' => (string)($a->lieu ?? ''),
                 'ics_datetime' => $date . ' ' . $time . ':00',
+
+                // — clés Actualités (attendues par actualites.tpl.php) —
+                'id' => $id,
+                'titre' => $title,
+                'resume' => $summary,
+                'image' => (string)($a->image ?? '/assets/img/placeholder.webp'),
+                'category' => (string)($a->category ?? 'general'),
             ];
         }, $items);
     }
+
 
     #[Route(path: '/', methods: ['GET'])]
     public function home(): Response
@@ -56,13 +78,8 @@ final class HomeController extends BaseController
         // CSRF (trusted HTML)
         $csrf_input = $this->csrfInput();
 
-        $currentLang = $_SESSION['lang'] ?? 'fr';
+        // 1) Déclenche la détection & charge le cache par requête
         $isAuth = $this->isAuthenticated();
-        $i18n = $this->translations();
-        $languages = [
-            ['code' => 'fr','label' => $i18n['lang_fr'] ?? 'Français','selected' => $currentLang === 'fr'],
-            ['code' => 'br','label' => $i18n['lang_br'] ?? 'Brezhoneg','selected' => $currentLang === 'br'],
-        ];
 
         // Partenaires / financeurs
         $all = [
@@ -76,16 +93,23 @@ final class HomeController extends BaseController
         $partenaires = array_values(array_filter($all, fn ($p) => $p['role'] === 'partenaire'));
         $financeurs = array_values(array_filter($all, fn ($p) => $p['role'] === 'financeur'));
 
-        // -> page('home') => 'page:home' -> templates/pages/home.tpl.php (layout appliqué par ViewRenderer)
+        $i18n = $this->i18n();
+        $currentLang = $i18n['lang'] ?? 'fr';
+
+        $languages = [
+            ['code' => 'fr','label' => $i18n['lang_fr'] ?? 'Français','selected' => $currentLang === 'fr'],
+            ['code' => 'br','label' => $i18n['lang_br'] ?? 'Brezhoneg','selected' => $currentLang === 'br'],
+        ];
+
         return $this->page('home', [
             'showHeader' => true,
             'showFooter' => true,
             'str' => $i18n,
             'articles' => $articles,
-            'csrf_input' => $csrf_input,         // {{{csrf_input}}}
+            'csrf_input' => $csrf_input,
             'action' => '/home/generate_ics',
             'isAuthenticated' => $isAuth,
-            'languages' => $languages,
+            'languages' => $languages,   // ← ne pas supprimer
             'partenaires' => $partenaires,
             'financeurs' => $financeurs,
             'contact_action' => '/contact',
@@ -95,20 +119,25 @@ final class HomeController extends BaseController
     #[Route(path: '/projet', methods: ['GET'])]
     public function projet(): Response
     {
+
+        $i18n = $this->i18n();
+
         return $this->page('projet', [
             'showHeader' => true,
             'showFooter' => true,
-            'str' => $this->translations(),
+            'str' => $i18n,
         ]);
     }
 
     #[Route(path: '/galerie', methods: ['GET'])]
     public function galerie(): Response
     {
+        $i18n = $this->i18n();
+
         return $this->page('galerie', [
             'showHeader' => true,
             'showFooter' => true,
-            'str' => $this->translations(),
+            'str' => $i18n,
         ]);
     }
 
@@ -127,13 +156,18 @@ final class HomeController extends BaseController
         return $this->page('articleDetails', [
             'showHeader' => true,
             'showFooter' => true,
-            'str' => $this->translations(),
+            'str' => $this->i18n(),
             'article' => [
+                'id' => (int)($dto->id ?? $id),
                 'title' => (string)($dto->titre ?? ''),
                 'summary' => (string)($dto->resume ?? ''),
                 'date' => (string)($dto->date_article ?? ''),
                 'time' => substr((string)($dto->hours ?? ''), 0, 5),
                 'place' => (string)($dto->lieu ?? ''),
+                // optionnels, utilisés par le template si présents
+                'author' => isset($dto->author) ? (string)$dto->author : '',
+                'description' => isset($dto->description) ? (string)$dto->description : '',
+                'image' => isset($dto->image) ? (string)$dto->image : '',
             ],
         ]);
     }
