@@ -42,12 +42,13 @@ final class DashboardController extends BaseController
     {
         $user = $this->currentUser();
         $isAdmin = $this->isAdmin();
+        $i18n = $this->i18n();
 
         $base = [
             'showHeader' => false,
             'showFooter' => false,
             'isDashboard' => true,
-            'str' => $this->translations(),
+            'str' => $i18n,
             'user' => $user,
             'isAdmin' => $isAdmin,
             'links' => $this->sidebar($isAdmin),

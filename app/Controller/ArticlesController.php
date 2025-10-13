@@ -43,12 +43,13 @@ final class ArticlesController extends BaseController
     private function base(array $extra = []): array
     {
         $user = $this->currentUser();
+        $i18n = $this->i18n();
 
         $base = [
             'showHeader' => false,
             'showFooter' => false,
             'isDashboard' => true,
-            'str' => $this->translations(),
+            'str' => $i18n,
             'user' => $user,
             'isAdmin' => $this->isAdmin(),
             'links' => $this->sidebarLinks(),

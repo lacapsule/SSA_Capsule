@@ -33,12 +33,14 @@ final class LoginController extends BaseController
         $errors = $this->formErrors();   // toujours array
         $prefill = $this->formData();     // toujours array
 
+        $i18n = $this->i18n();
+
         // Résout en "page:admin/login" via $this->pageNs
         return $this->page('admin:login', [
              'showHeader' => true,
              'showFooter' => true,
              'title' => 'Connexion',
-             'str' => $this->translations(),
+             'str' => $i18n,
              'error' => $errors['_global'] ?? null,
              'errors' => $errors,
              'prefill' => $prefill,

@@ -42,6 +42,8 @@ final class AgendaController extends BaseController
         // 1) Events de la semaine via le service
         $events = $this->agenda->getWeekEvents($monday);
 
+        $i18n = $this->i18n();
+
         // 2) Grille pour la vue
         $grid = $this->buildGrid($days, $hours, $events);
 
@@ -51,7 +53,7 @@ final class AgendaController extends BaseController
             'isDashboard' => true,
             'showHeader' => false,
             'showFooter' => false,
-            'str' => $this->translations(),
+            'str' => $i18n,
             'component' => 'dashboard/dash_agenda',
             'create_url' => '/dashboard/agenda/create',
             'csrf_input' => $this->csrfInput(),
