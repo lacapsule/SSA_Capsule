@@ -52,7 +52,7 @@ setup:     ## Installe les deps à partir du lock (reproductible)
 
 setup-docker:
 	@echo "✔ Initialisation d'installation Docker pour Linux Mint..."
-	bash setup-docker.sh
+	bash scripts/setup-docker.sh
 
 # Variante inside container (si Composer/PHP sont dans le conteneur 'web')
 setup-dev: ## Installe deps dev dans le conteneur

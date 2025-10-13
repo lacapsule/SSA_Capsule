@@ -5,6 +5,7 @@
 #   ./setup-local.sh init       # crée data/, applique migrations SQLite si DB absente, génère scripts/manquants
 #   ./setup-local.sh reset      # réinitialise la DB (SQLite) depuis migrations/tables.sql
 #   ./setup-local.sh dev        # lance php -S localhost:${PORT:-8080} -t public
+#   ./setup-local.sh deps       # installe php-pdo + sqlite3 (+ mysql) via dnf/apt, puis vérifie
 #   ./setup-local.sh db.shell   # shell sqlite
 #   ./setup-local.sh bin.install   # (ré)génère bin/dev et bin/db si absents
 #   ./setup-local.sh make.inject   # ajoute des cibles Make (non destructif)
@@ -62,6 +63,60 @@ return [
 ];
 PHP
     echo "✅ Créé config/database.php (DSN par défaut = SQLite)."
+}
+
+detect_pkg() {
+    if command -v dnf >/dev/null 2>&1; then
+        echo "dnf"
+    elif command -v apt-get >/dev/null 2>&1; then
+        echo "apt"
+    else
+        echo "unknown"
+    fi
+}
+
+install_deps() {
+    local pm pkgs
+    pm="$(detect_pkg)"
+
+    case "$pm" in
+        dnf)
+            # Fedora / RHEL-like
+            pkgs=(php-cli php-pdo php-sqlite3 php-mysqlnd)
+            echo "🔧 Installer: ${pkgs[*]} (via dnf)"
+            if command -v sudo >/dev/null 2>&1; then
+                sudo dnf install -y "${pkgs[@]}"
+            else
+                dnf install -y "${pkgs[@]}"
+            fi
+            ;;
+        apt)
+            # Debian/Ubuntu — PDO est dans le coeur, on ajoute sqlite + mysql
+            pkgs=(php-cli php-sqlite3 php-mysql)
+            echo "🔧 Installer: ${pkgs[*]} (via apt)"
+            if command -v sudo >/dev/null 2>&1; then
+                sudo apt-get update
+                sudo apt-get install -y "${pkgs[@]}"
+            else
+                apt-get update
+                apt-get install -y "${pkgs[@]}"
+            fi
+            ;;
+        *)
+            echo "❌ Gestionnaire de paquets non supporté. Installe manuellement les paquets suivants :"
+            echo "   - Fedora:  php-cli php-pdo php-sqlite3 php-mysqlnd"
+            echo "   - Debian:  php-cli php-sqlite3 php-mysql"
+            return 1
+            ;;
+    esac
+
+    echo "✅ Dépendances installées. Vérification :"
+    if command -v rg >/dev/null 2>&1; then
+        php -m | rg -i 'pdo|sqlite|mysql' || true
+    else
+        php -m | grep -Ei 'pdo|sqlite|mysql' || true
+    fi
+    php -v
 }
 
 ensure_migration_file() {
