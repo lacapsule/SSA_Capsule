@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use App\Controller\AgendaController;
+use App\Middleware\LangMiddleware;
 use App\Repository\AgendaRepository;
 use App\Service\AgendaService;
 use Capsule\Auth\PhpSessionReader;
@@ -54,6 +55,7 @@ return (function (): DIContainer {
     ));
 
     $c->set(SessionReader::class, fn () => new PhpSessionReader());
+    $c->set(LangMiddleware::class, fn () => new LangMiddleware());
 
     $c->set(AuthRequiredMiddleware::class, fn ($c) => new AuthRequiredMiddleware(
         session:   $c->get(SessionReader::class),

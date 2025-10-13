@@ -1,5 +1,6 @@
 # Dépendances PHP
 /vendor/
+vendor
 
 # Composer caches (pas nécessaires au repo)
 composer.phar

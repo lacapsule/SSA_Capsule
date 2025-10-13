@@ -4,53 +4,79 @@ declare(strict_types=1);
 
 namespace App\Lang;
 
-class Translate
+final class Translate
 {
-    /**
-     * @var array<string,string> Dictionnaire de traductions (clé => valeur)
-     */
-    private static array $lang = [];
+    /** @var array<string,string> */
+    private static array $strings = [];
 
-    /**
-     * Détecte la langue et charge les traductions.
-     *
-     * @param string $default Code langue par défaut (ex: 'fr')
-     */
-    public static function detectAndLoad(string $default = 'fr'): void
-    {
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
-        }
-
-        $langCode = $_GET['lang'] ?? $_SESSION['lang'] ?? $default;
-        $_SESSION['lang'] = $langCode;
-
-        $basePath = __DIR__ . "/locales/{$langCode}";
-        $commonFile = "{$basePath}/index.php";
-
-        if (!file_exists($commonFile)) {
-            $basePath = __DIR__ . "/locales/{$default}";
-            $commonFile = "{$basePath}/index.php";
-        }
-
-        /** @var array<string,string> $common */
-        $common = file_exists($commonFile) ? include $commonFile : [];
-
-        self::$lang = $common;
-    }
-
-    public static function action(string $key): string
-    {
-        return self::$lang[$key] ?? $key;
-    }
-
-    /**
-     * Retourne toutes les traductions chargées.
-     *
-     * @return array<string,string>
-     */
+    /** Expose toutes les chaînes actuellement chargées. */
     public static function all(): array
     {
-        return self::$lang;
+        return self::$strings;
+    }
+
+    /** Charge les chaînes pour la langue détectée et renvoie la langue effective. */
+    public static function detectAndLoad(string $default = 'fr'): string
+    {
+        $supported = ['fr','br'];
+        $lang = $default;
+
+
+        // dev only:
+        error_log('GET lang=' . ($_GET['lang'] ?? '∅'));
+
+        // 1) GET
+        if (isset($_GET['lang'])) {
+            $cand = strtolower(substr((string)$_GET['lang'], 0, 5));
+            if (in_array($cand, $supported, true)) {
+                $lang = $cand;
+                $_SESSION['lang'] = $lang;
+                // Cookie optionnel
+                @setcookie('lang', $lang, [
+                    'expires' => time() + 60 * 60 * 24 * 180,
+                    'path' => '/',
+                    'secure' => !empty($_SERVER['HTTPS']),
+                    'httponly' => true,
+                    'samesite' => 'Lax',
+                ]);
+            } // 2) Session
+        } elseif (!empty($_SESSION['lang']) && in_array($_SESSION['lang'], $supported, true)) {
+            $lang = $_SESSION['lang'];
+
+            // 3) Cookie
+        } elseif (!empty($_COOKIE['lang']) && in_array($_COOKIE['lang'], $supported, true)) {
+            $lang = $_COOKIE['lang'];
+            $_SESSION['lang'] = $lang;
+        }
+
+        // 4) CHARGEMENT (fallback clé-à-clé : défaut -> langue)
+        //    ⚠️ Chemin aligné sur app/Lang/locales/<lang>/index.php
+        $defaultMap = self::loadFile($default);
+        $langMap = $lang === $default ? [] : self::loadFile($lang);
+
+        // default d’abord, puis langue pour écraser les clés
+        self::$strings = array_replace($defaultMap, $langMap);
+
+        return $lang;
+    }
+
+    /** @return array<string,string> */
+    private static function loadFile(string $lang): array
+    {
+        $file = __DIR__ . "/locales/{$lang}/index.php";
+        if (!is_file($file)) {
+            // TEMP dev:
+            error_log("[i18n] missing file: {$file}");
+
+            return [];
+        }
+        $data = require $file;
+        if (!is_array($data)) {
+            error_log("[i18n] file does not return array: {$file}");
+
+            return [];
+        }
+
+        return $data;
     }
 }

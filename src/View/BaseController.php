@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Capsule\View;
 
+use App\Lang\Translate;
 use Capsule\Contracts\ViewRendererInterface;
 use Capsule\Contracts\ResponseFactoryInterface;
 use Capsule\Http\Message\Response;
@@ -25,13 +26,14 @@ use Capsule\Http\Support\FormState;
  */
 abstract class BaseController
 {
-    use TranslationTrait;
-
     /**
      * Namespace par défaut pour les pages (surchargeable)
      * Ex: 'dashboard' pour les pages du dashboard.
      */
     protected string $pageNs = '';
+
+    /** @var array<string,string>|null */
+    private ?array $i18nCache = null;
 
     /**
      * Namespace par défaut pour les composants (surchargeable)
@@ -43,6 +45,18 @@ abstract class BaseController
         protected ResponseFactoryInterface $res,
         protected ViewRendererInterface $view
     ) {
+    }
+
+    /** @return array<string,string> */
+    protected function i18n(string $default = 'fr'): array
+    {
+        // Ne redétecte pas : le middleware a déjà chargé Translate::$strings
+        return $this->i18nCache ??= (Translate::all() + ['lang' => ($_SESSION['lang'] ?? $default)]);
+    }
+
+    protected function currentLang(string $default = 'fr'): string
+    {
+        return $this->i18n($default)['lang'] ?? $default;
     }
 
     /**

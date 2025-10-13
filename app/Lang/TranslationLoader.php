@@ -14,7 +14,6 @@ class TranslationLoader
     /**
      * Charge dynamiquement toutes les chaînes de traduction nécessaires à une vue complète.
      *
-     * Utilise `Translate::detect_and_load()` en amont puis renvoie l’ensemble
      * des clés/valeurs disponibles, en ajoutant la langue courante sous la clé 'lang'.
      *
      * @param string $defaultLang Langue par défaut en fallback (ex: 'fr').
@@ -22,10 +21,9 @@ class TranslationLoader
      */
     public static function load(string $defaultLang = 'fr'): array
     {
-        Translate::detectAndLoad($defaultLang);
-        /** @var array<string,string> $out */
-        $out = Translate::all();
-        $out['lang'] = $_SESSION['lang'] ?? $defaultLang;
+        $lang = Translate::detectAndLoad($defaultLang);
+        $out = Translate::all();           // cartes déjà chargées
+        $out['lang'] = $lang;
 
         return $out;
     }
