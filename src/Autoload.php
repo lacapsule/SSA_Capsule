@@ -41,23 +41,43 @@ spl_autoload_register(function (string $class): void {
     $namespaceParts = explode('\\', $class);
     $rootNamespace = $namespaceParts[0];
 
-    if (array_key_exists($rootNamespace, ALIASES)) {
-        $namespaceParts[0] = ALIASES[$rootNamespace];
-    } else {
-        throw new \Exception(
-            "Namespace « $rootNamespace » invalide. "
-                . 'Un namespace doit commencer par : « ' . implode(' », « ', array_keys(ALIASES)) . ' »'
-        );
+    if (!array_key_exists($rootNamespace, ALIASES)) {
+        // Ne pas throw ici : laisse PHP résoudre (classes internes comme PDO, Intl, etc.)
+        return;
     }
 
+    $namespaceParts[0] = ALIASES[$rootNamespace];
     $filepath = dirname(__DIR__) . '/' . implode('/', $namespaceParts) . '.php';
 
     if (!file_exists($filepath)) {
-        throw new \Exception(
-            "Fichier introuvable : « $filepath » pour la classe « $class ». "
-                . 'Vérifie le nom de fichier, la casse et le namespace.'
-        );
+        // Ne pas throw → évite de bloquer d'autres autoloaders/retours internes
+        return;
     }
 
     require $filepath;
 });
+
+// spl_autoload_register(function (string $class): void {
+//     $namespaceParts = explode('\\', $class);
+//     $rootNamespace = $namespaceParts[0];
+//
+//     if (array_key_exists($rootNamespace, ALIASES)) {
+//         $namespaceParts[0] = ALIASES[$rootNamespace];
+//     } else {
+//         throw new \Exception(
+//             "Namespace « $rootNamespace » invalide. "
+//                 . 'Un namespace doit commencer par : « ' . implode(' », « ', array_keys(ALIASES)) . ' »'
+//         );
+//     }
+//
+//     $filepath = dirname(__DIR__) . '/' . implode('/', $namespaceParts) . '.php';
+//
+//     if (!file_exists($filepath)) {
+//         throw new \Exception(
+//             "Fichier introuvable : « $filepath » pour la classe « $class ». "
+//                 . 'Vérifie le nom de fichier, la casse et le namespace.'
+//         );
+//     }
+//
+//     require $filepath;
+// });
