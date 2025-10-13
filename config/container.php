@@ -27,7 +27,8 @@ use App\Controller\LoginController;
 use App\Controller\ArticlesController;
 use App\Controller\DashboardController;
 use App\Controller\UserController;
-use Capsule\Infrastructure\Database\MariaDBConnection;
+// use Capsule\Infrastructure\Database\MariaDBConnection;
+use Capsule\Infrastructure\Database\SqliteConnection;
 use Capsule\View\FilesystemTemplateLocator;
 use Capsule\View\MiniMustache;
 
@@ -38,7 +39,8 @@ return (function (): DIContainer {
     $https = false; // -> Changer vers true quand prod
 
     // --- Core deps ---
-    $c->set('pdo', fn () => MariaDBConnection::getInstance());
+    //$c->set('pdo', fn () => MariaDBConnection::getInstance());
+    $c->set('pdo', fn () => SqliteConnection::getInstance()); // FQCN global \PDO
 
     $c->set(DebugHeaders::class, fn ($c) => new DebugHeaders(
         res: $c->get(\Capsule\Contracts\ResponseFactoryInterface::class),
