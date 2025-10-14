@@ -4,16 +4,22 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Provider\LanguageOptionsProvider;
+use App\Service\HomeService;
 use App\Service\ArticleService;
+use App\View\Presenter\HomePresenter;
+use Capsule\Support\Pagination\Paginator;
 use Capsule\Contracts\ResponseFactoryInterface;
 use Capsule\Contracts\ViewRendererInterface;
-use Capsule\Http\Message\Response;
 use Capsule\Routing\Attribute\Route;
 use Capsule\View\BaseController;
+use Capsule\Http\Message\Response;
+use Capsule\View\Safe;
 
 final class HomeController extends BaseController
 {
     public function __construct(
+        private HomeService $homeService,
         private ArticleService $articleService,
         ResponseFactoryInterface $res,
         ViewRendererInterface $view
@@ -21,154 +27,85 @@ final class HomeController extends BaseController
         parent::__construct($res, $view);
     }
 
-    /**
-     * @param null|array<object>|\Traversable<object> $raw
-     * @return list<array{date:string,time:string,title:string,summary:string,location:string,ics_datetime:string}>
-     */
-    /** @param null|array<object>|\Traversable<object> $raw
-      * @return list<array{
-      *   id:int,
-      *   date:string,time:string,
-      *   title:string,summary:string,location:string,ics_datetime:string,
-      *   titre:string,resume:string,
-      *   image:string,category:string
-      * }>
-      */
-    private function mapArticles(null|array|\Traversable $raw): array
-    {
-        if ($raw === null) {
-            return [];
-        }
-        $items = is_array($raw) ? $raw : iterator_to_array($raw);
-
-        return array_map(function ($a) {
-            $date = (string)($a->date_article ?? '');
-            $time = substr((string)($a->hours ?? ''), 0, 5);
-
-            $id = (int)($a->id ?? 0);              // <= indispensable pour /article/{id}
-            $title = (string)($a->titre ?? '');    // source côté BDD = "titre"
-            $summary = (string)($a->resume ?? '');
-
-            return [
-                // — clés Agenda (existantes) —
-                'date' => $date,
-                'time' => $time,
-                'title' => $title,
-                'summary' => $summary,
-                'location' => (string)($a->lieu ?? ''),
-                'ics_datetime' => $date . ' ' . $time . ':00',
-
-                // — clés Actualités (attendues par actualites.tpl.php) —
-                'id' => $id,
-                'titre' => $title,
-                'resume' => $summary,
-                'image' => (string)($a->image ?? '/assets/img/placeholder.webp'),
-                'category' => (string)($a->category ?? 'general'),
-            ];
-        }, $items);
-    }
-
-
     #[Route(path: '/', methods: ['GET'])]
     public function home(): Response
     {
-        // Agenda
-        $articles = $this->mapArticles($this->articleService->getUpcoming());
+        // 1) Inputs (query) — pagination standardisée
+        $page = Paginator::fromGlobals(defaultLimit: 12, maxLimit: 100);
 
-        // CSRF (trusted HTML)
-        $csrf_input = $this->csrfInput();
+        // 2) Domaine — agrégation via HomeService (articles paginés + partenaires/financeurs)
+        $dto = $this->homeService->getHomeData($page);
 
-        // 1) Déclenche la détection & charge le cache par requête
-        $isAuth = $this->isAuthenticated();
+        // 3) Présentation — projection DOMAINE -> VUE (iterable lazy pour les articles)
+        $viewData = HomePresenter::forView($dto);
 
-        // Partenaires / financeurs
-        $all = [
-            ['name' => 'BUZUK', 'role' => 'partenaire', 'url' => 'https://buzuk.bzh/', 'logo' => '/assets/img/buzuk.webp'],
-            ['name' => 'Région Bretagne', 'role' => 'financeur', 'url' => 'https://www.bretagne.bzh/', 'logo' => '/assets/img/bretagne.webp'],
-            ['name' => 'ULAMIR-CPIE', 'role' => 'partenaire', 'url' => 'https://ulamir-cpie.bzh/', 'logo' => '/assets/img/ulamircpie.webp'],
-            ['name' => 'Pôle ESS Pays de Morlaix', 'role' => 'partenaire', 'url' => 'https://www.adess29.fr/faire-reseau/le-pole-du-pays-de-morlaix/', 'logo' => '/assets/img/ess.webp'],
-            ['name' => 'RESAM', 'role' => 'partenaire', 'url' => 'https://www.resam.net/', 'logo' => '/assets/img/resam.webp'],
-            ['name' => 'Leader financement Européen', 'role' => 'financeur', 'url' => 'https://leaderfrance.fr/le-programme-leader/', 'logo' => '/assets/img/feader.webp'],
-        ];
-        $partenaires = array_values(array_filter($all, fn ($p) => $p['role'] === 'partenaire'));
-        $financeurs = array_values(array_filter($all, fn ($p) => $p['role'] === 'financeur'));
-
+        // 4) UI annexes (i18n/lang, csrf, auth)
         $i18n = $this->i18n();
         $currentLang = $i18n['lang'] ?? 'fr';
+        $languages = LanguageOptionsProvider::make($i18n, $currentLang);
 
-        $languages = [
-            ['code' => 'fr','label' => $i18n['lang_fr'] ?? 'Français','selected' => $currentLang === 'fr'],
-            ['code' => 'br','label' => $i18n['lang_br'] ?? 'Brezhoneg','selected' => $currentLang === 'br'],
-        ];
-
+        // 5) Rendu (thin controller)
         return $this->page('home', [
             'showHeader' => true,
             'showFooter' => true,
             'str' => $i18n,
-            'articles' => $articles,
-            'csrf_input' => $csrf_input,
+            'csrf_input' => $this->csrfInput(),
             'action' => '/home/generate_ics',
-            'isAuthenticated' => $isAuth,
-            'languages' => $languages,   // ← ne pas supprimer
-            'partenaires' => $partenaires,
-            'financeurs' => $financeurs,
+            'isAuthenticated' => $this->isAuthenticated(),
+            'languages' => $languages,
             'contact_action' => '/contact',
-        ]);
+            'pagination' => ['page' => $page->page, 'limit' => $page->limit],
+        ] + $viewData);
     }
 
     #[Route(path: '/projet', methods: ['GET'])]
     public function projet(): Response
     {
-
-        $i18n = $this->i18n();
-
         return $this->page('projet', [
             'showHeader' => true,
             'showFooter' => true,
-            'str' => $i18n,
+            'str' => $this->i18n(),
         ]);
     }
 
     #[Route(path: '/galerie', methods: ['GET'])]
     public function galerie(): Response
     {
-        $i18n = $this->i18n();
-
         return $this->page('galerie', [
             'showHeader' => true,
             'showFooter' => true,
-            'str' => $i18n,
+            'str' => $this->i18n(),
         ]);
     }
 
     #[Route(path: '/article/{id}', methods: ['GET'])]
     public function article(int $id): Response
     {
-        if ($id <= 0) {
-            return $this->res->text('Bad Request', 400);
-        }
-
         $dto = $this->articleService->getById($id);
-        if (!$dto) {
-            return $this->res->text('Not Found', 404);
-        }
+
+        // Projection minimale (pas d’I/O ici). Safe::imageUrl pour toute valeur potentiellement utilisée en {{{ }}}
+        $article = [
+            'id' => (int)($dto->id ?? $id),
+            'title' => (string)($dto->titre ?? ''),
+            'summary' => (string)($dto->resume ?? ''),
+            'date' => (string)($dto->date_article ?? ''),
+            'time' => substr((string)($dto->hours ?? ''), 0, 5),
+            'place' => (string)($dto->lieu ?? ''),
+            'author' => isset($dto->author) ? (string)$dto->author : '',
+            'description' => isset($dto->description) ? (string)$dto->description : '',
+            'image' => isset($dto->image) ? Safe::imageUrl((string)$dto->image) : '',
+        ];
+
+        // (Option) Quand tu ajouteras src/Http/Response/Conditional :
+        // - calcule $etag et $lastModified puis:
+        // if ($r = Conditional::maybeNotModified($etag, $lastModified)) return $r;
+        // $resp = $this->page(...); return Conditional::withCacheHeaders($resp, $etag, $lastModified);
 
         return $this->page('articleDetails', [
             'showHeader' => true,
             'showFooter' => true,
             'str' => $this->i18n(),
-            'article' => [
-                'id' => (int)($dto->id ?? $id),
-                'title' => (string)($dto->titre ?? ''),
-                'summary' => (string)($dto->resume ?? ''),
-                'date' => (string)($dto->date_article ?? ''),
-                'time' => substr((string)($dto->hours ?? ''), 0, 5),
-                'place' => (string)($dto->lieu ?? ''),
-                // optionnels, utilisés par le template si présents
-                'author' => isset($dto->author) ? (string)$dto->author : '',
-                'description' => isset($dto->description) ? (string)$dto->description : '',
-                'image' => isset($dto->image) ? (string)$dto->image : '',
-            ],
+            'article' => $article,
         ]);
     }
 }

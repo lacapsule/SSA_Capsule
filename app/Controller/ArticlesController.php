@@ -4,14 +4,16 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use App\Navigation\SidebarLinksProvider;
+use App\Provider\SidebarLinksProvider;
 use App\Service\ArticleService;
+use App\View\Presenter\ArticlesPresenter;
 use Capsule\Contracts\ResponseFactoryInterface;
 use Capsule\Contracts\ViewRendererInterface;
 use Capsule\Http\Message\Response;
 use Capsule\Routing\Attribute\Route;
 use Capsule\Routing\Attribute\RoutePrefix;
 use Capsule\Security\CsrfTokenManager;
+use Capsule\Support\Pagination\Paginator;
 use Capsule\View\BaseController;
 
 #[RoutePrefix('/dashboard/articles')]
@@ -26,121 +28,41 @@ final class ArticlesController extends BaseController
         parent::__construct($res, $view);
     }
 
-    /* -------------------------------------------------------
-     * Helpers
-     * ----------------------------------------------------- */
-
-    /** @return list<array{title:string,url:string,icon:string}> */
-    private function sidebarLinks(): array
+    /** Shell commun dashboard */
+    private function base(): array
     {
-        return $this->linksProvider->get($this->isAdmin());
-    }
-
-    /**
-     * @param array<string,mixed> $extra
-     * @return array<string,mixed>
-     */
-    private function base(array $extra = []): array
-    {
-        $user = $this->currentUser();
-        $i18n = $this->i18n();
-
-        $base = [
+        return [
             'showHeader' => false,
             'showFooter' => false,
             'isDashboard' => true,
-            'str' => $i18n,
-            'user' => $user,
+            'str' => $this->i18n(),
+            'user' => $this->currentUser(),
             'isAdmin' => $this->isAdmin(),
-            'links' => $this->sidebarLinks(),
+            'links' => $this->linksProvider->get($this->isAdmin()),
             'flash' => $this->flashMessages(),
         ];
-
-        return array_replace($base, $extra);
     }
-
-
-
-    /**
-     * Mappe un ArticleDTO en VM pour la liste.
-     * @param object $dto
-     * @return array{id:int,titre:string,resume:string,date:string,author:string,editUrl:string,deleteUrl:string,showUrl:string}
-     */
-    private function mapListItem(object $dto): array
-    {
-        $id = (int)($dto->id ?? 0);
-        $dateStr = '';
-        if (!empty($dto->date_article)) {
-            try {
-                $dateStr = (new \DateTime((string)$dto->date_article))->format('d/m/Y');
-            } catch (\Throwable) {
-                $dateStr = (string)$dto->date_article;
-            }
-        }
-
-        $editBase = '/dashboard/articles/edit';
-        $deleteBase = '/dashboard/articles/delete';
-        $showBase = '/dashboard/articles/show';
-
-        return [
-            'id' => $id,
-            'titre' => (string)($dto->titre ?? ''),
-            'resume' => (string)($dto->resume ?? ''),
-            'date' => $dateStr,
-            'author' => (string)($dto->author ?? 'Inconnu'),
-            'editUrl' => rtrim($editBase, '/') . '/' . rawurlencode((string)$id),
-            'deleteUrl' => rtrim($deleteBase, '/') . '/' . rawurlencode((string)$id),
-            'showUrl' => rtrim($showBase, '/') . '/' . rawurlencode((string)$id),
-        ];
-    }
-
-    /**
-     * Mappe un ArticleDTO/envoi POST en VM pour le formulaire (créa/édition).
-     * @param array<string,mixed>|object|null $src
-     * @return array<string,mixed>
-     */
-    private function mapFormData(array|object|null $src): array
-    {
-        if ($src === null) {
-            return [
-                'titre' => '',
-                'resume' => '',
-                'description' => '',
-                'date_article' => '',
-                'hours' => '',
-                'lieu' => '',
-            ];
-        }
-        $a = is_object($src) ? get_object_vars($src) : $src;
-
-        return [
-            'titre' => (string)($a['titre'] ?? ''),
-            'resume' => (string)($a['resume'] ?? ''),
-            'description' => (string)($a['description'] ?? ''),
-            'date_article' => (string)($a['date_article'] ?? ''),
-            'hours' => (string)($a['hours'] ?? ''),
-            'lieu' => (string)($a['lieu'] ?? ''),
-        ];
-    }
-
-    /* -------------------------------------------------------
-     * Routes
-     * ----------------------------------------------------- */
 
     /** GET /dashboard/articles */
     #[Route(path: '', methods: ['GET'])]
     public function index(): Response
     {
-        $list = $this->articles->getAll();
-        $items = array_map(fn ($dto) => $this->mapListItem($dto), $list);
+        $base = $this->base();
+        $page = Paginator::fromGlobals(defaultLimit: 20, maxLimit: 200);
 
-        return $this->page('dashboard:home', $this->base([
-            'title' => 'Articles',
-            'component' => 'dashboard/dash_articles', // {{> component:@component }}
-            'createUrl' => '/dashboard/articles/create',
-            'articles' => $items,
-            'csrf_input' => $this->csrfInput(),
-        ]));
+        // Domaine: flux lazy de tous les articles (tri DESC par repo)
+        $iter = $this->articles->getAll(); // iterable<ArticleDTO>
+
+        // Présentation: projection + matérialisation page-size
+        $data = ArticlesPresenter::list(
+            base: $base,
+            articles: $iter,
+            page: $page->page,
+            limit: $page->limit,
+            csrfInput: $this->csrfInput(),
+        );
+
+        return $this->page('dashboard:home', $data);
     }
 
     /** GET /dashboard/articles/show/{id} */
@@ -152,39 +74,25 @@ final class ArticlesController extends BaseController
             return $this->res->text('Not Found', 404);
         }
 
-        $vm = [
-            'title' => (string)($dto->titre ?? ''),
-            'summary' => (string)($dto->resume ?? ''),
-            'description' => (string)($dto->description ?? ''),
-            'date' => (string)($dto->date_article ?? ''),
-            'time' => substr((string)($dto->hours ?? ''), 0, 5),
-            'location' => (string)($dto->lieu ?? ''),
-            'author' => (string)($dto->author ?? 'Inconnu'),
-            'backUrl' => '/dashboard/articles',
-        ];
+        $data = ArticlesPresenter::show($this->base(), $dto);
 
-        return $this->page('dashboard:home', $this->base([
-            'title' => 'Détail de l’article',
-            'component' => 'dashboard/dash_article_show',
-            'article' => $vm,
-        ]));
+        return $this->page('dashboard:home', $data);
     }
 
     /** GET /dashboard/articles/create */
     #[Route(path: '/create', methods: ['GET'])]
     public function createForm(): Response
     {
-        $data = $this->formData();
-        $errors = $this->formErrors();
+        $data = ArticlesPresenter::form(
+            base: $this->base(),
+            title: 'Créer un article',
+            action: '/dashboard/articles/create',
+            src: $this->formData() ?: null,
+            errors: $this->formErrors(),
+            csrfInput: $this->csrfInput(),
+        );
 
-        return $this->page('dashboard:home', $this->base([
-            'title' => 'Créer un article',
-            'component' => 'dashboard/dash_article_form',
-            'action' => '/dashboard/articles/create',
-            'article' => $this->mapFormData($data),
-            'errors' => $errors,
-            'csrf_input' => $this->csrfInput(),
-        ]));
+        return $this->page('dashboard:home', $data);
     }
 
     /** POST /dashboard/articles/create */
@@ -217,17 +125,18 @@ final class ArticlesController extends BaseController
             return $this->res->text('Not Found', 404);
         }
 
-        $errors = $this->formErrors();
-        $prefill = $this->formData();
+        $prefill = $this->formData() ?: $dto;
 
-        return $this->page('dashboard:home', $this->base([
-            'title' => 'Modifier un article',
-            'component' => 'dashboard/dash_article_form',
-            'action' => "/dashboard/articles/edit/{$id}",
-            'article' => $this->mapFormData($prefill ?: get_object_vars($dto)),
-            'errors' => $errors,
-            'csrf_input' => $this->csrfInput(),
-        ]));
+        $data = ArticlesPresenter::form(
+            base: $this->base(),
+            title: 'Modifier un article',
+            action: "/dashboard/articles/edit/{$id}",
+            src: $prefill,
+            errors: $this->formErrors(),
+            csrfInput: $this->csrfInput(),
+        );
+
+        return $this->page('dashboard:home', $data);
     }
 
     /** POST /dashboard/articles/edit/{id} */
