@@ -8,124 +8,94 @@ use Capsule\Domain\Repository\UserRepository;
 use Capsule\Domain\DTO\UserDTO;
 use RuntimeException;
 
-/**
- * Service métier pour la gestion des utilisateurs.
- *
- * Fournit des méthodes pour créer, mettre à jour, récupérer et vérifier
- * les utilisateurs via le UserRepository.
- */
 class UserService
 {
-    private UserRepository $userRepository;
+    private const ALLOWED_ROLES = ['employee', 'admin'];
 
-    /**
-     * Constructeur injectant un UserRepository.
-     *
-     * @param UserRepository $userRepository Instance du repository utilisateur.
-     */
-    public function __construct(UserRepository $userRepository)
+    public function __construct(private UserRepository $userRepository)
     {
-        $this->userRepository = $userRepository;
     }
 
+    /* =======================
+       ======= Queries =======
+       ======================= */
+
     /**
-     * Crée un nouvel utilisateur avec un mot de passe hashé.
-     *
-     * Vérifie que le nom d’utilisateur et l’email n’existent pas déjà,
-     * sinon lève une RuntimeException.
-     *
-     * @param string $username Nom d’utilisateur souhaité.
-     * @param string $password Mot de passe en clair.
-     * @param string $email Adresse email.
-     * @param string $role Rôle utilisateur (défaut 'employee').
-     * @return int ID de l’utilisateur créé.
-     *
-     * @throws RuntimeException si username ou email existe déjà.
+     * Flux d'utilisateurs (compatible pipelines lazy).
+     * @return iterable<UserDTO>
      */
-    public function createUser(string $username, string $password, string $email, string $role = 'employee'): int
+    public function getAllUsersIt(): iterable
     {
-        if ($this->userRepository->existsUsername($username)) {
-            throw new RuntimeException('Username already exists');
+        // Si ton repo renvoie déjà un iterable, tu peux `yield from` direct.
+        // Ici on suppose allUsers() renvoie un array<UserDTO> => on l'expose en flux.
+        foreach ($this->userRepository->allUsers() as $u) {
+            yield $u;
         }
-        if ($this->userRepository->existsEmail($email)) {
-            throw new RuntimeException('Email already exists');
-        }
-        $hash = password_hash($password, PASSWORD_DEFAULT);
-
-        return $this->userRepository->insert([
-            'username' => $username,
-            'password_hash' => $hash,
-            'role' => $role,
-            'email' => $email,
-        ]);
     }
 
     /**
-     * Supprime un utilisateur par son ID.
-     *
-     * @param int $userId ID de l’utilisateur.
-     * @return bool Succès de la suppression.
+     * Compatibilité historique: tableau complet.
+     * @return UserDTO[]
      */
-    public function deleteUser(int $userId): bool
+    public function getAllUsers(): array
     {
-        return $this->userRepository->delete($userId) > 0;
+        // Matérialisation explicite (dashboard Presenter matérialise de toute façon page-size).
+        return \is_array($all = $this->userRepository->allUsers())
+            ? $all
+            : iterator_to_array($all, false);
     }
 
-    /**
-     * Met à jour le mot de passe d’un utilisateur (hash sécurisé).
-     *
-     * @param int $userId ID de l’utilisateur.
-     * @param string $newPassword Nouveau mot de passe en clair.
-     * @return bool Succès de la mise à jour.
-     */
-    public function updatePassword(int $userId, string $newPassword): bool
-    {
-        $hash = password_hash($newPassword, PASSWORD_DEFAULT);
-
-        return $this->userRepository->update($userId, ['password_hash' => $hash]);
-    }
-
-    /**
-     * Vérifie si un utilisateur a le rôle d’administrateur.
-     *
-     * @param UserDTO $user Objet utilisateur.
-     * @return bool True si rôle admin, false sinon.
-     */
-    public function isAdmin(UserDTO $user): bool
-    {
-        return $user->role === 'admin';
-    }
-
-    /**
-     * Récupère un utilisateur par son nom d’utilisateur.
-     *
-     * @param string $username Nom d’utilisateur.
-     * @return UserDTO|null DTO utilisateur ou null si non trouvé.
-     */
     public function getUserByUsername(string $username): ?UserDTO
     {
         return $this->userRepository->findByUsername($username);
     }
 
-    /**
-     * Récupère un utilisateur par son ID.
-     *
-     * @param int $id ID utilisateur.
-     * @return UserDTO|null DTO utilisateur ou null si non trouvé.
-     */
     public function getUserById(int $id): ?UserDTO
     {
         return $this->userRepository->findById($id);
     }
 
-    /**
-     * Récupère tous les utilisateurs.
-     *
-     * @return UserDTO[] Tableau d’objets DTO utilisateurs.
-     */
-    public function getAllUsers(): array
+    public function isAdmin(UserDTO $user): bool
     {
-        return $this->userRepository->allUsers();
+        return $user->role === 'admin';
+    }
+
+    /* =======================
+       ===== Mutations =======
+       ======================= */
+
+    public function createUser(string $username, string $password, string $email, string $role = 'employee'): int
+    {
+        [$data, $errors] = $this->sanitizeAndValidateCreate($username, $password, $email, $role);
+        if ($errors !== []) {
+            // On reste sur l'API existante: throw -> le contrôleur catch et PRG
+            throw new RuntimeException(reset($errors) ?: 'Invalid payload');
+        }
+
+        if ($this->userRepository->existsUsername($data['username'])) {
+            throw new RuntimeException('Username already exists');
+        }
+        if ($this->userRepository->existsEmail($data['email'])) {
+            throw new RuntimeException('Email already exists');
+        }
+
+        $hash = password_hash($data['password'], PASSWORD_DEFAULT);
+
+        return $this->userRepository->insert([
+            'username' => $data['username'],
+            'password_hash' => $hash,
+            'role' => $data['role'],
+            'email' => $data['email'],
+        ]);
+    }
+
+    public function deleteUser(int $userId): bool
+    {
+        if ($userId <= 0) {
+            throw new RuntimeException('Invalid user id');
+        }
+
+        return $this->userRepository->delete($userId) > 0;
     }
 
     /**
@@ -133,6 +103,76 @@ class UserService
      */
     public function updateUser(int $id, array $data): bool
     {
-        return $this->userRepository->update($id, $data);
+        if ($id <= 0) {
+            throw new RuntimeException('Invalid user id');
+        }
+
+        [$clean, $errors] = $this->sanitizeAndValidateUpdate($data);
+        if ($errors !== []) {
+            throw new RuntimeException(reset($errors) ?: 'Invalid payload');
+        }
+
+        return $this->userRepository->update($id, $clean);
+    }
+
+    /* =======================
+       ===== Helpers =======
+       ======================= */
+
+    /** @return array{0: array{username:string,password:string,email:string,role:string}, 1: array<string,string>} */
+    private function sanitizeAndValidateCreate(string $username, string $password, string $email, string $role): array
+    {
+        $u = trim($username);
+        $p = $password; // pas de trim mot de passe
+        $e = filter_var($email, FILTER_VALIDATE_EMAIL) ? $email : '';
+        $r = in_array($role, self::ALLOWED_ROLES, true) ? $role : 'employee';
+
+        $errors = [];
+        if ($u === '') {
+            $errors['username'] = 'Requis.';
+        }
+        if ($p === '') {
+            $errors['password'] = 'Requis.';
+        }
+        if ($e === '') {
+            $errors['email'] = 'Email invalide.';
+        }
+
+        return [[
+            'username' => $u,
+            'password' => $p,
+            'email' => $e,
+            'role' => $r,
+        ], $errors];
+    }
+
+    /** @param array<string,mixed> $data
+     *  @return array{0: array<string,mixed>, 1: array<string,string>}
+     */
+    private function sanitizeAndValidateUpdate(array $data): array
+    {
+        $u = isset($data['username']) ? trim((string)$data['username']) : '';
+        $e = isset($data['email']) ? (string)$data['email'] : '';
+        $r = isset($data['role']) ? (string)$data['role'] : 'employee';
+
+        $e = filter_var($e, FILTER_VALIDATE_EMAIL) ? $e : '';
+
+        if (!in_array($r, self::ALLOWED_ROLES, true)) {
+            $r = 'employee';
+        }
+
+        $errors = [];
+        if ($u === '') {
+            $errors['username'] = 'Requis.';
+        }
+        if ($e === '') {
+            $errors['email'] = 'Email invalide.';
+        }
+
+        return [[
+            'username' => $u,
+            'email' => $e,
+            'role' => $r,
+        ], $errors];
     }
 }

@@ -7,13 +7,25 @@ namespace App\Service;
 use App\Repository\ArticleRepository;
 use App\Dto\ArticleDTO;
 
+/**
+ * ArticleService
+ *
+ * Rôle :
+ * - Orchestration métier autour des articles (lecture/écriture).
+ * - Ne fait AUCUNE projection vers la vue (pas de formatage date/heure pour templates).
+ *
+ * Invariants :
+ * - Les méthodes de lecture renvoient des flux paresseux (iterable<ArticleDTO>).
+ * - Les mutations appliquent sanitize/validate avant persistance.
+ * - Aucune dépendance à la session/HTTP ici.
+ */
 final class ArticleService
 {
     public function __construct(private ArticleRepository $articleRepository)
     {
     }
 
-    /** Champs requis et optionnels (pour lisibilité & évolutivité) */
+    /** Champs requis et optionnels pour create/update */
     private const REQUIRED_FIELDS = ['titre', 'resume', 'description', 'date_article', 'hours'];
     private const OPTIONAL_FIELDS = ['lieu', 'image'];
 
@@ -21,16 +33,27 @@ final class ArticleService
        ======= Queries =======
        ======================= */
 
-    /** @return ArticleDTO[] */
-    public function getUpcoming(): array
+    /**
+     * Liste paginée (flux paresseux).
+     * @return iterable<ArticleDTO>
+     */
+    public function getUpcomingPage(int $limit, int $offset): iterable
     {
-        return $this->articleRepository->upcoming();
+        // Le repo peut retourner array|iterable — on unifie en flux paresseux
+        $rows = $this->articleRepository->findUpcoming($limit, $offset);
+
+        return $this->asIterable($rows);
     }
 
-    /** @return ArticleDTO[] */
-    public function getAll(): array
+    /**
+     * Tous les articles (si besoin réel).
+     * @return iterable<ArticleDTO>
+     */
+    public function getAll(): iterable
     {
-        return $this->articleRepository->getAllWithAuthor();
+        $rows = $this->articleRepository->getAllWithAuthor();
+
+        return $this->asIterable($rows);
     }
 
     public function getById(int $id): ?ArticleDTO
@@ -66,6 +89,7 @@ final class ArticleService
             ];
             $this->articleRepository->create($payload);
         } catch (\Throwable $e) {
+            // Log minimal (facultatif) : error_log($e->getMessage());
             return ['errors' => ['_global' => 'Erreur lors de la création.'], 'data' => $data];
         }
 
@@ -93,6 +117,7 @@ final class ArticleService
             $payload = $this->toPersistenceArray($data);
             $this->articleRepository->update($id, $payload);
         } catch (\Throwable $e) {
+            // Log minimal (facultatif)
             return ['errors' => ['_global' => 'Erreur lors de la mise à jour.'], 'data' => $data];
         }
 
@@ -112,7 +137,18 @@ final class ArticleService
        ======================= */
 
     /**
-     * Normalise les données utilisateur (sans sécurité XSS ici).
+     * Normalise toute source en flux paresseux.
+     * @param iterable<ArticleDTO> $rows
+     * @return iterable<ArticleDTO>
+     */
+    private function asIterable(iterable $rows): iterable
+    {
+        // Si array → devient lazy; si Generator → passthrough.
+        yield from $rows;
+    }
+
+    /**
+     * Normalise les données utilisateur (sans XSS ici).
      * - trim global
      * - requis: string non vide
      * - optionnels: null si vide
@@ -163,10 +199,10 @@ final class ArticleService
             }
         }
 
-        // Heure (HH:MM ou HH:MM:SS) → on normalise en HH:MM:SS lors de la persistance
+        // Heure (HH:MM ou HH:MM:SS)
         if (!empty($data['hours'])) {
             $h = \DateTime::createFromFormat('H:i:s', (string)$data['hours'])
-                ?: \DateTime::createFromFormat('H:i', (string)$data['hours']);
+              ?: \DateTime::createFromFormat('H:i', (string)$data['hours']);
             if (!$h) {
                 $errors['hours'] = 'Format heure invalide (attendu : HH:MM ou HH:MM:SS)';
             }
@@ -177,8 +213,8 @@ final class ArticleService
 
     /**
      * Transforme les données validées en format prêt pour la DB.
-     * - date_article : YYYY-MM-DD
      * - hours        : normalisé en HH:MM:SS
+     * - date_article : YYYY-MM-DD (déjà validé)
      *
      * @param array<string,mixed> $data
      * @return array<string,mixed>
@@ -190,14 +226,11 @@ final class ArticleService
         // hours → HH:MM:SS
         if (!empty($out['hours'])) {
             $h = \DateTime::createFromFormat('H:i:s', (string)$out['hours'])
-                ?: \DateTime::createFromFormat('H:i', (string)$out['hours']);
+              ?: \DateTime::createFromFormat('H:i', (string)$out['hours']);
             if ($h) {
                 $out['hours'] = $h->format('H:i:s');
             }
         }
-
-        // date_article → garde YYYY-MM-DD tel quel (déjà validé)
-        // Optionnels: null accepté
 
         return $out;
     }
