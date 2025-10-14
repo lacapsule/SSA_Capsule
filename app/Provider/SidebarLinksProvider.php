@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Navigation;
+namespace App\Provider;
 
 /**
  * Fournit les liens de la sidebar en fonction du rôle de l'utilisateur.
