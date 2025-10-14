@@ -1,13 +1,36 @@
 <section class="details">
-    <div class="heading">
-        <h1><?= secure_html($article->titre) ?></h1>
-        <p class="date">Date : <?= date('d/m/Y', strtotime(secure_html($article->date_article))) ?></p>
-    </div>
-    <p>Article rédigé par : <?= secure_html($article->author) ?></p>
-    <p class="lieu">Lieu : <?= secure_html($article->lieu) ?></p>
-    <div class="separator"></div>
-    <h3><?= secure_html($article->resume) ?></h3>
-    <p class="description"><?= secure_html($article->description) ?></p>
-    <div class="separator"></div>
-    <img src="<?= $article->image ? secure_html($article->image) : '/assets/img/banner.webp' ?>" alt="Banner">
+  <div class="heading">
+    <h1>{{article.title}}</h1>
+
+    {{#article.date}}
+      <p class="date">Date : {{article.date}}{{#article.time}} à {{article.time}}{{/article.time}}</p>
+    {{/article.date}}
+
+    {{#article.author}}
+      <p>Article rédigé par : {{article.author}}</p>
+    {{/article.author}}
+
+    {{#article.place}}
+      <p class="lieu">Lieu : {{article.place}}</p>
+    {{/article.place}}
+  </div>
+
+  <div class="separator"></div>
+
+  {{#article.summary}}
+    <h3>{{article.summary}}</h3>
+  {{/article.summary}}
+
+  {{#article.description}}
+    <p class="description">{{article.description}}</p>
+  {{/article.description}}
+
+  <div class="separator"></div>
+
+  {{#article.image}}
+    <img src="{{article.image}}" alt="illustration">
+  {{/article.image}}
+  {{^article.image}}
+    <img src="/assets/img/banner.webp" alt="illustration">
+  {{/article.image}}
 </section>
