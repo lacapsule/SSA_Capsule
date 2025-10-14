@@ -3,7 +3,6 @@
 declare(strict_types=1);
 
 use App\Controller\AgendaController;
-use App\Middleware\LangMiddleware;
 use App\Repository\AgendaRepository;
 use App\Service\AgendaService;
 use Capsule\Auth\PhpSessionReader;
@@ -14,6 +13,7 @@ use Capsule\Http\Factory\ResponseFactory;
 use Capsule\Http\Middleware\AuthRequiredMiddleware;
 use Capsule\Http\Middleware\DebugHeaders;
 use Capsule\Http\Middleware\ErrorBoundary;
+use Capsule\Http\Middleware\LangMiddleware;
 use Capsule\Http\Middleware\SecurityHeaders;
 use Capsule\Infrastructure\Container\DIContainer;
 use Capsule\Domain\Repository\UserRepository;

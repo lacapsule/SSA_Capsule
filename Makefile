@@ -1,4 +1,3 @@
-# --- Config par défaut (surchargable: `make up DC="docker compose -p myproj"`)
 DC ?= docker compose
 PHP ?= $(DC) exec -T web php
 COMPOSER ?= $(DC) exec -T web composer

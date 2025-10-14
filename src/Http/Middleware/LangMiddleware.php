@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Middleware;
+namespace Capsule\Http\Middleware;
 
 use Capsule\Contracts\MiddlewareInterface;
 use Capsule\Contracts\HandlerInterface;

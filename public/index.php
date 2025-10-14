@@ -5,12 +5,12 @@ declare(strict_types=1);
 // Autoload
 require dirname(__DIR__) . '/src/Autoload.php';
 
-use App\Middleware\LangMiddleware;
 use Capsule\Http\Message\Request;
 use Capsule\Http\Emitter\SapiEmitter;
 use Capsule\Kernel\KernelHttp;
 use Capsule\Auth\PhpSessionReader;
 use Capsule\Http\Middleware\{
+    LangMiddleware,
     ErrorBoundary,
     SecurityHeaders
 };
