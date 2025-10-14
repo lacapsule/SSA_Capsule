@@ -1,47 +1,60 @@
 #!/usr/bin/env bash
-# setup-local.sh — Setup local pour SSA_CAPSULE (php -S + SQLite). MySQL optionnel plus tard.
-# USAGE:
-#   ./setup-local.sh info       # versions & état
-#   ./setup-local.sh init       # crée data/, applique migrations SQLite si DB absente, génère scripts/manquants
-#   ./setup-local.sh reset      # réinitialise la DB (SQLite) depuis migrations/tables.sql
-#   ./setup-local.sh dev        # lance php -S localhost:${PORT:-8080} -t public
-#   ./setup-local.sh deps       # installe php-pdo + sqlite3 (+ mysql) via dnf/apt, puis vérifie
-#   ./setup-local.sh db.shell   # shell sqlite
-#   ./setup-local.sh bin.install   # (ré)génère bin/dev et bin/db si absents
-#   ./setup-local.sh make.inject   # ajoute des cibles Make (non destructif)
+# ------------------------------------------------------------------------------
+# setup-local.sh — Setup local pour SSA_CAPSULE (php -S + SQLite).
+#   - Idempotent, lisible, avec logs.
+#   - MySQL optionnel (via autres scripts/env, non activé ici).
 #
-# ENV:
-#   PORT=8080 PUBLIC_DIR=public DATA_DIR=./data MIG_FILE=./migrations/tables.sql
+# USAGE:
+#   ./setup-local.sh info         # affiche versions & état
+#   ./setup-local.sh deps         # installe php-cli/pdo/sqlite/mysql (dnf/apt) puis vérifie
+#   ./setup-local.sh init         # crée data/, applique migration SQLite si DB absente, génère bin/ & Makefile si manquants
+#   ./setup-local.sh reset        # réinitialise la DB depuis la migration
+#   ./setup-local.sh dev          # lance php -S localhost:${PORT:-8080} (docroot: public/)
+#   ./setup-local.sh db.shell     # ouvre un shell sqlite
+#   ./setup-local.sh bin.install  # (ré)génère bin/dev et bin/db si absents
+#   ./setup-local.sh make.inject  # ajoute des cibles Make (non destructif)
+#
+# ENV (personnalisables):
+#   PORT=8080 PUBLIC_DIR=public DATA_DIR=./data MIG_FILE=./migrations/sqlite_init.sql
+# ------------------------------------------------------------------------------
 
 set -euo pipefail
 
+# --- Paths & défauts ----------------------------------------------------------
 ROOT="$(pwd)"
 PUBLIC_DIR="${PUBLIC_DIR:-public}"
 DATA_DIR="${DATA_DIR:-$ROOT/data}"
 DB_SQLITE="${DB_SQLITE:-$DATA_DIR/database.sqlite}"
 
-# migrations/tables.sql est ta source actuelle
-MIG_FILE="${MIG_FILE:-$ROOT/migrations/sqlite_init.sql}"
+# Migration par défaut (préférence sqlite_init.sql, fallback tables.sql si override absent)
+MIG_FILE_DEFAULT="$ROOT/migrations/sqlite_init.sql"
+MIG_FALLBACK="$ROOT/migrations/tables.sql"
+MIG_FILE="${MIG_FILE:-$MIG_FILE_DEFAULT}"
 
-need() { command -v "$1" >/dev/null 2>&1 || {
-    echo "❌ Manque binaire: $1"
+# --- Logging helpers ----------------------------------------------------------
+log() { printf '· %s\n' "$*"; }
+ok() { printf '✅ %s\n' "$*"; }
+warn() { printf '⚠️  %s\n' "$*"; }
+err() { printf '❌ %s\n' "$*" >&2; }
+die() {
+    err "$*"
     exit 1
-}; }
+}
 
+need() { command -v "$1" >/dev/null 2>&1 || die "Manque binaire: $1"; }
+
+# --- Common checks / ensure ---------------------------------------------------
 ensure_dirs() { mkdir -p "$DATA_DIR" "$ROOT/bin" "$ROOT/config"; }
 
 ensure_public() {
-    [[ -d "$PUBLIC_DIR" ]] || {
-        echo "❌ Dossier public introuvable: $PUBLIC_DIR"
-        exit 1
-    }
-    [[ -f "$PUBLIC_DIR/index.php" ]] || {
+    [[ -d "$PUBLIC_DIR" ]] || die "Dossier public introuvable: $PUBLIC_DIR"
+    if [[ ! -f "$PUBLIC_DIR/index.php" ]]; then
         cat >"$PUBLIC_DIR/index.php" <<'PHP'
 <?php declare(strict_types=1);
 echo "Capsule running (local).";
 PHP
-        echo "ℹ️  Généré $PUBLIC_DIR/index.php minimal (remplace-le par ton front controller)."
-    }
+        log "Généré $PUBLIC_DIR/index.php minimal (remplace-le par ton front controller)."
+    fi
 }
 
 ensure_config_php() {
@@ -62,38 +75,47 @@ return [
     ],
 ];
 PHP
-    echo "✅ Créé config/database.php (DSN par défaut = SQLite)."
+    ok "Créé config/database.php (DSN par défaut = SQLite)."
 }
 
+resolve_migration() {
+    # Respecte MIG_FILE si fourni; sinon tente sqlite_init.sql puis tables.sql
+    if [[ -f "$MIG_FILE" ]]; then
+        echo "$MIG_FILE"
+        return
+    fi
+    if [[ -f "$MIG_FILE_DEFAULT" ]]; then
+        echo "$MIG_FILE_DEFAULT"
+        return
+    fi
+    if [[ -f "$MIG_FALLBACK" ]]; then
+        echo "$MIG_FALLBACK"
+        return
+    fi
+    die "Migration introuvable: ni $MIG_FILE, ni $MIG_FILE_DEFAULT, ni $MIG_FALLBACK"
+}
+
+# --- Package manager / deps ---------------------------------------------------
 detect_pkg() {
     if command -v dnf >/dev/null 2>&1; then
         echo "dnf"
     elif command -v apt-get >/dev/null 2>&1; then
         echo "apt"
-    else
-        echo "unknown"
-    fi
+    else echo "unknown"; fi
 }
 
 install_deps() {
     local pm pkgs
     pm="$(detect_pkg)"
-
     case "$pm" in
         dnf)
-            # Fedora / RHEL-like
             pkgs=(php-cli php-pdo php-sqlite3 php-mysqlnd)
-            echo "🔧 Installer: ${pkgs[*]} (via dnf)"
-            if command -v sudo >/dev/null 2>&1; then
-                sudo dnf install -y "${pkgs[@]}"
-            else
-                dnf install -y "${pkgs[@]}"
-            fi
+            log "Installer via dnf: ${pkgs[*]}"
+            if command -v sudo >/dev/null 2>&1; then sudo dnf install -y "${pkgs[@]}"; else dnf install -y "${pkgs[@]}"; fi
             ;;
         apt)
-            # Debian/Ubuntu — PDO est dans le coeur, on ajoute sqlite + mysql
             pkgs=(php-cli php-sqlite3 php-mysql)
-            echo "🔧 Installer: ${pkgs[*]} (via apt)"
+            log "Installer via apt: ${pkgs[*]}"
             if command -v sudo >/dev/null 2>&1; then
                 sudo apt-get update
                 sudo apt-get install -y "${pkgs[@]}"
@@ -103,62 +125,59 @@ install_deps() {
             fi
             ;;
         *)
-            echo "❌ Gestionnaire de paquets non supporté. Installe manuellement les paquets suivants :"
-            echo "   - Fedora:  php-cli php-pdo php-sqlite3 php-mysqlnd"
-            echo "   - Debian:  php-cli php-sqlite3 php-mysql"
-            return 1
+            die "Gestionnaire de paquets non supporté. Installe manuellement :
+  - Fedora/RHEL : php-cli php-pdo php-sqlite3 php-mysqlnd
+  - Debian/Ubuntu : php-cli php-sqlite3 php-mysql"
             ;;
     esac
-
-    echo "✅ Dépendances installées. Vérification :"
-    if command -v rg >/dev/null 2>&1; then
-        php -m | rg -i 'pdo|sqlite|mysql' || true
-    else
-        php -m | grep -Ei 'pdo|sqlite|mysql' || true
-    fi
+    ok "Dépendances installées."
+    if command -v rg >/dev/null 2>&1; then php -m | rg -i 'pdo|sqlite|mysql' || true; else php -m | grep -Ei 'pdo|sqlite|mysql' || true; fi
     php -v
 }
 
-ensure_migration_file() {
-    [[ -f "$MIG_FILE" ]] || {
-        echo "❌ Migration introuvable: $MIG_FILE"
-        exit 1
-    }
-}
-
+# --- SQLite actions -----------------------------------------------------------
 sqlite_apply_migration_fresh() {
     need sqlite3
-    ensure_migration_file
+    local mig
+    mig="$(resolve_migration)"
     : >"$DB_SQLITE"
-    sqlite3 "$DB_SQLITE" <"$MIG_FILE"
-    echo "✅ SQLite initialisée (fresh): $DB_SQLITE"
+    sqlite3 "$DB_SQLITE" <"$mig"
+    ok "SQLite initialisée (fresh): $DB_SQLITE"
 }
 
 sqlite_apply_migration_if_absent() {
     need sqlite3
-    ensure_migration_file
+    local mig
+    mig="$(resolve_migration)"
     if [[ -f "$DB_SQLITE" ]]; then
-        echo "ℹ️  DB déjà présente: $DB_SQLITE (skip init). Utilise 'reset' si tu veux repartir de zéro."
+        log "DB déjà présente: $DB_SQLITE (skip init). Utilise 'reset' pour repartir de zéro."
     else
         : >"$DB_SQLITE"
-        sqlite3 "$DB_SQLITE" <"$MIG_FILE"
-        echo "✅ SQLite initialisée: $DB_SQLITE"
+        sqlite3 "$DB_SQLITE" <"$mig"
+        ok "SQLite initialisée: $DB_SQLITE"
     fi
 }
 
+# --- bin/ scripts -------------------------------------------------------------
 bin_install() {
     local db="$ROOT/bin/db" dev="$ROOT/bin/dev"
+
+    # bin/db : supporte sqlite_init.sql ET tables.sql
     if [[ ! -f "$db" ]]; then
         cat >"$db" <<'BASH'
 #!/usr/bin/env bash
 set -euo pipefail
 DB="./data/database.sqlite"
 SQL=""
-if [[ -f "./migrations/tables.sql" ]]; then
+
+if [[ -f "./migrations/sqlite_init.sql" ]]; then
+  SQL="./migrations/sqlite_init.sql"
+elif [[ -f "./migrations/tables.sql" ]]; then
   SQL="./migrations/tables.sql"
 else
-  echo "❌ Aucune migration trouvée (./migrations/tables.sql)"; exit 1
+  echo "❌ Aucune migration trouvée (./migrations/sqlite_init.sql ou ./migrations/tables.sql)" >&2; exit 1
 fi
+
 mkdir -p ./data
 case "${1:-}" in
   init)  : > "$DB"; sqlite3 "$DB" < "$SQL"; echo "DB initialized at $DB" ;;
@@ -168,8 +187,10 @@ case "${1:-}" in
 esac
 BASH
         chmod +x "$db"
-        echo "✅ Créé bin/db"
+        ok "Créé bin/db"
     fi
+
+    # bin/dev : simple (docroot public/)
     if [[ ! -f "$dev" ]]; then
         cat >"$dev" <<'BASH'
 #!/usr/bin/env bash
@@ -177,13 +198,14 @@ set -euo pipefail
 PORT="${PORT:-8080}"
 PHP_OPTS="-d display_errors=1 -d error_reporting=32767 -d zend.assertions=1 -d assert.exception=1"
 echo "→ http://localhost:$PORT"
-php $PHP_OPTS -S localhost:"$PORT" -t public
+php $PHP_OPTS -S "localhost:${PORT}" -t public
 BASH
         chmod +x "$dev"
-        echo "✅ Créé bin/dev"
+        ok "Créé bin/dev"
     fi
 }
 
+# --- Makefile minimal / enrichissement ---------------------------------------
 make_inject() {
     local mk="$ROOT/Makefile"
     if [[ ! -f "$mk" ]]; then
@@ -197,16 +219,16 @@ info:
 	@php -v
 	@sqlite3 --version || true
 MAKE
-        echo "✅ Créé Makefile minimal."
+        ok "Créé Makefile minimal."
         return
     fi
 
-    # Ajoute cibles manquantes, sans détruire l’existant.
     add_target() { grep -qE "^$1:" "$mk" || printf "%s\n" "$2" >>"$mk"; }
     add_target "dev" $'dev: ; bin/dev'
     add_target "db.init" $'db.init: ; bin/db init'
     add_target "db.reset" $'db.reset: ; bin/db reset'
     add_target "db.shell" $'db.shell: ; bin/db shell'
+
     if ! grep -qE '^info:' "$mk"; then
         cat >>"$mk" <<'MAKE'
 
@@ -215,10 +237,12 @@ info:
 	@sqlite3 --version || true
 MAKE
     fi
-    echo "✅ Makefile enrichi (non destructif)."
+    ok "Makefile enrichi (non destructif)."
 }
 
+# --- Commands -----------------------------------------------------------------
 cmd="${1:-help}"
+
 case "$cmd" in
     info)
         php -v
@@ -227,7 +251,10 @@ case "$cmd" in
         command -v mysql && mysql --version || echo "(mysql non installé)"
         echo "Public dir : $PUBLIC_DIR"
         echo "DB (SQLite): $DB_SQLITE"
-        echo "Migration   : $MIG_FILE"
+        echo "Migration   : $(resolve_migration)"
+        ;;
+    deps)
+        install_deps
         ;;
     init)
         need php
@@ -237,17 +264,14 @@ case "$cmd" in
         bin_install
         make_inject
         sqlite_apply_migration_if_absent
-        echo "🎉 Init terminé. Lance: ./setup-local.sh dev  (ou  make dev)"
+        ok "Init terminé. Lance: ./setup-local.sh dev  (ou  make dev)"
         ;;
     reset)
         sqlite_apply_migration_fresh
         ;;
     dev)
         need php
-        [[ -d "$PUBLIC_DIR" ]] || {
-            echo "❌ $PUBLIC_DIR manquant"
-            exit 1
-        }
+        [[ -d "$PUBLIC_DIR" ]] || die "$PUBLIC_DIR manquant"
         echo "🔌 Serveur dev → http://localhost:${PORT:-8080}  (CTRL+C pour arrêter)"
         php -d display_errors=1 -d error_reporting=32767 -S "localhost:${PORT:-8080}" -t "$PUBLIC_DIR"
         ;;
@@ -262,7 +286,12 @@ case "$cmd" in
         make_inject
         ;;
     *)
-        echo "Usage: $0 {info|init|reset|dev|db.shell|bin.install|make.inject}"
+        cat <<USAGE
+Usage: $0 {info|deps|init|reset|dev|db.shell|bin.install|make.inject}
+
+ENV utilisables:
+  PORT=8080 PUBLIC_DIR=public DATA_DIR=./data MIG_FILE=./migrations/sqlite_init.sql
+USAGE
         exit 1
         ;;
 esac
