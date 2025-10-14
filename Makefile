@@ -117,3 +117,5 @@ d-pma:          ## Démarre phpMyAdmin (Docker)
 
 pma-stop:     ## Stoppe phpMyAdmin (Docker)
 	$(DC) stop pma
+db.init: ; bin/db init
+db.reset: ; bin/db reset

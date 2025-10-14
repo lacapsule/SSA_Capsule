@@ -223,12 +223,6 @@ MAKE
         return
     fi
 
-    add_target() { grep -qE "^$1:" "$mk" || printf "%s\n" "$2" >>"$mk"; }
-    add_target "dev" $'dev: ; bin/dev'
-    add_target "db.init" $'db.init: ; bin/db init'
-    add_target "db.reset" $'db.reset: ; bin/db reset'
-    add_target "db.shell" $'db.shell: ; bin/db shell'
-
     if ! grep -qE '^info:' "$mk"; then
         cat >>"$mk" <<'MAKE'
 
