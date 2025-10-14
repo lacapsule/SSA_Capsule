@@ -23,7 +23,7 @@ final class Translate
 
 
         // dev only:
-        error_log('GET lang=' . ($_GET['lang'] ?? '∅'));
+        //error_log('GET lang=' . ($_GET['lang'] ?? '∅'));
 
         // 1) GET
         if (isset($_GET['lang'])) {
@@ -50,7 +50,6 @@ final class Translate
         }
 
         // 4) CHARGEMENT (fallback clé-à-clé : défaut -> langue)
-        //    ⚠️ Chemin aligné sur app/Lang/locales/<lang>/index.php
         $defaultMap = self::loadFile($default);
         $langMap = $lang === $default ? [] : self::loadFile($lang);
 
@@ -66,7 +65,7 @@ final class Translate
         $file = __DIR__ . "/locales/{$lang}/index.php";
         if (!is_file($file)) {
             // TEMP dev:
-            error_log("[i18n] missing file: {$file}");
+            //error_log("[i18n] missing file: {$file}");
 
             return [];
         }
