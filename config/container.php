@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use Capsule\Domain\Service\AuthService;
 use App\Provider\PartnersProvider;
 use App\Controller\AgendaController;
 use App\Controller\ArticlesController;
@@ -22,6 +23,7 @@ use Capsule\Contracts\SessionReader;
 use Capsule\Contracts\ViewRendererInterface;
 use Capsule\Domain\Repository\UserRepository;
 use Capsule\Domain\Service\PasswordService;
+use Capsule\Domain\Service\SessionAuthService;
 use Capsule\Domain\Service\UserService;
 use Capsule\Http\Factory\ResponseFactory;
 use Capsule\Http\Middleware\AuthRequiredMiddleware;
@@ -136,6 +138,23 @@ return (function (): DIContainer {
         $c->get(ArticleRepository::class)
     ));
 
+
+    // ...
+
+    $c->set(SessionAuthService::class, fn () => new SessionAuthService());
+
+    $c->set(AuthService::class, fn ($c) => new AuthService(
+        $c->get(\Capsule\Domain\Repository\UserRepository::class),
+        $c->get(SessionAuthService::class)
+    ));
+
+    // Remplace l’ancien binding du LoginController :
+    $c->set(\App\Controller\LoginController::class, fn ($c) => new \App\Controller\LoginController(
+        $c->get(AuthService::class),
+        $c->get(\Capsule\Contracts\ResponseFactoryInterface::class),
+        $c->get(\Capsule\Contracts\ViewRendererInterface::class),
+    ));
+
     $c->set(DashboardService::class, fn ($c) => new DashboardService(
         $c->get(\Capsule\Domain\Service\UserService::class)
     ));
@@ -174,10 +193,10 @@ return (function (): DIContainer {
         $c->get(ViewRendererInterface::class),
     ));
 
-    $c->set(LoginController::class, fn ($c) => new LoginController(
-        $c->get('pdo'),
-        $c->get(ResponseFactoryInterface::class),
-        $c->get(ViewRendererInterface::class),
+    $c->set(\App\Controller\LoginController::class, fn ($c) => new \App\Controller\LoginController(
+        $c->get(AuthService::class),
+        $c->get(\Capsule\Contracts\ResponseFactoryInterface::class),
+        $c->get(\Capsule\Contracts\ViewRendererInterface::class),
     ));
 
 
