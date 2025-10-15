@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace App\Repository;
 
-use DateInterval;
+use App\Dto\AgendaEventDTO;
+use DateTimeImmutable;
 use DateTime;
 use PDO;
 
@@ -14,29 +15,34 @@ final class AgendaRepository
     {
     }
 
-    /**
-     * @return list<array{date:string,time:string,title:string,location:string,duration:float}>
-     */
+    /** @return array<AgendaEventDTO> */
     public function findBetween(DateTime $start, DateTime $end): array
     {
         $stmt = $this->pdo->prepare(
-            'SELECT title, location,
-                    DATE_FORMAT(starts_at, "%d-%m-%Y") AS date,
-                    DATE_FORMAT(starts_at, "%H:%i")   AS time,
-                    (duration_minutes / 60.0)         AS duration
+            'SELECT id, title, location, starts_at, duration_minutes, created_by
              FROM agenda_events
              WHERE starts_at >= :start AND starts_at < :end
              ORDER BY starts_at'
         );
+
         $stmt->execute([
             ':start' => $start->format('Y-m-d H:i:s'),
             ':end' => $end->format('Y-m-d H:i:s'),
         ]);
 
-        /** @var list<array{date:string,time:string,title:string,location:string,duration:float}> $rows */
-        $rows = $stmt->fetchAll(PDO::FETCH_ASSOC) ?: [];
+        $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-        return $rows;
+        return array_map(
+            fn (array $row) => new AgendaEventDTO(
+                id: (int) $row['id'],
+                title: (string) $row['title'],
+                startsAt: new DateTimeImmutable($row['starts_at']),
+                durationMinutes: (int) $row['duration_minutes'],
+                location: $row['location'] !== null ? (string) $row['location'] : null,
+                createdBy: $row['created_by'] !== null ? (int) $row['created_by'] : null,
+            ),
+            $rows
+        );
     }
 
     public function insert(
@@ -45,11 +51,12 @@ final class AgendaRepository
         int $durationMinutes,
         ?string $location,
         ?int $createdBy
-    ): void {
+    ): int {
         $stmt = $this->pdo->prepare(
             'INSERT INTO agenda_events (title, starts_at, duration_minutes, location, created_by)
              VALUES (:title, :starts_at, :duration, :location, :created_by)'
         );
+
         $stmt->execute([
             ':title' => $title,
             ':starts_at' => $startsAt->format('Y-m-d H:i:00'),
@@ -57,13 +64,16 @@ final class AgendaRepository
             ':location' => $location,
             ':created_by' => $createdBy,
         ]);
+
+        return (int) $this->pdo->lastInsertId(); // ✨ Retourner l'ID
     }
 
-    public function weekBounds(DateTime $monday): array
+    /** ✨ Ajout méthode delete */
+    public function delete(int $id): bool
     {
-        $start = (clone $monday)->setTime(0, 0, 0);
-        $end = (clone $monday)->add(new DateInterval('P7D'))->setTime(0, 0, 0);
+        $stmt = $this->pdo->prepare('DELETE FROM agenda_events WHERE id = :id');
+        $stmt->execute([':id' => $id]);
 
-        return [$start, $end];
+        return $stmt->rowCount() > 0;
     }
 }
