@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Capsule\Security;
+namespace Capsule\Auth;
 
 use PDO;
 

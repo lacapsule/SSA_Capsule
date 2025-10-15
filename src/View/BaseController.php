@@ -9,7 +9,7 @@ use Capsule\Contracts\ViewRendererInterface;
 use Capsule\Contracts\ResponseFactoryInterface;
 use Capsule\Http\Message\Response;
 use Capsule\Security\CsrfTokenManager;
-use Capsule\Security\CurrentUserProvider;
+use Capsule\Auth\CurrentUserProvider;
 use Capsule\Http\Support\FlashBag;
 use Capsule\Http\Support\FormState;
 
