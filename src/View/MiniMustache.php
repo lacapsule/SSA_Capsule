@@ -11,16 +11,40 @@ final class MiniMustache
     /** @var array<string,string> */
     private array $cache = [];
 
-    public function __construct(private TemplateLocatorInterface $locator)
-    {
+    /** @var array<string> */
+    private array $renderStack = [];
+
+    // Patterns compilés une seule fois
+    private const PARTIAL_PATTERN = '/\{\{\>\s*([a-zA-Z0-9_\/\-.:\@]+)\s*\}\}/';
+    private const EACH_PATTERN = '/\{\{\#each\s+([a-zA-Z0-9_.]+)\s*\}\}([\s\S]*?)\{\{\/each\}\}/';
+    private const SECTION_PATTERN = '/\{\{\#\s*([a-zA-Z0-9_.]+)\s*\}\}([\s\S]*?)\{\{\/\s*\1\s*\}\}/';
+    private const INVERSE_PATTERN = '/\{\{\^\s*([a-zA-Z0-9_.]+)\s*\}\}([\s\S]*?)\{\{\/\s*\1\s*\}\}/';
+    private const RAW_PATTERN = '/\{\{\{\s*([a-zA-Z0-9_.]+)\s*\}\}\}/';
+    private const VAR_PATTERN = '/\{\{\s*([a-zA-Z0-9_.]+)\s*\}\}/';
+
+    public function __construct(
+        private TemplateLocatorInterface $locator,
+        private bool $strict = false
+    ) {
     }
 
     /** @param array<string,mixed> $data */
     public function render(string $templatePath, array $data = []): string
     {
-        $tpl = $this->load($templatePath);
+        // Protection contre les boucles infinies
+        if (in_array($templatePath, $this->renderStack, true)) {
+            throw new \RuntimeException("Circular partial detected: {$templatePath}");
+        }
 
-        return $this->compile($tpl, $data);
+        $this->renderStack[] = $templatePath;
+
+        try {
+            $tpl = $this->load($templatePath);
+
+            return $this->compile($tpl, $data);
+        } finally {
+            array_pop($this->renderStack);
+        }
     }
 
     /** @param array<string,mixed> $data */
@@ -32,7 +56,7 @@ final class MiniMustache
         //   {{> @var }}                (nom logique fourni dans $data['var'])
         //   {{> prefix:@var }}         (prefix imposé + nom dynamique ex: component:@component)
         $tpl = preg_replace_callback(
-            '/\{\{\>\s*([a-zA-Z0-9_\/\-.:\@]+)\s*\}\}/',
+            self::PARTIAL_PATTERN,
             function ($m) use ($data) {
                 $ref = $m[1];
 
@@ -72,7 +96,7 @@ final class MiniMustache
 
         // -------- Sections each --------
         $tpl = preg_replace_callback(
-            '/\{\{\#each\s+([a-zA-Z0-9_.]+)\s*\}\}([\s\S]*?)\{\{\/each\}\}/',
+            self::EACH_PATTERN,
             function ($m) use ($data) {
                 $arr = $this->get($data, $m[1]);
                 if (!is_iterable($arr)) {
@@ -90,7 +114,7 @@ final class MiniMustache
 
         // -------- Sections booléennes --------
         $tpl = preg_replace_callback(
-            '/\{\{\#\s*([a-zA-Z0-9_.]+)\s*\}\}([\s\S]*?)\{\{\/\s*\1\s*\}\}/',
+            self::SECTION_PATTERN,
             function ($m) use ($data) {
                 $v = $this->get($data, $m[1]);
                 $truthy = false;
@@ -107,7 +131,7 @@ final class MiniMustache
 
         // -------- Sections inverses --------
         $tpl = preg_replace_callback(
-            '/\{\{\^\s*([a-zA-Z0-9_.]+)\s*\}\}([\s\S]*?)\{\{\/\s*\1\s*\}\}/',
+            self::INVERSE_PATTERN,
             function ($m) use ($data) {
                 $v = $this->get($data, $m[1]);
                 $falsy = false;
@@ -124,14 +148,14 @@ final class MiniMustache
 
         // -------- Raw HTML (triple mustache) --------
         $tpl = preg_replace_callback(
-            '/\{\{\{\s*([a-zA-Z0-9_.]+)\s*\}\}\}/',
+            self::RAW_PATTERN,
             fn ($m) => (string)($this->get($data, $m[1]) ?? ''),
             $tpl
         ) ?? $tpl;
 
         // -------- Variables échappées --------
         $tpl = preg_replace_callback(
-            '/\{\{\s*([a-zA-Z0-9_.]+)\s*\}\}/',
+            self::VAR_PATTERN,
             function ($m) use ($data) {
                 $v = $this->get($data, $m[1]);
 
@@ -184,14 +208,42 @@ final class MiniMustache
     {
         $parts = explode('.', $key);
         $cur = $data;
+
         foreach ($parts as $p) {
+            // Support des tableaux natifs
             if (is_array($cur) && array_key_exists($p, $cur)) {
                 $cur = $cur[$p];
                 continue;
             }
+
+            // Support ArrayAccess (Collections, etc.)
+            if ($cur instanceof \ArrayAccess && isset($cur[$p])) {
+                $cur = $cur[$p];
+                continue;
+            }
+
+            // Support des objets avec propriétés publiques
             if (is_object($cur) && isset($cur->$p)) {
                 $cur = $cur->$p;
                 continue;
+            }
+
+            // Support des objets avec __get() magic method
+            if (is_object($cur) && method_exists($cur, '__get')) {
+                try {
+                    $val = $cur->$p;
+                    if ($val !== null) {
+                        $cur = $val;
+                        continue;
+                    }
+                } catch (\Throwable) {
+                    // __get peut lever une exception si la propriété n'existe pas
+                }
+            }
+
+            // Variable non trouvée
+            if ($this->strict) {
+                trigger_error("Undefined template variable: {$key}", E_USER_WARNING);
             }
 
             return null;
