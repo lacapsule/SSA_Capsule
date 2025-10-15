@@ -10,7 +10,7 @@ use Capsule\Domain\Service\UserService;
 use Capsule\Routing\Attribute\Route;
 use Capsule\Routing\Attribute\RoutePrefix;
 use Capsule\Security\CsrfTokenManager;
-use Capsule\Security\CurrentUserProvider;
+use Capsule\Auth\CurrentUserProvider;
 use Capsule\View\BaseController;
 use Capsule\Http\Message\Response;
 
