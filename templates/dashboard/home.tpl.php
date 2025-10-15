@@ -14,9 +14,7 @@
   </aside>
 
   <div class="dashboard-content">
-    {{#component}}
       {{> component:@component }}
-    {{/component}}
     {{^component}}
       <p>Bienvenue dans votre tableau de bord.</p>
     {{/component}}
