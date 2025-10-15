@@ -4,90 +4,70 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use Capsule\Domain\Service\AuthService;
+use App\View\Presenter\AuthPresenter;
 use Capsule\Contracts\ResponseFactoryInterface;
 use Capsule\Contracts\ViewRendererInterface;
 use Capsule\Http\Message\Request;
 use Capsule\Http\Message\Response;
 use Capsule\Routing\Attribute\Route;
 use Capsule\Routing\Attribute\RoutePrefix;
-use Capsule\Security\Authenticator;
 use Capsule\Security\CsrfTokenManager;
 use Capsule\View\BaseController;
-use PDO;
 
 #[RoutePrefix('')]
 final class LoginController extends BaseController
 {
     public function __construct(
-        private PDO $pdo,
+        private AuthService $auth,                 // ← NEW
         ResponseFactoryInterface $res,
         ViewRendererInterface $view
     ) {
         parent::__construct($res, $view);
     }
 
-    /** GET /login — affiche le formulaire */
     #[Route(path: '/login', methods: ['GET'])]
     public function loginForm(): Response
     {
-        $errors = $this->formErrors();   // toujours array
-        $prefill = $this->formData();     // toujours array
+        $data = AuthPresenter::loginForm(
+            i18n: $this->i18n(),
+            errors: $this->formErrors(),
+            prefill: $this->formData(),
+            csrfInput: $this->csrfInput(),
+        );
 
-        $i18n = $this->i18n();
-
-        // Résout en "page:admin/login" via $this->pageNs
-        return $this->page('admin:login', [
-             'showHeader' => true,
-             'showFooter' => true,
-             'title' => 'Connexion',
-             'str' => $i18n,
-             'error' => $errors['_global'] ?? null,
-             'errors' => $errors,
-             'prefill' => $prefill,
-             'csrf_input' => $this->csrfInput(), // {{{csrf_input}}}
-             'action' => '/login',
-         ]);
+        return $this->page('admin:login', $data);
     }
 
-
-    /** POST /login — traite la soumission */
     #[Route(path: '/login', methods: ['POST'])]
     public function loginSubmit(Request $req): Response
     {
         CsrfTokenManager::requireValidToken();
 
-        $username = trim((string)($_POST['username'] ?? ''));
+        $username = (string)($_POST['username'] ?? '');
         $password = (string)($_POST['password'] ?? '');
 
-        if ($username === '' || $password === '') {
-            // PRG standardisé (stocke errors+data+flash et redirige)
-            return $this->redirectWithErrors(
-                '/login',
-                'Le formulaire contient des erreurs.',
-                ['_global' => 'Champs requis manquants.'],
-                ['username' => $username] // jamais le password
-            );
-        }
-
-        $success = Authenticator::login($this->pdo, $username, $password);
-
-        if ($success) {
+        $res = $this->auth->login($username, $password);
+        if ($res['ok']) {
             return $this->res->redirect('/dashboard/account', 302);
         }
 
+        $msg = $res['error'] === 'missing_fields'
+            ? 'Le formulaire contient des erreurs.'
+            : 'Identifiants incorrects.';
+
         return $this->redirectWithErrors(
             '/login',
-            'Identifiants incorrects.',
-            ['_global' => 'Identifiants incorrects.'],
-            ['username' => $username]
+            $msg,
+            ['_global' => $msg],
+            ['username' => trim($username)]
         );
     }
 
-    /** GET/POST /logout — détruit la session et redirige */
-    #[Route(path: '/logout', methods: ['GET', 'POST'])]
+    #[Route(path: '/logout', methods: ['GET','POST'])]
     public function logout(): Response
     {
-        Authenticator::logout();
+        $this->auth->logout();
 
         return $this->res->redirect('/login', 302);
     }
