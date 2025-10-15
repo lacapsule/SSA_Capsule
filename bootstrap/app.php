@@ -7,9 +7,6 @@ use Capsule\Routing\Discovery\RouteScanner;
 use Capsule\Routing\RouterHandler;
 use Capsule\Routing\Dispatch\ControllerInvoker;
 
-require_once dirname(__DIR__) . '/src/Support/html_secure.php';
-
-/** 1) Container */
 $container = require dirname(__DIR__) . '/config/container.php';
 if (!$container instanceof DIContainer) {
     throw new RuntimeException('config/container.php must return a DIContainer instance.');
