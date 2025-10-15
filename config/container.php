@@ -181,6 +181,7 @@ return (function (): DIContainer {
     // --- Controllers ---
     $c->set(AgendaController::class, fn ($c) => new AgendaController(
         $c->get(AgendaService::class),
+        $c->get(SidebarLinksProvider::class),
         $c->get(ResponseFactoryInterface::class),
         $c->get(ViewRendererInterface::class),
     ));
