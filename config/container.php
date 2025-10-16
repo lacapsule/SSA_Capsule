@@ -2,20 +2,9 @@
 
 declare(strict_types=1);
 
-use App\Modules\Agenda\AgendaController;
-use App\Modules\Agenda\AgendaRepository;
-use App\Modules\Agenda\AgendaService;
-use App\Modules\Article\ArticleController;
-use App\Modules\Article\ArticleRepository;
-use App\Modules\Article\ArticleService;
-use App\Modules\Dashboard\DashboardController;
-use App\Modules\Dashboard\DashboardService;
-use App\Modules\Dashboard\Provider\SidebarLinksProvider;
-use App\Modules\Home\HomeController;
-use App\Modules\Home\HomeService;
-use App\Modules\Home\Provider\PartnersProvider;
-use App\Modules\Login\LoginController;
-use App\Modules\User\UserController;
+// ==========================================
+// IMPORT FRAMEWORK
+// ==========================================
 use Capsule\Contracts\TemplateLocatorInterface;
 use Capsule\Domain\Service\AuthService;
 use Capsule\Auth\PhpSessionReader;
@@ -24,7 +13,6 @@ use Capsule\Contracts\SessionReader;
 use Capsule\Contracts\ViewRendererInterface;
 use Capsule\Domain\Repository\UserRepository;
 use Capsule\Domain\Service\PasswordService;
-use Capsule\Domain\Service\SessionAuthService;
 use Capsule\Domain\Service\UserService;
 use Capsule\Http\Factory\ResponseFactory;
 use Capsule\Http\Middleware\AuthRequiredMiddleware;
@@ -33,36 +21,62 @@ use Capsule\Http\Middleware\ErrorBoundary;
 use Capsule\Http\Middleware\LangMiddleware;
 use Capsule\Http\Middleware\SecurityHeaders;
 use Capsule\Infrastructure\Container\DIContainer;
-// use Capsule\Infrastructure\Database\MariaDBConnection;
-use Capsule\Infrastructure\Database\SqliteConnection;
 use Capsule\View\FilesystemTemplateLocator;
 use Capsule\View\MiniMustache;
+use Capsule\Infrastructure\Database\SqliteConnection;
+// use Capsule\Infrastructure\Database\MariaDBConnection;
+// ==========================================
+// IMPORT Applications
+// ==========================================
+use App\Modules\Agenda\AgendaController;
+use App\Modules\Agenda\AgendaRepository;
+use App\Modules\Agenda\AgendaService;
+use App\Modules\Article\ArticleController;
+use App\Modules\Article\ArticleRepository;
+use App\Modules\Article\ArticleService;
+use App\Modules\Dashboard\DashboardController;
+use App\Modules\Dashboard\DashboardService;
+use App\Modules\Home\HomeController;
+use App\Modules\Home\HomeService;
+use App\Modules\Login\LoginController;
+use App\Modules\User\UserController;
+use App\Providers\PartnersProvider;
+use App\Providers\SidebarLinksProvider;
 
 return (function (): DIContainer {
     $c = new DIContainer();
+
+    // ==========================================
+    // CONFIGURATION
+    // ==========================================
     $LENGTH_PASSWORD = 8;
     $isDev = true;   // -> Changer vers false en prod
     $https = false;  // -> Changer vers true en prod
 
-    // --- Core deps ---
-    // $c->set('pdo', fn () => MariaDBConnection::getInstance());
-    $c->set('pdo', fn () => SqliteConnection::getInstance()); // FQCN global \PDO
+    // ==========================================
+    // BASE DE DONNÉES
+    // ==========================================
+    $c->set('pdo', fn () => SqliteConnection::getInstance());
 
+    // ==========================================
+    // MIDDLEWARES
+    // ==========================================
     $c->set(DebugHeaders::class, fn ($c) => new DebugHeaders(
         res: $c->get(ResponseFactoryInterface::class),
         enabled: $isDev
     ));
+
     $c->set(ErrorBoundary::class, fn ($c) => new ErrorBoundary(
         $c->get(ResponseFactoryInterface::class),
         debug: $isDev,
         appName: 'SSA Website'
     ));
+
     $c->set(SecurityHeaders::class, fn () => new SecurityHeaders(
         dev: $isDev,
         https: $https
     ));
 
-    $c->set(SessionReader::class, fn () => new PhpSessionReader());
     $c->set(LangMiddleware::class, fn () => new LangMiddleware());
 
     $c->set(AuthRequiredMiddleware::class, fn ($c) => new AuthRequiredMiddleware(
@@ -76,8 +90,13 @@ return (function (): DIContainer {
         roleKey:         'role',
     ));
 
+    // ==========================================
+    // SYSTÈME DE RÉPONSES ET VUES
+    // ==========================================
     $c->set(ResponseFactoryInterface::class, fn () => new ResponseFactory());
-    // --- Template System (nouvelle structure) ---
+    $c->set(SessionReader::class, fn () => new PhpSessionReader());
+
+    // Configuration des templates
     $c->set(TemplateLocatorInterface::class, function () {
         $tplRoot = realpath(dirname(__DIR__) . '/templates');
         if ($tplRoot === false) {
@@ -132,65 +151,62 @@ return (function (): DIContainer {
         };
     });
 
-    // --- Repositories ---
-    $c->set(ArticleRepository::class, fn ($c) => new ArticleRepository($c->get('pdo')));
+    // ==========================================
+    // REPOSITORIES (Accès aux données)
+    // ==========================================
     $c->set(UserRepository::class, fn ($c) => new UserRepository($c->get('pdo')));
+    $c->set(ArticleRepository::class, fn ($c) => new ArticleRepository($c->get('pdo')));
     $c->set(AgendaRepository::class, fn ($c) => new AgendaRepository($c->get('pdo')));
 
-    // --- Providers / Config ---
-    // PartnersProvider peut recevoir un "seed" (config) si tu veux surcharger.
-    $c->set(PartnersProvider::class, fn () => new PartnersProvider());
-
-    // --- Services ---
-    $c->set(ArticleService::class, fn ($c) => new ArticleService(
-        $c->get(ArticleRepository::class)
-    ));
-
-
-    // Auth (simplifié, plus besoin de SessionAuthService)
+    // ==========================================
+    // SERVICES (Logique métier)
+    // ==========================================
     $c->set(AuthService::class, fn ($c) => new AuthService(
         $c->get(UserRepository::class)
     ));
 
-    // Remplace l’ancien binding du LoginController :
-    $c->set(LoginController::class, fn ($c) => new LoginController(
-        $c->get(AuthService::class),
-        $c->get(\Capsule\Contracts\ResponseFactoryInterface::class),
-        $c->get(\Capsule\Contracts\ViewRendererInterface::class),
-    ));
-
-    $c->set(DashboardService::class, fn ($c) => new DashboardService(
-        $c->get(UserService::class)
-    ));
-    // HomeService agrège ArticleService + PartnersProvider
-    $c->set(HomeService::class, fn ($c) => new HomeService(
-        $c->get(ArticleService::class),
-        $c->get(PartnersProvider::class),
-    ));
-
-    $c->set(UserService::class, fn ($c) => new UserService($c->get(UserRepository::class)));
-    // --- Services ---
     $c->set(PasswordService::class, fn ($c) => new PasswordService(
         $c->get(UserRepository::class),
         $LENGTH_PASSWORD,
         []
     ));
-    // Alias de compat si tu en as besoin ailleurs :
-    $c->set('passwords', fn ($c) => $c->get(PasswordService::class));
-    $c->set(AgendaService::class, fn ($c) => new AgendaService($c->get(AgendaRepository::class)));
 
-    // --- Navigation ---
+    $c->set(UserService::class, fn ($c) => new UserService(
+        $c->get(UserRepository::class)
+    ));
+
+    $c->set(ArticleService::class, fn ($c) => new ArticleService(
+        $c->get(ArticleRepository::class)
+    ));
+
+    $c->set(AgendaService::class, fn ($c) => new AgendaService(
+        $c->get(AgendaRepository::class)
+    ));
+
+    $c->set(HomeService::class, fn ($c) => new HomeService(
+        $c->get(ArticleService::class),
+        $c->get(PartnersProvider::class),
+    ));
+
+    $c->set(DashboardService::class, fn ($c) => new DashboardService(
+        $c->get(UserService::class)
+    ));
+
+    // ==========================================
+    // PROVIDERS (Fournisseurs de données)
+    // ==========================================
+    $c->set(PartnersProvider::class, fn () => new PartnersProvider());
     $c->set(SidebarLinksProvider::class, fn () => new SidebarLinksProvider());
 
-    // --- Controllers ---
-    $c->set(AgendaController::class, fn ($c) => new AgendaController(
-        $c->get(AgendaService::class),
-        $c->get(SidebarLinksProvider::class),
+    // ==========================================
+    // CONTROLLERS (Gestion des pages)
+    // ==========================================
+    $c->set(LoginController::class, fn ($c) => new LoginController(
+        $c->get(AuthService::class),
         $c->get(ResponseFactoryInterface::class),
         $c->get(ViewRendererInterface::class),
     ));
 
-    // HomeController nécessite HomeService + ArticleService (pour /article/{id})
     $c->set(HomeController::class, fn ($c) => new HomeController(
         $c->get(HomeService::class),
         $c->get(ArticleService::class),
@@ -198,21 +214,9 @@ return (function (): DIContainer {
         $c->get(ViewRendererInterface::class),
     ));
 
-    // Session (plus besoin de SessionAuthService)
-    $c->set(SessionReader::class, fn () => new PhpSessionReader());
-
-
-    // LoginController (simplifié)
-    $c->set(LoginController::class, fn ($c) => new LoginController(
-        $c->get(AuthService::class),
-        $c->get(ResponseFactoryInterface::class),
-        $c->get(ViewRendererInterface::class),
-    ));
-
-
     $c->set(DashboardController::class, fn ($c) => new DashboardController(
         $c->get(DashboardService::class),
-        $c->get(\Capsule\Domain\Service\PasswordService::class),
+        $c->get(PasswordService::class),
         $c->get(SidebarLinksProvider::class),
         $c->get(ResponseFactoryInterface::class),
         $c->get(ViewRendererInterface::class),
@@ -226,6 +230,13 @@ return (function (): DIContainer {
 
     $c->set(ArticleController::class, fn ($c) => new ArticleController(
         $c->get(ArticleService::class),
+        $c->get(SidebarLinksProvider::class),
+        $c->get(ResponseFactoryInterface::class),
+        $c->get(ViewRendererInterface::class),
+    ));
+
+    $c->set(AgendaController::class, fn ($c) => new AgendaController(
+        $c->get(AgendaService::class),
         $c->get(SidebarLinksProvider::class),
         $c->get(ResponseFactoryInterface::class),
         $c->get(ViewRendererInterface::class),
