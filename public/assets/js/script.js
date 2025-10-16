@@ -189,7 +189,13 @@ document.querySelectorAll('#event-container').forEach(container => {
     };
 }); 
 
+
+
 // EDIT USER INFO via UI sur DASH_ACCOUNT.PHP pour l'instant
+
+document.querySelectorAll(".editBtn").forEach((btn) => {
+    btn.addEventListener("click", editLeUser);
+});
 
 function editLeUser(event) {
     console.log("Bouton 'Gérer' cliqué");
@@ -269,7 +275,8 @@ function editLeUser(event) {
                 form.method = 'POST';
                 form.action = '/dashboard/users/delete';
 
-                form.innerHTML = `
+                const csrfFragment = document.querySelector('#csrf-template').innerHTML;
+                form.innerHTML = csrfFragment + `
                     <input type="hidden" name="action" value="delete">
                     <input type="hidden" name="user_ids[]" value="${id}">
                     <?= \CapsuleLib\Security\CsrfTokenManager::insertInput(); ?>
@@ -290,7 +297,8 @@ function editLeUser(event) {
             roleCell.className = originalRole + ' role'; // Restaurer la classe du rôle
             roleCell.innerHTML = "<p> '<?php echo htmlspecialchars($user->email); ?>' </p>";
             row.querySelector('.role p').textContent = originalRole;
-            actionCell.innerHTML = '<button class="editBtn" type="button" onclick="editLeUser(event)">Gérer</button>';
+            actionCell.innerHTML = '<button class="editBtn" type="button">Gérer</button>';
+            actionCell.querySelector(".editBtn").addEventListener("click", editLeUser);
         });
 
         // Gestion du bouton "Enregistrer"
@@ -304,8 +312,8 @@ function editLeUser(event) {
                 form.method = 'POST';
                 form.action = '/dashboard/users/update';
     
-                form.innerHTML = `
-                    
+                const csrfFragment = document.querySelector('#csrf-template').innerHTML;
+                form.innerHTML = csrfFragment + `    
                     <input type="hidden" name="action" value="update">
                     <input type="hidden" name="id" value="${id}">
                     <input type="hidden" name="username" value="${newUsername}">

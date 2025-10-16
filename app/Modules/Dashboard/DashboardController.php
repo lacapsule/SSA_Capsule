@@ -110,7 +110,7 @@ final class DashboardController extends BaseController
 
     /* ---------------- Actions (POST) ---------------- */
 
-    #[Route(path: '/account/password', methods: ['POST'])]
+    #[Route(path: '/account', methods: ['POST'])]
     public function accountPassword(): Response
     {
         CsrfTokenManager::requireValidToken();
@@ -140,6 +140,10 @@ final class DashboardController extends BaseController
                 );
             }
             $errors = $svcErrors ?: ['_global' => 'Échec de la modification du mot de passe.'];
+        }
+
+        if (strlen($new) < 8) {
+            $errors['new_password'] = 'Le mot de passe doit contenir au moins 8 caractères.';
         }
 
         return $this->redirectWithErrors(
