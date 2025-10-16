@@ -14,19 +14,20 @@
   <link rel="icon" type="image/png" href="/assets/img/logoSSA.png">
     </head>
 
-    <body>
-  {{#showHeader}}
-    {{> partial:header }}
-  {{/showHeader}}
-
-  <main>
-    {{{content}}}
-  </main>
-
-  {{#showFooter}}
-    {{> partial:footer }}
-  {{/showFooter}}
-
+<body>
+    {{#showHeader}}
+        {{> partial:public/header }}
+    {{/showHeader}}
+    
+    <main>
+        {{{ content }}}
+    </main>
+    
+    {{#showFooter}}
+        {{> partial:public/footer }}
+    {{/showFooter}}
+    
   <script src="/assets/js/script.js" defer></script>
+
 </body>
 </html>

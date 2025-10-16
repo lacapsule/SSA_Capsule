@@ -8,9 +8,9 @@
     <a href="/#contact" class="btn secondary">{{str.hero_cta_contact}}</a>
   </div>
 </section>
-
-{{> component:homepage/apropos }}
-{{> component:homepage/actualites }}
+<!-- ✅ Composants du module home -->
+{{> component:home/components/apropos }}
+{{> component:home/components/actualites }}
 
 <div class="separator"></div>
 
@@ -54,6 +54,6 @@
 
 <div class="separator"></div>
 
-{{> component:homepage/partenaires }}
+{{> component:home/components/partenaires }}
 <div class="separator"></div>
-{{> component:homepage/contact }}
+{{> component:home/components/contact }}

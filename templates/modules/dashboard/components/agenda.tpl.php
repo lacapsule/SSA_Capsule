@@ -1,4 +1,3 @@
-<!-- templates/components/dashboard/dash_agenda.tpl.php -->
 <section class="agenda-calendar" data-monday="{{monday_iso}}">
     <h1>Mon agenda</h1>
     <button type="button" id="btn-new-event" class="btn-primary">+ Nouvel événement</button>
