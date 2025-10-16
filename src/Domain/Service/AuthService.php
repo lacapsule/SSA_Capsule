@@ -5,59 +5,59 @@ declare(strict_types=1);
 namespace Capsule\Domain\Service;
 
 use Capsule\Domain\Repository\UserRepository;
+use Capsule\Http\Support\SessionManager;
 
-/**
- * Orchestration d’authentification :
- * - lookup user
- * - verify password
- * - ouvrir session via SessionAuth
- *
- * Invariants:
- * - Ne jette pas le password dans la vue.
- * - Ne divulgue pas si username existe (même message d’erreur).
- */
 final class AuthService
 {
     public function __construct(
-        private UserRepository $users,
-        private SessionAuthService $session // wrapper sur tes opérations de session
+        private UserRepository $users
     ) {
     }
 
-    /** @return array{ok:bool, error?:string} */
+    /**
+     * @return array{ok: bool, error?: string}
+     */
     public function login(string $username, string $password): array
     {
-        $username = trim($username);
-        if ($username === '' || $password === '') {
+        if (trim($username) === '' || $password === '') {
             return ['ok' => false, 'error' => 'missing_fields'];
         }
 
-        $user = $this->users->findByUsername($username);
-        if (!$user) {
-            // timing: calcule un hash pour homogénéiser le temps
-            password_verify($password, password_hash('x', PASSWORD_DEFAULT));
+        $userDto = $this->users->findByUsername($username);
 
-            return ['ok' => false, 'error' => 'bad_credentials'];
+        if (!$userDto) {
+            return ['ok' => false, 'error' => 'invalid_credentials'];
         }
 
-        if (!password_verify($password, $user->password_hash)) {
-            return ['ok' => false, 'error' => 'bad_credentials'];
+        if (!password_verify($password, $userDto->passwordHash)) {
+            return ['ok' => false, 'error' => 'invalid_credentials'];
         }
 
-        $this->session->regenerateId();
-        $this->session->setUser([
-            'id' => $user->id,
-            'username' => $user->username,
-            'role' => $user->role,
-            'email' => $user->email,
-        ]);
-        $this->session->commit();
+        SessionManager::regenerateId();
+
+        // ✅ Utilise la méthode helper du DTO
+        SessionManager::set('admin', $userDto->toSessionArray());
+
+        SessionManager::commit();
 
         return ['ok' => true];
     }
 
     public function logout(): void
     {
-        $this->session->destroy();
+        SessionManager::destroy();
+    }
+
+    public function isAuthenticated(): bool
+    {
+        return SessionManager::has('admin');
+    }
+
+    /**
+     * @return array{id:int,username:string,role:string,email:string}|null
+     */
+    public function getCurrentUser(): ?array
+    {
+        return SessionManager::get('admin');
     }
 }
