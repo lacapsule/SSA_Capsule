@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Modules\Article;
 
-use App\Modules\Dashboard\Provider\SidebarLinksProvider;
+use App\Providers\SidebarLinksProvider;
 use Capsule\Contracts\ResponseFactoryInterface;
 use Capsule\Contracts\ViewRendererInterface;
 use Capsule\Http\Message\Response;

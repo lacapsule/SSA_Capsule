@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Modules\Home;
 
 use App\Modules\Article\ArticleService;
-use App\Modules\Home\Provider\LanguageOptionsProvider;
+use App\Providers\LanguageOptionsProvider;
 use Capsule\Support\Pagination\Paginator;
 use Capsule\Contracts\ResponseFactoryInterface;
 use Capsule\Contracts\ViewRendererInterface;
