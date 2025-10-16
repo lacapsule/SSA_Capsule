@@ -28,7 +28,7 @@ class UserService
     {
         // Si ton repo renvoie déjà un iterable, tu peux `yield from` direct.
         // Ici on suppose allUsers() renvoie un array<UserDTO> => on l'expose en flux.
-        foreach ($this->userRepository->allUsers() as $u) {
+        foreach ($this->userRepository->findAll() as $u) {
             yield $u;
         }
     }
@@ -40,7 +40,7 @@ class UserService
     public function getAllUsers(): array
     {
         // Matérialisation explicite (dashboard Presenter matérialise de toute façon page-size).
-        return \is_array($all = $this->userRepository->allUsers())
+        return \is_array($all = $this->userRepository->findAll())
             ? $all
             : iterator_to_array($all, false);
     }
