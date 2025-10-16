@@ -147,13 +147,9 @@ return (function (): DIContainer {
     ));
 
 
-    // ...
-
-    $c->set(SessionAuthService::class, fn () => new SessionAuthService());
-
+    // Auth (simplifié, plus besoin de SessionAuthService)
     $c->set(AuthService::class, fn ($c) => new AuthService(
-        $c->get(\Capsule\Domain\Repository\UserRepository::class),
-        $c->get(SessionAuthService::class)
+        $c->get(UserRepository::class)
     ));
 
     // Remplace l’ancien binding du LoginController :
@@ -202,10 +198,15 @@ return (function (): DIContainer {
         $c->get(ViewRendererInterface::class),
     ));
 
+    // Session (plus besoin de SessionAuthService)
+    $c->set(SessionReader::class, fn () => new PhpSessionReader());
+
+
+    // LoginController (simplifié)
     $c->set(LoginController::class, fn ($c) => new LoginController(
         $c->get(AuthService::class),
-        $c->get(\Capsule\Contracts\ResponseFactoryInterface::class),
-        $c->get(\Capsule\Contracts\ViewRendererInterface::class),
+        $c->get(ResponseFactoryInterface::class),
+        $c->get(ViewRendererInterface::class),
     ));
 
 
