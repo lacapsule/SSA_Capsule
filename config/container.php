@@ -2,21 +2,22 @@
 
 declare(strict_types=1);
 
+use App\Modules\Agenda\AgendaController;
+use App\Modules\Agenda\AgendaRepository;
+use App\Modules\Agenda\AgendaService;
+use App\Modules\Article\ArticleController;
+use App\Modules\Article\ArticleRepository;
+use App\Modules\Article\ArticleService;
+use App\Modules\Dashboard\DashboardController;
+use App\Modules\Dashboard\DashboardService;
+use App\Modules\Dashboard\Provider\SidebarLinksProvider;
+use App\Modules\Home\HomeController;
+use App\Modules\Home\HomeService;
+use App\Modules\Home\Provider\PartnersProvider;
+use App\Modules\Login\LoginController;
+use App\Modules\User\UserController;
+use Capsule\Contracts\TemplateLocatorInterface;
 use Capsule\Domain\Service\AuthService;
-use App\Provider\PartnersProvider;
-use App\Controller\AgendaController;
-use App\Controller\ArticlesController;
-use App\Controller\DashboardController;
-use App\Controller\HomeController;
-use App\Controller\LoginController;
-use App\Controller\UserController;
-use App\Provider\SidebarLinksProvider;
-use App\Repository\AgendaRepository;
-use App\Repository\ArticleRepository;
-use App\Service\AgendaService;
-use App\Service\ArticleService;
-use App\Service\DashboardService;
-use App\Service\HomeService;
 use Capsule\Auth\PhpSessionReader;
 use Capsule\Contracts\ResponseFactoryInterface;
 use Capsule\Contracts\SessionReader;
@@ -76,18 +77,18 @@ return (function (): DIContainer {
     ));
 
     $c->set(ResponseFactoryInterface::class, fn () => new ResponseFactory());
-    $c->set(ViewRendererInterface::class, function () {
+    // --- Template System (nouvelle structure) ---
+    $c->set(TemplateLocatorInterface::class, function () {
         $tplRoot = realpath(dirname(__DIR__) . '/templates');
         if ($tplRoot === false) {
             throw new \RuntimeException('Templates directory not found');
         }
+
         $map = [
-            'page' => $tplRoot . '/pages',
-            'component' => $tplRoot . '/components',
-            'partial' => $tplRoot . '/partials',
-            'admin' => $tplRoot . '/admin',
-            'dashboard' => $tplRoot . '/dashboard',
-            'layout' => $tplRoot, // layout:layout → templates/layout.tpl.php
+            'page' => $tplRoot . '/modules',      // page:home/index
+            'component' => $tplRoot . '/modules',      // component:dashboard/components/dash_agenda
+            'partial' => $tplRoot . '/partials',     // partial:public/header
+            'layout' => $tplRoot . '/layouts',      // layout:main, layout:dashboard
         ];
 
         foreach ($map as $ns => $dir) {
@@ -96,7 +97,11 @@ return (function (): DIContainer {
             }
         }
 
-        $locator = new FilesystemTemplateLocator($map);
+        return new FilesystemTemplateLocator($map);
+    });
+
+    $c->set(ViewRendererInterface::class, function ($c) {
+        $locator = $c->get(TemplateLocatorInterface::class);
         $engine = new MiniMustache($locator);
 
         return new class ($engine) implements ViewRendererInterface {
@@ -104,17 +109,20 @@ return (function (): DIContainer {
             {
             }
 
-            /** Page = avec layout */
+            /**
+             * Render simple (utilisé pour layouts et pages complètes)
+             */
             public function render(string $template, array $data = []): string
             {
-                $content = $this->m->render($template, $data);
-
-                return $this->m->render('layout:layout', $data + ['content' => $content]);
+                return $this->m->render($template, $data);
             }
 
-            /** Component = fragment sans layout */
+            /**
+             * RenderComponent = fragment sans wrapping
+             */
             public function renderComponent(string $componentPath, array $data = []): string
             {
+                // Normalisation: si pas de préfixe, ajouter 'component:'
                 $logical = str_contains($componentPath, ':')
                     ? $componentPath
                     : 'component:' . ltrim($componentPath, '/');
@@ -149,14 +157,14 @@ return (function (): DIContainer {
     ));
 
     // Remplace l’ancien binding du LoginController :
-    $c->set(\App\Controller\LoginController::class, fn ($c) => new \App\Controller\LoginController(
+    $c->set(LoginController::class, fn ($c) => new LoginController(
         $c->get(AuthService::class),
         $c->get(\Capsule\Contracts\ResponseFactoryInterface::class),
         $c->get(\Capsule\Contracts\ViewRendererInterface::class),
     ));
 
     $c->set(DashboardService::class, fn ($c) => new DashboardService(
-        $c->get(\Capsule\Domain\Service\UserService::class)
+        $c->get(UserService::class)
     ));
     // HomeService agrège ArticleService + PartnersProvider
     $c->set(HomeService::class, fn ($c) => new HomeService(
@@ -194,7 +202,7 @@ return (function (): DIContainer {
         $c->get(ViewRendererInterface::class),
     ));
 
-    $c->set(\App\Controller\LoginController::class, fn ($c) => new \App\Controller\LoginController(
+    $c->set(LoginController::class, fn ($c) => new LoginController(
         $c->get(AuthService::class),
         $c->get(\Capsule\Contracts\ResponseFactoryInterface::class),
         $c->get(\Capsule\Contracts\ViewRendererInterface::class),
@@ -215,7 +223,7 @@ return (function (): DIContainer {
         $c->get(ViewRendererInterface::class),
     ));
 
-    $c->set(ArticlesController::class, fn ($c) => new ArticlesController(
+    $c->set(ArticleController::class, fn ($c) => new ArticleController(
         $c->get(ArticleService::class),
         $c->get(SidebarLinksProvider::class),
         $c->get(ResponseFactoryInterface::class),
