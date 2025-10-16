@@ -5,30 +5,32 @@ declare(strict_types=1);
 namespace Capsule\Http\Support;
 
 /**
- * FormState
- * ----------
- * Stockage éphémère (session) des erreurs et des données issues d'un POST,
- * destiné au pattern PRG (Post/Redirect/Get).
+ * FormState - Stockage éphémère des erreurs et données de formulaire
  *
- * Contrat:
- *  - `set($errors, $data)` écrit deux clés dédiées dans la session.
- *  - `consumeErrors()` et `consumeData()` lisent puis SUPPRIMENT la valeur (one-shot).
+ * Destiné au pattern PRG (Post-Redirect-Get) pour pré-remplir les formulaires
+ * après une validation échouée.
  *
- * Invariants:
- *  - $errors: array<string, string> (messages lisibles, déjà localisés côté appelant).
- *  - $data:   array<string, mixed>  (valeurs pré-normalisées; ne jamais y mettre des secrets).
+ * Contrat :
+ * - set($errors, $data) : écrit deux clés dédiées en session
+ * - consumeErrors() / consumeData() : lisent puis SUPPRIMENT (one-shot)
  *
- * Sécu:
- *  - TRUST BOUNDARY: $data provient de l’utilisateur → valider/normaliser avant d’appeler set().
- *  - Ne pas stocker de mots de passe en clair; filtrer les champs sensibles (ex: 'password').
- *  - Exige une session active (session_status() === PHP_SESSION_ACTIVE).
+ * Invariants :
+ * - $errors : array<string,string> (messages lisibles, localisés)
+ * - $data   : array<string,mixed>  (valeurs pré-normalisées)
  *
- * Perf:
- *  - Garder $data compact (éviter gros payloads) → sessions files/DB peuvent être impactées.
+ * Sécurité :
+ * - TRUST BOUNDARY : $data provient de l'utilisateur
+ * - Valider/normaliser AVANT d'appeler set()
+ * - Ne JAMAIS stocker de mots de passe en clair
+ * - Filtrer les champs sensibles (ex: 'password', 'token')
  *
- * Concurrence/UX:
- *  - "consume" = destructive: un onglet A peut vider l’état attendu par l’onglet B.
- *    Fournir un "peek" si nécessaire (hors de cette classe).
+ * Performance :
+ * - Garder $data compact (éviter gros payloads)
+ * - Sessions files/DB peuvent être impactées
+ *
+ * UX :
+ * - "consume" = destructive : un onglet peut vider l'état d'un autre
+ * - Fournir peek() si besoin de lecture non-destructive
  */
 final class FormState
 {
@@ -36,55 +38,73 @@ final class FormState
     private const DATA = '__form_data';
 
     /**
-     * Écrit l'état du formulaire (erreurs + données) en session.
+     * Écrit l'état du formulaire (erreurs + données) en session
      *
-     * @param array<string,string> $errors  Messages d'erreur par champ (ou clés globales)
-     * @param array<string,mixed>  $data    Données normalisées à ré-afficher
+     * @param array<string,string> $errors Messages d'erreur par champ
+     * @param array<string,mixed>  $data   Données normalisées à ré-afficher
      */
     public static function set(array $errors, array $data): void
     {
-        // GUARD: session requise
-        if (\PHP_SESSION_ACTIVE !== \session_status()) {
-            throw new \RuntimeException('FormState requires an active session.');
-        }
-
-        $_SESSION[self::ERRORS] = $errors;
-        $_SESSION[self::DATA] = $data;
+        SessionManager::set(self::ERRORS, $errors);
+        SessionManager::set(self::DATA, $data);
     }
 
     /**
-     * Lit puis supprime les erreurs.
+     * Lit puis supprime les erreurs (one-shot)
      *
      * @return array<string,string>|null null si rien en session
      */
     public static function consumeErrors(): ?array
     {
-        if (\PHP_SESSION_ACTIVE !== \session_status()) {
-            throw new \RuntimeException('FormState requires an active session.');
-        }
+        $errors = SessionManager::get(self::ERRORS);
+        SessionManager::remove(self::ERRORS);
 
-        /** @var array<string,string>|null $e */
-        $e = $_SESSION[self::ERRORS] ?? null;
-        unset($_SESSION[self::ERRORS]);
-
-        return $e;
+        return is_array($errors) ? $errors : null;
     }
 
     /**
-     * Lit puis supprime les données.
+     * Lit puis supprime les données (one-shot)
      *
      * @return array<string,mixed>|null null si rien en session
      */
     public static function consumeData(): ?array
     {
-        if (\PHP_SESSION_ACTIVE !== \session_status()) {
-            throw new \RuntimeException('FormState requires an active session.');
-        }
+        $data = SessionManager::get(self::DATA);
+        SessionManager::remove(self::DATA);
 
-        /** @var array<string,mixed>|null $d */
-        $d = $_SESSION[self::DATA] ?? null;
-        unset($_SESSION[self::DATA]);
+        return is_array($data) ? $data : null;
+    }
 
-        return $d;
+    /**
+     * Récupère les erreurs SANS les consommer (utile pour debug)
+     *
+     * @return array<string,string>|null
+     */
+    public static function peekErrors(): ?array
+    {
+        $errors = SessionManager::get(self::ERRORS);
+
+        return is_array($errors) ? $errors : null;
+    }
+
+    /**
+     * Récupère les données SANS les consommer (utile pour debug)
+     *
+     * @return array<string,mixed>|null
+     */
+    public static function peekData(): ?array
+    {
+        $data = SessionManager::get(self::DATA);
+
+        return is_array($data) ? $data : null;
+    }
+
+    /**
+     * Vide l'état du formulaire (erreurs + données)
+     */
+    public static function clear(): void
+    {
+        SessionManager::remove(self::ERRORS);
+        SessionManager::remove(self::DATA);
     }
 }
