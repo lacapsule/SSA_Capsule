@@ -10,8 +10,12 @@ final class FilesystemTemplateLocator implements TemplateLocatorInterface
 {
     /**
      * @param array<string,string> $roots ex:
-     *  ['page'=>'.../templates/pages', 'component'=>'.../templates/components',
-     *   'partial'=>'.../templates/partials', 'layout'=>'.../templates']
+     *  [
+     *    'page'      => '.../templates/modules',
+     *    'component' => '.../templates/modules',
+     *    'partial'   => '.../templates/partials',
+     *    'layout'    => '.../templates/layouts'
+     *  ]
      */
     public function __construct(
         private array $roots,
@@ -58,6 +62,7 @@ final class FilesystemTemplateLocator implements TemplateLocatorInterface
 
         $abs = $base . DIRECTORY_SEPARATOR . str_replace(['\\', '/'], DIRECTORY_SEPARATOR, $path);
         $real = realpath($abs);
+
         if ($real === false) {
             throw new \InvalidArgumentException("Template not found: {$abs}");
         }

@@ -13,33 +13,14 @@ use Capsule\Auth\CurrentUserProvider;
 use Capsule\Http\Support\FlashBag;
 use Capsule\Http\Support\FormState;
 
-/**
- * Contrôleur de Base
- *
- * - Orchestration HTTP (rendu, redirections) via ResponseFactoryInterface.
- * - Aides PRG (withErrors/withSuccess) : stockent l’état puis renvoient une 303.
- * - Helpers d’accès à l’utilisateur courant et aux messages flash.
- *
- * Invariants :
- * - formErrors()/formData() retournent toujours un array (jamais null).
- * - page()/comp() résolvent les noms logiques avec pageNs/componentNs si fournis.
- */
 abstract class BaseController
 {
-    /**
-     * Namespace par défaut pour les pages (surchargeable)
-     * Ex: 'dashboard' pour les pages du dashboard.
-     */
     protected string $pageNs = '';
+    protected string $componentNs = '';
+    protected string $layout = 'main';
 
     /** @var array<string,string>|null */
     private ?array $i18nCache = null;
-
-    /**
-     * Namespace par défaut pour les composants (surchargeable)
-     * Ex: 'dashboard' pour les composants du dashboard.
-     */
-    protected string $componentNs = '';
 
     public function __construct(
         protected ResponseFactoryInterface $res,
@@ -50,7 +31,6 @@ abstract class BaseController
     /** @return array<string,string> */
     protected function i18n(string $default = 'fr'): array
     {
-        // Ne redétecte pas : le middleware a déjà chargé Translate::$strings
         return $this->i18nCache ??= (Translate::all() + ['lang' => ($_SESSION['lang'] ?? $default)]);
     }
 
@@ -59,12 +39,6 @@ abstract class BaseController
         return $this->i18n($default)['lang'] ?? $default;
     }
 
-    /**
-     * Rend une template avec layout (héritage historique).
-     * @deprecated Utiliser page() à la place.
-     *
-     * @param array<string,mixed> $data
-     */
     protected function html(string $template, array $data = [], int $status = 200): Response
     {
         $out = $this->view->render($template, $data);
@@ -72,20 +46,11 @@ abstract class BaseController
         return $this->res->html($out, $status);
     }
 
-    /**
-     * Redirection HTTP standard.
-     */
     protected function redirect(string $location, int $status = 302): Response
     {
         return $this->res->redirect($location, $status);
     }
 
-    /**
-     * Rend un composant sans layout (héritage historique).
-     * @deprecated Utiliser comp() à la place.
-     *
-     * @param array<string,mixed> $data
-     */
     protected function component(string $componentPath, array $data = []): string
     {
         return $this->view->renderComponent($componentPath, $data);
@@ -98,11 +63,19 @@ abstract class BaseController
      */
     protected function page(string $name, array $data = [], int $status = 200): Response
     {
+        // 1. Résolution du nom logique de la page
         $logical = str_contains($name, ':')
             ? $name
             : ($this->pageNs !== '' ? "page:{$this->pageNs}/{$name}" : "page:{$name}");
 
-        $out = $this->view->render($logical, $data);
+        // 2. ✅ Rendu du contenu de la page (SANS layout) - utiliser render() directement
+        $content = $this->view->render($logical, $data);
+
+        // 3. Injection du contenu dans le layout
+        $layoutLogical = "layout:{$this->layout}";
+        $data['content'] = $content;
+
+        $out = $this->view->render($layoutLogical, $data);
 
         return $this->res->html($out, $status);
     }
@@ -121,16 +94,17 @@ abstract class BaseController
         return $this->view->renderComponent($logical, $data);
     }
 
-    /**
-     * Champ CSRF (HTML <input ...>) prêt à insérer dans un formulaire.
-     */
+    protected function setLayout(string $layout): void
+    {
+        $this->layout = $layout;
+    }
+
     protected function csrfInput(): string
     {
         return CsrfTokenManager::insertInput();
     }
 
     /**
-     * Données utilisateur courant.
      * @return array{id?:int,username?:string,role?:string,email?:string}
      */
     protected function currentUser(): array
@@ -138,17 +112,11 @@ abstract class BaseController
         return CurrentUserProvider::getUser() ?? [];
     }
 
-    /**
-     * Indique si un utilisateur est authentifié.
-     */
     protected function isAuthenticated(): bool
     {
         return CurrentUserProvider::isAuthenticated();
     }
 
-    /**
-     * Vérifie si l’utilisateur courant est admin.
-     */
     protected function isAdmin(): bool
     {
         $user = $this->currentUser();
@@ -157,8 +125,6 @@ abstract class BaseController
     }
 
     /**
-     * Redirection PRG avec erreurs + pré-remplissage.
-     *
      * @param array<string,string> $errors
      * @param array<string,mixed>  $data
      */
@@ -170,9 +136,6 @@ abstract class BaseController
         return $this->res->redirect($to, 303);
     }
 
-    /**
-     * Redirection PRG avec succès.
-     */
     protected function redirectWithSuccess(string $to, string $flash): Response
     {
         FlashBag::add('success', $flash);
@@ -181,7 +144,6 @@ abstract class BaseController
     }
 
     /**
-     * Consomme les messages flash (one-shot).
      * @return array<string,array<mixed>>
      */
     protected function flashMessages(): array
@@ -190,7 +152,6 @@ abstract class BaseController
     }
 
     /**
-     * Consomme les erreurs de formulaire (one-shot).
      * @return array<string,string>
      */
     protected function formErrors(): array
@@ -199,7 +160,6 @@ abstract class BaseController
     }
 
     /**
-     * Consomme les données de formulaire (one-shot).
      * @return array<string,mixed>
      */
     protected function formData(): array

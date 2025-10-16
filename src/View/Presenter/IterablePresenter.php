@@ -32,7 +32,6 @@ final class IterablePresenter
         }
     }
 
-
     public static function toArray(iterable $it): array
     {
         $out = [];
