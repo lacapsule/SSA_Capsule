@@ -6,7 +6,7 @@ namespace App\Modules\Home;
 
 use App\Modules\Article\ArticleService;
 use App\Modules\Home\Dto\HomeDTO;
-use App\Modules\Home\Provider\PartnersProvider;
+use App\Providers\PartnersProvider;
 use Capsule\Support\Pagination\Page;
 
 /**

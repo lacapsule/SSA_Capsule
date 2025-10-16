@@ -17,20 +17,21 @@ CREATE TABLE IF NOT EXISTS users (
 CREATE INDEX IF NOT EXISTS idx_users_role ON users(role);
 
 /* ===================== ARTICLES ===================== */
-/* On conserve ta structure actuelle (dates locales d’affichage).
-   Si un jour tu veux tout passer en UTC, on migrera. */
+/* Contraintes :
+   - author_id obligatoire, lié à users(id)
+   - resume doit être plus court que description (vérifié au niveau applicatif)
+*/
 CREATE TABLE IF NOT EXISTS articles (
   id            INTEGER PRIMARY KEY AUTOINCREMENT,
   titre         TEXT NOT NULL,
-  resume        TEXT NOT NULL,
-  description   TEXT,
+  resume        TEXT NOT NULL CHECK (LENGTH(resume) <= 500),  -- Limite recommandée pour résumé
+  description   TEXT NOT NULL CHECK (LENGTH(description) > LENGTH(resume)),  -- ✅ Resume < Description
   date_article  TEXT NOT NULL,     -- 'YYYY-MM-DD' (affichage)
-  hours         TEXT NOT NULL,     -- 'HH:MM:SS'  (affichage)
+  hours         TEXT,               -- 'HH:MM:SS'  (affichage)
   lieu          TEXT,
- image         TEXT,
+  image         TEXT,
   created_at    TEXT NOT NULL DEFAULT (CURRENT_TIMESTAMP),
   author_id     INTEGER NOT NULL,
-  author        TEXT,
   FOREIGN KEY (author_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
@@ -73,37 +74,36 @@ INSERT INTO users (username, password_hash, role, email)
 VALUES ('admin', '$2y$12$DdRaR1i6wNQbPGxbmgeB9OvAnhSzFvN98/wIBdO3w0Qcqsu62BMEy', 'admin', 'admin@example.org')
 ON CONFLICT(username) DO NOTHING;
 
-/* Exemples d’articles (inchangés) */
-INSERT INTO articles (titre, resume, description, date_article, hours, lieu, image, author_id, author) VALUES
+/* Exemples d'articles - ✅ Colonne 'author' supprimée */
+INSERT INTO articles (titre, resume, description, date_article, hours, lieu, image, author_id) VALUES
 ('Conférence : Vers une agriculture bio locale',
  'Regards croisés sur la production bio en Bretagne.',
- 'Un panel d’agriculteurs et d’experts partagera ses pratiques et répondra aux questions du public. Dégustation en fin de séance.',
- '2025-10-05', '19:30:00', 'Salle municipale des Halles', NULL, 1, 'admin'),
+ 'Un panel d'agriculteurs et d'experts partagera ses pratiques et répondra aux questions du public. Dégustation en fin de séance.',
+ '2025-10-05', '19:30:00', 'Salle municipale des Halles', NULL, 1),
 ('Forum citoyen alimentation',
- 'Espace d’échanges sur les enjeux de l’alimentation durable.',
- 'Tables rondes, ateliers participatifs et présentation des projets associatifs autour de l’alimentation en Pays de Morlaix.',
- '2025-11-12', '15:00:00', 'Maison des associations', NULL, 1, 'admin'),
+ 'Espace d'échanges sur les enjeux de l'alimentation durable.',
+ 'Tables rondes, ateliers participatifs et présentation des projets associatifs autour de l'alimentation en Pays de Morlaix.',
+ '2025-11-12', '15:00:00', 'Maison des associations', NULL, 1),
 ('Journée portes ouvertes',
- 'Découverte du projet Sécurité Sociale de l’Alimentation.',
- 'Visites guidées, stand d’informations et animations pour tous les âges. Venez nombreux découvrir nos actions !',
- '2025-09-20', '10:00:00', 'ULAMIR CPIE', NULL, 1, 'admin'),
+ 'Découverte du projet Sécurité Sociale de l'Alimentation.',
+ 'Visites guidées, stand d'informations et animations pour tous les âges. Venez nombreux découvrir nos actions !',
+ '2025-09-20', '10:00:00', 'ULAMIR CPIE', NULL, 1),
 ('Balade découverte : plantes comestibles',
  'Sortie nature pour identifier et goûter les plantes locales.',
- 'Accompagnés d’un botaniste, partez sur les sentiers pour reconnaître les plantes sauvages comestibles et apprendre à les préparer.',
- '2025-08-28', '09:30:00', 'Bois du Poan Ben', NULL, 1, 'admin'),
+ 'Accompagnés d'un botaniste, partez sur les sentiers pour reconnaître les plantes sauvages comestibles et apprendre à les préparer.',
+ '2025-08-28', '09:30:00', 'Bois du Poan Ben', NULL, 1),
 ('Atelier cuisine anti-gaspi',
  'Apprendre à cuisiner avec les restes.',
  'Un chef vous guidera pour transformer vos restes de la semaine en plats savoureux, économiques et sains.',
- '2025-09-18', '16:00:00', 'Cuisine du Centre Social', NULL, 1, 'admin'),
-('Table ronde : accès à l’alimentation',
+ '2025-09-18', '16:00:00', 'Cuisine du Centre Social', NULL, 1),
+('Table ronde : accès à l'alimentation',
  'Débat sur les inégalités et solutions concrètes.',
- 'Élus locaux, associations et citoyens débattront sur les obstacles à une alimentation saine et sur les pistes d’amélioration à l’échelle locale.',
- '2025-11-27', '18:30:00', 'Salle du Conseil, Mairie', NULL, 1, 'admin'),
+ 'Élus locaux, associations et citoyens débattront sur les obstacles à une alimentation saine et sur les pistes d'amélioration à l'échelle locale.',
+ '2025-11-27', '18:30:00', 'Salle du Conseil, Mairie', NULL, 1),
 ('Fête des partenaires',
  'Moment festif pour remercier bénévoles et partenaires.',
- 'Animations, buffet et projection vidéo retraçant les moments forts de l’année. Entrée libre pour tous les membres et partenaires.',
- '2025-12-12', '20:00:00', 'Salle Polyvalente', NULL, 1, 'admin');
-
+ 'Animations, buffet et projection vidéo retraçant les moments forts de l'année. Entrée libre pour tous les membres et partenaires.',
+ '2025-12-12', '20:00:00', 'Salle Polyvalente', NULL, 1);
 
 -- Octobre 2025
 INSERT INTO agenda_events (title, starts_at, duration_minutes, location, description, created_by)

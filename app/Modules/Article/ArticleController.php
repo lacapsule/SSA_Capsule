@@ -14,6 +14,7 @@ use Capsule\Security\CsrfTokenManager;
 use Capsule\Support\Pagination\Paginator;
 use Capsule\View\BaseController;
 
+#TODO: Add logic mettre image (en go)
 #[RoutePrefix('/dashboard/articles')]
 final class ArticleController extends BaseController
 {
