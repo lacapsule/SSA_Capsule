@@ -25,36 +25,65 @@
       <label for="old_password">
         <span>Ancien mot de passe</span>
       </label>
-      <input
-        type="password"
-        name="old_password"
-        id="old_password"
-        required
-        autocomplete="current-password"
-        minlength="8" />
+
+      <div class="password-container">
+        <input
+          type="password"
+          name="old_password"
+          id="old_password"
+          class="password-input"
+          required
+          autocomplete="current-password"
+          minlength="8" />
+
+        <label>
+          <button type="button" class="toggle-password"> Afficher </button>
+        </label>
+      </div>
+
+
 
       <label for="new_password">
         <span>Nouveau mot de passe</span>
       </label>
-      <input
-        type="password"
-        name="new_password"
-        id="new_password"
-        required
-        autocomplete="new-password"
-        minlength="8" />
+
+      <div class="password-container">
+        <input
+          type="password"
+          name="new_password"
+          id="new_password"
+          class="password-input"
+          required
+          autocomplete="new-password"
+          minlength="8" />
+
+
+        <label>
+          <button type="button" class="toggle-password"> Afficher </button>
+        </label>
+      </div>
+
+
 
       <label for="confirm_new_password">
         <span>Confirmer le nouveau mot de passe</span>
       </label>
-      <input
-        type="password"
-        name="confirm_new_password"
-        id="confirm_new_password"
-        required
-        autocomplete="new-password"
-        minlength="8" />
 
+      <div class="password-container">
+        <input
+          type="password"
+          name="confirm_new_password"
+          id="confirm_new_password"
+          class="password-input"
+          required
+          autocomplete="new-password"
+          minlength="8" />
+
+        <label>
+          <button type="button" class="toggle-password"> Afficher </button>
+        </label>
+      </div>
+      
       <button type="submit" id="submit-update-password">
         Mettre à jour
       </button>

@@ -1215,7 +1215,7 @@ body {
 
             /* style du formulaire */
             & #update-password-form {
-                width: 70vh;
+                width: 50vw;
                 height: fit-content;
                 display: flex;
                 flex-direction: column;
@@ -1235,6 +1235,17 @@ body {
                         color: var(--textVariant);
                     }
 
+                    & .password-container {
+                        display: flex;
+                        align-items: center;
+                        gap: 10px;
+
+                        & input {
+                            flex: 1;
+                        }
+                    }
+
+                    
                     & input,
                     & select {
                         background: var(--background);

@@ -46,6 +46,22 @@ filterButtons.forEach((button) => {
     });
 });
 
+
+// AFFICHER PASSWORD
+document.querySelectorAll('.toggle-password').forEach(button => {
+  button.addEventListener('click', () => {
+    const input = button.closest('.password-container').querySelector('.password-input');
+    if (input.type === 'password') {
+        input.type = 'text';
+        button.textContent = 'Masquer';
+    } else {
+        input.type = 'password';
+        button.textContent = 'Afficher';
+    }
+  });
+});
+
+
 // OUVERTURE DU MENU MOBILE
 if (hamburger && navbar) {
     hamburger.addEventListener("click", () => {
@@ -171,23 +187,23 @@ if (createUser) {
 
 
 // CREER EVENT AGENDA
-document.getElementById("btn-open-modal").onclick = function() {
-    document.getElementById("modalCreateEvent").style.display = "flex";
-};
+// document.getElementById("btn-open-modal").onclick = function() {
+//     document.getElementById("modalCreateEvent").style.display = "flex";
+// };
 
-document.getElementById("closeModal").onclick = function() {
-    document.getElementById("modalCreateEvent").style.display = "none";
-};
+// document.getElementById("closeModal").onclick = function() {
+//     document.getElementById("modalCreateEvent").style.display = "none";
+// };
 
-// VOIR EVENT AGENDA
-document.querySelectorAll('#event-container').forEach(container => {
-    container.onclick = function() {
-        const detailDiv = this.querySelector('.detail');
-        if (detailDiv) {
-            detailDiv.hidden = !detailDiv.hidden;
-        }
-    };
-}); 
+// // VOIR EVENT AGENDA
+// document.querySelectorAll('#event-container').forEach(container => {
+//     container.onclick = function() {
+//         const detailDiv = this.querySelector('.detail');
+//         if (detailDiv) {
+//             detailDiv.hidden = !detailDiv.hidden;
+//         }
+//     };
+// }); 
 
 
 
@@ -327,6 +343,8 @@ function editLeUser(event) {
         });
     }
 }
+
+
 
 // function suppUsers() {
 //     const selectedIds = Array.from(checkboxes)
