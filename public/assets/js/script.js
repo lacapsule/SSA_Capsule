@@ -46,6 +46,22 @@ filterButtons.forEach((button) => {
     });
 });
 
+
+// AFFICHER PASSWORD
+document.querySelectorAll('.toggle-password').forEach(button => {
+  button.addEventListener('click', () => {
+    const input = button.closest('.password-container').querySelector('.password-input');
+    if (input.type === 'password') {
+        input.type = 'text';
+        button.textContent = 'Masquer';
+    } else {
+        input.type = 'password';
+        button.textContent = 'Afficher';
+    }
+  });
+});
+
+
 // OUVERTURE DU MENU MOBILE
 if (hamburger && navbar) {
     hamburger.addEventListener("click", () => {
@@ -171,25 +187,31 @@ if (createUser) {
 
 
 // CREER EVENT AGENDA
-document.getElementById("btn-open-modal").onclick = function() {
-    document.getElementById("modalCreateEvent").style.display = "flex";
-};
+// document.getElementById("btn-open-modal").onclick = function() {
+//     document.getElementById("modalCreateEvent").style.display = "flex";
+// };
 
-document.getElementById("closeModal").onclick = function() {
-    document.getElementById("modalCreateEvent").style.display = "none";
-};
+// document.getElementById("closeModal").onclick = function() {
+//     document.getElementById("modalCreateEvent").style.display = "none";
+// };
 
-// VOIR EVENT AGENDA
-document.querySelectorAll('#event-container').forEach(container => {
-    container.onclick = function() {
-        const detailDiv = this.querySelector('.detail');
-        if (detailDiv) {
-            detailDiv.hidden = !detailDiv.hidden;
-        }
-    };
-}); 
+// // VOIR EVENT AGENDA
+// document.querySelectorAll('#event-container').forEach(container => {
+//     container.onclick = function() {
+//         const detailDiv = this.querySelector('.detail');
+//         if (detailDiv) {
+//             detailDiv.hidden = !detailDiv.hidden;
+//         }
+//     };
+// }); 
+
+
 
 // EDIT USER INFO via UI sur DASH_ACCOUNT.PHP pour l'instant
+
+document.querySelectorAll(".editBtn").forEach((btn) => {
+    btn.addEventListener("click", editLeUser);
+});
 
 function editLeUser(event) {
     console.log("Bouton 'Gérer' cliqué");
@@ -269,7 +291,8 @@ function editLeUser(event) {
                 form.method = 'POST';
                 form.action = '/dashboard/users/delete';
 
-                form.innerHTML = `
+                const csrfFragment = document.querySelector('#csrf-template').innerHTML;
+                form.innerHTML = csrfFragment + `
                     <input type="hidden" name="action" value="delete">
                     <input type="hidden" name="user_ids[]" value="${id}">
                     <?= \CapsuleLib\Security\CsrfTokenManager::insertInput(); ?>
@@ -290,7 +313,8 @@ function editLeUser(event) {
             roleCell.className = originalRole + ' role'; // Restaurer la classe du rôle
             roleCell.innerHTML = "<p> '<?php echo htmlspecialchars($user->email); ?>' </p>";
             row.querySelector('.role p').textContent = originalRole;
-            actionCell.innerHTML = '<button class="editBtn" type="button" onclick="editLeUser(event)">Gérer</button>';
+            actionCell.innerHTML = '<button class="editBtn" type="button">Gérer</button>';
+            actionCell.querySelector(".editBtn").addEventListener("click", editLeUser);
         });
 
         // Gestion du bouton "Enregistrer"
@@ -304,8 +328,8 @@ function editLeUser(event) {
                 form.method = 'POST';
                 form.action = '/dashboard/users/update';
     
-                form.innerHTML = `
-                    
+                const csrfFragment = document.querySelector('#csrf-template').innerHTML;
+                form.innerHTML = csrfFragment + `    
                     <input type="hidden" name="action" value="update">
                     <input type="hidden" name="id" value="${id}">
                     <input type="hidden" name="username" value="${newUsername}">
@@ -319,6 +343,8 @@ function editLeUser(event) {
         });
     }
 }
+
+
 
 // function suppUsers() {
 //     const selectedIds = Array.from(checkboxes)

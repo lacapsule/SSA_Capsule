@@ -32,5 +32,6 @@
     </section>
 
     <script src="/assets/js/dashboard.js" defer></script>
+    <script src="/assets/js/script.js" defer></script>
 </body>
 </html>
