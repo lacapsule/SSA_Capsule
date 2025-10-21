@@ -1,9 +1,14 @@
 # Activer mod_rewrite (si disponible)
 <IfModule mod_rewrite.c>
-RewriteEngine On
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^(.*)$ index.php [QSA,L]
+  RewriteEngine On
+
+  # Si fichier ou dossier existe -> ne pas réécrire
+  RewriteCond %{REQUEST_FILENAME} -f [OR]
+  RewriteCond %{REQUEST_FILENAME} -d
+  RewriteRule ^ - [L]
+
+  # Sinon, route vers index.php
+  RewriteRule ^ index.php [QSA,L]
 </IfModule>
 
 <IfModule mod_expires.c>
