@@ -61,28 +61,6 @@ final class HomeController extends BaseController
         ] + $viewData);
     }
 
-    ##[Route(path: '/projet', methods: ['GET'])]
-    #public function projet(): Response
-    #{
-    #    // ✅ Résout vers page:home/projet (ou créer page:projet/index si préféré)
-    #    return $this->page('projet:index', [  // Override namespace pour ce cas
-    #        'showHeader' => true,
-    #        'showFooter' => true,
-    #        'str' => $this->i18n(),
-    #    ]);
-    #}
-    #
-    ##[Route(path: '/galerie', methods: ['GET'])]
-    #public function galerie(): Response
-    #{
-    #    // ✅ Résout vers page:galerie/index
-    #    return $this->page('galerie:index', [
-    #        'showHeader' => true,
-    #        'showFooter' => true,
-    #        'str' => $this->i18n(),
-    #    ]);
-    #}
-
     #[Route(path: '/article/{id}', methods: ['GET'])]
     public function article(int $id): Response
     {
