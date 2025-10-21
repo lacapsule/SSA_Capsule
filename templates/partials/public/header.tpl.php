@@ -13,8 +13,8 @@
       <li><a href="/#about">{{str.nav_apropos}}</a></li>
       <li><a href="/#news">{{str.nav_actualites}}</a></li>
       <li><a href="/#agenda">{{str.nav_agenda}}</a></li>
-      <!-- <li><a href="/projet">{{str.nav_project}}</a></li> -->
-      <!-- <li><a href="/galerie">{{str.nav_galerie}}</a></li> -->
+      <li><a href="/projet">{{str.nav_project}}</a></li>
+      <li><a href="/galerie">{{str.nav_galerie}}</a></li>
       <li><a href="/#contact">{{str.nav_contact}}</a></li>
       <li>
         <a href="?lang=fr">FR</a> • <a href="?lang=br">BR</a>
