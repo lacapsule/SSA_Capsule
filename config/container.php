@@ -5,6 +5,8 @@ declare(strict_types=1);
 // ==========================================
 // IMPORT FRAMEWORK
 // ==========================================
+use App\Modules\Galerie\GalerieController;
+use App\Modules\Projet\ProjetController;
 use Capsule\Contracts\TemplateLocatorInterface;
 use Capsule\Domain\Service\AuthService;
 use Capsule\Auth\PhpSessionReader;
@@ -210,6 +212,15 @@ return (function (): DIContainer {
     $c->set(HomeController::class, fn ($c) => new HomeController(
         $c->get(HomeService::class),
         $c->get(ArticleService::class),
+        $c->get(ResponseFactoryInterface::class),
+        $c->get(ViewRendererInterface::class),
+    ));
+
+    $c->set(GalerieController::class, fn ($c) => new GalerieController(
+        $c->get(ResponseFactoryInterface::class),
+        $c->get(ViewRendererInterface::class),
+    ));
+    $c->set(ProjetController::class, fn ($c) => new ProjetController(
         $c->get(ResponseFactoryInterface::class),
         $c->get(ViewRendererInterface::class),
     ));

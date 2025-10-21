@@ -2,10 +2,12 @@
 
 declare(strict_types=1);
 
+use App\Modules\Galerie\GalerieController;
 use App\Modules\Home\HomeController;
 use App\Modules\Article\ArticleController;
 use App\Modules\Dashboard\DashboardController;
 use App\Modules\Login\LoginController;
+use App\Modules\Projet\ProjetController;
 use App\Modules\User\UserController;
 use App\Modules\Agenda\AgendaController;
 use Capsule\Infrastructure\Container\DIContainer;
@@ -32,6 +34,8 @@ $controllers = [
     DashboardController::class,
     LoginController::class,
     UserController::class,
+    GalerieController::class,
+    ProjetController::class,
     AgendaController::class,
 ];
 
