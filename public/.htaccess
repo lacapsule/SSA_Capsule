@@ -1,16 +1,21 @@
-# Activer mod_rewrite (si disponible)
+# Fichier /.htaccess (unique)
+
 <IfModule mod_rewrite.c>
-  RewriteEngine On
+    RewriteEngine On
+    RewriteBase /
 
-  # Si fichier ou dossier existe -> ne pas réécrire
-  RewriteCond %{REQUEST_FILENAME} -f [OR]
-  RewriteCond %{REQUEST_FILENAME} -d
-  RewriteRule ^ - [L]
+    # 🔒 Sécurité : interdit l’accès à des répertoires sensibles
+    RewriteRule ^(src|app|vendor|bootstrap|tests|config|\.env) - [F,L,NC]
 
-  # Sinon, route vers index.php
-  RewriteRule ^ index.php [QSA,L]
+    # ✅ Si un fichier statique existe dans /public, on le sert directement
+    RewriteCond %{DOCUMENT_ROOT}/public/$1 -f
+    RewriteRule ^(.*)$ public/$1 [L]
+
+    # ✅ Sinon, on route vers index.php (dans /public)
+    RewriteRule ^(.*)$ public/index.php [QSA,L]
 </IfModule>
 
+# Cache et MIME optimisés
 <IfModule mod_expires.c>
   ExpiresActive On
   ExpiresByType text/css "access plus 1 week"
@@ -19,12 +24,6 @@
   ExpiresByType image/jpeg "access plus 1 year"
   ExpiresByType image/png "access plus 1 year"
   ExpiresByType image/gif "access plus 1 year"
-</IfModule>
-
-<IfModule mod_headers.c>
-  <FilesMatch "\.(css|js|webp|jpe?g|png|gif)$">
-    Header set Cache-Control "public, max-age=604800, immutable"
-  </FilesMatch>
 </IfModule>
 
 # Sécuriser les fichiers PHP
