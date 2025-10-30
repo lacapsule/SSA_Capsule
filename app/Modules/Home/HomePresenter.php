@@ -84,7 +84,7 @@ final class HomePresenter
             return [
                 // — clés Agenda —
                 'date' => $formattedDate,
-                'date_actu' => $formattedDate,
+                'date_actu' => $date,
                 'date_event' => $formattedDate,
                 'time' => $time,
                 'title' => $title,
