@@ -34,6 +34,12 @@ composer.lock  # <- Garde-le SI (et seulement si) tu décides de ne pas versionn
 /var/*
 !var/.gitkeep
 
+# Médias
+/public/assets
+
+# Database conf
+/src/Infrastructure/Database
+
 # Build artifacts éventuels
 /public/build/
 /node_modules/   # si frontend
