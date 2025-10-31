@@ -109,7 +109,7 @@ install_deps() {
     pm="$(detect_pkg)"
     case "$pm" in
         dnf)
-            pkgs=(php-cli php-pdo php-sqlite3 php-mysqlnd)
+            pkgs=(php-cli php-pdo php-sqlite3 php-mysqlnd php-intl)
             log "Installer via dnf: ${pkgs[*]}"
             if command -v sudo >/dev/null 2>&1; then sudo dnf install -y "${pkgs[@]}"; else dnf install -y "${pkgs[@]}"; fi
             ;;
