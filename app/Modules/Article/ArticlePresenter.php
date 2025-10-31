@@ -13,6 +13,20 @@ use Capsule\View\Presenter\IterablePresenter;
  */
 final class ArticlePresenter
 {
+    private const MONTHS_FR = [
+        1 => 'janvier',
+        2 => 'février',
+        3 => 'mars',
+        4 => 'avril',
+        5 => 'mai',
+        6 => 'juin',
+        7 => 'juillet',
+        8 => 'août',
+        9 => 'septembre',
+        10 => 'octobre',
+        11 => 'novembre',
+        12 => 'décembre'
+    ];
     /**
      * Liste (index)
      * @param array<string,mixed> $base   // shell dashboard déjà prêt (str, user, links, flash…)
@@ -24,13 +38,14 @@ final class ArticlePresenter
         $mapped = IterablePresenter::map($articles, function (ArticleDTO $a): array {
             $id = (int)$a->id;
 
-            // Date courte pour tableau (fallback “as is” si invalide)
+            // Date au format "DD mois AAAA" en français
             $dateStr = (string)($a->date_article ?? '');
             if ($dateStr !== '') {
                 try {
-                    $dateStr = (new \DateTime($dateStr))->format('d/m/Y');
-                } catch (\Throwable) { /* keep raw */
-                }
+                    $dt = new \DateTime($dateStr);
+                    $month = (int)$dt->format('n');
+                    $dateStr = $dt->format('d') . ' ' . self::MONTHS_FR[$month] . ' ' . $dt->format('Y');
+                } catch (\Throwable) { /* keep raw */ }
             }
 
             // URLs d’action

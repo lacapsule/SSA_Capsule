@@ -1,0 +1,515 @@
+/*=========================================
+====             HERO SECTION          ====
+===========================================*/
+.hero {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 80vh;
+    margin: 0;
+    padding: 15vh 10%;
+    background: none;
+    overflow: hidden;
+}
+
+.hero h1 {
+    position: relative;
+    display: block;
+    margin-bottom: 16px;
+    font-size: 2rem;
+    color: var(--ssa-txt-blanc);
+    text-shadow: var(--ssa-shadow);
+    z-index: 2;
+}
+
+.hero p {
+    position: relative;
+    display: block;
+    margin-bottom: 25px;
+    font-size: 1rem;
+    color: var(--ssa-txt-blanc);
+    text-shadow: var(--ssa-shadow);
+    z-index: 2;
+}
+
+.overlay {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    overflow: hidden;
+    z-index: 1;
+}
+
+.overlay img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.cta-buttons {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 10px;
+    z-index: 2;
+}
+
+
+/*=========================================
+====             ABOUT SECTION         ====
+===========================================*/
+
+.about .illustration {
+    position: relative;
+    display: none;
+    justify-content: flex-start;
+    width: 250px;
+    height: 250px;
+    margin-bottom: 25px;
+    border-radius: 50%;
+    background-color: var(--ssa-jaune);
+}
+
+.about .illustration img {
+    transform: scale(1.2);
+}
+
+.contain {
+    display: block;
+    width: 100%;
+    margin-bottom: 35px;
+    padding: 0 5%;
+}
+
+.contain .title {
+    position: relative;
+    display: block;
+    margin-bottom: 10px;
+    font-size: 16px;
+    line-height: 22px;
+    font-weight: 500;
+}
+
+.contain h2 {
+    position: relative;
+    display: block;
+    padding-bottom: 10px;
+    color: var(--ssa-txt-noir);
+    font-size: var(--ssa-font-large);
+    font-weight: 600;
+    line-height: 1.2em;
+}
+
+.contain h2::before {
+    position: absolute;
+    left: 0;
+    bottom: -60px;
+    width: 40px;
+    height: 3px;
+    background-color: var(--ssa-vert);
+    content: '';
+}
+
+.contain .text {
+    position: relative;
+    margin-top: 25px;
+    font-size: 15px;
+    line-height: 24px;
+    color: var(--ssa-txt-noir);
+    font-weight: 400;
+}
+
+.btn-box {
+    position: relative;
+    margin: 15px 0;
+}
+
+.list-style-one {
+    position: relative;
+}
+
+.list-style-one li {
+    display: flex;
+    justify-content: flex-start;
+    height: 50px;
+    margin: 5px 0 12px 0;
+    font-size: var(--ssa-font-small);
+    line-height: 26px;
+    font-weight: 400;
+    color: var(--ssa-txt-noir);
+    list-style: none;
+}
+
+.list-style-one li img {
+    margin-top: 4px;
+    width: 18px;
+    height: 18px;
+}
+
+.list-style-one li a {
+    text-decoration: none;
+    color: var(--ssa-txt-noir);
+    margin-left: 10px;
+}
+
+.list-style-one li a:hover {
+    color: var(--ssa-hover-jaune);
+    font-weight: 900;
+}
+
+
+/*=========================================
+====        ACTUALITÉS SECTION         ====
+===========================================*/
+.section {
+    display: block;
+    width: 100%;
+    margin-top: 40px;
+    padding: 0 5%;
+}
+
+.section-title {
+    margin: 25px 0;
+}
+
+.section-title h2 {
+    position: relative;
+    font-size: 30px;
+    font-weight: 700;
+    color: var(--ssa-noir);
+    text-transform: uppercase;
+}
+
+.section-title h2::before,
+.section-title h2::after {
+    position: absolute;
+    left: 0;
+    height: 4px;
+    background-color: var(--ssa-vert);
+    content: '';
+}
+
+.section-title h2::before {
+    width: 40px;
+    top: 85%;
+}
+
+.section-title h2::after {
+    width: 25px;
+    top: 85%;
+    margin-top: 6px;
+}
+
+.section-title h3 {
+    text-transform: uppercase;
+}
+
+.section-title p {
+    margin: 16px 0;
+}
+
+.section-title strong {
+    color: var(--ssa-gris);
+}
+
+.row {
+    display: flex;
+    flex-direction: column;
+}
+
+.actu .actu-item {
+    width: 100%;
+    margin-bottom: 25px;
+}
+
+.actu .actu-item-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 10px;
+    background-color: var(--ssa-blanc);
+    box-shadow: var(--ssa-shadow);
+    overflow: hidden;
+    text-align: center;
+}
+
+.actu .actu-item-inner .actu-img {
+    position: relative;
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+}
+
+.actu .actu-item-inner .actu-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: saturate(55%);
+    transition: all 0.5s ease;
+}
+
+.actu .actu-item-inner:hover .actu-img img {
+    transform: scale(1.1);
+    filter: saturate(130%);
+}
+
+.actu .actu-item-inner .actu-img .actu-date {
+    position: absolute;
+    left: 10px;
+    bottom: 10px;
+    padding: 4px 8px;
+    border-radius: 5px;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-weight: 600;
+    font-size: 12px;
+    color: var(--ssa-txt-noir);
+    background-color: var(--ssa-jaune);
+}
+
+.actu .actu-item-inner .actu-info {
+    padding: 20px;
+    font-size: var(--ssa-font-small);
+    line-height: 22px;
+    color: var(--ssa-gris);
+    font-weight: 400;
+}
+
+.actu .actu-item-inner .actu-info .actu-title {
+    font-size: var(--ssa-font-medium);
+    font-weight: 700;
+    color: var(--ssa-gris);
+    margin-bottom: 10px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    text-align: start;
+}
+
+.actu .actu-item-inner .actu-info .actu-description {
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 22px;
+    color: #504e70;
+    margin-bottom: 12px;
+    text-align: start;
+}
+
+.actu .actu-item-inner .actu-info .btn-style-two {
+    position: relative;
+    left: 0px;
+    display: inline-block;
+    width: auto;
+    padding: 8px 16px;
+    border-radius: 5px;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    text-align: center;
+    color: var(--ssa-txt-blanc);
+    background-color: var(--ssa-vert);
+    box-shadow: var(--ssa-shadow);
+    transition: background 0.3s ease, color 0.3s ease;
+}
+
+.actu .actu-item-inner .actu-info .btn-style-two:hover {
+    color: var(--ssa-txt-blanc);
+    background-color: var(--ssa-hover-vert);
+}
+
+
+/*=========================================
+====        ÉVÉNEMENT SECTION          ====
+===========================================*/
+.evenement .evenement-item {
+    width: 100%;
+    margin-bottom: 25px;
+}
+
+.evenement .evenement-item-inner {
+    display: grid;
+    grid-template-columns: 30% 70%;
+    align-items: stretch;
+    height: 120px;
+    border-radius: 10px;
+    background-color: var(--ssa-blanc);
+    box-shadow: var(--ssa-shadow);
+    overflow: hidden;
+}
+
+.info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    padding: 5px;
+    background-color: var(--ssa-jaune);
+    font-size: 16px;
+    line-height: 15px;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+
+.desc {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    width: 100%;
+    height: 100%;
+    padding: 15px;
+    color: var(--ssa-txt-gris);
+    font-size: .9em;
+    overflow: hidden;
+
+    & h4 {
+        width: 100%;
+        margin-bottom: 8px;
+        font-size: 1.2em;
+        font-weight: bold;
+        color: var(--ssa-txt-vert);
+        text-transform: uppercase;
+    }
+}
+
+
+.desc .evenement-description {
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+}
+
+.evenement-date {
+    color: var(--ssa-txt-gris);
+    font-weight: 800;
+    font-size: 1em;
+    text-transform: capitalize;
+    text-align: center;
+    line-height: 20px;
+    margin: 0 0 10px 0;
+}
+
+.evenement-time {
+    color: var(--ssa-txt-gris);
+    font-weight: 500;
+    margin-top: 5px;
+    font-size: 1.3em;
+}
+
+
+/*=========================================
+====        PARTENAIRE SECTION         ====
+===========================================*/
+.partenaires .item,
+.financeurs .item {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    width: 100%;
+    padding: 10px 5%;
+    text-align: center;
+}
+
+.partenaires .item span,
+.financeurs .item span {
+    background: #f2f4f8;
+    border-radius: 20px;
+    padding: 10px;
+}
+
+.partenaires img,
+.financeurs img {
+    width: 40%;
+}
+
+
+/*=========================================
+====        CONTACT SECTION            ====
+===========================================*/
+.contain .coord {
+    position: relative;
+    display: block;
+    margin-bottom: 10px;
+    font-size: 16px;
+    line-height: 22px;
+    font-weight: 500;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    margin: 0 0 10% 0;
+    border-style: none;
+    vertical-align: middle;
+}
+
+.form-control {
+    display: block;
+    width: 100%;
+    height: 45px;
+    margin: 16px 0;
+    padding: 0.375rem 0.75rem;
+    border: none;
+    border-radius: 0.25rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: var(--ssa-txt-gris);
+    background: #f3f3f3;
+}
+
+#message.form-control {
+    min-height: 110px;
+}
+
+/* Styles communs pour les champs texte et textarea */
+input[type="text"],
+input[type="email"],
+textarea {
+    border: none;
+    padding: 0.5em;
+    border-radius: 4px;
+    transition: border-color 0.3s;
+}
+
+/* Pas de bordure si champ vide (placeholder visible) */
+
+/* Bordure rouge si champ non vide et invalide (ex : requis vide ou email mal formé) */
+input[type="text"]:not(:placeholder-shown):invalid,
+input[type="email"]:not(:placeholder-shown):invalid,
+textarea:not(:placeholder-shown):invalid {
+    border: 2px solid red;
+}
+
+/* Bordure verte si champ non vide et valide */
+input[type="text"]:not(:placeholder-shown):valid,
+input[type="email"]:not(:placeholder-shown):valid,
+textarea:not(:placeholder-shown):valid {
+    border: 2px solid green;
+}
+
+/* Pas de style appliqué sur input type submit */
+input[type="submit"] {
+    /* vous pouvez mettre ici vos styles propres au bouton */
+    border: none;
+}
+
+.btn-style-one {
+    margin: 10px 0;
+    color: var(--ssa-blanc);
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+textarea:focus {
+    outline: none;
+    box-shadow: none;
+    border: solid 2px var(--ssa-jaune);
+}

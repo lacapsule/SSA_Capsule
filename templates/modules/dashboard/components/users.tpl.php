@@ -5,10 +5,6 @@
     <p class="notice notice--success" style="color:#43c466;">{{.}}</p>
   {{/flash}}
 
-  <div id="csrf-template" style="display:none">
-    {{{csrf_input}}}
-  </div>
-
   <div class="wrapper" id="wrapper">
     {{{csrf_input}}}
     <input type="hidden" name="action" value="delete">

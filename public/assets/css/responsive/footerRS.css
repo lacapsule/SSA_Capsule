@@ -1,0 +1,11 @@
+@media (min-width: 980px) {
+    .footer-infos{
+        padding: 0;
+    }
+    .footer-infos .ssalogo {
+        align-self: flex-start;
+        max-width: 5%;
+        height: auto;
+        margin: 10px 0;
+    }
+}

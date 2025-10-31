@@ -191,8 +191,8 @@ final class ArticleService
 
         // Date (YYYY-MM-DD) valide
         if (!empty($data['date_article'])) {
-            $d = \DateTime::createFromFormat('Y-m-d', (string)$data['date_article']);
-            $ok = $d && $d->format('Y-m-d') === $data['date_article'];
+            $d = \DateTime::createFromFormat('d-m-Y', (string)$data['date_article']);
+            $ok = $d && $d->format('d-m-Y') === $data['date_article'];
             if (!$ok) {
                 $errors['date_article'] = 'Format date invalide (attendu : AAAA-MM-JJ)';
             }

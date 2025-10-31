@@ -51,8 +51,8 @@ final class LoginController extends BaseController
         // Résout vers page:login/login avec layout:main
         return $this->page('login', $data + [
             'title' => 'Connexion',
-            'showHeader' => true,
-            'showFooter' => false,
+            'showHeader' => true,  // Pas de header sur la page de login
+            'showFooter' => false,  // Pas de footer sur la page de login
         ]);
     }
 

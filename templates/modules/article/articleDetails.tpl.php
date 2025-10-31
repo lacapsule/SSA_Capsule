@@ -15,7 +15,7 @@
     {{/article.place}}
   </div>
 
-  <div class="separator"></div>
+  <div class="separateur"></div>
 
   {{#article.summary}}
     <h3>{{article.summary}}</h3>
@@ -25,7 +25,7 @@
     <p class="description">{{article.description}}</p>
   {{/article.description}}
 
-  <div class="separator"></div>
+  <div class="separateur"></div>
 
   {{#article.image}}
     <img src="{{article.image}}" alt="illustration">

@@ -26,7 +26,6 @@ PUBLIC_DIR="${PUBLIC_DIR:-public}"
 DATA_DIR="${DATA_DIR:-$ROOT/data}"
 DB_SQLITE="${DB_SQLITE:-$DATA_DIR/database.sqlite}"
 
-# Migration par défaut (préférence sqlite_init.sql, fallback tables.sql si override absent)
 MIG_FILE_DEFAULT="$ROOT/migrations/sqlite_init.sql"
 MIG_FALLBACK="$ROOT/migrations/tables.sql"
 MIG_FILE="${MIG_FILE:-$MIG_FILE_DEFAULT}"
@@ -79,7 +78,6 @@ PHP
 }
 
 resolve_migration() {
-    # Respecte MIG_FILE si fourni; sinon tente sqlite_init.sql puis tables.sql
     if [[ -f "$MIG_FILE" ]]; then
         echo "$MIG_FILE"
         return
@@ -109,12 +107,16 @@ install_deps() {
     pm="$(detect_pkg)"
     case "$pm" in
         dnf)
-            pkgs=(php-cli php-pdo php-sqlite3 php-mysqlnd)
+            pkgs=(php-cli php-pdo sqlite3 php-mysqlnd php-intl)
             log "Installer via dnf: ${pkgs[*]}"
-            if command -v sudo >/dev/null 2>&1; then sudo dnf install -y "${pkgs[@]}"; else dnf install -y "${pkgs[@]}"; fi
+            if command -v sudo >/dev/null 2>&1; then 
+                sudo dnf install -y "${pkgs[@]}"
+            else 
+                dnf install -y "${pkgs[@]}"
+            fi
             ;;
         apt)
-            pkgs=(php-cli php-sqlite3 php-mysql)
+            pkgs=(php-cli sqlite3 php-mysql php-intl)
             log "Installer via apt: ${pkgs[*]}"
             if command -v sudo >/dev/null 2>&1; then
                 sudo apt-get update
@@ -126,12 +128,18 @@ install_deps() {
             ;;
         *)
             die "Gestionnaire de paquets non supporté. Installe manuellement :
-  - Fedora/RHEL : php-cli php-pdo php-sqlite3 php-mysqlnd
-  - Debian/Ubuntu : php-cli php-sqlite3 php-mysql"
+  - Fedora/RHEL : php-cli php-pdo php-sqlite3 php-mysqlnd php-intl
+  - Debian/Ubuntu : php-cli php-sqlite3 php-mysql php-intl"
             ;;
     esac
-    ok "Dépendances installées."
-    if command -v rg >/dev/null 2>&1; then php -m | rg -i 'pdo|sqlite|mysql' || true; else php -m | grep -Ei 'pdo|sqlite|mysql' || true; fi
+
+    ok "Dépendances PHP installées (pdo, sqlite3, mysql, intl)."
+
+    if command -v rg >/dev/null 2>&1; then 
+        php -m | rg -i 'pdo|sqlite|mysql|intl' || true
+    else 
+        php -m | grep -Ei 'pdo|sqlite|mysql|intl' || true
+    fi
     php -v
 }
 
@@ -162,7 +170,6 @@ sqlite_apply_migration_if_absent() {
 bin_install() {
     local db="$ROOT/bin/db" dev="$ROOT/bin/dev"
 
-    # bin/db : supporte sqlite_init.sql ET tables.sql
     if [[ ! -f "$db" ]]; then
         cat >"$db" <<'BASH'
 #!/usr/bin/env bash
@@ -190,7 +197,6 @@ BASH
         ok "Créé bin/db"
     fi
 
-    # bin/dev : simple (docroot public/)
     if [[ ! -f "$dev" ]]; then
         cat >"$dev" <<'BASH'
 #!/usr/bin/env bash
@@ -216,8 +222,8 @@ db.init: ; bin/db init
 db.reset: ; bin/db reset
 db.shell: ; bin/db shell
 info:
-	@php -v
-	@sqlite3 --version || true
+    @php -v
+    @sqlite3 --version || true
 MAKE
         ok "Créé Makefile minimal."
         return
@@ -227,8 +233,8 @@ MAKE
         cat >>"$mk" <<'MAKE'
 
 info:
-	@php -v
-	@sqlite3 --version || true
+    @php -v
+    @sqlite3 --version || true
 MAKE
     fi
     ok "Makefile enrichi (non destructif)."
@@ -240,7 +246,7 @@ cmd="${1:-help}"
 case "$cmd" in
     info)
         php -v
-        php -m | grep -Ei 'pdo|sqlite|mysql' || true
+        php -m | grep -Ei 'pdo|sqlite|mysql|intl' || true
         command -v sqlite3 && sqlite3 --version || true
         command -v mysql && mysql --version || echo "(mysql non installé)"
         echo "Public dir : $PUBLIC_DIR"

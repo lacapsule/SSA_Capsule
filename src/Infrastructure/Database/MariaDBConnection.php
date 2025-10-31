@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Capsule\Infrastructure\Database;
 
-#TODO: Postgresql et MySQL ajouter
-
 use PDO;
 use PDOException;
 use RuntimeException;

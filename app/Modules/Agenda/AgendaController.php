@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Modules\Agenda;
 
-use App\Providers\SidebarLinksProvider;
 use Capsule\Contracts\ResponseFactoryInterface;
 use Capsule\Contracts\ViewRendererInterface;
 use Capsule\Http\Message\Request;
@@ -13,6 +12,7 @@ use Capsule\Routing\Attribute\Route;
 use Capsule\Routing\Attribute\RoutePrefix;
 use Capsule\Security\CsrfTokenManager;
 use Capsule\View\BaseController;
+use App\Modules\Dashboard\Provider\SidebarLinksProvider;
 use DateTime;
 
 #[RoutePrefix('/dashboard/agenda')]

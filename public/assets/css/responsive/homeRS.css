@@ -1,0 +1,124 @@
+@media (min-width: 980px) {
+
+    /*=========================================
+====             HERO SECTION          ====
+===========================================*/
+    .hero {
+        height: 90vh;
+    }
+
+    /*=========================================
+====             ABOUT SECTION         ====
+===========================================*/
+    .about {
+        display: grid;
+        grid-template-columns: repeat(2, 50%);
+        align-items: center;
+        justify-items: center;
+        padding: 0 10%;
+        margin: 5% 0 0 0;
+
+        & .illustration {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: calc(250px * 1.5);
+            width: calc(250px * 1.5);
+            order: -1;
+            margin: 0;
+
+            & img {
+                transform: scale(1.5);
+            }
+        }
+    }
+
+    .contain {
+        margin: 0;
+    }
+
+    .contain h2::before {
+        bottom: -35px;
+    }
+
+    .list-style-one li {
+        height: 40px;
+        line-height: 1;
+
+        & img {
+            margin: 0;
+        }
+    }
+
+    /*=========================================
+====        ACTUALITER SECTION         ====
+===========================================*/
+    .row {
+        display: flex;
+        flex-direction: row;
+        margin: 6% 0;
+    }
+
+    .actu .actu-item-inner {
+        display: flex;
+        width: 90%;
+    }
+
+    .actu .actu-item {
+        display: flex;
+        justify-content: space-evenly;
+    }
+
+    /*=========================================
+====        EVENEMENT SECTION         ====
+===========================================*/
+    .evenement .evenement-item-inner {
+        margin: 0 10px 0 0;
+    }
+
+    /*=========================================
+====        PARTENAIRE SECTION         ====
+===========================================*/
+    .partenaires .item {
+        display: grid;
+        grid-template-columns: repeat(4, 30%);
+        align-items: center;
+        justify-content: center;
+    }
+
+    .financeurs .item {
+        display: grid;
+        grid-template-columns: repeat(2, 30%);
+        align-items: center;
+        justify-content: center;
+    }
+
+    .financeurs a {
+        order: 3;
+    }
+
+    /*=========================================
+====        CONTACT SECTION         ====
+===========================================*/
+    .contact .contain {
+        display: grid;
+        grid-template-columns: repeat(2, 50%);
+        justify-items: center;
+    }
+
+    .contact .row {
+        margin: 0;
+    }
+
+    .coord {
+        padding: 0 0 0 60px;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    textarea {
+        min-width: 25rem;
+        min-height: 45px;
+    }
+    
+    }
