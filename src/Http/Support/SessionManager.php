@@ -21,8 +21,8 @@ namespace Capsule\Http\Support;
  * Sécurité :
  * - httponly=1, samesite=Strict (défense XSS/CSRF)
  * - strict_mode=1 (refuse IDs non générés par PHP)
- * - TODO prod: cookie_secure=1 (HTTPS obligatoire)
  */
+
 final class SessionManager
 {
     private static bool $started = false;
@@ -42,7 +42,8 @@ final class SessionManager
         ini_set('session.use_strict_mode', '1');
         ini_set('session.cookie_httponly', '1');
         ini_set('session.cookie_samesite', 'Strict');
-        // TODO prod: ini_set('session.cookie_secure', '1');
+        // NOTE: prod:
+        ini_set('session.cookie_secure', '1');
 
         if (!@session_start()) {
             throw new \RuntimeException('Failed to start session');

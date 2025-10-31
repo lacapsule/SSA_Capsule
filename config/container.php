@@ -25,8 +25,8 @@ use Capsule\Http\Middleware\SecurityHeaders;
 use Capsule\Infrastructure\Container\DIContainer;
 use Capsule\View\FilesystemTemplateLocator;
 use Capsule\View\MiniMustache;
-use Capsule\Infrastructure\Database\SqliteConnection;
-// use Capsule\Infrastructure\Database\MariaDBConnection;
+//use Capsule\Infrastructure\Database\SqliteConnection;
+use Capsule\Infrastructure\Database\MariaDBConnection;
 // ==========================================
 // IMPORT Applications
 // ==========================================
@@ -52,14 +52,14 @@ return (function (): DIContainer {
     // CONFIGURATION
     // ==========================================
     $LENGTH_PASSWORD = 8;
-    $isDev = true;   // -> Changer vers false en prod
-    $https = false;  // -> Changer vers true en prod
+    $isDev = false;   // -> Changer vers false en prod
+    $https = true;  // -> Changer vers true en prod
 
     // ==========================================
     // BASE DE DONNÉES
     // ==========================================
-    $c->set('pdo', fn () => SqliteConnection::getInstance());
-
+    //$c->set('pdo', fn () => SqliteConnection::getInstance());
+    $c->set('pdo', fn () => MariaDBConnection::getInstance());
     // ==========================================
     // MIDDLEWARES
     // ==========================================
