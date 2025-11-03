@@ -5,6 +5,8 @@
     --ssa-gris: #364a6b;
     --ssa-blanc: #ffffff;
     --ssa-noir: #000000;
+    --ssa-blanc-trsp: #ffffff6e;
+    --ssa-gris-trsp: #364a6b85;
     /*-FOND-----------------*/
     --ssa-fond-clair: var(--ssa-blanc);
     --ssa-fond-sombre: var(--ssa-gris);
@@ -63,6 +65,7 @@
     background-color: var(--ssa-vert);
     border-radius: 5px;
     box-shadow: var(--ssa-shadow);
+    transition: background 0.3s ease;
 
     & a {
         padding: 15px 50px;

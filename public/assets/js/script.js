@@ -8,12 +8,9 @@ const deleteBtn = document.querySelector(".deleteUser");
 const createUser = document.getElementById("createUserBtn");
 const overlay = document.getElementById("image-overlay");
 const overlayImg = document.getElementById("overlay-img");
-const closeBtn = document.getElementById("close-overlay");
-const prevBtn = document.getElementById("prev-img");
-const nextBtn = document.getElementById("next-img");
 
 
-// FILTRE DES ACTUALITES
+/* // FILTRE DES ACTUALITES
 const filterButtons = document.querySelectorAll(".filter-btn");
 const articles = document.querySelectorAll(".news-item");
 
@@ -34,68 +31,79 @@ filterButtons.forEach((button) => {
         });
     });
 });
+ */
+// oeil password login
+const togglePassword = document.getElementById('togglePassword');
+const passwordInput = document.getElementById('password');
+
+togglePassword.addEventListener('click', () => {
+  const isPasswordVisible = passwordInput.type === 'text';
+  passwordInput.type = isPasswordVisible ? 'password' : 'text';
+  togglePassword.style.opacity = isPasswordVisible ? '0.6' : '1';
+});
+
 
 // GALERIE
-const galleryImages = document.querySelectorAll(".gallery-grid img");
-const totalImages = galleryImages.length;
+const images = document.querySelectorAll('.gallery-img');
+const lightbox = document.getElementById('lightbox');
+const lightboxImg = document.querySelector('.lightbox-image');
+const closeBtn = document.querySelector('.close');
+const prevBtn = document.querySelector('.prev');
+const nextBtn = document.querySelector('.next');
+let currentIndex = 0;
 
-let currentImgIndex = -1;
+images.forEach((img, index) => {
+  img.addEventListener('click', () => {
+    currentIndex = index;
+    showLightbox();
+  });
+});
 
-function updateOverlayImage(index) {
-    if (totalImages === 0) return;
-    currentImgIndex = (index + totalImages) % totalImages;
-    overlayImg.src = galleryImages[currentImgIndex].src;
-    overlayImg.alt =
-        galleryImages[currentImgIndex].alt || "Image de la galerie"; // accessibilité
+function showLightbox() {
+  lightbox.classList.add('show');
+  updateImage();
+  document.addEventListener('keydown', handleKeyNavigation);
 }
 
-function showOverlay(index) {
-    updateOverlayImage(index);
-    overlay.classList.add("active");
-    overlay.setAttribute("aria-hidden", "false");
-    overlay.focus();
+function closeLightbox() {
+  lightbox.classList.remove('show');
+  document.removeEventListener('keydown', handleKeyNavigation);
 }
 
-function closeOverlay() {
-    overlay.classList.remove("active");
-    overlay.setAttribute("aria-hidden", "true");
-    overlayImg.src = "";
-    overlayImg.alt = "";
-    currentImgIndex = -1;
+function updateImage() {
+  lightboxImg.classList.remove('visible');
+  setTimeout(() => {
+    lightboxImg.src = images[currentIndex].src;
+    lightboxImg.onload = () => {
+      lightboxImg.classList.add('visible');
+    };
+  }, 200);
 }
 
 function showPrev() {
-    updateOverlayImage(currentImgIndex - 1);
+  currentIndex = (currentIndex - 1 + images.length) % images.length;
+  updateImage();
 }
+
 function showNext() {
-    updateOverlayImage(currentImgIndex + 1);
+  currentIndex = (currentIndex + 1) % images.length;
+  updateImage();
 }
 
-prevBtn?.addEventListener("click", showPrev);
-nextBtn?.addEventListener("click", showNext);
+function handleKeyNavigation(e) {
+  if (e.key === 'ArrowLeft') showPrev();
+  if (e.key === 'ArrowRight') showNext();
+  if (e.key === 'Escape') closeLightbox();
+}
 
-galleryImages.forEach((img, idx) =>
-    img.addEventListener("click", () => showOverlay(idx))
-);
+closeBtn.addEventListener('click', closeLightbox);
+prevBtn.addEventListener('click', showPrev);
+nextBtn.addEventListener('click', showNext);
 
-overlay?.addEventListener("click", (e) => {
-    if (e.target === overlay || e.target === closeBtn) closeOverlay();
-});
-
-overlay?.addEventListener("keydown", (e) => {
-    if (!overlay.classList.contains("active")) return;
-
-    switch (e.key) {
-        case "ArrowRight":
-            showNext();
-            break;
-        case "ArrowLeft":
-            showPrev();
-            break;
-        case "Escape":
-            closeOverlay();
-            break;
-    }
+lightbox.addEventListener('click', (e) => {
+  if (e.target === lightbox) {
+    closeLightbox();
+  }
 });
 
 // TELECHARGEMENT DE FICHIER
@@ -113,18 +121,6 @@ if (downloadLink) {
     downloadLink.addEventListener("click", handleDownload);
 }
 
-/* // RESPONSIVE
-const showMobileNav = () => {
-    if (!navbar || !hamburger) return;
-    if (window.innerWidth <= 950) {
-        navbar.classList.add("mobileNav");
-        hamburger.style.display = "flex";
-    } else {
-        hamburger.style.display = "none";
-        navbar.classList.remove("mobileNav");
-        hamburger.classList.remove("open");
-    }
-}; */
 
 window.addEventListener("resize", showMobileNav);
 window.addEventListener("load", showMobileNav);

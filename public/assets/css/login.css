@@ -1,0 +1,119 @@
+@import url('https://fonts.googleapis.com/css?family=Poppins:600&display=swap');
+
+.login-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #0d2538, #092339, #0e324e);
+  font-family: 'Poppins', sans-serif;
+}
+
+.login-form {
+  width: 380px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  padding: 40px 30px;
+  text-align: center;
+  color: #fff;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+  backdrop-filter: blur(10px);
+}
+
+.login-form h1 {
+  font-size: 1.8rem;
+  margin-bottom: 2rem;
+  letter-spacing: 1px;
+}
+
+.form-error {
+  color: #ff6b6b;
+  background: rgba(255,0,0,0.1);
+  border-radius: 6px;
+  padding: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.txtb {
+  position: relative;
+  border-bottom: 2px solid rgba(255,255,255,0.5);
+  margin: 30px 0;
+}
+
+.txtb input {
+  width: 100%;
+  padding: 0 10px;
+  height: 40px;
+  font-size: 16px;
+  border: none;
+  background: none;
+  outline: none;
+  color: #fff;
+}
+
+.txtb span::before {
+  content: attr(data-placeholder);
+  position: absolute;
+  top: 50%;
+  left: 10px;
+  color: rgba(255,255,255,0.7);
+  transform: translateY(-50%);
+  transition: 0.3s;
+}
+
+.txtb input:focus + span::before,
+.txtb input:valid + span::before {
+  top: -5px;
+  color: #f1c40f;
+  font-size: 12px;
+}
+
+.txtb::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 0%;
+  height: 2px;
+  background: #f1c40f;
+  transition: 0.3s;
+}
+
+.txtb input:focus ~::after,
+.txtb input:valid ~::after {
+  width: 100%;
+}
+
+/* Oeil du mot de passe */
+.password-wrapper {
+  position: relative;
+}
+
+.toggle-password {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: rgba(255,255,255,0.7);
+  font-size: 1.2rem;
+}
+
+.toggle-password:hover {
+  color: #f1c40f;
+}
+
+/* Bouton de connexion */
+.btn-style-one {
+  width: 100%;
+  padding: 0.9rem;
+  border: none;
+  border-radius: 6px;
+  background: #f1c40f;
+  color: #0d2538;
+  font-weight: 600;
+  font-size: 1rem;
+  margin-top: 1rem;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}

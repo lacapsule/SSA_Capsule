@@ -4,8 +4,11 @@
 @import url(./module/header.css);
 @import url(./module/footer.css);
 @import url(./module/home.css);
+@import url(./module/projet.css);
+@import url(./module/galerie.css);
 
 /* CSS RESPONSIVE */
 @import url(./responsive/headerRS.css);
 @import url(./responsive/homeRS.css);
 @import url(./responsive/footerRS.css);
+@import url(./responsive/projetRS.css);

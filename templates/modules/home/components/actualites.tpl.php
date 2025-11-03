@@ -1,7 +1,7 @@
 <section class="actu section" id="actu">
   <div class="contain">
     <div class="title">
-      <div class="section-title padd-15">
+      <div class="section-title">
         <h2>{{str.news_title}}</h2>
       </div>
     </div>

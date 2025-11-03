@@ -33,7 +33,7 @@ final class GalerieController extends BaseController
             ];
         }
 
-        $imagesPerPage = 25;
+        $imagesPerPage = 24;
         $totalImages = count($pictures);
         $totalPages = (int)ceil($totalImages / $imagesPerPage);
 

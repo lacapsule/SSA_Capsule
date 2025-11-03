@@ -1,28 +1,29 @@
-<h1>{{title}}</h1>
+<link rel="stylesheet" href="assets/css/login.css">
+<section id="login" class="login-page">
+  <div class="login-form">
+    <h1>{{title}}</h1>
 
-<section class="login">
-  {{#error}}
+    {{#error}}
     <p class="form-error">{{.}}</p>
-  {{/error}}
+    {{/error}}
 
-  <form method="post" action="{{action}}" novalidate>
-    {{{csrf_input}}}
+    <form method="post" action="{{action}}" novalidate>
+      {{{csrf_input}}}
 
-    <label for="username">{{str.login_username}}</label>
-    <input id="username"
-           name="username"
-           type="text"
-           value="{{prefill.username}}"
-           required
-           autocomplete="username" />
+      <div class="txtb">
+        <input type="username" name="username" id="username" value="{{prefill.username}}" required autocomplete="username">
+        <span data-placeholder="{{str.login_username}}"></span>
+      </div>
 
-    <label for="password">{{str.login_password}}</label>
-    <input id="password"
-           name="password"
-           type="password"
-           required
-           autocomplete="current-password" />
+      <div class="txtb password-wrapper">
+        <input type="password" name="password" id="password" required autocomplete="current-password">
+        <span data-placeholder="{{str.login_password}}"></span>
+        <span id="togglePassword" class="toggle-password">&#128065;</span>
+      </div>
 
-    <button type="submit" class="btn primary">{{str.login_submit}}</button>
-  </form>
+      <input type="submit" class="btn-style-one" value="{{str.login_submit}}">
+    </form>
+  </div>
 </section>
+
+https://www.perplexity.ai/search/ajoute-le-fait-que-ont-puisse-Wy2X8Nq0QcCM8yCJ2wqR.A#7

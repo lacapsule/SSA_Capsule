@@ -1,0 +1,26 @@
+.recrutement {
+    & h2:before {
+        bottom: 0px;
+    }
+}
+.projet .illustration {
+    position: relative;
+    display: none;
+    justify-content: flex-start;
+    width: 250px;
+    height: 250px;
+    margin-bottom: 25px;
+    border-radius: 50%;
+    background-color: var(--ssa-jaune);
+}
+
+.projet .illustration img {
+    transform: scale(1.2);
+    border-radius: 25px;
+}
+.recrutement, .projet{
+    & img{
+        border-radius: 7px;
+        margin: 3% 0;
+    }
+}
