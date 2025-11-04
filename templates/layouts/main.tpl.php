@@ -26,7 +26,7 @@
         {{> partial:public/footer }}
     {{/showFooter}}
     
-  <script src="/assets/js/script.js" defer></script>
+  <script src="/main.js" defer></script>
 
 </body>
 </html>
