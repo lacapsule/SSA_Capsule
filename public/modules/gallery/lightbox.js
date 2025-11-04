@@ -3,7 +3,7 @@
  * Module de gestion de la galerie lightbox
  */
 import { DOM_SELECTORS, ANIMATION_DELAYS, CSS_CLASSES } from '../constants.js';
-import { getElement, getAllElements, addEventListenerSafe } from '../../utils/dom.js';
+import { getElement, getAllElements, addEventListenerSafe } from '../utils/dom.js';
 
 class Lightbox {
     constructor() {

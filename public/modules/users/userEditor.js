@@ -2,8 +2,8 @@
  * Module de gestion de l'édition d'utilisateurs
  */
 import { CSS_CLASSES } from '../constants.js';
-import { createElement } from '../../utils/dom.js';
-import { submitForm } from '../../utils/forms.js';
+import { createElement } from '../utils/dom.js';
+import { submitForm } from '../utils/forms.js';
 
 /**
  * Crée un champ éditable

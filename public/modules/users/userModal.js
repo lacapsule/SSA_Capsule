@@ -2,7 +2,7 @@
  * Module de gestion de la modal de création d'utilisateur
  */
 import { DOM_SELECTORS, CSS_CLASSES } from '../constants.js';
-import { getElement, addEventListenerSafe } from '../../utils/dom.js';
+import { getElement, addEventListenerSafe } from '../utils/dom.js';
 
 /**
  * Ferme la popup si clic sur le fond

@@ -2,7 +2,7 @@
  * Module de gestion des événements du calendrier
  */
 import { DOM_SELECTORS } from '../constants.js';
-import { getElement, getAllElements, addEventListenerSafe } from '../../utils/dom.js';
+import { getElement, getAllElements, addEventListenerSafe } from '../utils/dom.js';
 
 /**
  * Affiche la modal de création d'événement

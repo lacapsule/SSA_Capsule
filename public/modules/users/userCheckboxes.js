@@ -2,7 +2,7 @@
  * Module de gestion des checkboxes utilisateurs
  */
 import { DOM_SELECTORS } from '../constants.js';
-import { getElement, getAllElements } from '../../utils/dom.js';
+import { getElement, getAllElements } from '../utils/dom.js';
 
 /**
  * Met à jour l'état du bouton de suppression

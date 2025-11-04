@@ -2,7 +2,7 @@
  * Module de gestion du téléchargement de fichiers
  */
 import { DOM_SELECTORS } from '../constants.js';
-import { getElement, addEventListenerSafe, createElement } from '../../utils/dom.js';
+import { getElement, addEventListenerSafe, createElement } from '../utils/dom.js';
 
 /**
  * Télécharge un fichier de manière programmatique

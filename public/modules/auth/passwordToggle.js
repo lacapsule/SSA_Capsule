@@ -2,7 +2,7 @@
  * Module de gestion de la visibilité du mot de passe
  */
 import { DOM_SELECTORS } from '../constants.js';
-import { getElement, addEventListenerSafe } from '../../utils/dom.js';
+import { getElement, addEventListenerSafe } from '../utils/dom.js';
 
 /**
  * Active le toggle de visibilité du mot de passe
@@ -31,3 +31,25 @@ function togglePasswordVisibility(input, button) {
     input.type = isPasswordVisible ? 'password' : 'text';
     button.style.opacity = isPasswordVisible ? '0.6' : '1';
 }
+
+// Script Password oublié, phrase contact admin
+document.addEventListener('DOMContentLoaded', function () {
+
+    const forgotLink = document.getElementById('forgotPasswordLink');
+    const messageElement = document.getElementById('adminContactMessage');
+
+    // Vérifie que les éléments existent
+    if (forgotLink && messageElement) {
+
+        // Ajoute un écouteur d'événement sur le clic
+        forgotLink.addEventListener('click', function (event) {
+
+            // Empêche le lien (href="#") de recharger la page ou de sauter
+            event.preventDefault();
+
+            // Définit le texte et affiche l'élément
+            messageElement.textContent = "Veuillez contacter l'administrateur du site.";
+            messageElement.style.display = 'block';
+        });
+    }
+});
