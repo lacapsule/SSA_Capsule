@@ -7,7 +7,6 @@
     </div>
     <div class="row">
       {{#each articles}}
-      <div class="actu-item padd-15">
         <div class="actu-item-inner shadow-dark">
           <div class="actu-img">
             <img src="assets/img/test_fond.jpg" alt="actu">
@@ -19,7 +18,6 @@
             <a href="/article/{{id}}" class="btn-style-two">{{str.read_more}}</a>
           </div>
         </div>
-      </div>
       {{/each}}
     </div>
 </section>

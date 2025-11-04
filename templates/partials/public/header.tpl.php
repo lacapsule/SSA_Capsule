@@ -1,4 +1,4 @@
-<header id="header">
+<header>
  
   <input type="checkbox" id="menu-toggle">
   <label for="menu-toggle" class="hamburger">
@@ -24,16 +24,8 @@
         <a href="?lang=fr"><img class="flag" src="/assets/icons/fr.svg" alt="FR"></a> •
         <a href="?lang=br"><img class="flag" src="/assets/icons/br.svg" alt="BR"></a>
       </li>
-
-      <!-- FIX: Marche pas (souci niveau JS à voir plus tard) -->
-      <!-- <form method="get" action="" id="lang-form"> -->
-      <!--   <select name="lang" id="lang-switch" aria-label="Choisir la langue"> -->
-      <!--     {{#each languages}} -->
-      <!--       <option value="{{code}}" {{#selected}}selected{{/selected}}>{{label}}</option> -->
-      <!--     {{/each}} -->
-      <!--   </select> -->
-      <!-- </form> -->
     </ul>
+    
     {{#isAuthenticated}}
     <div class="user">
       <li><a class="icons" href="/dashboard/account">

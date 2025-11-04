@@ -108,7 +108,7 @@
 .contain h2::before {
     position: absolute;
     left: 0;
-    bottom: -60px;
+    bottom: -55px;
     width: 40px;
     height: 3px;
     background-color: var(--ssa-vert);
@@ -220,6 +220,7 @@
 .row {
     display: flex;
     flex-direction: column;
+    gap: 25px;
 }
 
 .actu .actu-item {
@@ -272,6 +273,7 @@
 }
 
 .actu .actu-item-inner .actu-info {
+    width: 100%;
     padding: 20px;
     font-size: var(--ssa-font-small);
     line-height: 22px;
@@ -280,13 +282,11 @@
 }
 
 .actu .actu-item-inner .actu-info .actu-title {
+    min-height: 50px;
     font-size: var(--ssa-font-medium);
     font-weight: 700;
     color: var(--ssa-gris);
     margin-bottom: 10px;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow: hidden;
     text-align: start;
 }
 
@@ -297,6 +297,8 @@
     color: #504e70;
     margin-bottom: 12px;
     text-align: start;
+    text-overflow: ellipsis;
+    overflow: hidden;
 }
 
 .actu .actu-item-inner .actu-info .btn-style-two {
@@ -400,7 +402,7 @@
     color: var(--ssa-txt-gris);
     font-weight: 500;
     margin-top: 5px;
-    font-size: 1.3em;
+    font-size: 1.2em;
 }
 
 

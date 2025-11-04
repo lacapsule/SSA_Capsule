@@ -37,7 +37,6 @@ header {
     gap: 15px;
     list-style: none;
     align-items: center;
-    margin: 0 20%;
 }
 
 .navbar li {
@@ -84,3 +83,9 @@ header {
 #menu-toggle {
     display: none;
 }
+
+@media screen and (min-width: 1346px) {
+    .navbar ul {
+        margin: 0 20%;
+    }
+} 

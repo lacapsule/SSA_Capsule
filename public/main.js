@@ -6,7 +6,7 @@
 // Import des modules
 import { initPasswordToggle } from './modules/auth/passwordToggle.js';
 import { initLightbox } from './modules/gallery/lightbox.js';
-import { initFileDownloader } from './modules/download/fileDownloader.js';
+import { initFileDownloader } from './modules/download/fileDownload.js';
 import { initUserCheckboxes } from './modules/users/userCheckboxes.js';
 import { initUserModal } from './modules/users/userModal.js';
 import { initEventManager } from './modules/calendar/eventManager.js';

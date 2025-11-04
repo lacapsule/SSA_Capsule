@@ -1,4 +1,4 @@
-@media (min-width: 980px) {
+@media screen and (min-width: 980px) {
 
     /*=========================================
 ====             HERO SECTION          ====
@@ -38,7 +38,7 @@
     }
 
     .contain h2::before {
-        bottom: -35px;
+        bottom: -55px;
     }
 
     .list-style-one li {
@@ -56,18 +56,25 @@
     .row {
         display: flex;
         flex-direction: row;
+        justify-content: center;
         margin: 6% 0;
+        gap: 25px;
     }
 
     .actu .actu-item-inner {
-        display: flex;
-        width: 90%;
+        height: 100%;
+        width: 290px;
     }
 
     .actu .actu-item {
-        display: flex;
-        justify-content: space-evenly;
+        flex: 1;
+        margin-bottom: 0;
     }
+
+    .actu .actu-item-inner .actu-info .actu-description {
+        min-height: 70px;
+    }
+
 
     /*=========================================
 ====        EVENEMENT SECTION         ====
@@ -108,6 +115,7 @@
 
     .contact .row {
         margin: 0;
+        justify-content: flex-start;
     }
 
     .coord {
@@ -120,5 +128,35 @@
         min-width: 25rem;
         min-height: 45px;
     }
-    
+
+}
+
+@media screen and (min-width:564px) and (max-width:979px) {
+
+    .contain h2::before {
+        bottom: -35px;
     }
+}
+
+@media screen and (min-width: 1300px) {
+    .actu .actu-item-inner {
+        height: 380px;
+        width: 25%;
+    }
+
+    .contain h2::before {
+        bottom: -35px;
+    }
+
+    .actu .actu-item-inner .actu-info .actu-description {
+        min-height: 50px;
+    }
+
+    .row {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-evenly;
+        margin: 6% 0;
+    }
+
+}
