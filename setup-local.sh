@@ -107,16 +107,16 @@ install_deps() {
     pm="$(detect_pkg)"
     case "$pm" in
         dnf)
-            pkgs=(php-cli php-pdo sqlite3 php-mysqlnd php-intl)
+            pkgs=(php-cli php-pdo sqlite3 php-mysqlnd php-intl php-sqlite3)
             log "Installer via dnf: ${pkgs[*]}"
-            if command -v sudo >/dev/null 2>&1; then 
+            if command -v sudo >/dev/null 2>&1; then
                 sudo dnf install -y "${pkgs[@]}"
-            else 
+            else
                 dnf install -y "${pkgs[@]}"
             fi
             ;;
         apt)
-            pkgs=(php-cli sqlite3 php-mysql php-intl)
+            pkgs=(php-cli sqlite3 php-mysql php-intl php-sqlite3)
             log "Installer via apt: ${pkgs[*]}"
             if command -v sudo >/dev/null 2>&1; then
                 sudo apt-get update
@@ -135,9 +135,9 @@ install_deps() {
 
     ok "Dépendances PHP installées (pdo, sqlite3, mysql, intl)."
 
-    if command -v rg >/dev/null 2>&1; then 
+    if command -v rg >/dev/null 2>&1; then
         php -m | rg -i 'pdo|sqlite|mysql|intl' || true
-    else 
+    else
         php -m | grep -Ei 'pdo|sqlite|mysql|intl' || true
     fi
     php -v
