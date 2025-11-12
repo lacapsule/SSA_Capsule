@@ -5,6 +5,7 @@
 
 // Import des modules
 import { initPasswordToggle } from './modules/auth/passwordToggle.js';
+import { initPasswordForgot } from './modules/auth/passwordForgot.js';
 import { initLightbox } from './modules/gallery/lightbox.js';
 import { initFileDownloader } from './modules/download/fileDownload.js';
 import { initUserCheckboxes } from './modules/users/userCheckboxes.js';
@@ -20,6 +21,7 @@ function initApp() {
     try {
         // Modules d'authentification
         initPasswordToggle();
+        initPasswordForgot();
 
         // Modules de galerie
         initLightbox();

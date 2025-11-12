@@ -61,3 +61,11 @@
     </form>
   </div>
 </section>
+
+
+<section class="admin-dashboard">
+    <!-- Contenu principal (injecté depuis les pages) -->
+    <div class="dashboard-content">
+        {{{ content }}}
+    </div>
+</section>

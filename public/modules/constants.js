@@ -6,6 +6,8 @@ export const DOM_SELECTORS = {
     // Auth
     PASSWORD_TOGGLE: '#togglePassword',
     PASSWORD_INPUT: '#password',
+    FORGOT_PASSWORD_LINK: '#forgotPasswordLink',
+    ADMIN_CONTACT_MESSAGE: '#adminContactMessage',
 
     // Gallery
     GALLERY_IMAGES: '.gallery-img',

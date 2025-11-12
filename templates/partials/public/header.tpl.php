@@ -28,7 +28,7 @@
     
     {{#isAuthenticated}}
     <div class="user">
-      <li><a class="icons" href="/dashboard/account">
+      <li><a class="icons" href="/dashboard">
           <img src="/assets/icons/dashboard.svg" alt="Dashboard icon">
         </a></li>
       <li><a class="icons" href="/logout">

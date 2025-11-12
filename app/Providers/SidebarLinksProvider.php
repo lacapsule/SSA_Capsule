@@ -21,11 +21,16 @@ final class SidebarLinksProvider
     {
 
         $links = [
-            ['title' => 'Accueil', 'url' => '/', 'icon' => 'home'],
+            ['title' => 'Accueil', 'url' => '/dashboard', 'icon' => 'dashboard'],
+
+            ['title' => 'Mon Agenda', 'url' => '/dashboard/agenda', 'icon' => 'calendar'],
             ['title' => 'Utilisateurs', 'url' => '/dashboard/users', 'icon' => 'users'],
             ['title' => 'Mes articles', 'url' => '/dashboard/articles', 'icon' => 'articles'],
-            ['title' => 'Mot de passe', 'url' => '/dashboard/account', 'icon' => 'account'],
-            ['title' => 'Agenda', 'url' => '/dashboard/agenda', 'icon' => 'calendar'],
+            ['title' => 'Ma galerie', 'url' => '/dashboard/galerie', 'icon' => 'galerie'],
+
+            ['title' => 'Mon profil', 'url' => '/dashboard/account', 'icon' => 'profil'],
+            
+            ['title'=> 'Allez au site', 'url' => '/', 'icon'=> 'site'],
             ['title' => 'Déconnexion', 'url' => '/logout', 'icon' => 'logout'],
         ];
 
