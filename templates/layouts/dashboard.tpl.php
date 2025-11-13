@@ -9,9 +9,8 @@
     <meta name="author" content="{{str.meta_author}}">
     <title>{{str.page_title}}</title>
 
-    <link rel="stylesheet" href="/assets/css/dashboard-sidebar.css">
-    <link rel="stylesheet" href="/assets/css/module/variables.css">
-    <!-- <link rel="stylesheet" href="assets/css/global.css"> -->
+    <link rel="stylesheet" href="/assets/css/dash-global.css">
+
     <link rel="icon" type="image/png" href="/assets/img/logoSSA.png">
 </head>
 
@@ -24,22 +23,24 @@
     </label>
 
     <nav class="navbar">
-        <a href="/" class="logo-link">
-            <img src="/assets/img/logo.svg" alt="{{str.nav_title}}" class="logo">
-        </a>
-        <h2>Dashboard</h2>
-        <ul>
-            {{#each links}}
-            <li>
-                <a class="icons" href="{{url}}" class="{{#active}}active{{/active}}">
-                    <img src="/assets/icons/{{icon}}.svg" alt="" />
-                    {{title}}
-                </a>
-            </li>
-            {{/each}}
-        </ul>
-    </nav>
+        <div class="contain">
+            <h1>Bienvenue</h1> 
+            <h2>{{user.username}}</h2>
 
+            <ul>
+                {{#each links}}
+                <li>
+                    <a href="{{url}}" class="{{#active}}active{{/active}}">
+                        {{title}}
+                    </a>
+                    <img class="icons" src="/assets/icons/{{icon}}.svg" alt="" />
+                </li>
+                {{/each}}
+            </ul>
+            <div class="copyright">
+                <p>Site web éco-conçu par <a href="">La Capsule</a></p>
+            </div>
+    </nav>
 </header>
 
 <body>

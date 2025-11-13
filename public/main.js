@@ -11,6 +11,7 @@ import { initFileDownloader } from './modules/download/fileDownload.js';
 import { initUserCheckboxes } from './modules/users/userCheckboxes.js';
 import { initUserModal } from './modules/users/userModal.js';
 import { initEventManager } from './modules/calendar/eventManager.js';
+import { initFaq } from './modules/dashboard/faq.js';
 
 /**
  * Initialise tous les modules de l'application
@@ -35,6 +36,9 @@ function initApp() {
 
         // Modules de calendrier
         initEventManager();
+
+        // Dashboard — FAQ
+        initFaq();
 
         console.log('✅ Application initialisée avec succès');
     } catch (error) {

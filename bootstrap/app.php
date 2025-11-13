@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-use App\Modules\Galerie\GalerieController;
 use App\Modules\Home\HomeController;
 use App\Modules\Article\ArticleController;
 use App\Modules\Dashboard\DashboardController;
@@ -34,7 +33,7 @@ $controllers = [
     DashboardController::class,
     LoginController::class,
     UserController::class,
-    GalerieController::class,
+    // GalerieController::class, // removed: module not present
     ProjetController::class,
     AgendaController::class,
 ];

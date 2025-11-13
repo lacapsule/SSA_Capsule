@@ -1,0 +1,225 @@
+
+body {
+  display: grid;
+  grid-template-columns: repeat(1, 16vw auto);
+  /* navbar = 15vw, 16vw pour espacer */
+}
+
+.contain {
+  display: block;
+  width: 100%;
+  margin-bottom: 35px;
+  padding: 0 5%;
+}
+
+.contain h2 {
+  position: relative;
+  display: block;
+  padding-bottom: 10px;
+  color: var(--ssa-txt-noir);
+  font-size: var(--ssa-font-large);
+  font-weight: 600;
+  line-height: 1.2em;
+  text-align: start;
+}
+
+.contain h2::before {
+  position: absolute;
+  left: 0;
+  bottom: 0px;
+  width: 40px;
+  height: 3px;
+  background-color: var(--ssa-vert);
+  content: '';
+}
+
+.navbar {
+  display: flex;
+  padding: var(--ssa-padding-small) 20px;
+  background-color: var(--ssa-fond-clair);
+  box-shadow: var(--ssa-shadow);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 15vw;
+  height: 100vh;
+  z-index: 900;
+}
+
+.navbar ul {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  list-style: none;
+  align-items: start;
+  margin: 20% 0 35vh 0;
+}
+
+.navbar li {
+  width: 100%;
+  display: grid;
+  align-items: center;
+  grid-template-columns: repeat(1, 20% 80%);
+  margin: 0 0 5px 0;
+}
+
+.icons {
+  order: -1;
+  justify-self: end;
+  margin: 0 10px 0 0;
+  height: 22px;
+  width: 22px;
+}
+
+.navbar a {
+  font-size: var(--ssa-font-medium);
+  color: var(--ssa-txt-gris);
+  text-decoration: none;
+}
+
+.navbar a:hover {
+  line-height: 15px;
+  text-decoration: underline var(--ssa-vert) 2px;
+}
+
+.user {
+  display: flex;
+  gap: 15px;
+}
+
+.hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 32px;
+  height: 24px;
+  cursor: pointer;
+  position: fixed;
+  top: 5vh;
+  left: 85vw;
+  z-index: 1001;
+}
+
+.hamburger .line {
+  height: 4px;
+  background: var(--ssa-jaune);
+  border-radius: 2px;
+  transition: all 0.3s ease;
+}
+
+#menu-toggle {
+  display: none;
+}
+
+.copyright {
+  position: relative;
+  text-align: center;
+  font-size: 0.8rem;
+  margin-top: 10px;
+  color: var(--ssa-gris);
+}
+
+.copyright a {
+  font-size: 0.8rem;
+  color: var(--ssa-gris);
+  text-decoration: none;
+  font-weight: bold;
+}
+
+/* Petits mobiles */
+@media screen and (max-width: 950px) {
+
+  .contain {
+    display: block;
+    width: 100%;
+    margin-bottom: 35px;
+    padding: 0 5%;
+  }
+
+  .contain h2 {
+    position: relative;
+    display: block;
+    padding-bottom: 10px;
+    color: var(--ssa-txt-noir);
+    font-size: 25px;
+    font-weight: 600;
+    line-height: 1.2em;
+    text-align: start;
+  }
+
+  .contain h2::before {
+    position: absolute;
+    left: 0px;
+    bottom: 0px;
+    width: 40px;
+    height: 3px;
+    background-color: var(--ssa-vert);
+    content: '';
+  }
+
+  .hamburger {
+    display: flex;
+    justify-content: space-evenly;
+  }
+
+  .navbar {
+    position: fixed;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: flex-start;
+    right: -100%;
+    left: auto;
+    top: 0;
+    width: 50%;
+    height: 100vh;
+    background: var(--ssa-fond-clair);
+    box-shadow: -0.2em 0 0.8em rgba(0, 0, 0, 0.15);
+    padding: 5em 1.5em;
+    transition: right 0.4s ease;
+  }
+
+  .navbar ul {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin: 35% 0;
+  }
+
+  .navbar li {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(2, 30% 70%);
+  }
+
+  .icons {
+    order: -1;
+    justify-self: start;
+    height: 25px;
+    width: 25px;
+  }
+
+  /* Affiche le menu quand checkbox est cochée */
+  #menu-toggle:checked~.navbar {
+    right: 0;
+  }
+
+  /* Animation hamburger - croix */
+  #menu-toggle:checked+.hamburger .line:nth-child(1) {
+    transform: rotate(45deg) translate(5px, 5px);
+    transform-origin: center;
+  }
+
+  #menu-toggle:checked+.hamburger .line:nth-child(2) {
+    opacity: 0;
+  }
+
+  #menu-toggle:checked+.hamburger .line:nth-child(3) {
+    transform: rotate(-45deg) translate(5px, -5px);
+    transform-origin: center;
+  }
+
+  /* Cache la nav classique en mobile */
+  .navbar:not(:target) {
+    display: flex;
+  }
+}

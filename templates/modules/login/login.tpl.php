@@ -1,5 +1,3 @@
-<link rel="stylesheet" href="assets/css/login.css">
-
 <div class="container">
 
   <div class="myform">

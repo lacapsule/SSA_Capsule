@@ -6,6 +6,7 @@
 @import url(./module/home.css);
 @import url(./module/projet.css);
 @import url(./module/galerie.css);
+@import url(./module/login.css);
 
 /* CSS RESPONSIVE */
 @import url(./responsive/headerRS.css);

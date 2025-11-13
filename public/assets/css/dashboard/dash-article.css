@@ -1,0 +1,175 @@
+/* Styles for dashboard article page and tables
+   Matches site design variables from module/variables.css
+*/
+
+@import url('../module/variables.css');
+
+.dash-article-page {
+	padding: var(--ssa-padding-medium);
+	font-family: var(--ssa-fontstyle-txt);
+	color: var(--ssa-txt-gris);
+	background: linear-gradient(180deg, transparent 0%, rgba(0,0,0,0.02) 100%);
+}
+
+.dash-article-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 24px;
+}
+
+.dash-article-header h1 {
+	font-family: var(--ssa-fontstyle-title);
+	font-size: var(--ssa-font-large);
+	color: var(--ssa-fond-sombre);
+	margin: 0;
+}
+
+.dash-article-actions {
+	display: flex;
+	gap: 12px;
+}
+
+.dash-article-actions .btn {
+	padding: 8px 14px;
+	border-radius: var(--ssa-btn-radius);
+	font-weight: 600;
+	cursor: pointer;
+	box-shadow: var(--ssa-shadow);
+}
+
+.btn-primary {
+	background: var(--ssa-vert);
+	color: var(--ssa-txt-blanc);
+}
+.btn-primary:hover { background: var(--ssa-hover-vert); }
+
+.btn-secondary {
+	background: var(--ssa-jaune);
+	color: var(--ssa-txt-noir);
+}
+.btn-secondary:hover { background: var(--ssa-hover-jaune); }
+
+/* Article list container */
+.dash-article-container {
+	background: var(--ssa-fond-clair);
+	border-radius: 12px;
+	padding: 18px;
+	box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+}
+
+/* Table styling */
+.dash-article-table {
+	width: 100%;
+	border-collapse: collapse;
+	font-size: 0.95rem;
+}
+
+.dash-article-table thead th {
+	text-align: left;
+	padding: 12px 16px;
+	background: linear-gradient(90deg, var(--ssa-blanc-trsp), var(--ssa-gris-trsp));
+	color: var(--ssa-txt-gris);
+	font-weight: 700;
+	border-bottom: 2px solid rgba(0,0,0,0.04);
+}
+
+.dash-article-table tbody td {
+	padding: 12px 16px;
+	border-bottom: 1px solid rgba(0,0,0,0.04);
+	vertical-align: middle;
+}
+
+.dash-article-table tbody tr:hover {
+	background: rgba(67,196,102,0.04);
+}
+
+.dash-article-table .col-title {
+	font-weight: 600;
+	color: var(--ssa-fond-sombre);
+}
+
+.dash-article-table .col-meta {
+	color: #6b778a;
+	font-size: 0.9rem;
+}
+
+.article-actions {
+	display: flex;
+	gap: 8px;
+}
+
+.article-actions .icon-btn {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 36px;
+	height: 36px;
+	border-radius: 8px;
+	background: rgba(0,0,0,0.03);
+	cursor: pointer;
+}
+
+.article-actions .icon-btn:hover {
+	transform: var(--ssa-hover-scale);
+	transition: var(--ssa-hover-ease);
+}
+
+/* Empty state */
+.dash-article-empty {
+	text-align: center;
+	padding: 40px 10px;
+	color: #6b778a;
+}
+
+/* Pagination */
+.dash-pagination {
+	display: flex;
+	justify-content: flex-end;
+	gap: 8px;
+	margin-top: 14px;
+}
+
+.dash-pagination .page-btn {
+	padding: 8px 12px;
+	border-radius: 6px;
+	background: transparent;
+	border: 1px solid rgba(0,0,0,0.06);
+	cursor: pointer;
+}
+
+.dash-pagination .page-btn.active {
+	background: var(--ssa-vert);
+	color: var(--ssa-txt-blanc);
+	border-color: transparent;
+}
+
+/* Responsive adjustments */
+@media screen and (max-width: 900px) {
+	.dash-article-header {
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 12px;
+	}
+
+	.dash-article-table thead {
+		display: none;
+	}
+
+	.dash-article-table, .dash-article-table tbody, .dash-article-table tr, .dash-article-table td {
+		display: block;
+		width: 100%;
+	}
+
+	.dash-article-table tbody td {
+		padding: 10px 12px;
+	}
+
+	.dash-article-table td::before {
+		content: attr(data-label);
+		display: block;
+		font-weight: 700;
+		margin-bottom: 6px;
+	}
+}
+

@@ -31,6 +31,9 @@ export const DOM_SELECTORS = {
     BTN_OPEN_MODAL: '#btn-open-modal',
     CLOSE_MODAL: '#closeModal',
     EVENT_CONTAINER: '#event-container',
+    
+    // FAQ
+    FAQ_QUESTION: '.question',
 };
 
 export const FILE_CONFIG = {

@@ -1,43 +1,53 @@
-<section class="articles">
-  <h1>Gestion des articles</h1>
-  <p><a href="{{createUrl}}">Créer un article</a></p>
+<section class="dash-article-page">
+  <div class="dash-article-header">
+    <h1>Gestion des articles</h1>
+    <div class="dash-article-actions">
+      <a href="/dashboard/articles/create" class="btn btn-primary">Créer un article</a>
+    </div>
+  </div>
 
   {{^articles}}
-    <p>Aucun article trouvé.</p>
+  <div class="dash-article-container">
+    <p class="dash-article-empty">Aucun article trouvé.</p>
+  </div>
   {{/articles}}
 
   {{#articles}}
-    <div class="wrapper">
-      <table>
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Titre</th>
-            <th>Résumé</th>
-            <th>Date</th>
-            <th>Auteur</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {{#each articles}}
-            <tr>
-              <td>{{id}}</td>
-              <td>{{titre}}</td>
-              <td>{{resume}}</td>
-              <td>{{date}}</td>
-              <td>{{author}}</td>
-              <td class="buttons">
-                <a href="{{editUrl}}">Modifier</a>
-                <form action="{{deleteUrl}}" method="post" style="display:inline;" onsubmit="return confirm('Supprimer cet article ?');">
-                  {{{csrf_input}}}
-                  <button type="submit" style="background-color:#ED7F7F;">Supprimer</button>
-                </form>
-              </td>
-            </tr>
-          {{/each}}
-        </tbody>
-      </table>
-    </div>
+  <div class="dash-article-container">
+    <table class="dash-article-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Titre</th>
+          <th>Résumé</th>
+          <th>Date</th>
+          <th>Auteur</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        {{#each articles}}
+        <tr>
+          <td data-label="ID">{{id}}</td>
+          <td data-label="Titre" class="col-title">{{titre}}</td>
+          <td data-label="Résumé" class="col-meta">{{resume}}</td>
+          <td data-label="Date">{{date}}</td>
+          <td data-label="Auteur">{{author}}</td>
+          <td data-label="Actions">
+            <div class="article-actions">
+              <a href="{{editUrl}}" class="btn btn-primary">Modifier</a>
+              <form action="{{deleteUrl}}" method="post" onsubmit="return confirm('Supprimer cet article ?');">
+                {{{csrf_input}}}
+                <button type="submit" class="btn btn-secondary">Supprimer</button>
+              </form>
+            </div>
+          </td>
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
   {{/articles}}
+
 </section>

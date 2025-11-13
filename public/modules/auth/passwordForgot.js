@@ -1,5 +1,5 @@
 /**
- * Module de gestion de la visibilité du mot de passe
+ * Module de gestion du mot de passe oublié
  */
 import { DOM_SELECTORS } from '../constants.js';
 import { getElement, addEventListenerSafe } from '../utils/dom.js';
