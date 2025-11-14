@@ -2,7 +2,7 @@
     <div class="contain">
         <div class="title">
             <div class="section-title">
-                <h2>évènement</h2>
+                <h2>évènements</h2>
                 <p>{{str.agenda_intro}}</p>
             </div>
         </div>

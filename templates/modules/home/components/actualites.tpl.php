@@ -9,7 +9,7 @@
       {{#each articles}}
         <div class="actu-item-inner shadow-dark">
           <div class="actu-img">
-            <img src="assets/img/test_fond.jpg" alt="actu">
+            <img src="{{image}}" alt="{{titre}}">
             <div class="actu-date">{{date_actu}}</div>
           </div>
           <div class="actu-info">
@@ -20,4 +20,17 @@
         </div>
       {{/each}}
     </div>
+    <nav class="gallery-pagination">
+      {{#pagination.hasPrev}}
+      <a href="?page={{pagination.prev}}#actu" class="prev-page">&laquo; Précédent</a>
+      {{/pagination.hasPrev}}
+
+      {{#pagination.show_pagination_info}}
+      <span>Page {{pagination.current}} / {{pagination.total}}</span>
+      {{/pagination.show_pagination_info}}
+
+      {{#pagination.hasNext}}
+      <a href="?page={{pagination.next}}#actu" class="next-page">Suivant &raquo;</a>
+      {{/pagination.hasNext}}
+    </nav>
 </section>

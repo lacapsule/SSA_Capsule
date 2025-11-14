@@ -12,6 +12,8 @@ import { initUserCheckboxes } from './modules/users/userCheckboxes.js';
 import { initUserModal } from './modules/users/userModal.js';
 import { initEventManager } from './modules/calendar/eventManager.js';
 import { initFaq } from './modules/dashboard/faq.js';
+import { initModals } from './modules/modal/universalModal.js';
+import { initArticleModal } from './modules/articles/articleModal.js';
 
 /**
  * Initialise tous les modules de l'application
@@ -39,6 +41,10 @@ function initApp() {
 
         // Dashboard — FAQ
         initFaq();
+
+        // Modals universelles
+        initModals();
+        initArticleModal();
 
         console.log('✅ Application initialisée avec succès');
     } catch (error) {

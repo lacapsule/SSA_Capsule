@@ -9,7 +9,7 @@
   <meta name="author" content="{{str.meta_author}}">
   <title>{{str.page_title}}</title>
 
-  <link rel="stylesheet" href="assets/css/global.css">
+  <link rel="stylesheet" href="/assets/css/global.css">
   <link rel="icon" type="image/png" href="/assets/img/logoSSA.png">
 </head>
 

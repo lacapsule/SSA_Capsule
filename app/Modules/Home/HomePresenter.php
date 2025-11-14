@@ -96,7 +96,7 @@ final class HomePresenter
                 'id' => (int)($a->id ?? 0),
                 'titre' => $title,
                 'resume' => $sum,
-                'image' => Safe::imageUrl((string)($a->image ?? '/assets/img/placeholder.webp')),
+                'image' => Safe::imageUrl((string)($a->image ?? '/assets/img/logoSSA.png')),
                 'category' => (string)($a->category ?? 'general'),
             ];
         });
@@ -105,6 +105,15 @@ final class HomePresenter
           'articles' => IterablePresenter::toArray($articlesIt),
           'partenaires' => $dto->partenaires,
           'financeurs' => $dto->financeurs,
+          'pagination' => [
+                'current' => $dto->page->page,
+                'total' => $dto->page->pages(),
+                'hasPrev' => $dto->page->hasPrev(),
+                'hasNext' => $dto->page->hasNext(),
+                'prev' => $dto->page->page - 1,
+                'next' => $dto->page->page + 1,
+                'show_pagination_info' => $dto->page->pages() > 1,
+            ],
         ];
     }
 }

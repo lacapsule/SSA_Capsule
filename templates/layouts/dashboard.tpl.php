@@ -10,6 +10,7 @@
     <title>{{str.page_title}}</title>
 
     <link rel="stylesheet" href="/assets/css/dash-global.css">
+    <link rel="stylesheet" href="/assets/css/modal.css">
 
     <link rel="icon" type="image/png" href="/assets/img/logoSSA.png">
 </head>

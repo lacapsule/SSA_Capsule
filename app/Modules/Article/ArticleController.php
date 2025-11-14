@@ -12,6 +12,7 @@ use Capsule\Routing\Attribute\Route;
 use Capsule\Routing\Attribute\RoutePrefix;
 use Capsule\Security\CsrfTokenManager;
 use Capsule\Support\Pagination\Paginator;
+use App\Support\ImageConverter;
 use Capsule\View\BaseController;
 
 #[RoutePrefix('/dashboard/articles')]
@@ -109,21 +110,46 @@ final class ArticleController extends BaseController
     #[Route(path: '/create', methods: ['POST'])]
     public function createSubmit(): Response
     {
+        // Log CSRF attempt for debugging
+        $isAjax = $_SERVER['HTTP_X_REQUESTED_WITH'] ?? '' === 'XMLHttpRequest';
+        error_log("🔒 CSRF Check - POST Data: " . json_encode(array_keys($_POST)) . " | AJAX: " . ($isAjax ? 'yes' : 'no') . " | Session: " . session_id());
+        
         CsrfTokenManager::requireValidToken();
 
         $current = $this->currentUser();
-        $result = $this->articles->create($_POST, $current);
 
-        if (!empty($result['errors'])) {
-            return $this->redirectWithErrors(
-                '/dashboard/articles/create',
-                'Le formulaire contient des erreurs.',
-                $result['errors'],
-                $result['data'] ?? $_POST
-            );
+        // Handle uploaded image if present
+        if (!empty($_FILES['image']) && ($_FILES['image']['error'] ?? UPLOAD_ERR_NO_FILE) === UPLOAD_ERR_OK) {
+            $uploaded = ImageConverter::convertUploadedFile($_FILES['image']);
+            if ($uploaded !== null) {
+                // store web path in POST for service
+                $_POST['image'] = $uploaded;
+            }
         }
 
-        return $this->redirectWithSuccess('/dashboard/articles', 'Article créé.');
+        $result = $this->articles->create($_POST, $current);
+
+            // Détection requête AJAX
+            $isAjax = $_SERVER['HTTP_X_REQUESTED_WITH'] ?? '' === 'XMLHttpRequest' || 
+                      !empty($_POST) && strpos($_SERVER['CONTENT_TYPE'] ?? '', 'application/x-www-form-urlencoded') === 0;
+
+            if (!empty($result['errors'])) {
+                if ($isAjax) {
+                    return $this->res->json(['success' => false, 'errors' => $result['errors']], 400);
+                }
+                return $this->redirectWithErrors(
+                    '/dashboard/articles/create',
+                    'Le formulaire contient des erreurs.',
+                    $result['errors'],
+                    $result['data'] ?? $_POST
+                );
+            }
+
+            if ($isAjax) {
+                return $this->res->json(['success' => true, 'message' => 'Article créé avec succès.']);
+            }
+
+            return $this->redirectWithSuccess('/dashboard/articles', 'Article créé.');
     }
 
     /** GET /dashboard/articles/edit/{id} */
@@ -155,24 +181,68 @@ final class ArticleController extends BaseController
     #[Route(path: '/edit/{id}', methods: ['POST'])]
     public function editSubmit(int $id): Response
     {
+        // Log CSRF attempt for debugging
+        error_log("🔒 CSRF Check Edit - POST Data: " . json_encode(array_keys($_POST)) . " | Session: " . session_id());
+        
         CsrfTokenManager::requireValidToken();
 
         if (!$this->articles->getById($id)) {
             return $this->res->text('Not Found', 404);
         }
 
-        $result = $this->articles->update($id, $_POST);
-        if (!empty($result['errors'])) {
-            return $this->redirectWithErrors(
-                "/dashboard/articles/edit/{$id}",
-                'Le formulaire contient des erreurs.',
-                $result['errors'],
-                $result['data'] ?? $_POST
-            );
+        // Récupérer ancienne image si besoin
+        $dto = $this->articles->getById($id);
+        $oldImage = $dto?->image ?? null;
+
+        // Handle uploaded image if present
+        $uploaded = null;
+        if (!empty($_FILES['image']) && ($_FILES['image']['error'] ?? UPLOAD_ERR_NO_FILE) === UPLOAD_ERR_OK) {
+            $uploaded = ImageConverter::convertUploadedFile($_FILES['image']);
+            if ($uploaded !== null) {
+                $_POST['image'] = $uploaded;
+            }
         }
 
-        return $this->redirectWithSuccess('/dashboard/articles', 'Article mis à jour.');
+        $result = $this->articles->update($id, $_POST);
+            // Détection requête AJAX
+            $isAjax = $_SERVER['HTTP_X_REQUESTED_WITH'] ?? '' === 'XMLHttpRequest' || 
+                      !empty($_POST) && strpos($_SERVER['CONTENT_TYPE'] ?? '', 'application/x-www-form-urlencoded') === 0;
+
+            if (!empty($result['errors'])) {
+                if ($isAjax) {
+                    return $this->res->json(['success' => false, 'errors' => $result['errors']], 400);
+                }
+                return $this->redirectWithErrors(
+                    "/dashboard/articles/edit/{$id}",
+                    'Le formulaire contient des erreurs.',
+                    $result['errors'],
+                    $result['data'] ?? $_POST
+                );
+            }
+
+            if ($isAjax) {
+                // If we uploaded a new image, remove the old file from disk (only if it was stored in articles dir)
+                if ($uploaded && $oldImage && str_starts_with($oldImage, '/assets/img/articles/')) {
+                    $oldPath = __DIR__ . '/../../..' . $oldImage;
+                    if (is_file($oldPath)) {
+                        @unlink($oldPath);
+                    }
+                }
+
+                return $this->res->json(['success' => true, 'message' => 'Article modifié avec succès.']);
+            }
+            // Cleanup old image when not AJAX as well
+            if ($uploaded && $oldImage && str_starts_with($oldImage, '/assets/img/articles/')) {
+                $oldPath = __DIR__ . '/../../..' . $oldImage;
+                if (is_file($oldPath)) {
+                    @unlink($oldPath);
+                }
+            }
+
+            return $this->redirectWithSuccess('/dashboard/articles', 'Article mis à jour.');
     }
+
+    // image conversion is delegated to App\Support\ImageConverter
 
     /** POST /dashboard/articles/delete/{id} */
     #[Route(path: '/delete/{id}', methods: ['POST'])]
@@ -183,6 +253,49 @@ final class ArticleController extends BaseController
         // idempotent : delete "silencieux"
         $this->articles->delete($id);
 
-        return $this->redirectWithSuccess('/dashboard/articles', 'Article supprimé.');
+            // Détection requête AJAX
+            $isAjax = $_SERVER['HTTP_X_REQUESTED_WITH'] ?? '' === 'XMLHttpRequest' || 
+                      !empty($_POST) && strpos($_SERVER['CONTENT_TYPE'] ?? '', 'application/x-www-form-urlencoded') === 0;
+
+            if ($isAjax) {
+                return $this->res->json(['success' => true, 'message' => 'Article supprimé avec succès.']);
+            }
+
+            return $this->redirectWithSuccess('/dashboard/articles', 'Article supprimé.');
+    }
+
+    /** GET /dashboard/articles/api/{id} - Récupère les détails complets d'un article */
+    #[Route(path: '/api/{id}', methods: ['GET'])]
+    public function getArticle(int $id): Response
+    {
+        try {
+            $dto = $this->articles->getById($id);
+            
+            if (!$dto) {
+                return $this->res->json([
+                    'success' => false,
+                    'message' => 'Article non trouvé'
+                ], 404);
+            }
+
+            return $this->res->json([
+                'success' => true,
+                'article' => [
+                    'id' => $dto->id,
+                    'titre' => $dto->titre,
+                    'resume' => $dto->resume,
+                    'description' => $dto->description,
+                    'date_article' => $dto->date_article,
+                    'hours' => $dto->hours,
+                    'lieu' => $dto->lieu,
+                    'image' => $dto->image,
+                ]
+            ]);
+        } catch (\Throwable $e) {
+            return $this->res->json([
+                'success' => false,
+                'message' => 'Erreur lors de la récupération de l\'article'
+            ], 500);
+        }
     }
 }

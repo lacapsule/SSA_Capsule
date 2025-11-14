@@ -6,6 +6,7 @@ use App\Modules\Home\HomeController;
 use App\Modules\Article\ArticleController;
 use App\Modules\Dashboard\DashboardController;
 use App\Modules\Login\LoginController;
+use App\Modules\Galerie\GalerieController;
 use App\Modules\Projet\ProjetController;
 use App\Modules\User\UserController;
 use App\Modules\Agenda\AgendaController;
@@ -32,9 +33,9 @@ $controllers = [
     ArticleController::class,
     DashboardController::class,
     LoginController::class,
-    UserController::class,
-    // GalerieController::class, // removed: module not present
+    GalerieController::class,
     ProjetController::class,
+    UserController::class,
     AgendaController::class,
 ];
 

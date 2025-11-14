@@ -32,7 +32,7 @@ return [
     'nav_title' => 'Sécurité Sociale de l’Alimentation – Pays de Morlaix',
     'nav_home' => 'Accueil',
     'nav_project' => 'Le projet SSA',
-    'nav_agenda' => 'Évenement',
+    'nav_agenda' => 'Évènements',
     'nav_actualites' => 'Actualités',
     'nav_galerie' => 'Galerie',
     'nav_apropos' => 'Qui sommes-nous ?',

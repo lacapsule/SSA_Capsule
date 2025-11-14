@@ -29,6 +29,7 @@ final class ProjetController extends BaseController
             'showHeader' => true,
             'showFooter' => true,
             'str' => $this->i18n(),
+            'isAuthenticated' => $this->isAuthenticated(),
         ]);
     }
 }

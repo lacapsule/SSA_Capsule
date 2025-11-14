@@ -8,7 +8,7 @@
 	padding: var(--ssa-padding-medium);
 	font-family: var(--ssa-fontstyle-txt);
 	color: var(--ssa-txt-gris);
-	background: linear-gradient(180deg, transparent 0%, rgba(0,0,0,0.02) 100%);
+	background:var(--ssa-blanc);
 }
 
 .dash-article-header {
@@ -52,7 +52,7 @@
 
 /* Article list container */
 .dash-article-container {
-	background: var(--ssa-fond-clair);
+	background: var(--ssa-blanc);
 	border-radius: 12px;
 	padding: 18px;
 	box-shadow: 0 6px 18px rgba(0,0,0,0.06);
@@ -68,20 +68,20 @@
 .dash-article-table thead th {
 	text-align: left;
 	padding: 12px 16px;
-	background: linear-gradient(90deg, var(--ssa-blanc-trsp), var(--ssa-gris-trsp));
-	color: var(--ssa-txt-gris);
+	background: var(--ssa-gris);
+	color: var(--ssa-txt-blanc);
 	font-weight: 700;
-	border-bottom: 2px solid rgba(0,0,0,0.04);
+	border: 1px solid rgba(255, 255, 255, 0.37);
 }
 
 .dash-article-table tbody td {
 	padding: 12px 16px;
-	border-bottom: 1px solid rgba(0,0,0,0.04);
+	border-bottom: 1px solid rgba(0, 0, 0, 0.144);
 	vertical-align: middle;
 }
 
 .dash-article-table tbody tr:hover {
-	background: rgba(67,196,102,0.04);
+	background: var(--ssa-jaune-trsp);
 }
 
 .dash-article-table .col-title {

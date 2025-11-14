@@ -32,6 +32,22 @@ final class ArticleService
        ======= Queries =======
        ======================= */
 
+    public function countUpcoming(): int
+    {
+        return $this->articleRepository->countUpcoming();
+    }
+
+    public function getAllPaginated(int $limit, int $offset): iterable
+    {
+        $rows = $this->articleRepository->findAllPaginated($limit, $offset);
+        return $this->asIterable($rows);
+    }
+
+    public function countAll(): int
+    {
+        return $this->articleRepository->countAll();
+    }
+
     /**
      * Liste paginée (flux paresseux).
      * @return iterable<ArticleDTO>
@@ -189,12 +205,22 @@ final class ArticleService
             }
         }
 
-        // Date (YYYY-MM-DD) valide
+        // Date (YYYY-MM-DD ou JJ-MM-AAAA valide)
         if (!empty($data['date_article'])) {
-            $d = \DateTime::createFromFormat('d-m-Y', (string)$data['date_article']);
-            $ok = $d && $d->format('d-m-Y') === $data['date_article'];
+            $dateStr = (string)$data['date_article'];
+            
+            // Essayer format input HTML (YYYY-MM-DD)
+            $d = \DateTime::createFromFormat('Y-m-d', $dateStr);
+            $ok = $d && $d->format('Y-m-d') === $dateStr;
+            
+            // Si échoue, essayer format classique (JJ-MM-AAAA)
             if (!$ok) {
-                $errors['date_article'] = 'Format date invalide (attendu : AAAA-MM-JJ)';
+                $d = \DateTime::createFromFormat('d-m-Y', $dateStr);
+                $ok = $d && $d->format('d-m-Y') === $dateStr;
+            }
+            
+            if (!$ok) {
+                $errors['date_article'] = 'Format date invalide (attendu : AAAA-MM-JJ ou JJ-MM-AAAA)';
             }
         }
 
@@ -212,8 +238,8 @@ final class ArticleService
 
     /**
      * Transforme les données validées en format prêt pour la DB.
+     * - date_article : normalisé en YYYY-MM-DD
      * - hours        : normalisé en HH:MM:SS
-     * - date_article : YYYY-MM-DD (déjà validé)
      *
      * @param array<string,mixed> $data
      * @return array<string,mixed>
@@ -221,6 +247,23 @@ final class ArticleService
     private function toPersistenceArray(array $data): array
     {
         $out = $data;
+
+        // date_article → YYYY-MM-DD (normaliser JJ-MM-AAAA si nécessaire)
+        if (!empty($out['date_article'])) {
+            $dateStr = (string)$out['date_article'];
+            
+            // Si déjà au format YYYY-MM-DD, garder
+            if (\DateTime::createFromFormat('Y-m-d', $dateStr) && 
+                \DateTime::createFromFormat('Y-m-d', $dateStr)->format('Y-m-d') === $dateStr) {
+                $out['date_article'] = $dateStr;
+            } else {
+                // Convertir JJ-MM-AAAA → YYYY-MM-DD
+                $d = \DateTime::createFromFormat('d-m-Y', $dateStr);
+                if ($d) {
+                    $out['date_article'] = $d->format('Y-m-d');
+                }
+            }
+        }
 
         // hours → HH:MM:SS
         if (!empty($out['hours'])) {

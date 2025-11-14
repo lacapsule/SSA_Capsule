@@ -57,9 +57,9 @@ class CsrfTokenManager
     }
 
     /**
-     * Exige qu’une requête POST contienne un token CSRF valide.
+     * Exige qu'une requête POST contienne un token CSRF valide.
      *
-     * Si le token est absent ou invalide, stoppe l’exécution avec une erreur 403.
+     * Si le token est absent ou invalide, stoppe l'exécution avec une erreur 403.
      *
      * @return void
      */
@@ -67,8 +67,28 @@ class CsrfTokenManager
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $token = $_POST['_csrf'] ?? '';
+            
             if (!self::checkToken($token)) {
                 http_response_code(403);
+                
+                // Return JSON for AJAX requests
+                $isAjax = ($_SERVER['HTTP_X_REQUESTED_WITH'] ?? '') === 'XMLHttpRequest';
+                if ($isAjax) {
+                    header('Content-Type: application/json');
+                    echo json_encode([
+                        'success' => false,
+                        'message' => 'CSRF token invalid or missing.',
+                        'debug' => [
+                            'token_received' => $token,
+                            'token_in_session' => $_SESSION[self::TOKEN_KEY] ?? 'not_set',
+                            'session_id' => session_id(),
+                            'post_keys' => array_keys($_POST),
+                            'content_type' => $_SERVER['CONTENT_TYPE'] ?? 'not_set',
+                        ]
+                    ]);
+                    exit(1);
+                }
+                
                 die('CSRF token invalid. Action refused.');
             }
         }

@@ -39,6 +39,8 @@ use App\Modules\Article\ArticleRepository;
 use App\Modules\Article\ArticleService;
 use App\Modules\Dashboard\DashboardController;
 use App\Modules\Dashboard\DashboardService;
+use App\Modules\Galerie\GalerieRepository;
+use App\Modules\Galerie\GalerieService;
 use App\Modules\Home\HomeController;
 use App\Modules\Home\HomeService;
 use App\Modules\Login\LoginController;
@@ -160,6 +162,7 @@ return (function (): DIContainer {
     $c->set(UserRepository::class, fn ($c) => new UserRepository($c->get('pdo')));
     $c->set(ArticleRepository::class, fn ($c) => new ArticleRepository($c->get('pdo')));
     $c->set(AgendaRepository::class, fn ($c) => new AgendaRepository($c->get('pdo')));
+    $c->set(GalerieRepository::class, fn () => new GalerieRepository());
 
     // ==========================================
     // SERVICES (Logique métier)
@@ -195,6 +198,10 @@ return (function (): DIContainer {
         $c->get(UserService::class)
     ));
 
+    $c->set(GalerieService::class, fn ($c) => new GalerieService(
+        $c->get(GalerieRepository::class)
+    ));
+
     // ==========================================
     // PROVIDERS (Fournisseurs de données)
     // ==========================================
@@ -218,6 +225,7 @@ return (function (): DIContainer {
     ));
 
     $c->set(GalerieController::class, fn ($c) => new GalerieController(
+        $c->get(GalerieService::class),
         $c->get(ResponseFactoryInterface::class),
         $c->get(ViewRendererInterface::class),
     ));
