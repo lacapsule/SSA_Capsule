@@ -1,24 +1,3 @@
-<!-- 
-</section>
-
-<div class="galleryOverlay" id="image-overlay" tabindex="-1">
-  <span class="close-btn" id="close-overlay">&times;</span>
-  <button id="prev-img">&#8592;</button>
-  <img id="overlay-img" src="" alt="Image en grand">
-  <button id="next-img">&#8594;</button>
-</div> 
-
-<section id="gallery section">
-  <div class="gallery">
-    {{#each pictures}}
-    <picture>
-      <img src="{{src}}" alt="{{alt}}" loading="lazy" decoding="async" width="200" height="200">
-    </picture>
-    {{/each}}
-  </div>
-</section>
--->
-
 <section class="gallery-header section">
    <div class="title">
       <div class="section-title">

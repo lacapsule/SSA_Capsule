@@ -1,20 +1,28 @@
-<section class="dash-article-page">
-  <div class="dash-article-header">
+<section class="dash-section-page">
+  <div class="dash-components-header">
     <h1>Gestion des articles</h1>
-    <div class="dash-article-actions">
+    <div class="dash-components-actions">
       <button data-modal-open="article-create-modal" class="btn btn-primary">Créer un article</button>
     </div>
   </div>
 
   {{^articles}}
-  <div class="dash-article-container">
-    <p class="dash-article-empty">Aucun article trouvé.</p>
+  <div class="dash-components-container">
+    <p class="dash-components-empty">Aucun article trouvé.</p>
   </div>
   {{/articles}}
 
   {{#articles}}
-  <div class="dash-article-container">
-    <table class="dash-article-table">
+  <div class="dash-components-container">
+    <table class="dash-components-table">
+      <colgroup>
+        <col style="width:40px">
+        <col style="width:180px">
+        <col style="width:250px">
+        <col style="width:120px">
+        <col style="width:120px">
+        <col style="width:80px">
+      </colgroup>
       <thead>
         <tr>
           <th>ID</th>
@@ -29,15 +37,20 @@
       <tbody>
         {{#each articles}}
         <tr>
-          <td data-label="ID">{{id}}</td>
-          <td data-label="Titre" class="col-title">{{titre}}</td>
-          <td data-label="Résumé" class="col-meta">{{resume}}</td>
-          <td data-label="Date">{{date}}</td>
-          <td data-label="Auteur">{{author}}</td>
-          <td data-label="Actions">
-            <div class="article-actions">
-              <button data-edit-article="{{id}}" class="btn btn-primary">Modifier</button>
-              <button data-delete-article="{{id}}" data-article-title="{{titre}}" class="btn btn-secondary">Supprimer</button>
+          <td class="col-id" data-label="ID">{{id}}</td>
+          <td class="col-title" data-label="Titre">{{titre}}</td>
+          <td class="col-meta" data-label="Résumé">{{resume}}</td>
+          <td class="col-date" data-label="Date">{{date}}</td>
+          <td class="col-auteur" data-label="Auteur">{{author}}</td>
+          <td class="col-action" data-label="Actions">
+            <div class="dash-components-actions2">
+              <a>
+                <img data-edit-article="{{id}}" src="/assets/icons/edit.svg" alt="Editer l'article" title="Editer l'article">
+              </a>
+              <a>
+                <img data-delete-article="{{id}}" data-article-title="{{titre}}" src="/assets/icons/bin.svg"
+                  alt="Supprimer l'article" title="Supprimer l'article">
+              </a>
             </div>
           </td>
         </tr>
@@ -64,24 +77,24 @@
               <input type="text" id="titre" name="titre" required>
             </div>
             <div class="form-group">
-              <label for="resume">Résumé</label>
-              <input type="text" id="resume" name="resume">
+              <label for="resume">Résumé *</label>
+              <input type="text" id="resume" name="resume" required>
             </div>
             <div class="form-group">
-              <label for="description">Description</label>
-              <textarea id="description" name="description"></textarea>
+              <label for="description">Description *</label>
+              <textarea id="description" name="description" required></textarea>
             </div>
             <div class="form-group">
               <label for="date_article">Date *</label>
               <input type="date" id="date_article" name="date_article" required>
             </div>
             <div class="form-group">
-              <label for="hours">Heure</label>
-              <input type="time" id="hours" name="hours">
+              <label for="hours">Heure* </label>
+              <input type="time" id="hours" name="hours" required>
             </div>
             <div class="form-group">
-              <label for="lieu">Lieu</label>
-              <input type="text" id="lieu" name="lieu">
+              <label for="lieu">Lieu* </label>
+              <input type="text" id="lieu" name="lieu" required>
             </div>
             <div class="form-group">
               <label for="image">Image de la miniature</label>
@@ -107,7 +120,7 @@
     <div class="modal-overlay">
       <div class="modal-content">
         <div class="modal-header">
-          <h2>Modifier l'article</h2>
+          <h2>Modifier</h2>
           <button type="button" class="modal-close-btn" aria-label="Fermer la modal">
             <span>&times;</span>
           </button>

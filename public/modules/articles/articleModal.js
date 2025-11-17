@@ -13,21 +13,21 @@ import { modalManager } from '../modal/universalModal.js';
  */
 function convertDateToInputFormat(dateStr) {
   if (!dateStr) return '';
-  
+
   // Essayer JJ/MM/AAAA ou JJ-MM-AAAA
   const regex = /^(\d{2})[\/-](\d{2})[\/-](\d{4})$/;
   const match = dateStr.match(regex);
-  
+
   if (match) {
     const [, day, month, year] = match;
     return `${year}-${month}-${day}`;
   }
-  
+
   // Si déjà au format AAAA-MM-JJ, retourner tel quel
   if (/^\d{4}-\d{2}-\d{2}$/.test(dateStr)) {
     return dateStr;
   }
-  
+
   return '';
 }
 
@@ -38,15 +38,16 @@ function convertDateToInputFormat(dateStr) {
  */
 function convertDateToDisplayFormat(dateStr) {
   if (!dateStr) return '';
-  
+
   const regex = /^(\d{4})-(\d{2})-(\d{2})$/;
   const match = dateStr.match(regex);
-  
+  const affichageDate = convertDateToDisplayFormatShort(article.date);
+
   if (match) {
     const [, year, month, day] = match;
     return `${day}/${month}/${year}`;
   }
-  
+
   return dateStr;
 }
 
@@ -167,7 +168,7 @@ class ArticleModalManager {
    */
   async handleEdit(articleId) {
     if (!this.editModal) return;
-    
+
     this.editModal.setSubmitText('Chargement...');
     this.editModal.setSubmitEnabled(false);
 
@@ -185,25 +186,25 @@ class ArticleModalManager {
       }
 
       const data = await response.json();
-      
+
       if (!data.success || !data.article) {
         this.editModal.showError('Article non trouvé');
         return;
       }
 
       const article = data.article;
-      
+
       // Remplir le formulaire avec tous les détails
       this.editModal.reset();
       this.editModal.setTitle(`Modifier "${article.titre}"`);
-      
+
       const form = this.editModal.getForm();
       if (form) {
         form.action = `/dashboard/articles/edit/${articleId}`;
         form.querySelector('#edit_titre')?.setAttribute('value', article.titre || '');
         form.querySelector('#edit_resume')?.setAttribute('value', article.resume || '');
-  const descEl = form.querySelector('#edit_description');
-  if (descEl) descEl.value = article.description || '';
+        const descEl = form.querySelector('#edit_description');
+        if (descEl) descEl.value = article.description || '';
         // Convertir JJ/MM/AAAA → AAAA-MM-JJ pour input type="date"
         form.querySelector('#edit_date_article')?.setAttribute('value', convertDateToInputFormat(article.date_article) || '');
         // Normaliser l'heure au format HH:MM
@@ -247,9 +248,9 @@ class ArticleModalManager {
    */
   handleDelete(articleId, articleTitle) {
     if (!this.deleteModal) return;
-    
+
     this.deleteModal.setTitle('Confirmer la suppression');
-    
+
     // Mettre à jour le titre de l'article à supprimer
     const titleElement = this.deleteModal.modal?.querySelector('#delete-article-title');
     if (titleElement) {
@@ -275,39 +276,39 @@ class ArticleModalManager {
 
     const form = this.createModal?.getForm();
     if (!form.checkValidity()) {
-        const invalidFields = Array.from(form.querySelectorAll(':invalid'));
-        const errorMessages = invalidFields.map(el => {
-            const label = form.querySelector(`label[for="${el.id}"]`);
-            return label ? label.textContent.replace('*', '').trim() : el.name;
-        });
-        
-        const errorMessage = 'Veuillez remplir les champs obligatoires : ' + errorMessages.join(', ');
-        this.createModal?.showError(errorMessage);
-        return;
+      const invalidFields = Array.from(form.querySelectorAll(':invalid'));
+      const errorMessages = invalidFields.map(el => {
+        const label = form.querySelector(`label[for="${el.id}"]`);
+        return label ? label.textContent.replace('*', '').trim() : el.name;
+      });
+
+      const errorMessage = 'Veuillez remplir les champs obligatoires : ' + errorMessages.join(', ');
+      this.createModal?.showError(errorMessage);
+      return;
     }
 
     this.createModal?.setSubmitEnabled(false);
-      const formData = new FormData(form);
-      const csrfToken = document.querySelector('input[name="_csrf"]')?.value;
-      console.log('CSRF token found in document:', csrfToken);
-      if (csrfToken) {
-        formData.set('_csrf', csrfToken);
-      }
-      const action = form.getAttribute('action') || '/dashboard/articles/create';
+    const formData = new FormData(form);
+    const csrfToken = document.querySelector('input[name="_csrf"]')?.value;
+    console.log('CSRF token found in document:', csrfToken);
+    if (csrfToken) {
+      formData.set('_csrf', csrfToken);
+    }
+    const action = form.getAttribute('action') || '/dashboard/articles/create';
 
-      // Si un fichier est présent, utiliser XHR pour afficher la progression
-      const fileInput = form.querySelector('input[type="file"][name="image"]');
-      const hasFile = fileInput && fileInput.files && fileInput.files.length > 0;
+    // Si un fichier est présent, utiliser XHR pour afficher la progression
+    const fileInput = form.querySelector('input[type="file"][name="image"]');
+    const hasFile = fileInput && fileInput.files && fileInput.files.length > 0;
 
-      const sendPromise = hasFile
-        ? this.sendFormWithProgress(formData, action, this.createModal)
-        : this.sendFormFetch(formData, action);
+    const sendPromise = hasFile
+      ? this.sendFormWithProgress(formData, action, this.createModal)
+      : this.sendFormFetch(formData, action);
 
-      sendPromise
+    sendPromise
       .then(({ ok, status, data }) => {
         console.log('📊 Réponse serveur:', { ok, status, data });
         this.createModal?.clearProgress();
-        
+
         if (ok && data.success) {
           this.createModal?.showSuccess(data.message || 'Article créé avec succès !');
           setTimeout(() => {
@@ -338,15 +339,15 @@ class ArticleModalManager {
 
     const form = this.editModal?.getForm();
     if (!form.checkValidity()) {
-        const invalidFields = Array.from(form.querySelectorAll(':invalid'));
-        const errorMessages = invalidFields.map(el => {
-            const label = form.querySelector(`label[for="${el.id}"]`);
-            return label ? label.textContent.replace('*', '').trim() : el.name;
-        });
-        
-        const errorMessage = 'Veuillez remplir les champs obligatoires : ' + errorMessages.join(', ');
-        this.editModal?.showError(errorMessage);
-        return;
+      const invalidFields = Array.from(form.querySelectorAll(':invalid'));
+      const errorMessages = invalidFields.map(el => {
+        const label = form.querySelector(`label[for="${el.id}"]`);
+        return label ? label.textContent.replace('*', '').trim() : el.name;
+      });
+
+      const errorMessage = 'Veuillez remplir les champs obligatoires : ' + errorMessages.join(', ');
+      this.editModal?.showError(errorMessage);
+      return;
     }
 
     this.editModal?.setSubmitEnabled(false);
@@ -355,26 +356,26 @@ class ArticleModalManager {
     // Soumettre avec AJAX
     if (!form) return;
 
-      const formData = new FormData(form);
-      const csrfToken = document.querySelector('input[name="_csrf"]')?.value;
-      console.log('CSRF token found in document:', csrfToken);
-      if (csrfToken) {
-        formData.set('_csrf', csrfToken);
-      }
-      const action = form.getAttribute('action') || '/dashboard/articles/edit';
+    const formData = new FormData(form);
+    const csrfToken = document.querySelector('input[name="_csrf"]')?.value;
+    console.log('CSRF token found in document:', csrfToken);
+    if (csrfToken) {
+      formData.set('_csrf', csrfToken);
+    }
+    const action = form.getAttribute('action') || '/dashboard/articles/edit';
 
-      const fileInput = form.querySelector('input[type="file"][name="image"]');
-      const hasFile = fileInput && fileInput.files && fileInput.files.length > 0;
+    const fileInput = form.querySelector('input[type="file"][name="image"]');
+    const hasFile = fileInput && fileInput.files && fileInput.files.length > 0;
 
-      const sendPromise = hasFile
-        ? this.sendFormWithProgress(formData, action, this.editModal)
-        : this.sendFormFetch(formData, action);
+    const sendPromise = hasFile
+      ? this.sendFormWithProgress(formData, action, this.editModal)
+      : this.sendFormFetch(formData, action);
 
-      sendPromise
+    sendPromise
       .then(({ ok, status, data }) => {
         console.log('📊 Réponse serveur:', { ok, status, data });
         this.editModal?.clearProgress();
-        
+
         if (ok && data.success) {
           this.editModal?.showSuccess(data.message || 'Article modifié avec succès !');
           setTimeout(() => {
@@ -408,22 +409,22 @@ class ArticleModalManager {
 
     // Soumettre avec AJAX
     const form = this.deleteModal?.getForm();
-      if (!form) return;
+    if (!form) return;
 
-      const formData = new FormData(form);
-      const action = form.getAttribute('action') || '/dashboard/articles/delete';
+    const formData = new FormData(form);
+    const action = form.getAttribute('action') || '/dashboard/articles/delete';
 
-      fetch(action, {
-        method: 'POST',
-        body: formData,
-        headers: {
-          'X-Requested-With': 'XMLHttpRequest'
-        }
-      })
+    fetch(action, {
+      method: 'POST',
+      body: formData,
+      headers: {
+        'X-Requested-With': 'XMLHttpRequest'
+      }
+    })
       .then(async (response) => {
         const contentType = response.headers.get('content-type');
         let data = {};
-        
+
         if (contentType && contentType.includes('application/json')) {
           try {
             data = await response.json();
@@ -440,7 +441,7 @@ class ArticleModalManager {
       })
       .then(({ ok, status, data }) => {
         console.log('📊 Réponse serveur:', { ok, status, data });
-        
+
         if (ok && data.success) {
           this.deleteModal?.showSuccess(data.message || 'Article supprimé avec succès !');
           setTimeout(() => {
@@ -472,7 +473,7 @@ class ArticleModalManager {
   sendFormWithProgress(form, url, modal) {
     return new Promise((resolve, reject) => {
       const formData = new FormData(form);
-      
+
       // Debug: Log all FormData keys and CSRF token specifically
       console.log('📝 FormData contents:', {
         keys: Array.from(formData.keys()),
@@ -503,7 +504,7 @@ class ArticleModalManager {
             console.error('❌ Failed to parse response:', xhr.responseText);
             data = { success: false, message: 'Réponse serveur invalide' };
           }
-          
+
           // Debug response
           if (status === 403) {
             console.error('🔒 CSRF Validation Failed (403):', {
@@ -511,7 +512,7 @@ class ArticleModalManager {
               responseData: data
             });
           }
-          
+
           resolve({ ok: status >= 200 && status < 300, status, data });
         } catch (err) {
           reject(err);

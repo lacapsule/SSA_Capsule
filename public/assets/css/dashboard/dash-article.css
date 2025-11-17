@@ -1,36 +1,31 @@
-/* Styles for dashboard article page and tables
-   Matches site design variables from module/variables.css
-*/
-
-@import url('../module/variables.css');
-
-.dash-article-page {
+/* Styles globaux pour la page et le tableau */
+.dash-section-page{
+	padding: 15px;
+}
+.dash-components-page {
 	padding: var(--ssa-padding-medium);
-	font-family: var(--ssa-fontstyle-txt);
 	color: var(--ssa-txt-gris);
-	background:var(--ssa-blanc);
+	background: var(--ssa-blanc);
 }
 
-.dash-article-header {
+.dash-components-header {
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	margin-bottom: 24px;
+	margin: 12px 0 24px 0;
+
+	& h1 {
+		font-size: var(--ssa-font-large);
+		color: var(--ssa-fond-sombre);
+		margin: 0;
+	}
 }
 
-.dash-article-header h1 {
-	font-family: var(--ssa-fontstyle-title);
-	font-size: var(--ssa-font-large);
-	color: var(--ssa-fond-sombre);
-	margin: 0;
-}
-
-.dash-article-actions {
+.dash-components-actions {
 	display: flex;
-	gap: 12px;
 }
 
-.dash-article-actions .btn {
+.dash-components-actions .btn {
 	padding: 8px 14px;
 	border-radius: var(--ssa-btn-radius);
 	font-weight: 600;
@@ -42,134 +37,223 @@
 	background: var(--ssa-vert);
 	color: var(--ssa-txt-blanc);
 }
-.btn-primary:hover { background: var(--ssa-hover-vert); }
+
+.btn-primary:hover {
+	background: var(--ssa-hover-vert);
+}
 
 .btn-secondary {
 	background: var(--ssa-jaune);
 	color: var(--ssa-txt-noir);
 }
-.btn-secondary:hover { background: var(--ssa-hover-jaune); }
 
-/* Article list container */
-.dash-article-container {
-	background: var(--ssa-blanc);
-	border-radius: 12px;
-	padding: 18px;
-	box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+.btn-secondary:hover {
+	background: var(--ssa-hover-jaune);
 }
 
-/* Table styling */
-.dash-article-table {
-	width: 100%;
+
+table {
+	border: 1px solid #ccc;
 	border-collapse: collapse;
 	font-size: 0.95rem;
+	margin: 0;
+	padding: 0;
+	width: 100%;
+	table-layout: fixed;
 }
 
-.dash-article-table thead th {
-	text-align: left;
-	padding: 12px 16px;
-	background: var(--ssa-gris);
-	color: var(--ssa-txt-blanc);
-	font-weight: 700;
-	border: 1px solid rgba(255, 255, 255, 0.37);
+table caption {
+	font-size: 1.5em;
+	margin: .5em 0 .75em;
 }
 
-.dash-article-table tbody td {
+tbody td {
 	padding: 12px 16px;
 	border-bottom: 1px solid rgba(0, 0, 0, 0.144);
 	vertical-align: middle;
 }
 
-.dash-article-table tbody tr:hover {
+table th {
+	font-size: .85em;
+	letter-spacing: .1em;
+	text-transform: uppercase;
+	text-align: left;
+	padding: 12px 16px;
+	background: var(--ssa-gris);
+	color: var(--ssa-txt-blanc);
+	border: 1px solid rgba(255, 255, 255, 0.37);
+}
+
+table th,
+table td {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	text-align: start;
+}
+
+table td:hover {
 	background: var(--ssa-jaune-trsp);
 }
 
-.dash-article-table .col-title {
-	font-weight: 600;
-	color: var(--ssa-fond-sombre);
+.col-id,
+th:nth-child(1) {
+	width: 40px;
+	min-width: 40px;
+	max-width: 40px;
 }
 
-.dash-article-table .col-meta {
+.col-title,
+th:nth-child(2) {
+	width: 180px;
+	min-width: 180px;
+	max-width: 180px;
+	font-weight: 600;
+	text-align: start;
+}
+
+.col-meta {
 	color: #6b778a;
 	font-size: 0.9rem;
+	text-align: start;
 }
 
-.article-actions {
+.col-date {
+	text-align: start;
+}
+
+.col-action {
+	text-align: center;
+}
+
+.dash-components-actions2 {
 	display: flex;
-	gap: 8px;
-}
-
-.article-actions .icon-btn {
-	display: inline-flex;
-	align-items: center;
 	justify-content: center;
-	width: 36px;
-	height: 36px;
-	border-radius: 8px;
-	background: rgba(0,0,0,0.03);
-	cursor: pointer;
+	gap: 8px;
+
+	& img {
+		display: inline-block;
+		height: 30px;
+		width: 30px;
+	}
+
+	& .icon-btn {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 36px;
+		height: 36px;
+		border-radius: 8px;
+		background: rgba(0, 0, 0, 0.03);
+		cursor: pointer;
+	}
 }
 
-.article-actions .icon-btn:hover {
-	transform: var(--ssa-hover-scale);
-	transition: var(--ssa-hover-ease);
-}
-
-/* Empty state */
-.dash-article-empty {
+.dash-components-empty {
 	text-align: center;
 	padding: 40px 10px;
 	color: #6b778a;
 }
 
-/* Pagination */
-.dash-pagination {
-	display: flex;
-	justify-content: flex-end;
-	gap: 8px;
-	margin-top: 14px;
-}
-
-.dash-pagination .page-btn {
-	padding: 8px 12px;
-	border-radius: 6px;
-	background: transparent;
-	border: 1px solid rgba(0,0,0,0.06);
-	cursor: pointer;
-}
-
-.dash-pagination .page-btn.active {
-	background: var(--ssa-vert);
-	color: var(--ssa-txt-blanc);
-	border-color: transparent;
-}
-
 /* Responsive adjustments */
-@media screen and (max-width: 900px) {
-	.dash-article-header {
-		flex-direction: column;
+
+@media screen and (max-width: 980px) {
+
+	.dash-components-header {
+		display: flex;
 		align-items: flex-start;
-		gap: 12px;
+		margin-bottom: 24px;
+		justify-content: flex-start;
+		gap: 16px;
+		flex-direction: column;
 	}
 
-	.dash-article-table thead {
-		display: none;
+	.dash-components-actions2 {
+		gap: 8px;
 	}
 
-	.dash-article-table, .dash-article-table tbody, .dash-article-table tr, .dash-article-table td {
-		display: block;
+	.dash-components-actions2 img {
+		height: 25px;
+		width: 25px;
+	}
+
+	.navbar a {
+		font-size: var(--ssa-font-small);
+	}
+
+	/* Remove table borders for better mobile look */
+	table {
+		border: 0;
+		display: flex;
 		width: 100%;
+		border-collapse: collapse;
+		font-size: 0.95rem;
+		flex-direction: column;
 	}
 
-	.dash-article-table tbody td {
-		padding: 10px 12px;
+	.col-id,
+	.col-action,
+	.col-date,
+	.col-meta,
+	.col-title,
+	.col-auteur {
+		text-align: end;
+		width: 100%;
+		min-width: 100%;
+		max-width: 100%;
+		font-size: 1rem;
 	}
 
-	.dash-article-table td::before {
-		content: attr(data-label);
+	/* Cache le header mais en garder l'accessiblité */
+	table thead {
+		border: none;
+		clip: rect(0 0 0 0);
+		height: 1px;
+		margin: -1px;
+		overflow: hidden;
+		padding: 0;
+		position: absolute;
+		width: 1px;
+	}
+
+	/* Make each row block */
+	table tr {
+		border-bottom: 10px solid #ddd;
 		display: block;
-		font-weight: 700;
-		margin-bottom: 6px;
+		margin-bottom: .625em;
+	}
+
+	/* Make each cell block with label before */
+	table td {
+		border-bottom: 1px solid #ddd;
+		display: block;
+		font-size: .8em;
+		text-align: right;
+		position: relative;
+		padding-left: 50%;
+		white-space: normal;
+		/* Allow wrapping */
+	}
+
+	/* Add label before each cell from data-label */
+	table td::before {
+		content: attr(data-label);
+		position: absolute;
+		left: 10px;
+		top: 12px;
+		font-weight: bold;
+		text-transform: uppercase;
+		white-space: nowrap;
+		color: var(--ssa-fond-sombre);
+	}
+
+	/* Remove border on last cell in row */
+	table td:last-child {
+		border-bottom: 0;
+		display: flex;
+		flex-direction: column;
+		align-items: flex-end;
+		justify-content: center;
+		padding-left: 16px;
 	}
 }
-

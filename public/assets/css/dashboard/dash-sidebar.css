@@ -1,8 +1,7 @@
 
 body {
   display: grid;
-  grid-template-columns: repeat(1, 16vw auto);
-  /* navbar = 15vw, 16vw pour espacer */
+  grid-template-columns: repeat(1, 15vw auto);
 }
 
 .contain {
