@@ -31,6 +31,7 @@
 	font-weight: 600;
 	cursor: pointer;
 	box-shadow: var(--ssa-shadow);
+	margin: 0;
 }
 
 .btn-primary {

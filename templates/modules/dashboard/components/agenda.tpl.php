@@ -1,158 +1,157 @@
-<section class="agenda-calendar" data-monday="{{monday_iso}}">
-  <h1>Mon agenda</h1>
-  <button type="button" id="btn-new-event" class="btn-primary">+ Nouvel événement</button>
-
-  <nav class="week-nav">
-    <a href="{{prev_week_url}}" class="nav-btn">‹ Précédent</a>
-    <span class="week-label">{{week_label}}</span>
-    <a href="{{next_week_url}}" class="nav-btn">Suivant ›</a>
-  </nav>
-
-  {{#events_count}}
-  <p class="event-count">{{events_count}} événement(s) cette semaine</p>
-  {{/events_count}}
-
-
-  <section class="calendar-days">
-    <section class="calendar-top-bar">
-      {{#each week_dates}}
-      <span class="top-bar-days">{{name}} <br> {{date}} </span>
-      {{/each}}
-    </section>
-
-    <section class="calendar-week">
-      {{#each week_dates}}
-      <div class="calendar-day inactive">
-        <span class="calendar-date">{{date}}</span>
-        {{/each}}
-        {{#each events}}
-        <span class="calendar-task">{{title}} à {{time}}</span>
-        {{/each}}
-        {{#location}}
-        <span class="calendar-location">{{location}}</span>
-        {{/location}}
+<section class="container dash-section-page">
+  <header class="header-agenda">
+    <h1>Mon Agenda</h1>
+    <div class="controls">
+      <div class="navmonth">
+        <button id="prevBtn" class="btn-nav">‹</button>
+        <div id="monthLabel">Chargement...</div>
+        <button id="nextBtn" class="btn-nav">›</button>
       </div>
-      
-      
+      <button id="addEventBtn" class="btn btn-primary">+ Nouvel événement</button>
+    </div>
+  </header>
 
+  <!-- contenue du calendrier -->
+  <div id="calendar-container">
+    <div id="calendar-header"></div>
+    <div id="calendar-grid"></div>
+  </div>
+</section>
 
-      <!-- Calendrier semaine -->
-      <div class="calendar-week">
-        <!-- En-têtes des jours -->
-        <div class="calendar-header">
-          <div class="time-col-header"></div>
-          {{#each week_dates}}
-          <div class="day-header" data-date="{{iso}}">
-            <div class="day-name">{{name}}</div>
-            <div class="day-date">{{date}}</div>
+<dialog id="agenda-create-modal" class="universal-modal">
+  <div class="modal-overlay">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Nouvel événement</h2>
+        <button type="button" class="modal-close-btn" data-close="agenda-create-modal"><span>&times;</span></button>
+      </div>
+      <div class="modal-body">
+        <form id="createEventForm">
+          {{{csrfInput}}}
+          <div class="form-group">
+            <label for="create_title">Titre *</label>
+            <input type="text" id="create_title" name="title" required>
           </div>
-          {{/each}}
-        </div>
-
-        <!-- Grille horaire -->
-        <div class="calendar-body">
-          <!-- Colonne des heures -->
-          <div class="time-column">
-            <div class="time-slot">00:00</div>
-            <div class="time-slot">01:00</div>
-            <div class="time-slot">02:00</div>
-            <div class="time-slot">03:00</div>
-            <div class="time-slot">04:00</div>
-            <div class="time-slot">05:00</div>
-            <div class="time-slot">06:00</div>
-            <div class="time-slot">07:00</div>
-            <div class="time-slot">08:00</div>
-            <div class="time-slot">09:00</div>
-            <div class="time-slot">10:00</div>
-            <div class="time-slot">11:00</div>
-            <div class="time-slot">12:00</div>
-            <div class="time-slot">13:00</div>
-            <div class="time-slot">14:00</div>
-            <div class="time-slot">15:00</div>
-            <div class="time-slot">16:00</div>
-            <div class="time-slot">17:00</div>
-            <div class="time-slot">18:00</div>
-            <div class="time-slot">19:00</div>
-            <div class="time-slot">20:00</div>
-            <div class="time-slot">21:00</div>
-            <div class="time-slot">22:00</div>
-            <div class="time-slot">23:00</div>
-          </div>
-
-          <!-- Zone des événements -->
-          <div class="days-grid">
-            {{#each events}}
-            <div class="event-block" data-event-id="{{id}}" data-date="{{date}}" data-time="{{time}}"
-              data-duration="{{duration}}">
-              <div class="event-time">{{time}}</div>
-              <div class="event-title">{{title}}</div>
-              {{#location}}
-              <div class="event-location">📍 {{location}}</div>
-              {{/location}}
+          <div class="row-group">
+            <div class="form-group half">
+              <label for="create_start">Début *</label>
+              <input type="datetime-local" id="create_start" name="start" required>
             </div>
-            {{/each}}
+            <div class="form-group half">
+              <label for="create_end">Fin *</label>
+              <input type="datetime-local" id="create_end" name="end" required>
+            </div>
           </div>
+          <div class="form-group">
+            <label>Couleur</label>
+            <div class="color-selector">
+              <label class="color-option" title="Standard">
+                <input type="radio" name="color" value="#3788d8" checked>
+                <span class="color-circle" style="background-color: #3788d8;"></span>
+              </label>
+              <label class="color-option" title="Validé">
+                <input type="radio" name="color" value="#43c466">
+                <span class="color-circle" style="background-color: #43c466;"></span>
+              </label>
+              <label class="color-option" title="Urgent">
+                <input type="radio" name="color" value="#fdb544">
+                <span class="color-circle" style="background-color: #fdb544;"></span>
+              </label>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="create_description">Lieu</label>
+            <input id="create_description" name="description" rows="3" placeholder="Salle/Batiement/Ville"></textarea>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-annuler" data-close="agenda-create-modal">Annuler</button>
+        <button type="submit" form="createEventForm" class="btn btn-primary">Enregistrer</button>
+      </div>
+    </div>
+  </div>
+</dialog>
+
+<dialog id="agenda-edit-modal" class="universal-modal">
+  <div class="modal-overlay">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Modifier l'événement</h2>
+        <button type="button" class="modal-close-btn" data-close="agenda-edit-modal"><span>&times;</span></button>
+      </div>
+      <div class="modal-body">
+        <form id="editEventForm">
+          {{{csrfInput}}}
+          <input type="hidden" id="edit_eventId" name="id">
+
+          <div class="form-group">
+            <label for="edit_title">Titre *</label>
+            <input type="text" id="edit_title" name="title" required>
+          </div>
+          <div class="row-group">
+            <div class="form-group half">
+              <label for="edit_start">Début *</label>
+              <input type="datetime-local" id="edit_start" name="start" required>
+            </div>
+            <div class="form-group half">
+              <label for="edit_end">Fin *</label>
+              <input type="datetime-local" id="edit_end" name="end" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Couleur</label>
+            <div class="color-selector">
+              <label class="color-option" title="Standard">
+                <input type="radio" name="color" value="#3788d8" checked>
+                <span class="color-circle" style="background-color: #3788d8;"></span>
+              </label>
+              <label class="color-option" title="Validé">
+                <input type="radio" name="color" value="#43c466">
+                <span class="color-circle" style="background-color: #43c466;"></span>
+              </label>
+              <label class="color-option" title="Urgent">
+                <input type="radio" name="color" value="#fdb544">
+                <span class="color-circle" style="background-color: #fdb544;"></span>
+              </label>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="edit_description">Lieu</label>
+            <input id="edit_description" name="description" rows="3"></textarea>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer space-between">
+        <button type="button" id="triggerDeleteBtn" class="btn btn-danger-outline">Supprimer</button>
+        <div class="right-actions">
+          <button type="button" class="btn btn-annuler" data-close="agenda-edit-modal">Annuler</button>
+          <button type="submit" form="editEventForm" class="btn btn-primary">Mettre à jour</button>
         </div>
       </div>
+    </div>
+  </div>
+</dialog>
 
-      {{^events_count}}
-      <div class="empty-state">
-        <p>Aucun événement prévu cette semaine</p>
-        <p class="hint">Cliquez sur "+ Nouvel événement" pour créer votre premier événement</p>
+<dialog id="agenda-delete-modal" class="universal-modal">
+  <div class="modal-overlay">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Confirmer la suppression</h2>
+        <button type="button" class="modal-close-btn" data-close="agenda-delete-modal"><span>&times;</span></button>
       </div>
-      {{/events_count}}
+      <div class="modal-body">
+        <p>Voulez-vous vraiment supprimer cet événement ?</p>
+        <p class="text-mute"><strong id="delete-event-title"></strong></p>
+        <p class="text-mute small">Cette action est irréversible.</p>
+        <input type="hidden" id="delete_eventId">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-close="agenda-delete-modal">Annuler</button>
+        <button type="button" id="confirmDeleteBtn" class="btn btn-danger">Supprimer</button>
+      </div>
+    </div>
+  </div>
+</dialog>
 
-      <!-- Modal création -->
-      <dialog id="modal-event">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h2>Nouvel événement</h2>
-            <button type="button" id="btn-close-modal" class="btn-close">×</button>
-          </div>
-
-          <form method="POST" action="{{create_url}}" class="event-form">
-            {{{csrfInput}}}
-
-            <div class="form-group">
-              <label for="titre">Titre</label>
-              <input type="text" id="titre" name="titre" placeholder="Réunion d'équipe" required autofocus>
-            </div>
-
-            <div class="form-row">
-              <div class="form-group">
-                <label for="date">Date</label>
-                <input type="date" id="date" name="date" required>
-              </div>
-
-              <div class="form-group">
-                <label for="heure">Heure</label>
-                <input type="time" id="heure" name="heure" value="09:00" required>
-              </div>
-            </div>
-
-            <div class="form-group">
-              <label for="lieu">Lieu</label>
-              <input type="text" id="lieu" name="lieu" placeholder="Salle de réunion (optionnel)">
-            </div>
-
-            <div class="form-group">
-              <label for="duree">Durée</label>
-              <select id="duree" name="duree">
-                <option value="0.25">15 minutes</option>
-                <option value="0.5">30 minutes</option>
-                <option value="1" selected>1 heure</option>
-                <option value="1.5">1h30</option>
-                <option value="2">2 heures</option>
-                <option value="3">3 heures</option>
-                <option value="4">4 heures</option>
-              </select>
-            </div>
-
-            <div class="modal-footer">
-              <button type="button" id="btn-cancel" class="btn-secondary">Annuler</button>
-              <button type="submit" class="btn-primary">Créer l'événement</button>
-            </div>
-          </form>
-        </div>
-      </dialog>
-    </section>
+<script src="/modules/dashboard/agenda.js"></script>

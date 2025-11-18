@@ -1,4 +1,518 @@
-.calendar-top-bar{
+/* ======= GLOBAL & HEADER ======= */
+.dash-section-page {
+    min-width: 85%;
+    position: absolute;
+    left: 216px;
+    z-index: 890;
+    margin: 0 auto;
+    border-radius: 0;
+    font-family: system-ui, -apple-system, sans-serif;
+}
+
+.header-agenda {
+    display: flex;
+    flex-shrink: 0;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 0 20px 0;
+    background: transparent;
+    border: none;
+
+    & h1 {
+        font-size: var(--ssa-font-large);
+        color: var(--ssa-fond-sombre);
+    }
+}
+
+.controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.navmonth {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.btn-nav {
+    background: var(--ssa-blanc);
+    border: 1px solid #ddd;
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    cursor: pointer;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: var(--ssa-hover-ease);
+}
+
+.btn-nav:hover {
+    background: #f0f0f0;
+}
+
+.btn {
+    margin-left: 15px;
+}
+
+#monthLabel {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--ssa-gris);
+    text-transform: capitalize;
+    min-width: 200px;
+    text-align: center;
+}
+
+/* ======= CALENDAR GRID ======= */
+#calendar-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    background: var(--ssa-blanc);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+}
+
+#calendar-header {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    background: var(--ssa-gris);
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.day-name {
+    text-align: center;
+    padding: 12px 0;
+    font-weight: 600;
+    color: var(--ssa-blanc);
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    letter-spacing: 0.05em;
+}
+
+#calendar-grid {
+    flex: 1;
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    grid-template-rows: repeat(6, 1fr);
+    height: 100%;
+}
+
+.day-cell {
+    min-height: 108px;
+    /* Hauteur fixe */
+    max-height: 108px;
+    border-right: 1px solid #f0f0f0;
+    border-bottom: 1px solid #f0f0f0;
+    padding: 4px 8px;
+    position: relative;
+    background: white;
+    display: flex;
+    flex-direction: column;
+    transition: background 0.2s;
+}
+
+.day-cell:nth-child(7n) {
+    border-right: none;
+}
+
+.day-cell:nth-last-child(-n+7) {
+    border-bottom: none;
+}
+
+/* Fin de ligne */
+
+.day-cell:hover {
+    background-color: var(--ssa-jaune-trsp);
+}
+
+.day-cell:active {
+    background-color: #fdb644c0;
+}
+
+.day-cell.other-month {
+    background-color: #d1d1d15c;
+    color: #ccc;
+}
+
+
+.day-cell.today .date-number {
+    background-color: var(--ssa-jaune);
+    color: var(--ssa-noir);
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.date-number {
+    font-weight: 600;
+    font-size: 0.95rem;
+    margin-bottom: 5px;
+    align-self: flex-end;
+    /* Date en haut à droite */
+    color: var(--ssa-gris);
+}
+
+
+/* ======= EVENTS ======= */
+.events-wrapper {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    overflow-y: auto;
+    /* Scroll interne pour éviter déformation */
+    padding-right: 2px;
+}
+
+/* Scrollbar fine */
+.events-wrapper::-webkit-scrollbar {
+    width: 4px;
+}
+
+.events-wrapper::-webkit-scrollbar-thumb {
+    background: #ddd;
+    border-radius: 2px;
+}
+
+.event-item {
+    font-size: 0.75rem;
+    padding: 4px 6px;
+    border-radius: 4px;
+    color: white;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    flex-direction: column;
+    line-height: 1.2;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    flex-shrink: 0;
+}
+
+.event-item:hover {
+    transform: translateY(-1px) scale(1.02);
+    /* Effet hover */
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
+    z-index: 10;
+}
+
+.event-row {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.event-title {
+    font-weight: 600;
+}
+
+/* ======= NOUVEAU SELECTEUR DE COULEUR (RADIO) ======= */
+.color-selector {
+    display: flex;
+    gap: 15px;
+    margin-top: 5px;
+}
+
+.color-option {
+    cursor: pointer;
+    position: relative;
+}
+
+/* On cache le vrai input radio */
+.color-option input[type="radio"] {
+    opacity: 0;
+    position: absolute;
+    width: 0;
+    height: 0;
+}
+
+/* Le cercle visuel */
+.color-circle {
+    display: block;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 2px solid transparent;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    transition: transform 0.2s, border-color 0.2s;
+}
+
+/* État sélectionné */
+.color-option input[type="radio"]:checked+.color-circle {
+    transform: scale(1.1);
+    border: 2px solid #333;
+    box-shadow: 0 0 0 2px white inset;
+    /* Petit espace blanc */
+}
+
+.color-option:hover .color-circle {
+    transform: scale(1.05);
+}
+
+/* Icones SVG */
+.icon-svg {
+    width: 10px;
+    height: 10px;
+    fill: currentColor;
+    opacity: 0.85;
+    flex-shrink: 0;
+}
+
+/* ======= MODALS (Universal Style) ======= */
+.universal-modal {
+    padding: 0;
+    border: none;
+    background: transparent;
+    z-index: 1000;
+}
+
+.universal-modal::backdrop {
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    pointer-events: none;
+    /* Permet clic travers si besoin, mais modal gère */
+}
+
+.modal-content {
+    background: white;
+    width: 90%;
+    max-width: 500px;
+    border-radius: 8px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    pointer-events: auto;
+    animation: slideUp 0.3s ease-out;
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.modal-header {
+    padding: 15px 20px;
+    border-bottom: 1px solid #eee;
     display: flex;
     justify-content: space-between;
+    align-items: center;
+}
+
+.modal-header h2 {
+    margin: 0;
+    font-size: 1.25rem;
+    color: var(--ssa-gris);
+}
+
+.modal-close-btn {
+    background: transparent;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #999;
+}
+
+.modal-close-btn:hover {
+    color: #333;
+}
+
+.modal-body {
+    padding: 20px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--ssa-gris);
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-family: inherit;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    border-color: var(--ssa-jaune);
+    outline: none;
+    box-shadow: 0 0 0 3px var(--ssa-jaune-trsp);
+}
+
+.row-group {
+    display: flex;
+    gap: 15px;
+}
+
+.half {
+    flex: 1;
+}
+
+.modal-footer {
+    padding: 15px 20px;
+    background: #f8f9fa;
+    border-top: 1px solid #eee;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    border-radius: 0 0 8px 8px;
+}
+
+.modal-footer.space-between {
+    justify-content: space-between;
+}
+
+.right-actions {
+    display: flex;
+    gap: 10px;
+}
+
+/* Boutons Modale */
+.btn-danger {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.btn-danger:hover {
+    background-color: #bb2d3b;
+}
+
+.btn-danger-outline {
+    background: transparent;
+    border: 1px solid #dc3545 !important;
+    color: #dc3545;
+    padding: 8px 16px !important;
+    border-radius: 6px !important;
+    cursor: pointer !important;
+}
+
+.btn-danger-outline:hover {
+    background: #dc35451a;
+}
+
+.btn-annuler {
+    background: #6c757d;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.btn-secondary:hover {
+    background: #5c636a;
+}
+
+.text-mute {
+    color: #6c757d;
+    margin-top: 5px;
+}
+
+.small {
+    font-size: 0.85rem;
+}
+
+/* ======= RESPONSIVE (Max 980px) ======= */
+
+@media screen and (max-width: 980px) {
+    .dash-section-page{
+        position: static;
+    }
+    .header-agenda {
+        flex-direction: column;
+        gap: 15px;
+
+        & h1 {
+            text-align: start;
+        }
+    }
+
+    .controls {
+        flex-direction: column;
+    }
+
+    .day-name {
+        padding: 12px 5px;
+        font-size: .7rem;
+    }
+
+    #calendar-grid {
+        grid-template-rows: none;
+    }
+
+    .day-cell {
+        min-width: 60px;
+        min-height: 94px;
+        max-height: 94px;
+        border-right: none;
+        border-bottom: 1px solid #eee;
+    }
+
+    .day-cell.today .date-number {
+        background-color: transparent;
+        border-radius: 0;
+        height: 20px;
+        color: var(--ssa-jaune);
+    }
+
+    /* Afficher le jour à l'intérieur de la cellule sur mobile */
+    .date-number::before {}
+
+    .date-number {
+        display: flex;
+        align-self: flex-start;
+        /* Date à gauche sur mobile */
+        width: 100%;
+        border-bottom: 1px solid #f0f0f0;
+        padding-bottom: 4px;
+        margin-bottom: 8px;
+    }
+
+    /* Cacher les jours des autres mois sur mobile pour simplifier */
+    .day-cell.other-month {
+        display: none;
+    }
 }

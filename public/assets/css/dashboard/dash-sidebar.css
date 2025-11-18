@@ -1,9 +1,4 @@
 
-body {
-  display: grid;
-  grid-template-columns: repeat(1, 15vw auto);
-}
-
 .contain {
   display: block;
   width: 100%;

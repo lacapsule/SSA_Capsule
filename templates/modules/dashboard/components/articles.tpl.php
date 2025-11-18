@@ -1,4 +1,5 @@
 <section class="dash-section-page">
+      <div class="dashboard-content">
   <div class="dash-components-header">
     <h1>Gestion des articles</h1>
     <div class="dash-components-actions">
@@ -201,5 +202,5 @@
       </div>
     </div>
   </dialog>
-
+</div>
 </section>

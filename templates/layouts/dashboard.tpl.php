@@ -47,9 +47,8 @@
 <body>
 
     <!-- Contenu principal (injecté depuis les pages) -->
-    <div class="dashboard-content">
+
         {{{ content }}}
-    </div>
 
     <script type="module" src="/main.js" defer></script>
 

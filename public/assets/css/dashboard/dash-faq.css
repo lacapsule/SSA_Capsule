@@ -1,5 +1,10 @@
 .wrapperfaq {
-    width: 60%;
+    position: absolute;
+    left: 36%;
+    z-index: 890;
+    border-radius: 0;
+    font-family: system-ui, -apple-system, sans-serif;
+    width: 40%;
     justify-self: center;
     margin: 3% 0;
 
@@ -57,11 +62,8 @@
         font-size: 14px;
     }
 
-    body {
-        display: flex;
-    }
-
     .wrapperfaq {
+        position: static;
         width: 85%;
     }
 }
