@@ -70,6 +70,7 @@ CREATE TABLE IF NOT EXISTS agenda_events (
   starts_at        DATETIME           NOT NULL,              -- UTC
   duration_minutes SMALLINT UNSIGNED  NOT NULL DEFAULT 60,
   location         VARCHAR(255)       NULL,
+  color            VARCHAR(7)         NOT NULL DEFAULT '#3788d8',
   description      TEXT               NULL,
   created_by       INT UNSIGNED       NULL,
   created_at       DATETIME           NOT NULL DEFAULT CURRENT_TIMESTAMP,

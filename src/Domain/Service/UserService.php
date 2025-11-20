@@ -115,6 +115,29 @@ class UserService
         return $this->userRepository->update($id, $clean);
     }
 
+    /**
+     * Réinitialise le mot de passe d'un utilisateur
+     *
+     * @param int $id ID de l'utilisateur
+     * @param string $password Nouveau mot de passe en clair
+     * @return bool True si réinitialisation réussie
+     * @throws RuntimeException Si ID invalide ou mot de passe vide
+     */
+    public function resetUserPassword(int $id, string $password): bool
+    {
+        if ($id <= 0) {
+            throw new RuntimeException('Invalid user id');
+        }
+
+        if (trim($password) === '') {
+            throw new RuntimeException('Password cannot be empty');
+        }
+
+        $hash = password_hash($password, PASSWORD_DEFAULT);
+
+        return $this->userRepository->updatePasswordHash($id, $hash);
+    }
+
     /* =======================
        ===== Helpers =======
        ======================= */

@@ -498,9 +498,6 @@
         color: var(--ssa-jaune);
     }
 
-    /* Afficher le jour à l'intérieur de la cellule sur mobile */
-    .date-number::before {}
-
     .date-number {
         display: flex;
         align-self: flex-start;

@@ -44,15 +44,17 @@ final class DashboardPresenter
         $mapped = IterablePresenter::map($users, function (UserDTO $u): array {
             // Ajuste les noms aux propriétés RÉELLES de UserDTO
             $id = (int)    $u->id;
-            $name = (string) ($u->username ?? ''); // si ta DTO a "username"
+            $username = (string) ($u->username ?? '');
             $email = (string) $u->email;
             $role = (string) $u->role;
+            $createdAt = (string) ($u->createdAt ?? '');
 
             return [
                 'id' => $id,
-               'name' => $name,   // ou 'username' côté template si tu préfères
+                'username' => $username,
                 'email' => $email,
                 'role' => $role,
+                'created_at' => $createdAt,
             ];
         });
 

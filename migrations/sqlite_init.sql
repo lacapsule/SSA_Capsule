@@ -59,6 +59,7 @@ CREATE TABLE IF NOT EXISTS agenda_events (
   starts_at        TEXT NOT NULL,      -- UTC 'YYYY-MM-DD HH:MM:SS'
   duration_minutes INTEGER NOT NULL CHECK (duration_minutes BETWEEN 30 AND 480),
   location         TEXT,
+  color            TEXT    NOT NULL DEFAULT '#3788d8',
   description      TEXT,
   created_by       INTEGER,
   created_at       TEXT NOT NULL DEFAULT (CURRENT_TIMESTAMP),

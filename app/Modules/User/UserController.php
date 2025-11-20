@@ -175,4 +175,56 @@ final class UserController extends BaseController
             ]
         );
     }
+
+    /**
+     * POST /dashboard/users/reset-password
+     * Réinitialisation du mot de passe d'un utilisateur
+     */
+    #[Route(path: '/reset-password', methods: ['POST'])]
+    public function resetPassword(): Response
+    {
+        CsrfTokenManager::requireValidToken();
+
+        $id = (int)($_POST['id'] ?? 0);
+        $password = (string)($_POST['password'] ?? '');
+
+        if ($id <= 0) {
+            return $this->redirectWithErrors(
+                '/dashboard/users',
+                'ID utilisateur invalide.',
+                ['_global' => 'ID utilisateur invalide.']
+            );
+        }
+
+        if (trim($password) === '') {
+            return $this->redirectWithErrors(
+                '/dashboard/users',
+                'Le mot de passe ne peut pas être vide.',
+                ['_global' => 'Le mot de passe ne peut pas être vide.']
+            );
+        }
+
+        try {
+            $ok = $this->userService->resetUserPassword($id, $password);
+
+            if ($ok) {
+                return $this->redirectWithSuccess(
+                    '/dashboard/users',
+                    'Mot de passe réinitialisé avec succès.'
+                );
+            }
+
+            return $this->redirectWithErrors(
+                '/dashboard/users',
+                'Erreur lors de la réinitialisation.',
+                ['_global' => 'Impossible de modifier le mot de passe.']
+            );
+        } catch (\Throwable $e) {
+            return $this->redirectWithErrors(
+                '/dashboard/users',
+                'Erreur lors de la réinitialisation.',
+                ['_global' => 'Erreur : ' . $e->getMessage()]
+            );
+        }
+    }
 }
