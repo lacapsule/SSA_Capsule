@@ -330,6 +330,11 @@
 .evenement .evenement-item {
     width: 100%;
     margin-bottom: 25px;
+    transition: all 0.2s ease;
+}
+
+.evenement-item:hover {
+    transform: scale(1.05);
 }
 
 .evenement .evenement-item-inner {
@@ -430,8 +435,13 @@
 .partenaires img,
 .financeurs img {
     width: 40%;
+    transition: all 0.2s ease;
 }
 
+.partenaires img:hover,
+.financeurs img:hover {
+    transform: scale(1.1);
+}
 
 /*=========================================
 ====        CONTACT SECTION            ====

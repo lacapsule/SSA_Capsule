@@ -14,10 +14,9 @@ final class DashboardPresenter
      * @param array<string,mixed> $i18n
      * @param array<string,mixed> $currentUser
      * @param list<array{title:string,url:string,icon:string}> $links
-     * @param array<string,array<mixed>> $flash
      * @return array<string,mixed>
      */
-    public static function base(array $i18n, array $currentUser, bool $isAdmin, array $links, array $flash): array
+    public static function base(array $i18n, array $currentUser, bool $isAdmin, array $links): array
     {
         return [
             'showHeader' => false,
@@ -27,7 +26,6 @@ final class DashboardPresenter
             'user' => $currentUser,
             'isAdmin' => $isAdmin,
             'links' => $links,
-            'flash' => $flash,
         ];
     }
 
@@ -74,20 +72,35 @@ final class DashboardPresenter
     }
 
     /**
-     * Vue “Account”.
+     * Vue "Account".
      * @param array<string,string> $errors
      * @param array<string,mixed> $prefill
      * @return array<string,mixed>
      */
     public static function account(array $base, array $errors, array $prefill, string $csrfInput): array
     {
+        // Ajouter les initiales de l'utilisateur
+        $user = $base['user'] ?? [];
+        $username = (string) ($user['username'] ?? 'User');
+        $email = (string) ($user['email'] ?? '');
+
+        // Générer les initiales
+        $initials = implode('', array_map(
+            fn($word) => strtoupper($word[0] ?? ''),
+            explode(' ', trim($username))
+        ));
+        $initials = substr($initials, 0, 2) ?: 'U';
+
         return $base + [
             'title' => 'Mon compte',
-            'component' => 'dashboard/dash_account',
+            'component' => 'component:dashboard/components/account',
             'errors' => $errors,
             'prefill' => $prefill,
-            'action' => '/dashboard/account/password',
-            'editUserAction' => '/dashboard/account/update',
+            'user' => [
+                ...$user,
+                'initial' => $initials,
+            ],
+            'accountPasswordAction' => '/dashboard/account/password',
             'csrf_input' => $csrfInput,
         ];
     }

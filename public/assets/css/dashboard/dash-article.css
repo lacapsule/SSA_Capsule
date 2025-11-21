@@ -93,7 +93,11 @@ table td {
 	text-align: start;
 }
 
-table td:hover {
+.col-id:hover,
+.col-auteur:hover,
+.col-date:hover,
+.col-meta:hover,
+.col-title:hover {
 	background: var(--ssa-jaune-trsp);
 }
 
@@ -136,6 +140,9 @@ th:nth-child(2) {
 		display: inline-block;
 		height: 30px;
 		width: 30px;
+	}
+	& img:hover{
+		transform: scale(1.2);
 	}
 
 	& .icon-btn {

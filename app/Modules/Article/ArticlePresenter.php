@@ -29,7 +29,7 @@ final class ArticlePresenter
     ];
     /**
      * Liste (index)
-     * @param array<string,mixed> $base   // shell dashboard déjà prêt (str, user, links, flash…)
+     * @param array<string,mixed> $base   // shell dashboard déjà prêt (str, user, links,)
      * @param iterable<ArticleDTO> $articles
      * @return array<string,mixed>
      */

@@ -1,6 +1,3 @@
-/* Dashboard gallery styles */
-@import url('../module/variables.css');
-
 .galerie-grid,
 .galerie-item {
     box-sizing: border-box;

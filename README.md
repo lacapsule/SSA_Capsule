@@ -110,6 +110,5 @@ class MainController extends AbstractController
 ## 📌 À venir
 
 * [ ] Middleware CSRF
-* [ ] Système de flash messages
 
 # PHPCapsule

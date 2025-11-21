@@ -11,6 +11,7 @@
 
     <link rel="stylesheet" href="/assets/css/dash-global.css">
     <link rel="stylesheet" href="/assets/css/modal.css">
+    <link rel="stylesheet" href="/assets/css/dashboard/dash-account.css">
     <link rel="stylesheet" href="/assets/css/dashboard/dash-users.css">
     <link rel="stylesheet" href="/assets/css/dashboard/dash-agenda.css">
 

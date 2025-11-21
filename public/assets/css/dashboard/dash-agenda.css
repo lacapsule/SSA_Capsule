@@ -272,67 +272,6 @@
 }
 
 /* ======= MODALS (Universal Style) ======= */
-.universal-modal {
-    padding: 0;
-    border: none;
-    background: transparent;
-    z-index: 1000;
-}
-
-.universal-modal::backdrop {
-    background: rgba(0, 0, 0, 0.5);
-}
-
-.modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    pointer-events: none;
-    /* Permet clic travers si besoin, mais modal gère */
-}
-
-.modal-content {
-    background: white;
-    width: 90%;
-    max-width: 500px;
-    border-radius: 8px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-    display: flex;
-    flex-direction: column;
-    pointer-events: auto;
-    animation: slideUp 0.3s ease-out;
-}
-
-@keyframes slideUp {
-    from {
-        transform: translateY(20px);
-        opacity: 0;
-    }
-
-    to {
-        transform: translateY(0);
-        opacity: 1;
-    }
-}
-
-.modal-header {
-    padding: 15px 20px;
-    border-bottom: 1px solid #eee;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.modal-header h2 {
-    margin: 0;
-    font-size: 1.25rem;
-    color: var(--ssa-gris);
-}
 
 .modal-close-btn {
     background: transparent;
@@ -346,65 +285,6 @@
     color: #333;
 }
 
-.modal-body {
-    padding: 20px;
-}
-
-.form-group {
-    margin-bottom: 15px;
-}
-
-.form-group label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: 600;
-    font-size: 0.9rem;
-    color: var(--ssa-gris);
-}
-
-.form-group input,
-.form-group textarea {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    font-family: inherit;
-}
-
-.form-group input:focus,
-.form-group textarea:focus {
-    border-color: var(--ssa-jaune);
-    outline: none;
-    box-shadow: 0 0 0 3px var(--ssa-jaune-trsp);
-}
-
-.row-group {
-    display: flex;
-    gap: 15px;
-}
-
-.half {
-    flex: 1;
-}
-
-.modal-footer {
-    padding: 15px 20px;
-    background: #f8f9fa;
-    border-top: 1px solid #eee;
-    display: flex;
-    justify-content: flex-end;
-    gap: 10px;
-    border-radius: 0 0 8px 8px;
-}
-
-.modal-footer.space-between {
-    justify-content: space-between;
-}
-
-.right-actions {
-    display: flex;
-    gap: 10px;
-}
 
 /* Boutons Modale */
 .btn-danger {

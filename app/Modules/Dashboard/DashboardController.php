@@ -43,9 +43,8 @@ final class DashboardController extends BaseController
         $user = $this->currentUser();
         $isAdmin = $this->isAdmin();
         $links = $this->links->get($isAdmin);
-        $flash = $this->flashMessages();
 
-        return DashboardPresenter::base($i18n, $user, $isAdmin, $links, $flash);
+        return DashboardPresenter::base($i18n, $user, $isAdmin, $links);
     }
 
     /* ---------------- Routes (GET) ---------------- */
@@ -99,11 +98,8 @@ final class DashboardController extends BaseController
             base: $base,
             errors: $errors,
             prefill: $prefill,
-            csrfInput: $this->csrfInput(),
+            csrfInput: $this->csrfInput()
         );
-
-        // Composant dynamique
-        $data['component'] = 'dashboard/components/account';
 
         return $this->page('index', $data);
     }

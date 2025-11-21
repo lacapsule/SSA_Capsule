@@ -2,8 +2,9 @@
 /* -------------- */
 @import url(./dashboard/dash-sidebar.css);
 /* -------------- */
-@import url(./dashboard/dash-faq.css);
-@import url(./dashboard/dash-article.css);
+@import url(./dashboard/dash-account.css);
 @import url(./dashboard/dash-agenda.css);
+@import url(./dashboard/dash-article.css);
+@import url(./dashboard/dash-faq.css);
+@import url(./dashboard/dash-galerie.css);
 @import url(./dashboard/dash-users.css);
-@import url(./dashboard/dash-galery.css);

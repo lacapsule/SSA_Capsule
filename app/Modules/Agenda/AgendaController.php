@@ -45,7 +45,6 @@ final class AgendaController extends BaseController
             'user' => $this->currentUser(),
             'isAdmin' => $this->isAdmin(),
             'links' => $this->linksProvider->get($this->isAdmin()),
-            'flash' => $this->flashMessages(),
         ];
     }
 

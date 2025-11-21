@@ -29,7 +29,6 @@
 .gallery-pagination .prev-page:hover,
 .gallery-pagination .next-page:hover {
   color: var(--ssa-jaune);
-  font-weight: bold;
 }
 
 .gallery {

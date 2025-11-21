@@ -19,7 +19,6 @@
 </section>
 
 <dialog id="agenda-create-modal" class="universal-modal">
-  <div class="modal-overlay">
     <div class="modal-content">
       <div class="modal-header">
         <h2>Nouvel événement</h2>
@@ -70,11 +69,9 @@
         <button type="submit" form="createEventForm" class="btn btn-primary">Enregistrer</button>
       </div>
     </div>
-  </div>
 </dialog>
 
 <dialog id="agenda-edit-modal" class="universal-modal">
-  <div class="modal-overlay">
     <div class="modal-content">
       <div class="modal-header">
         <h2>Modifier l'événement</h2>
@@ -130,11 +127,9 @@
         </div>
       </div>
     </div>
-  </div>
 </dialog>
 
 <dialog id="agenda-delete-modal" class="universal-modal">
-  <div class="modal-overlay">
     <div class="modal-content">
       <div class="modal-header">
         <h2>Confirmer la suppression</h2>
@@ -151,7 +146,6 @@
         <button type="button" id="confirmDeleteBtn" class="btn btn-danger">Supprimer</button>
       </div>
     </div>
-  </div>
 </dialog>
 
 <script src="/modules/dashboard/agenda.js"></script>

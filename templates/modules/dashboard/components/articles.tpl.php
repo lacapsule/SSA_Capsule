@@ -63,7 +63,6 @@
 
   <!-- Modal de création -->
   <dialog id="article-create-modal" class="universal-modal" data-modal-id="article-create-modal">
-    <div class="modal-overlay">
       <div class="modal-content">
         <div class="modal-header">
           <h2>Créer un nouvel article</h2>
@@ -113,12 +112,10 @@
           </button>
         </div>
       </div>
-    </div>
   </dialog>
 
   <!-- Modal de modification -->
   <dialog id="article-edit-modal" class="universal-modal" data-modal-id="article-edit-modal">
-    <div class="modal-overlay">
       <div class="modal-content">
         <div class="modal-header">
           <h2>Modifier</h2>
@@ -169,12 +166,10 @@
           </button>
         </div>
       </div>
-    </div>
   </dialog>
 
   <!-- Modal de suppression -->
   <dialog id="article-delete-modal" class="universal-modal" data-modal-id="article-delete-modal">
-    <div class="modal-overlay">
       <div class="modal-content">
         <div class="modal-header">
           <h2>Confirmer la suppression</h2>
@@ -200,7 +195,6 @@
           </button>
         </div>
       </div>
-    </div>
   </dialog>
 </div>
 </section>
