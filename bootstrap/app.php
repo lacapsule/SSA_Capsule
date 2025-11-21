@@ -19,10 +19,9 @@ use App\Modules\Galerie\GalerieRepository;
 
 $container = require dirname(__DIR__) . '/config/container.php';
 
-$container->set(GalerieService::class, function() use ($container) {
+$container->set(GalerieService::class, function () use ($container) {
     return new GalerieService(
         $container->get(GalerieRepository::class),
-        // autres dépendances si besoin
     );
 });
 

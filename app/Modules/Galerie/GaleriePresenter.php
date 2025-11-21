@@ -31,6 +31,7 @@ final class GaleriePresenter
             return [
                 'src' => $img->src,
                 'alt' => $img->alt,
+                'filename' => $img->filename,
             ];
         });
 

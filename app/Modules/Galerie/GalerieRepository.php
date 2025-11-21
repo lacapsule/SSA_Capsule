@@ -65,7 +65,8 @@ final class GalerieRepository
         foreach ($images as $filename) {
             yield new GalerieDTO(
                 src: '/assets/img/gallery/' . $filename,
-                alt: pathinfo($filename, PATHINFO_FILENAME)
+                alt: pathinfo($filename, PATHINFO_FILENAME),
+                filename: $filename
             );
         }
     }
@@ -76,5 +77,79 @@ final class GalerieRepository
     public function countImages(): int
     {
         return iterator_count($this->getAllImages());
+    }
+
+    /**
+     * Récupère le chemin absolu du dossier galerie
+     */
+    public function getGalleryPath(): string
+    {
+        return $this->basePath . self::GALLERY_PATH;
+    }
+
+    /**
+     * Supprime une image par son filename
+     */
+    public function deleteImage(string $filename): bool
+    {
+        $galleryPath = $this->getGalleryPath();
+        $filePath = $galleryPath . '/' . $filename;
+
+        // Sécurité : vérifier que le fichier est bien dans le dossier galerie
+        $realPath = realpath($filePath);
+        $realGalleryPath = realpath($galleryPath);
+        
+        if (!$realPath || !$realGalleryPath || !str_starts_with($realPath, $realGalleryPath)) {
+            return false;
+        }
+
+        if (is_file($realPath)) {
+            return @unlink($realPath);
+        }
+
+        return false;
+    }
+
+    /**
+     * Renomme une image
+     */
+    public function renameImage(string $oldFilename, string $newFilename): bool
+    {
+        $galleryPath = $this->getGalleryPath();
+        $oldPath = $galleryPath . '/' . $oldFilename;
+        $newPath = $galleryPath . '/' . $newFilename;
+
+        // Sécurité : vérifier que les fichiers sont bien dans le dossier galerie
+        $realOldPath = realpath($oldPath);
+        $realNewPath = realpath($galleryPath);
+        
+        if (!$realOldPath || !$realNewPath || !str_starts_with($realOldPath, $realNewPath)) {
+            return false;
+        }
+
+        // Vérifier que le nouveau nom n'existe pas déjà
+        if (is_file($newPath)) {
+            return false;
+        }
+
+        // Vérifier l'extension
+        $oldExt = strtolower(pathinfo($oldFilename, PATHINFO_EXTENSION));
+        $newExt = strtolower(pathinfo($newFilename, PATHINFO_EXTENSION));
+        
+        if ($oldExt !== $newExt || !in_array($newExt, self::ALLOWED_EXTENSIONS, true)) {
+            return false;
+        }
+
+        return @rename($realOldPath, $newPath);
+    }
+
+    /**
+     * Vérifie si un fichier existe
+     */
+    public function imageExists(string $filename): bool
+    {
+        $galleryPath = $this->getGalleryPath();
+        $filePath = $galleryPath . '/' . $filename;
+        return is_file($filePath);
     }
 }

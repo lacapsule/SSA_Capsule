@@ -66,4 +66,78 @@ final class GalerieService
             $count++;
         }
     }
+
+    /**
+     * Upload une ou plusieurs images
+     * 
+     * @param array<int, array{tmp_name:string,name:string,type:string,error:int,size:int}> $files
+     * @param array<int, string|null> $customNames Noms personnalisés optionnels pour chaque image
+     * @return array{success: int, errors: array<int, string>}
+     */
+    public function uploadImages(array $files, array $customNames = []): array
+    {
+        $success = 0;
+        $errors = [];
+
+        foreach ($files as $index => $file) {
+            if (($file['error'] ?? UPLOAD_ERR_NO_FILE) !== UPLOAD_ERR_OK) {
+                $errors[$index] = 'Erreur lors de l\'upload du fichier';
+                continue;
+            }
+
+            $customName = $customNames[$index] ?? null;
+            $filename = \App\Support\ImageConverter::convertUploadedFileForGallery(
+                $file,
+                $customName,
+                $this->repository->getGalleryPath()
+            );
+
+            if ($filename === null) {
+                $errors[$index] = 'Impossible de convertir l\'image';
+                continue;
+            }
+
+            $success++;
+        }
+
+        return ['success' => $success, 'errors' => $errors];
+    }
+
+    /**
+     * Supprime une image
+     */
+    public function deleteImage(string $filename): bool
+    {
+        return $this->repository->deleteImage($filename);
+    }
+
+    /**
+     * Supprime plusieurs images
+     * 
+     * @param array<int, string> $filenames
+     * @return array{success: int, failed: array<int, string>}
+     */
+    public function deleteImages(array $filenames): array
+    {
+        $success = 0;
+        $failed = [];
+
+        foreach ($filenames as $index => $filename) {
+            if ($this->repository->deleteImage($filename)) {
+                $success++;
+            } else {
+                $failed[$index] = $filename;
+            }
+        }
+
+        return ['success' => $success, 'failed' => $failed];
+    }
+
+    /**
+     * Renomme une image
+     */
+    public function renameImage(string $oldFilename, string $newFilename): bool
+    {
+        return $this->repository->renameImage($oldFilename, $newFilename);
+    }
 }
