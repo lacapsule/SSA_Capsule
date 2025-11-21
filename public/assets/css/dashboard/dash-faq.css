@@ -24,7 +24,7 @@
 }
 
 .question {
-    font-size: 1.2rem;
+    font-size: 1.5rem;
     font-weight: 600;
     padding: 20px 80px 20px 20px;
     position: relative;
@@ -56,7 +56,35 @@
     line-height: 1.5rem;
 }
 
+.list-style-one {
+    position: relative;
+}
 
+.list-style-one li {
+    display: flex;
+    justify-content: flex-start;
+    margin-bottom: 5px;
+    font-size: var(--ssa-font-small);
+    line-height: 26px;
+    font-weight: 400;
+    color: var(--ssa-txt-noir);
+    list-style: none;
+}
+
+.list-style-one li img {
+    margin-top: 4px;
+    width: 18px;
+    height: 18px;
+}
+
+.list-style-one li a {
+    text-decoration: none;
+    color: var(--ssa-txt-noir);
+    margin-left: 10px;
+}
+p{
+    margin-bottom: 10px;
+}
 @media screen and (max-width: 950px) {
     html {
         font-size: 14px;

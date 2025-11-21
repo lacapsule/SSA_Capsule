@@ -134,7 +134,8 @@ html {
     h4,
     th,
     td,
-    tr {
+    tr,
+    ul {
         list-style: none;
         text-decoration: none;
         color: inherit;

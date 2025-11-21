@@ -1,6 +1,5 @@
-
 {{#component_html}}
-    {{{ component_html }}}
+{{{ component_html }}}
 {{/component_html}}
 
 {{^component_html}}
@@ -17,14 +16,46 @@
             </div>
             <div class="answercont">
                 <div class="answer">
-                    Click the link in the verification email from verify@codepen.io (be sure to check your spam folder
-                    or other email tabs if it's not in your inbox).
-
-                    Or, send an email with the subject "Verify" to verify@codepen.io from the email address you use for
-                    your CodePen account.<br><br>
-                    <a
-                        href="https://blog.codepen.io/documentation/features/email-verification/#how-do-i-verify-my-email-2">How
-                        to Verify Email Docs</a>
+                    <ul class="list-style-one">
+                        <h3>Comment ça marche ? </h3><br>
+                        <li><img src="assets/icons/Instance.svg" alt="icon">
+                            <a class="text">En haut, tu vois le mois en cours et deux flèches pour passer au mois
+                                précédent ou suivant.</a>
+                        </li>
+                        <li><img src="assets/icons/Instance.svg" alt="icon">
+                            <a class="text">Le calendrier affiche chaque jour du mois et si tu as un événement, il
+                                apparaît dans la case du jour concerné.</a>
+                        </li>
+                        <li><img src="assets/icons/Instance.svg" alt="icon">
+                            <a class="text">Pour ajouter un nouvel événement, il suffit de cliquer sur le bouton «Nouvel
+                                événement»,
+                                Une fenêtre s’ouvre pour que tu donnes un titre, une date et une heure de début et de
+                                fin.</a>
+                        </li>
+                        <li><img src="assets/icons/Instance.svg" alt="icon">
+                            <a class="text">Tu peux choisir une couleur pour le différencier, ajouter un lieu
+                                (par exemple, une salle ou une ville).</a>
+                        </li>
+                        <li><img src="assets/icons/Instance.svg" alt="icon">
+                            <a class="text">Une fois l’événement enregistré, il apparaît dans le calendrier.</a>
+                        </li>
+                        <li><img src="assets/icons/Instance.svg" alt="icon">
+                            <a class="text">tu peux le modifier ou le supprimer à tout moment.</a>
+                        </li>
+                    </ul>
+                    <ul class="list-style-one">
+                        <br>
+                        <h3>Comment modifier ou supprimer un événement ?</h3><br>
+                        <li><img src="assets/icons/Instance.svg" alt="icon">
+                            <a class="text">Si tu veux changer quelque chose, clique sur l’événement, et une fenêtre
+                                s’ouvre pour modifier les détails.</a>
+                        </li>
+                        <li><img src="assets/icons/Instance.svg" alt="icon">
+                            <a class="text">Pour supprimer un événement, tu peux aussi cliquer dessus, puis choisir
+                                l’option «Supprimer », Une petite fenêtre te demande de confirmer, pour éviter les
+                                erreurs.</a>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </div>
@@ -35,13 +66,40 @@
             </div>
             <div class="answercont">
                 <div class="answer">
-                    It's likely an infinite loop in JavaScript that we could not catch. To fix, add ?turn_off_js=true to
-                    the end of the URL (on any page, like the Pen or Project editor, your Profile page, or the
-                    Dashboard) to temporarily turn off JavaScript. When you're ready to run the JavaScript again, remove
-                    ?turn_off_js=true and refresh the page.<br><br>
-
-                    <a href="https://blog.codepen.io/documentation/features/turn-off-javascript-in-previews/">How to
-                        Disable JavaScript Docs</a>
+                    <ul class="list-style-one">
+                        <p class="texte">
+                            C’est un outil qui permet de voir, ajouter, modifier ou supprimer les personnes qui ont
+                            accès au
+                            système, comme des collègues ou des employés.​
+                        </p>
+                        <h3>Comment ça marche ?</h3>
+                        <br>
+                        <li><img src="assets/icons/Instance.svg" alt="icon">
+                            <a class="text"> Tu vois une liste avec le nom, l’email, le rôle (par exemple « employé » ou
+                                «
+                                admin ») et la date d’ajout de chaque personne.​</a>
+                        </li>
+                        <li><img src="assets/icons/Instance.svg" alt="icon">
+                            <a class="text">Pour ajouter quelqu’un, il suffit de cliquer sur « + Ajouter un utilisateur
+                                » et
+                                de remplir un petit formulaire avec son nom, son email, un mot de passe et de choisir
+                                son
+                                rôle.​</a>
+                        </li>
+                        <li><img src="assets/icons/Instance.svg" alt="icon">
+                            <a class="text">Pour modifier ou supprimer un utilisateur, il suffit de cliquer sur le
+                                bouton «
+                                Gérer » à côté de son nom.​​</a>
+                        </li>
+                        <li><img src="assets/icons/Instance.svg" alt="icon">
+                            <a class="text">Tu peux aussi changer le mot de passe ou supprimer complètement un
+                                utilisateur,
+                                mais attention, la suppression est définitive.​</a>
+                        </li>
+                        <li><img src="assets/icons/Instance.svg" alt="icon">
+                            <a class="text">Suivant le rôle les permissions accordés sont différentes.</a>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </div>
@@ -51,13 +109,19 @@
                 Comment fonctionne mes articles ?
             </div>
             <div class="answercont">
-                <div class="answer">
-                    You can leave a comment on any public Pen. Click the "Comments" link in the Pen editor view, or
-                    visit the Details page.<br><br>
-
-                    <a href="https://blog.codepen.io/documentation/faq/how-do-i-contact-the-creator-of-a-pen/">How to
-                        Contact Creator of a Pen Docs</a>
-                </div>
+                <ul class="list-style-one">
+                    <br>
+                    <h3>Comment modifier ou supprimer un événement ?</h3><br>
+                    <li><img src="assets/icons/Instance.svg" alt="icon">
+                        <a class="text">Si tu veux changer quelque chose, clique sur l’événement, et une fenêtre
+                            s’ouvre pour modifier les détails.</a>
+                    </li>
+                    <li><img src="assets/icons/Instance.svg" alt="icon">
+                        <a class="text">Pour supprimer un événement, tu peux aussi cliquer dessus, puis choisir
+                            l’option «Supprimer », Une petite fenêtre te demande de confirmer, pour éviter les
+                            erreurs.</a>
+                    </li>
+                </ul>
             </div>
         </div>
 
@@ -66,9 +130,19 @@
                 Comment fonctionne ma galerie ?
             </div>
             <div class="answercont">
-                <div class="answer">
-                    We have our current list of library versions <a href="https://codepen.io/versions">here</a>
-                </div>
+                <ul class="list-style-one">
+                    <br>
+                    <h3>Comment modifier ou supprimer un événement ?</h3><br>
+                    <li><img src="assets/icons/Instance.svg" alt="icon">
+                        <a class="text">Si tu veux changer quelque chose, clique sur l’événement, et une fenêtre
+                            s’ouvre pour modifier les détails.</a>
+                    </li>
+                    <li><img src="assets/icons/Instance.svg" alt="icon">
+                        <a class="text">Pour supprimer un événement, tu peux aussi cliquer dessus, puis choisir
+                            l’option «Supprimer », Une petite fenêtre te demande de confirmer, pour éviter les
+                            erreurs.</a>
+                    </li>
+                </ul>
             </div>
         </div>
 
@@ -77,12 +151,19 @@
                 Comment gérer mon profil ?
             </div>
             <div class="answercont">
-                <div class="answer">
-                    A fork is a complete copy of a Pen or Project that you can save to your own account and modify. Your
-                    forked copy comes with everything the original author wrote, including all of the code and any
-                    dependencies.<br><br>
-                    <a href="https://blog.codepen.io/documentation/features/forks/">Learn More About Forks</a>
-                </div>
+                <ul class="list-style-one">
+                    <br>
+                    <h3>Comment modifier ou supprimer un événement ?</h3><br>
+                    <li><img src="assets/icons/Instance.svg" alt="icon">
+                        <a class="text">Si tu veux changer quelque chose, clique sur l’événement, et une fenêtre
+                            s’ouvre pour modifier les détails.</a>
+                    </li>
+                    <li><img src="assets/icons/Instance.svg" alt="icon">
+                        <a class="text">Pour supprimer un événement, tu peux aussi cliquer dessus, puis choisir
+                            l’option «Supprimer », Une petite fenêtre te demande de confirmer, pour éviter les
+                            erreurs.</a>
+                    </li>
+                </ul>
             </div>
         </div>
 
