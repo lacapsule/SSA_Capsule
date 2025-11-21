@@ -159,11 +159,7 @@ final class MiniMustache
             function ($m) use ($data) {
                 $v = $this->get($data, $m[1]);
 
-                return htmlspecialchars(
-                    is_array($v) ? implode(', ', $v) : ($v ?? ''),
-                    ENT_QUOTES | ENT_SUBSTITUTE,
-                    'UTF-8'
-                );
+                return htmlspecialchars(is_scalar($v) ? (string) $v : '', ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
             },
             $tpl
         ) ?? $tpl;
