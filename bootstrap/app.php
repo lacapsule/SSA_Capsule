@@ -14,8 +14,17 @@ use Capsule\Infrastructure\Container\DIContainer;
 use Capsule\Routing\Discovery\RouteScanner;
 use Capsule\Routing\RouterHandler;
 use Capsule\Routing\Dispatch\ControllerInvoker;
+use App\Modules\Galerie\GalerieService;
+use App\Modules\Galerie\GalerieRepository;
 
 $container = require dirname(__DIR__) . '/config/container.php';
+
+$container->set(GalerieService::class, function() use ($container) {
+    return new GalerieService(
+        $container->get(GalerieRepository::class),
+        // autres dépendances si besoin
+    );
+});
 
 if (!$container instanceof DIContainer) {
     throw new RuntimeException('config/container.php must return a DIContainer instance.');

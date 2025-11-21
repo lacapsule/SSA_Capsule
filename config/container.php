@@ -238,6 +238,7 @@ return (function (): DIContainer {
         $c->get(DashboardService::class),
         $c->get(PasswordService::class),
         $c->get(SidebarLinksProvider::class),
+        $c->get(GalerieService::class),
         $c->get(ResponseFactoryInterface::class),
         $c->get(ViewRendererInterface::class),
     ));
