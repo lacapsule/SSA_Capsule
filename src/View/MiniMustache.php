@@ -121,7 +121,7 @@ final class MiniMustache
                 if (is_array($v) || $v instanceof \Countable) {
                     $truthy = (count($v) > 0);
                 } else {
-                    $truthy = (bool)$v;
+                    $truthy = (bool) $v;
                 }
 
                 return $truthy ? $this->compile($m[2], $data) : '';
@@ -149,7 +149,7 @@ final class MiniMustache
         // -------- Raw HTML (triple mustache) --------
         $tpl = preg_replace_callback(
             self::RAW_PATTERN,
-            fn ($m) => (string)($this->get($data, $m[1]) ?? ''),
+            fn($m) => (string) ($this->get($data, $m[1]) ?? ''),
             $tpl
         ) ?? $tpl;
 
@@ -159,7 +159,11 @@ final class MiniMustache
             function ($m) use ($data) {
                 $v = $this->get($data, $m[1]);
 
-                return htmlspecialchars((string)($v ?? ''), ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+                return htmlspecialchars(
+                    is_array($v) ? implode(', ', $v) : ($v ?? ''),
+                    ENT_QUOTES | ENT_SUBSTITUTE,
+                    'UTF-8'
+                );
             },
             $tpl
         ) ?? $tpl;
