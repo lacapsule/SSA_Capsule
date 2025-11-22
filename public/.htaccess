@@ -1,0 +1,36 @@
+# Fichier .htaccess dans /public/
+# Ce fichier est utilisé si le document root pointe directement vers public/
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /
+
+    # 🔒 Sécurité : interdit l'accès à des répertoires sensibles
+    RewriteRule ^(\.\./)?(src|app|vendor|bootstrap|tests|config|\.env) - [F,L,NC]
+
+    # ✅ Si un fichier ou dossier existe, on le sert directement
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+
+    # ✅ Sinon, on route vers index.php
+    RewriteRule ^(.*)$ index.php [QSA,L]
+</IfModule>
+
+# Cache et MIME optimisés
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType text/css "access plus 1 week"
+  ExpiresByType application/javascript "access plus 1 week"
+  ExpiresByType image/webp "access plus 1 year"
+  ExpiresByType image/jpeg "access plus 1 year"
+  ExpiresByType image/png "access plus 1 year"
+  ExpiresByType image/gif "access plus 1 year"
+</IfModule>
+
+# Sécuriser les fichiers PHP
+# <FilesMatch "\.php$">
+#     Require all denied
+# </FilesMatch>
+
+# Désactiver l'énumération de répertoire
+Options -Indexes

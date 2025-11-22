@@ -1,0 +1,22 @@
+# Fichier .htaccess à la racine pour Hostinger
+# Redirige toutes les requêtes vers le dossier public/
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /
+
+    # 🔒 Sécurité : interdit l'accès à des répertoires sensibles
+    RewriteRule ^(src|app|vendor|bootstrap|tests|config|\.env|composer\.(json|lock)|\.git) - [F,L,NC]
+
+    # ✅ Si un fichier ou dossier existe dans /public, on le sert directement
+    RewriteCond %{DOCUMENT_ROOT}/public/$1 -f [OR]
+    RewriteCond %{DOCUMENT_ROOT}/public/$1 -d
+    RewriteRule ^(.*)$ public/$1 [L]
+
+    # ✅ Sinon, on route vers index.php (dans /public)
+    RewriteRule ^(.*)$ public/index.php [QSA,L]
+</IfModule>
+
+# Désactiver l'énumération de répertoire
+Options -Indexes
+
