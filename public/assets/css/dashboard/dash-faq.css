@@ -6,7 +6,7 @@
     font-family: system-ui, -apple-system, sans-serif;
     width: 40%;
     justify-self: center;
-    margin: 3% 0;
+    margin: 1% 0;
 
     & img {
         width: 100%;
@@ -24,13 +24,16 @@
 }
 
 .question {
-    font-size: 1.5rem;
+    font-size: 1.2rem;
     font-weight: 600;
     padding: 20px 80px 20px 20px;
     position: relative;
     display: flex;
     align-items: center;
     cursor: pointer;
+    text-decoration: underline 2px;
+    text-underline-offset: 3px;
+    line-height: 1.5;
 }
 
 .question::after {
@@ -94,6 +97,6 @@ p {
 
     .wrapperfaq {
         position: static;
-        width: 85%;
+        width: 100%;
     }
 }

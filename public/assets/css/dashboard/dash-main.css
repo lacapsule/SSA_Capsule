@@ -3,7 +3,6 @@
     flex-direction: column;
     gap: 20px;
     padding: 20px;
-    min-width: 85%;
     position: absolute;
     left: 15vw;
     z-index: 890;
@@ -65,7 +64,7 @@
 
 @media screen and (max-width: 980px) {
     .dash-section-page {
-        position: static;
+        left: 0;
     }
 
     .dash-components-header {

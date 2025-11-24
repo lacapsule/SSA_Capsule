@@ -7,7 +7,8 @@ Dans cette page :
 -[x] Gérer la suppression et l’ajout de photos.
 -[] Convertir les formats de photos lors de l’upload (jpeg, png, etc.), puis enregistrer en webp.
 -[] Renommer automatiquement les photos à l’ajout pour éviter les conflits (exemple : img_dateUpload_ID).
--[] (Optionel) Prévoir une gestion de l’ordre d’affichage des photos dans la galerie.
+-[] Prévoir une gestion de l’ordre d’affichage des photos dans la galerie. (Dernières photos upload en premier)
+-[] Pagination qui permet pas d'aller a la page que ont veux et a la dernière directement
 
 ### Compte avec statut "employé" :
 -[] Accorder l’accès au dashboard.
@@ -21,10 +22,10 @@ Dans cette page :
 -[] récupération des informations nom, mail, role pour la modal de gestion de l'utilisateur
 
 ### Agenda :
--[] Colonne de la gestion des couleurs dans la BDD ne reste pas et met la page en erreur.
+-[x] Colonne de la gestion des couleurs dans la BDD ne reste pas et met la page en erreur.
 
 ### Profil :
--[] Changement de mot de passe pas pris en compte. (Fonctionne dans "Utilisateurs")
+-[x] Changement de mot de passe pas pris en compte. (Fonctionne dans "Utilisateurs")
 
 ## Page "home" pour articles & événements :
 -[] Séparer techniquement les articles et événements pour qu’ils ne soient plus liés lors de la suppression.
