@@ -15,7 +15,7 @@ return [
     'gallery_title' => 'Galerie',
 
     // ACTUALITÉS
-    'news_title' => 'Actualités',
+    'news_title' => 'Nos actualités',
     'news_filter_all' => 'Toutes',
     'news_filter_sante' => 'Santé',
     'news_filter_env' => 'Environnement',
@@ -32,7 +32,7 @@ return [
     'nav_title' => 'Sécurité Sociale de l’Alimentation – Pays de Morlaix',
     'nav_home' => 'Accueil',
     'nav_project' => 'Le projet SSA',
-    'nav_agenda' => 'Agenda',
+    'nav_agenda' => 'Évènements',
     'nav_actualites' => 'Actualités',
     'nav_galerie' => 'Galerie',
     'nav_apropos' => 'Qui sommes-nous ?',
@@ -48,7 +48,8 @@ return [
     'footer_tel' => 'Tél : 06 15 06 82 08',
     'footer_email_1' => 'ssapaysdemorlaix@mailo.com',
     'footer_email_2' => 'nicolas@buzuk.bzh',
-    'footer_siret' => 'SIRET : 300 79 63 489 000 11 | Code APE : 9004Z',
+    'footer_siret' => 'SIRET : 300 79 63 489 000 11',
+    'footer_APE' => 'Code APE : 9004Z',
     'footer_copyright' => 'Copyright © 2025 SSA Pays de Morlaix',
 
     // CONTENU
@@ -82,6 +83,7 @@ return [
     'contact_form_title' => 'Envoyez-nous un message',
     'contact_form_name' => 'Nom',
     'contact_form_email' => 'Email',
+    'contact_form_subject' => 'Sujet',
     'contact_form_message' => 'Message',
     'contact_form_submit' => 'Envoyer',
 
@@ -92,6 +94,9 @@ return [
     'login_username' => 'Nom d\'utilisateur :',
     'login_password' => 'Mot de passe :',
     'login_submit' => 'Se connecter',
+    'login_error'=> 'Oups ! Tes identifiants ne semblent pas corrects.',
+    'login_password_forgot' => 'Mot de passe oublié ?',
+    'login_admin_contact'=> 'Veuillez contacter l\'administrateur du site.',
     'admin_manage_articles' => 'Gérer les événements',
     'admin_contacts' => 'Voir les messages de contact',
     'admin_create_article' => 'Créer un événement',
@@ -103,6 +108,6 @@ return [
     'create_article_label_desc' => 'Description',
     'create_article_label_date' => 'Date',
     'create_article_label_time' => 'Heure',
-    'create_article_label_place' => 'Lieu',
+    'create_article_label_place' => 'Lieux',
     'create_article_submit' => 'Créer',
 ];

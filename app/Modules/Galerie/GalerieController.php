@@ -6,56 +6,66 @@ use Capsule\Contracts\ResponseFactoryInterface;
 use Capsule\Contracts\ViewRendererInterface;
 use Capsule\Http\Message\Response;
 use Capsule\Routing\Attribute\Route;
+use Capsule\Support\Pagination\Page;
+use Capsule\Support\Pagination\Paginator;
 use Capsule\View\BaseController;
 
 final class GalerieController extends BaseController
 {
-    protected string $pageNs = 'galerie';           // Résout page:galerie/index
-    protected string $componentNs = 'galerie';      // Résout component:galerie
-    protected string $layout = 'main';           // Layout public par défaut
+    protected string $pageNs = 'galerie';
+    protected string $componentNs = 'galerie';
+    protected string $layout = 'main';
 
     public function __construct(
+        private readonly GalerieService $galerieService,
         ResponseFactoryInterface $res,
         ViewRendererInterface $view
     ) {
         parent::__construct($res, $view);
     }
 
+
     #[Route(path: '/galerie', methods: ['GET'])]
     public function galerie(): Response
     {
-        // Images statiques pour l’exemple
-        $pictures = [];
-        for ($i = 1; $i <= 191; $i++) {
-            $pictures[] = [
-                'src' => "/assets/img/gallery/image_{$i}.webp",
-                'alt' => "Image {$i}",
-            ];
-        }
+        // Récupérer la page depuis la requête
+        $paginator = Paginator::fromGlobals(defaultLimit: 24, maxLimit: 24);
 
-        $imagesPerPage = 25;
-        $totalImages = count($pictures);
-        $totalPages = (int)ceil($totalImages / $imagesPerPage);
+        // Obtenir le nombre total d'images
+        $totalImages = $this->galerieService->countAllImages();
 
-        $page = isset($_GET['page']) ? max(1, (int)$_GET['page']) : 1;
-        $page = min($page, $totalPages);
+        // Créer une Page avec le total réel
+        $page = new Page(
+            page: $paginator->page,
+            limit: $paginator->limit,
+            total: $totalImages
+        );
 
-        $startIndex = ($page - 1) * $imagesPerPage;
-        $picturesPage = array_slice($pictures, $startIndex, $imagesPerPage);
+        // Récupérer les images paginées
+        $images = $this->galerieService->getImagePage(
+            limit: $page->limit,
+            offset: $page->offset()
+        );
 
-        return $this->page('index', [
-            'showHeader' => true,
-            'showFooter' => true,
-            'str' => $this->i18n(),
-            'pictures' => $picturesPage,
-            'pagination' => [
-                'current' => $page,
-                'total' => $totalPages,
-                'hasPrev' => $page > 1,
-                'hasNext' => $page < $totalPages,
-                'prev' => $page - 1,
-                'next' => $page + 1,
+        // Préparer les données pour le template
+        $extraQuery = $_GET ?? [];
+        unset($extraQuery['page']);
+
+        $data = GaleriePresenter::index(
+            images: $images,
+            page: $page,
+            base: [
+                'showHeader' => true,
+                'showFooter' => true,
+                'str' => $this->i18n(),
+                'isAuthenticated' => $this->isAuthenticated(),
             ],
-        ]);
+            paginationOptions: [
+                'base_path' => '/galerie',
+                'extra_query' => $extraQuery,
+            ]
+        );
+
+        return $this->page('index', $data);
     }
 }

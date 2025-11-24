@@ -1,37 +1,61 @@
 <!DOCTYPE html>
 <html lang="{{str.lang}}">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{title}} - Dashboard SSA</title>
-  <link rel="stylesheet" href="/assets/css/config.css">
-  <link rel="stylesheet" href="/assets/css/styles.css">
+    <meta name="description" content="{{str.meta_description}}">
+    <meta name="keywords" content="{{str.meta_keywords}}">
+    <meta name="author" content="{{str.meta_author}}">
+    <title>{{str.page_title}}</title>
+
+    <link rel="stylesheet" href="/assets/css/dash-global.css">
+    <link rel="stylesheet" href="/assets/css/modal.css">
+    <link rel="stylesheet" href="/assets/css/dashboard/dash-account.css">
+    <link rel="stylesheet" href="/assets/css/dashboard/dash-galerie.css">
+    <link rel="stylesheet" href="/assets/css/dashboard/dash-users.css">
+    <link rel="stylesheet" href="/assets/css/dashboard/dash-agenda.css">
+
     <link rel="icon" type="image/png" href="/assets/img/logoSSA.png">
 </head>
-<body class="dashboard-layout">
-    <section class="admin-dashboard">
-        <!-- Sidebar avec navigation -->
-        <aside class="dashboard-sidebar">
-            <h2>Dashboard</h2>
+
+<header>
+    <input type="checkbox" id="menu-toggle">
+    <label for="menu-toggle" class="hamburger">
+        <span class="line"></span>
+        <span class="line"></span>
+        <span class="line"></span>
+    </label>
+
+    <nav class="navbar">
+        <div class="contain">
+            <h1>Bienvenue</h1> 
+            <h2>{{user.username}}</h2>
+
             <ul>
-            {{#each links}}
+                {{#each links}}
                 <li>
                     <a href="{{url}}" class="{{#active}}active{{/active}}">
-                        <img src="/assets/icons/{{icon}}.svg" alt="" />
                         {{title}}
                     </a>
+                    <img class="icons" src="/assets/icons/{{icon}}.svg" alt="" />
                 </li>
-            {{/each}}
+                {{/each}}
             </ul>
-        </aside>
+            <div class="copyright">
+                <p>Site web éco-conçu par <a href="">La Capsule</a></p>
+            </div>
+    </nav>
+</header>
 
-        <!-- Contenu principal (injecté depuis les pages) -->
-        <div class="dashboard-content">
-            {{{ content }}}
-        </div>
-    </section>
+<body>
 
-    <script src="/assets/js/dashboard.js" defer></script>
-    <script src="/assets/js/script.js" defer></script>
+    <!-- Contenu principal (injecté depuis les pages) -->
+
+        {{{ content }}}
+
+    <script type="module" src="/main.js" defer></script>
+
 </body>
+
 </html>

@@ -6,7 +6,7 @@ namespace Capsule\View;
 
 final class Safe
 {
-    public static function imageUrl(string $raw, string $fallback = '/assets/img/placeholder.webp'): string
+    public static function imageUrl(string $raw, string $fallback = '/assets/img/logoSSA.png'): string
     {
         $raw = trim($raw);
         if ($raw === '') {

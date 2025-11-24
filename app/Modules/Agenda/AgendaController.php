@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Modules\Agenda;
 
-use App\Providers\SidebarLinksProvider;
 use Capsule\Contracts\ResponseFactoryInterface;
 use Capsule\Contracts\ViewRendererInterface;
 use Capsule\Http\Message\Request;
@@ -13,7 +12,9 @@ use Capsule\Routing\Attribute\Route;
 use Capsule\Routing\Attribute\RoutePrefix;
 use Capsule\Security\CsrfTokenManager;
 use Capsule\View\BaseController;
+use App\Providers\SidebarLinksProvider;
 use DateTime;
+use App\Modules\Agenda\Dto\AgendaEventDTO;
 
 #[RoutePrefix('/dashboard/agenda')]
 final class AgendaController extends BaseController
@@ -44,7 +45,6 @@ final class AgendaController extends BaseController
             'user' => $this->currentUser(),
             'isAdmin' => $this->isAdmin(),
             'links' => $this->linksProvider->get($this->isAdmin()),
-            'flash' => $this->flashMessages(),
         ];
     }
 
@@ -82,11 +82,11 @@ final class AgendaController extends BaseController
     {
         CsrfTokenManager::requireValidToken();
 
-        $title = trim((string)($_POST['titre'] ?? ''));
-        $date = (string)($_POST['date'] ?? '');
-        $time = (string)($_POST['heure'] ?? '');
-        $loc = trim((string)($_POST['lieu'] ?? ''));
-        $durH = (float)($_POST['duree'] ?? 1.0);
+        $title = trim((string) ($_POST['titre'] ?? ''));
+        $date = (string) ($_POST['date'] ?? '');
+        $time = (string) ($_POST['heure'] ?? '');
+        $loc = trim((string) ($_POST['lieu'] ?? ''));
+        $durH = (float) ($_POST['duree'] ?? 1.0);
 
         [$ok, $errors, $startsAt] = $this->agenda->create(
             title: $title,
@@ -165,6 +165,133 @@ final class AgendaController extends BaseController
     //         'Événement modifié avec succès.'
     //     );
     // }
+
+    /**
+     * GET /dashboard/agenda/api/events
+     * Récupère les événements pour une période donnée au format JSON
+     */
+    #[Route(path: '/api/events', methods: ['GET'])]
+    public function getEventsApi(Request $req): Response
+    {
+        $start = $this->strFromQuery($req, 'start');
+        $end = $this->strFromQuery($req, 'end');
+
+        if ($start === null || $end === null) {
+            return $this->res->json(['error' => 'Les paramètres start et end sont requis.'], 400);
+        }
+
+        $events = $this->agenda->getEvents($start, $end);
+
+        $formattedEvents = array_map(function (AgendaEventDTO $event) {
+            return [
+                'id' => $event->id,
+                'title' => $event->title,
+                'start' => $event->startsAt->format('Y-m-d H:i:s'),
+                'end' => $event->endsAt()->format('Y-m-d H:i:s'),
+                'description' => $event->location,
+                'color' => $event->color, // Couleur par défaut
+                'all_day' => false,
+            ];
+        }, $events);
+
+        return $this->res->json($formattedEvents);
+    }
+
+    /**
+     * POST /dashboard/agenda/api/delete/{id}
+     * Supprime un événement via API
+     */
+    #[Route(path: '/api/delete/{id}', methods: ['POST'])]
+    public function deleteApi(int $id): Response
+    {
+        CsrfTokenManager::requireValidToken();
+
+        $ok = $this->agenda->delete($id);
+
+        if (!$ok) {
+            return $this->res->json(['success' => false, 'message' => 'Événement non trouvé.'], 404);
+        }
+
+        return $this->res->json(['success' => true]);
+    }
+
+    /**
+     * POST /dashboard/agenda/api/create
+     * Crée un événement via API
+     */
+    #[Route(path: '/api/create', methods: ['POST'])]
+    public function createApi(): Response
+    {
+        CsrfTokenManager::requireValidToken();
+
+        $title = trim((string) ($_POST['title'] ?? ''));
+        $startStr = (string) ($_POST['start'] ?? '');
+        $endStr = (string) ($_POST['end'] ?? '');
+        $description = trim((string) ($_POST['description'] ?? ''));
+        $color = (string) ($_POST['color'] ?? '#3788d8');
+
+        if (empty($title) || empty($startStr) || empty($endStr)) {
+            return $this->res->json(['success' => false, 'message' => 'Champs requis manquants.'], 400);
+        }
+
+        try {
+            $start = new DateTime($startStr);
+            $end = new DateTime($endStr);
+        } catch (\Exception $e) {
+            return $this->res->json(['success' => false, 'message' => 'Format de date invalide.'], 400);
+        }
+
+        if ($start >= $end) {
+            return $this->res->json(['success' => false, 'message' => 'La date de fin doit être après la date de début.'], 400);
+        }
+
+        $start = new DateTime($startStr);
+        $end = new DateTime($endStr);
+        $dateYmd = $start->format('Y-m-d');
+        $timeHi = $start->format('H:i');
+        $durationSeconds = $end->getTimestamp() - $start->getTimestamp();
+        $durationHours = $durationSeconds > 0 ? $durationSeconds / 3600 : 0.25;
+
+        [$ok, $errors] = $this->agenda->create(
+            title: $title,
+            dateYmd: $dateYmd,
+            timeHi: $timeHi,
+            location: $description,
+            durationHours: $durationHours,
+            createdBy: $this->currentUser()['id'] ?? null,
+            color: $color
+        );
+
+        if (!$ok) {
+            return $this->res->json(['success' => false, 'errors' => $errors], 400);
+        }
+
+        return $this->res->json(['success' => true]);
+    }
+
+    /**
+     * POST /dashboard/agenda/api/update/{id}
+     * Met à jour un événement via API
+     */
+    #[Route(path: '/api/update/{id}', methods: ['POST'])]
+    public function updateApi(int $id): Response
+    {
+        CsrfTokenManager::requireValidToken();
+
+        $title = trim((string) ($_POST['title'] ?? ''));
+        $startStr = (string) ($_POST['start'] ?? '');
+        $endStr = (string) ($_POST['end'] ?? '');
+        $description = trim((string) ($_POST['description'] ?? ''));
+        $color = (string) ($_POST['color'] ?? '#3788d8');
+
+        [$ok, $errors] = $this->agenda->update($id, $title, $startStr, $endStr, $description, $color);
+
+        if (!$ok) {
+            return $this->res->json(['success' => false, 'errors' => $errors], 400);
+        }
+
+        return $this->res->json(['success' => true]);
+    }
 
     /**
      * POST /dashboard/agenda/delete/{id}

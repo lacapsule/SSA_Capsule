@@ -74,7 +74,8 @@ final class PasswordService
         if ($currentHash === null) {
             return [false, ['Utilisateur introuvable.']];
         }
-        if (!$this->verify($old, $currentHash)) {
+        $verified = $this->verify($old, $currentHash);
+        if (!$verified) {
             return [false, ['Ancien mot de passe invalide.']];
         }
 
@@ -85,7 +86,7 @@ final class PasswordService
     }
 
     /**
-     * Rehash transparent au login si l’algo/options ont évolué.
+     * Rehash transparent au login si l'algo/options ont évolué.
      * Appelle-la dans ton flux de login après verify().
      */
     public function maybeRehashOnLogin(int $userId, string $plain, string $currentHash): void
@@ -93,5 +94,42 @@ final class PasswordService
         if ($this->needsRehash($currentHash)) {
             $this->users->updatePasswordHash($userId, $this->hash($plain));
         }
+    }
+
+    /**
+     * Change l'email de l'utilisateur après vérification du mot de passe.
+     *
+     * @return array{0: bool, 1: string[]} Tuple [ok, errors]
+     */
+    public function changeEmail(int $userId, string $password, string $newEmail): array
+    {
+        $errors = [];
+
+        // Valider le format de l'email
+        if (!filter_var($newEmail, FILTER_VALIDATE_EMAIL)) {
+            $errors['new_email'] = 'L\'adresse email n\'est pas valide.';
+            return [false, $errors];
+        }
+
+        // Vérifier que l'utilisateur existe
+        $currentHash = $this->users->getPasswordHashById($userId);
+        if ($currentHash === null) {
+            return [false, ['Utilisateur introuvable.']];
+        }
+
+        // Vérifier le mot de passe
+        if (!$this->verify($password, $currentHash)) {
+            return [false, ['Mot de passe invalide.']];
+        }
+
+        // Vérifier que l'email n'est pas déjà utilisé
+        if ($this->users->existsEmail($newEmail, $userId)) {
+            return [false, ['Cette adresse email est déjà utilisée.']];
+        }
+
+        // Mettre à jour l'email
+        $ok = $this->users->updateUser($userId, ['email' => $newEmail]);
+
+        return [$ok, $ok ? [] : ['Erreur lors de la mise à jour de l\'adresse email.']];
     }
 }

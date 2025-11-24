@@ -68,6 +68,18 @@ abstract class BaseController
             ? $name
             : ($this->pageNs !== '' ? "page:{$this->pageNs}/{$name}" : "page:{$name}");
 
+        // 2.b Si un composant est demandé par le contrôleur, le pré-rendre
+        // et l'injecter comme HTML brut dans le template via `component_html`.
+        if (isset($data['component']) && is_string($data['component']) && $data['component'] !== '') {
+            // fournir l'ensemble des données (utile si le composant attend des parties de $data)
+            try {
+                $data['component_html'] = $this->component((string)$data['component'], $data);
+            } catch (\Throwable $e) {
+                // En debug on pourrait logger, mais on évite d'interrompre le rendu.
+                $data['component_html'] = '';
+            }
+        }
+
         // 2. ✅ Rendu du contenu de la page (SANS layout) - utiliser render() directement
         $content = $this->view->render($logical, $data);
 
@@ -75,7 +87,7 @@ abstract class BaseController
         $layoutLogical = "layout:{$this->layout}";
         $data['content'] = $content;
 
-        $out = $this->view->render($layoutLogical, $data);
+    $out = $this->view->render($layoutLogical, $data);
 
         return $this->res->html($out, $status);
     }

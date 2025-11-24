@@ -6,6 +6,7 @@ namespace App\Modules\Home;
 
 use App\Modules\Home\Dto\HomeDTO;
 use Capsule\View\Safe;
+use App\Support\PaginationRenderer;
 use Capsule\View\Presenter\IterablePresenter;
 
 /**
@@ -71,7 +72,10 @@ final class HomePresenter
      *   financeurs: array<array{name:string,role:string,url:string,logo:string}>
      * }
      */
-    public static function forView(HomeDTO $dto): array
+    /**
+     * @param array<string,mixed> $paginationOptions
+     */
+    public static function forView(HomeDTO $dto, array $paginationOptions = []): array
     {
         $articlesIt = IterablePresenter::map($dto->articles, static function ($a) {
             $date = (string)($a->date_article ?? '');
@@ -96,15 +100,16 @@ final class HomePresenter
                 'id' => (int)($a->id ?? 0),
                 'titre' => $title,
                 'resume' => $sum,
-                'image' => Safe::imageUrl((string)($a->image ?? '/assets/img/placeholder.webp')),
+                'image' => Safe::imageUrl((string)($a->image ?? '/assets/img/logoSSA.png')),
                 'category' => (string)($a->category ?? 'general'),
             ];
         });
 
         return [
-          'articles' => IterablePresenter::toArray($articlesIt),
-          'partenaires' => $dto->partenaires,
-          'financeurs' => $dto->financeurs,
+            'articles' => IterablePresenter::toArray($articlesIt),
+            'partenaires' => $dto->partenaires,
+            'financeurs' => $dto->financeurs,
+            'pagination' => PaginationRenderer::build($dto->page, $paginationOptions),
         ];
     }
 }

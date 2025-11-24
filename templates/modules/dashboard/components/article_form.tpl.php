@@ -20,33 +20,33 @@
 
     <div class="form-row">
       <label for="resume">Résumé</label>
-      <input id="resume" name="resume" type="text" value="{{article.resume}}" />
+      <input id="resume" name="resume" type="text" value="{{article.resume}}" required/>
       {{#errors.resume}}<p class="field-error">{{.}}</p>{{/errors.resume}}
     </div>
 
     <div class="form-row">
       <label for="description">Description</label>
-      <textarea id="description" name="description" rows="6">{{article.description}}</textarea>
+      <textarea id="description" name="description" rows="6">{{article.description}}required</textarea>
       {{#errors.description}}<p class="field-error">{{.}}</p>{{/errors.description}}
     </div>
 
     <div class="form-grid">
       <div class="form-row">
         <label for="date_article">Date (YYYY-MM-DD)</label>
-        <input id="date_article" name="date_article" type="date" value="{{article.date_article}}" />
+        <input id="date_article" name="date_article" type="date" value="{{article.date_article}}" required/>
         {{#errors.date_article}}<p class="field-error">{{.}}</p>{{/errors.date_article}}
       </div>
 
       <div class="form-row">
         <label for="hours">Heure (HH:MM)</label>
-        <input id="hours" name="hours" type="time" value="{{article.hours}}" />
+        <input id="hours" name="hours" type="time" value="{{article.hours}}" required/>
         {{#errors.hours}}<p class="field-error">{{.}}</p>{{/errors.hours}}
       </div>
     </div>
 
     <div class="form-row">
       <label for="lieu">Lieu</label>
-      <input id="lieu" name="lieu" type="text" value="{{article.lieu}}" />
+      <input id="lieu" name="lieu" type="text" value="{{article.lieu}}" required/>
       {{#errors.lieu}}<p class="field-error">{{.}}</p>{{/errors.lieu}}
     </div>
 

@@ -6,8 +6,8 @@ namespace App\Modules\Home;
 
 use App\Modules\Article\ArticleService;
 use App\Modules\Home\Dto\HomeDTO;
-use App\Providers\PartnersProvider;
 use Capsule\Support\Pagination\Page;
+use App\Providers\PartnersProvider;
 
 /**
  * HomeService
@@ -30,12 +30,12 @@ final class HomeService
     public function getHomeData(Page $page): HomeDTO
     {
         // Domaine : liste paginée (lazy si le repo le permet)
-        $rows = $this->articles->getUpcomingPage($page->limit, $page->offset());
+        $rows = $this->articles->getAllPaginated($page->limit, $page->offset());
 
         // Config : partenaires/financeurs (statiques, preload/OPcache-friendly)
         $partenaires = $this->partners->byRole('partenaire');
         $financeurs = $this->partners->byRole('financeur');
 
-        return new HomeDTO($rows, $partenaires, $financeurs);
+        return new HomeDTO($rows, $partenaires, $financeurs, $page);
     }
 }

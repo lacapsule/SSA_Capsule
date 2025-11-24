@@ -6,6 +6,7 @@ namespace App\Modules\Home;
 
 use App\Modules\Article\ArticleService;
 use App\Providers\LanguageOptionsProvider;
+use Capsule\Support\Pagination\Page;
 use Capsule\Support\Pagination\Paginator;
 use Capsule\Contracts\ResponseFactoryInterface;
 use Capsule\Contracts\ViewRendererInterface;
@@ -34,13 +35,26 @@ final class HomeController extends BaseController
     public function home(): Response
     {
         // 1) Inputs (query) — pagination standardisée
-        $page = Paginator::fromGlobals(defaultLimit: 12, maxLimit: 100);
+        $paginator = Paginator::fromGlobals(defaultLimit: 3, maxLimit: 100);
+        $totalArticles = $this->articleService->countAll();
+        $page = new Page(
+            page: $paginator->page,
+            limit: $paginator->limit,
+            total: $totalArticles
+        );
 
         // 2) Domaine — agrégation via HomeService
         $dto = $this->homeService->getHomeData($page);
 
+        $extraQuery = $_GET ?? [];
+        unset($extraQuery['page']);
+
         // 3) Présentation — projection DOMAINE -> VUE
-        $viewData = HomePresenter::forView($dto);
+        $viewData = HomePresenter::forView($dto, [
+            'base_path' => '/',
+            'extra_query' => $extraQuery,
+            'anchor' => '#actu',
+        ]);
 
         // 4) UI annexes (i18n/lang, csrf, auth)
         $i18n = $this->i18n();
@@ -57,7 +71,6 @@ final class HomeController extends BaseController
             'isAuthenticated' => $this->isAuthenticated(),
             'languages' => $languages,
             'contact_action' => '/contact',
-            'pagination' => ['page' => $page->page, 'limit' => $page->limit],
         ] + $viewData);
     }
 
@@ -79,8 +92,8 @@ final class HomeController extends BaseController
             'image' => isset($dto->image) ? Safe::imageUrl((string)$dto->image) : '',
         ];
 
-        // ✅ Résout vers page:article/detail
-        return $this->page('article:detail', [
+        // ✅ Résout vers page:article/articleDetails
+        return $this->page('page:article/articleDetails', [
             'showHeader' => true,
             'showFooter' => true,
             'str' => $this->i18n(),

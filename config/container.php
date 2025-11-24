@@ -25,10 +25,11 @@ use Capsule\Http\Middleware\SecurityHeaders;
 use Capsule\Infrastructure\Container\DIContainer;
 use Capsule\View\FilesystemTemplateLocator;
 use Capsule\View\MiniMustache;
-//use Capsule\Infrastructure\Database\SqliteConnection;
-use Capsule\Infrastructure\Database\MariaDBConnection;
+use Capsule\Infrastructure\Database\SqliteConnection;
+// use Capsule\Infrastructure\Database\MariaDBConnection;
 // ==========================================
 // IMPORT Applications
+//  e
 // ==========================================
 use App\Modules\Agenda\AgendaController;
 use App\Modules\Agenda\AgendaRepository;
@@ -38,6 +39,8 @@ use App\Modules\Article\ArticleRepository;
 use App\Modules\Article\ArticleService;
 use App\Modules\Dashboard\DashboardController;
 use App\Modules\Dashboard\DashboardService;
+use App\Modules\Galerie\GalerieRepository;
+use App\Modules\Galerie\GalerieService;
 use App\Modules\Home\HomeController;
 use App\Modules\Home\HomeService;
 use App\Modules\Login\LoginController;
@@ -52,14 +55,14 @@ return (function (): DIContainer {
     // CONFIGURATION
     // ==========================================
     $LENGTH_PASSWORD = 8;
-    $isDev = false;   // -> Changer vers false en prod
-    $https = true;  // -> Changer vers true en prod
+    $isDev = true;   // -> Changer vers false en prod
+    $https = false;  // -> Changer vers true en prod
 
     // ==========================================
     // BASE DE DONNÉES
     // ==========================================
-    //$c->set('pdo', fn () => SqliteConnection::getInstance());
-    $c->set('pdo', fn () => MariaDBConnection::getInstance());
+    $c->set('pdo', fn () => SqliteConnection::getInstance());
+
     // ==========================================
     // MIDDLEWARES
     // ==========================================
@@ -159,6 +162,7 @@ return (function (): DIContainer {
     $c->set(UserRepository::class, fn ($c) => new UserRepository($c->get('pdo')));
     $c->set(ArticleRepository::class, fn ($c) => new ArticleRepository($c->get('pdo')));
     $c->set(AgendaRepository::class, fn ($c) => new AgendaRepository($c->get('pdo')));
+    $c->set(GalerieRepository::class, fn () => new GalerieRepository());
 
     // ==========================================
     // SERVICES (Logique métier)
@@ -194,6 +198,10 @@ return (function (): DIContainer {
         $c->get(UserService::class)
     ));
 
+    $c->set(GalerieService::class, fn ($c) => new GalerieService(
+        $c->get(GalerieRepository::class)
+    ));
+
     // ==========================================
     // PROVIDERS (Fournisseurs de données)
     // ==========================================
@@ -217,6 +225,7 @@ return (function (): DIContainer {
     ));
 
     $c->set(GalerieController::class, fn ($c) => new GalerieController(
+        $c->get(GalerieService::class),
         $c->get(ResponseFactoryInterface::class),
         $c->get(ViewRendererInterface::class),
     ));
@@ -229,6 +238,7 @@ return (function (): DIContainer {
         $c->get(DashboardService::class),
         $c->get(PasswordService::class),
         $c->get(SidebarLinksProvider::class),
+        $c->get(GalerieService::class),
         $c->get(ResponseFactoryInterface::class),
         $c->get(ViewRendererInterface::class),
     ));

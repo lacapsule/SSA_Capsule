@@ -8,7 +8,11 @@ use DateTime;
 
 final class AgendaPresenter
 {
-    private const DAYS_FR = ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'];
+    private const DAYS_FR = ['LUNDI', 'MARDI', 'MERCREDI', 'JEUDI', 'VENDREDI', 'SAMEDI', 'DIMANCHE'];
+    private const MONTHS_FR = [
+        1 => 'JAN', 'FEV', 'MAR', 'AVR', 'MAI', 'JUIN',
+        'JUIL', 'AOUT', 'SEPT', 'OCT', 'NOV', 'DEC'
+    ];
 
     /**
      * @param array<int,mixed> $base
@@ -34,10 +38,12 @@ final class AgendaPresenter
         // Formatter les événements
         $flatEvents = [];
         foreach ($events as $e) {
+            $dayOfWeek = self::DAYS_FR[(int) $e->startsAt->format('N') - 1];
+            $day = (int) $e->startsAt->format('d');
             $flatEvents[] = [
                 'id' => $e->id,
                 'title' => $e->title,
-                'date' => $e->startsAt->format('Y-m-d'), // ✅ Format ISO
+                'date' => sprintf('%s %02d', $dayOfWeek, $day),
                 'time' => $e->startsAt->format('H:i'),
                 'location' => $e->location ?? '',
                 'duration' => round($e->durationMinutes / 60, 1),

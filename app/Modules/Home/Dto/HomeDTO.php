@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Modules\Home\Dto;
 
+use Capsule\Support\Pagination\Page;
+
 /**
  * HomeDTO
  * - Conteneur typé pour transporter les données DOMAINE vers la couche présentation.
@@ -20,6 +22,7 @@ final class HomeDTO
         public readonly iterable $articles,
         public readonly array $partenaires,
         public readonly array $financeurs,
+        public readonly Page $page,
     ) {
     }
 }

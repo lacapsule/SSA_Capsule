@@ -8,4 +8,25 @@
             "App\\": "app/"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    },
+    "require-dev": {
+        "phpstan/phpstan": "^2.1",
+        "friendsofphp/php-cs-fixer": "^3.88",
+        "phpunit/phpunit": "^11.5",
+        "squizlabs/php_codesniffer": "^4.0"
+    },
+    "scripts": {
+        "dump": "composer dump-autoload -o",
+        "stan": "vendor/bin/phpstan analyse -c phpstan.neon",
+        "qa": [
+            "@dump",
+            "@cs",
+            "@stan",
+            "@test"
+        ]
+    }
 }

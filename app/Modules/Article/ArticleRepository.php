@@ -44,6 +44,41 @@ class ArticleRepository extends BaseRepository
         }
     }
 
+    public function countUpcoming(): int
+    {
+        $sql = "SELECT COUNT(*) FROM {$this->table} WHERE date_article >= :today";
+        $stmt = $this->pdo->prepare($sql);
+        $today = date('Y-m-d');
+        $stmt->bindValue(':today', $today, PDO::PARAM_STR);
+        $stmt->execute();
+        return (int)$stmt->fetchColumn();
+    }
+
+    public function findAllPaginated(int $limit, int $offset): iterable
+    {
+        $sql = "
+            SELECT a.*, u.username AS author_name
+            FROM {$this->table} a
+            LEFT JOIN users u ON a.author_id = u.id
+            ORDER BY a.created_at DESC
+            LIMIT :limit OFFSET :offset
+        ";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
+        $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
+        $stmt->execute();
+
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            yield $this->hydrate($row);
+        }
+    }
+
+    public function countAll(): int
+    {
+        $stmt = $this->pdo->query("SELECT COUNT(*) FROM {$this->table}");
+        return (int)$stmt->fetchColumn();
+    }
+
     /**
      * @deprecated Utiliser findUpcoming($limit, $offset) pour maîtriser la charge.
      * @return iterable<ArticleDTO>

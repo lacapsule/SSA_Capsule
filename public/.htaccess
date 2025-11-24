@@ -1,19 +1,18 @@
-# Fichier .htaccess dans /public/
-# Ce fichier est utilisé si le document root pointe directement vers public/
+# Fichier /.htaccess (unique)
 
 <IfModule mod_rewrite.c>
     RewriteEngine On
     RewriteBase /
 
-    # 🔒 Sécurité : interdit l'accès à des répertoires sensibles
-    RewriteRule ^(\.\./)?(src|app|vendor|bootstrap|tests|config|\.env) - [F,L,NC]
+    # 🔒 Sécurité : interdit l’accès à des répertoires sensibles
+    RewriteRule ^(src|app|vendor|bootstrap|tests|config|\.env) - [F,L,NC]
 
-    # ✅ Si un fichier ou dossier existe, on le sert directement
-    RewriteCond %{REQUEST_FILENAME} !-f
-    RewriteCond %{REQUEST_FILENAME} !-d
+    # ✅ Si un fichier statique existe dans /public, on le sert directement
+    RewriteCond %{DOCUMENT_ROOT}/public/$1 -f
+    RewriteRule ^(.*)$ public/$1 [L]
 
-    # ✅ Sinon, on route vers index.php
-    RewriteRule ^(.*)$ index.php [QSA,L]
+    # ✅ Sinon, on route vers index.php (dans /public)
+    RewriteRule ^(.*)$ public/index.php [QSA,L]
 </IfModule>
 
 # Cache et MIME optimisés

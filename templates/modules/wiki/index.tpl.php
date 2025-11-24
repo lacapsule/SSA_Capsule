@@ -1,12 +1,12 @@
 <section class="hero">
-    <div class="container">
+    <div class="contain">
         <h1>Wiki SSA</h1>
         <p class="slogan">Une base de connaissances collaborative sur la Sécurité Sociale de l’Alimentation.</p>
     </div>
 </section>
 
 <section class="content">
-    <div class="container">
+    <div class="contain">
         <h2>Bienvenue sur le Wiki SSA</h2>
         <p>Ce wiki est une plateforme collaborative où vous pouvez trouver des informations détaillées sur la Sécurité Sociale de l’Alimentation, partager vos connaissances et contribuer à enrichir notre base commune.</p>
 
