@@ -355,3 +355,8 @@ export function initModals() {
 
 // Export pour utilisation directe
 export { UniversalModal, ModalManager };
+
+// Expose modalManager globally for inline scripts in templates
+if (typeof window !== 'undefined') {
+  window.modalManager = modalManager;
+}

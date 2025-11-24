@@ -13,7 +13,9 @@ import { initUserModal } from './modules/users/userModal.js';
 import { initEventManager } from './modules/calendar/eventManager.js';
 import { initFaq } from './modules/dashboard/faq.js';
 import { initPasswordModal } from './modules/dashboard/password-modal.js';
+import { initEmailModal } from './modules/dashboard/email-modal.js';
 import { initModals } from './modules/modal/universalModal.js';
+import { initAccountAutoOpen } from './modules/dashboard/account-autoopen.js';
 import { initArticleModal } from './modules/articles/articleModal.js';
 
 /**
@@ -46,8 +48,13 @@ function initApp() {
         // Dashboard — Password Modal
         initPasswordModal();
 
+        // Dashboard — Email Modal
+        initEmailModal();
+
         // Modals universelles
         initModals();
+        // Auto-open modals that contain server-side errors (no inline script)
+        initAccountAutoOpen();
         initArticleModal();
 
         console.log('✅ Application initialisée avec succès');

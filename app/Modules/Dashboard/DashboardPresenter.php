@@ -101,6 +101,7 @@ final class DashboardPresenter
                 'initial' => $initials,
             ],
             'accountPasswordAction' => '/dashboard/account/password',
+            'accountEmailAction' => '/dashboard/account/email',
             'csrf_input' => $csrfInput,
         ];
     }

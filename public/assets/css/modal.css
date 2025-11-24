@@ -56,6 +56,7 @@
   from {
     opacity: 0;
   }
+
   to {
     opacity: 1;
   }
@@ -66,6 +67,7 @@
     transform: translateY(20px);
     opacity: 0;
   }
+
   to {
     transform: translateY(0);
     opacity: 1;
@@ -181,12 +183,14 @@
   transition: all 0.2s ease;
 }
 
-.btn-danger, .btn-secondary {
+.btn-danger,
+.btn-secondary {
   background-color: #ef4444;
   color: white;
 }
 
-.btn-danger:hover, .btn-secondary:hover {
+.btn-danger:hover,
+.btn-secondary:hover {
   background-color: #dc2626;
 }
 
@@ -196,13 +200,19 @@
 }
 
 /* Modal Footer */
-.modal-footer-actions{
+.modal-footer-actions {
   padding: 20px;
 }
 
 
 /* Responsive */
-@media (max-width: 640px) {
+@media (max-width: 980px) {
+  .universal-modal {
+    left: 17px;
+    top: 17px;
+    overflow: hidden;
+  }
+
   .modal-content {
     width: 95%;
     max-height: 85vh;
@@ -254,9 +264,30 @@
 }
 
 .modal-error-message {
-  background-color: #fee2e2;
-  color: #991b1b;
-  border-left: 4px solid #dc2626;
+  /* Red banner style */
+  background-color: #b91c1c; /* strong red */
+  color: #fff;
+  border-left: none;
+  width: 100%;
+  margin: 0 0 16px 0;
+  padding: 14px 18px;
+  border-radius: 6px 6px 4px 4px;
+  box-shadow: 0 2px 6px rgba(185, 28, 28, 0.15);
+}
+
+/* Backwards-compatibility: map legacy alert classes to the same banner style */
+.alert,
+.alert-error,
+.alert.alert-error {
+  display: block;
+  background-color: #b91c1c;
+  color: #fff;
+  width: 100%;
+  margin: 0 0 16px 0;
+  padding: 14px 18px;
+  border-radius: 6px 6px 4px 4px;
+  box-shadow: 0 2px 6px rgba(185, 28, 28, 0.15);
+  font-weight: 600;
 }
 
 .modal-success-message {
@@ -270,22 +301,39 @@
   margin: 0;
 }
 
+/* Field-level error messages shown under inputs */
+.field-error {
+  color: #b91c1c; /* red matching banner */
+  margin-top: 6px;
+  margin-bottom: 0;
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.field-error.client-error {
+  /* small visual difference for client-generated messages */
+  opacity: 0.95;
+}
+
 /* Progress bar for uploads/conversion inside modals */
 .modal-progress-container {
   margin-bottom: 12px;
 }
+
 .modal-progress {
   background: #eef2ff;
   border-radius: 6px;
   height: 10px;
   overflow: hidden;
 }
+
 .modal-progress-bar {
   background: linear-gradient(90deg, #60a5fa, #3b82f6);
   height: 100%;
   width: 0%;
   transition: width 150ms linear;
 }
+
 .modal-progress-text {
   font-size: 0.85rem;
   color: #374151;

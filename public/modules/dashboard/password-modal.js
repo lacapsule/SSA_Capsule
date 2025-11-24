@@ -46,6 +46,9 @@ export function initPasswordModal() {
 
     // Générer les initiales automatiquement
     generateProfileInitials();
+    // Client-side validation for password form
+    initPasswordFormValidation(passwordModal);
+
 }
 
 /**
@@ -105,4 +108,85 @@ function generateProfileInitials() {
             avatarElement.textContent = initials || 'U';
         }
     }
+}
+
+/**
+ * Ajoute la validation côté client sur le formulaire de changement de mot de passe
+ * - vérifie la longueur minimale
+ * - vérifie la correspondance nouveau/confirmation
+ */
+function initPasswordFormValidation(modal) {
+    if (!modal) return;
+    const form = modal.querySelector('#password-form');
+    if (!form) return;
+
+    const oldInput = form.querySelector('#old_password');
+    const newInput = form.querySelector('#new_password');
+    const confirmInput = form.querySelector('#confirm_new_password');
+
+    const MIN_LEN = parseInt(newInput?.getAttribute('minlength') || '8', 10);
+
+    function clearClientErrors() {
+        form.querySelectorAll('.client-error').forEach(n => n.remove());
+    }
+
+    function showFieldError(input, message) {
+        // Remove previous
+        const next = input.nextElementSibling;
+        if (next && next.classList && next.classList.contains('client-error')) {
+            next.remove();
+        }
+        const p = document.createElement('p');
+        p.className = 'field-error client-error';
+        p.textContent = message;
+        input.insertAdjacentElement('afterend', p);
+    }
+
+    function validate() {
+        clearClientErrors();
+        const errors = {};
+        const oldVal = oldInput?.value.trim() || '';
+        const newVal = newInput?.value || '';
+        const confVal = confirmInput?.value || '';
+
+        if (oldVal === '') {
+            errors.old = 'Veuillez entrer votre mot de passe actuel.';
+        }
+        if (newVal.length < MIN_LEN) {
+            errors.new = `Le mot de passe doit contenir au moins ${MIN_LEN} caractères.`;
+        }
+        if (newVal !== confVal) {
+            errors.confirm = 'Les nouveaux mots de passe ne correspondent pas.';
+        }
+
+        if (errors.old && oldInput) showFieldError(oldInput, errors.old);
+        if (errors.new && newInput) showFieldError(newInput, errors.new);
+        if (errors.confirm && confirmInput) showFieldError(confirmInput, errors.confirm);
+
+        return Object.keys(errors).length === 0;
+    }
+
+    // Prevent submit when invalid
+    form.addEventListener('submit', (e) => {
+        if (!validate()) {
+            e.preventDefault();
+            // focus first invalid
+            const firstErr = form.querySelector('.client-error');
+            if (firstErr && firstErr.previousElementSibling) {
+                firstErr.previousElementSibling.focus();
+            }
+        }
+    });
+
+    // Clear field-specific errors on input
+    [oldInput, newInput, confirmInput].forEach((inp) => {
+        if (!inp) return;
+        inp.addEventListener('input', () => {
+            // remove only the client-side error for this field
+            const next = inp.nextElementSibling;
+            if (next && next.classList && next.classList.contains('client-error')) {
+                next.remove();
+            }
+        });
+    });
 }

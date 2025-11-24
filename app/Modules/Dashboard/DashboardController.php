@@ -189,6 +189,51 @@ final class DashboardController extends BaseController
         );
     }
 
+    #[Route(path: '/account/email', methods: ['POST'])]
+    public function accountEmail(): Response
+    {
+        CsrfTokenManager::requireValidToken();
+
+        $userId = (int) (($this->currentUser()['id'] ?? 0));
+        if ($userId <= 0) {
+            return $this->res->text('Forbidden', 403);
+        }
+
+        $password = trim((string)($_POST['password'] ?? ''));
+        $newEmail = trim((string)($_POST['new_email'] ?? ''));
+        $confirmEmail = trim((string)($_POST['confirm_email'] ?? ''));
+
+        $errors = [];
+        
+        // Validations
+        if ($password === '' || $newEmail === '' || $confirmEmail === '') {
+            $errors['_global'] = 'Champs requis manquants.';
+        } elseif (!filter_var($newEmail, FILTER_VALIDATE_EMAIL)) {
+            $errors['new_email'] = 'L\'adresse email n\'est pas valide.';
+        } elseif ($newEmail !== $confirmEmail) {
+            $errors['confirm_email'] = 'Les adresses email ne correspondent pas.';
+        }
+
+        // Vérifier si l'email est déjà utilisé
+        if ($errors === []) {
+            [$ok, $svcErrors] = $this->passwords->changeEmail($userId, $password, $newEmail);
+            if ($ok) {
+                return $this->redirectWithSuccess(
+                    '/dashboard/account',
+                    'Adresse email modifiée avec succès.'
+                );
+            }
+            $errors = $svcErrors ?: ['_global' => 'Échec de la modification de l\'adresse email.'];
+        }
+
+        return $this->redirectWithErrors(
+            '/dashboard/account',
+            'Le formulaire contient des erreurs.',
+            $errors,
+            [] // pas de pré-remplissage sensible ici
+        );
+    }
+
     /* ---------------- Routes Galerie (POST) ---------------- */
 
     #[Route(path: '/galerie/upload', methods: ['POST'])]
