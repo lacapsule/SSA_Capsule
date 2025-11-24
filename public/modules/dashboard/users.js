@@ -130,16 +130,16 @@ function openEditModal(userId) {
     const row = document.querySelector(`tr[data-user-id="${userId}"]`);
     if (!row) return;
 
-    const id = row.querySelector('.idValue')?.textContent;
-    const username = row.querySelector('.usernameValue')?.textContent;
-    const email = row.querySelector('.emailValue')?.textContent;
-    const role = row.querySelector('.role')?.textContent?.trim();
+    const id = row.querySelector('.col-id')?.textContent?.trim();
+    const username = row.querySelector('.col-name')?.textContent?.trim();
+    const email = row.querySelector('.col-email')?.textContent?.trim();
+    const role = row.querySelector('.col-role')?.textContent?.trim();
 
     // Update modal header with username
-    document.getElementById('user-name').textContent = username;
+    document.getElementById('user-name').textContent = username ?? '';
 
     // Populate form
-    editUserForm.querySelector('#edit_userId').value = id;
+    editUserForm.querySelector('#edit_userId').value = id ?? '';
     editUserForm.querySelector('#edit_username').value = username;
     editUserForm.querySelector('#edit_email').value = email;
     editUserForm.querySelector('#edit_role').value = role;
@@ -163,7 +163,7 @@ function openDeleteConfirmModal() {
     const row = document.querySelector(`tr[data-user-id="${currentEditingUserId}"]`);
     if (!row) return;
 
-    const username = row.querySelector('.usernameValue')?.textContent;
+    const username = row.querySelector('.col-name')?.textContent?.trim();
     document.getElementById('delete-user-name').textContent = username;
 
     editModal.close();
@@ -176,7 +176,7 @@ function openResetPasswordModal() {
     const row = document.querySelector(`tr[data-user-id="${currentEditingUserId}"]`);
     if (!row) return;
 
-    const username = row.querySelector('.usernameValue')?.textContent;
+    const username = row.querySelector('.col-name')?.textContent?.trim();
     document.getElementById('reset-user-name').textContent = username;
     document.getElementById('reset_userId').value = currentEditingUserId;
     resetPasswordForm.querySelector('#reset_new_password').value = '';
