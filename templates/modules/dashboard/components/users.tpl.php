@@ -40,11 +40,11 @@
         <tbody>
           {{#each users}}
           <tr data-user-id="{{id}}">
-            <td class="col-id">{{id}}</td>
-            <td class="col-name">{{username}}</td>
-            <td class="col-email">{{email}}</td>
-            <td class="col-role">{{role}}</td>
-            <td class="col-date">{{created_at}}</td>
+            <td class="col-id" data-label="ID">{{id}}</td>
+            <td class="col-name" data-label="Nom d'utilisateur">{{username}}</td>
+            <td class="col-email" data-label="Email">{{email}}</td>
+            <td class="col-role" data-label="Rôle">{{role}}</td>
+            <td class="col-date"data-label="Date">{{created_at}}</td>
             <td>
               <button class="editBtn btn btn-sm btn-info" type="button" data-user-id="{{id}}">✎ Gérer</button>
             </td>

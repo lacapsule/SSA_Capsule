@@ -196,8 +196,6 @@ th:nth-child(2) {
 	/* Add label before each cell from data-label */
 	table td::before {
 		content: attr(data-label);
-		position: absolute;
-		top: 12px;
 		font-weight: bold;
 		text-transform: uppercase;
 		white-space: nowrap;

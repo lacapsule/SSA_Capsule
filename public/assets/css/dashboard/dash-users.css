@@ -227,3 +227,8 @@ DASHBOARD - GESTION DES UTILISATEURS
 
 /* ======== RESPONSIVE ======== */
 
+@media screen and (max-width: 980px) {
+    .btn{
+        margin-left: 0 !important; 
+    }
+}
