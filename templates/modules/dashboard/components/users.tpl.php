@@ -17,6 +17,12 @@
     </header>
 
     <div class="dash-components-container">
+      <!-- Users filters: search by name -->
+      <div class="dash-components-filters" style="margin:12px 0; display:flex; gap:8px; align-items:center;">
+        <label style="font-weight:600;">Recherche :</label>
+        <input id="users-search-name" type="search" placeholder="Rechercher par nom" aria-label="Rechercher par nom" style="padding:6px 8px;">
+      </div>
+
       <table class="dash-components-table">
         <colgroup>
           <col style="width:40px">
@@ -32,7 +38,7 @@
             <th>Nom</th>
             <th>Email</th>
             <th>Rôle</th>
-            <th>Ajouté(e) le</th>
+            <th data-sort-field="users-date" style="cursor: pointer">Ajouté(e) le <span class="sort-icon" id="sort-icon-users-date" aria-hidden="true"></span></th>
             <th>Actions</th>
           </tr>
         </thead>

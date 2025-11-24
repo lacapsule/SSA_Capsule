@@ -7,6 +7,22 @@
     </div>
   </div>
 
+  <!-- Sorting controls -->
+  <div class="dash-components-filters" style="margin:12px 0; display:flex; gap:8px; align-items:center;">
+    <label style="font-weight:600;">Trier par</label>
+    <select id="articles-sort-by" aria-label="Trier par">
+      <option value="date">Date</option>
+      <option value="titre">Titre</option>
+    </select>
+
+    <select id="articles-sort-order" aria-label="Ordre de tri">
+      <option value="desc">Du plus récent au plus ancien</option>
+      <option value="asc">Du plus ancien au plus récent</option>
+      <option value="alpha-asc">A → Z</option>
+      <option value="alpha-desc">Z → A</option>
+    </select>
+  </div>
+
   {{^articles}}
   <div class="dash-components-container">
     <p class="dash-components-empty">Aucun article trouvé.</p>
@@ -27,9 +43,13 @@
       <thead>
         <tr>
           <th>ID</th>
-          <th>Titre</th>
+          <th data-sort-field="titre" style="cursor:pointer">
+            Titre <span class="sort-icon" id="sort-icon-titre" aria-hidden="true"></span>
+          </th>
           <th>Résumé</th>
-          <th>Date</th>
+          <th data-sort-field="date" style="cursor:pointer">
+            Date <span class="sort-icon" id="sort-icon-date" aria-hidden="true"></span>
+          </th>
           <th>Auteur</th>
           <th>Actions</th>
         </tr>

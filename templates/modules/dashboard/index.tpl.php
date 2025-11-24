@@ -4,7 +4,7 @@
 
 {{^component_html}}
 <!-- HTML dashboard -->
-<section class="dash-section-page">
+<section class="dash-section-page-faq">
     <div class="dashboard-content">
         <div class="wrapperfaq">
 

@@ -15,8 +15,9 @@ import { initFaq } from './modules/dashboard/faq.js';
 import { initPasswordModal } from './modules/dashboard/password-modal.js';
 import { initEmailModal } from './modules/dashboard/email-modal.js';
 import { initModals } from './modules/modal/universalModal.js';
-import { initAccountAutoOpen } from './modules/dashboard/account-autoopen.js';
 import { initArticleModal } from './modules/articles/articleModal.js';
+import { initArticlesSort } from './modules/dashboard/articles-sort.js';
+import { initUsersFilter } from './modules/dashboard/users-filter.js';
 
 /**
  * Initialise tous les modules de l'application
@@ -53,8 +54,11 @@ function initApp() {
 
         // Modals universelles
         initModals();
-        // Auto-open modals that contain server-side errors (no inline script)
-        initAccountAutoOpen();
+
+        // Articles client-side sorting
+        initArticlesSort();
+        // Users client-side filter + date sort
+        initUsersFilter();
         initArticleModal();
 
         console.log('✅ Application initialisée avec succès');

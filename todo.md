@@ -23,6 +23,7 @@ Dans cette page :
 
 ### Agenda :
 -[x] Colonne de la gestion des couleurs dans la BDD ne reste pas et met la page en erreur.
+-[] Lié les événements ajouter dans l'agenda au évènement afficher sur la page d'acceuil
 
 ### Profil :
 -[x] Changement de mot de passe pas pris en compte. (Fonctionne dans "Utilisateurs")
@@ -50,5 +51,6 @@ Dans cette page :
 -[] Intégration de vidéo (pas encore fourni).
 -[] Mosaïque "100 volontaire" (pas encore fourni).
 
-### Home
--[] Btn modals (voir plus) pour actualité et événements affichant la liste des futurs et 3 derniers passés.
+### Accueil
+-[] Evenement : Affiche un Btn > modals "voir plus" si des plusieur événements a venir pour événements affichant la liste des futurs et 3 derniers passés + Clique sur un evenement > modal > info supplémentaire
+- [] Articles : Affiche un btn > pages "voir plus", la page a les cards avec tout les articles existants > btn card "voir plus" pour afficher la page de l'article

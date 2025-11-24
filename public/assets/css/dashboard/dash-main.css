@@ -10,6 +10,16 @@
     border-radius: 0;
     font-family: system-ui, -apple-system, sans-serif;
 }
+.dash-section-page-faq {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px;
+    margin: 0 auto;
+    border-radius: 0;
+    font-family: system-ui, -apple-system, sans-serif;
+}
+
 
 
 .dash-components-page {
