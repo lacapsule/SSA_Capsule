@@ -1,13 +1,4 @@
 /* ======= GLOBAL & HEADER ======= */
-.dash-section-page {
-    min-width: 85%;
-    position: absolute;
-    left: 216px;
-    z-index: 890;
-    margin: 0 auto;
-    border-radius: 0;
-    font-family: system-ui, -apple-system, sans-serif;
-}
 
 .header-agenda {
     display: flex;
@@ -338,9 +329,6 @@
 /* ======= RESPONSIVE (Max 980px) ======= */
 
 @media screen and (max-width: 980px) {
-    .dash-section-page{
-        position: static;
-    }
     .header-agenda {
         flex-direction: column;
         gap: 15px;
@@ -361,6 +349,7 @@
 
     #calendar-grid {
         grid-template-rows: none;
+        grid-template-columns: repeat(7, 53px);
     }
 
     .day-cell {

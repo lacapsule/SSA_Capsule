@@ -1,6 +1,7 @@
 @import url(./module/variables.css);
 /* -------------- */
 @import url(./dashboard/dash-sidebar.css);
+@import url(./dashboard/dash-main.css);
 /* -------------- */
 @import url(./dashboard/dash-account.css);
 @import url(./dashboard/dash-agenda.css);

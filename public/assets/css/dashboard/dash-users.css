@@ -3,12 +3,6 @@ DASHBOARD - GESTION DES UTILISATEURS
 ====================================== */
 
 /* Table des utilisateurs */
-.dash-section-page {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    padding: 20px;
-}
 
 .dash-components-container {
     background: white;
@@ -86,7 +80,6 @@ DASHBOARD - GESTION DES UTILISATEURS
 .role.admin {
     color: #856404;
 }
-
 .col-name:hover,
 .col-role:hover,
 .col-email:hover {
@@ -234,57 +227,3 @@ DASHBOARD - GESTION DES UTILISATEURS
 
 /* ======== RESPONSIVE ======== */
 
-@media (max-width: 768px) {
-    .dash-section-page {
-        padding: 12px;
-    }
-
-    .dash-components-table {
-        font-size: 0.85rem;
-    }
-
-    .dash-components-table thead th,
-    .dash-components-table tbody td {
-        padding: 10px 8px;
-    }
-
-    .row-group {
-        grid-template-columns: 1fr;
-    }
-
-    .modal-content {
-        width: 95%;
-        max-width: 100%;
-    }
-
-    .modal-footer.space-between {
-        flex-direction: column;
-        gap: 8px;
-    }
-
-    .right-actions {
-        width: 100%;
-        flex-direction: column;
-    }
-
-    .btn {
-        width: 100%;
-        justify-content: center;
-    }
-}
-
-@media (max-width: 480px) {
-
-    .dash-components-table thead th,
-    .dash-components-table tbody td {
-        padding: 8px 6px;
-    }
-
-    .modal-header h2 {
-        font-size: 1.2rem;
-    }
-
-    .modal-body {
-        padding: 16px;
-    }
-}

@@ -87,7 +87,7 @@
   width: 32px;
   height: 24px;
   cursor: pointer;
-  position: fixed;
+  position: absolute;
   top: 5vh;
   left: 85vw;
   z-index: 1001;

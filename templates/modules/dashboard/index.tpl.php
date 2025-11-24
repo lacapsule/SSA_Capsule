@@ -10,7 +10,7 @@
 
         <img src="./assets/icons/faq.svg" alt="">
 
-        <div class="container">
+        <div class="faq-container">
             <div class="question">
                 Comment fonctionne mon agenda ?
             </div>
@@ -60,7 +60,7 @@
             </div>
         </div>
 
-        <div class="container">
+        <div class="faq-container">
             <div class="question">
                 Comment gérer mes utilisateurs ?
             </div>
@@ -104,7 +104,7 @@
             </div>
         </div>
 
-        <div class="container">
+        <div class="faq-container">
             <div class="question">
                 Comment fonctionne mes articles ?
             </div>
@@ -125,7 +125,7 @@
             </div>
         </div>
 
-        <div class="container">
+        <div class="faq-container">
             <div class="question">
                 Comment fonctionne ma galerie ?
             </div>
@@ -146,7 +146,7 @@
             </div>
         </div>
 
-        <div class="container">
+        <div class="faq-container">
             <div class="question">
                 Comment gérer mon profil ?
             </div>

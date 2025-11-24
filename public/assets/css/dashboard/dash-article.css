@@ -1,57 +1,4 @@
 /* Styles globaux pour la page et le tableau */
-.dash-section-page{
-	padding: 15px;
-}
-.dash-components-page {
-	padding: var(--ssa-padding-medium);
-	color: var(--ssa-txt-gris);
-	background: var(--ssa-blanc);
-}
-
-.dash-components-header {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	margin: 12px 0 24px 0;
-
-	& h1 {
-		font-size: var(--ssa-font-large);
-		color: var(--ssa-fond-sombre);
-		margin: 0;
-	}
-}
-
-.dash-components-actions {
-	display: flex;
-}
-
-.dash-components-actions .btn {
-	padding: 8px 14px;
-	border-radius: var(--ssa-btn-radius);
-	font-weight: 600;
-	cursor: pointer;
-	box-shadow: var(--ssa-shadow);
-	margin: 0;
-}
-
-.btn-primary {
-	background: var(--ssa-vert);
-	color: var(--ssa-txt-blanc);
-}
-
-.btn-primary:hover {
-	background: var(--ssa-hover-vert);
-}
-
-.btn-secondary {
-	background: var(--ssa-jaune);
-	color: var(--ssa-txt-noir);
-}
-
-.btn-secondary:hover {
-	background: var(--ssa-hover-jaune);
-}
-
 
 table {
 	border: 1px solid #ccc;
@@ -141,7 +88,8 @@ th:nth-child(2) {
 		height: 30px;
 		width: 30px;
 	}
-	& img:hover{
+
+	& img:hover {
 		transform: scale(1.2);
 	}
 
@@ -167,14 +115,6 @@ th:nth-child(2) {
 
 @media screen and (max-width: 980px) {
 
-	.dash-components-header {
-		display: flex;
-		align-items: flex-start;
-		margin-bottom: 24px;
-		justify-content: flex-start;
-		gap: 16px;
-		flex-direction: column;
-	}
 
 	.dash-components-actions2 {
 		gap: 8px;
@@ -204,13 +144,23 @@ th:nth-child(2) {
 	.col-date,
 	.col-meta,
 	.col-title,
-	.col-auteur {
-		text-align: end;
+	.col-auteur,
+	.col-email,
+	.col-name,
+	.col-role {
+		display: flex;
+		flex-direction: column;
+		justify-content: flex-end;
+		align-items: start;
+		min-height: 70px;
+		max-height: 90px;
 		width: 100%;
 		min-width: 100%;
 		max-width: 100%;
 		font-size: 1rem;
+		gap: 15px;
 	}
+
 
 	/* Cache le header mais en garder l'accessiblité */
 	table thead {
@@ -247,7 +197,6 @@ th:nth-child(2) {
 	table td::before {
 		content: attr(data-label);
 		position: absolute;
-		left: 10px;
 		top: 12px;
 		font-weight: bold;
 		text-transform: uppercase;
@@ -260,8 +209,8 @@ th:nth-child(2) {
 		border-bottom: 0;
 		display: flex;
 		flex-direction: column;
-		align-items: flex-end;
-		justify-content: center;
+		align-items: flex-start;
+		justify-content: flex-end;
 		padding-left: 16px;
 	}
 }

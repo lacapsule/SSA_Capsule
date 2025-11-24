@@ -15,7 +15,7 @@
 
 }
 
-.container {
+.faq-container {
     background-color: white;
     color: black;
     border-radius: 20px;
@@ -82,9 +82,11 @@
     color: var(--ssa-txt-noir);
     margin-left: 10px;
 }
-p{
+
+p {
     margin-bottom: 10px;
 }
+
 @media screen and (max-width: 950px) {
     html {
         font-size: 14px;
