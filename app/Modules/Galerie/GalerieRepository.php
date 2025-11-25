@@ -56,13 +56,23 @@ final class GalerieRepository
                 continue;
             }
 
-            $images[] = $file;
+            $images[] = [
+                'filename' => $file,
+                'mtime' => @filemtime($filePath) ?: 0,
+            ];
         }
 
-        // Tri numérique naturel pour les noms comme image_1, image_2, etc.
-        natsort($images);
+        // Trier du plus récent au plus ancien (fallback ordre naturel si égalité)
+        usort($images, static function (array $a, array $b): int {
+            if ($a['mtime'] === $b['mtime']) {
+                return strnatcmp($a['filename'], $b['filename']);
+            }
 
-        foreach ($images as $filename) {
+            return $b['mtime'] <=> $a['mtime'];
+        });
+
+        foreach ($images as $image) {
+            $filename = $image['filename'];
             yield new GalerieDTO(
                 src: '/assets/img/gallery/' . $filename,
                 alt: pathinfo($filename, PATHINFO_FILENAME),

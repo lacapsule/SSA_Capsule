@@ -16,6 +16,35 @@ use Capsule\View\Presenter\IterablePresenter;
  */
 final class GaleriePresenter
 {
+    private static function buildPagination(Page $page): array
+    {
+        $totalPages = $page->pages();
+        $currentPage = max(1, min($totalPages, $page->page));
+
+        $pages = [];
+        for ($i = 1; $i <= $totalPages; $i++) {
+            $pages[] = [
+                'number' => $i,
+                'isCurrent' => $i === $currentPage,
+            ];
+        }
+
+        return [
+            'current' => $currentPage,
+            'total' => $totalPages,
+            'hasPrev' => $page->hasPrev(),
+            'hasNext' => $page->hasNext(),
+            'prev' => max(1, $currentPage - 1),
+            'next' => min($totalPages, $currentPage + 1),
+            'first' => 1,
+            'last' => $totalPages,
+            'hasFirst' => $currentPage > 1,
+            'hasLast' => $currentPage < $totalPages,
+            'pages' => $pages,
+            'showPagination' => $totalPages > 1,
+        ];
+    }
+
     /**
      * Prépare les données pour le template de galerie
      * 
@@ -40,14 +69,7 @@ final class GaleriePresenter
 
         return [
             'pictures' => $pictures,
-            'pagination' => [
-                'current' => $page->page,
-                'total' => $page->pages(),
-                'hasPrev' => $page->hasPrev(),
-                'hasNext' => $page->hasNext(),
-                'prev' => $page->page - 1,
-                'next' => $page->page + 1,
-            ],
+            'pagination' => self::buildPagination($page),
             ...$base,
         ];
     }

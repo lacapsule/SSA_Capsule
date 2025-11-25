@@ -20,6 +20,34 @@ use Capsule\View\Presenter\IterablePresenter;
 final class HomePresenter
 {
     private static ?\IntlDateFormatter $dateFormatter = null;
+    private static function buildPagination(\Capsule\Support\Pagination\Page $page): array
+    {
+        $totalPages = $page->pages();
+        $currentPage = max(1, min($totalPages, $page->page));
+
+        $pages = [];
+        for ($i = 1; $i <= $totalPages; $i++) {
+            $pages[] = [
+                'number' => $i,
+                'isCurrent' => $i === $currentPage,
+            ];
+        }
+
+        return [
+            'current' => $currentPage,
+            'total' => $totalPages,
+            'hasPrev' => $page->hasPrev(),
+            'hasNext' => $page->hasNext(),
+            'prev' => max(1, $currentPage - 1),
+            'next' => min($totalPages, $currentPage + 1),
+            'first' => 1,
+            'last' => $totalPages,
+            'hasFirst' => $currentPage > 1,
+            'hasLast' => $currentPage < $totalPages,
+            'pages' => $pages,
+            'showPagination' => $totalPages > 1,
+        ];
+    }
 
     /**
      * Obtient une instance réutilisable du formateur de date.
@@ -105,15 +133,7 @@ final class HomePresenter
           'articles' => IterablePresenter::toArray($articlesIt),
           'partenaires' => $dto->partenaires,
           'financeurs' => $dto->financeurs,
-          'pagination' => [
-                'current' => $dto->page->page,
-                'total' => $dto->page->pages(),
-                'hasPrev' => $dto->page->hasPrev(),
-                'hasNext' => $dto->page->hasNext(),
-                'prev' => $dto->page->page - 1,
-                'next' => $dto->page->page + 1,
-                'show_pagination_info' => $dto->page->pages() > 1,
-            ],
+          'pagination' => self::buildPagination($dto->page),
         ];
     }
 }

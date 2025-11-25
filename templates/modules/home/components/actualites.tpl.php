@@ -20,17 +20,29 @@
         </div>
       {{/each}}
     </div>
+    {{#pagination.showPagination}}
     <nav class="gallery-pagination">
+      {{#pagination.hasFirst}}
+      <a href="?page={{pagination.first}}#actu" class="page-link first-page" aria-label="Première page">&laquo; Première</a>
+      {{/pagination.hasFirst}}
+
       {{#pagination.hasPrev}}
-      <a href="?page={{pagination.prev}}#actu" class="prev-page">&laquo; Précédent</a>
+      <a href="?page={{pagination.prev}}#actu" class="page-link prev-page" aria-label="Page précédente">&lsaquo;</a>
       {{/pagination.hasPrev}}
 
-      {{#pagination.show_pagination_info}}
-      <span>Page {{pagination.current}} / {{pagination.total}}</span>
-      {{/pagination.show_pagination_info}}
+      <div class="pagination-pages">
+        {{#pagination.pages}}
+        <a href="?page={{number}}#actu" class="page-link{{#isCurrent}} is-active{{/isCurrent}}">{{number}}</a>
+        {{/pagination.pages}}
+      </div>
 
       {{#pagination.hasNext}}
-      <a href="?page={{pagination.next}}#actu" class="next-page">Suivant &raquo;</a>
+      <a href="?page={{pagination.next}}#actu" class="page-link next-page" aria-label="Page suivante">&rsaquo;</a>
       {{/pagination.hasNext}}
+
+      {{#pagination.hasLast}}
+      <a href="?page={{pagination.last}}#actu" class="page-link last-page" aria-label="Dernière page">Dernière &raquo;</a>
+      {{/pagination.hasLast}}
     </nav>
+    {{/pagination.showPagination}}
 </section>
