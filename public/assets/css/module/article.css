@@ -76,9 +76,6 @@
     color: var(--ssa-txt-blanc);
 }
 
-/* ========== SUMMARY SECTION ========== */
-
-/* ========== DESCRIPTION SECTION ========== */
 .description {
     font-size: 1rem;
     color: var(--ssa-txt-blanc);
@@ -87,4 +84,24 @@
     word-break: break-word;
     white-space: pre-wrap;
     overflow-wrap: break-word;
+}
+
+
+/* ========== RESPONSIVE SECTION ========== */
+@media screen and (max-width: 980px) {
+    .details{
+        margin: 0;
+        padding: 0;
+        flex-direction: column;
+
+        & img{
+            width: 100%;
+            border-radius: 0;
+        }
+
+        & .heading{
+            border-radius: 0;
+        }
+    }
+
 }
