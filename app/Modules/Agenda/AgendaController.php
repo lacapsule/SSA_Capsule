@@ -222,51 +222,88 @@ final class AgendaController extends BaseController
     #[Route(path: '/api/create', methods: ['POST'])]
     public function createApi(): Response
     {
-        CsrfTokenManager::requireValidToken();
-
-        $title = trim((string) ($_POST['title'] ?? ''));
-        $startStr = (string) ($_POST['start'] ?? '');
-        $endStr = (string) ($_POST['end'] ?? '');
-        $description = trim((string) ($_POST['description'] ?? ''));
-        $color = (string) ($_POST['color'] ?? '#3788d8');
-
-        if (empty($title) || empty($startStr) || empty($endStr)) {
-            return $this->res->json(['success' => false, 'message' => 'Champs requis manquants.'], 400);
-        }
-
         try {
+            CsrfTokenManager::requireValidToken();
+
+            $title = trim((string) ($_POST['title'] ?? ''));
+            $startStr = (string) ($_POST['start'] ?? '');
+            $endStr = (string) ($_POST['end'] ?? '');
+            $description = trim((string) ($_POST['description'] ?? ''));
+            $color = (string) ($_POST['color'] ?? '#3788d8');
+
+            // Debug
+            error_log("Create event - title: $title, start: $startStr, end: $endStr, color: $color");
+
+            if (empty($title) || empty($startStr) || empty($endStr)) {
+                return $this->res->json(['success' => false, 'message' => 'Champs requis manquants.'], 400);
+            }
+
+            try {
+                // Ajouter les secondes si absentes (format datetime-local: 2025-11-25T14:30)
+                if (strlen($startStr) === 16) {
+                    $startStr .= ':00';
+                }
+                if (strlen($endStr) === 16) {
+                    $endStr .= ':00';
+                }
+                
+                $start = new DateTime($startStr);
+                $end = new DateTime($endStr);
+            } catch (\Exception $e) {
+                error_log("Erreur parsing date: " . $e->getMessage());
+                return $this->res->json(['success' => false, 'message' => 'Format de date invalide.'], 400);
+            }
+
+            if ($start >= $end) {
+                return $this->res->json(['success' => false, 'message' => 'La date de fin doit être après la date de début.'], 400);
+            }
+
             $start = new DateTime($startStr);
             $end = new DateTime($endStr);
+            $dateYmd = $start->format('Y-m-d');
+            $timeHi = $start->format('H:i');
+            $durationSeconds = $end->getTimestamp() - $start->getTimestamp();
+            
+            $logMsg = "Timestamps - start: " . $start->getTimestamp() . ", end: " . $end->getTimestamp() . ", diff: " . $durationSeconds;
+            error_log($logMsg);
+            file_put_contents('/tmp/agenda_debug.log', "[" . date('Y-m-d H:i:s') . "] " . $logMsg . "\n", FILE_APPEND);
+            
+            // Minimum 30 minutes (1800 secondes) pour respecter la contrainte CHECK de la table
+            if ($durationSeconds < 1800) {
+                $msg = "Duration too short: $durationSeconds seconds, forcing to 1800";
+                error_log($msg);
+                file_put_contents('/tmp/agenda_debug.log', "[" . date('Y-m-d H:i:s') . "] " . $msg . "\n", FILE_APPEND);
+                $durationSeconds = 1800;
+            }
+            $durationHours = $durationSeconds / 3600;
+            
+            $msg = "Final duration: $durationSeconds seconds = $durationHours hours";
+            error_log($msg);
+            file_put_contents('/tmp/agenda_debug.log', "[" . date('Y-m-d H:i:s') . "] " . $msg . "\n", FILE_APPEND);
+
+            error_log("Create - dateYmd: $dateYmd, timeHi: $timeHi, duration: $durationHours h, color: $color");
+
+            [$ok, $errors] = $this->agenda->create(
+                title: $title,
+                dateYmd: $dateYmd,
+                timeHi: $timeHi,
+                location: !empty($description) ? $description : null,
+                durationHours: $durationHours,
+                createdBy: $this->currentUser()['id'] ?? null,
+                color: $color
+            );
+
+            if (!$ok) {
+                error_log("Create failed: " . json_encode($errors));
+                return $this->res->json(['success' => false, 'errors' => $errors], 400);
+            }
+
+            error_log("Create success");
+            return $this->res->json(['success' => true]);
         } catch (\Exception $e) {
-            return $this->res->json(['success' => false, 'message' => 'Format de date invalide.'], 400);
+            error_log('Erreur createApi: ' . $e->getMessage() . ' - ' . $e->getTraceAsString());
+            return $this->res->json(['success' => false, 'message' => $e->getMessage()], 500);
         }
-
-        if ($start >= $end) {
-            return $this->res->json(['success' => false, 'message' => 'La date de fin doit être après la date de début.'], 400);
-        }
-
-        $start = new DateTime($startStr);
-        $end = new DateTime($endStr);
-        $dateYmd = $start->format('Y-m-d');
-        $timeHi = $start->format('H:i');
-        $durationSeconds = $end->getTimestamp() - $start->getTimestamp();
-        $durationHours = $durationSeconds > 0 ? $durationSeconds / 3600 : 0.25;
-
-        [$ok, $errors] = $this->agenda->create(
-            title: $title,
-            dateYmd: $dateYmd,
-            timeHi: $timeHi,
-            location: $description,
-            durationHours: $durationHours,
-            createdBy: $this->currentUser()['id'] ?? null,
-            color: $color
-        );
-
-        if (!$ok) {
-            return $this->res->json(['success' => false, 'errors' => $errors], 400);
-        }
-
-        return $this->res->json(['success' => true]);
     }
 
     /**
@@ -276,21 +313,26 @@ final class AgendaController extends BaseController
     #[Route(path: '/api/update/{id}', methods: ['POST'])]
     public function updateApi(int $id): Response
     {
-        CsrfTokenManager::requireValidToken();
+        try {
+            CsrfTokenManager::requireValidToken();
 
-        $title = trim((string) ($_POST['title'] ?? ''));
-        $startStr = (string) ($_POST['start'] ?? '');
-        $endStr = (string) ($_POST['end'] ?? '');
-        $description = trim((string) ($_POST['description'] ?? ''));
-        $color = (string) ($_POST['color'] ?? '#3788d8');
+            $title = trim((string) ($_POST['title'] ?? ''));
+            $startStr = (string) ($_POST['start'] ?? '');
+            $endStr = (string) ($_POST['end'] ?? '');
+            $description = trim((string) ($_POST['description'] ?? ''));
+            $color = (string) ($_POST['color'] ?? '#3788d8');
 
-        [$ok, $errors] = $this->agenda->update($id, $title, $startStr, $endStr, $description, $color);
+            [$ok, $errors] = $this->agenda->update($id, $title, $startStr, $endStr, !empty($description) ? $description : null, $color);
 
-        if (!$ok) {
-            return $this->res->json(['success' => false, 'errors' => $errors], 400);
+            if (!$ok) {
+                return $this->res->json(['success' => false, 'errors' => $errors], 400);
+            }
+
+            return $this->res->json(['success' => true]);
+        } catch (\Exception $e) {
+            error_log('Erreur updateApi: ' . $e->getMessage());
+            return $this->res->json(['success' => false, 'message' => $e->getMessage()], 500);
         }
-
-        return $this->res->json(['success' => true]);
     }
 
     /**

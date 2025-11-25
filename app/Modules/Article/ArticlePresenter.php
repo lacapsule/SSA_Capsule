@@ -67,7 +67,7 @@ final class ArticlePresenter
         });
 
         // FRONTIÈRE VUE : matérialise uniquement la page courante
-        $items = IterablePresenter::toArray($mapped, $limit); // supporte un $limit optionnel
+        $items = IterablePresenter::toArray($mapped);
 
         return $base + [
             'title' => 'Articles',

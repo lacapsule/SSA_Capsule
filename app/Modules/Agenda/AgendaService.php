@@ -74,7 +74,7 @@ final class AgendaService
             }
         }
 
-        $durationMinutes = (int) round(max(0.25, $durationHours) * 60);
+        $durationMinutes = (int) round(max(0.5, $durationHours) * 60);
 
         if ($errors !== []) {
             return [false, $errors, $startsAt];

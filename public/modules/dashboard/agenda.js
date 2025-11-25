@@ -1,17 +1,23 @@
-// assets/modules/dashboard/agenda.js
+// /public/modules/dashboard/agenda.js - Calendar with Home Design
 
 const apiUrl = '/dashboard/agenda';
 let currentDate = new Date();
+let currentView = 'month'; // 'week', 'month', 'year'
 
 // DOM Elements
-const calendarHeader = document.getElementById('calendar-header');
-const calendarGrid = document.getElementById('calendar-grid');
-const monthLabel = document.getElementById('monthLabel');
+const calendarGrid = document.getElementById('dashboard-calendar-grid');
+const calendarLabel = document.getElementById('dashboard-calendar-label');
+const loadingIndicator = document.getElementById('dashboard-calendar-loading');
+const errorIndicator = document.getElementById('dashboard-calendar-error');
+const detailsPanel = document.getElementById('public-calendar-details');
 
 // Modals
 const createModal = document.getElementById('agenda-create-modal');
 const editModal = document.getElementById('agenda-edit-modal');
 const deleteModal = document.getElementById('agenda-delete-modal');
+
+// State
+let selectedEvent = null;
 
 // Init
 document.addEventListener('DOMContentLoaded', () => {
@@ -19,146 +25,360 @@ document.addEventListener('DOMContentLoaded', () => {
 
     renderCalendar();
     setupNavigation();
+    setupViewSwitch();
     setupModalListeners();
 });
 
 function setupNavigation() {
-    document.getElementById('prevBtn').addEventListener('click', () => changeMonth(-1));
-    document.getElementById('nextBtn').addEventListener('click', () => changeMonth(1));
-    document.getElementById('addEventBtn').addEventListener('click', () => {
-        // Par défaut, ouvre pour aujourd'hui à 09:00
+    // Navigation (Previous/Next buttons)
+    document.querySelectorAll('[data-calendar-nav]').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const delta = parseInt(btn.getAttribute('data-calendar-nav'));
+            if (currentView === 'week') {
+                currentDate.setDate(currentDate.getDate() + delta * 7);
+            } else if (currentView === 'month') {
+                currentDate.setMonth(currentDate.getMonth() + delta);
+            } else if (currentView === 'year') {
+                currentDate.setFullYear(currentDate.getFullYear() + delta);
+            }
+            renderCalendar();
+        });
+    });
+
+    // Add Event button
+    document.getElementById('addEventBtn')?.addEventListener('click', () => {
         openCreateModal(new Date());
     });
 }
 
-function changeMonth(delta) {
-    currentDate.setMonth(currentDate.getMonth() + delta);
-    renderCalendar();
+function setupViewSwitch() {
+    // Calendar view switch buttons (Week/Month/Year)
+    document.querySelectorAll('.calendar-view-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('.calendar-view-btn').forEach(b => b.classList.remove('is-active'));
+            btn.classList.add('is-active');
+            currentView = btn.getAttribute('data-calendar-view');
+            renderCalendar();
+        });
+    });
 }
 
 /* ===========================================
-   CORE RENDERING LOGIC (Fixes Date Bug)
+   CORE RENDERING LOGIC (NEW HOME DESIGN)
    =========================================== */
+
 async function renderCalendar() {
+    // Reset details panel
+    resetDetails();
+    
+    // Update calendar grid class based on view
+    calendarGrid.className = `calendar-grid calendar-grid--${currentView}`;
     calendarGrid.innerHTML = '';
-    calendarHeader.innerHTML = '';
 
-    const year = currentDate.getFullYear();
-    const month = currentDate.getMonth();
+    // Update label
+    updateCalendarLabel();
 
-    // Mise à jour label
-    monthLabel.textContent = currentDate.toLocaleString('fr-FR', { month: 'long', year: 'numeric' });
+    // Show loading
+    loadingIndicator?.removeAttribute('hidden');
+    errorIndicator?.setAttribute('hidden', '');
 
-    // 1. Générer l'en-tête (Lundi -> Dimanche)
-    const days = ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'];
-    days.forEach(day => {
-        const div = document.createElement('div');
-        div.className = 'day-name';
-        div.textContent = day;
-        calendarHeader.appendChild(div);
-    });
+    try {
+        // Fetch events for the current range
+        const { startDate, endDate } = getDateRange();
+        const events = await fetchEvents(startDate, endDate);
 
-    // 2. Calcul des bornes du calendrier
-    // On trouve le premier jour du mois
-    const firstDayOfMonth = new Date(year, month, 1);
-    // On trouve le lundi précédent (ou ce jour si c'est lundi)
-    // getDay(): 0=Dim, 1=Lun... on veut 0=Lun, 6=Dim pour le calcul
-    let dayOfWeek = firstDayOfMonth.getDay(); // 0 (Dim) à 6 (Sam) standard JS
-    // Conversion pour Lundi=0 ... Dimanche=6
-    let adjustedDay = (dayOfWeek === 0) ? 6 : dayOfWeek - 1;
+        // Render based on current view
+        if (currentView === 'week') {
+            renderWeekView(events);
+        } else if (currentView === 'month') {
+            renderMonthView(events);
+        } else if (currentView === 'year') {
+            renderYearView(events);
+        }
 
-    // Date de début de la grille (Lundi de la première semaine)
-    const startDate = new Date(year, month, 1 - adjustedDay);
-
-    // On affiche toujours 6 semaines (42 cases) pour garder la taille fixe
-    const totalDays = 42;
-
-    // Préparer les chaînes YYYY-MM-DD pour l'API
-    const endDate = new Date(startDate);
-    endDate.setDate(startDate.getDate() + totalDays);
-
-    const startStr = formatLocalISODate(startDate);
-    const endStr = formatLocalISODate(endDate);
-
-    // 3. Récupérer les événements
-    const events = await fetchEvents(startStr, endStr);
-
-    // 4. Boucle de création des cellules
-    const todayStr = formatLocalISODate(new Date());
-
-    for (let i = 0; i < totalDays; i++) {
-        // Créer une copie fraîche de la date pour cette case
-        const cellDate = new Date(startDate);
-        cellDate.setDate(startDate.getDate() + i);
-
-        const cellDateStr = formatLocalISODate(cellDate); // YYYY-MM-DD local
-
-        const cell = document.createElement('div');
-        cell.className = 'day-cell';
-        if (cellDate.getMonth() !== month) cell.classList.add('other-month');
-        if (cellDateStr === todayStr) cell.classList.add('today');
-
-        // Ajout attribut data pour responsive (nom du jour)
-        const dayName = cellDate.toLocaleString('fr-FR', { weekday: 'long' });
-
-        // Numéro du jour
-        const dateNum = document.createElement('div');
-        dateNum.className = 'date-number';
-        dateNum.textContent = cellDate.getDate();
-        dateNum.setAttribute('data-dayname', dayName); // Pour le CSS mobile
-        cell.appendChild(dateNum);
-
-        // Conteneur événements
-        const evContainer = document.createElement('div');
-        evContainer.className = 'events-wrapper';
-
-        // Filtrer les événements du jour par comparaison de chaînes strictes
-        // Cela corrige le bug du "6 qui apparait le 7" dû aux fuseaux horaires
-        const dayEvents = events.filter(ev => ev.start.startsWith(cellDateStr));
-
-        dayEvents.forEach(ev => {
-            const el = createEventElement(ev);
-            evContainer.appendChild(el);
-        });
-
-        cell.appendChild(evContainer);
-
-        // Clic sur une case vide -> Création
-        cell.addEventListener('click', (e) => {
-            if (e.target === cell || e.target === evContainer || e.target === dateNum) {
-                openCreateModal(cellDate);
-            }
-        });
-
-        calendarGrid.appendChild(cell);
+        loadingIndicator?.setAttribute('hidden', '');
+    } catch (err) {
+        console.error('Calendar render error:', err);
+        errorIndicator?.removeAttribute('hidden');
+        errorIndicator.textContent = 'Erreur lors du chargement du calendrier';
+        loadingIndicator?.setAttribute('hidden', '');
     }
 }
 
-function createEventElement(ev) {
-    const div = document.createElement('div');
-    div.className = 'event-item';
-    div.style.backgroundColor = ev.color || '#3788d8';
+function resetDetails() {
+    if (!detailsPanel) return;
+    selectedEvent = null;
+    detailsPanel.innerHTML = `<p class="calendar-details-empty">Sélectionner un événement pour voir les détails</p>`;
+}
 
-    // Icones SVG inline
-    const iconClock = `<svg class="icon-svg" viewBox="0 0 24 24"><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm4.2 14.2L11 13V7h1.5v5.2l4.5 2.7-.8 1.3z"/></svg>`;
-    const iconPin = `<svg class="icon-svg" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>`;
+function updateCalendarLabel() {
+    let label = '';
+    if (currentView === 'week') {
+        const weekStart = new Date(currentDate);
+        const day = weekStart.getDay();
+        const diff = weekStart.getDate() - (day === 0 ? 6 : day - 1);
+        weekStart.setDate(diff);
+        const weekEnd = new Date(weekStart);
+        weekEnd.setDate(weekStart.getDate() + 6);
+        label = `Semaine du ${formatLocalISODate(weekStart)} au ${formatLocalISODate(weekEnd)}`;
+    } else if (currentView === 'month') {
+        label = currentDate.toLocaleString('fr-FR', { month: 'long', year: 'numeric' });
+    } else if (currentView === 'year') {
+        label = currentDate.getFullYear().toString();
+    }
+    calendarLabel.textContent = label;
+}
+
+function getDateRange() {
+    const year = currentDate.getFullYear();
+    const month = currentDate.getMonth();
+
+    let startDate, endDate;
+
+    if (currentView === 'week') {
+        startDate = new Date(currentDate);
+        const day = startDate.getDay();
+        const diff = startDate.getDate() - (day === 0 ? 6 : day - 1);
+        startDate.setDate(diff);
+        endDate = new Date(startDate);
+        endDate.setDate(startDate.getDate() + 6);
+    } else if (currentView === 'month') {
+        startDate = new Date(year, month, 1);
+        let dayOfWeek = startDate.getDay();
+        let adjustedDay = dayOfWeek === 0 ? 6 : dayOfWeek - 1;
+        startDate.setDate(1 - adjustedDay);
+        endDate = new Date(startDate);
+        endDate.setDate(startDate.getDate() + 41);
+    } else if (currentView === 'year') {
+        startDate = new Date(year, 0, 1);
+        endDate = new Date(year, 11, 31);
+    }
+
+    return { 
+        startDate: formatLocalISODate(startDate), 
+        endDate: formatLocalISODate(endDate) 
+    };
+}
+
+function renderWeekView(events) {
+    const weekStart = new Date(currentDate);
+    const day = weekStart.getDay();
+    const diff = weekStart.getDate() - (day === 0 ? 6 : day - 1);
+    weekStart.setDate(diff);
+
+    const days = ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'];
+    for (let i = 0; i < 7; i++) {
+        const date = new Date(weekStart);
+        date.setDate(weekStart.getDate() + i);
+        const dateStr = formatLocalISODate(date);
+        
+        const dayEvents = events.filter(ev => ev.start.startsWith(dateStr));
+        const column = document.createElement('div');
+        column.className = 'calendar-day';
+
+        const header = document.createElement('div');
+        header.className = 'calendar-day-header';
+        header.innerHTML = `
+            <span class="calendar-day-name">${days[i]}</span>
+            <span class="calendar-day-number">${date.getDate()}</span>
+        `;
+        column.appendChild(header);
+
+        const eventContainer = document.createElement('div');
+        eventContainer.className = 'calendar-events';
+
+        if (dayEvents.length === 0) {
+            const empty = document.createElement('p');
+            empty.className = 'calendar-details-empty';
+            empty.textContent = '—';
+            eventContainer.appendChild(empty);
+        } else {
+            dayEvents.forEach((event) => {
+                const chip = createEventChip(event);
+                eventContainer.appendChild(chip);
+            });
+        }
+
+        column.appendChild(eventContainer);
+        
+        // Click to create event
+        column.addEventListener('click', (e) => {
+            if (e.target === column || e.target === header || e.target.parentElement === header) {
+                openCreateModal(date);
+            }
+        });
+        
+        calendarGrid.appendChild(column);
+    }
+}
+
+function renderMonthView(events) {
+    const year = currentDate.getFullYear();
+    const month = currentDate.getMonth();
+    const firstDayOfMonth = new Date(year, month, 1);
+    let dayOfWeek = firstDayOfMonth.getDay();
+    let adjustedDay = dayOfWeek === 0 ? 6 : dayOfWeek - 1;
+
+    const startDate = new Date(year, month, 1 - adjustedDay);
+    const todayStr = formatLocalISODate(new Date());
+
+    for (let i = 0; i < 42; i++) {
+        const date = new Date(startDate);
+        date.setDate(startDate.getDate() + i);
+        const dateStr = formatLocalISODate(date);
+
+        const dayElement = document.createElement('div');
+        dayElement.className = 'calendar-day';
+
+        if (date.getMonth() !== month) {
+            dayElement.classList.add('other-month');
+        }
+        if (dateStr === todayStr) {
+            dayElement.classList.add('today');
+        }
+
+        // Day header
+        const header = document.createElement('div');
+        header.className = 'calendar-day-header';
+        header.innerHTML = `
+            <span class="calendar-day-name">${date.toLocaleDateString('fr-FR', { weekday: 'short' })}</span>
+            <span class="calendar-day-number">${date.getDate()}</span>
+        `;
+        dayElement.appendChild(header);
+
+        // Events container
+        const eventsContainer = document.createElement('div');
+        eventsContainer.className = 'calendar-events';
+
+        const dayEvents = events.filter(ev => ev.start.startsWith(dateStr));
+        if (dayEvents.length === 0) {
+            const empty = document.createElement('p');
+            empty.className = 'calendar-details-empty';
+            empty.textContent = '—';
+            eventsContainer.appendChild(empty);
+        } else {
+            // Limiter à 3 événements, afficher les autres en nombre
+            dayEvents.slice(0, 3).forEach(ev => {
+                const chip = createEventChip(ev);
+                eventsContainer.appendChild(chip);
+            });
+            if (dayEvents.length > 3) {
+                const more = document.createElement('p');
+                more.className = 'calendar-details-empty';
+                more.textContent = `+${dayEvents.length - 3} autre(s)`;
+                eventsContainer.appendChild(more);
+            }
+        }
+
+        dayElement.appendChild(eventsContainer);
+
+        // Click to create event
+        dayElement.addEventListener('click', (e) => {
+            if (e.target === dayElement || e.target === header || e.target.parentElement === header) {
+                openCreateModal(date);
+            }
+        });
+
+        calendarGrid.appendChild(dayElement);
+    }
+}
+
+function renderYearView(events) {
+    const year = currentDate.getFullYear();
+    
+    for (let month = 0; month < 12; month++) {
+        const monthDate = new Date(year, month, 1);
+        const card = document.createElement('div');
+        card.className = 'calendar-month';
+
+        const monthEvents = events.filter(ev => {
+            const eventDate = new Date(ev.start);
+            return eventDate.getMonth() === month && eventDate.getFullYear() === year;
+        });
+
+        const header = document.createElement('div');
+        header.className = 'calendar-day-header';
+        header.innerHTML = `
+            <span class="calendar-day-name">${monthDate.toLocaleDateString('fr-FR', { month: 'long' })}</span>
+            <span class="calendar-month-number">${monthEvents.length} évènement(s)</span>
+        `;
+        card.appendChild(header);
+
+        const eventContainer = document.createElement('div');
+        eventContainer.className = 'calendar-events';
+
+        if (monthEvents.length === 0) {
+            const empty = document.createElement('p');
+            empty.className = 'calendar-details-empty';
+            empty.textContent = '—';
+            eventContainer.appendChild(empty);
+        } else {
+            monthEvents.slice(0, 4).forEach((event) => {
+                const chip = createEventChip(event);
+                eventContainer.appendChild(chip);
+            });
+        }
+
+        card.appendChild(eventContainer);
+        calendarGrid.appendChild(card);
+    }
+}
+
+function createEventChip(ev) {
+    const button = document.createElement('button');
+    button.className = 'calendar-event-chip';
+    button.style.backgroundColor = ev.color || '#1d72b8';
+    button.type = 'button';
 
     const timeStr = ev.start.substring(11, 16); // HH:MM
+    button.textContent = `${timeStr} • ${ev.title}`;
 
-    div.innerHTML = `
-        <div class="event-row event-title">${ev.title}</div>
-        <div class="event-row">
-            ${iconClock} <span>${timeStr}</span>
-        </div>
-        ${ev.description ? `<div class="event-row">${iconPin} <span>${ev.description}</span></div>` : ''}
-    `;
-
-    div.addEventListener('click', (e) => {
+    button.addEventListener('click', (e) => {
         e.stopPropagation();
-        openEditModal(ev);
+        displayEventDetails(ev);
     });
 
-    return div;
+    return button;
+}
+
+function displayEventDetails(ev) {
+    selectedEvent = ev;
+    
+    if (!detailsPanel) return;
+    
+    const startDate = new Date(ev.start.replace(' ', 'T'));
+    const endDate = new Date(ev.end.replace(' ', 'T'));
+    
+    const dateLabel = startDate.toLocaleDateString('fr-FR', {
+        weekday: 'long',
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric',
+    });
+    
+    const startTime = startDate.toLocaleTimeString('fr-FR', {
+        hour: '2-digit',
+        minute: '2-digit',
+    });
+    
+    const endTime = endDate.toLocaleTimeString('fr-FR', {
+        hour: '2-digit',
+        minute: '2-digit',
+    });
+    
+    const timeLabel = `${startTime} — ${endTime}`;
+    
+    detailsPanel.innerHTML = `
+        <h3>${ev.title}</h3>
+        <p><strong>${dateLabel}</strong></p>
+        <p>${timeLabel}</p>
+        ${ev.description ? `<p>${ev.description}</p>` : ''}
+        <button type="button" class="btn btn-primary" id="detail-edit-btn" style="margin-top: 1rem;">Éditer</button>
+    `;
+    
+    document.getElementById('detail-edit-btn')?.addEventListener('click', () => {
+        openEditModal(ev);
+    });
 }
 
 /* ===========================================
@@ -168,48 +388,53 @@ function createEventElement(ev) {
 function showModal(modalEl) {
     modalEl.showModal();
 }
+
 function closeModal(modalEl) {
     modalEl.close();
 }
 
 function setupModalListeners() {
-    // Gestion fermeture générique (boutons X et Annuler)
+    // Close button handlers
     document.querySelectorAll('[data-close]').forEach(btn => {
         btn.addEventListener('click', () => {
-            const id = btn.getAttribute('data-close');
-            document.getElementById(id).close();
+            const modalId = btn.getAttribute('data-close');
+            document.getElementById(modalId)?.close();
         });
     });
 
-    // Formulaires
-    document.getElementById('createEventForm').addEventListener('submit', handleCreateSubmit);
-    document.getElementById('editEventForm').addEventListener('submit', handleEditSubmit);
+    // Form submissions
+    document.getElementById('createEventForm')?.addEventListener('submit', handleCreateSubmit);
+    document.getElementById('editEventForm')?.addEventListener('submit', handleEditSubmit);
 
-    // Bouton "Supprimer" dans la modale d'édition -> Ouvre confirmation
-    document.getElementById('triggerDeleteBtn').addEventListener('click', () => {
+    // Delete trigger in edit modal
+    document.getElementById('triggerDeleteBtn')?.addEventListener('click', () => {
         closeModal(editModal);
         const id = document.getElementById('edit_eventId').value;
         const title = document.getElementById('edit_title').value;
         openDeleteModal(id, title);
     });
 
-    // Confirmation suppression
-    document.getElementById('confirmDeleteBtn').addEventListener('click', handleDeleteConfirm);
+    // Delete confirmation
+    document.getElementById('confirmDeleteBtn')?.addEventListener('click', handleDeleteConfirm);
 }
 
 // --- CREATE ---
 function openCreateModal(dateObj) {
     const form = document.getElementById('createEventForm');
-    form.reset();
+    form?.reset();
 
-    // Par défaut, on coche le premier radio (Bleu)
-    const radios = form.querySelectorAll('input[name="color"]');
-    if (radios.length > 0) radios[0].checked = true;
+    // Set first color radio as default
+    const radios = form?.querySelectorAll('input[name="color"]');
+    if (radios?.length > 0) radios[0].checked = true;
 
-    // Pré-remplir date et heure (09:00 - 10:00)
+    // Pre-fill date and time (09:00 - 10:00)
     const ymd = formatLocalISODate(dateObj);
-    document.getElementById('create_start').value = `${ymd}T09:00`;
-    document.getElementById('create_end').value = `${ymd}T10:00`;
+    if (document.getElementById('create_start')) {
+        document.getElementById('create_start').value = `${ymd}T09:00`;
+    }
+    if (document.getElementById('create_end')) {
+        document.getElementById('create_end').value = `${ymd}T10:00`;
+    }
 
     showModal(createModal);
 }
@@ -225,7 +450,7 @@ async function handleCreateSubmit(e) {
 // --- EDIT ---
 function openEditModal(ev) {
     const form = document.getElementById('editEventForm');
-    form.reset();
+    form?.reset();
 
     document.getElementById('edit_eventId').value = ev.id;
     document.getElementById('edit_title').value = ev.title;
@@ -233,20 +458,19 @@ function openEditModal(ev) {
     document.getElementById('edit_end').value = ev.end.replace(' ', 'T').slice(0, 16);
     document.getElementById('edit_description').value = ev.description || '';
 
-    // Gestion de la sélection de couleur via Radio Buttons
-    const colorToSelect = ev.color || '#3788d8'; // Fallback bleu
-    const radios = form.querySelectorAll('input[name="color"]');
+    // Select correct color radio
+    const colorToSelect = ev.color || '#3788d8';
+    const radios = form?.querySelectorAll('input[name="color"]');
     let found = false;
 
-    radios.forEach(radio => {
+    radios?.forEach(radio => {
         if (radio.value === colorToSelect) {
             radio.checked = true;
             found = true;
         }
     });
 
-    // Si la couleur de l'event n'est pas dans nos 3 choix (ex: ancien event), on coche le bleu par défaut
-    if (!found && radios.length > 0) {
+    if (!found && radios?.length > 0) {
         radios[0].checked = true;
     }
 
@@ -285,42 +509,51 @@ async function handleDeleteConfirm() {
         }
     } catch (err) {
         console.error(err);
+        alert("Erreur réseau");
     }
 }
+
 
 /* ===========================================
    HELPERS
    =========================================== */
 
-// Helper générique pour create/update
+// Generic request sender for create/update
 async function sendRequest(url, formData, modalToClose) {
     try {
-        const res = await fetch(url, { method: 'POST', body: formData });
+        const res = await fetch(url, { 
+            method: 'POST', 
+            body: formData,
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+        });
         const data = await res.json();
 
         if (res.ok && data.success) {
             closeModal(modalToClose);
             renderCalendar();
         } else {
-            alert(data.message || "Une erreur est survenue");
+            alert(data.message || data.errors?.join(', ') || "Une erreur est survenue");
         }
     } catch (err) {
         console.error(err);
-        alert("Erreur réseau");
+        alert("Erreur réseau: " + err.message);
     }
 }
 
+// Fetch events from API
 async function fetchEvents(start, end) {
     try {
         const res = await fetch(`${apiUrl}/api/events?start=${start}&end=${end}`);
         return await res.json();
     } catch (e) {
-        console.error(e);
+        console.error('Fetch events error:', e);
         return [];
     }
 }
 
-// Retourne YYYY-MM-DD en respectant le fuseau local (évite le décalage UTC)
+// Format date as YYYY-MM-DD (respecting local timezone)
 function formatLocalISODate(date) {
     const year = date.getFullYear();
     const month = String(date.getMonth() + 1).padStart(2, '0');
