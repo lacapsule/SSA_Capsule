@@ -18,6 +18,7 @@ import { initModals } from './modules/modal/universalModal.js';
 import { initArticleModal } from './modules/articles/articleModal.js';
 import { initArticlesSort } from './modules/dashboard/articles-sort.js';
 import { initUsersFilter } from './modules/dashboard/users-filter.js';
+import { initPublicCalendar } from './modules/home/publicCalendar.js';
 
 /**
  * Initialise tous les modules de l'application
@@ -60,6 +61,7 @@ function initApp() {
         // Users client-side filter + date sort
         initUsersFilter();
         initArticleModal();
+        initPublicCalendar();
 
         console.log('✅ Application initialisée avec succès');
     } catch (error) {
