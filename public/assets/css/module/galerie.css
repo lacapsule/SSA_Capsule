@@ -56,6 +56,12 @@
   font-weight: 600;
 }
 
+.gallery-pagination .pagination-info {
+  font-size: 0.9rem;
+  color: #1d2e4a;
+  font-weight: 500;
+}
+
 .gallery {
   min-height: 100vh;
 }

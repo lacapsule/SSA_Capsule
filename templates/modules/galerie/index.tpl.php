@@ -31,10 +31,12 @@
   {{/pagination.hasPrev}}
 
   <div class="pagination-pages">
-    {{#pagination.pages}}
+    {{#each pagination.pages}}
     <a href="?page={{number}}" class="page-link{{#isCurrent}} is-active{{/isCurrent}}">{{number}}</a>
-    {{/pagination.pages}}
+    {{/each}}
   </div>
+
+  <span class="pagination-info">Page {{pagination.current}} / {{pagination.total}}</span>
 
   {{#pagination.hasNext}}
   <a href="?page={{pagination.next}}" class="page-link next-page" aria-label="Page suivante">&rsaquo;</a>

@@ -45,7 +45,7 @@ final class HomePresenter
             'hasFirst' => $currentPage > 1,
             'hasLast' => $currentPage < $totalPages,
             'pages' => $pages,
-            'showPagination' => $totalPages > 1,
+            'showPagination' => $totalPages >= 1,
         ];
     }
 
