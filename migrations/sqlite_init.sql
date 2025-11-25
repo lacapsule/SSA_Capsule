@@ -57,7 +57,7 @@ CREATE TABLE IF NOT EXISTS agenda_events (
   id               INTEGER PRIMARY KEY AUTOINCREMENT,
   title            TEXT NOT NULL,
   starts_at        TEXT NOT NULL,      -- UTC 'YYYY-MM-DD HH:MM:SS'
-  duration_minutes INTEGER NOT NULL CHECK (duration_minutes BETWEEN 30 AND 480),
+  duration_minutes INTEGER NOT NULL CHECK (duration_minutes BETWEEN 30 AND 43200), -- 30 minutes à 30 jours
   location         TEXT,
   color            TEXT    NOT NULL DEFAULT '#3788d8',
   description      TEXT,

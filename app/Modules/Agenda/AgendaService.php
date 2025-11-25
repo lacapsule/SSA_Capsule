@@ -74,7 +74,13 @@ final class AgendaService
             }
         }
 
-        $durationMinutes = (int) round(max(0.5, $durationHours) * 60);
+        $durationMinutes = (int) round(max(0.0, $durationHours) * 60);
+        // Permettre des événements jusqu'à 30 jours (43200 minutes)
+        $maxDurationMinutes = 30 * 24 * 60; // 43200 minutes = 30 jours
+
+        if ($durationMinutes < 30 || $durationMinutes > $maxDurationMinutes) {
+            $errors['duration'] = 'La durée doit être comprise entre 30 minutes et 30 jours.';
+        }
 
         if ($errors !== []) {
             return [false, $errors, $startsAt];
@@ -131,6 +137,16 @@ final class AgendaService
         }
 
         $durationMinutes = ($endsAt->getTimestamp() - $startsAt->getTimestamp()) / 60;
+        // Permettre des événements jusqu'à 30 jours (43200 minutes)
+        $maxDurationMinutes = 30 * 24 * 60; // 43200 minutes = 30 jours
+
+        if ($durationMinutes < 30 || $durationMinutes > $maxDurationMinutes) {
+            $errors['duration'] = 'La durée doit être comprise entre 30 minutes et 30 jours.';
+        }
+
+        if ($errors !== []) {
+            return [false, $errors];
+        }
 
         $this->repo->update($id, $title, $startsAt, (int)$durationMinutes, $description, $color);
 

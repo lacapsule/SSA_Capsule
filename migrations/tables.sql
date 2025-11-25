@@ -61,7 +61,7 @@ CREATE TABLE IF NOT EXISTS contacts (
 /* ===================== AGENDA (UTC, durée en minutes) ===================== */
 /* Contrat :
    - starts_at en UTC (DATETIME)
-   - duration_minutes en [30, 480] (vérifié par CHECK si supporté, sinon triggers/app)
+   - duration_minutes en [30, 43200] (30 minutes à 30 jours, vérifié par CHECK si supporté, sinon triggers/app)
    - created_by nullable, FK users(id), ON DELETE SET NULL
 */
 CREATE TABLE IF NOT EXISTS agenda_events (
@@ -81,7 +81,7 @@ CREATE TABLE IF NOT EXISTS agenda_events (
   CONSTRAINT fk_agenda_user
     FOREIGN KEY (created_by) REFERENCES users(id) ON DELETE SET NULL,
   CONSTRAINT ck_agenda_duration
-    CHECK (duration_minutes BETWEEN 30 AND 480)  -- MySQL 8.0.16+ & MariaDB 10.4+ appliquent le CHECK
+    CHECK (duration_minutes BETWEEN 30 AND 43200)  -- 30 minutes à 30 jours (30 * 24 * 60)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 /* ===================== SEED ===================== */
