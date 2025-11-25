@@ -91,17 +91,17 @@
           </button>
         </div>
         <div class="modal-body">
-          <form id="article-create-form" method="post" action="/dashboard/articles/create">
+          <form id="article-create-form" method="post" action="/dashboard/articles/create" enctype="multipart/form-data">
             <div class="form-group">
               <label for="titre">Titre *</label>
               <input type="text" id="titre" name="titre" required>
             </div>
             <div class="form-group">
-              <label for="resume">Résumé *</label>
+              <label for="resume">Résumé de la miniature *</label>
               <input type="text" id="resume" name="resume" required>
             </div>
             <div class="form-group">
-              <label for="description">Description *</label>
+              <label for="description">Contenue de l'article *</label>
               <textarea id="description" name="description" required></textarea>
             </div>
             <div class="form-group">
@@ -113,11 +113,11 @@
               <input type="time" id="hours" name="hours" required>
             </div>
             <div class="form-group">
-              <label for="lieu">Lieu* </label>
-              <input type="text" id="lieu" name="lieu" required>
+              <label for="lieu">Lieux</label>
+              <input type="text" id="lieu" name="lieu">
             </div>
             <div class="form-group">
-              <label for="image">Image de la miniature</label>
+              <label for="image">Image de l'article (s'affiche en miniature aussi)</label>
               <input type="file" id="image" name="image" accept="image/*">
             </div>
             {{{csrf_input}}}
@@ -144,36 +144,35 @@
           </button>
         </div>
         <div class="modal-body">
-          <form id="article-edit-form" method="post">
+          <form id="article-edit-form" method="post" enctype="multipart/form-data">
             <div class="form-group">
               <label for="edit_titre">Titre *</label>
               <input type="text" id="edit_titre" name="titre" required>
             </div>
             <div class="form-group">
-              <label for="edit_resume">Résumé</label>
-              <input type="text" id="edit_resume" name="resume">
+              <label for="edit_resume">Résumé de la miniature *</label>
+              <input type="text" id="edit_resume" name="resume" required>
             </div>
             <div class="form-group">
-              <label for="edit_description">Description</label>
-              <textarea id="edit_description" name="description"></textarea>
+              <label for="edit_description">Contenue de l'article *</label>
+              <textarea id="edit_description" name="description" required></textarea>
             </div>
             <div class="form-group">
               <label for="edit_date_article">Date *</label>
               <input type="date" id="edit_date_article" name="date_article" required>
             </div>
             <div class="form-group">
-              <label for="edit_hours">Heure</label>
-              <input type="time" id="edit_hours" name="hours">
+              <label for="edit_hours">Heure *</label>
+              <input type="time" id="edit_hours" name="hours" required>
             </div>
             <div class="form-group">
-              <label for="edit_lieu">Lieu</label>
+              <label for="edit_lieu">Lieux</label>
               <input type="text" id="edit_lieu" name="lieu">
             </div>
             <div class="form-group">
-              <label for="edit_image">Image de la miniature</label>
+              <label for="edit_image">Image de l'article (s'affiche en miniature aussi)</label>
               <input type="file" id="edit_image" name="image" accept="image/*">
             </div>
-            <input type="hidden" name="id" id="edit_id">
             {{{csrf_input}}}
           </form>
         </div>

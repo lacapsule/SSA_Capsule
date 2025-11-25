@@ -9,7 +9,7 @@
     <p class="notice notice--error">{{.}}</p>
   {{/errors._global}}
 
-  <form method="post" action="{{action}}" novalidate>
+  <form method="post" action="{{action}}" enctype="multipart/form-data" novalidate>
     {{{csrf_input}}}
 
     <div class="form-row">
@@ -19,14 +19,14 @@
     </div>
 
     <div class="form-row">
-      <label for="resume">Résumé</label>
+      <label for="resume">Résumé de la miniature</label>
       <input id="resume" name="resume" type="text" value="{{article.resume}}" required/>
       {{#errors.resume}}<p class="field-error">{{.}}</p>{{/errors.resume}}
     </div>
 
     <div class="form-row">
-      <label for="description">Description</label>
-      <textarea id="description" name="description" rows="6">{{article.description}}required</textarea>
+      <label for="description">Contenue de l'article</label>
+      <textarea id="description" name="description" rows="6" required>{{article.description}}</textarea>
       {{#errors.description}}<p class="field-error">{{.}}</p>{{/errors.description}}
     </div>
 
@@ -46,8 +46,14 @@
 
     <div class="form-row">
       <label for="lieu">Lieu</label>
-      <input id="lieu" name="lieu" type="text" value="{{article.lieu}}" required/>
+      <input id="lieu" name="lieu" type="text" value="{{article.lieu}}"/>
       {{#errors.lieu}}<p class="field-error">{{.}}</p>{{/errors.lieu}}
+    </div>
+
+    <div class="form-row">
+      <label for="image">Image</label>
+      <input id="image" name="image" type="file" accept="image/*"/>
+      {{#errors.image}}<p class="field-error">{{.}}</p>{{/errors.image}}
     </div>
 
     <div class="actions">

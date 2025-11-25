@@ -59,6 +59,7 @@ final class ArticlePresenter
                 'resume' => (string)$a->resume,
                 'date' => $dateStr,
                 'author' => (string)($a->author ?? 'Inconnu'),
+                'image' => (string)($a->image ?? ''),
                 'editUrl' => rtrim($editBase, '/') . '/' . rawurlencode((string)$id),
                 'deleteUrl' => rtrim($deleteBase, '/') . '/' . rawurlencode((string)$id),
                 'showUrl' => rtrim($showBase, '/') . '/' . rawurlencode((string)$id),

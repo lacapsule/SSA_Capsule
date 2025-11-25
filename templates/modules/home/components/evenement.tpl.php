@@ -41,37 +41,41 @@
 
 <dialog id="public-calendar-modal" class="universal-modal calendar-modal" data-modal-id="public-calendar-modal">
     <div class="modal-content">
-        <div class="modal-header">
+        <div class="modal-calendar-header">
             <h2>{{str.agenda_calendar_modal_title}}</h2>
-            <button type="button" class="modal-close-btn" data-modal-close="public-calendar-modal" aria-label="{{str.agenda_calendar_close}}">
+            <button type="button" class="modal-close-btn" data-modal-close="public-calendar-modal"
+                aria-label="{{str.agenda_calendar_close}}">
                 <span>&times;</span>
             </button>
         </div>
         <div class="modal-body">
             <div class="calendar-controls">
                 <div class="calendar-view-switch">
-                    <button type="button" class="calendar-view-btn is-active" data-calendar-view="week">{{str.agenda_calendar_view_week}}</button>
-                    <button type="button" class="calendar-view-btn" data-calendar-view="month">{{str.agenda_calendar_view_month}}</button>
-                    <button type="button" class="calendar-view-btn" data-calendar-view="year">{{str.agenda_calendar_view_year}}</button>
+                    <button type="button" class="calendar-view-btn is-active"
+                        data-calendar-view="week">{{str.agenda_calendar_view_week}}</button>
+                    <button type="button" class="calendar-view-btn"
+                        data-calendar-view="month">{{str.agenda_calendar_view_month}}</button>
+                    <button type="button" class="calendar-view-btn"
+                        data-calendar-view="year">{{str.agenda_calendar_view_year}}</button>
                 </div>
                 <div class="calendar-nav">
-                    <button type="button" class="calendar-nav-btn" data-calendar-nav="-1" aria-label="Précédent">‹</button>
+                    <a type="button" class="calendar-nav-btn" data-calendar-nav="-1"
+                        aria-label="Précédent"><img src="/assets/icons/arrow-left.svg" alt=""></a>
                     <div id="public-calendar-label">—</div>
-                    <button type="button" class="calendar-nav-btn" data-calendar-nav="1" aria-label="Suivant">›</button>
+                    <a type="button" class="calendar-nav-btn" data-calendar-nav="1" aria-label="Suivant"><img src="/assets/icons/arrow-right.svg" alt=""></a>
                 </div>
+            </div>
+            <div id="public-calendar-details" class="calendar-details" data-empty="{{str.agenda_calendar_no_event}}"
+                data-title="{{str.agenda_calendar_details_title}}">
+                <p class="calendar-details-empty">{{str.agenda_calendar_no_event}}</p>
             </div>
 
             <div id="public-calendar-loading" class="calendar-loading" hidden>Chargement...</div>
             <p id="public-calendar-error" class="calendar-error" hidden></p>
 
-            <div id="public-calendar-grid" class="calendar-grid calendar-grid--month" aria-live="polite" aria-label="{{str.agenda_calendar_modal_title}}"></div>
+            <div id="public-calendar-grid" class="calendar-grid calendar-grid--month" aria-live="polite"
+                aria-label="{{str.agenda_calendar_modal_title}}"></div>
 
-            <div id="public-calendar-details" class="calendar-details" data-empty="{{str.agenda_calendar_no_event}}" data-title="{{str.agenda_calendar_details_title}}">
-                <p class="calendar-details-empty">{{str.agenda_calendar_no_event}}</p>
-            </div>
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-modal-close="public-calendar-modal">{{str.agenda_calendar_close}}</button>
         </div>
     </div>
 </dialog>

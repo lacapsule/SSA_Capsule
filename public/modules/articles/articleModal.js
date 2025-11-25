@@ -201,16 +201,21 @@ class ArticleModalManager {
       const form = this.editModal.getForm();
       if (form) {
         form.action = `/dashboard/articles/edit/${articleId}`;
-        form.querySelector('#edit_titre')?.setAttribute('value', article.titre || '');
-        form.querySelector('#edit_resume')?.setAttribute('value', article.resume || '');
+        const titreEl = form.querySelector('#edit_titre');
+        if (titreEl) titreEl.value = article.titre || '';
+        const resumeEl = form.querySelector('#edit_resume');
+        if (resumeEl) resumeEl.value = article.resume || '';
         const descEl = form.querySelector('#edit_description');
         if (descEl) descEl.value = article.description || '';
         // Convertir JJ/MM/AAAA → AAAA-MM-JJ pour input type="date"
-        form.querySelector('#edit_date_article')?.setAttribute('value', convertDateToInputFormat(article.date_article) || '');
+        const dateEl = form.querySelector('#edit_date_article');
+        if (dateEl) dateEl.value = convertDateToInputFormat(article.date_article) || '';
         // Normaliser l'heure au format HH:MM
         const timeValue = article.hours ? article.hours.substring(0, 5) : '';
-        form.querySelector('#edit_hours')?.setAttribute('value', timeValue);
-        form.querySelector('#edit_lieu')?.setAttribute('value', article.lieu || '');
+        const timeEl = form.querySelector('#edit_hours');
+        if (timeEl) timeEl.value = timeValue;
+        const lieuEl = form.querySelector('#edit_lieu');
+        if (lieuEl) lieuEl.value = article.lieu || '';
         // File inputs cannot have their value set programmatically for security reasons.
         // Instead show a preview or the current filename if desired.
         const editImageInput = form.querySelector('#edit_image');
@@ -227,7 +232,6 @@ class ArticleModalManager {
           }
           prev.textContent = article.image ? `Fichier actuel: ${article.image}` : 'Aucune image';
         }
-        form.querySelector('#edit_id')?.setAttribute('value', articleId);
       }
 
       this.editModal.setSubmitText('Modifier');
@@ -275,6 +279,11 @@ class ArticleModalManager {
     e.preventDefault();
 
     const form = this.createModal?.getForm();
+    if (!form) return;
+
+    // Ensure form action is set for creation
+    form.action = '/dashboard/articles/create';
+
     if (!form.checkValidity()) {
       const invalidFields = Array.from(form.querySelectorAll(':invalid'));
       const errorMessages = invalidFields.map(el => {
@@ -301,7 +310,7 @@ class ArticleModalManager {
     const hasFile = fileInput && fileInput.files && fileInput.files.length > 0;
 
     const sendPromise = hasFile
-      ? this.sendFormWithProgress(formData, action, this.createModal)
+      ? this.sendFormWithProgress(form, action, this.createModal)
       : this.sendFormFetch(formData, action);
 
     sendPromise
@@ -362,13 +371,20 @@ class ArticleModalManager {
     if (csrfToken) {
       formData.set('_csrf', csrfToken);
     }
+    
+    // Debug: Log all FormData
+    console.log('📝 Edit FormData contents:', {
+      keys: Array.from(formData.keys()),
+      values: Array.from(formData.entries()).map(([k, v]) => [k, v instanceof File ? `File: ${v.name}` : v])
+    });
+    
     const action = form.getAttribute('action') || '/dashboard/articles/edit';
 
     const fileInput = form.querySelector('input[type="file"][name="image"]');
     const hasFile = fileInput && fileInput.files && fileInput.files.length > 0;
 
     const sendPromise = hasFile
-      ? this.sendFormWithProgress(formData, action, this.editModal)
+      ? this.sendFormWithProgress(form, action, this.editModal)
       : this.sendFormFetch(formData, action);
 
     sendPromise

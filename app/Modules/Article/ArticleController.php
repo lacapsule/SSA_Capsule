@@ -119,10 +119,15 @@ final class ArticleController extends BaseController
 
         // Handle uploaded image if present
         if (!empty($_FILES['image']) && ($_FILES['image']['error'] ?? UPLOAD_ERR_NO_FILE) === UPLOAD_ERR_OK) {
-            $uploaded = ImageConverter::convertUploadedFile($_FILES['image']);
-            if ($uploaded !== null) {
-                // store web path in POST for service
-                $_POST['image'] = $uploaded;
+            try {
+                $uploaded = ImageConverter::convertUploadedFile($_FILES['image']);
+                if ($uploaded !== null) {
+                    // store web path in POST for service
+                    $_POST['image'] = $uploaded;
+                }
+            } catch (\Throwable $e) {
+                error_log("❌ Image conversion error: " . $e->getMessage());
+                return $this->res->json(['success' => false, 'errors' => ['image' => ['Erreur lors du traitement de l\'image: ' . $e->getMessage()]]], 400);
             }
         }
 
@@ -130,7 +135,8 @@ final class ArticleController extends BaseController
 
             // Détection requête AJAX
             $isAjax = $_SERVER['HTTP_X_REQUESTED_WITH'] ?? '' === 'XMLHttpRequest' || 
-                      !empty($_POST) && strpos($_SERVER['CONTENT_TYPE'] ?? '', 'application/x-www-form-urlencoded') === 0;
+                      !empty($_POST) && (strpos($_SERVER['CONTENT_TYPE'] ?? '', 'application/x-www-form-urlencoded') === 0 || 
+                      strpos($_SERVER['CONTENT_TYPE'] ?? '', 'multipart/form-data') === 0);
 
             if (!empty($result['errors'])) {
                 if ($isAjax) {
@@ -196,16 +202,22 @@ final class ArticleController extends BaseController
         // Handle uploaded image if present
         $uploaded = null;
         if (!empty($_FILES['image']) && ($_FILES['image']['error'] ?? UPLOAD_ERR_NO_FILE) === UPLOAD_ERR_OK) {
-            $uploaded = ImageConverter::convertUploadedFile($_FILES['image']);
-            if ($uploaded !== null) {
-                $_POST['image'] = $uploaded;
+            try {
+                $uploaded = ImageConverter::convertUploadedFile($_FILES['image']);
+                if ($uploaded !== null) {
+                    $_POST['image'] = $uploaded;
+                }
+            } catch (\Throwable $e) {
+                error_log("❌ Image conversion error: " . $e->getMessage());
+                return $this->res->json(['success' => false, 'errors' => ['image' => ['Erreur lors du traitement de l\'image: ' . $e->getMessage()]]], 400);
             }
         }
 
         $result = $this->articles->update($id, $_POST);
             // Détection requête AJAX
             $isAjax = $_SERVER['HTTP_X_REQUESTED_WITH'] ?? '' === 'XMLHttpRequest' || 
-                      !empty($_POST) && strpos($_SERVER['CONTENT_TYPE'] ?? '', 'application/x-www-form-urlencoded') === 0;
+                      !empty($_POST) && (strpos($_SERVER['CONTENT_TYPE'] ?? '', 'application/x-www-form-urlencoded') === 0 || 
+                      strpos($_SERVER['CONTENT_TYPE'] ?? '', 'multipart/form-data') === 0);
 
             if (!empty($result['errors'])) {
                 if ($isAjax) {
