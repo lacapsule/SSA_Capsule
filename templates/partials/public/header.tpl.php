@@ -13,13 +13,13 @@
   </a>
 
     <ul>
-      <li><a href="/">{{str.nav_home}}</a></li>
-      <li><a href="/#about">{{str.nav_apropos}}</a></li>
-      <li><a href="/#actu">{{str.nav_actualites}}</a></li>
-      <li><a href="/#evenement">{{str.nav_agenda}}</a></li>
+      <li><a href="/#hero-anchor">{{str.nav_home}}</a></li>
+      <li><a href="/#about-anchor">{{str.nav_apropos}}</a></li>
+      <li><a href="/#actu-anchor">{{str.nav_actualites}}</a></li>
+      <li><a href="/#event-anchor">{{str.nav_agenda}}</a></li>
       <li><a href="/projet">{{str.nav_project}}</a></li>
       <li><a href="/galerie">{{str.nav_galerie}}</a></li>
-      <li><a href="/#contact">{{str.nav_contact}}</a></li>
+      <li><a href="/#contact-anchor">{{str.nav_contact}}</a></li>
       <li>
         <a href="?lang=fr"><img class="flag" src="/assets/icons/fr.svg" alt="FR"></a> •
         <a href="?lang=br"><img class="flag" src="/assets/icons/br.svg" alt="BR"></a>

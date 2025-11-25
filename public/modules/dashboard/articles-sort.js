@@ -43,6 +43,22 @@ export function initArticlesSort() {
   const iconTitre = document.getElementById('sort-icon-titre');
   const iconDate = document.getElementById('sort-icon-date');
 
+  // Define SVG strings and icon functions outside doSort for reusability
+  const upSvg = '<img src="/assets/icons/arrow-up.svg" width="18" height="18" />';
+  const downSvg = '<img src="/assets/icons/arrow-down.svg" width="18" height="18" />';
+
+  const clearIcon = (el) => {
+    if (!el) return;
+    while (el.firstChild) el.removeChild(el.firstChild);
+    el.classList.remove('active');
+  };
+
+  const setIcon = (el, imgHtml) => {
+    if (!el) return;
+    el.innerHTML = imgHtml;
+    el.classList.add('active');
+  };
+
   const doSort = () => {
     const field = sortBy ? sortBy.value : 'date';
     const order = sortOrder ? sortOrder.value : 'desc';
@@ -88,32 +104,6 @@ export function initArticlesSort() {
     // Re-append in sorted order
     sorted.forEach(r => tbody.appendChild(r));
 
-    // Update header icons (inject inline SVG reliably)
-    const upSvg = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7 14l5-5 5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
-    const downSvg = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
-
-    const clearIcon = (el) => {
-      if (!el) return;
-      while (el.firstChild) el.removeChild(el.firstChild);
-      el.classList.remove('active');
-    };
-
-    const setIcon = (el, svgString) => {
-      if (!el) return;
-      try {
-        const parser = new DOMParser();
-        const doc = parser.parseFromString(svgString, 'image/svg+xml');
-        const svgEl = doc.documentElement;
-        while (el.firstChild) el.removeChild(el.firstChild);
-        const imported = document.importNode(svgEl, true);
-        el.appendChild(imported);
-        el.classList.add('active');
-      } catch (e) {
-        el.innerHTML = svgString;
-        el.classList.add('active');
-      }
-    };
-
     if (iconTitre) clearIcon(iconTitre);
     if (iconDate) clearIcon(iconDate);
 
@@ -122,6 +112,10 @@ export function initArticlesSort() {
     } else if (field === 'date') {
       if (iconDate) setIcon(iconDate, order === 'asc' ? upSvg : downSvg);
     }
+    
+    // Always show the other icon (even when not sorting by that field)
+    if (field !== 'titre' && iconTitre) setIcon(iconTitre, upSvg);
+    if (field !== 'date' && iconDate) setIcon(iconDate, downSvg);
   };
 
   if (sortBy) sortBy.addEventListener('change', doSort);
@@ -146,4 +140,7 @@ export function initArticlesSort() {
 
   // Initial sort default: recent first
   doSort();
+  
+  // Display arrow-down icon by default on date header
+  if (iconDate) setIcon(iconDate, downSvg);
 }

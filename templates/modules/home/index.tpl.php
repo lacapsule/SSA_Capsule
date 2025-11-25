@@ -1,4 +1,4 @@
-<section class="hero">
+<section id="hero-anchor" class="hero">
   <div class="overlay">
     <img src="/assets/img/banner.webp" style="no-repeat center/cover" alt="banner">
   </div>
@@ -10,12 +10,21 @@
   </div>
 </section>
 <!-- Composants du module A PROPOS -->
-{{> component:home/components/apropos }}
-<!-- Composants du module ACTUALITER -->
+ <div id="about-anchor"></div>
+ {{> component:home/components/apropos }}
+ 
+ <!-- Composants du module ACTUALITER -->
+ <div id="actu-anchor" style=height:40px></div>
 {{> component:home/components/actualites }}
+
 <!-- Composants du module EVENEMENT -->
+<div id="event-anchor" style=height:40px></div>
 {{> component:home/components/evenement }}
+
 <!-- Composants du module PARTENAIRES -->
+ <div id="partner-anchor" style=height:40px></div>
 {{> component:home/components/partenaires }}
+
 <!-- Composants du module CONTACT -->
+ <div id="contact-anchor"></div>
 {{> component:home/components/contact }}

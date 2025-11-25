@@ -48,37 +48,6 @@ DASHBOARD - GESTION DES UTILISATEURS
     transition: background-color 0.2s ease;
 }
 
-/* Colonnes spécifiques */
-.idValue {
-    font-weight: 600;
-    color: #495057;
-}
-
-.usernameValue {
-    font-weight: 500;
-}
-
-.emailValue {
-    color: #6c757d;
-    font-size: 0.9rem;
-}
-
-.role {
-    padding: 6px 12px;
-    border-radius: 4px;
-    font-size: 0.85rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    white-space: nowrap;
-}
-
-.role.employee {
-    color: #0056b3;
-}
-
-.role.admin {
-    color: #856404;
-}
 .col-name:hover,
 .col-role:hover,
 .col-email:hover {
@@ -102,12 +71,12 @@ DASHBOARD - GESTION DES UTILISATEURS
 }
 
 .btn.btn-info {
-    background-color: #17a2b8;
+    background-color: var(--ssa-gris);
     color: white;
 }
 
 .btn.btn-info:hover {
-    background-color: #138496;
+    background-color: var(--ssa-gris-trsp   );
     transform: translateY(-1px);
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
 }
@@ -152,13 +121,13 @@ DASHBOARD - GESTION DES UTILISATEURS
 }
 
 .btn-secondary {
-    background-color: #ffc107;
-    color: #333;
+    background-color: var(--ssa-jaune);
+    color: var(--ssa-noir);
     border: none;
 }
 
 .btn-secondary:hover {
-    background-color: #e0a800;
+    background-color: var(--ssa-jaune);
     transform: translateY(-1px);
     box-shadow: 0 4px 8px rgba(255, 193, 7, 0.3);
 }

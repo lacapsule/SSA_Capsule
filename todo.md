@@ -5,21 +5,15 @@
 
 Dans cette page :
 -[x] Gérer la suppression et l’ajout de photos.
--[] Convertir les formats de photos lors de l’upload (jpeg, png, etc.), puis enregistrer en webp.
--[] Renommer automatiquement les photos à l’ajout pour éviter les conflits (exemple : img_dateUpload_ID).
--[] Prévoir une gestion de l’ordre d’affichage des photos dans la galerie. (Dernières photos upload en premier)
--[] Pagination qui permet pas d'aller a la page que ont veux et a la dernière directement
-
-### Compte avec statut "employé" :
--[] Accorder l’accès au dashboard.
--[] Masquer l’accès à la page "Utilisateurs".
--[] Permettre la modification du mot de passe et mail depuis la page "Mon profil".
--[] Intégration d'une image de profile (optionnel à voir si on le fait vraiment).
+-[x] Convertir les formats de photos lors de l’upload (jpeg, png, etc.), puis enregistrer en webp.
+-[x] Renommer automatiquement les photos à l’ajout pour éviter les conflits (exemple : img_dateUpload_ID).
+-[x] Prévoir une gestion de l’ordre d’affichage des photos dans la galerie. (Dernières photos upload en premier)
+-[x] Pagination qui permet pas d'aller a la page que ont veux et a la dernière directement
 
 ### Utilisateurs :
 -[x] Affichage du nom et date création non présente.
 -[x] L'ajout/Suppression Utilisateur pas pris en compte dans la BDD.
--[] récupération des informations nom, mail, role pour la modal de gestion de l'utilisateur
+-[x] récupération des informations nom, mail, role pour la modal de gestion de l'utilisateur
 
 ### Agenda :
 -[x] Colonne de la gestion des couleurs dans la BDD ne reste pas et met la page en erreur.
@@ -52,5 +46,5 @@ Dans cette page :
 -[] Mosaïque "100 volontaire" (pas encore fourni).
 
 ### Accueil
--[] Evenement : Affiche un Btn > modals "voir plus" si des plusieur événements a venir pour événements affichant la liste des futurs et 3 derniers passés + Clique sur un evenement > modal > info supplémentaire
-- [] Articles : Affiche un btn > pages "voir plus", la page a les cards avec tout les articles existants > btn card "voir plus" pour afficher la page de l'article
+-[x] Evenement : pagination
+-[~] Articles : calendrier
