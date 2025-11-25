@@ -64,7 +64,6 @@ final class HomeController extends BaseController
             'isAuthenticated' => $this->isAuthenticated(),
             'languages' => $languages,
             'contact_action' => '/contact',
-            'pagination' => ['page' => $page->page, 'limit' => $page->limit],
         ] + $viewData);
     }
 
