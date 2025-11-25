@@ -107,7 +107,7 @@ install_deps() {
     pm="$(detect_pkg)"
     case "$pm" in
         dnf)
-            pkgs=(php-cli php-pdo sqlite3 php-mysqlnd php-intl php-sqlite3)
+            pkgs=(php-cli php-pdo sqlite php-mysqlnd php-intl php-sqlite3)
             log "Installer via dnf: ${pkgs[*]}"
             if command -v sudo >/dev/null 2>&1; then
                 sudo dnf install -y "${pkgs[@]}"
@@ -128,7 +128,7 @@ install_deps() {
             ;;
         *)
             die "Gestionnaire de paquets non supporté. Installe manuellement :
-  - Fedora/RHEL : php-cli php-pdo php-sqlite3 php-mysqlnd php-intl
+  - Fedora/RHEL : php-cli php-pdo php-sqlite3 sqlite php-mysqlnd php-intl
   - Debian/Ubuntu : php-cli php-sqlite3 php-mysql php-intl"
             ;;
     esac

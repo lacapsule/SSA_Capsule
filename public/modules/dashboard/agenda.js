@@ -416,6 +416,10 @@ function setupModalListeners() {
 
     // Delete confirmation
     document.getElementById('confirmDeleteBtn')?.addEventListener('click', handleDeleteConfirm);
+
+    // Synchronise datetime fields so end is always after start
+    syncDateInputs('create_start', 'create_end', { forceUpdate: true });
+    syncDateInputs('edit_start', 'edit_end', { forceUpdate: true });
 }
 
 // --- CREATE ---
@@ -435,6 +439,8 @@ function openCreateModal(dateObj) {
     if (document.getElementById('create_end')) {
         document.getElementById('create_end').value = `${ymd}T10:00`;
     }
+
+    syncDateInputs('create_start', 'create_end', { forceUpdate: true });
 
     showModal(createModal);
 }
@@ -474,6 +480,7 @@ function openEditModal(ev) {
         radios[0].checked = true;
     }
 
+    syncDateInputs('edit_start', 'edit_end', { forceUpdate: true });
     showModal(editModal);
 }
 
@@ -534,7 +541,12 @@ async function sendRequest(url, formData, modalToClose) {
             closeModal(modalToClose);
             renderCalendar();
         } else {
-            alert(data.message || data.errors?.join(', ') || "Une erreur est survenue");
+            const errors = Array.isArray(data.errors)
+                ? data.errors.join(', ')
+                : typeof data.errors === 'object' && data.errors !== null
+                    ? Object.values(data.errors).join(', ')
+                    : null;
+            alert(data.message || errors || "Une erreur est survenue");
         }
     } catch (err) {
         console.error(err);
@@ -559,4 +571,49 @@ function formatLocalISODate(date) {
     const month = String(date.getMonth() + 1).padStart(2, '0');
     const day = String(date.getDate()).padStart(2, '0');
     return `${year}-${month}-${day}`;
+}
+
+function formatLocalDateTime(date) {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    const hours = String(date.getHours()).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+    return `${year}-${month}-${day}T${hours}:${minutes}`;
+}
+
+function syncDateInputs(startId, endId, options = {}) {
+    const startInput = document.getElementById(startId);
+    const endInput = document.getElementById(endId);
+    if (!startInput || !endInput) {
+        return;
+    }
+
+    const ensureOrder = () => {
+        if (!startInput.value) {
+            return;
+        }
+
+        endInput.min = startInput.value;
+
+        if (!endInput.value || endInput.value < startInput.value) {
+            const baseDate = new Date(startInput.value);
+            if (Number.isNaN(baseDate.getTime())) {
+                return;
+            }
+            baseDate.setHours(baseDate.getHours() + 1);
+            endInput.value = formatLocalDateTime(baseDate);
+        }
+    };
+
+    if (!startInput.dataset.syncBound) {
+        ['change', 'input'].forEach(evt => {
+            startInput.addEventListener(evt, ensureOrder);
+        });
+        startInput.dataset.syncBound = 'true';
+    }
+
+    if (options.forceUpdate) {
+        ensureOrder();
+    }
 }
