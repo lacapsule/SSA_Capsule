@@ -5,6 +5,10 @@ declare(strict_types=1);
 namespace App\Modules\Article;
 
 use App\Modules\Article\Dto\ArticleDTO;
+use App\Support\ImageConverter;
+use FilesystemIterator;
+use RecursiveDirectoryIterator;
+use RecursiveIteratorIterator;
 
 /**
  * ArticleService
@@ -20,13 +24,16 @@ use App\Modules\Article\Dto\ArticleDTO;
  */
 final class ArticleService
 {
-    public function __construct(private ArticleRepository $articleRepository)
+    public function __construct(
+        private ArticleRepository $articleRepository,
+        private ArticleImageRepository $imageRepository,
+    )
     {
     }
 
     /** Champs requis et optionnels pour create/update */
     private const REQUIRED_FIELDS = ['titre', 'resume', 'description', 'date_article', 'hours'];
-    private const OPTIONAL_FIELDS = ['lieu', 'image'];
+    private const OPTIONAL_FIELDS = ['lieu'];
 
     /* =======================
        ======= Queries =======
@@ -77,7 +84,15 @@ final class ArticleService
             throw new \InvalidArgumentException('ID doit être positif.');
         }
 
-        return $this->articleRepository->findById($id);
+        $article = $this->articleRepository->findById($id);
+
+        if ($article === null) {
+            return null;
+        }
+
+        $images = $this->imageRepository->findPathsByArticle($id);
+
+        return $images === [] ? $article : $article->withImages($images);
     }
 
     /* =======================
@@ -89,7 +104,10 @@ final class ArticleService
      * @param array<string,mixed> $user  (doit contenir au moins 'id')
      * @return array{errors?: array<string,string>, data?: array<string,mixed>}
      */
-    public function create(array $input, array $user): array
+    /**
+     * @param array<int, array{tmp_name:string,name:string,type:string,error:int,size:int}> $imageFiles
+     */
+    public function create(array $input, array $user, array $imageFiles = []): array
     {
         $data = $this->sanitize($input);
         $errors = $this->validate($data);
@@ -102,7 +120,15 @@ final class ArticleService
             $payload = $this->toPersistenceArray($data) + [
                 'author_id' => isset($user['id']) ? (int)$user['id'] : null,
             ];
-            $this->articleRepository->create($payload);
+            $articleId = $this->articleRepository->create($payload);
+
+            if ($articleId > 0 && $imageFiles !== []) {
+                $stored = $this->storeArticleImages($articleId, $imageFiles);
+                if ($stored !== []) {
+                    $this->imageRepository->replaceImages($articleId, $stored);
+                    $this->articleRepository->update($articleId, ['image' => $stored[0]]);
+                }
+            }
         } catch (\Throwable $e) {
             // Log minimal (facultatif) : error_log($e->getMessage());
             return ['errors' => ['_global' => 'Erreur lors de la création.'], 'data' => $data];
@@ -115,7 +141,10 @@ final class ArticleService
      * @param array<string,mixed> $input
      * @return array{errors?: array<string,string>, data?: array<string,mixed>}
      */
-    public function update(int $id, array $input): array
+    /**
+     * @param array<int, array{tmp_name:string,name:string,type:string,error:int,size:int}> $newImages
+     */
+    public function update(int $id, array $input, array $newImages = []): array
     {
         if ($id <= 0) {
             return ['errors' => ['_global' => 'Identifiant invalide.'], 'data' => $input];
@@ -131,6 +160,16 @@ final class ArticleService
         try {
             $payload = $this->toPersistenceArray($data);
             $this->articleRepository->update($id, $payload);
+
+            if ($newImages !== []) {
+                $stored = $this->storeArticleImages($id, $newImages);
+                if ($stored !== []) {
+                    $existing = $this->imageRepository->findPathsByArticle($id);
+                    $merged = array_merge($existing, $stored);
+                    $this->imageRepository->replaceImages($id, $merged);
+                    $this->articleRepository->update($id, ['image' => $merged[0]]);
+                }
+            }
         } catch (\Throwable $e) {
             // Log minimal (facultatif)
             return ['errors' => ['_global' => 'Erreur lors de la mise à jour.'], 'data' => $data];
@@ -144,6 +183,8 @@ final class ArticleService
         if ($id <= 0) {
             throw new \InvalidArgumentException('ID doit être positif.');
         }
+        $this->imageRepository->deleteByArticle($id);
+        $this->deleteArticleDirectory($id);
         $this->articleRepository->delete($id);
     }
 
@@ -275,5 +316,54 @@ final class ArticleService
         }
 
         return $out;
+    }
+
+    /**
+     * @param array<int, array{tmp_name:string,name:string,type:string,error:int,size:int}> $imageFiles
+     * @return list<string> chemins publics vers les images sauvegardées
+     */
+    private function storeArticleImages(int $articleId, array $imageFiles): array
+    {
+        $basePath = realpath(__DIR__ . '/../../..') ?: dirname(__DIR__, 2);
+        $destDir = $basePath . '/public/assets/img/articles/' . $articleId;
+        $saved = [];
+
+        foreach ($imageFiles as $file) {
+            if (($file['error'] ?? UPLOAD_ERR_NO_FILE) !== UPLOAD_ERR_OK) {
+                continue;
+            }
+
+            $path = ImageConverter::convertUploadedFile($file, $destDir);
+            if ($path !== null) {
+                $saved[] = $path;
+            }
+        }
+
+        return $saved;
+    }
+
+    private function deleteArticleDirectory(int $articleId): void
+    {
+        $basePath = realpath(__DIR__ . '/../../..') ?: dirname(__DIR__, 2);
+        $dir = $basePath . '/public/assets/img/articles/' . $articleId;
+        if (!is_dir($dir)) {
+            return;
+        }
+
+        $iterator = new RecursiveIteratorIterator(
+            new RecursiveDirectoryIterator($dir, FilesystemIterator::SKIP_DOTS),
+            RecursiveIteratorIterator::CHILD_FIRST
+        );
+
+        /** @var \SplFileInfo $file */
+        foreach ($iterator as $file) {
+            if ($file->isDir()) {
+                @rmdir($file->getPathname());
+            } else {
+                @unlink($file->getPathname());
+            }
+        }
+
+        @rmdir($dir);
     }
 }

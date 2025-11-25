@@ -34,6 +34,15 @@ CREATE TABLE IF NOT EXISTS articles (
   FOREIGN KEY (author_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
+CREATE TABLE IF NOT EXISTS article_images (
+  id          INTEGER PRIMARY KEY AUTOINCREMENT,
+  article_id  INTEGER NOT NULL,
+  path        TEXT NOT NULL,
+  position    INTEGER NOT NULL DEFAULT 0,
+  created_at  TEXT NOT NULL DEFAULT (CURRENT_TIMESTAMP),
+  FOREIGN KEY (article_id) REFERENCES articles(id) ON DELETE CASCADE
+);
+
 CREATE INDEX IF NOT EXISTS idx_articles_date   ON articles(date_article);
 CREATE INDEX IF NOT EXISTS idx_articles_author ON articles(author_id);
 

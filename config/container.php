@@ -37,6 +37,7 @@ use App\Modules\Agenda\AgendaService;
 use App\Modules\Article\ArticleController;
 use App\Modules\Article\ArticleRepository;
 use App\Modules\Article\ArticleService;
+use App\Modules\Article\ArticleImageRepository;
 use App\Modules\Dashboard\DashboardController;
 use App\Modules\Dashboard\DashboardService;
 use App\Modules\Galerie\GalerieRepository;
@@ -161,6 +162,7 @@ return (function (): DIContainer {
     // ==========================================
     $c->set(UserRepository::class, fn ($c) => new UserRepository($c->get('pdo')));
     $c->set(ArticleRepository::class, fn ($c) => new ArticleRepository($c->get('pdo')));
+    $c->set(ArticleImageRepository::class, fn ($c) => new ArticleImageRepository($c->get('pdo')));
     $c->set(AgendaRepository::class, fn ($c) => new AgendaRepository($c->get('pdo')));
     $c->set(GalerieRepository::class, fn () => new GalerieRepository());
 
@@ -182,7 +184,8 @@ return (function (): DIContainer {
     ));
 
     $c->set(ArticleService::class, fn ($c) => new ArticleService(
-        $c->get(ArticleRepository::class)
+        $c->get(ArticleRepository::class),
+        $c->get(ArticleImageRepository::class)
     ));
 
     $c->set(AgendaService::class, fn ($c) => new AgendaService(

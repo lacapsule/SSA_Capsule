@@ -41,7 +41,6 @@ function convertDateToDisplayFormat(dateStr) {
 
   const regex = /^(\d{4})-(\d{2})-(\d{2})$/;
   const match = dateStr.match(regex);
-  const affichageDate = convertDateToDisplayFormatShort(article.date);
 
   if (match) {
     const [, year, month, day] = match;
@@ -109,7 +108,7 @@ class ArticleModalManager {
         });
 
         // Preview filename when selecting an image
-        const inputFile = createForm.querySelector('input[type="file"][name="image"]');
+        const inputFile = createForm.querySelector('input[type="file"][name="images[]"]');
         if (inputFile) {
           inputFile.addEventListener('change', () => {
             let prev = createForm.querySelector('#create_image_preview');
@@ -120,7 +119,12 @@ class ArticleModalManager {
               prev.style.color = '#6b7280';
               inputFile.parentNode?.insertBefore(prev, inputFile.nextSibling);
             }
-            prev.textContent = inputFile.files && inputFile.files.length > 0 ? `Fichier sélectionné: ${inputFile.files[0].name}` : 'Aucun fichier';
+            if (inputFile.files && inputFile.files.length > 0) {
+              const names = Array.from(inputFile.files).map((file) => file.name).join(', ');
+              prev.textContent = `${inputFile.files.length} fichier(s): ${names}`;
+            } else {
+              prev.textContent = 'Aucun fichier';
+            }
           });
         }
       }
@@ -134,7 +138,7 @@ class ArticleModalManager {
           this.handleEditSubmit(e);
         });
         // Preview filename on change
-        const editInputFile = editForm.querySelector('input[type="file"][name="image"]');
+        const editInputFile = editForm.querySelector('input[type="file"][name="images[]"]');
         if (editInputFile) {
           editInputFile.addEventListener('change', () => {
             let prev = editForm.querySelector('#edit_image_preview');
@@ -145,7 +149,12 @@ class ArticleModalManager {
               prev.style.color = '#6b7280';
               editInputFile.parentNode?.insertBefore(prev, editInputFile.nextSibling);
             }
-            prev.textContent = editInputFile.files && editInputFile.files.length > 0 ? `Fichier sélectionné: ${editInputFile.files[0].name}` : 'Aucun fichier';
+            if (editInputFile.files && editInputFile.files.length > 0) {
+              const names = Array.from(editInputFile.files).map((file) => file.name).join(', ');
+              prev.textContent = `${editInputFile.files.length} fichier(s): ${names}`;
+            } else {
+              prev.textContent = 'Aucun fichier';
+            }
           });
         }
       }
@@ -218,9 +227,8 @@ class ArticleModalManager {
         if (lieuEl) lieuEl.value = article.lieu || '';
         // File inputs cannot have their value set programmatically for security reasons.
         // Instead show a preview or the current filename if desired.
-        const editImageInput = form.querySelector('#edit_image');
+        const editImageInput = form.querySelector('#edit_images');
         if (editImageInput) {
-          // Optionally, add a small preview element
           const previewId = 'edit_image_preview';
           let prev = form.querySelector('#' + previewId);
           if (!prev) {
@@ -230,8 +238,28 @@ class ArticleModalManager {
             prev.style.color = '#6b7280';
             editImageInput.parentNode?.insertBefore(prev, editImageInput.nextSibling);
           }
-          prev.textContent = article.image ? `Fichier actuel: ${article.image}` : 'Aucune image';
+          prev.textContent = 'Ajouter des images supplémentaires (la miniature reste la première image).';
         }
+
+        const galleryPreviewId = 'edit_gallery_preview';
+        let galleryPreview = form.querySelector('#' + galleryPreviewId);
+        if (!galleryPreview) {
+          galleryPreview = document.createElement('div');
+          galleryPreview.id = galleryPreviewId;
+          galleryPreview.className = 'article-gallery-preview';
+          if (editImageInput?.parentNode) {
+            editImageInput.parentNode.insertBefore(galleryPreview, editImageInput.nextSibling);
+          } else {
+            form.appendChild(galleryPreview);
+          }
+        }
+        const images = Array.isArray(article.images) ? [...article.images] : [];
+        if (images.length === 0 && article.image) {
+          images.push(article.image);
+        }
+        galleryPreview.innerHTML = images.length
+          ? `<p>${images.length} image(s) actuelle(s) :</p><div class="article-gallery-preview__grid">${images.map((src) => `<img src="${src}" alt="Prévisualisation">`).join('')}</div>`
+          : '<p>Aucune image pour le moment.</p>';
       }
 
       this.editModal.setSubmitText('Modifier');
@@ -306,7 +334,7 @@ class ArticleModalManager {
     const action = form.getAttribute('action') || '/dashboard/articles/create';
 
     // Si un fichier est présent, utiliser XHR pour afficher la progression
-    const fileInput = form.querySelector('input[type="file"][name="image"]');
+    const fileInput = form.querySelector('input[type="file"][name="images[]"]');
     const hasFile = fileInput && fileInput.files && fileInput.files.length > 0;
 
     const sendPromise = hasFile
@@ -380,7 +408,7 @@ class ArticleModalManager {
     
     const action = form.getAttribute('action') || '/dashboard/articles/edit';
 
-    const fileInput = form.querySelector('input[type="file"][name="image"]');
+    const fileInput = form.querySelector('input[type="file"][name="images[]"]');
     const hasFile = fileInput && fileInput.files && fileInput.files.length > 0;
 
     const sendPromise = hasFile

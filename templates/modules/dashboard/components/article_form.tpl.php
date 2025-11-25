@@ -51,9 +51,10 @@
     </div>
 
     <div class="form-row">
-      <label for="image">Image</label>
-      <input id="image" name="image" type="file" accept="image/*"/>
-      {{#errors.image}}<p class="field-error">{{.}}</p>{{/errors.image}}
+      <label for="images">Images</label>
+      <input id="images" name="images[]" type="file" accept="image/*" multiple/>
+      <small>La première image sera utilisée comme miniature.</small>
+      {{#errors.images}}<p class="field-error">{{.}}</p>{{/errors.images}}
     </div>
 
     <div class="actions">

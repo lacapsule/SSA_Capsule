@@ -12,8 +12,8 @@ use Capsule\Contracts\ResponseFactoryInterface;
 use Capsule\Contracts\ViewRendererInterface;
 use Capsule\Routing\Attribute\Route;
 use Capsule\View\BaseController;
-use Capsule\Http\Message\Response;
 use Capsule\View\Safe;
+use Capsule\Http\Message\Response;
 
 final class HomeController extends BaseController
 {
@@ -71,18 +71,28 @@ final class HomeController extends BaseController
     public function article(int $id): Response
     {
         $dto = $this->articleService->getById($id);
+        if ($dto === null) {
+            return $this->res->text('Not Found', 404);
+        }
 
         // Projection minimale
+        $images = $dto?->images ?? [];
+        if ($images === [] && ($dto?->image)) {
+            $images = [(string) $dto->image];
+        }
+        $cover = $images[0] ?? ($dto?->image ?? '');
         $article = [
-            'id' => (int)($dto->id ?? $id),
-            'title' => (string)($dto->titre ?? ''),
-            'summary' => (string)($dto->resume ?? ''),
-            'date' => (string)($dto->date_article ?? ''),
-            'time' => substr((string)($dto->hours ?? ''), 0, 5),
-            'place' => (string)($dto->lieu ?? ''),
-            'author' => isset($dto->author) ? (string)$dto->author : '',
-            'description' => isset($dto->description) ? (string)$dto->description : '',
-            'image' => isset($dto->image) ? Safe::imageUrl((string)$dto->image) : '',
+            'id' => (int) $dto->id,
+            'title' => (string) $dto->titre,
+            'summary' => (string) $dto->resume,
+            'date' => (string) $dto->date_article,
+            'time' => substr((string) $dto->hours, 0, 5),
+            'place' => (string) ($dto->lieu ?? ''),
+            'author' => isset($dto->author) ? (string) $dto->author : '',
+            'description' => isset($dto->description) ? (string) $dto->description : '',
+            'image' => $cover ? Safe::imageUrl((string) $cover) : '',
+            'images' => array_map(static fn (string $path): string => Safe::imageUrl($path), $images),
+            'hasCarousel' => count($images) > 1,
         ];
 
         // ✅ Résout vers page:article/articleDetails

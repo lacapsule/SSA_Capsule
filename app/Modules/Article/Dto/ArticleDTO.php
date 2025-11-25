@@ -18,6 +18,7 @@ namespace App\Modules\Article\Dto;
  * @property string|null $lieu Lieu de l'événement (optionnel)
  * @property string $created_at Date/heure de création de l'événement
  * @property int $author_id Identifiant de l'auteur/organisateur
+ * @property array<int,string> $images Liste des chemins publics des images
  */
 class ArticleDTO
 {
@@ -42,6 +43,28 @@ class ArticleDTO
         public readonly ?string $image,
         public readonly string $created_at,
         public readonly int $author_id,
+        /** @var list<string> */
+        public readonly array $images = [],
     ) {
+    }
+
+    /**
+     * @param list<string> $images
+     */
+    public function withImages(array $images): self
+    {
+        return new self(
+            id: $this->id,
+            titre: $this->titre,
+            resume: $this->resume,
+            description: $this->description,
+            date_article: $this->date_article,
+            hours: $this->hours,
+            lieu: $this->lieu,
+            image: $this->image,
+            created_at: $this->created_at,
+            author_id: $this->author_id,
+            images: $images
+        );
     }
 }
