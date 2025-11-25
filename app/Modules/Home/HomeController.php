@@ -90,6 +90,7 @@ final class HomeController extends BaseController
             'showHeader' => true,
             'showFooter' => true,
             'str' => $this->i18n(),
+            'isAuthenticated' => $this->isAuthenticated(),
             'article' => $article,
         ]);
     }

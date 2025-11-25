@@ -9,8 +9,7 @@
       {{#each articles}}
         <div class="actu-item-inner shadow-dark">
           <div class="actu-img">
-            {{#if image}}
-            <img src="{{image}}" alt="{{titre}}">
+              <img src="{{image}}" alt="{{titre}}">
             {{else}}
             <img src="/assets/img/logoSSA.png" alt="{{titre}}">
             {{/if}}

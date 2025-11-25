@@ -34,13 +34,15 @@
       <li><a class="icons" href="/logout">
           <img src="/assets/icons/logout.svg" alt="Logout icon">
         </a></li>
-      {{/isAuthenticated}}
+    </div>
+    {{/isAuthenticated}}
 
-      {{^isAuthenticated}}
+    {{^isAuthenticated}}
+    <div class="user">
       <li><a class="icons" href="/login">
           <img src="/assets/icons/login.svg" alt="Login icon">
         </a></li>
-      {{/isAuthenticated}}
     </div>
+    {{/isAuthenticated}}
   </nav>
 </header>

@@ -655,6 +655,11 @@
     color: #14213d;
 }
 
+.calendar-loading[hidden],
+#public-calendar-loading[hidden] {
+    display: none !important;
+}
+
 .calendar-error {
     color: #c0392b;
     font-weight: 600;

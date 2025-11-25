@@ -21,8 +21,8 @@
             src="/assets/icons/arrow-right.svg" alt=""></button>
       </div>
     </div>
-    <div id="public-calendar-details" class="calendar-details" data-empty="Sélectionner un événement pour voir les détails"
-      data-title="Détails">
+    <div id="public-calendar-details" class="calendar-details"
+      data-empty="Sélectionner un événement pour voir les détails" data-title="Détails">
       <p class="calendar-details-empty">Sélectionner un événement pour voir les détails</p>
     </div>
     <div id="dashboard-calendar-loading" class="calendar-loading" hidden>Chargement...</div>
@@ -46,14 +46,30 @@
           <label for="create_title">Titre *</label>
           <input type="text" id="create_title" name="title" required>
         </div>
-        <div class="row-group">
+        <div class="form-group checkbox-group">
+          <label class="checkbox-label">
+            <input type="checkbox" id="create_all_day" name="all_day">
+            <span>Toute la journée</span>
+          </label>
+        </div>
+        <div class="row-group" id="create-date-section">
           <div class="form-group half">
-            <label for="create_start">Début *</label>
-            <input type="datetime-local" id="create_start" name="start" required>
+            <label for="create_date">Date début *</label>
+            <input type="date" id="create_date" name="date" required>
           </div>
           <div class="form-group half">
-            <label for="create_end">Fin *</label>
-            <input type="datetime-local" id="create_end" name="end" required>
+            <label for="create_end_date">Date fin *</label>
+            <input type="date" id="create_end_date" name="end_date" required>
+          </div>
+        </div>
+        <div class="row-group" id="create-time-section">
+          <div class="form-group half">
+            <label for="create_start_time">Heure début *</label>
+            <input type="time" id="create_start_time" name="start_time" required>
+          </div>
+          <div class="form-group half">
+            <label for="create_end_time">Heure fin *</label>
+            <input type="time" id="create_end_time" name="end_time" required>
           </div>
         </div>
         <div class="form-group">
@@ -103,12 +119,22 @@
         </div>
         <div class="row-group">
           <div class="form-group half">
-            <label for="edit_start">Début *</label>
-            <input type="datetime-local" id="edit_start" name="start" required>
+            <label for="edit_date">Date début *</label>
+            <input type="date" id="edit_date" name="date" required>
           </div>
           <div class="form-group half">
-            <label for="edit_end">Fin *</label>
-            <input type="datetime-local" id="edit_end" name="end" required>
+            <label for="edit_start_time">Heure début *</label>
+            <input type="time" id="edit_start_time" name="start_time" required>
+          </div>
+        </div>
+        <div class="row-group">
+          <div class="form-group half">
+            <label for="edit_end_date">Date fin *</label>
+            <input type="date" id="edit_end_date" name="end_date" required>
+          </div>
+          <div class="form-group half">
+            <label for="edit_end_time">Heure fin *</label>
+            <input type="time" id="edit_end_time" name="end_time" required>
           </div>
         </div>
         <div class="form-group">

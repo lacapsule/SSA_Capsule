@@ -416,9 +416,23 @@ function setupModalListeners() {
 
     // Delete confirmation
     document.getElementById('confirmDeleteBtn')?.addEventListener('click', handleDeleteConfirm);
+
+    // All day checkbox handler
+    document.getElementById('create_all_day')?.addEventListener('change', toggleAllDayFields);
 }
 
 // --- CREATE ---
+function toggleAllDayFields() {
+    const allDayCheckbox = document.getElementById('create_all_day');
+    const timeSection = document.getElementById('create-time-section');
+    
+    if (allDayCheckbox.checked) {
+        timeSection?.setAttribute('hidden', '');
+    } else {
+        timeSection?.removeAttribute('hidden');
+    }
+}
+
 function openCreateModal(dateObj) {
     const form = document.getElementById('createEventForm');
     form?.reset();
@@ -427,13 +441,29 @@ function openCreateModal(dateObj) {
     const radios = form?.querySelectorAll('input[name="color"]');
     if (radios?.length > 0) radios[0].checked = true;
 
-    // Pre-fill date and time (09:00 - 10:00)
-    const ymd = formatLocalISODate(dateObj);
-    if (document.getElementById('create_start')) {
-        document.getElementById('create_start').value = `${ymd}T09:00`;
+    // Reset all day checkbox
+    const allDayCheckbox = document.getElementById('create_all_day');
+    if (allDayCheckbox) {
+        allDayCheckbox.checked = false;
+        toggleAllDayFields();
     }
-    if (document.getElementById('create_end')) {
-        document.getElementById('create_end').value = `${ymd}T10:00`;
+
+    // Pre-fill date and time only if dateObj is provided (clicked on a date)
+    if (dateObj) {
+        const ymd = formatLocalISODate(dateObj);
+        if (document.getElementById('create_date')) {
+            document.getElementById('create_date').value = ymd;
+        }
+        if (document.getElementById('create_end_date')) {
+            document.getElementById('create_end_date').value = ymd;
+        }
+    }
+    
+    if (document.getElementById('create_start_time')) {
+        document.getElementById('create_start_time').value = '09:00';
+    }
+    if (document.getElementById('create_end_time')) {
+        document.getElementById('create_end_time').value = '10:00';
     }
 
     showModal(createModal);
@@ -442,7 +472,30 @@ function openCreateModal(dateObj) {
 async function handleCreateSubmit(e) {
     e.preventDefault();
     const form = e.target;
+    
+    const isAllDay = document.getElementById('create_all_day')?.checked || false;
+    const startDate = document.getElementById('create_date')?.value || '';
+    
     const formData = new FormData(form);
+    formData.delete('date');
+    formData.delete('end_date');
+    formData.delete('start_time');
+    formData.delete('end_time');
+    formData.delete('all_day');
+    
+    if (isAllDay) {
+        // For all-day events: start at 00:00, end at 23:59
+        formData.append('start', `${startDate}T00:00:00`);
+        formData.append('end', `${startDate}T23:59:00`);
+    } else {
+        // Use separated fields
+        const startTime = document.getElementById('create_start_time')?.value || '';
+        const endDate = document.getElementById('create_end_date')?.value || '';
+        const endTime = document.getElementById('create_end_time')?.value || '';
+        
+        formData.append('start', `${startDate}T${startTime}:00`);
+        formData.append('end', `${endDate}T${endTime}:00`);
+    }
 
     await sendRequest(`${apiUrl}/api/create`, formData, createModal);
 }
@@ -454,8 +507,29 @@ function openEditModal(ev) {
 
     document.getElementById('edit_eventId').value = ev.id;
     document.getElementById('edit_title').value = ev.title;
-    document.getElementById('edit_start').value = ev.start.replace(' ', 'T').slice(0, 16);
-    document.getElementById('edit_end').value = ev.end.replace(' ', 'T').slice(0, 16);
+    
+    // Parser start et end pour extraire dates et heures
+    const startDate = new Date(ev.start.replace(' ', 'T'));
+    const endDate = new Date(ev.end.replace(' ', 'T'));
+    
+    const startDateStr = formatLocalISODate(startDate);
+    const endDateStr = formatLocalISODate(endDate);
+    const startTimeStr = startDate.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
+    const endTimeStr = endDate.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
+    
+    if (document.getElementById('edit_date')) {
+        document.getElementById('edit_date').value = startDateStr;
+    }
+    if (document.getElementById('edit_end_date')) {
+        document.getElementById('edit_end_date').value = endDateStr;
+    }
+    if (document.getElementById('edit_start_time')) {
+        document.getElementById('edit_start_time').value = startTimeStr;
+    }
+    if (document.getElementById('edit_end_time')) {
+        document.getElementById('edit_end_time').value = endTimeStr;
+    }
+    
     document.getElementById('edit_description').value = ev.description || '';
 
     // Select correct color radio
@@ -481,7 +555,21 @@ async function handleEditSubmit(e) {
     e.preventDefault();
     const form = e.target;
     const id = document.getElementById('edit_eventId').value;
+    
+    // Construire start et end à partir des champs séparés
+    const startDate = document.getElementById('edit_date')?.value || '';
+    const startTime = document.getElementById('edit_start_time')?.value || '';
+    const endDate = document.getElementById('edit_end_date')?.value || '';
+    const endTime = document.getElementById('edit_end_time')?.value || '';
+    
     const formData = new FormData(form);
+    // Remplacer par les champs datetime-local combinés
+    formData.delete('date');
+    formData.delete('end_date');
+    formData.delete('start_time');
+    formData.delete('end_time');
+    formData.append('start', `${startDate}T${startTime}:00`);
+    formData.append('end', `${endDate}T${endTime}:00`);
 
     await sendRequest(`${apiUrl}/api/update/${id}`, formData, editModal);
 }

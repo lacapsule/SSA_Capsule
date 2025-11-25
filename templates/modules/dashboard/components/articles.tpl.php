@@ -59,9 +59,9 @@
         {{#each articles}}
         <tr>
           <td class="col-id" data-label="ID">{{id}}</td>
-          <td class="col-title" data-label="Titre">{{titre}}</td>
-          <td class="col-meta" data-label="Résumé">{{resume}}</td>
-          <td class="col-date" data-label="Date">{{date}}</td>
+          <td class="col-title" data-label="Titre"><a title="Voir l'article" href="/article/{{id}}">{{titre}}</a></td>
+          <td class="col-meta" data-label="Résumé" title="Résumé de la miniature">{{resume}}</td>
+          <td class="col-date" data-label="Date" title="Date de l'événement">{{date}}</td>
           <td class="col-auteur" data-label="Auteur">{{author}}</td>
           <td class="col-action" data-label="Actions">
             <div class="dash-components-actions2">

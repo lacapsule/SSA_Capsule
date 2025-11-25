@@ -249,6 +249,11 @@
     color: #14213d;
 }
 
+.calendar-loading[hidden],
+#dashboard-calendar-error[hidden] {
+    display: none !important;
+}
+
 .calendar-error {
     color: #c0392b;
     font-weight: 600;
@@ -320,17 +325,6 @@
     display: block;
 }
 
-.modal-content {
-    background: var(--ssa-blanc);
-    border-radius: 12px;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
-    padding: 2rem;
-    max-width: 500px;
-    width: 90%;
-    max-height: 90vh;
-    overflow-y: auto;
-}
-
 .modal-header {
     display: flex;
     justify-content: space-between;
@@ -364,12 +358,6 @@
     color: #333;
 }
 
-.form-group {
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 1.2rem;
-    gap: 0.5rem;
-}
 
 .form-group label {
     font-weight: 600;
@@ -399,6 +387,28 @@
 .form-group textarea {
     resize: vertical;
     min-height: 100px;
+}
+
+.checkbox-group {
+    display: flex;
+}
+
+.checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 600;
+    color: #14213d;
+    font-size: 0.95rem;
+    cursor: pointer;
+    user-select: none;
+}
+
+.checkbox-label input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+    accent-color: var(--ssa-vert);
 }
 
 .form-actions {

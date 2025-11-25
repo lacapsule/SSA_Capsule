@@ -43,9 +43,12 @@ table td {
 .col-id:hover,
 .col-auteur:hover,
 .col-date:hover,
-.col-meta:hover,
-.col-title:hover {
+.col-meta:hover {
 	background: var(--ssa-jaune-trsp);
+}
+
+.col-title a:hover {
+	color: var(--ssa-vert);
 }
 
 .col-id,
