@@ -16,6 +16,21 @@ function initCarousel(root) {
 
   let currentIndex = 0;
 
+  const syncVideoPlayback = () => {
+    slides.forEach((slide, idx) => {
+      const video = slide.querySelector('video');
+      if (!video) return;
+      if (idx !== currentIndex) {
+        video.pause();
+        try {
+          video.currentTime = 0;
+        } catch (err) {
+          console.warn('Unable to reset video', err);
+        }
+      }
+    });
+  };
+
   const prevBtn = root.querySelector(SELECTORS.prev);
   const nextBtn = root.querySelector(SELECTORS.next);
   const dotsContainer = root.querySelector(SELECTORS.dots);
@@ -29,6 +44,7 @@ function initCarousel(root) {
     dots.forEach((dot, idx) => {
       dot.classList.toggle('is-active', idx === currentIndex);
     });
+    syncVideoPlayback();
   };
 
   const goTo = (index) => {
@@ -50,6 +66,7 @@ function initCarousel(root) {
   });
 
   update();
+  syncVideoPlayback();
 }
 
 document.addEventListener('DOMContentLoaded', () => {

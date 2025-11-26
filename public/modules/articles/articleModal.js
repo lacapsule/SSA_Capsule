@@ -55,6 +55,7 @@ class ArticleModalManager {
     this.createModal = null;
     this.editModal = null;
     this.deleteModal = null;
+    this.currentArticleId = null;
   }
 
   /**
@@ -182,19 +183,8 @@ class ArticleModalManager {
     this.editModal.setSubmitEnabled(false);
 
     try {
-      // Récupérer les données complètes de l'article via API
-      const response = await fetch(`/dashboard/articles/api/${articleId}`, {
-        method: 'GET',
-        headers: {
-          'X-Requested-With': 'XMLHttpRequest'
-        }
-      });
-
-      if (!response.ok) {
-        throw new Error(`Erreur: ${response.status}`);
-      }
-
-      const data = await response.json();
+      this.currentArticleId = Number(articleId);
+      const data = await this.fetchArticlePayload(articleId);
 
       if (!data.success || !data.article) {
         this.editModal.showError('Article non trouvé');
@@ -253,13 +243,11 @@ class ArticleModalManager {
             form.appendChild(galleryPreview);
           }
         }
-        const images = Array.isArray(article.images) ? [...article.images] : [];
-        if (images.length === 0 && article.image) {
-          images.push(article.image);
-        }
-        galleryPreview.innerHTML = images.length
-          ? `<p>${images.length} image(s) actuelle(s) :</p><div class="article-gallery-preview__grid">${images.map((src) => `<img src="${src}" alt="Prévisualisation">`).join('')}</div>`
-          : '<p>Aucune image pour le moment.</p>';
+        this.renderMediaManager(
+          galleryPreview,
+          Array.isArray(article.media) ? article.media : this.buildLegacyMediaList(article),
+          Number(articleId)
+        );
       }
 
       this.editModal.setSubmitText('Modifier');
@@ -505,6 +493,254 @@ class ArticleModalManager {
         this.deleteModal?.setSubmitText('Supprimer');
         this.deleteModal?.setSubmitEnabled(true);
       });
+  }
+
+  buildLegacyMediaList(article) {
+    const list = [];
+    const images = Array.isArray(article.images) ? [...article.images] : [];
+    if (images.length === 0 && article.image) {
+      images.push(article.image);
+    }
+    images.forEach((src, index) => {
+      list.push({
+        id: null,
+        src,
+        path: src,
+        filename: this.extractFilename(src) || `media-${index + 1}`,
+        isVideo: this.isVideoPath(src),
+      });
+    });
+    return list;
+  }
+
+  renderMediaManager(container, mediaList, articleId) {
+    if (!container) return;
+
+    const normalized = this.normalizeMediaList(mediaList);
+    container.dataset.articleId = articleId;
+    container.classList.add('article-media-container');
+
+    if (normalized.length === 0) {
+      container.innerHTML = '<p>Aucun média pour le moment.</p>';
+      return;
+    }
+
+    container.innerHTML = `
+      <p>${normalized.length} média(s) lié(s) :</p>
+      <div class="article-media-manager">
+        ${normalized.map((media) => this.mediaItemTemplate(media)).join('')}
+      </div>
+    `;
+
+    this.bindMediaManagerEvents(container, articleId);
+  }
+
+  normalizeMediaList(mediaList) {
+    if (!Array.isArray(mediaList)) {
+      return [];
+    }
+
+    return mediaList.map((media, index) => {
+      const src = media.src || media.path || '';
+      const path = media.path || src;
+      const filename = media.filename || this.extractFilename(path) || `media-${index + 1}`;
+      const numericId = Number.isInteger(media.id)
+        ? media.id
+        : Number.isInteger(Number(media.id))
+          ? Number(media.id)
+          : null;
+      const isVideo = typeof media.isVideo === 'boolean' ? media.isVideo : this.isVideoPath(src);
+
+      return {
+        id: numericId,
+        src,
+        path,
+        filename,
+        isVideo,
+        canManage: Number.isInteger(numericId),
+      };
+    });
+  }
+
+  mediaItemTemplate(media) {
+    const preview = media.isVideo
+      ? `<video src="${media.src}" preload="metadata" controls playsinline muted></video>`
+      : `<img src="${media.src}" alt="${this.escapeHtml(media.filename)}">`;
+
+    const actions = media.canManage
+      ? `
+        <div class="article-media-actions">
+          <button type="button" class="article-media-btn" data-media-rename>Renommer</button>
+          <button type="button" class="article-media-btn article-media-btn--danger" data-media-delete>Supprimer</button>
+        </div>
+      `
+      : `<p class="article-media-readonly">Gestion indisponible pour ce média.</p>`;
+
+    return `
+      <div class="article-media-item" data-media-item data-media-id="${media.id ?? ''}">
+        <div class="article-media-thumb">
+          ${preview}
+        </div>
+        <div class="article-media-meta">
+          <label>Nom du fichier</label>
+          <input type="text" value="${this.escapeHtml(media.filename)}" data-media-filename ${media.canManage ? '' : 'disabled'}>
+          ${actions}
+          <p class="article-media-status" data-media-status></p>
+        </div>
+      </div>
+    `;
+  }
+
+  bindMediaManagerEvents(container, articleId) {
+    container.querySelectorAll('[data-media-item]').forEach((item) => {
+      const mediaId = Number(item.getAttribute('data-media-id'));
+      if (!mediaId) {
+        return;
+      }
+
+      const deleteBtn = item.querySelector('[data-media-delete]');
+      if (deleteBtn) {
+        deleteBtn.addEventListener('click', () => this.handleMediaDelete(articleId, mediaId, container, item));
+      }
+
+      const renameBtn = item.querySelector('[data-media-rename]');
+      if (renameBtn) {
+        renameBtn.addEventListener('click', () => this.handleMediaRename(articleId, mediaId, container, item));
+      }
+    });
+  }
+
+  async handleMediaDelete(articleId, mediaId, container, item) {
+    if (!confirm('Supprimer ce média ?')) {
+      return;
+    }
+
+    const statusEl = item.querySelector('[data-media-status]');
+    if (statusEl) statusEl.textContent = 'Suppression en cours...';
+
+    const formData = new FormData();
+    formData.set('_csrf', this.getCsrfToken());
+
+    try {
+      const response = await fetch(`/dashboard/articles/${articleId}/media/${mediaId}/delete`, {
+        method: 'POST',
+        body: formData,
+        headers: {
+          'X-Requested-With': 'XMLHttpRequest'
+        },
+      });
+      const data = await response.json();
+
+      if (!response.ok || !data.success) {
+        throw new Error(data.message || 'Suppression impossible.');
+      }
+
+      if (statusEl) statusEl.textContent = 'Média supprimé.';
+      await this.reloadMediaManager(articleId, container);
+    } catch (err) {
+      console.error(err);
+      if (statusEl) statusEl.textContent = err.message || 'Erreur inconnue.';
+    }
+  }
+
+  async handleMediaRename(articleId, mediaId, container, item) {
+    const input = item.querySelector('[data-media-filename]');
+    const statusEl = item.querySelector('[data-media-status]');
+    const newName = input?.value?.trim() ?? '';
+
+    if (!newName) {
+      if (statusEl) statusEl.textContent = 'Nom requis.';
+      return;
+    }
+
+    if (statusEl) statusEl.textContent = 'Renommage en cours...';
+
+    const formData = new FormData();
+    formData.set('_csrf', this.getCsrfToken());
+    formData.set('name', newName);
+
+    try {
+      const response = await fetch(`/dashboard/articles/${articleId}/media/${mediaId}/rename`, {
+        method: 'POST',
+        body: formData,
+        headers: {
+          'X-Requested-With': 'XMLHttpRequest'
+        },
+      });
+      const data = await response.json();
+
+      if (!response.ok || !data.success) {
+        throw new Error(data.message || 'Renommage impossible.');
+      }
+
+      if (statusEl) statusEl.textContent = 'Nom mis à jour.';
+      await this.reloadMediaManager(articleId, container);
+    } catch (err) {
+      console.error(err);
+      if (statusEl) statusEl.textContent = err.message || 'Erreur inconnue.';
+    }
+  }
+
+  async reloadMediaManager(articleId, container) {
+    try {
+      const data = await this.fetchArticlePayload(articleId);
+      if (data.success && data.article) {
+        const media = Array.isArray(data.article.media)
+          ? data.article.media
+          : this.buildLegacyMediaList(data.article);
+        this.renderMediaManager(container, media, articleId);
+      }
+    } catch (err) {
+      console.warn('Impossible de recharger les médias', err);
+    }
+  }
+
+  async fetchArticlePayload(articleId) {
+    const response = await fetch(`/dashboard/articles/api/${articleId}`, {
+      method: 'GET',
+      headers: {
+        'X-Requested-With': 'XMLHttpRequest'
+      }
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data?.message || `Erreur: ${response.status}`);
+    }
+
+    return data;
+  }
+
+  extractFilename(path) {
+    if (!path) return '';
+    try {
+      const cleaned = path.split('?')[0];
+      return cleaned.split('/').filter(Boolean).pop() || '';
+    } catch (err) {
+      return '';
+    }
+  }
+
+  isVideoPath(path) {
+    if (!path) return false;
+    const target = path.split('?')[0];
+    const ext = target.split('.').pop()?.toLowerCase();
+    return ['mp4', 'webm', 'ogv', 'ogg', 'mov'].includes(ext || '');
+  }
+
+  getCsrfToken() {
+    return document.querySelector('input[name="_csrf"]')?.value || '';
+  }
+
+  escapeHtml(value) {
+    return (value ?? '').toString().replace(/[&<>"']/g, (char) => ({
+      '&': '&amp;',
+      '<': '&lt;',
+      '>': '&gt;',
+      '"': '&quot;',
+      "'": '&#39;',
+    }[char]));
   }
 
   /**

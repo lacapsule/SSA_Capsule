@@ -19,6 +19,7 @@ namespace App\Modules\Article\Dto;
  * @property string $created_at Date/heure de création de l'événement
  * @property int $author_id Identifiant de l'auteur/organisateur
  * @property array<int,string> $images Liste des chemins publics des images
+ * @property array<int,array{id:int,article_id:int,path:string,position:int}> $media Métadonnées des médias
  */
 class ArticleDTO
 {
@@ -45,6 +46,8 @@ class ArticleDTO
         public readonly int $author_id,
         /** @var list<string> */
         public readonly array $images = [],
+        /** @var list<array{id:int,article_id:int,path:string,position:int}> */
+        public readonly array $media = [],
     ) {
     }
 
@@ -64,7 +67,34 @@ class ArticleDTO
             image: $this->image,
             created_at: $this->created_at,
             author_id: $this->author_id,
-            images: $images
+            images: $images,
+            media: $this->media,
+        );
+    }
+
+    /**
+     * @param list<array{id:int,article_id:int,path:string,position:int}> $media
+     */
+    public function withMedia(array $media): self
+    {
+        $paths = array_map(
+            static fn (array $item): string => (string) ($item['path'] ?? ''),
+            $media
+        );
+
+        return new self(
+            id: $this->id,
+            titre: $this->titre,
+            resume: $this->resume,
+            description: $this->description,
+            date_article: $this->date_article,
+            hours: $this->hours,
+            lieu: $this->lieu,
+            image: $this->image,
+            created_at: $this->created_at,
+            author_id: $this->author_id,
+            images: $paths,
+            media: $media
         );
     }
 }

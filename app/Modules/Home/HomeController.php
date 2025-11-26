@@ -76,11 +76,41 @@ final class HomeController extends BaseController
         }
 
         // Projection minimale
-        $images = $dto?->images ?? [];
-        if ($images === [] && ($dto?->image)) {
-            $images = [(string) $dto->image];
+        $mediaPaths = $dto?->images ?? [];
+        if ($mediaPaths === [] && ($dto?->image)) {
+            $mediaPaths = [(string) $dto->image];
         }
-        $cover = $images[0] ?? ($dto?->image ?? '');
+
+        $normalizedPaths = array_map(
+            static fn (string $path): string => self::normalizeMediaPath($path),
+            $mediaPaths
+        );
+
+        // Prépare une structure riche pour le carousel (images + vidéos)
+        $mediaItems = array_map(
+            static function (string $path): array {
+                $isVideo = self::isVideoPath($path);
+
+                return [
+                    'src' => (string) Safe::imageUrl($path),
+                    'isVideo' => $isVideo,
+                    'isImage' => !$isVideo,
+                ];
+            },
+            $normalizedPaths
+        );
+
+        // Cover = première image (de préférence), sinon fallback miniature unique
+        $firstImage = null;
+        foreach ($mediaItems as $item) {
+            if (!empty($item['isImage'])) {
+                $firstImage = $item['src'];
+                break;
+            }
+        }
+
+        $coverSrc = $firstImage
+            ?? ($dto?->image ? (string) Safe::imageUrl(self::normalizeMediaPath((string) $dto->image)) : '');
         $article = [
             'id' => (int) $dto->id,
             'title' => (string) $dto->titre,
@@ -90,10 +120,9 @@ final class HomeController extends BaseController
             'place' => (string) ($dto->lieu ?? ''),
             'author' => isset($dto->author) ? (string) $dto->author : '',
             'description' => isset($dto->description) ? (string) $dto->description : '',
-            'image' => $cover ? Safe::imageUrl((string) $cover) : '',
-            'images' => array_map(static fn (string $path): string => Safe::imageUrl($path), $images),
-            'hasCarousel' => count($images) > 1,
+            'image' => $coverSrc,
         ];
+        $hasCarousel = count($mediaItems) > 1;
 
         // ✅ Résout vers page:article/articleDetails
         return $this->page('page:article/articleDetails', [
@@ -102,6 +131,44 @@ final class HomeController extends BaseController
             'str' => $this->i18n(),
             'isAuthenticated' => $this->isAuthenticated(),
             'article' => $article,
+            'medias' => $mediaItems,
+            'mediaCover' => $coverSrc,
+            'hasCarousel' => $hasCarousel,
         ]);
+    }
+    private static function isVideoPath(string $path): bool
+    {
+        $target = parse_url($path, PHP_URL_PATH) ?: $path;
+        $extension = strtolower(pathinfo((string) $target, PATHINFO_EXTENSION));
+
+        return in_array($extension, ['mp4', 'webm', 'ogv', 'ogg', 'mov'], true);
+    }
+
+    private static function normalizeMediaPath(string $path): string
+    {
+        $path = trim($path);
+        if ($path === '') {
+            return '';
+        }
+
+        if (str_starts_with($path, '/assets/')) {
+            return $path;
+        }
+
+        $withoutLeadingPublic = preg_replace('#^/?public/#', '/', $path) ?? $path;
+        if (str_starts_with($withoutLeadingPublic, '/assets/')) {
+            return $withoutLeadingPublic;
+        }
+
+        if (str_starts_with($path, 'assets/')) {
+            return '/' . ltrim($path, '/');
+        }
+
+        $pos = strpos($path, '/assets/');
+        if ($pos !== false) {
+            return substr($path, $pos);
+        }
+
+        return $path;
     }
 }

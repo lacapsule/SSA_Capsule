@@ -262,10 +262,20 @@ final class ArticleController extends BaseController
                     'date_article' => $dto->date_article,
                     'hours' => $dto->hours,
                     'lieu' => $dto->lieu,
-                    'image' => $dto->image,
+                    'image' => $dto->image ? (string) Safe::imageUrl((string) $dto->image) : '',
                     'images' => array_map(
-                        static fn (string $path): string => Safe::imageUrl($path),
+                        static fn (string $path): string => (string) Safe::imageUrl($path),
                         $dto->images
+                    ),
+                    'media' => array_map(
+                        fn (array $media): array => [
+                            'id' => (int) $media['id'],
+                            'path' => $media['path'],
+                            'filename' => basename((string) $media['path']),
+                            'src' => (string) Safe::imageUrl((string) $media['path']),
+                            'isVideo' => self::isVideoPath((string) $media['path']),
+                        ],
+                        $this->articles->getMediaList($id)
                     ),
                 ]
             ]);
@@ -275,6 +285,44 @@ final class ArticleController extends BaseController
                 'message' => 'Erreur lors de la récupération de l\'article'
             ], 500);
         }
+    }
+
+    #[Route(path: '/{articleId}/media/{mediaId}/delete', methods: ['POST'])]
+    public function deleteMedia(int $articleId, int $mediaId): Response
+    {
+        CsrfTokenManager::requireValidToken();
+        $result = $this->articles->deleteMedia($articleId, $mediaId);
+
+        if (!empty($result['error'])) {
+            return $this->res->json(['success' => false, 'message' => $result['error']], 400);
+        }
+
+        return $this->res->json(['success' => true]);
+    }
+
+    #[Route(path: '/{articleId}/media/{mediaId}/rename', methods: ['POST'])]
+    public function renameMedia(int $articleId, int $mediaId): Response
+    {
+        CsrfTokenManager::requireValidToken();
+        $newName = $_POST['name'] ?? '';
+        $result = $this->articles->renameMedia($articleId, $mediaId, (string) $newName);
+
+        if (!empty($result['error'])) {
+            return $this->res->json(['success' => false, 'message' => $result['error']], 400);
+        }
+
+        $path = (string) ($result['path'] ?? '');
+
+        return $this->res->json([
+            'success' => true,
+            'media' => [
+                'id' => $mediaId,
+                'path' => $path,
+                'filename' => basename($path),
+                'src' => (string) Safe::imageUrl($path),
+                'isVideo' => self::isVideoPath($path),
+            ],
+        ]);
     }
 
     /**
@@ -313,5 +361,12 @@ final class ArticleController extends BaseController
             $normalized,
             static fn (array $file): bool => ($file['error'] ?? UPLOAD_ERR_NO_FILE) === UPLOAD_ERR_OK
         ));
+    }
+    private static function isVideoPath(string $path): bool
+    {
+        $target = parse_url($path, PHP_URL_PATH) ?: $path;
+        $ext = strtolower((string) pathinfo((string) $target, PATHINFO_EXTENSION));
+
+        return in_array($ext, ['mp4', 'webm', 'ogv', 'ogg', 'mov'], true);
     }
 }

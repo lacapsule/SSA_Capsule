@@ -57,13 +57,16 @@
 }
 
 .details-media img,
-.article-carousel__slide img {
+.article-carousel__slide img,
+.details-media video,
+.article-carousel__slide video {
     width: 100%;
     max-height: 520px;
     object-fit: cover;
     border-radius: 12px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     display: block;
+    background: #000;
 }
 
 .article-carousel {

@@ -117,8 +117,8 @@
               <input type="text" id="lieu" name="lieu">
             </div>
             <div class="form-group">
-              <label for="images">Images de l'article (miniature + galerie)</label>
-              <input type="file" id="images" name="images[]" accept="image/*" multiple>
+              <label for="images">Images/Vidéos de l'article (miniature + galerie)</label>
+              <input type="file" id="images" name="images[]" accept="image/*,video/mp4,video/webm,video/ogg,video/quicktime" multiple>
               <small>La première image deviendra la miniature.</small>
             </div>
             {{{csrf_input}}}
@@ -171,9 +171,9 @@
               <input type="text" id="edit_lieu" name="lieu">
             </div>
             <div class="form-group">
-              <label for="edit_images">Ajouter des images</label>
-              <input type="file" id="edit_images" name="images[]" accept="image/*" multiple>
-              <small>Les nouvelles images seront ajoutées à la galerie.</small>
+              <label for="edit_images">Ajouter des images/vidéos</label>
+              <input type="file" id="edit_images" name="images[]" accept="image/*,video/mp4,video/webm,video/ogg,video/quicktime" multiple>
+              <small>Les nouveaux médias seront ajoutés à la galerie.</small>
             </div>
             {{{csrf_input}}}
           </form>
