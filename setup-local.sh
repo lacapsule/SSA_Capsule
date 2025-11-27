@@ -166,6 +166,27 @@ sqlite_apply_migration_if_absent() {
     fi
 }
 
+# --- Import partners data -----------------------------------------------------
+import_partners_if_needed() {
+    local import_script="$ROOT/bin/import_partners_from_provider.php"
+    if [[ ! -f "$import_script" ]]; then
+        warn "Script d'import des partenaires introuvable: $import_script (skip)"
+        return 0
+    fi
+    
+    if [[ ! -f "$DB_SQLITE" ]]; then
+        warn "Base de données absente, impossible d'importer les partenaires"
+        return 0
+    fi
+    
+    log "Import des partenaires depuis PartnersProvider..."
+    if php "$import_script" 2>&1; then
+        ok "Partenaires importés avec succès"
+    else
+        warn "Échec de l'import des partenaires (peut être normal si déjà présents)"
+    fi
+}
+
 # --- bin/ scripts -------------------------------------------------------------
 bin_install() {
     local db="$ROOT/bin/db" dev="$ROOT/bin/dev"
@@ -264,10 +285,12 @@ case "$cmd" in
         bin_install
         make_inject
         sqlite_apply_migration_if_absent
+        import_partners_if_needed
         ok "Init terminé. Lance: ./setup-local.sh dev  (ou  make dev)"
         ;;
     reset)
         sqlite_apply_migration_fresh
+        import_partners_if_needed
         ;;
     dev)
         need php

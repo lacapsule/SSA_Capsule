@@ -10,6 +10,7 @@ use App\Modules\Galerie\GalerieController;
 use App\Modules\Projet\ProjetController;
 use App\Modules\User\UserController;
 use App\Modules\Agenda\AgendaController;
+use App\Modules\Partners\PartnersController;
 use Capsule\Infrastructure\Container\DIContainer;
 use Capsule\Routing\Discovery\RouteScanner;
 use Capsule\Routing\RouterHandler;
@@ -45,6 +46,7 @@ $controllers = [
     ProjetController::class,
     UserController::class,
     AgendaController::class,
+    \App\Modules\Partners\PartnersController::class,
 ];
 
 /** 5) Enregistrer les routes via attributs */

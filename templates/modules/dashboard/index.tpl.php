@@ -153,6 +153,55 @@
 
             <div class="faq-container">
                 <div class="question">
+                    Comment gérer mes partenaires ?
+                </div>
+                <div class="answercont">
+                    <div class="answer">
+                        <ul class="list-style-one">
+                            <h3>Comment ça marche ?</h3>
+                            <br>
+                            <li><img src="assets/icons/Instance.svg" alt="icon">
+                                <a class="text">La page Partenaires affiche un tableau avec toutes les sections (Partenaires, Financeurs, etc.).</a>
+                            </li>
+                            <li><img src="assets/icons/Instance.svg" alt="icon">
+                                <a class="text">Clique sur «Créer une section» pour ajouter une nouvelle section. Donne-lui un nom, une description et choisis son type (partenaire ou financeur).</a>
+                            </li>
+                            <li><img src="assets/icons/Instance.svg" alt="icon">
+                                <a class="text">Pour gérer les logos d'une section, clique sur «Gérer les logos». Tu peux ajouter plusieurs logos à la fois en les sélectionnant depuis ton ordinateur.</a>
+                            </li>
+                            <li><img src="assets/icons/Instance.svg" alt="icon">
+                                <a class="text">Pour chaque logo, renseigne un nom et une URL. Tu peux prévisualiser chaque logo avant de valider l'envoi.</a>
+                            </li>
+                            <li><img src="assets/icons/Instance.svg" alt="icon">
+                                <a class="text">Pour modifier une section, utilise le bouton «Modifier» dans le tableau. Tu peux changer le nom, la description ou le type.</a>
+                            </li>
+                            <li><img src="assets/icons/Instance.svg" alt="icon">
+                                <a class="text">Pour modifier un logo, clique sur «Gérer les logos», puis utilise le bouton «Modifier» sur le logo concerné. Tu peux changer le nom, l'URL ou remplacer l'image.</a>
+                            </li>
+                            <li><img src="assets/icons/Instance.svg" alt="icon">
+                                <a class="text">Pour supprimer une section ou un logo, utilise le bouton «Supprimer» et confirme la suppression. Attention : supprimer une section supprime aussi tous ses logos.</a>
+                            </li>
+                        </ul>
+                        <ul class="list-style-one">
+                            <br>
+                            <h3>Astuces</h3>
+                            <br>
+                            <li><img src="assets/icons/Instance.svg" alt="icon">
+                                <a class="text">Les logos sont automatiquement convertis au format WebP pour optimiser leur taille et leur qualité.</a>
+                            </li>
+                            <li><img src="assets/icons/Instance.svg" alt="icon">
+                                <a class="text">Tu peux annuler l'ajout d'un logo individuellement avant de valider l'envoi en lot.</a>
+                            </li>
+                            <li><img src="assets/icons/Instance.svg" alt="icon">
+                                <a class="text">Une barre de progression t'indique l'avancement du traitement des images lors de l'upload.</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-container">
+                <div class="question">
                     Comment gérer mon profil ?
                 </div>
                 <div class="answercont">

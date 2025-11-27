@@ -46,6 +46,30 @@ CREATE TABLE IF NOT EXISTS article_images (
 CREATE INDEX IF NOT EXISTS idx_articles_date   ON articles(date_article);
 CREATE INDEX IF NOT EXISTS idx_articles_author ON articles(author_id);
 
+/* ===================== PARTNERS ===================== */
+CREATE TABLE IF NOT EXISTS partner_sections (
+  id          INTEGER PRIMARY KEY AUTOINCREMENT,
+  name        TEXT NOT NULL,
+  slug        TEXT NOT NULL UNIQUE,
+  description TEXT,
+  kind        TEXT NOT NULL DEFAULT 'partenaire',
+  position    INTEGER NOT NULL DEFAULT 0,
+  is_active   INTEGER NOT NULL DEFAULT 1,
+  created_at  TEXT NOT NULL DEFAULT (CURRENT_TIMESTAMP),
+  updated_at  TEXT
+);
+
+CREATE TABLE IF NOT EXISTS partner_logos (
+  id          INTEGER PRIMARY KEY AUTOINCREMENT,
+  section_id  INTEGER NOT NULL,
+  name        TEXT NOT NULL,
+  url         TEXT NOT NULL,
+  logo_path   TEXT NOT NULL,
+  position    INTEGER NOT NULL DEFAULT 0,
+  created_at  TEXT NOT NULL DEFAULT (CURRENT_TIMESTAMP),
+  FOREIGN KEY (section_id) REFERENCES partner_sections(id) ON DELETE CASCADE
+);
+
 /* ===================== CONTACTS ===================== */
 CREATE TABLE IF NOT EXISTS contacts (
   id          INTEGER PRIMARY KEY AUTOINCREMENT,

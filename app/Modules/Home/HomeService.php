@@ -7,6 +7,7 @@ namespace App\Modules\Home;
 use App\Modules\Article\ArticleService;
 use App\Modules\Home\Dto\HomeDTO;
 use Capsule\Support\Pagination\Page;
+use Capsule\Domain\Service\PartnersService;
 use App\Providers\PartnersProvider;
 
 /**
@@ -23,7 +24,8 @@ final class HomeService
 {
     public function __construct(
         private ArticleService $articles,
-        private PartnersProvider $partners
+        private PartnersService $partners,
+        private PartnersProvider $fallbackPartners,
     ) {
     }
 
@@ -32,9 +34,15 @@ final class HomeService
         // Domaine : liste paginée (lazy si le repo le permet)
         $rows = $this->articles->getAllPaginated($page->limit, $page->offset());
 
-        // Config : partenaires/financeurs (statiques, preload/OPcache-friendly)
-        $partenaires = $this->partners->byRole('partenaire');
-        $financeurs = $this->partners->byRole('financeur');
+        // Partenaires pilotés par la base via PartnersService
+        $partenaires = $this->partners->getFlatListByKind('partenaire');
+        $financeurs = $this->partners->getFlatListByKind('financeur');
+
+        // Fallback sur la config statique si la base est vide
+        if ($partenaires === [] && $financeurs === []) {
+            $partenaires = $this->fallbackPartners->byRole('partenaire');
+            $financeurs = $this->fallbackPartners->byRole('financeur');
+        }
 
         return new HomeDTO($rows, $partenaires, $financeurs, $page);
     }

@@ -5,12 +5,14 @@ declare(strict_types=1);
 namespace App\Modules\Home;
 
 use App\Modules\Article\ArticleService;
+use App\Modules\Home\ContactService;
 use App\Providers\LanguageOptionsProvider;
 use Capsule\Support\Pagination\Page;
 use Capsule\Support\Pagination\Paginator;
 use Capsule\Contracts\ResponseFactoryInterface;
 use Capsule\Contracts\ViewRendererInterface;
 use Capsule\Routing\Attribute\Route;
+use Capsule\Security\CsrfTokenManager;
 use Capsule\View\BaseController;
 use Capsule\View\Safe;
 use Capsule\Http\Message\Response;
@@ -25,6 +27,7 @@ final class HomeController extends BaseController
     public function __construct(
         private HomeService $homeService,
         private ArticleService $articleService,
+        private ContactService $contactService,
         ResponseFactoryInterface $res,
         ViewRendererInterface $view
     ) {
@@ -49,6 +52,10 @@ final class HomeController extends BaseController
         // 3) Présentation — projection DOMAINE -> VUE
         $viewData = HomePresenter::forView($dto);
 
+        $flash = $this->flashMessages();
+        $formErrors = $this->formErrors();
+        $formData = $this->formData();
+
         // 4) UI annexes (i18n/lang, csrf, auth)
         $i18n = $this->i18n();
         $currentLang = $i18n['lang'] ?? 'fr';
@@ -64,7 +71,42 @@ final class HomeController extends BaseController
             'isAuthenticated' => $this->isAuthenticated(),
             'languages' => $languages,
             'contact_action' => '/contact',
+            'contact_errors' => $formErrors,
+            'contact_old' => $formData,
+            'flash_success' => $flash['success'] ?? [],
+            'flash_error' => $flash['error'] ?? [],
         ] + $viewData);
+    }
+
+    #[Route(path: '/contact', methods: ['POST'])]
+    public function contactSubmit(): Response
+    {
+        CsrfTokenManager::requireValidToken();
+
+        $input = [
+            'name' => (string)($_POST['name'] ?? ''),
+            'email' => (string)($_POST['email'] ?? ''),
+            'subject' => (string)($_POST['subject'] ?? ''),
+            'message' => (string)($_POST['message'] ?? ''),
+            'honeypot' => (string)($_POST['website'] ?? ''),
+            'bot_check' => (string)($_POST['confirm_robot'] ?? ''),
+        ];
+
+        $result = $this->contactService->handle($input, $this->clientIp());
+
+        if (isset($result['errors'])) {
+            return $this->redirectWithErrors(
+                '/#contact',
+                'Merci de vérifier le formulaire de contact.',
+                $result['errors'],
+                $result['data'] ?? []
+            );
+        }
+
+        return $this->redirectWithSuccess(
+            '/#contact',
+            'Merci ! Votre message a bien été envoyé.'
+        );
     }
 
     #[Route(path: '/article/{id}', methods: ['GET'])]
@@ -170,5 +212,22 @@ final class HomeController extends BaseController
         }
 
         return $path;
+    }
+    private function clientIp(): string
+    {
+        foreach (['HTTP_CLIENT_IP', 'HTTP_X_FORWARDED_FOR', 'REMOTE_ADDR'] as $key) {
+            if (!isset($_SERVER[$key]) || $_SERVER[$key] === '') {
+                continue;
+            }
+
+            $value = explode(',', (string)$_SERVER[$key])[0];
+            $value = trim($value);
+
+            if ($value !== '') {
+                return $value;
+            }
+        }
+
+        return 'unknown';
     }
 }

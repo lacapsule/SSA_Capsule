@@ -60,6 +60,34 @@ CREATE TABLE IF NOT EXISTS article_images (
     FOREIGN KEY (article_id) REFERENCES articles(id) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+/* ===================== PARTNERS ===================== */
+CREATE TABLE IF NOT EXISTS partner_sections (
+  id          INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  name        VARCHAR(191) NOT NULL,
+  slug        VARCHAR(191) NOT NULL UNIQUE,
+  description TEXT NULL,
+  kind        ENUM('partenaire','financeur') NOT NULL DEFAULT 'partenaire',
+  position    INT UNSIGNED NOT NULL DEFAULT 0,
+  is_active   TINYINT(1) NOT NULL DEFAULT 1,
+  created_at  DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at  DATETIME NULL ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+CREATE TABLE IF NOT EXISTS partner_logos (
+  id          INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  section_id  INT UNSIGNED NOT NULL,
+  name        VARCHAR(191) NOT NULL,
+  url         VARCHAR(255) NOT NULL,
+  logo_path   VARCHAR(255) NOT NULL,
+  position    INT UNSIGNED NOT NULL DEFAULT 0,
+  created_at  DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (id),
+  KEY idx_partner_logos_section (section_id),
+  CONSTRAINT fk_partner_logos_section
+    FOREIGN KEY (section_id) REFERENCES partner_sections(id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
 /* ===================== CONTACTS ===================== */
 CREATE TABLE IF NOT EXISTS contacts (
   id          INT UNSIGNED  NOT NULL AUTO_INCREMENT,

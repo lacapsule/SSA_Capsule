@@ -2,6 +2,7 @@
 
 const apiUrl = '/dashboard/galerie';
 let selectedPhotos = new Set();
+let pendingUploads = new Map(); // Pour gérer les uploads individuels
 
 // Éléments DOM
 const uploadModal = document.getElementById('galerie-upload-modal');
@@ -319,31 +320,90 @@ function handleFileSelection(e) {
     
     if (!preview || files.length === 0) return;
     
-    preview.innerHTML = '';
+    // Clear existing previews that are not pending
+    const existingItems = preview.querySelectorAll('.upload-preview-item:not(.pending-upload)');
+    existingItems.forEach(item => item.remove());
     
     Array.from(files).forEach((file, index) => {
         if (!file.type.startsWith('image/')) return;
         
+        const uploadId = `photo-${Date.now()}-${index}`;
         const reader = new FileReader();
         reader.onload = (e) => {
             const div = document.createElement('div');
             div.className = 'upload-preview-item';
+            div.dataset.uploadId = uploadId;
             div.innerHTML = `
-                <img src="${e.target.result}" alt="Preview" style="max-width: 150px; max-height: 150px; object-fit: cover;">
+                <div class="preview-header">
+                    <button type="button" class="btn-remove-preview" data-upload-id="${uploadId}" title="Retirer cette image">
+                        <span>&times;</span>
+                    </button>
+                </div>
+                <img src="${e.target.result}" alt="Preview" class="preview-image" style="max-width: 150px; max-height: 150px; object-fit: cover;">
                 <div class="form-group" style="margin-top: 0.5rem;">
-                    <label for="photo_name_${index}">Nom de la photo ${index + 1}</label>
-                    <input type="text" id="photo_name_${index}" name="photo_names[${index}]" 
+                    <label for="photo_name_${uploadId}">Nom de la photo</label>
+                    <input type="text" id="photo_name_${uploadId}" name="photo_names[]" 
                            placeholder="Nom optionnel" value="${file.name.replace(/\.[^/.]+$/, '')}">
                 </div>
+                <input type="file" name="photo_files[]" style="display:none;" data-upload-id="${uploadId}">
+                <div class="upload-status" id="status-${uploadId}"></div>
             `;
+            
+            // Store file reference
+            const fileInput = div.querySelector('input[type="file"]');
+            const dataTransfer = new DataTransfer();
+            dataTransfer.items.add(file);
+            fileInput.files = dataTransfer.files;
+            
             preview.appendChild(div);
+            
+            // Attach remove button listener
+            div.querySelector('.btn-remove-preview')?.addEventListener('click', () => {
+                removePreviewItem(uploadId);
+            });
+            
+            // Store in pending uploads
+            pendingUploads.set(uploadId, {
+                file: file,
+                element: div,
+                status: 'pending'
+            });
         };
         reader.readAsDataURL(file);
     });
 }
 
+// Remove a preview item
+function removePreviewItem(uploadId) {
+    const item = pendingUploads.get(uploadId);
+    if (item) {
+        item.element.remove();
+        pendingUploads.delete(uploadId);
+        updateFileInput();
+    }
+}
+
+// Update the main file input to reflect remaining files
+function updateFileInput() {
+    const mainInput = document.getElementById('photos');
+    if (!mainInput) return;
+    
+    const dataTransfer = new DataTransfer();
+    pendingUploads.forEach((item, uploadId) => {
+        if (item.status === 'pending') {
+            dataTransfer.items.add(item.file);
+        }
+    });
+    mainInput.files = dataTransfer.files;
+}
+
 async function submitUploadPhotos() {
     if (!uploadPhotosForm) return;
+    
+    if (pendingUploads.size === 0) {
+        alert('Veuillez sélectionner au moins une photo.');
+        return;
+    }
     
     const submitBtn = document.getElementById('submitUploadBtn');
     if (submitBtn) {
@@ -351,13 +411,38 @@ async function submitUploadPhotos() {
         submitBtn.textContent = '📤 Enregistrement...';
     }
     
-    const formData = new FormData(uploadPhotosForm);
+    // Create FormData with only pending uploads
+    const formData = new FormData();
     const csrf = getCsrfToken();
     if (csrf) {
         formData.append(csrf.name, csrf.value);
     }
     
+    const photoFiles = [];
+    const photoNames = [];
+    
+    pendingUploads.forEach((item, uploadId) => {
+        if (item.status === 'pending') {
+            photoFiles.push(item.file);
+            const nameInput = document.getElementById(`photo_name_${uploadId}`);
+            photoNames.push(nameInput?.value || '');
+        }
+    });
+    
+    // Append files as array
+    photoFiles.forEach((file, index) => {
+        formData.append('photos[]', file);
+        if (photoNames[index]) {
+            formData.append(`photo_names[${index}]`, photoNames[index]);
+        }
+    });
+    
+    // Show progress bar
+    showProgressBar();
+    
     try {
+        updateProgress(20);
+        
         const response = await fetch(`${apiUrl}/upload`, {
             method: 'POST',
             body: formData,
@@ -367,27 +452,40 @@ async function submitUploadPhotos() {
             }
         });
         
+        updateProgress(60);
+        
         const data = await response.json();
+        updateProgress(100);
         
         if (data.success) {
+            hideProgressBar();
             // Fermer la modale immédiatement et de manière forcée
             if (uploadModal) {
                 closeModal(uploadModal);
-                // Empêcher toute interaction supplémentaire
                 uploadModal.style.pointerEvents = 'none';
             }
             
+            // Reset
+            uploadPhotosForm.reset();
+            document.getElementById('upload-preview').innerHTML = '';
+            pendingUploads.clear();
+            
             // Petit délai pour s'assurer que la modale est complètement fermée avant le rechargement
-            // Cela empêche la modale de réapparaître après le rechargement
             setTimeout(() => {
                 window.location.reload();
             }, 150);
         } else {
+            hideProgressBar();
             // Garder la modale ouverte en cas d'erreur pour que l'utilisateur puisse réessayer
-            alert(data.message || 'Erreur lors de l\'ajout des photos.');
+            if (data.errors) {
+                showIndividualErrors(data.errors);
+            } else {
+                alert(data.message || 'Erreur lors de l\'ajout des photos.');
+            }
         }
     } catch (error) {
         console.error('Erreur lors de l\'upload des photos:', error);
+        hideProgressBar();
         alert('Erreur lors de l\'ajout des photos.');
     } finally {
         if (submitBtn) {
@@ -395,6 +493,69 @@ async function submitUploadPhotos() {
             submitBtn.textContent = '📤 Enregistrer les photos';
         }
     }
+}
+
+// Show progress bar
+function showProgressBar() {
+    let progressBar = document.getElementById('upload-progress-bar');
+    if (!progressBar) {
+        progressBar = document.createElement('div');
+        progressBar.id = 'upload-progress-bar';
+        progressBar.className = 'upload-progress-bar';
+        progressBar.innerHTML = `
+            <div class="progress-bar-container">
+                <div class="progress-bar-fill" id="progress-bar-fill"></div>
+            </div>
+            <p class="progress-text" id="progress-text">Traitement des images...</p>
+        `;
+        const preview = document.getElementById('upload-preview');
+        if (preview && preview.parentNode) {
+            preview.parentNode.insertBefore(progressBar, preview);
+        }
+    }
+    progressBar.style.display = 'block';
+    updateProgress(0);
+}
+
+// Update progress bar
+function updateProgress(percent) {
+    const fill = document.getElementById('progress-bar-fill');
+    const text = document.getElementById('progress-text');
+    if (fill) {
+        fill.style.width = `${percent}%`;
+    }
+    if (text) {
+        if (percent < 30) {
+            text.textContent = 'Traitement des images...';
+        } else if (percent < 80) {
+            text.textContent = 'Enregistrement...';
+        } else {
+            text.textContent = 'Terminé !';
+        }
+    }
+}
+
+// Hide progress bar
+function hideProgressBar() {
+    const progressBar = document.getElementById('upload-progress-bar');
+    if (progressBar) {
+        progressBar.style.display = 'none';
+    }
+}
+
+// Show individual errors
+function showIndividualErrors(errors) {
+    let index = 0;
+    pendingUploads.forEach((item, uploadId) => {
+        if (item.status === 'pending' && errors[index] !== undefined) {
+            const statusDiv = item.element.querySelector('.upload-status');
+            if (statusDiv) {
+                statusDiv.className = 'upload-status error';
+                statusDiv.textContent = errors[index];
+            }
+            index++;
+        }
+    });
 }
 
 async function submitEditPhoto() {

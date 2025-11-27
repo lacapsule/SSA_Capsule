@@ -14,7 +14,8 @@ use Capsule\Http\Middleware\{
     SecurityHeaders,
     SessionMiddleware,
     LangMiddleware,
-    AuthRequiredMiddleware
+    AuthRequiredMiddleware,
+    HealthCheckMiddleware
 };
 
 // Récupérer container + router
@@ -28,6 +29,7 @@ $middlewares = [
     $container->get(ErrorBoundary::class),       // 1. Capture toutes les erreurs
     $container->get(DebugHeaders::class),        // 2. Headers de debug
     $container->get(SecurityHeaders::class),     // 3. Headers de sécurité
+    $container->get(HealthCheckMiddleware::class), // 4. Vérifie l'état de la base
     new SessionMiddleware(),                     // 4. ✅ Démarre la session
     $container->get(LangMiddleware::class),      // 5. Détection langue (lit session)
     $container->get(AuthRequiredMiddleware::class), // 6. Protection routes (lit session)

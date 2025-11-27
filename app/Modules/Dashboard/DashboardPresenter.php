@@ -105,4 +105,65 @@ final class DashboardPresenter
             'csrf_input' => $csrfInput,
         ];
     }
+
+    /**
+     * @param array<int,array{
+     *  id:int,name:string,description:?string,kind:string,position:int,is_active:int,
+     *  logos:array<int,array{id:int,name:string,url:string,logo:string,position:int}>
+     * }> $sections
+     * @param array<string,string> $errors
+     * @param array<string,mixed> $old
+     * @param array<string,list<string>> $flash
+     */
+    public static function partners(
+        array $base,
+        array $sections,
+        array $kinds,
+        string $csrfInput,
+        array $flash,
+        array $errors,
+        array $old
+    ): array {
+        $sections = array_map(function (array $section) use ($kinds): array {
+            $section['isPartenaire'] = $section['kind'] === 'partenaire';
+            $section['isFinanceur'] = $section['kind'] === 'financeur';
+            $section['position'] = (int) $section['position'];
+            $section['is_active_bool'] = (int) ($section['is_active'] ?? 1) === 1;
+            $section['logos_count'] = (int) ($section['logos_count'] ?? count($section['logos'] ?? []));
+            $section['logos_count_plural'] = $section['logos_count'] > 1;
+            $section['kind_options'] = [];
+            foreach ($kinds as $value => $label) {
+                $section['kind_options'][] = [
+                    'value' => $value,
+                    'label' => $label,
+                    'selected' => $section['kind'] === $value,
+                ];
+            }
+
+            return $section;
+        }, $sections);
+
+        $newSectionKind = $old['kind'] ?? 'partenaire';
+        $kindOptions = [];
+        foreach ($kinds as $value => $label) {
+            $kindOptions[] = [
+                'value' => $value,
+                'label' => $label,
+                'selected' => $value === $newSectionKind,
+            ];
+        }
+
+        return $base + [
+            'title' => 'Partenaires',
+            'component' => 'dashboard/components/partners',
+            'sections' => $sections,
+            'kind_options' => $kindOptions,
+            'csrf_input' => $csrfInput,
+            'flash_success' => $flash['success'] ?? [],
+            'flash_error' => $flash['error'] ?? [],
+            'errors' => $errors,
+            'old' => $old,
+            'createSectionAction' => '/dashboard/partners/sections',
+        ];
+    }
 }
