@@ -74,7 +74,7 @@ return [
     'about_axes_4' => 'du Pays de Morlaix, pôle ESS du Pays de Morlaix',
     'about_goal_label' => 'Objectif :',
     'about_goal' => 'Connecter les initiatives locales autour de l’alimentation et renforcer les coopérations entre acteurs.',
-    'about_cta' => 'En savoir plus',
+    'about_cta' => 'En savoir +',
     'about_logo_alt' => 'Logo SSA',
 
     // CONTACT

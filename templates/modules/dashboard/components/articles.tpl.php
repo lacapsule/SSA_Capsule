@@ -101,7 +101,7 @@
               <input type="text" id="resume" name="resume" required>
             </div>
             <div class="form-group">
-              <label for="description">Contenue de l'article *</label>
+              <label for="description">Contenu de l'article *</label>
               <textarea id="description" name="description" required></textarea>
             </div>
             <div class="form-group">
@@ -155,7 +155,7 @@
               <input type="text" id="edit_resume" name="resume" required>
             </div>
             <div class="form-group">
-              <label for="edit_description">Contenue de l'article *</label>
+              <label for="edit_description">Contenu de l'article *</label>
               <textarea id="edit_description" name="description" required></textarea>
             </div>
             <div class="form-group">
