@@ -144,10 +144,6 @@
         width: 25%;
     }
 
-    .contain h2::before {
-        bottom: -35px;
-    }
-
     .actu .actu-item-inner .actu-info .actu-description {
         min-height: 50px;
     }

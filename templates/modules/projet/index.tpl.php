@@ -5,7 +5,6 @@
   <h1>Expérimentation d'une caisse de l'alimentation sur le Pays de Morlaix</h1>
   <p class="slogan">Une base de connaissances collaborative sur la Sécurité Sociale de l’Alimentation.</p>
 </section>
-
 <section id="projet" class="projet section">
   <div class="contain">
     <h2>Un premier pas vers une Sécurité Sociale de l'Alimentation</h2>

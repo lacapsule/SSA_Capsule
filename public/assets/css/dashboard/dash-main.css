@@ -44,7 +44,6 @@
 }
 
 .dash-components-actions .btn {
-    padding: 8px 14px;
     border-radius: var(--ssa-btn-radius);
     font-weight: 600;
     cursor: pointer;

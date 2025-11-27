@@ -10,7 +10,7 @@
 }
 
 .agenda-contain {
-    width: 80vw;
+    width: 81vw;
 }
 
 
@@ -45,11 +45,11 @@
 
 .section-title {
     display: flex;
+    flex-direction: row;
     align-items: flex-start;
+    justify-content: space-between;
     margin-bottom: 24px;
-    justify-content: flex-start;
     gap: 16px;
-    flex-direction: column;
 }
 
 .section-title h1 {

@@ -21,7 +21,7 @@
       <div class="dash-components-filters">
         <label style="font-weight:600;">Recherche :</label>
         <input id="users-search-name" type="search" placeholder="Rechercher par nom" aria-label="Rechercher par nom"
-          style="padding:6px 8px;">
+          style="padding:6px 8px; border: 1px solid var(--ssa-gris); border-radius: 8px;">
       </div>
 
       <table class="dash-components-table">

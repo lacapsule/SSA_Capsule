@@ -313,12 +313,36 @@ class ArticleModalManager {
     }
 
     this.createModal?.setSubmitEnabled(false);
-    const formData = new FormData(form);
-    const csrfToken = document.querySelector('input[name="_csrf"]')?.value;
-    console.log('CSRF token found in document:', csrfToken);
-    if (csrfToken) {
-      formData.set('_csrf', csrfToken);
+    
+    // Get CSRF token - try multiple sources
+    let csrfToken = null;
+    
+    // First check if it's in the form itself
+    const csrfInputInForm = form.querySelector('input[name="_csrf"]');
+    if (csrfInputInForm?.value) {
+      csrfToken = csrfInputInForm.value;
+      console.log('✅ CSRF token found in form:', csrfToken.substring(0, 10) + '...');
     }
+    
+    // If not in form, check in document
+    if (!csrfToken) {
+      csrfToken = document.querySelector('input[name="_csrf"]')?.value;
+      if (csrfToken) {
+        console.log('✅ CSRF token found in document:', csrfToken.substring(0, 10) + '...');
+      }
+    }
+    
+    if (!csrfToken) {
+      console.error('❌ CSRF token not found!');
+      this.createModal?.showError('Erreur de sécurité: Token CSRF manquant');
+      this.createModal?.setSubmitEnabled(true);
+      return;
+    }
+    
+    const formData = new FormData(form);
+    // Ensure CSRF token is in formData
+    formData.set('_csrf', csrfToken);
+    
     const action = form.getAttribute('action') || '/dashboard/articles/create';
 
     // Si un fichier est présent, utiliser XHR pour afficher la progression
@@ -341,7 +365,10 @@ class ArticleModalManager {
             location.reload();
           }, 1000);
         } else {
-          const errorMsg = data.errors ? Object.values(data.errors).flat().join(', ') : (data.message || 'Erreur lors de la création');
+          const errorMsg = data.errors 
+            ? Object.entries(data.errors).map(([field, msg]) => `${field}: ${msg}`).join('; ')
+            : (data.message || 'Erreur lors de la création');
+          console.error('❌ Erreurs de création:', data.errors || data.message);
           this.createModal?.showError(errorMsg);
           this.createModal?.setSubmitText('Créer');
           this.createModal?.setSubmitEnabled(true);
@@ -753,6 +780,15 @@ class ArticleModalManager {
   sendFormWithProgress(form, url, modal) {
     return new Promise((resolve, reject) => {
       const formData = new FormData(form);
+      
+      // Ensure CSRF token is present
+      let csrfToken = formData.get('_csrf');
+      if (!csrfToken) {
+        csrfToken = document.querySelector('input[name="_csrf"]')?.value;
+        if (csrfToken) {
+          formData.set('_csrf', csrfToken);
+        }
+      }
 
       // Debug: Log all FormData keys and CSRF token specifically
       console.log('📝 FormData contents:', {

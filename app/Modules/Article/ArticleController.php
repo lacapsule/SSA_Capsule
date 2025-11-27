@@ -122,7 +122,11 @@ final class ArticleController extends BaseController
             $imageFiles = $this->collectUploadedImages('image');
         }
 
+        error_log("📤 Article Create - POST: " . json_encode($_POST) . " | Files: " . count($imageFiles));
+        
         $result = $this->articles->create($_POST, $current, $imageFiles);
+        
+        error_log("📊 Article Create Result: " . json_encode($result));
 
             // Détection requête AJAX
             $isAjax = $_SERVER['HTTP_X_REQUESTED_WITH'] ?? '' === 'XMLHttpRequest' || 

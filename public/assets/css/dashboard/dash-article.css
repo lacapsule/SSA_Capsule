@@ -1,4 +1,13 @@
 /* Styles globaux pour la page et le tableau */
+#articles-sort-by,
+#articles-sort-order {
+	padding: 6px 10px;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	background-color: #f9f9f9;
+	cursor: pointer;
+	transition: background-color 0.2s ease;
+}
 
 table {
 	border: 1px solid #ccc;
@@ -243,6 +252,14 @@ th:nth-child(2) {
 /* Responsive adjustments */
 
 @media screen and (max-width: 980px) {
+	.dash-components-filters {
+		flex-direction: column;
+	}
+
+	#articles-sort-by,
+	#articles-sort-order {
+		margin-left: 0;
+	}
 
 
 	.dash-components-actions2 {

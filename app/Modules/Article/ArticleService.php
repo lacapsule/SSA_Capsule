@@ -139,8 +139,8 @@ final class ArticleService
                 }
             }
         } catch (\Throwable $e) {
-            // Log minimal (facultatif) : error_log($e->getMessage());
-            return ['errors' => ['_global' => 'Erreur lors de la création.'], 'data' => $data];
+            error_log("❌ Article Create Error: " . $e->getMessage() . " | Trace: " . $e->getTraceAsString());
+            return ['errors' => ['_global' => 'Erreur lors de la création: ' . $e->getMessage()], 'data' => $data];
         }
 
         return [];
