@@ -48,6 +48,15 @@ DASHBOARD - GESTION DES UTILISATEURS
     transition: background-color 0.2s ease;
 }
 
+.dash-components-filters {
+    margin: 12px 0;
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    border: 1px solid var(--ssa-gris);
+    border-radius: 8px;
+}
+
 .col-name:hover,
 .col-role:hover,
 .col-email:hover {
@@ -76,7 +85,7 @@ DASHBOARD - GESTION DES UTILISATEURS
 }
 
 .btn.btn-info:hover {
-    background-color: var(--ssa-gris-trsp   );
+    background-color: var(--ssa-gris-trsp);
     transform: translateY(-1px);
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
 }
@@ -196,7 +205,12 @@ DASHBOARD - GESTION DES UTILISATEURS
 /* ======== RESPONSIVE ======== */
 
 @media screen and (max-width: 980px) {
-    .btn{
-        margin-left: 0 !important; 
+    .btn {
+        margin-left: 0 !important;
+    }
+
+    .dash-components-table tbody td {
+        border-right: 0;
+
     }
 }

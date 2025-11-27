@@ -127,13 +127,15 @@ export function initPublicCalendar() {
       month: 'long',
       year: 'numeric',
     });
-    const timeLabel = `${formatTime(event.startDate)} — ${formatTime(event.endDate)}`;
+    const timeLabel = `${formatTime(event.startDate)} à ${formatTime(event.endDate)}`;
 
     details.innerHTML = `
-      <h3>${event.title}</h3>
-      <p><strong>${dateLabel}</strong></p>
-      <p>${timeLabel}</p>
-      ${event.description ? `<p>${event.description}</p>` : ''}
+    <div class="detail-content">
+        <h3>${event.title}</h3>
+        <p><strong>Date: </strong>${dateLabel}</p>
+        <p><strong>Heure: </strong>${timeLabel}</p>
+        ${event.description ? `<p><strong>Lieux:</strong> ${event.description}</p>` : ''}
+    </div>
     `;
   }
 

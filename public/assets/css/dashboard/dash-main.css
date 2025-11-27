@@ -34,7 +34,6 @@
     margin: 12px 0 24px 0;
 
     & h1 {
-        font-size: var(--ssa-font-large);
         color: var(--ssa-fond-sombre);
         margin: 0;
     }

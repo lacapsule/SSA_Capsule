@@ -1,6 +1,6 @@
 <section class="dash-section-page">
-      <div class="dashboard-content">
-    <header class="header-agenda">
+  <div class="dashboard-content">
+    <header class="section-title">
       <h1>Gestion des utilisateurs</h1>
 
       {{#flash}}
@@ -11,16 +11,17 @@
       <div id="csrf-template" style="display:none">
         {{{csrf_input}}}
       </div>
-
-      <button id="addUserBtn" class="btn btn-primary">+ Ajouter un utilisateur</button>
-
+      <div class="agenda-action">
+        <button id="addUserBtn" class="btn btn-primary">+ Ajouter un utilisateur</button>
+      </div>
     </header>
 
     <div class="dash-components-container">
       <!-- Users filters: search by name -->
-      <div class="dash-components-filters" style="margin:12px 0; display:flex; gap:8px; align-items:center;">
+      <div class="dash-components-filters">
         <label style="font-weight:600;">Recherche :</label>
-        <input id="users-search-name" type="search" placeholder="Rechercher par nom" aria-label="Rechercher par nom" style="padding:6px 8px;">
+        <input id="users-search-name" type="search" placeholder="Rechercher par nom" aria-label="Rechercher par nom"
+          style="padding:6px 8px;">
       </div>
 
       <table class="dash-components-table">
@@ -38,7 +39,8 @@
             <th>Nom</th>
             <th>Email</th>
             <th>Rôle</th>
-            <th data-sort-field="users-date" style="cursor: pointer">Ajouté(e) le <span class="sort-icon" id="sort-icon-users-date" aria-hidden="true"></span></th>
+            <th data-sort-field="users-date" style="cursor: pointer">Ajouté(e) le <span class="sort-icon"
+                id="sort-icon-users-date" aria-hidden="true"></span></th>
             <th>Actions</th>
           </tr>
         </thead>
@@ -50,7 +52,7 @@
             <td class="col-name" data-label="Nom d'utilisateur">{{username}}</td>
             <td class="col-email" data-label="Email">{{email}}</td>
             <td class="col-role" data-label="Rôle">{{role}}</td>
-            <td class="col-date"data-label="Date">{{created_at}}</td>
+            <td class="col-date" data-label="Date">{{created_at}}</td>
             <td>
               <button class="editBtn btn btn-sm btn-info" type="button" data-user-id="{{id}}">✎ Gérer</button>
             </td>

@@ -83,7 +83,7 @@
     display: block;
     width: 100%;
     margin-bottom: 35px;
-    padding: 0 5%;
+    padding: 0 10%;
 }
 
 .contain .title {
@@ -136,7 +136,6 @@
 .list-style-one li {
     display: flex;
     justify-content: flex-start;
-    height: 50px;
     margin: 5px 0 12px 0;
     font-size: var(--ssa-font-small);
     line-height: 26px;
@@ -170,7 +169,6 @@
     display: block;
     width: 100%;
     margin-top: 40px;
-    padding: 0 5%;
 }
 
 .section-title {
@@ -436,26 +434,6 @@
     }
 }
 
-.calendar-open-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.85rem 1.75rem;
-    border-radius: 999px;
-    border: none;
-    background-color: var(--ssa-vert);
-    color: var(--ssa-blanc);
-    font-weight: 600;
-    cursor: pointer;
-    box-shadow: var(--ssa-shadow);
-    transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
-}
-
-.calendar-open-btn:hover {
-    background-color: var(--ssa-hover-vert);
-    transform: translateY(-1px);
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-}
 
 .calendar-modal .modal-content {
     padding: 20px;

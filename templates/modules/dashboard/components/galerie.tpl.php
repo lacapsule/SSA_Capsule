@@ -43,27 +43,27 @@
   {{#pagination.showPagination}}
   <nav class="gallery-pagination">
     {{#pagination.hasFirst}}
-    <a href="?page={{pagination.first}}" class="page-link first-page" aria-label="Première page">&laquo; Première</a>
+    <a href="?page={{pagination.first}}" class="page-link first-page" aria-label="Première page">&laquo; <span class="pagi-hide">Première</span></a>
     {{/pagination.hasFirst}}
-
+  
     {{#pagination.hasPrev}}
     <a href="?page={{pagination.prev}}" class="page-link prev-page" aria-label="Page précédente">&lsaquo;</a>
     {{/pagination.hasPrev}}
-
+  
     <div class="pagination-pages">
       {{#each pagination.pages}}
       <a href="?page={{number}}" class="page-link{{#isCurrent}} is-active{{/isCurrent}}">{{number}}</a>
       {{/each}}
     </div>
-
+  
     <span class="pagination-info">Page {{pagination.current}} / {{pagination.total}}</span>
-
+  
     {{#pagination.hasNext}}
     <a href="?page={{pagination.next}}" class="page-link next-page" aria-label="Page suivante">&rsaquo;</a>
     {{/pagination.hasNext}}
-
+  
     {{#pagination.hasLast}}
-    <a href="?page={{pagination.last}}" class="page-link last-page" aria-label="Dernière page">Dernière &raquo;</a>
+    <a href="?page={{pagination.last}}" class="page-link last-page" aria-label="Dernière page"><span class="pagi-hide">Dernière</span> &raquo;</a>
     {{/pagination.hasLast}}
   </nav>
   {{/pagination.showPagination}}

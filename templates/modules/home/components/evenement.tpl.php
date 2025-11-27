@@ -32,7 +32,7 @@
         </div>
 
         <div class="evenement-actions">
-            <button type="button" class="btn calendar-open-btn" data-modal-open="public-calendar-modal">
+            <button type="button" class="btn-style-two calendar-open-btn" data-modal-open="public-calendar-modal">
                 {{str.agenda_calendar_button}}
             </button>
         </div>

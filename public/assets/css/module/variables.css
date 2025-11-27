@@ -55,6 +55,7 @@
 .btn-style-one {
     position: relative;
     display: inline-block;
+    text-align: center;
     font-size: 1em;
     line-height: 30px;
     padding: 10px 30px;
@@ -86,19 +87,19 @@
 
 /* -------------------- */
 .btn-style-two {
-    position: relative;
-    left: 33%;
-    display: inline-block;
-    font-size: 15px;
-    padding: 10px;
-    font-weight: 600;
-    overflow: hidden;
-    letter-spacing: 0.02em;
-    color: var(--ssa-txt-noir);
-    background-color: var(--ssa-jaune);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.85rem 1.75rem;
     border-radius: 5px;
+    border: none;
+    background-color: var(--ssa-vert);
+    color: var(--ssa-blanc);
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    cursor: pointer;
     box-shadow: var(--ssa-shadow);
-    transition: all 0.2s ease;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
 
     & a {
         padding: 15px 50px;
@@ -106,9 +107,9 @@
 }
 
 .btn-style-two:hover {
-    transform: scale(1.05);
-    background-color: var(--ssa-hover-jaune);
-    color: var(--ssa-txt-blanc);
+    background-color: var(--ssa-hover-vert);
+    transform: translateY(-1px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
 }
 
 /*======== ANIMATION & HOVER ========*/

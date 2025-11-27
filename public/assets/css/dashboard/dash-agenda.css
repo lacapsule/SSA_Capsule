@@ -3,14 +3,21 @@
 #dashboard-calendar {
     display: block;
 }
-.header-agenda{
+
+.header-agenda {
     display: flex;
     justify-content: space-between;
 }
+
 .agenda-contain {
     width: 80vw;
 }
+
+
 .calendar-details {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     background: #f8fafc;
     border-radius: 16px;
     padding: 1rem 1.25rem;
@@ -22,12 +29,12 @@
     margin-top: 0;
     margin-bottom: 0.35rem;
     font-size: 1.35rem;
-    color: #14213d;
+    color: var(--ssa-gris);
 }
 
 .calendar-details p {
     margin: 0.35rem 0;
-    color: #4e5a6b;
+    color: var(--ssa-gris);
 }
 
 .calendar-details-empty {
@@ -38,18 +45,22 @@
 
 .section-title {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin: 25px 0;
+    align-items: flex-start;
+    margin-bottom: 24px;
+    justify-content: flex-start;
+    gap: 16px;
+    flex-direction: column;
 }
 
-.section-title h2 {
-    position: relative;
-    font-size: 30px;
-    font-weight: 700;
-    color: var(--ssa-noir);
-    text-transform: uppercase;
+.section-title h1 {
+    color: var(--ssa-fond-sombre);
     margin: 0;
+}
+
+.agenda-action {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
 }
 
 .section-title h2::before,
@@ -290,7 +301,7 @@
     transition: transform 0.2s, border-color 0.2s;
 }
 
-.color-option input[type="radio"]:checked + .color-circle {
+.color-option input[type="radio"]:checked+.color-circle {
     transform: scale(1.1);
     border: 2px solid #333;
     box-shadow: 0 0 0 2px white inset;
@@ -482,80 +493,11 @@
 
 /* ======= RESPONSIVE DESIGN ======= */
 
-@media screen and (max-width: 980px) {
-    #dashboard-calendar {
-        padding: 0 2%;
-    }
-
-    .calendar-controls {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 0.75rem;
-    }
-
-    .calendar-view-switch,
-    .calendar-nav {
-        width: 100%;
-    }
-
-    .calendar-view-switch {
-        justify-content: space-around;
-    }
-
-    .calendar-nav {
-        justify-content: space-between;
-    }
+@media (max-width: 1024px) {
 
     .calendar-grid--week,
     .calendar-grid--month {
-        grid-template-columns: repeat(7, 1fr);
-    }
-
-    .calendar-day,
-    .calendar-month {
-        min-height: 120px;
-        padding: 0.6rem;
-    }
-
-    .calendar-day-header {
-        gap: 0.25rem;
-    }
-
-    .calendar-day-name {
-        font-size: 0.85rem;
-    }
-
-    .calendar-event-chip {
-        font-size: 0.8rem;
-        padding: 0.3rem 0.4rem;
-    }
-}
-
-@media screen and (max-width: 768px) {
-    .section-title h2 {
-        font-size: 24px;
-    }
-
-    .calendar-grid--week,
-    .calendar-grid--month {
-        grid-template-columns: repeat(7, 1fr);
-        gap: 0.35rem;
-    }
-
-    .calendar-day,
-    .calendar-month {
-        min-height: 100px;
-        padding: 0.5rem;
-        font-size: 0.85rem;
-    }
-
-    .calendar-day-name {
-        font-size: 0.75rem;
-    }
-
-    .calendar-event-chip {
-        font-size: 0.75rem;
-        padding: 0.25rem 0.35rem;
+        grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
     }
 
     .modal-content {
@@ -567,18 +509,31 @@
         flex-direction: column;
     }
 
-    .btn {
-        width: 100%;
-    }
 }
 
-@media screen and (max-width: 480px) {
-    #dashboard-calendar {
-        padding: 0 1%;
-        margin-top: 20px;
+@media (max-width: 640px) {
+    .agenda-contain {
+        width: 90vw;
+    }
+
+    .calendar-controls {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .calendar-view-switch,
+    .calendar-nav {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .calendar-grid--week,
+    .calendar-grid--month {
+        grid-template-columns: repeat(2, minmax(140px, 1fr));
     }
 
     .section-title {
+        flex-direction: column;
         margin: 15px 0;
     }
 
@@ -592,69 +547,6 @@
 
     .section-title h2::after {
         width: 20px;
-    }
-
-    .calendar-controls {
-        gap: 0.5rem;
-    }
-
-    .calendar-view-btn {
-        padding: 0.4rem 0.8rem;
-        font-size: 0.85rem;
-    }
-
-    .calendar-nav-btn {
-        width: 36px;
-        height: 36px;
-    }
-
-    .calendar-nav-btn img {
-        width: 20px;
-        height: 20px;
-    }
-
-    #dashboard-calendar-label {
-        min-width: 120px;
-        font-size: 0.9rem;
-    }
-
-    .calendar-grid--week,
-    .calendar-grid--month {
-        grid-template-columns: repeat(7, minmax(40px, 1fr));
-        gap: 0.25rem;
-    }
-
-    .calendar-grid--year {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-    .calendar-day,
-    .calendar-month {
-        min-height: 90px;
-        padding: 0.4rem;
-    }
-
-    .calendar-day-header {
-        padding-bottom: 0.25rem;
-        margin-bottom: 0.25rem;
-    }
-
-    .calendar-day-name {
-        font-size: 0.7rem;
-    }
-
-    .calendar-day-number,
-    .calendar-month-number {
-        font-size: 0.85rem;
-    }
-
-    .calendar-events {
-        gap: 0.25rem;
-    }
-
-    .calendar-event-chip {
-        font-size: 0.65rem;
-        padding: 0.2rem 0.3rem;
     }
 
     .modal-content {

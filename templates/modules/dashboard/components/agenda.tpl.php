@@ -1,10 +1,12 @@
 <section class="evenement section dash-section-page" id="dashboard-calendar">
   <div class="agenda-contain">
     <div class="title">
-      <div class="section-title">
-        <h2>Mon Agenda</h2>
-        <button id="addEventBtn" class="btn btn-primary">+ Nouvel événement</button>
-      </div>
+      <header class="section-title">
+        <h1>Mon Agenda</h1>
+        <div class="agenda-action">
+          <button id="addEventBtn" class="btn btn-primary">+ Nouvel événement</button>
+        </div>
+      </header>
     </div>
 
     <div class="calendar-controls">

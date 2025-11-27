@@ -1,7 +1,7 @@
 <section class="gallery-header section">
    <div class="title">
       <div class="section-title">
-          <h1>Gallerie de la SSA</h1>
+          <h1>Galerie de la SSA</h1>
       </div>
     </div>
 </section>
@@ -23,7 +23,7 @@
 {{#pagination.showPagination}}
 <nav class="gallery-pagination">
   {{#pagination.hasFirst}}
-  <a href="?page={{pagination.first}}" class="page-link first-page" aria-label="Première page">&laquo; Première</a>
+  <a href="?page={{pagination.first}}" class="page-link first-page" aria-label="Première page">&laquo; <span class="pagi-hide">Première</span></a>
   {{/pagination.hasFirst}}
 
   {{#pagination.hasPrev}}
@@ -43,7 +43,7 @@
   {{/pagination.hasNext}}
 
   {{#pagination.hasLast}}
-  <a href="?page={{pagination.last}}" class="page-link last-page" aria-label="Dernière page">Dernière &raquo;</a>
+  <a href="?page={{pagination.last}}" class="page-link last-page" aria-label="Dernière page"><span class="pagi-hide">Dernière</span> &raquo;</a>
   {{/pagination.hasLast}}
 </nav>
 {{/pagination.showPagination}}

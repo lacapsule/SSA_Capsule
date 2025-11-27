@@ -18,7 +18,8 @@
      right: -100%;
      left: auto;
      top: 0;
-     width: 50%;
+     width: 60%;
+     min-width: 60%;
      height: 100vh;
      background: var(--ssa-fond-clair);
      box-shadow: -0.2em 0 0.8em rgba(0, 0, 0, 0.15);
@@ -30,9 +31,9 @@
      display: flex;
      flex-direction: column;
      align-items: flex-end;
-     gap: 15px;
+     gap: 20px;
      width: 100%;
-     margin: 5% 0;
+     margin: 20% 0;
    }
 
    .user {

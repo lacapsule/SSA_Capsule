@@ -7,7 +7,7 @@ return [
     // SECTION HERO
     'hero_title' => 'Sécurité Sociale de l’Alimentation – Pays de Morlaix',
     'hero_slogan' => 'Pour un droit fondamental et universel à une alimentation saine et durable.',
-    'hero_cta_more' => 'En savoir plus',
+    'hero_cta_more' => 'En savoir +',
     'hero_cta_participate' => 'Participer',
     'hero_cta_contact' => 'Contact',
 

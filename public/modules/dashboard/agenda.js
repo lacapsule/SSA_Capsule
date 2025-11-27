@@ -70,7 +70,7 @@ function setupViewSwitch() {
 async function renderCalendar() {
     // Reset details panel
     resetDetails();
-    
+
     // Update calendar grid class based on view
     calendarGrid.className = `calendar-grid calendar-grid--${currentView}`;
     calendarGrid.innerHTML = '';
@@ -154,9 +154,9 @@ function getDateRange() {
         endDate = new Date(year, 11, 31);
     }
 
-    return { 
-        startDate: formatLocalISODate(startDate), 
-        endDate: formatLocalISODate(endDate) 
+    return {
+        startDate: formatLocalISODate(startDate),
+        endDate: formatLocalISODate(endDate)
     };
 }
 
@@ -171,7 +171,7 @@ function renderWeekView(events) {
         const date = new Date(weekStart);
         date.setDate(weekStart.getDate() + i);
         const dateStr = formatLocalISODate(date);
-        
+
         const dayEvents = events.filter(ev => ev.start.startsWith(dateStr));
         const column = document.createElement('div');
         column.className = 'calendar-day';
@@ -200,14 +200,14 @@ function renderWeekView(events) {
         }
 
         column.appendChild(eventContainer);
-        
+
         // Click to create event
         column.addEventListener('click', (e) => {
             if (e.target === column || e.target === header || e.target.parentElement === header) {
                 openCreateModal(date);
             }
         });
-        
+
         calendarGrid.appendChild(column);
     }
 }
@@ -285,7 +285,7 @@ function renderMonthView(events) {
 
 function renderYearView(events) {
     const year = currentDate.getFullYear();
-    
+
     for (let month = 0; month < 12; month++) {
         const monthDate = new Date(year, month, 1);
         const card = document.createElement('div');
@@ -343,39 +343,41 @@ function createEventChip(ev) {
 
 function displayEventDetails(ev) {
     selectedEvent = ev;
-    
+
     if (!detailsPanel) return;
-    
+
     const startDate = new Date(ev.start.replace(' ', 'T'));
     const endDate = new Date(ev.end.replace(' ', 'T'));
-    
+
     const dateLabel = startDate.toLocaleDateString('fr-FR', {
         weekday: 'long',
         day: 'numeric',
         month: 'long',
         year: 'numeric',
     });
-    
+
     const startTime = startDate.toLocaleTimeString('fr-FR', {
         hour: '2-digit',
         minute: '2-digit',
     });
-    
+
     const endTime = endDate.toLocaleTimeString('fr-FR', {
         hour: '2-digit',
         minute: '2-digit',
     });
-    
-    const timeLabel = `${startTime} — ${endTime}`;
-    
+
+    const timeLabel = `${startTime} à ${endTime}`;
+
     detailsPanel.innerHTML = `
+    <div class="detail-content">
         <h3>${ev.title}</h3>
-        <p><strong>${dateLabel}</strong></p>
-        <p>${timeLabel}</p>
-        ${ev.description ? `<p>${ev.description}</p>` : ''}
-        <button type="button" class="btn btn-primary" id="detail-edit-btn" style="margin-top: 1rem;">Éditer</button>
+        <p><strong>Date: </strong>${dateLabel}</p>
+        <p><strong>Heure: </strong>${timeLabel}</p>
+        ${ev.description ? `<p><strong>Lieux:</strong> ${ev.description}</p>` : ''}
+    </div>
+        <button type="button" class="btn btn-primary" id="detail-edit-btn">Éditer</button>
     `;
-    
+
     document.getElementById('detail-edit-btn')?.addEventListener('click', () => {
         openEditModal(ev);
     });
@@ -425,7 +427,7 @@ function setupModalListeners() {
 function toggleAllDayFields() {
     const allDayCheckbox = document.getElementById('create_all_day');
     const timeSection = document.getElementById('create-time-section');
-    
+
     if (allDayCheckbox.checked) {
         timeSection?.setAttribute('hidden', '');
     } else {
@@ -458,7 +460,7 @@ function openCreateModal(dateObj) {
             document.getElementById('create_end_date').value = ymd;
         }
     }
-    
+
     if (document.getElementById('create_start_time')) {
         document.getElementById('create_start_time').value = '09:00';
     }
@@ -474,17 +476,17 @@ function openCreateModal(dateObj) {
 async function handleCreateSubmit(e) {
     e.preventDefault();
     const form = e.target;
-    
+
     const isAllDay = document.getElementById('create_all_day')?.checked || false;
     const startDate = document.getElementById('create_date')?.value || '';
-    
+
     const formData = new FormData(form);
     formData.delete('date');
     formData.delete('end_date');
     formData.delete('start_time');
     formData.delete('end_time');
     formData.delete('all_day');
-    
+
     if (isAllDay) {
         // For all-day events: start at 00:00, end at 23:59
         formData.append('start', `${startDate}T00:00:00`);
@@ -494,7 +496,7 @@ async function handleCreateSubmit(e) {
         const startTime = document.getElementById('create_start_time')?.value || '';
         const endDate = document.getElementById('create_end_date')?.value || '';
         const endTime = document.getElementById('create_end_time')?.value || '';
-        
+
         formData.append('start', `${startDate}T${startTime}:00`);
         formData.append('end', `${endDate}T${endTime}:00`);
     }
@@ -509,16 +511,16 @@ function openEditModal(ev) {
 
     document.getElementById('edit_eventId').value = ev.id;
     document.getElementById('edit_title').value = ev.title;
-    
+
     // Parser start et end pour extraire dates et heures
     const startDate = new Date(ev.start.replace(' ', 'T'));
     const endDate = new Date(ev.end.replace(' ', 'T'));
-    
+
     const startDateStr = formatLocalISODate(startDate);
     const endDateStr = formatLocalISODate(endDate);
     const startTimeStr = startDate.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
     const endTimeStr = endDate.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
-    
+
     if (document.getElementById('edit_date')) {
         document.getElementById('edit_date').value = startDateStr;
     }
@@ -531,7 +533,7 @@ function openEditModal(ev) {
     if (document.getElementById('edit_end_time')) {
         document.getElementById('edit_end_time').value = endTimeStr;
     }
-    
+
     document.getElementById('edit_description').value = ev.description || '';
 
     // Select correct color radio
@@ -558,13 +560,13 @@ async function handleEditSubmit(e) {
     e.preventDefault();
     const form = e.target;
     const id = document.getElementById('edit_eventId').value;
-    
+
     // Construire start et end à partir des champs séparés
     const startDate = document.getElementById('edit_date')?.value || '';
     const startTime = document.getElementById('edit_start_time')?.value || '';
     const endDate = document.getElementById('edit_end_date')?.value || '';
     const endTime = document.getElementById('edit_end_time')?.value || '';
-    
+
     const formData = new FormData(form);
     // Remplacer par les champs datetime-local combinés
     formData.delete('date');
@@ -612,8 +614,8 @@ async function handleDeleteConfirm() {
 // Generic request sender for create/update
 async function sendRequest(url, formData, modalToClose) {
     try {
-        const res = await fetch(url, { 
-            method: 'POST', 
+        const res = await fetch(url, {
+            method: 'POST',
             body: formData,
             headers: {
                 'X-Requested-With': 'XMLHttpRequest'
