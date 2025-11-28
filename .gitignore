@@ -1,3 +1,10 @@
+# Dépendances PHP
+/vendor/
+vendor
+
+bin/
+data
+config/database.php
 
 # Composer caches (pas nécessaires au repo)
 composer.phar

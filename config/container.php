@@ -99,7 +99,12 @@ return (function (): DIContainer {
         res:             $c->get(ResponseFactoryInterface::class),
         requiredRole:    'admin',
         protectedPrefix: '/dashboard',
-        whitelist:       ['/login', '/logout'],
+        // Autorise certaines routes "dashboard" en public (lecture seule)
+        whitelist:       [
+            '/login',
+            '/logout',
+            '/dashboard/agenda/api/events', // API publique pour le calendrier public
+        ],
         redirectTo:      '/login',
         sessionKey:      'admin',
         roleKey:         'role',

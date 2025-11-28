@@ -77,6 +77,25 @@ PHP
     ok "Créé config/database.php (DSN par défaut = SQLite)."
 }
 
+composer_install_if_needed() {
+    if [[ -d "$ROOT/vendor" && -f "$ROOT/vendor/autoload.php" ]]; then
+        log "Dependencies Composer déjà installées (vendor/ présent)."
+        return 0
+    fi
+
+    if ! command -v composer >/dev/null 2>&1; then
+        warn "Composer est requis mais introuvable. Lance d'abord: ./setup-local.sh deps"
+        return 1
+    fi
+
+    log "Installation des dépendances PHP via Composer..."
+    if composer install --no-interaction --prefer-dist; then
+        ok "Composer install terminé."
+    else
+        die "Échec de composer install. Vérifie ta connexion ou composer.json."
+    fi
+}
+
 resolve_migration() {
     if [[ -f "$MIG_FILE" ]]; then
         echo "$MIG_FILE"
@@ -107,7 +126,7 @@ install_deps() {
     pm="$(detect_pkg)"
     case "$pm" in
         dnf)
-            pkgs=(php-cli php-pdo sqlite php-mysqlnd php-intl php-sqlite3)
+            pkgs=(php-cli php-pdo sqlite php-mysqlnd php-intl php-sqlite3 composer)
             log "Installer via dnf: ${pkgs[*]}"
             if command -v sudo >/dev/null 2>&1; then
                 sudo dnf install -y "${pkgs[@]}"
@@ -116,7 +135,7 @@ install_deps() {
             fi
             ;;
         apt)
-            pkgs=(php-cli sqlite3 php-mysql php-intl php-sqlite3)
+            pkgs=(php-cli sqlite3 php-mysql php-intl php-sqlite3 composer)
             log "Installer via apt: ${pkgs[*]}"
             if command -v sudo >/dev/null 2>&1; then
                 sudo apt-get update
@@ -279,11 +298,13 @@ case "$cmd" in
         ;;
     init)
         need php
+        need composer
         ensure_dirs
         ensure_public
         ensure_config_php
         bin_install
         make_inject
+        composer_install_if_needed
         sqlite_apply_migration_if_absent
         import_partners_if_needed
         ok "Init terminé. Lance: ./setup-local.sh dev  (ou  make dev)"
