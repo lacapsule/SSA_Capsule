@@ -26,7 +26,7 @@ final class SidebarLinksProvider
             ['title' => 'Mes articles', 'url' => '/dashboard/articles', 'icon' => 'articles'],
             ['title' => 'Mon Agenda', 'url' => '/dashboard/agenda', 'icon' => 'calendar'],
             ['title' => 'Ma galerie', 'url' => '/dashboard/galerie', 'icon' => 'galerie'],
-            ['title' => 'Partenaires', 'url' => '/dashboard/partners', 'icon' => 'galerie'],
+            ['title' => 'Partenaires', 'url' => '/dashboard/partners', 'icon' => 'partners'],
             
             ['title' => 'Utilisateurs', 'url' => '/dashboard/users', 'icon' => 'users'],
             ['title' => 'Mon profil', 'url' => '/dashboard/account', 'icon' => 'profil'],
