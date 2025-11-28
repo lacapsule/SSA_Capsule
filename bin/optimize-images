@@ -1,0 +1,71 @@
+#!/usr/bin/env php
+<?php
+
+declare(strict_types=1);
+
+use App\Support\ImageConverter;
+
+$autoload = __DIR__ . '/../vendor/autoload.php';
+if (file_exists($autoload)) {
+    require $autoload;
+} else {
+    require __DIR__ . '/../src/Autoload.php';
+}
+
+$options = getopt('', [
+    'dir::',
+    'quality::',
+    'max-width::',
+    'dry-run',
+]);
+
+$defaultDir = realpath(__DIR__ . '/../public/assets/img') ?: (__DIR__ . '/../public/assets/img');
+$dirOption = $options['dir'] ?? $defaultDir;
+$directories = array_values(array_filter(array_map('trim', explode(',', (string) $dirOption))));
+
+if ($directories === []) {
+    fwrite(STDERR, "[error] Aucun dossier fourni pour l'optimisation.\n");
+    exit(1);
+}
+
+$quality = isset($options['quality']) ? (int) $options['quality'] : 80;
+$maxWidth = array_key_exists('max-width', $options) ? (int) $options['max-width'] : 1920;
+$dryRun = array_key_exists('dry-run', $options);
+
+$totalOptimized = 0;
+$totalSkipped = 0;
+
+foreach ($directories as $dir) {
+    $resolved = realpath($dir);
+    if ($resolved === false || !is_dir($resolved)) {
+        fwrite(STDERR, "[warn] Dossier introuvable : {$dir}\n");
+        continue;
+    }
+
+$report = ImageConverter::optimizeExistingImages(
+    $resolved,
+    $quality,
+    $maxWidth,
+    $dryRun
+);
+    $totalOptimized += $report['optimized'];
+    $totalSkipped += $report['skipped'];
+
+    $status = $dryRun ? 'Previsualisation' : 'Optimisation';
+    printf(
+        "%s %s -> %d optimisees | %d ignorees\n",
+        $status,
+        $report['directory'],
+        $report['optimized'],
+        $report['skipped']
+    );
+}
+
+printf(
+    "\n%s terminee. Total optimisees : %d | ignorees : %d%s\n",
+    $dryRun ? 'Previsualisation' : 'Optimisation',
+    $totalOptimized,
+    $totalSkipped,
+    $dryRun ? ' (aucun fichier modifié)' : ''
+);
+

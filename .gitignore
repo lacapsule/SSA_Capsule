@@ -2,7 +2,6 @@
 /vendor/
 vendor
 
-bin/
 data
 config/database.php
 

@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+set -euo pipefail
+DB="./data/database.sqlite"
+SQL=""
+
+if [[ -f "./migrations/sqlite_init.sql" ]]; then
+  SQL="./migrations/sqlite_init.sql"
+elif [[ -f "./migrations/tables.sql" ]]; then
+  SQL="./migrations/tables.sql"
+else
+  echo "❌ Aucune migration trouvée (./migrations/sqlite_init.sql ou ./migrations/tables.sql)" >&2; exit 1
+fi
+
+mkdir -p ./data
+case "${1:-}" in
+  init)  : > "$DB"; sqlite3 "$DB" < "$SQL"; echo "DB initialized at $DB" ;;
+  reset) rm -f "$DB"; sqlite3 "$DB" < "$SQL"; echo "DB reset" ;;
+  shell) sqlite3 "$DB" ;;
+  *) echo "Usage: bin/db {init|reset|shell}" >&2; exit 1;;
+esac
