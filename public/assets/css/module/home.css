@@ -79,13 +79,56 @@
     transform: scale(1.2);
 }
 
-.contain {
+.about-contain {
     display: block;
-    width: 100%;
+    max-width: 570px;
     margin-bottom: 35px;
     padding: 0 10%;
 }
 
+.about-contain .title {
+    position: relative;
+    display: block;
+    margin-bottom: 10px;
+    font-size: 16px;
+    line-height: 22px;
+    font-weight: 500;
+}
+
+.about-contain h2 {
+    position: relative;
+    display: block;
+    padding-bottom: 10px;
+    color: var(--ssa-txt-noir);
+    font-size: var(--ssa-font-large);
+    font-weight: 600;
+    line-height: 1.2em;
+}
+
+.about-contain h2::before {
+    position: absolute;
+    left: 0;
+    bottom: -55px !important;
+    width: 40px;
+    height: 3px;
+    background-color: var(--ssa-vert);
+    content: '';
+}
+
+.about-contain .text {
+    position: relative;
+    margin: 25px 0 25px;
+    font-size: 15px;
+    line-height: 24px;
+    color: var(--ssa-txt-noir);
+    font-weight: 400;
+}
+
+.contain {
+    display: block;
+    margin-bottom: 35px;
+    padding: 0 10%;
+}
 .contain .title {
     position: relative;
     display: block;
@@ -108,7 +151,7 @@
 .contain h2::before {
     position: absolute;
     left: 0;
-    bottom: -55px;
+    bottom: -55px !important;
     width: 40px;
     height: 3px;
     background-color: var(--ssa-vert);
@@ -123,7 +166,6 @@
     color: var(--ssa-txt-noir);
     font-weight: 400;
 }
-
 .btn-box {
     position: relative;
     margin: 15px 0;
@@ -748,6 +790,7 @@ textarea {
     padding: 0.5em;
     border-radius: 4px;
     transition: border-color 0.3s;
+    resize: none;
 }
 
 /* Pas de bordure si champ vide (placeholder visible) */

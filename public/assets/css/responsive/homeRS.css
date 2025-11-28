@@ -37,9 +37,6 @@
         margin: 0;
     }
 
-    .contain h2::before {
-        bottom: -55px;
-    }
 
     .list-style-one li {
         height: 40px;
@@ -155,4 +152,16 @@
         margin: 6% 0;
     }
 
+}
+
+@media screen and (max-width:980px){
+    .contain h2::before {
+    position: absolute;
+    left: 0;
+    bottom: -55px !important;
+    width: 40px;
+    height: 3px;
+    background-color: var(--ssa-vert);
+    content: '';
+}
 }

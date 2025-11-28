@@ -1,8 +1,4 @@
-.recrutement {
-    & h2:before {
-        bottom: 0px;
-    }
-}
+
 .projet .contain h2::before {
     position: absolute;
     left: 0;
@@ -32,4 +28,46 @@
         border-radius: 7px;
         margin: 3% 0;
     }
+}
+.projet-contain {
+    display: block;
+    margin-bottom: 35px;
+    padding: 0 10%;
+}
+.projet-contain .title {
+    position: relative;
+    display: block;
+    margin-bottom: 10px;
+    font-size: 16px;
+    line-height: 22px;
+    font-weight: 500;
+}
+
+.projet-contain h2 {
+    position: relative;
+    display: block;
+    padding-bottom: 10px;
+    color: var(--ssa-txt-noir);
+    font-size: var(--ssa-font-large);
+    font-weight: 600;
+    line-height: 1.2em;
+}
+
+.projet-contain h2::before {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 40px;
+    height: 3px;
+    background-color: var(--ssa-vert);
+    content: '';
+}
+
+.projet-contain .text {
+    position: relative;
+    margin: 25px 0 25px;
+    font-size: 15px;
+    line-height: 24px;
+    color: var(--ssa-txt-noir);
+    font-weight: 400;
 }

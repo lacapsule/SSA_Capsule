@@ -19,14 +19,13 @@
   flex-wrap: wrap;
   font-size: 1rem;
   background-color: var(--ssa-blanc);
-  border-radius: 999px;
 }
 
 .gallery-pagination .pagination-pages {
   display: flex;
-  align-items: center;
-  gap: 0.35rem;
   flex-wrap: wrap;
+  align-items: center;
+  gap: 0.25rem;
 }
 
 .gallery-pagination .page-link {
@@ -69,7 +68,7 @@
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 0.25rem;
-  padding: 0.25rem;
+  padding: 2rem;
 }
 
 .card {
@@ -96,6 +95,7 @@
 @media (max-width: 550px) {
   .gallery-track {
     grid-template-columns: repeat(1, 1fr);
+    padding: 0;
   }
 }
 
@@ -122,8 +122,8 @@
 
 .lightbox .close {
   position: absolute;
-  top: 200px;
-  right: 20px;
+  top: 1rem;
+  right: 22rem;
   color: white;
   font-size: 35px;
   cursor: pointer;
@@ -164,7 +164,10 @@
 }
 
 .lightbox-image {
-  margin-top: 15rem;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   max-width: 90%;
   max-height: 80%;
   opacity: 0;

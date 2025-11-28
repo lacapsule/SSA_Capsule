@@ -6,7 +6,7 @@
   <p class="slogan">Une base de connaissances collaborative sur la Sécurité Sociale de l’Alimentation.</p>
 </section>
 <section id="projet" class="projet section">
-  <div class="contain">
+  <div class="about-contain">
     <h2>Un premier pas vers une Sécurité Sociale de l'Alimentation</h2>
     <h3>Pour un droit fondamental et universel à l'alimentation</h3>
     <p class="text">
@@ -66,7 +66,7 @@
 </section>
 
 <section id="recrutement" class="recrutement section">
-  <div class="contain">
+  <div class="projet-contain">
     <h2>On recrute !</h2>
 
     <img src="/assets/img/recrutementBanner.png" alt="recrutementSSA">

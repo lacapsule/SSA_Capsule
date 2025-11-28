@@ -1,5 +1,5 @@
 <section id="about" class="about section">
-  <div class="contain">
+  <div class="about-contain">
     <h2>{{str.about_title}}</h2>
     <h3>{{str.about_subtitle}}</h3>
     <p class="text">{{str.about_intro}}</p>
