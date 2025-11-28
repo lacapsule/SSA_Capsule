@@ -6,6 +6,8 @@ namespace App\Modules\Home;
 
 use App\Modules\Article\ArticleService;
 use App\Modules\Home\ContactService;
+use App\Modules\Agenda\AgendaService;
+use App\Modules\Agenda\Dto\AgendaEventDTO;
 use App\Providers\LanguageOptionsProvider;
 use Capsule\Support\Pagination\Page;
 use Capsule\Support\Pagination\Paginator;
@@ -15,6 +17,7 @@ use Capsule\Routing\Attribute\Route;
 use Capsule\Security\CsrfTokenManager;
 use Capsule\View\BaseController;
 use Capsule\View\Safe;
+use Capsule\Http\Message\Request;
 use Capsule\Http\Message\Response;
 
 final class HomeController extends BaseController
@@ -28,6 +31,7 @@ final class HomeController extends BaseController
         private HomeService $homeService,
         private ArticleService $articleService,
         private ContactService $contactService,
+        private AgendaService $agendaService,
         ResponseFactoryInterface $res,
         ViewRendererInterface $view
     ) {
@@ -107,6 +111,46 @@ final class HomeController extends BaseController
             '/#contact',
             'Merci ! Votre message a bien été envoyé.'
         );
+    }
+
+    /**
+     * GET /api/events
+     * API publique pour récupérer les événements du calendrier
+     */
+    #[Route(path: '/api/events', methods: ['GET'])]
+    public function getEventsApi(Request $req): Response
+    {
+        $start = $this->strFromQuery($req, 'start');
+        $end = $this->strFromQuery($req, 'end');
+
+        if ($start === null || $end === null) {
+            return $this->res->json(['error' => 'Les paramètres start et end sont requis.'], 400);
+        }
+
+        $events = $this->agendaService->getEvents($start, $end);
+
+        $formattedEvents = array_map(function (AgendaEventDTO $event) {
+            return [
+                'id' => $event->id,
+                'title' => $event->title,
+                'start' => $event->startsAt->format('Y-m-d H:i:s'),
+                'end' => $event->endsAt()->format('Y-m-d H:i:s'),
+                'description' => $event->location,
+                'color' => $event->color,
+                'all_day' => false,
+            ];
+        }, $events);
+
+        return $this->res->json($formattedEvents);
+    }
+
+    /**
+     * Récupère une valeur string depuis la query
+     */
+    private function strFromQuery(Request $req, string $key): ?string
+    {
+        $value = $req->query[$key] ?? null;
+        return is_string($value) && $value !== '' ? $value : null;
     }
 
     #[Route(path: '/article/{id}', methods: ['GET'])]

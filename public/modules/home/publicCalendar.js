@@ -1,4 +1,6 @@
-const API_URL = '/dashboard/agenda/api/events';
+// URL de l'API publique pour récupérer les événements
+// Route publique définie dans HomeController::getEventsApi
+const API_URL = '/api/events';
 
 /**
  * Formate une date locale au format YYYY-MM-DD (sans décalage UTC).
@@ -30,11 +32,30 @@ function startOfWeek(date) {
 
 function parseDate(value) {
   if (!value) return new Date();
-  const normalised = value.replace(' ', 'T');
-  const parsed = new Date(normalised);
-  if (Number.isNaN(parsed.getTime())) {
-    return new Date(value);
+  
+  // Firefox est plus strict avec le parsing des dates
+  // Format attendu: 'Y-m-d H:i:s' ou 'Y-m-dTH:i:s' ou ISO
+  let normalised = String(value).trim();
+  
+  // Si format 'Y-m-d H:i:s', convertir en 'Y-m-dTH:i:s'
+  if (/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/.test(normalised)) {
+    normalised = normalised.replace(' ', 'T');
   }
+  
+  // Essayer de parser avec le format normalisé
+  let parsed = new Date(normalised);
+  
+  // Si échec, essayer avec la valeur originale
+  if (Number.isNaN(parsed.getTime())) {
+    parsed = new Date(value);
+  }
+  
+  // Si toujours échec, retourner la date actuelle
+  if (Number.isNaN(parsed.getTime())) {
+    console.warn('Impossible de parser la date:', value);
+    return new Date();
+  }
+  
   return parsed;
 }
 
@@ -52,24 +73,47 @@ function formatTime(date) {
 }
 
 function normalizeEvents(rawEvents) {
+  if (!Array.isArray(rawEvents)) {
+    console.warn('normalizeEvents: rawEvents n\'est pas un tableau', rawEvents);
+    return [];
+  }
+  
   return rawEvents.map((event) => {
-    const startDate = parseDate(event.start);
-    const endDate = parseDate(event.end);
-    return {
-      ...event,
-      startDate,
-      endDate,
-      dateKey: formatLocalISODate(startDate),
-      timeLabel: formatTime(startDate),
-      monthIndex: startDate.getMonth(),
-      year: startDate.getFullYear(),
-    };
-  });
+    if (!event || typeof event !== 'object') {
+      console.warn('Événement invalide ignoré:', event);
+      return null;
+    }
+    
+    try {
+      const startDate = parseDate(event.start);
+      const endDate = parseDate(event.end);
+      
+      // Vérifier que les dates sont valides
+      if (Number.isNaN(startDate.getTime()) || Number.isNaN(endDate.getTime())) {
+        console.warn('Date invalide pour l\'événement:', event);
+        return null;
+      }
+      
+      return {
+        ...event,
+        startDate,
+        endDate,
+        dateKey: formatLocalISODate(startDate),
+        timeLabel: formatTime(startDate),
+        monthIndex: startDate.getMonth(),
+        year: startDate.getFullYear(),
+      };
+    } catch (err) {
+      console.error('Erreur lors de la normalisation d\'un événement:', err, event);
+      return null;
+    }
+  }).filter(event => event !== null); // Filtrer les événements invalides
 }
 
 export function initPublicCalendar() {
   const modal = document.getElementById('public-calendar-modal');
   if (!modal) {
+    console.warn('Modal public-calendar-modal introuvable');
     return;
   }
 
@@ -81,8 +125,18 @@ export function initPublicCalendar() {
   const viewButtons = Array.from(modal.querySelectorAll('[data-calendar-view]'));
   const navButtons = Array.from(modal.querySelectorAll('[data-calendar-nav]'));
 
-  const defaultDetailsText = details?.dataset.empty || '';
-  const detailTitle = details?.dataset.title || '';
+  // Vérifications de sécurité pour Firefox
+  if (!grid || !labelEl || !details) {
+    console.error('Éléments DOM manquants pour le calendrier public', {
+      grid: !!grid,
+      labelEl: !!labelEl,
+      details: !!details
+    });
+    return;
+  }
+
+  const defaultDetailsText = details?.dataset?.empty || '';
+  const detailTitle = details?.dataset?.title || '';
 
   const state = {
     currentDate: new Date(),
@@ -92,6 +146,7 @@ export function initPublicCalendar() {
   };
 
   function setGridClass(modifier) {
+    if (!grid) return;
     grid.className = `calendar-grid ${modifier}`;
   }
 
@@ -139,23 +194,117 @@ export function initPublicCalendar() {
     `;
   }
 
-  async function loadEvents(startStr, endStr) {
-    const cacheKey = `${startStr}_${endStr}`;
-    if (state.cache.has(cacheKey)) {
-      return state.cache.get(cacheKey);
-    }
+  // Fonction helper pour effectuer la requête fetch (sans cache)
+  async function fetchEventsFromUrl(url, startStr, endStr) {
     try {
-      const response = await fetch(`${API_URL}?start=${startStr}&end=${endStr}`);
+      const response = await fetch(url, {
+        method: 'GET',
+        headers: {
+          'Accept': 'application/json',
+        },
+        credentials: 'same-origin',
+        cache: 'no-cache'
+      });
+      
+      console.log('[loadEvents] Réponse reçue:', {
+        status: response.status,
+        statusText: response.statusText,
+        ok: response.ok,
+        url: url
+      });
+      
       if (!response.ok) {
-        throw new Error('Erreur API');
+        const errorText = await response.text().catch(() => 'Impossible de lire le corps de la réponse');
+        console.error('[loadEvents] Erreur HTTP:', {
+          status: response.status,
+          statusText: response.statusText,
+          url: url,
+          body: errorText
+        });
+        
+        // Message d'erreur spécifique selon le statut
+        if (response.status === 404) {
+          throw new Error(`Route API introuvable (404). URL: ${url}. Vérifiez que la route existe sur le serveur.`);
+        } else if (response.status >= 500) {
+          throw new Error(`Erreur serveur (${response.status}). Veuillez réessayer plus tard.`);
+        } else {
+          throw new Error(`Erreur API: ${response.status} ${response.statusText}`);
+        }
       }
+      
+      const contentType = response.headers.get('content-type');
+      if (!contentType || !contentType.includes('application/json')) {
+        const text = await response.text();
+        console.error('[loadEvents] Réponse non-JSON:', {
+          contentType,
+          body: text.substring(0, 200)
+        });
+        throw new Error('Réponse non-JSON reçue');
+      }
+      
       const data = await response.json();
+      console.log('[loadEvents] Données reçues:', data);
+      
+      // Vérifier que data est un tableau
+      if (!Array.isArray(data)) {
+        console.warn('[loadEvents] Réponse API invalide, tableau attendu:', data);
+        return [];
+      }
+      
       const normalized = normalizeEvents(data);
-      state.cache.set(cacheKey, normalized);
+      console.log('[loadEvents] Événements normalisés:', normalized.length);
+      
       return normalized;
     } catch (err) {
-      console.error(err);
-      showError('Impossible de charger les événements pour le moment.');
+      // Distinguer les erreurs réseau des erreurs de parsing
+      if (err instanceof TypeError && err.message.includes('fetch')) {
+        console.error('[loadEvents] Erreur réseau (fetch):', err.message, err);
+        showError('Erreur de connexion. Vérifiez votre connexion internet.');
+      } else if (err instanceof SyntaxError) {
+        console.error('[loadEvents] Erreur de parsing JSON:', err.message, err);
+        showError('Erreur lors du traitement des données.');
+      } else {
+        console.error('[loadEvents] Erreur lors du chargement des événements:', err);
+        showError('Impossible de charger les événements pour le moment.');
+      }
+      throw err; // Re-lancer pour que loadEvents puisse gérer
+    }
+  }
+
+  async function loadEvents(startStr, endStr) {
+    const cacheKey = `${startStr}_${endStr}`;
+    if (state.cache && state.cache.has(cacheKey)) {
+      return state.cache.get(cacheKey);
+    }
+    
+    // Construction de l'URL avec validation
+    if (!API_URL || !startStr || !endStr) {
+      console.error('[loadEvents] Paramètres manquants:', { API_URL, startStr, endStr });
+      showError('Erreur de configuration du calendrier.');
+      return [];
+    }
+    
+    const url = `${API_URL}?start=${encodeURIComponent(startStr)}&end=${encodeURIComponent(endStr)}`;
+    console.log('[loadEvents] Requête vers:', url);
+    
+    // Vérification que l'URL est valide
+    if (!url.startsWith('/') && !url.startsWith('http')) {
+      console.error('[loadEvents] URL invalide:', url);
+      showError('Erreur de configuration: URL invalide.');
+      return [];
+    }
+    
+    try {
+      const normalized = await fetchEventsFromUrl(url, startStr, endStr);
+      
+      // Mettre en cache si succès
+      if (state.cache && normalized) {
+        state.cache.set(cacheKey, normalized);
+      }
+      
+      return normalized;
+    } catch (err) {
+      // Erreur déjà loggée dans fetchEventsFromUrl
       return [];
     }
   }
@@ -174,6 +323,7 @@ export function initPublicCalendar() {
   }
 
   function renderWeek(range, events) {
+    if (!grid) return;
     setGridClass('calendar-grid--week');
     grid.innerHTML = '';
     const days = ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'];
@@ -209,6 +359,7 @@ export function initPublicCalendar() {
   }
 
   function renderMonth(range, events) {
+    if (!grid) return;
     setGridClass('calendar-grid--month');
     grid.innerHTML = '';
     const totalDays = 42;
@@ -254,6 +405,7 @@ export function initPublicCalendar() {
   }
 
   function renderYear(range, events) {
+    if (!grid) return;
     setGridClass('calendar-grid--year');
     grid.innerHTML = '';
     const months = Array.from({ length: 12 }, (_, i) => i);
@@ -335,14 +487,32 @@ export function initPublicCalendar() {
   }
 
   async function render() {
+    if (!grid || !labelEl) {
+      console.error('Éléments DOM manquants lors du rendu');
+      return;
+    }
+    
     resetDetails();
     showError('');
     showLoading(true);
-    const range = getRange(state.currentView, state.currentDate);
-    labelEl.textContent = range.label;
-    const events = await loadEvents(range.startStr, range.endStr);
-    showLoading(false);
-    range.renderer(range, events);
+    
+    try {
+      const range = getRange(state.currentView, state.currentDate);
+      if (labelEl) {
+        labelEl.textContent = range.label;
+      }
+      const events = await loadEvents(range.startStr, range.endStr);
+      showLoading(false);
+      if (range.renderer && typeof range.renderer === 'function') {
+        range.renderer(range, events);
+      } else {
+        console.error('Renderer invalide pour la vue:', state.currentView);
+      }
+    } catch (err) {
+      console.error('Erreur lors du rendu du calendrier:', err);
+      showLoading(false);
+      showError('Erreur lors du chargement du calendrier.');
+    }
   }
 
   viewButtons.forEach((button) => {

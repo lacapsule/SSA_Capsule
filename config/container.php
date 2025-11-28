@@ -99,11 +99,9 @@ return (function (): DIContainer {
         res:             $c->get(ResponseFactoryInterface::class),
         requiredRole:    'admin',
         protectedPrefix: '/dashboard',
-        // Autorise certaines routes "dashboard" en public (lecture seule)
         whitelist:       [
             '/login',
             '/logout',
-            '/dashboard/agenda/api/events', // API publique pour le calendrier public
         ],
         redirectTo:      '/login',
         sessionKey:      'admin',
@@ -260,6 +258,7 @@ return (function (): DIContainer {
         $c->get(HomeService::class),
         $c->get(ArticleService::class),
         $c->get(ContactService::class),
+        $c->get(AgendaService::class),
         $c->get(ResponseFactoryInterface::class),
         $c->get(ViewRendererInterface::class),
     ));
