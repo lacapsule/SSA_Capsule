@@ -1,0 +1,21 @@
+# robots.txt pour SSA Pays de Morlaix
+# Autorise l'exploration de tout le site public
+
+User-agent: *
+Allow: /
+
+# Autoriser l'exploration des assets
+Allow: /assets/
+Allow: /modules/
+
+# Bloquer l'exploration du dashboard (zone privée)
+Disallow: /dashboard/
+Disallow: /login
+Disallow: /logout
+
+# Autoriser l'API publique
+Allow: /api/events
+
+# Sitemap
+Sitemap: https://ssapaysdemorlaix.fr/sitemap.xml
+

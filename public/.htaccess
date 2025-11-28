@@ -9,6 +9,9 @@ DirectoryIndex index.php
     RewriteCond %{REQUEST_FILENAME} -f [OR]
     RewriteCond %{REQUEST_FILENAME} -d
     RewriteRule ^ - [L]
+    
+    # Autoriser robots.txt et sitemap.xml
+    RewriteRule ^(robots\.txt|sitemap\.xml)$ - [L]
 
     # Tout le reste vers index.php
     RewriteRule ^ index.php [QSA,L]

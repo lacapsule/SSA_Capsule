@@ -9,5 +9,6 @@
 
   <div class="copyright">
     <p>Site web éco-conçu par <a href="https://lacapsule.bzh" target="_blank" rel="noopener noreferrer">La Capsule</a></p>
+    <p><a href="/sitemap.xml" class="visually-hidden">Plan du site</a></p>
   </div>
 </footer>

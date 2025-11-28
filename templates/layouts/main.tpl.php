@@ -7,6 +7,7 @@
   <meta name="description" content="{{str.meta_description}}">
   <meta name="keywords" content="{{str.meta_keywords}}">
   <meta name="author" content="{{str.meta_author}}">
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
   <title>{{str.page_title}}</title>
 
   <link rel="preload" href="/assets/fonts/outfit.ttf" as="font" type="font/ttf" crossorigin>
