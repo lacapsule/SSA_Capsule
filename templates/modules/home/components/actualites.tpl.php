@@ -5,9 +5,9 @@
         <h2 id="actu-title">{{str.news_title}}</h2>
       </div>
     </div>
-    <div class="row" role="list">
+    <div class="row">
       {{#each articles}}
-        <article class="actu-item-inner shadow-dark" role="listitem" itemscope itemtype="https://schema.org/Article">
+        <article class="actu-item-inner shadow-dark" itemscope itemtype="https://schema.org/Article">
           <div class="actu-img">
               <img src="{{image}}" alt="Image de l'article : {{titre}}" loading="lazy" itemprop="image">
             {{else}}
@@ -34,9 +34,9 @@
     <a href="?page={{pagination.prev}}#actu" class="page-link prev-page" aria-label="Page précédente">&lsaquo;</a>
     {{/pagination.hasPrev}}
 
-    <div class="pagination-pages" role="list">
+    <div class="pagination-pages">
       {{#each pagination.pages}}
-      <a href="?page={{number}}#actu" class="page-link{{#isCurrent}} is-active{{/isCurrent}}" role="listitem" aria-label="Page {{number}}"{{#isCurrent}} aria-current="page"{{/isCurrent}}>{{number}}</a>
+      <a href="?page={{number}}#actu" class="page-link{{#isCurrent}} is-active{{/isCurrent}}" aria-label="Page {{number}}"{{#isCurrent}} aria-current="page"{{/isCurrent}}>{{number}}</a>
       {{/each}}
     </div>
 

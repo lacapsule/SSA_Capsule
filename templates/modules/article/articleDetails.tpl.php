@@ -14,11 +14,11 @@
         </figure>
         {{/each}}
       </div>
-      <button class="article-carousel__nav article-carousel__nav--prev" data-carousel-prev aria-label="Média précédent" aria-controls="carousel-track">‹</button>
-      <button class="article-carousel__nav article-carousel__nav--next" data-carousel-next aria-label="Média suivant" aria-controls="carousel-track">›</button>
+      <button type="button" class="article-carousel__nav article-carousel__nav--prev" data-carousel-prev aria-label="Média précédent" aria-controls="carousel-track">‹</button>
+      <button type="button" class="article-carousel__nav article-carousel__nav--next" data-carousel-next aria-label="Média suivant" aria-controls="carousel-track">›</button>
       <div class="article-carousel__dots" data-carousel-dots role="tablist" aria-label="Navigation des médias">
         {{#each medias}}
-        <button class="article-carousel__dot" data-carousel-dot aria-label="Aller au média {{@index}}" role="tab" aria-selected="false"></button>
+        <button type="button" class="article-carousel__dot" data-carousel-dot aria-label="Aller au média {{@index}}" role="tab" aria-selected="false"></button>
         {{/each}}
       </div>
     </div>

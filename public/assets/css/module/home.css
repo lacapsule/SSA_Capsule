@@ -198,9 +198,31 @@
     margin-left: 10px;
 }
 
-.list-style-one li a:hover {
-    color: var(--ssa-hover-jaune);
-    font-weight: 900;
+.list-style-one li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.list-style-one li a {
+    color: #0066cc; /* Contraste amélioré : 4.5:1 sur blanc */
+    text-decoration: underline;
+    padding: 4px 8px; /* Zone tactile améliorée */
+    min-height: 44px; /* Zone tactile minimum */
+    display: inline-flex;
+    align-items: center;
+    border-radius: 4px;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.list-style-one li a:hover,
+.list-style-one li a:focus {
+    color: #004499; /* Contraste amélioré : 7:1 sur blanc */
+    font-weight: 700;
+    background-color: rgba(0, 102, 204, 0.1);
+    outline: 2px solid #0066cc;
+    outline-offset: 2px;
 }
 
 
@@ -782,37 +804,23 @@ img {
     min-height: 110px;
 }
 
-/* Styles communs pour les champs texte et textarea */
-input[type="text"],
-input[type="email"],
-textarea {
-    border: none;
-    padding: 0.5em;
-    border-radius: 4px;
-    transition: border-color 0.3s;
-    resize: none;
-}
-
-/* Pas de bordure si champ vide (placeholder visible) */
-
+/* Styles communs pour les champs texte et textarea - déjà définis dans accessibility.css */
 /* Bordure rouge si champ non vide et invalide (ex : requis vide ou email mal formé) */
 input[type="text"]:not(:placeholder-shown):invalid,
 input[type="email"]:not(:placeholder-shown):invalid,
+input[type="tel"]:not(:placeholder-shown):invalid,
 textarea:not(:placeholder-shown):invalid {
-    border: 2px solid red;
+    border: 2px solid #b71c1c; /* Contraste amélioré */
+    background-color: #ffebee;
 }
 
 /* Bordure verte si champ non vide et valide */
 input[type="text"]:not(:placeholder-shown):valid,
 input[type="email"]:not(:placeholder-shown):valid,
+input[type="tel"]:not(:placeholder-shown):valid,
 textarea:not(:placeholder-shown):valid {
-    border: 2px solid green;
-}
-
-/* Pas de style appliqué sur input type submit */
-input[type="submit"] {
-    /* vous pouvez mettre ici vos styles propres au bouton */
-    border: none;
+    border: 2px solid #2d8f47; /* Contraste amélioré */
+    background-color: #ffffff;
 }
 
 .btn-style-one {
@@ -820,13 +828,7 @@ input[type="submit"] {
     color: var(--ssa-blanc);
 }
 
-input[type="text"]:focus,
-input[type="email"]:focus,
-textarea:focus {
-    outline: none;
-    box-shadow: none;
-    border: solid 2px var(--ssa-jaune);
-}
+/* Styles de focus déjà définis dans accessibility.css avec meilleur contraste */
 
 /*=========================================
 ====        CONTACT SECTION            ====

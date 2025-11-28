@@ -7,12 +7,12 @@
             </div>
         </div>
 
-        <div class="evenement row" role="list">
+        <div class="evenement row">
             {{^articles}}
             <p class="no-event" role="status" aria-live="polite">{{str.no_upcoming_articles}}</p>
             {{/articles}}
             {{#each articles}}
-            <article class="evenement-item" role="listitem" itemscope itemtype="https://schema.org/Event">
+            <article class="evenement-item" itemscope itemtype="https://schema.org/Event">
                 <div class="evenement-item-inner shadow-dark">
                     <div class="evenement-info info">
                         <div class="evenement-date">

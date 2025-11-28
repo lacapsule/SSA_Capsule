@@ -5,10 +5,28 @@ header {
         height: 40px;
     }
 
+    & .icons {
+        min-width: 44px; /* Zone tactile minimum */
+        min-height: 44px; /* Zone tactile minimum */
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 8px;
+        border-radius: 4px;
+        transition: background-color 0.2s ease;
+    }
+
+    & .icons:hover,
+    & .icons:focus {
+        background-color: rgba(67, 196, 102, 0.1);
+        outline: 2px solid var(--ssa-vert);
+        outline-offset: 2px;
+    }
+
     & .icons img {
         display: inline-block;
-        height: 30px;
-        width: 30px;
+        height: 24px;
+        width: 24px;
     }
 
     & .flag {
@@ -47,12 +65,22 @@ header {
 }
 
 .navbar a {
-    color: var(--ssa-txt-gris);
+    color: #1a1a1a; /* Contraste amélioré : 16:1 sur blanc */
     text-decoration: none;
+    padding: 8px 12px; /* Zone tactile améliorée */
+    min-height: 44px; /* Zone tactile minimum */
+    display: inline-flex;
+    align-items: center;
+    border-radius: 4px;
+    transition: background-color 0.2s ease;
 }
 
-.navbar a:hover {
+.navbar a:hover,
+.navbar a:focus {
     text-decoration: underline var(--ssa-vert) 2px;
+    background-color: rgba(67, 196, 102, 0.1);
+    outline: 2px solid var(--ssa-vert);
+    outline-offset: 2px;
 }
 
 .user {
@@ -64,13 +92,25 @@ header {
     display: none;
     flex-direction: column;
     justify-content: space-between;
-    width: 32px;
-    height: 24px;
+    width: 44px; /* Zone tactile minimum */
+    height: 44px; /* Zone tactile minimum */
+    min-width: 44px;
+    min-height: 44px;
+    padding: 10px; /* Padding pour zone tactile */
     cursor: pointer;
     position: fixed;
     top: 5vh;
     left: 85vw;
     z-index: 1001;
+    border-radius: 4px;
+    transition: background-color 0.2s ease;
+}
+
+.hamburger:hover,
+.hamburger:focus {
+    background-color: rgba(253, 181, 68, 0.1);
+    outline: 2px solid var(--ssa-jaune);
+    outline-offset: 2px;
 }
 
 .hamburger .line {

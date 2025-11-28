@@ -32,22 +32,33 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-width: 32px;
-  padding: 0.35rem 0.65rem;
-  border: 1px solid #1d2e4a;
+  min-width: 44px; /* Zone tactile minimum */
+  min-height: 44px; /* Zone tactile minimum */
+  padding: 0.5rem 0.75rem;
+  border: 2px solid #1d2e4a; /* Contraste amélioré */
   border-radius: 999px;
   font-size: 0.95rem;
-  color: #1d2e4a;
+  color: #1d2e4a; /* Contraste amélioré : 12:1 sur blanc */
+  background-color: #ffffff;
   transition: background-color 0.2s ease, color 0.2s ease;
+  text-decoration: none;
 }
 
 .gallery-pagination .page-link:hover {
   background-color: var(--ssa-jaune);
   color: #1d2e4a;
+  border-color: #1d2e4a;
+}
+
+.gallery-pagination .page-link:focus-visible {
+  outline: 3px solid #0066cc;
+  outline-offset: 2px;
+  border-color: #0066cc;
 }
 
 .gallery-pagination .page-link.is-active {
   background-color: var(--ssa-jaune);
+  font-weight: bold;
   color: #1d2e4a;
   cursor: default;
   pointer-events: none;

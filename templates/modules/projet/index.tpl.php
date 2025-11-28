@@ -13,16 +13,16 @@
       La Sécurité Sociale de l'Alimentation en Pays de Morlaix est une expérimentation portée par un collectif
       d'associations et de citoyen·nes pour :
     </p>
-    <ul class="list-style-one" role="list">
-      <li role="listitem">
+    <ul class="list-style-one">
+      <li>
         <img src="assets/icons/Instance.svg" alt="" aria-hidden="true" role="presentation">
         <span>aller vers un droit à l'alimentation pour toutes et tous soutenir les paysan·nes…</span>
       </li>
-      <li role="listitem">
+      <li>
         <img src="assets/icons/Instance.svg" alt="" aria-hidden="true" role="presentation">
         <span>contribuer à construire un système alimentaire plus juste et plus durable</span>
       </li>
-      <li role="listitem">
+      <li>
         <img src="assets/icons/Instance.svg" alt="" aria-hidden="true" role="presentation">
         <span>recréer du lien et reprendre du pouvoir d'agir collectivement sur notre territoire</span>
       </li>
@@ -42,16 +42,16 @@
   <div class="contain">
     <h2 id="projet-details-title" class="visually-hidden">Détails du projet</h2>
     <p class="text"><strong>Plus concrètement, c'est :</strong></p>
-    <ul class="list-style-one" role="list">
-      <li role="listitem">
+    <ul class="list-style-one">
+      <li>
         <img src="assets/icons/Instance.svg" alt="" aria-hidden="true" role="presentation">
         <span>un parcours citoyen qui débutera à l'automne 2025…</span>
       </li>
-      <li role="listitem">
+      <li>
         <img src="assets/icons/Instance.svg" alt="" aria-hidden="true" role="presentation">
         <span>un budget collectif constitué par les cotisations des membres…</span>
       </li>
-      <li role="listitem">
+      <li>
         <img src="assets/icons/Instance.svg" alt="" aria-hidden="true" role="presentation">
         <span>une allocation à dépenser chaque mois dans des lieux de distribution alimentaire</span>
       </li>
@@ -90,7 +90,7 @@
       formulaire
       dédié.
     </p>
-    <div class="btn-box" role="group" aria-label="Actions de candidature">
+    <div class="btn-box" aria-label="Actions de candidature">
       <a id="download" class="theme-btn btn-style-one" href="/assets/files/dossier_de_candidature.pdf" download aria-label="Télécharger le dossier de candidature (PDF)">
         Télécharger le dossier</a>
       <a href="https://framaforms.org/inscription-ssa-pays-de-morlaix-1750686939" target="_blank"

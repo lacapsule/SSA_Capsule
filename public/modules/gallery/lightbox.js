@@ -20,7 +20,10 @@ class Lightbox {
      * Initialise la lightbox
      */
     init() {
-        this.images = getAllElements(DOM_SELECTORS.GALLERY_IMAGES);
+        // Chercher d'abord les boutons de galerie, sinon les images directement
+        const galleryButtons = getAllElements('.gallery-img-btn');
+        this.images = galleryButtons.length > 0 ? galleryButtons : getAllElements(DOM_SELECTORS.GALLERY_IMAGES);
+        
         this.lightbox = getElement(DOM_SELECTORS.LIGHTBOX);
         this.lightboxImg = getElement(DOM_SELECTORS.LIGHTBOX_IMAGE);
         this.closeBtn = getElement(DOM_SELECTORS.LIGHTBOX_CLOSE);
@@ -39,16 +42,16 @@ class Lightbox {
      * Attache tous les écouteurs d'événements
      */
     attachEventListeners() {
-        // Clic sur les images
-        this.images.forEach((img, index) => {
+        // Clic sur les images ou boutons
+        this.images.forEach((element, index) => {
             // Support du clic
-            addEventListenerSafe(img, 'click', () => {
+            addEventListenerSafe(element, 'click', () => {
                 this.currentIndex = index;
                 this.show();
             });
             
             // Support de la touche Entrée et Espace pour l'accessibilité clavier
-            addEventListenerSafe(img, 'keydown', (e) => {
+            addEventListenerSafe(element, 'keydown', (e) => {
                 if (e.key === 'Enter' || e.key === ' ') {
                     e.preventDefault();
                     this.currentIndex = index;
@@ -113,7 +116,7 @@ class Lightbox {
             main.setAttribute('aria-hidden', 'false');
         }
         
-        // Retourner le focus à l'image qui a ouvert la lightbox
+        // Retourner le focus à l'élément qui a ouvert la lightbox
         if (this.images && this.images[this.currentIndex]) {
             this.images[this.currentIndex].focus();
         }
@@ -126,10 +129,20 @@ class Lightbox {
         this.lightboxImg.classList.remove(CSS_CLASSES.VISIBLE);
 
         setTimeout(() => {
-            const currentImage = this.images[this.currentIndex];
-            if (currentImage) {
-                this.lightboxImg.src = currentImage.dataset.lightbox || currentImage.src;
-                this.lightboxImg.alt = currentImage.dataset.lightboxAlt || currentImage.alt || 'Image de la galerie';
+            const currentElement = this.images[this.currentIndex];
+            if (currentElement) {
+                // Si c'est un bouton, récupérer l'image à l'intérieur
+                const imgElement = currentElement.tagName === 'BUTTON' 
+                    ? currentElement.querySelector('img') 
+                    : currentElement;
+                
+                if (imgElement) {
+                    this.lightboxImg.src = currentElement.dataset.lightbox || imgElement.src;
+                    this.lightboxImg.alt = currentElement.dataset.lightboxAlt || imgElement.alt || 'Image de la galerie';
+                } else {
+                    this.lightboxImg.src = currentElement.dataset.lightbox || currentElement.src;
+                    this.lightboxImg.alt = currentElement.dataset.lightboxAlt || currentElement.alt || 'Image de la galerie';
+                }
                 
                 // Mettre à jour le titre pour les lecteurs d'écran
                 const titleElement = document.getElementById('lightbox-title');

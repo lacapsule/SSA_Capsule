@@ -5,20 +5,20 @@
     <p class="text">{{str.about_intro}}</p>
 
     <p class="text"><strong>{{str.about_axes}}</strong></p>
-    <ul class="list-style-one" role="list">
-      <li role="listitem">
+    <ul class="list-style-one">
+      <li>
         <img src="assets/icons/Instance.svg" alt="" aria-hidden="true" role="presentation">
         <a href="https://ulamir-cpie.bzh/" target="_blank" rel="noopener noreferrer"><b>L'Ulamir CPIE </b>{{str.about_axes_1}}</a>
       </li>
-      <li role="listitem">
+      <li>
         <img src="assets/icons/Instance.svg" alt="" aria-hidden="true" role="presentation">
         <a href="https://www.resam.net/" target="_blank" rel="noopener noreferrer"><b>Le Resam </b>{{str.about_axes_2}}</a>
       </li>
-      <li role="listitem">
+      <li>
         <img src="assets/icons/Instance.svg" alt="" aria-hidden="true" role="presentation">
         <a href="https://buzuk.bzh/" target="_blank" rel="noopener noreferrer"><b>Le Buzuk </b>{{str.about_axes_3}}</a>
       </li>
-      <li role="listitem">
+      <li>
         <img src="assets/icons/Instance.svg" alt="" aria-hidden="true" role="presentation">
         <a href="https://www.adess29.fr/faire-reseau/le-pole-du-pays-de-morlaix/" target="_blank"
           rel="noopener noreferrer"><b>L'Adess</b> {{str.about_axes_4}}</a>

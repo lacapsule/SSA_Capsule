@@ -7,11 +7,13 @@
 </section>
 
 <section class="gallery" aria-label="Galerie de photos">
-    <div class="gallery-track" role="list">
+    <div class="gallery-track">
       {{#each pictures}}
-      <div class="card" role="listitem">
+      <div class="card">
         <div class="card-image-wrapper">
-          <img src="{{src}}" alt="{{alt}}" class="gallery-img" loading="lazy" data-lightbox="{{src}}" data-lightbox-alt="{{alt}}" tabindex="0" role="button" aria-label="Ouvrir l'image : {{alt}}" aria-pressed="false">
+          <button type="button" class="gallery-img-btn" data-lightbox="{{src}}" data-lightbox-alt="{{alt}}" aria-label="Ouvrir l'image : {{alt}}">
+            <img src="{{src}}" alt="{{alt}}" class="gallery-img" loading="lazy">
+          </button>
         </div>
       </div>
       {{/each}}
@@ -26,9 +28,9 @@
     <a href="?page={{pagination.prev}}" class="page-link prev-page" aria-label="Page précédente">&lsaquo;</a>
     {{/pagination.hasPrev}}
   
-    <div class="pagination-pages" role="list">
+    <div class="pagination-pages">
       {{#each pagination.pages}}
-      <a href="?page={{number}}" class="page-link{{#isCurrent}} is-active{{/isCurrent}}" role="listitem" aria-label="Page {{number}}"{{#isCurrent}} aria-current="page"{{/isCurrent}}>{{number}}</a>
+      <a href="?page={{number}}" class="page-link{{#isCurrent}} is-active{{/isCurrent}}" aria-label="Page {{number}}"{{#isCurrent}} aria-current="page"{{/isCurrent}}>{{number}}</a>
       {{/each}}
     </div>
   

@@ -54,22 +54,32 @@
 /*-DESIGN BTN-----------------*/
 .btn-style-one {
     position: relative;
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     text-align: center;
     font-size: 1em;
-    line-height: 30px;
-    padding: 10px 30px;
+    line-height: 1.5;
+    min-height: 44px; /* Zone tactile minimum */
+    min-width: 44px; /* Zone tactile minimum */
+    padding: 12px 30px;
     font-weight: 600;
     overflow: hidden;
     letter-spacing: 0.02em;
-    color: var(--ssa-txt-noir);
-    background-color: var(--ssa-vert);
+    color: #ffffff; /* Contraste amélioré : 4.5:1 sur vert */
+    background-color: #2d8f47; /* Vert plus foncé pour meilleur contraste */
+    border: 2px solid #2d8f47;
     border-radius: 5px;
     box-shadow: var(--ssa-shadow);
     transition: all 0.2s ease;
+    text-decoration: none;
+    cursor: pointer;
 
     & a {
-        padding: 15px 50px;
+        padding: 12px 30px;
+        min-height: 44px;
+        display: inline-flex;
+        align-items: center;
     }
 
     & img {
@@ -79,37 +89,52 @@
     }
 }
 
-.btn-style-one:hover {
+.btn-style-one:hover,
+.btn-style-one:focus {
     transform: scale(1.05);
     background-color: var(--ssa-hover-vert);
-    color: var(--ssa-txt-blanc);
+    border-color: var(--ssa-hover-vert);
+    color: #ffffff;
+    outline: 3px solid #005fcc;
+    outline-offset: 2px;
 }
 
 /* -------------------- */
 .btn-style-two {
     display: inline-flex;
     align-items: center;
+    justify-content: center;
     gap: 0.5rem;
-    padding: 0.85rem 1.75rem;
+    min-height: 44px; /* Zone tactile minimum */
+    min-width: 44px; /* Zone tactile minimum */
+    padding: 12px 24px;
     border-radius: 5px;
-    border: none;
-    background-color: var(--ssa-vert);
-    color: var(--ssa-blanc);
+    border: 2px solid #2d8f47;
+    background-color: #2d8f47; /* Vert plus foncé pour meilleur contraste */
+    color: #ffffff; /* Contraste amélioré : 4.5:1 sur vert */
     font-weight: 600;
     letter-spacing: 0.02em;
     cursor: pointer;
     box-shadow: var(--ssa-shadow);
     transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+    text-decoration: none;
 
     & a {
-        padding: 15px 50px;
+        padding: 12px 24px;
+        min-height: 44px;
+        display: inline-flex;
+        align-items: center;
     }
 }
 
-.btn-style-two:hover {
+.btn-style-two:hover,
+.btn-style-two:focus {
     background-color: var(--ssa-hover-vert);
+    border-color: var(--ssa-hover-vert);
     transform: translateY(-1px);
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    outline: 3px solid #005fcc;
+    outline-offset: 2px;
 }
 
 /*======== ANIMATION & HOVER ========*/

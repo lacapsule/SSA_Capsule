@@ -5,10 +5,10 @@
         <h2 id="partners-title">{{str.partners_title}}</h2>
       </div>
     </div>
-    <div class="partenaires" role="list">
+    <div class="partenaires">
       <div class="item">
         {{#each partenaires}}
-        <a href="{{url}}" target="_blank" rel="noreferrer noopener" role="listitem" aria-label="Visiter le site de {{name}} (nouvelle fenêtre)">
+        <a href="{{url}}" target="_blank" rel="noreferrer noopener" aria-label="Visiter le site de {{name}} (nouvelle fenêtre)">
           <img src="{{logo}}" alt="Logo de {{name}}" loading="lazy">
         </a>
         {{/each}}
@@ -24,10 +24,10 @@
         <h2 id="sponsors-title">Financeurs</h2>
       </div>
     </div>
-    <div class="financeurs" role="list">
+    <div class="financeurs">
       <div class="item">
         {{#each financeurs}}
-        <a href="{{url}}" target="_blank" rel="noreferrer noopener" role="listitem" aria-label="Visiter le site de {{name}} (nouvelle fenêtre)">
+        <a href="{{url}}" target="_blank" rel="noreferrer noopener" aria-label="Visiter le site de {{name}} (nouvelle fenêtre)">
           <img src="{{logo}}" alt="Logo de {{name}}" loading="lazy">
         </a>
         {{/each}}
