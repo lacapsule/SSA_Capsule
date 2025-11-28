@@ -30,11 +30,13 @@
 </head>
 
 <body>
+  <a href="#main-content" class="skip-link">Aller au contenu principal</a>
+  
   {{#showHeader}}
   {{> partial:public/header }}
   {{/showHeader}}
 
-  <main>
+  <main id="main-content" role="main">
     {{{ content }}}
   </main>
 

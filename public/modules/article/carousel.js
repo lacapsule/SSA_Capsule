@@ -42,8 +42,17 @@ function initCarousel(root) {
   const update = () => {
     track.style.transform = `translateX(-${currentIndex * 100}%)`;
     dots.forEach((dot, idx) => {
-      dot.classList.toggle('is-active', idx === currentIndex);
+      const isActive = idx === currentIndex;
+      dot.classList.toggle('is-active', isActive);
+      dot.setAttribute('aria-selected', isActive ? 'true' : 'false');
+      dot.setAttribute('tabindex', isActive ? '0' : '-1');
     });
+    
+    // Mettre à jour les slides pour l'accessibilité
+    slides.forEach((slide, idx) => {
+      slide.setAttribute('aria-hidden', idx !== currentIndex ? 'true' : 'false');
+    });
+    
     syncVideoPlayback();
   };
 

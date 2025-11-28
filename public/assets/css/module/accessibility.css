@@ -1,0 +1,135 @@
+/**
+ * Styles d'accessibilité
+ * Conformes aux normes WCAG 2.1
+ */
+
+/* Skip link pour la navigation clavier */
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 0;
+  background: #000;
+  color: #fff;
+  padding: 8px 16px;
+  text-decoration: none;
+  z-index: 1000;
+  font-weight: bold;
+}
+
+.skip-link:focus {
+  top: 0;
+  outline: 3px solid #fff;
+  outline-offset: 2px;
+}
+
+/* Classe pour masquer visuellement mais garder accessible aux lecteurs d'écran */
+.visually-hidden {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+/* Focus visible pour tous les éléments interactifs */
+*:focus-visible {
+  outline: 3px solid #005fcc;
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* Amélioration du focus pour les liens */
+a:focus-visible {
+  outline: 3px solid #005fcc;
+  outline-offset: 2px;
+  text-decoration: underline;
+}
+
+/* Amélioration du focus pour les boutons */
+button:focus-visible,
+input[type="submit"]:focus-visible,
+input[type="button"]:focus-visible {
+  outline: 3px solid #005fcc;
+  outline-offset: 2px;
+}
+
+/* Amélioration du focus pour les champs de formulaire */
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: 3px solid #005fcc;
+  outline-offset: 2px;
+  border-color: #005fcc;
+}
+
+/* États invalides pour les formulaires */
+input:invalid:not(:focus):not(:placeholder-shown),
+textarea:invalid:not(:focus):not(:placeholder-shown) {
+  border-color: #d32f2f;
+}
+
+input:invalid:focus-visible,
+textarea:invalid:focus-visible {
+  outline-color: #d32f2f;
+}
+
+/* Amélioration du contraste pour les liens */
+a {
+  color: #005fcc;
+}
+
+a:visited {
+  color: #551a8b;
+}
+
+a:hover,
+a:focus {
+  color: #003d87;
+  text-decoration: underline;
+}
+
+/* Amélioration de la lisibilité */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Amélioration pour les lecteurs d'écran */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* Indicateur de page active dans la pagination */
+.pagination-pages a[aria-current="page"] {
+  font-weight: bold;
+  text-decoration: underline;
+}
+
+/* Amélioration de la navigation clavier pour les modals */
+[role="dialog"]:focus {
+  outline: none;
+}
+
+[role="dialog"] *:first-child:focus {
+  outline: 3px solid #005fcc;
+  outline-offset: 2px;
+}
+

@@ -1,5 +1,6 @@
 @import url(./module/normalize.css);
 @import url(./module/variables.css);
+@import url(./module/accessibility.css);
 
 /* CSS DESIGN */
 @import url(./module/header.css);
