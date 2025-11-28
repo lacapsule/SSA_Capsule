@@ -9,6 +9,7 @@ use App\Modules\Home\ContactService;
 use App\Modules\Agenda\AgendaService;
 use App\Modules\Agenda\Dto\AgendaEventDTO;
 use App\Providers\LanguageOptionsProvider;
+use App\Support\StructuredDataService;
 use Capsule\Support\Pagination\Page;
 use Capsule\Support\Pagination\Paginator;
 use Capsule\Contracts\ResponseFactoryInterface;
@@ -65,6 +66,29 @@ final class HomeController extends BaseController
         $currentLang = $i18n['lang'] ?? 'fr';
         $languages = LanguageOptionsProvider::make($i18n, $currentLang);
 
+        // 6) Données structurées SEO
+        $structuredData = [
+            StructuredDataService::organization([
+                'type' => 'customer service',
+                'email' => 'contact@ssapaysdemorlaix.fr',
+            ]),
+            StructuredDataService::website(),
+        ];
+        
+        // 7) Meta tags Open Graph et Twitter
+        $baseUrl = 'https://ssapaysdemorlaix.fr';
+        $ogData = [
+            'ogTitle' => $i18n['page_title'] ?? 'SSA Pays de Morlaix',
+            'ogDescription' => $i18n['meta_description'] ?? '',
+            'ogImage' => $baseUrl . '/assets/img/logo.svg',
+            'ogUrl' => $baseUrl . '/',
+            'ogType' => 'website',
+            'twitterCard' => 'summary',
+            'twitterTitle' => $i18n['page_title'] ?? 'SSA Pays de Morlaix',
+            'twitterDescription' => $i18n['meta_description'] ?? '',
+            'twitterImage' => $baseUrl . '/assets/img/logo.svg',
+        ];
+        
         // 5) Rendu avec namespace automatique
         return $this->page('index', [  // ✅ Résout vers page:home/index
             'showHeader' => true,
@@ -79,7 +103,8 @@ final class HomeController extends BaseController
             'contact_old' => $formData,
             'flash_success' => $flash['success'] ?? [],
             'flash_error' => $flash['error'] ?? [],
-        ] + $viewData);
+            'structuredData' => StructuredDataService::toJsonLd($structuredData),
+        ] + $ogData + $viewData);
     }
 
     #[Route(path: '/contact', methods: ['POST'])]
@@ -197,6 +222,9 @@ final class HomeController extends BaseController
 
         $coverSrc = $firstImage
             ?? ($dto?->image ? (string) Safe::imageUrl(self::normalizeMediaPath((string) $dto->image)) : '');
+        $baseUrl = 'https://ssapaysdemorlaix.fr';
+        $articleUrl = $baseUrl . '/article/' . $id;
+        
         $article = [
             'id' => (int) $dto->id,
             'title' => (string) $dto->titre,
@@ -206,9 +234,30 @@ final class HomeController extends BaseController
             'place' => (string) ($dto->lieu ?? ''),
             'author' => isset($dto->author) ? (string) $dto->author : '',
             'description' => isset($dto->description) ? (string) $dto->description : '',
-            'image' => $coverSrc,
+            'image' => $coverSrc ?: $baseUrl . '/assets/img/logo.svg',
+            'url' => $articleUrl,
+            'author_name' => isset($dto->author) ? (string) $dto->author : '',
         ];
         $hasCarousel = count($mediaItems) > 1;
+
+        // Données structurées pour l'article
+        $structuredData = [
+            StructuredDataService::organization(),
+            StructuredDataService::article($article),
+        ];
+        
+        // Meta tags Open Graph et Twitter
+        $ogData = [
+            'ogTitle' => $article['title'],
+            'ogDescription' => $article['summary'] ?: $article['description'],
+            'ogImage' => $article['image'],
+            'ogUrl' => $articleUrl,
+            'ogType' => 'article',
+            'twitterCard' => 'summary_large_image',
+            'twitterTitle' => $article['title'],
+            'twitterDescription' => $article['summary'] ?: $article['description'],
+            'twitterImage' => $article['image'],
+        ];
 
         // ✅ Résout vers page:article/articleDetails
         return $this->page('page:article/articleDetails', [
@@ -220,7 +269,8 @@ final class HomeController extends BaseController
             'medias' => $mediaItems,
             'mediaCover' => $coverSrc,
             'hasCarousel' => $hasCarousel,
-        ]);
+            'structuredData' => StructuredDataService::toJsonLd($structuredData),
+        ] + $ogData);
     }
     private static function isVideoPath(string $path): bool
     {

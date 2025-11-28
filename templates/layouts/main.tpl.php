@@ -12,6 +12,21 @@
   <link rel="preload" href="/assets/fonts/outfit.ttf" as="font" type="font/ttf" crossorigin>
   <link rel="stylesheet" href="/assets/css/global.min.css">
   <link rel="icon" type="image/png" href="/assets/img/logoSSA.png">
+  
+  {{#ogTitle}}<meta property="og:title" content="{{ogTitle}}">{{/ogTitle}}
+  {{#ogDescription}}<meta property="og:description" content="{{ogDescription}}">{{/ogDescription}}
+  {{#ogImage}}<meta property="og:image" content="{{ogImage}}">{{/ogImage}}
+  {{#ogUrl}}<meta property="og:url" content="{{ogUrl}}">{{/ogUrl}}
+  <meta property="og:type" content="{{ogType}}">
+  <meta property="og:site_name" content="SSA Pays de Morlaix">
+  <meta property="og:locale" content="{{str.lang}}_FR">
+  
+  {{#twitterCard}}<meta name="twitter:card" content="{{twitterCard}}">{{/twitterCard}}
+  {{#twitterTitle}}<meta name="twitter:title" content="{{twitterTitle}}">{{/twitterTitle}}
+  {{#twitterDescription}}<meta name="twitter:description" content="{{twitterDescription}}">{{/twitterDescription}}
+  {{#twitterImage}}<meta name="twitter:image" content="{{twitterImage}}">{{/twitterImage}}
+  
+  {{> partial:structured-data }}
 </head>
 
 <body>

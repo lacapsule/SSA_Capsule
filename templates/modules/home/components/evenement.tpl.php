@@ -1,38 +1,42 @@
-<section class="evenement section" id="evenement">
+<section class="evenement section" id="evenement" aria-labelledby="evenement-title">
     <div class="contain">
         <div class="title">
             <div class="section-title">
-                <h2>évènements</h2>
+                <h2 id="evenement-title">évènements</h2>
                 <p>{{str.agenda_intro}}</p>
             </div>
         </div>
 
-        <div class="evenement row">
+        <div class="evenement row" role="list">
             {{^articles}}
-            <p class="no-event">{{str.no_upcoming_articles}}</p>
+            <p class="no-event" role="status" aria-live="polite">{{str.no_upcoming_articles}}</p>
             {{/articles}}
             {{#each articles}}
-            <div class="evenement-item ">
+            <article class="evenement-item" role="listitem" itemscope itemtype="https://schema.org/Event">
                 <div class="evenement-item-inner shadow-dark">
                     <div class="evenement-info info">
                         <div class="evenement-date">
-                            <p>{{date_event}}</p>
+                            <time datetime="{{date_event}}{{#time}}T{{time}}{{/time}}" itemprop="startDate">
+                                <p>{{date_event}}</p>
+                            </time>
                         </div>
                         <div class="evenement-time">
-                            <p>{{time}}</p>
+                            <time datetime="{{date_event}}T{{time}}" itemprop="startDate">
+                                <p>{{time}}</p>
+                            </time>
                         </div>
                     </div>
                     <div class="evenement-info desc">
-                        <h4 class="evenement-title">{{title}}</h4>
-                        <p class="evenement-description">{{summary}}</p>
+                        <h3 class="evenement-title" itemprop="name">{{title}}</h3>
+                        <p class="evenement-description" itemprop="description">{{summary}}</p>
                     </div>
                 </div>
-            </div>
+            </article>
             {{/each}}
         </div>
 
         <div class="evenement-actions">
-            <button type="button" class="btn-style-two calendar-open-btn" data-modal-open="public-calendar-modal">
+            <button type="button" class="btn-style-two calendar-open-btn" data-modal-open="public-calendar-modal" aria-label="Ouvrir le calendrier des événements">
                 {{str.agenda_calendar_button}}
             </button>
         </div>

@@ -1,31 +1,31 @@
-<section class="actu section" id="actu">
+<section class="actu section" id="actu" aria-labelledby="actu-title">
   <div class="contain">
     <div class="title">
       <div class="section-title">
-        <h2>{{str.news_title}}</h2>
+        <h2 id="actu-title">{{str.news_title}}</h2>
       </div>
     </div>
-    <div class="row">
+    <div class="row" role="list">
       {{#each articles}}
-        <div class="actu-item-inner shadow-dark">
+        <article class="actu-item-inner shadow-dark" role="listitem" itemscope itemtype="https://schema.org/Article">
           <div class="actu-img">
-              <img src="{{image}}" alt="{{titre}}" loading="lazy">
+              <img src="{{image}}" alt="Image de l'article : {{titre}}" loading="lazy" itemprop="image">
             {{else}}
-            <img src="/assets/img/logoSSA.png" alt="{{titre}}" loading="lazy">
+            <img src="/assets/img/logoSSA.png" alt="Image de l'article : {{titre}}" loading="lazy" itemprop="image">
             {{/if}}
-            <div class="actu-date">{{date_actu}}</div>
+            <time class="actu-date" datetime="{{date_actu}}" itemprop="datePublished">{{date_actu}}</time>
           </div>
           <div class="actu-info">
-            <h4 class="actu-title">{{titre}}</h4>
-            <p class="actu-description">{{resume}}</p>
-            <a href="/article/{{id}}" class="btn-style-two">{{str.read_more}}</a>
+            <h3 class="actu-title" itemprop="headline">{{titre}}</h3>
+            <p class="actu-description" itemprop="description">{{resume}}</p>
+            <a href="/article/{{id}}" class="btn-style-two" aria-label="Lire l'article : {{titre}}" itemprop="url">{{str.read_more}}</a>
           </div>
-        </div>
+        </article>
       {{/each}}
     </div>
   </div>
   {{#pagination.showPagination}}
-  <nav class="gallery-pagination">
+  <nav class="gallery-pagination" aria-label="Pagination des actualités">
     {{#pagination.hasFirst}}
     <a href="?page={{pagination.first}}#actu" class="page-link first-page" aria-label="Première page">&laquo; <span class="pagi-hide">Première</span></a>
     {{/pagination.hasFirst}}
@@ -34,13 +34,13 @@
     <a href="?page={{pagination.prev}}#actu" class="page-link prev-page" aria-label="Page précédente">&lsaquo;</a>
     {{/pagination.hasPrev}}
 
-    <div class="pagination-pages">
+    <div class="pagination-pages" role="list">
       {{#each pagination.pages}}
-      <a href="?page={{number}}#actu" class="page-link{{#isCurrent}} is-active{{/isCurrent}}">{{number}}</a>
+      <a href="?page={{number}}#actu" class="page-link{{#isCurrent}} is-active{{/isCurrent}}" role="listitem" aria-label="Page {{number}}"{{#isCurrent}} aria-current="page"{{/isCurrent}}>{{number}}</a>
       {{/each}}
     </div>
 
-    <span class="pagination-info">Page {{pagination.current}} / {{pagination.total}}</span>
+    <span class="pagination-info" aria-live="polite">Page {{pagination.current}} / {{pagination.total}}</span>
 
     {{#pagination.hasNext}}
     <a href="?page={{pagination.next}}#actu" class="page-link next-page" aria-label="Page suivante">&rsaquo;</a>
