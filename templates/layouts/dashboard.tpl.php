@@ -49,7 +49,7 @@
 
         {{{ content }}}
 
-    <script type="module" src="/main.js" defer></script>
+    <script type="module" src="/main-dashboard.js" defer></script>
 
 </body>
 

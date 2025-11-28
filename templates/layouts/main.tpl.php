@@ -10,6 +10,9 @@
   <title>{{str.page_title}}</title>
 
   <link rel="preload" href="/assets/fonts/outfit.ttf" as="font" type="font/ttf" crossorigin>
+  <link rel="preload" href="/assets/css/global.min.css" as="style">
+  <link rel="preload" href="/modules/constants.js" as="script" crossorigin>
+  <link rel="preload" href="/modules/utils/dom.js" as="script" crossorigin>
   <link rel="stylesheet" href="/assets/css/global.min.css">
   <link rel="icon" type="image/png" href="/assets/img/logoSSA.png">
   
@@ -44,7 +47,8 @@
   {{> partial:public/footer }}
   {{/showFooter}}
 
-  <script type="module" src="/main.js" defer></script>
+  <link rel="modulepreload" href="/modules/gallery/lightbox.js">
+  <script type="module" src="/main-public.js" defer></script>
 
 </body>
 
