@@ -9,7 +9,8 @@
   <meta name="author" content="{{str.meta_author}}">
   <title>{{str.page_title}}</title>
 
-  <link rel="stylesheet" href="/assets/css/global.css">
+  <link rel="preload" href="/assets/fonts/outfit.ttf" as="font" type="font/ttf" crossorigin>
+  <link rel="stylesheet" href="/assets/css/global.min.css">
   <link rel="icon" type="image/png" href="/assets/img/logoSSA.png">
 </head>
 

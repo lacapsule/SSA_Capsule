@@ -1,6 +1,6 @@
 <section id="hero-anchor" class="hero">
   <div class="overlay">
-    <img src="/assets/img/banner.webp" style="no-repeat center/cover" alt="banner">
+    <img src="/assets/img/banner.webp" style="no-repeat center/cover" alt="banner" fetchpriority="high">
   </div>
   <h1>{{str.hero_title}}</h1>
   <p class="slogan">{{str.hero_slogan}}</p>

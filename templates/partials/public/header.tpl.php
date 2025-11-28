@@ -9,7 +9,7 @@
 
   <nav class="navbar">
  <a href="/" class="logo-link">
-    <img src="/assets/img/logo.svg" alt="{{str.nav_title}}" class="logo">
+    <img src="/assets/img/logo.svg" alt="{{str.nav_title}}" class="logo" fetchpriority="high">
   </a>
 
     <ul>

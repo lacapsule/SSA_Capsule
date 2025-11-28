@@ -9,7 +9,7 @@
       <div class="item">
         {{#each partenaires}}
         <a href="{{url}}" target="_blank" rel="noreferrer noopener">
-          <img src="{{logo}}" alt="{{name}}">
+          <img src="{{logo}}" alt="{{name}}" loading="lazy">
         </a>
         {{/each}}
       </div>
@@ -28,7 +28,7 @@
       <div class="item">
         {{#each financeurs}}
         <a href="{{url}}" target="_blank" rel="noreferrer noopener">
-          <img src="{{logo}}" alt="{{name}}">
+          <img src="{{logo}}" alt="{{name}}" loading="lazy">
         </a>
         {{/each}}
       </div>

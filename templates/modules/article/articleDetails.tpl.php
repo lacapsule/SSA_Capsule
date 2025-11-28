@@ -9,7 +9,7 @@
           <video src="{{src}}" controls playsinline preload="metadata"></video>
           {{/isVideo}}
           {{^isVideo}}
-          <img src="{{src}}" alt="illustration">
+          <img src="{{src}}" alt="illustration" loading="lazy">
           {{/isVideo}}
         </figure>
         {{/each}}
@@ -26,10 +26,10 @@
 
     {{^hasCarousel}}
       {{#article.image}}
-      <img src="{{article.image}}" alt="illustration">
+      <img src="{{article.image}}" alt="illustration" fetchpriority="high">
       {{/article.image}}
       {{^article.image}}
-      <img src="/assets/img/banner.webp" alt="illustration">
+      <img src="/assets/img/banner.webp" alt="illustration" fetchpriority="high">
       {{/article.image}}
     {{/hasCarousel}}
   </div>

@@ -64,6 +64,9 @@ vendor-clean: ## Réinstalle vendor proprement (host)
 dump:         ## (Re)génère l'autoload Composer
 	composer dump-autoload
 
+build-assets: ## Construit les assets optimisés (CSS/JS minifiés)
+	php bin/build-assets.php
+
 # ---------- Qualité / Tests ----------
 phpstan:      ## Analyse statique
 	vendor/bin/phpstan analyse app src --level=6

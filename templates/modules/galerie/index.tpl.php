@@ -11,7 +11,7 @@
       {{#each pictures}}
       <div class="card">
         <div class="card-image-wrapper">
-          <img src="{{src}}" alt="{{alt}}" class="gallery-img">
+          <img src="{{src}}" alt="{{alt}}" class="gallery-img" loading="lazy">
         </div>
       </div>
       {{/each}}

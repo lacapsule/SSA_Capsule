@@ -9,9 +9,9 @@
       {{#each articles}}
         <div class="actu-item-inner shadow-dark">
           <div class="actu-img">
-              <img src="{{image}}" alt="{{titre}}">
+              <img src="{{image}}" alt="{{titre}}" loading="lazy">
             {{else}}
-            <img src="/assets/img/logoSSA.png" alt="{{titre}}">
+            <img src="/assets/img/logoSSA.png" alt="{{titre}}" loading="lazy">
             {{/if}}
             <div class="actu-date">{{date_actu}}</div>
           </div>
