@@ -83,8 +83,7 @@
     </p>
 
     <p class="text">
-      L’appel à candidatures est ouvert à toutes et tous, sans condition de ressources, <strong>jusqu’au 20
-        septembre.</strong></p>
+      L’appel à candidatures est ouvert à toutes et tous, sans condition de ressources.</p>
     <p class="text">Pour postuler, il suffit de télécharger le dossier en ligne ou de s’inscrire directement via le
       formulaire
       dédié.
