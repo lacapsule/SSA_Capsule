@@ -1,15 +1,16 @@
-<header role="banner">
-  <input type="checkbox" id="menu-toggle" aria-label="Menu de navigation" aria-expanded="false">
-  <label for="menu-toggle" class="hamburger" aria-hidden="true">
+<header>
+ 
+  <input type="checkbox" id="menu-toggle">
+  <label for="menu-toggle" class="hamburger">
     <span class="line"></span>
     <span class="line"></span>
     <span class="line"></span>
   </label>
 
-  <nav class="navbar" role="navigation" aria-label="Navigation principale">
-    <a href="/" class="logo-link" aria-label="Retour à l'accueil - {{str.nav_title}}">
-      <img src="/assets/img/logo.svg" alt="{{str.nav_title}}" class="logo" fetchpriority="high" width="150" height="50">
-    </a>
+  <nav class="navbar">
+ <a href="/" class="logo-link">
+    <img src="/assets/img/logo.svg" alt="{{str.nav_title}}" class="logo">
+  </a>
 
     <ul>
       <li><a href="/#hero-anchor">{{str.nav_home}}</a></li>
@@ -19,33 +20,28 @@
       <li><a href="/projet">{{str.nav_project}}</a></li>
       <li><a href="/galerie">{{str.nav_galerie}}</a></li>
       <li><a href="/#contact-anchor">{{str.nav_contact}}</a></li>
-      <li aria-label="Sélection de la langue">
-        <a href="?lang=fr" aria-label="Français" lang="fr"><img class="flag" src="/assets/icons/fr.svg" alt="Français" width="24" height="18"></a>
-        <span aria-hidden="true"> • </span>
-        <a href="?lang=br" aria-label="Breton" lang="br"><img class="flag" src="/assets/icons/br.svg" alt="Breton" width="24" height="18"></a>
+      <li>
+        <a href="?lang=fr"><img class="flag" src="/assets/icons/fr.svg" alt="FR"></a> •
+        <a href="?lang=br"><img class="flag" src="/assets/icons/br.svg" alt="BR"></a>
       </li>
     </ul>
     
     {{#isAuthenticated}}
-    <div class="user" aria-label="Actions utilisateur">
-      <ul>
-        <li><a class="icons" href="/dashboard" aria-label="Tableau de bord">
-          <img src="/assets/icons/dashboard.svg" alt="" width="20" height="20" aria-hidden="true">
+    <div class="user">
+      <li><a class="icons" href="/dashboard">
+          <img src="/assets/icons/dashboard.svg" alt="Dashboard icon">
         </a></li>
-        <li><a class="icons" href="/logout" aria-label="Déconnexion">
-          <img src="/assets/icons/logout.svg" alt="" width="20" height="20" aria-hidden="true">
+      <li><a class="icons" href="/logout">
+          <img src="/assets/icons/logout.svg" alt="Logout icon">
         </a></li>
-      </ul>
     </div>
     {{/isAuthenticated}}
 
     {{^isAuthenticated}}
-    <div class="user" aria-label="Connexion">
-      <ul>
-        <li><a class="icons" href="/login" aria-label="Se connecter">
-          <img src="/assets/icons/login.svg" alt="" width="20" height="20" aria-hidden="true">
+    <div class="user">
+      <li><a class="icons" href="/login">
+          <img src="/assets/icons/login.svg" alt="Login icon">
         </a></li>
-      </ul>
     </div>
     {{/isAuthenticated}}
   </nav>

@@ -1,0 +1,16 @@
+@import url(./module/variables.css);
+
+/* CSS DESIGN */
+@import url(./module/header.css);
+@import url(./module/footer.css);
+@import url(./module/home.css);
+@import url(./module/projet.css);
+@import url(./module/galerie.css);
+@import url(./module/login.css);
+@import url(./module/article.css);
+
+/* CSS RESPONSIVE */
+@import url(./responsive/headerRS.css);
+@import url(./responsive/homeRS.css);
+@import url(./responsive/footerRS.css);
+@import url(./responsive/projetRS.css);

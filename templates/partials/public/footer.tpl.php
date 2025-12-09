@@ -1,14 +1,14 @@
-<footer role="contentinfo">
+<footer>
   <div class="footer-infos">
     <div class="infoaso">
       <p>{{str.footer_siret}}</p>
       <p>{{str.footer_APE}}</p>
     </div>
-    <img class="ssalogo" src="/assets/img/logo.svg" alt="Logo SSA Pays de Morlaix" width="150" height="50">
+    <img class="ssalogo" src="/assets/img/logo.svg" alt="SSA logo">
   </div>
 
+  </div>
   <div class="copyright">
-    <p>Site web éco-conçu par <a href="https://lacapsule.bzh" target="_blank" rel="noopener noreferrer">La Capsule</a></p>
-    <p><a href="/sitemap.xml" class="visually-hidden">Plan du site</a></p>
+    <p>Site web éco-conçu par <a href="">La Capsule</a></p>
   </div>
 </footer>

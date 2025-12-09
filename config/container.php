@@ -50,7 +50,6 @@ use App\Modules\Home\HomeController;
 use App\Modules\Home\HomeService;
 use App\Modules\Home\ContactRepository;
 use App\Modules\Home\ContactService;
-use App\Modules\Home\SitemapController;
 use App\Modules\Partners\PartnersController;
 use App\Modules\Login\LoginController;
 use App\Modules\User\UserController;
@@ -264,11 +263,6 @@ return (function (): DIContainer {
         $c->get(ViewRendererInterface::class),
     ));
 
-    $c->set(SitemapController::class, fn ($c) => new SitemapController(
-        $c->get(ArticleService::class),
-        $c->get(ResponseFactoryInterface::class),
-    ));
-
     $c->set(GalerieController::class, fn ($c) => new GalerieController(
         $c->get(GalerieService::class),
         $c->get(ResponseFactoryInterface::class),
@@ -317,3 +311,4 @@ return (function (): DIContainer {
 
     return $c;
 })();
+

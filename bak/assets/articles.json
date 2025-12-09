@@ -1,0 +1,29 @@
+[
+    {
+        "title": "Lancement du recrutement des 100 participants à la caisse citoyenne !",
+        "content": " La campagne de recrutement des 100 personnes qui participeront à la caisse commune est lancé jusqu’au 20 septembre. C’est ouvert à toutes et tous, sans conditions de ressources. L’objectif est d’avoir un panel de candidat.e.s le plus représentatif possible de la population du territoire du pays de Morlaix, en terme de niveau de vie et de composition du foyer. Si les candidatures sont trop nombreuses, un tirage au sort sera effectué par catégorie. Le dossier de candidature en ligne est à télécharger ici ou à retrouver sur ce lien. Pour plus d’informations, n’hésitez pas à contacter les membres du collectif sur ssapaysdemorlaix@mailo.com ou candidature@mailo.com",
+        "date": "2023-09-01",
+        "hour": "09:00",
+        "image": "/assets/img/banner.webp",
+        "category": "Santé",
+        "link": "/articles/${title}"
+    },
+    {
+        "title": "Stand sur les marchés de l’été",
+        "content": "Fin juin et juillet 2025, le collectif est intervenu sur les marchés du territoire : Carantec, Plougasnou, Lanmeur, ferme du Poder à Plouégat Guerrand, ferme du Troglo à Plouézoc’h, marché de Ty Grean à Plounéour Menez. Les stands ont permis de rencontrer de futurs participants et des nouveaux citoyens. D’autres interventions sur les marchés sont prévues à Saint Pol de Léon, Plouescat, Landivisiau...",
+        "date": "2025-07-01",
+        "hour": "09:00",
+        "image": "/assets/img/banner.webp",
+        "category": "Santé",
+        "link": "/articles/${title}"
+    },
+    {
+        "title": "Conférence gesticulée « de la fourche à la fourchette » - Mathieu Dalmais",
+        "content": "Dimanche 6 juillet, Mathieu Dalmais a présenté sa conférence gesticulée devant une quarantaine de personnes au centre social Ti an oll. Les participants ont apprécié la qualité de l’intervention. « On ne voit pas passer les 2heures » Les échanges et questions à la fin de la conférence ont été nombreux et très précis. Une belle soirée instructive et conviviale ! Le collectif pour une SSA en Pays de Morlaix a pu présenter l’avancement de son expérimentation. Les échanges se sont poursuivis avec un apéro convivial.",
+        "date": "2025-07-06",
+        "hour": "09:00",
+        "image": "/assets/img/banner.webp",
+        "category": "Santé",
+        "link": "/articles/${title}"
+    }
+]

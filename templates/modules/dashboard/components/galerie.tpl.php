@@ -25,7 +25,7 @@
           <input type="checkbox" class="photo-checkbox" data-filename="{{filename}}" aria-label="Sélectionner cette photo">
         </div>
         <div class="card-image-wrapper">
-          <img src="{{src}}" alt="{{alt}}" class="gallery-img" loading="lazy">
+          <img src="{{src}}" alt="{{alt}}" class="gallery-img">
         </div>
         <div class="card-actions">
           <button class="btn btn-sm btn-info edit-photo-btn" data-filename="{{filename}}" data-alt="{{alt}}" title="Modifier le nom">
