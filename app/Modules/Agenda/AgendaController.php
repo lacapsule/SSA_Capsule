@@ -93,6 +93,8 @@ final class AgendaController extends BaseController
             dateYmd: $date,
             timeHi: $time,
             location: $loc !== '' ? $loc : null,
+            description: null,
+            links: null,
             durationHours: $durH,
             createdBy: $this->currentUser()['id'] ?? null
         );
@@ -188,8 +190,10 @@ final class AgendaController extends BaseController
                 'title' => $event->title,
                 'start' => $event->startsAt->format('Y-m-d H:i:s'),
                 'end' => $event->endsAt()->format('Y-m-d H:i:s'),
-                'description' => $event->location,
-                'color' => $event->color, // Couleur par défaut
+                'location' => $event->location,
+                'description' => $event->description,
+                'links' => $event->links,
+                'color' => $event->color,
                 'all_day' => false,
             ];
         }, $events);
@@ -229,6 +233,8 @@ final class AgendaController extends BaseController
             $startStr = (string) ($_POST['start'] ?? '');
             $endStr = (string) ($_POST['end'] ?? '');
             $description = trim((string) ($_POST['description'] ?? ''));
+            $location = trim((string) ($_POST['location'] ?? ''));
+            $links = trim((string) ($_POST['links'] ?? ''));
             $color = (string) ($_POST['color'] ?? '#3788d8');
 
             // Debug
@@ -287,7 +293,9 @@ final class AgendaController extends BaseController
                 title: $title,
                 dateYmd: $dateYmd,
                 timeHi: $timeHi,
-                location: !empty($description) ? $description : null,
+                location: !empty($location) ? $location : null,
+                description: !empty($description) ? $description : null,
+                links: !empty($links) ? $links : null,
                 durationHours: $durationHours,
                 createdBy: $this->currentUser()['id'] ?? null,
                 color: $color
@@ -319,10 +327,12 @@ final class AgendaController extends BaseController
             $title = trim((string) ($_POST['title'] ?? ''));
             $startStr = (string) ($_POST['start'] ?? '');
             $endStr = (string) ($_POST['end'] ?? '');
+            $location = trim((string) ($_POST['location'] ?? ''));
             $description = trim((string) ($_POST['description'] ?? ''));
+            $links = trim((string) ($_POST['links'] ?? ''));
             $color = (string) ($_POST['color'] ?? '#3788d8');
 
-            [$ok, $errors] = $this->agenda->update($id, $title, $startStr, $endStr, !empty($description) ? $description : null, $color);
+            [$ok, $errors] = $this->agenda->update($id, $title, $startStr, $endStr, !empty($location) ? $location : null, !empty($description) ? $description : null, !empty($links) ? $links : null, $color);
 
             if (!$ok) {
                 return $this->res->json(['success' => false, 'errors' => $errors], 400);

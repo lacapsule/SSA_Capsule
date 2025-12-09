@@ -18,9 +18,9 @@ final class AgendaRepository
     /** @return array<AgendaEventDTO> */
     public function findBetween(DateTime $start, DateTime $end): array
     {
-        // ✨ On ajoute 'color' au SELECT
+        // ✨ On ajoute 'color', 'description' et 'links' au SELECT
         $stmt = $this->pdo->prepare(
-            'SELECT id, title, location, starts_at, duration_minutes, created_by, color
+            'SELECT id, title, location, description, links, starts_at, duration_minutes, created_by, color
              FROM agenda_events
              WHERE starts_at >= :start AND starts_at < :end
              ORDER BY starts_at'
@@ -40,6 +40,8 @@ final class AgendaRepository
                 startsAt: new DateTimeImmutable($row['starts_at']),
                 durationMinutes: (int) $row['duration_minutes'],
                 location: $row['location'] !== null ? (string) $row['location'] : null,
+                description: $row['description'] !== null ? (string) $row['description'] : null,
+                links: $row['links'] !== null ? (string) $row['links'] : null,
                 createdBy: $row['created_by'] !== null ? (int) $row['created_by'] : null,
                 color: $row['color'] ?? '#3788d8',
             ),
@@ -52,13 +54,15 @@ final class AgendaRepository
         DateTime $startsAt,
         int $durationMinutes,
         ?string $location,
+        ?string $description,
+        ?string $links,
         ?int $createdBy,
         string $color
     ): int {
-        // ✨ Ajout de la colonne color dans l'INSERT
+        // ✨ Ajout de description et links dans l'INSERT
         $stmt = $this->pdo->prepare(
-            'INSERT INTO agenda_events (title, starts_at, duration_minutes, location, created_by, color)
-             VALUES (:title, :starts_at, :duration, :location, :created_by, :color)'
+            'INSERT INTO agenda_events (title, starts_at, duration_minutes, location, description, links, created_by, color)
+             VALUES (:title, :starts_at, :duration, :location, :description, :links, :created_by, :color)'
         );
 
         $stmt->execute([
@@ -66,6 +70,8 @@ final class AgendaRepository
             ':starts_at' => $startsAt->format('Y-m-d H:i:00'),
             ':duration' => $durationMinutes,
             ':location' => $location,
+            ':description' => $description,
+            ':links' => $links,
             ':created_by' => $createdBy,
             ':color' => $color,
         ]);
@@ -73,11 +79,11 @@ final class AgendaRepository
         return (int) $this->pdo->lastInsertId(); // Retourner l'ID
     }
 
-    public function update(int $id, string $title, DateTime $startsAt, int $durationMinutes, ?string $location, string $color): bool
+    public function update(int $id, string $title, DateTime $startsAt, int $durationMinutes, ?string $location, ?string $description, ?string $links, string $color): bool
     {
         $stmt = $this->pdo->prepare(
             'UPDATE agenda_events
-             SET title = :title, starts_at = :starts_at, duration_minutes = :duration, location = :location, color = :color
+             SET title = :title, starts_at = :starts_at, duration_minutes = :duration, location = :location, description = :description, links = :links, color = :color
              WHERE id = :id'
         );
 
@@ -87,6 +93,8 @@ final class AgendaRepository
             ':starts_at' => $startsAt->format('Y-m-d H:i:s'),
             ':duration' => $durationMinutes,
             ':location' => $location,
+            ':description' => $description,
+            ':links' => $links,
             ':color' => $color,
         ]);
 

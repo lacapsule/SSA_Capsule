@@ -14,6 +14,8 @@ final class AgendaEventDTO
         public readonly DateTimeImmutable $startsAt,
         public readonly int $durationMinutes,
         public readonly ?string $location = null,
+        public readonly ?string $description = null,
+        public readonly ?string $links = null,
         public readonly ?int $createdBy = null,
         public string $color = '#3788d8' // Ajouter si nécessaire
     ) {}

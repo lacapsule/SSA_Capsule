@@ -49,6 +49,8 @@ final class AgendaService
         string $dateYmd,
         string $timeHi,
         ?string $location,
+        ?string $description,
+        ?string $links,
         float $durationHours,
         ?int $createdBy,
         string $color = '#3788d8',
@@ -86,8 +88,8 @@ final class AgendaService
             return [false, $errors, $startsAt];
         }
 
-        // ✨ CORRECTION ICI : Ajout de $color qui manquait dans l'appel insert
-        $this->repo->insert($title, $startsAt, $durationMinutes, $location, $createdBy, $color);
+        // ✨ CORRECTION ICI : Ajout de $description et $links qui manquaient dans l'appel insert
+        $this->repo->insert($title, $startsAt, $durationMinutes, $location, $description, $links, $createdBy, $color);
 
         return [true, [], $startsAt];
     }
@@ -95,7 +97,7 @@ final class AgendaService
     /**
      * @return array{0:bool, 1:array<string,string>}
      */
-    public function update(int $id, string $title, string $startStr, string $endStr, ?string $description, string $color = '#3788d8'): array
+    public function update(int $id, string $title, string $startStr, string $endStr, ?string $location, ?string $description, ?string $links, string $color = '#3788d8'): array
     {
         $errors = [];
         $title = trim($title);
@@ -148,7 +150,7 @@ final class AgendaService
             return [false, $errors];
         }
 
-        $this->repo->update($id, $title, $startsAt, (int)$durationMinutes, $description, $color);
+        $this->repo->update($id, $title, $startsAt, (int)$durationMinutes, $location, $description, $links, $color);
 
         return [true, []];
     }

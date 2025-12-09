@@ -77,23 +77,31 @@
         <div class="form-group">
           <label>Couleur</label>
           <div class="color-selector">
-            <label class="color-option" title="Standard">
+            <label class="color-option" title="Expérimentateur">
               <input type="radio" name="color" value="#3788d8" checked>
               <span class="color-circle" style="background-color: #3788d8;"></span>
             </label>
-            <label class="color-option" title="Validé">
+            <label class="color-option" title="Public/Pour tous">
               <input type="radio" name="color" value="#43c466">
               <span class="color-circle" style="background-color: #43c466;"></span>
             </label>
-            <label class="color-option" title="Urgent">
+            <label class="color-option" title="Collectif">
               <input type="radio" name="color" value="#fdb544">
               <span class="color-circle" style="background-color: #fdb544;"></span>
             </label>
           </div>
         </div>
         <div class="form-group">
-          <label for="create_description">Lieu</label>
-          <input id="create_description" name="description" placeholder="Salle/Batiement/Ville">
+          <label for="create_description">Description</label>
+          <textarea id="create_description" name="description" placeholder="Description"></textarea>
+        </div>
+        <div class="form-group">
+          <label for="create_location">Lieux</label>
+          <input id="create_location" name="location" placeholder="Salle/Batiment/Ville">
+        </div>
+        <div class="form-group">
+          <label for="create_links">Liens</label>
+          <input id="create_links" name="links" placeholder="Ex: inscription : https://exemple.com, formulaire : https://lien.com">
         </div>
       </form>
     </div>
@@ -125,14 +133,14 @@
             <input type="date" id="edit_date" name="date" required>
           </div>
           <div class="form-group half">
-            <label for="edit_start_time">Heure début *</label>
-            <input type="time" id="edit_start_time" name="start_time" required>
+            <label for="edit_end_date">Date fin *</label>
+            <input type="date" id="edit_end_date" name="end_date" required>
           </div>
         </div>
         <div class="row-group">
           <div class="form-group half">
-            <label for="edit_end_date">Date fin *</label>
-            <input type="date" id="edit_end_date" name="end_date" required>
+            <label for="edit_start_time">Heure début *</label>
+            <input type="time" id="edit_start_time" name="start_time" required>
           </div>
           <div class="form-group half">
             <label for="edit_end_time">Heure fin *</label>
@@ -142,23 +150,31 @@
         <div class="form-group">
           <label>Couleur</label>
           <div class="color-selector">
-            <label class="color-option" title="Standard">
+            <label class="color-option" title="Expérimentateur">
               <input type="radio" name="color" value="#3788d8" checked>
               <span class="color-circle" style="background-color: #3788d8;"></span>
             </label>
-            <label class="color-option" title="Validé">
+            <label class="color-option" title="Public/Pour tous">
               <input type="radio" name="color" value="#43c466">
               <span class="color-circle" style="background-color: #43c466;"></span>
             </label>
-            <label class="color-option" title="Urgent">
+            <label class="color-option" title="Collectif">
               <input type="radio" name="color" value="#fdb544">
               <span class="color-circle" style="background-color: #fdb544;"></span>
             </label>
           </div>
         </div>
         <div class="form-group">
-          <label for="edit_description">Lieu</label>
-          <input id="edit_description" name="description" placeholder="Salle/Batiement/Ville">
+          <label for="edit_description">Description</label>
+          <textarea id="edit_description" name="description" placeholder="Description"></textarea>
+        </div>
+        <div class="form-group">
+          <label for="edit_location">Lieux</label>
+          <input id="edit_location" name="location" placeholder="Salle/Batiment/Ville">
+        </div>
+        <div class="form-group">
+          <label for="edit_links">Liens</label>
+          <input id="edit_links" name="links" placeholder="Ex: inscription : https://exemple.com, formulaire : https://lien.com">
         </div>
       </form>
     </div>

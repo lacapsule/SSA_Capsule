@@ -135,7 +135,9 @@ final class HomeController extends BaseController
                 'title' => $event->title,
                 'start' => $event->startsAt->format('Y-m-d H:i:s'),
                 'end' => $event->endsAt()->format('Y-m-d H:i:s'),
-                'description' => $event->location,
+                'location' => $event->location,
+                'description' => $event->description,
+                'links' => $event->links,
                 'color' => $event->color,
                 'all_day' => false,
             ];

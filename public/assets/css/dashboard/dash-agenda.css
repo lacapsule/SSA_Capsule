@@ -37,6 +37,29 @@
     color: var(--ssa-gris);
 }
 
+.event-link-item {
+    display: block;
+    margin: 0.35rem 0;
+    color: var(--ssa-gris);
+}
+
+.event-link-item strong {
+    font-weight: 600;
+    color: var(--ssa-gris);
+}
+
+.event-link {
+    color: #3788d8;
+    text-decoration: none;
+    word-break: break-all;
+    transition: color 0.2s;
+}
+
+.event-link:hover {
+    color: #2563eb;
+    text-decoration: underline;
+}
+
 .calendar-details-empty {
     margin: 0;
     color: #6c7a92;

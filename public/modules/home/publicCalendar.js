@@ -184,12 +184,47 @@ export function initPublicCalendar() {
     });
     const timeLabel = `${formatTime(event.startDate)} à ${formatTime(event.endDate)}`;
 
+    // Fonction pour sécuriser et rendre cliquables les URLs
+    const renderLinks = (linksStr) => {
+        if (!linksStr) return '';
+        
+        // Parser le format "label : url" séparé par des virgules
+        const linkItems = linksStr.split(',').map(item => item.trim()).filter(Boolean);
+        
+        return linkItems.map(item => {
+            let label = item;
+            let url = item;
+            
+            // Vérifier s'il y a un séparateur ":" pour label et URL
+            if (item.includes(':')) {
+                const parts = item.split(':').map(p => p.trim());
+                if (parts.length >= 2) {
+                    label = parts[0];
+                    url = parts.slice(1).join(':').trim(); // Rejoindre en cas d'URL avec ':'
+                }
+            }
+            
+            // Valider que c'est une URL
+            if (url.match(/^https?:\/\//)) {
+                try {
+                    new URL(url); // Valider l'URL
+                    return `<span class="event-link-item"><strong>${label}:</strong> <a href="${encodeURI(url)}" target="_blank" rel="noopener noreferrer" class="event-link">${url}</a></span>`;
+                } catch {
+                    return '';
+                }
+            }
+            return '';
+        }).filter(Boolean).join('<br>');
+    };
+
     details.innerHTML = `
     <div class="detail-content">
         <h3>${event.title}</h3>
         <p><strong>Date: </strong>${dateLabel}</p>
         <p><strong>Heure: </strong>${timeLabel}</p>
-        ${event.description ? `<p><strong>Lieux:</strong> ${event.description}</p>` : ''}
+        ${event.location ? `<p><strong>Lieu:</strong> ${event.location}</p>` : ''}
+        ${event.description ? `<p><strong>Description:</strong> ${event.description}</p>` : ''}
+        ${event.links ? `<p><strong>Liens:</strong><br>${renderLinks(event.links)}</p>` : ''}
     </div>
     `;
   }

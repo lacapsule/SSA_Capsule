@@ -333,6 +333,12 @@ function createEventChip(ev) {
     const timeStr = ev.start.substring(11, 16); // HH:MM
     button.textContent = `${timeStr} • ${ev.title}`;
 
+    // Créer un titre au survol avec les détails complets
+    let hoverTitle = ev.title;
+    if (ev.location) hoverTitle += ` - ${ev.location}`;
+    if (ev.description) hoverTitle += ` - ${ev.description}`;
+    button.title = hoverTitle;
+
     button.addEventListener('click', (e) => {
         e.stopPropagation();
         displayEventDetails(ev);
@@ -368,12 +374,47 @@ function displayEventDetails(ev) {
 
     const timeLabel = `${startTime} à ${endTime}`;
 
+    // Fonction pour sécuriser et rendre cliquables les URLs
+    const renderLinks = (linksStr) => {
+        if (!linksStr) return '';
+        
+        // Parser le format "label : url" séparé par des virgules
+        const linkItems = linksStr.split(',').map(item => item.trim()).filter(Boolean);
+        
+        return linkItems.map(item => {
+            let label = item;
+            let url = item;
+            
+            // Vérifier s'il y a un séparateur ":" pour label et URL
+            if (item.includes(':')) {
+                const parts = item.split(':').map(p => p.trim());
+                if (parts.length >= 2) {
+                    label = parts[0];
+                    url = parts.slice(1).join(':').trim(); // Rejoindre en cas d'URL avec ':'
+                }
+            }
+            
+            // Valider que c'est une URL
+            if (url.match(/^https?:\/\//)) {
+                try {
+                    new URL(url); // Valider l'URL
+                    return `<span class="event-link-item"><strong>${label}:</strong> <a href="${encodeURI(url)}" target="_blank" rel="noopener noreferrer" class="event-link">${url}</a></span>`;
+                } catch {
+                    return '';
+                }
+            }
+            return '';
+        }).filter(Boolean).join('<br>');
+    };
+
     detailsPanel.innerHTML = `
     <div class="detail-content">
         <h3>${ev.title}</h3>
-        <p><strong>Date: </strong>${dateLabel}</p>
-        <p><strong>Heure: </strong>${timeLabel}</p>
-        ${ev.description ? `<p><strong>Lieux:</strong> ${ev.description}</p>` : ''}
+        <p><strong>Date:</strong> ${dateLabel}</p>
+        <p><strong>Heure:</strong> ${timeLabel}</p>
+        ${ev.location ? `<p><strong>Lieux:</strong> ${ev.location}</p>` : ''}
+        ${ev.description ? `<p><strong>Description:</strong> ${ev.description}</p>` : ''}
+        ${ev.links ? `<p><strong>Liens:</strong>${renderLinks(ev.links)}</p>` : ''}
     </div>
         <button type="button" class="btn btn-primary" id="detail-edit-btn">Éditer</button>
     `;
@@ -535,6 +576,12 @@ function openEditModal(ev) {
     }
 
     document.getElementById('edit_description').value = ev.description || '';
+    if (document.getElementById('edit_location')) {
+        document.getElementById('edit_location').value = ev.location || '';
+    }
+    if (document.getElementById('edit_links')) {
+        document.getElementById('edit_links').value = ev.links || '';
+    }
 
     // Select correct color radio
     const colorToSelect = ev.color || '#3788d8';
