@@ -11,7 +11,7 @@
             {{#each events}}
             <button type="button" class="evenement-item event-card" data-event-id="{{id}}">
                 <div class="evenement-item-inner shadow-dark">
-                    <div class="evenement-info info">
+                    <div class="evenement-info info" style="background-color: {{#category_color}}{{{category_color}}}{{/category_color}}{{^category_color}}var(--ssa-jaune){{/category_color}};">
                         <div class="evenement-date">
                             <p>{{date_label}}</p>
                         </div>
@@ -22,9 +22,6 @@
                     <div class="evenement-info desc">
                         <div class="event-header">
                             <h4 class="evenement-title">{{title}}</h4>
-                            {{#category_label}}
-                            <span class="event-badge" style="background: {{category_color}}">{{category_label}}</span>
-                            {{/category_label}}
                         </div>
                         <p class="evenement-description">{{summary}}</p>
                     </div>
@@ -69,6 +66,20 @@
             </button>
         </div>
         <div class="modal-body">
+            <div class="categories-legend-banner">
+                <h3>Légende des catégories</h3>
+                <div class="categories-list-legend">
+                    {{#each categories}}
+                    <div class="category-badge-legend">
+                        <span class="category-color-dot" style="background-color: {{{color}}}"></span>
+                        <span class="category-label">{{{label}}}</span>
+                    </div>
+                    {{/each}}
+                    {{^categories}}
+                    <p class="calendar-details-empty">Aucune catégorie disponible</p>
+                    {{/categories}}
+                </div>
+            </div>
             <div class="calendar-controls">
                 <div class="calendar-category-filter">
                     <label for="public-calendar-category">Filtrer par catégorie</label>

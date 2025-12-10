@@ -265,14 +265,10 @@ export function initPublicCalendar() {
         }).filter(Boolean).join('<br>');
     };
 
-    const badge = event.category_label
-      ? `<span class="event-badge" style="background:${event.category_color || event.color}">${event.category_label}</span>`
-      : '';
-
+    // Mettre à jour le panneau de détails uniquement (pas de modale)
     details.innerHTML = `
     <div class="detail-content">
         <h3>${event.title}</h3>
-        ${badge ? `<p>${badge}</p>` : ''}
         <p><strong>Date: </strong>${dateLabel}</p>
         <p><strong>Heure: </strong>${timeLabel}</p>
         ${event.location ? `<p><strong>Lieu:</strong> ${event.location}</p>` : ''}
@@ -411,7 +407,6 @@ export function initPublicCalendar() {
     chip.innerHTML = `
       <span class="chip-time">${event.timeLabel}</span>
       <span class="chip-title">${event.title}</span>
-      ${event.category_label ? `<span class="chip-badge" style="background:${event.category_color || event.color}">${event.category_label}</span>` : ''}
     `;
     chip.addEventListener('click', (e) => {
       e.stopPropagation();

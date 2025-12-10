@@ -12,8 +12,8 @@
 
     <div class="calendar-controls">
       <div class="calendar-view-switch">
-        <button type="button" class="calendar-view-btn is-active" data-calendar-view="week">Semaine</button>
-        <button type="button" class="calendar-view-btn" data-calendar-view="month">Mois</button>
+        <button type="button" class="calendar-view-btn" data-calendar-view="week">Semaine</button>
+        <button type="button" class="calendar-view-btn is-active" data-calendar-view="month">Mois</button>
         <button type="button" class="calendar-view-btn" data-calendar-view="year">Année</button>
       </div>
       <div class="calendar-nav">
@@ -22,6 +22,20 @@
         <div id="dashboard-calendar-label">—</div>
         <button type="button" class="calendar-nav-btn" data-calendar-nav="1" aria-label="Suivant"><img
             src="/assets/icons/arrow-right.svg" alt=""></button>
+      </div>
+    </div>
+    <div class="categories-banner">
+      <h3>Catégories disponibles</h3>
+      <div class="categories-list-banner">
+        {{#each categories}}
+        <div class="category-badge-banner">
+          <span class="category-color-dot" style="background-color: {{{color}}}"></span>
+          <span class="category-label">{{{label}}}</span>
+        </div>
+        {{/each}}
+        {{^categories}}
+        <p class="calendar-details-empty">Aucune catégorie disponible</p>
+        {{/categories}}
       </div>
     </div>
     <div id="public-calendar-details" class="calendar-details"
@@ -76,23 +90,6 @@
           </div>
         </div>
         <div class="form-group">
-          <label>Couleur</label>
-          <div class="color-selector">
-            <label class="color-option" title="Expérimentateur">
-              <input type="radio" name="color" value="#3788d8" checked>
-              <span class="color-circle" style="background-color: #3788d8;"></span>
-            </label>
-            <label class="color-option" title="Public/Pour tous">
-              <input type="radio" name="color" value="#43c466">
-              <span class="color-circle" style="background-color: #43c466;"></span>
-            </label>
-            <label class="color-option" title="Collectif">
-              <input type="radio" name="color" value="#fdb544">
-              <span class="color-circle" style="background-color: #fdb544;"></span>
-            </label>
-          </div>
-        </div>
-        <div class="form-group">
           <label for="create_description">Description</label>
           <textarea id="create_description" name="description" placeholder="Description"></textarea>
         </div>
@@ -101,13 +98,14 @@
           <input id="create_info" name="info" placeholder="Infos pratiques, teaser">
         </div>
         <div class="form-group">
-          <label for="create_category">Catégorie</label>
+          <label for="create_category">Catégorie (définit la couleur)</label>
           <select id="create_category" name="category_id">
             <option value="">Aucune</option>
-            {{#categories}}
+            {{#each categories}}
             <option value="{{id}}" data-color="{{color}}">{{label}}</option>
-            {{/categories}}
+            {{/each}}
           </select>
+          <input type="hidden" id="create_color" name="color" value="#3788d8">
         </div>
         <div class="form-group">
           <label for="create_location">Lieux</label>
@@ -162,23 +160,6 @@
           </div>
         </div>
         <div class="form-group">
-          <label>Couleur</label>
-          <div class="color-selector">
-            <label class="color-option" title="Expérimentateur">
-              <input type="radio" name="color" value="#3788d8" checked>
-              <span class="color-circle" style="background-color: #3788d8;"></span>
-            </label>
-            <label class="color-option" title="Public/Pour tous">
-              <input type="radio" name="color" value="#43c466">
-              <span class="color-circle" style="background-color: #43c466;"></span>
-            </label>
-            <label class="color-option" title="Collectif">
-              <input type="radio" name="color" value="#fdb544">
-              <span class="color-circle" style="background-color: #fdb544;"></span>
-            </label>
-          </div>
-        </div>
-        <div class="form-group">
           <label for="edit_description">Description</label>
           <textarea id="edit_description" name="description" placeholder="Description"></textarea>
         </div>
@@ -187,13 +168,14 @@
           <input id="edit_info" name="info" placeholder="Infos pratiques, teaser">
         </div>
         <div class="form-group">
-          <label for="edit_category">Catégorie</label>
+          <label for="edit_category">Catégorie (définit la couleur)</label>
           <select id="edit_category" name="category_id">
             <option value="">Aucune</option>
-            {{#categories}}
+            {{#each categories}}
             <option value="{{id}}" data-color="{{color}}">{{label}}</option>
-            {{/categories}}
+            {{/each}}
           </select>
+          <input type="hidden" id="edit_color" name="color" value="#3788d8">
         </div>
         <div class="form-group">
           <label for="edit_location">Lieux</label>
@@ -230,6 +212,37 @@
     <div class="modal-footer">
       <button type="button" class="btn btn-secondary" data-close="agenda-delete-modal">Annuler</button>
       <button type="button" id="confirmDeleteBtn" class="btn btn-danger">Supprimer</button>
+    </div>
+  </div>
+</dialog>
+
+<dialog id="agenda-category-modal" class="universal-modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2>Créer une catégorie</h2>
+      <button type="button" class="modal-close-btn" data-close="agenda-category-modal"><span>&times;</span></button>
+    </div>
+    <div class="modal-body">
+      <form id="createCategoryForm">
+        {{{csrfInput}}}
+        <div class="form-group">
+          <label for="category_name">Nom technique *</label>
+          <input type="text" id="category_name" name="name" placeholder="collectif" required>
+          <small>Identifiant unique (minuscules, sans espaces)</small>
+        </div>
+        <div class="form-group">
+          <label for="category_label">Libellé *</label>
+          <input type="text" id="category_label" name="label" placeholder="Collectif" required>
+        </div>
+        <div class="form-group">
+          <label for="category_color">Couleur *</label>
+          <input type="color" id="category_color" name="color" value="#3788d8" required>
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-annuler" data-close="agenda-category-modal">Annuler</button>
+      <button type="submit" form="createCategoryForm" class="btn btn-primary">Créer</button>
     </div>
   </div>
 </dialog>

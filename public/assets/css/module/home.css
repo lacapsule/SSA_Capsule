@@ -471,16 +471,24 @@
 }
 
 #public-calendar-modal {
-    position: fixed;
-    top: 5%;
-    left: 5%;
-    width: 90vw;
-    height: 90vh;
-    max-width: 95%;
-    max-height: 95%;
+    position: fixed !important;
+    top: 2vh !important;
+    left: 2vw !important;
+    width: 96vw !important;
+    height: 96vh !important;
+    max-width: 96vw !important;
+    max-height: 96vh !important;
     border: none;
     border-radius: 15px;
     box-shadow: var(--ssa-shadow);
+    margin: 0 !important;
+    padding: 0 !important;
+    
+    &[open] {
+        display: flex !important;
+        justify-content: flex-start !important;
+        align-items: flex-start !important;
+    }
     
     & ::-webkit-scrollbar
     {
@@ -490,12 +498,62 @@
     }
 }
 
-
+#public-calendar-modal .modal-content,
 .calendar-modal .modal-content {
-    padding: 20px;
-    height: 100%;
-    width: 100%;
+    padding: 20px !important;
+    height: 100% !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    max-height: 100% !important;
+    margin: 0 !important;
     border-radius: 15px;
+}
+
+.categories-legend-banner {
+    background: #f8fafc;
+    border-radius: 12px;
+    padding: 1rem 1.25rem;
+    margin-bottom: 1.5rem;
+    box-shadow: inset 0 0 0 1px #e4e8f0;
+}
+
+.categories-legend-banner h3 {
+    margin: 0 0 0.75rem 0;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--ssa-gris);
+}
+
+.categories-list-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    align-items: center;
+}
+
+.category-badge-legend {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 0.75rem;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    font-size: 0.9rem;
+    color: var(--ssa-gris);
+}
+
+.category-badge-legend .category-color-dot {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    box-shadow: 0 0 0 2px white, 0 0 0 3px rgba(0, 0, 0, 0.1);
+}
+
+.category-badge-legend .category-label {
+    font-weight: 500;
 }
 
 .calendar-controls {

@@ -39,6 +39,14 @@ function findCategory(id) {
 document.addEventListener('DOMContentLoaded', () => {
     if (!calendarGrid) return;
 
+    // Set initial active view button to match currentView (month)
+    document.querySelectorAll('.calendar-view-btn').forEach(btn => {
+        btn.classList.remove('is-active');
+        if (btn.getAttribute('data-calendar-view') === currentView) {
+            btn.classList.add('is-active');
+        }
+    });
+
     renderCalendar();
     setupNavigation();
     setupViewSwitch();
@@ -486,6 +494,18 @@ function setupModalListeners() {
 
     // All day checkbox handler
     document.getElementById('create_all_day')?.addEventListener('change', toggleAllDayFields);
+    
+    // Category color sync
+    document.getElementById('create_category')?.addEventListener('change', () => syncCategoryToColor('create_category'));
+    document.getElementById('edit_category')?.addEventListener('change', () => syncCategoryToColor('edit_category'));
+    
+    // Category creation
+    document.getElementById('addCategoryBtn')?.addEventListener('click', () => {
+        const modal = document.getElementById('agenda-category-modal');
+        if (modal) modal.showModal();
+    });
+    
+    document.getElementById('createCategoryForm')?.addEventListener('submit', handleCategoryCreate);
 }
 
 // --- CREATE ---
@@ -504,9 +524,12 @@ function openCreateModal(dateObj) {
     const form = document.getElementById('createEventForm');
     form?.reset();
 
-    // Set first color radio as default
-    const radios = form?.querySelectorAll('input[name="color"]');
-    if (radios?.length > 0) radios[0].checked = true;
+    // Reset category and color
+    const categorySelect = document.getElementById('create_category');
+    if (categorySelect) {
+        categorySelect.value = '';
+        syncCategoryToColor('create_category');
+    }
 
     // Reset all day checkbox
     const allDayCheckbox = document.getElementById('create_all_day');
@@ -612,23 +635,7 @@ function openEditModal(ev) {
     }
     if (document.getElementById('edit_category')) {
         document.getElementById('edit_category').value = ev.category_id || '';
-    }
-
-    // Select correct color radio
-    const category = findCategory(ev.category_id);
-    const colorToSelect = category?.color || ev.category_color || ev.color || '#3788d8';
-    const radios = form?.querySelectorAll('input[name="color"]');
-    let found = false;
-
-    radios?.forEach(radio => {
-        if (radio.value === colorToSelect) {
-            radio.checked = true;
-            found = true;
-        }
-    });
-
-    if (!found && radios?.length > 0) {
-        radios[0].checked = true;
+        syncCategoryToColor('edit_category');
     }
 
     syncDateInputs('edit_start', 'edit_end', { forceUpdate: true });
@@ -683,6 +690,32 @@ async function handleDeleteConfirm() {
     } catch (err) {
         console.error(err);
         alert("Erreur réseau");
+    }
+}
+
+// --- CATEGORY CREATE ---
+async function handleCategoryCreate(e) {
+    e.preventDefault();
+    const form = e.target;
+    const formData = new FormData(form);
+    const modal = document.getElementById('agenda-category-modal');
+    
+    try {
+        const res = await fetch(`${apiUrl}/category/create`, {
+            method: 'POST',
+            body: formData
+        });
+        
+        if (res.ok) {
+            // Reload page to refresh categories
+            window.location.reload();
+        } else {
+            const text = await res.text();
+            alert("Erreur lors de la création de la catégorie: " + text);
+        }
+    } catch (err) {
+        console.error(err);
+        alert("Erreur réseau: " + err.message);
     }
 }
 
@@ -758,8 +791,26 @@ function applyCategoryColor(formData, selectId) {
     if (!select) return;
     const selectedId = select.value;
     const category = findCategory(selectedId);
-    if (category?.color) {
-        formData.set('color', category.color);
+    const color = category?.color || '#3788d8';
+    formData.set('color', color);
+    
+    // Update hidden color field
+    const colorField = document.getElementById(selectId.replace('category', 'color'));
+    if (colorField) {
+        colorField.value = color;
+    }
+}
+
+function syncCategoryToColor(selectId) {
+    const select = document.getElementById(selectId);
+    if (!select) return;
+    const selectedId = select.value;
+    const category = findCategory(selectedId);
+    const color = category?.color || '#3788d8';
+    
+    const colorField = document.getElementById(selectId.replace('category', 'color'));
+    if (colorField) {
+        colorField.value = color;
     }
 }
 
