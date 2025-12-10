@@ -362,7 +362,7 @@ function createEventChip(ev) {
 
     button.addEventListener('click', (e) => {
         e.stopPropagation();
-        displayEventDetails(ev);
+        openEditModal(ev);
     });
 
     return button;
