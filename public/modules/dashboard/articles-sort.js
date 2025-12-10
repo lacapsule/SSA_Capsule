@@ -36,7 +36,6 @@ export function initArticlesSort() {
 
   const getRows = () => Array.from(tbody.querySelectorAll('tr'));
 
-  const sortBy = document.getElementById('articles-sort-by');
   const sortOrder = document.getElementById('articles-sort-order');
   const headerTitre = table.querySelector('th[data-sort-field="titre"]');
   const headerDate = table.querySelector('th[data-sort-field="date"]');
@@ -60,8 +59,8 @@ export function initArticlesSort() {
   };
 
   const doSort = () => {
-    const field = sortBy ? sortBy.value : 'date';
     const order = sortOrder ? sortOrder.value : 'desc';
+    const field = order.includes('alpha') ? 'titre' : 'date';
 
     const rows = getRows();
 
@@ -118,19 +117,20 @@ export function initArticlesSort() {
     if (field !== 'date' && iconDate) setIcon(iconDate, downSvg);
   };
 
-  if (sortBy) sortBy.addEventListener('change', doSort);
   if (sortOrder) sortOrder.addEventListener('change', doSort);
 
   // Clicks on headers toggle sort
   const toggleOrder = (field) => {
-    if (!sortBy || !sortOrder) return;
+    if (!sortOrder) return;
     if (field === 'titre') {
-      // toggle between alpha asc/desc
-      if (sortBy.value !== 'titre') sortBy.value = 'titre';
       sortOrder.value = sortOrder.value === 'alpha-asc' ? 'alpha-desc' : 'alpha-asc';
     } else if (field === 'date') {
-      if (sortBy.value !== 'date') sortBy.value = 'date';
-      sortOrder.value = sortOrder.value === 'asc' ? 'desc' : 'asc';
+      // swap between asc/desc, keep non-alpha values
+      if (sortOrder.value === 'alpha-asc' || sortOrder.value === 'alpha-desc') {
+        sortOrder.value = 'desc';
+      } else {
+        sortOrder.value = sortOrder.value === 'asc' ? 'desc' : 'asc';
+      }
     }
     doSort();
   };

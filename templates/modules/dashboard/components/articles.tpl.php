@@ -9,14 +9,7 @@
 
     <!-- Sorting controls -->
     <div class="dash-components-filters" style="border:none">
-      <label style="font-weight:600;">Trier par :</label>
-      <div class="dash-filter-select">
-        <select id="articles-sort-by" aria-label="Trier par">
-          <option value="date">Date</option>
-          <option value="titre">Titre</option>
-      </div>
-      </select>
-
+      <label style="font-weight:600;">Trier :</label>
       <select id="articles-sort-order" aria-label="Ordre de tri">
         <option value="desc">Du plus récent au plus ancien</option>
         <option value="asc">Du plus ancien au plus récent</option>
