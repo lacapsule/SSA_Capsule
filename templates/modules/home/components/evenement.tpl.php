@@ -7,28 +7,33 @@
             </div>
         </div>
 
-        <div class="evenement row">
-            {{^articles}}
-            <p class="no-event">{{str.no_upcoming_articles}}</p>
-            {{/articles}}
-            {{#each articles}}
-            <div class="evenement-item ">
+        <div class="evenement row" id="home-events-list" data-events='{{{events_json}}}' data-categories='{{{categories_json}}}' data-events-count="{{events_count}}">
+            {{#each events}}
+            <button type="button" class="evenement-item event-card" data-event-id="{{id}}">
                 <div class="evenement-item-inner shadow-dark">
                     <div class="evenement-info info">
                         <div class="evenement-date">
-                            <p>{{date_event}}</p>
+                            <p>{{date_label}}</p>
                         </div>
                         <div class="evenement-time">
                             <p>{{time}}</p>
                         </div>
                     </div>
                     <div class="evenement-info desc">
-                        <h4 class="evenement-title">{{title}}</h4>
+                        <div class="event-header">
+                            <h4 class="evenement-title">{{title}}</h4>
+                            {{#category_label}}
+                            <span class="event-badge" style="background: {{category_color}}">{{category_label}}</span>
+                            {{/category_label}}
+                        </div>
                         <p class="evenement-description">{{summary}}</p>
                     </div>
                 </div>
-            </div>
+            </button>
             {{/each}}
+            {{^events}}
+            <p class="no-event">{{str.no_upcoming_articles}}</p>
+            {{/events}}
         </div>
 
         <div class="evenement-actions">
@@ -38,6 +43,21 @@
         </div>
     </div>
 </section>
+
+<dialog id="home-event-modal" class="universal-modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2 id="home-event-modal-title">Événement</h2>
+            <button type="button" class="modal-close-btn" data-close="home-event-modal"><span>&times;</span></button>
+        </div>
+        <div class="modal-body" id="home-event-modal-body">
+            <p>Chargement...</p>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-annuler" data-close="home-event-modal">Fermer</button>
+        </div>
+    </div>
+</dialog>
 
 <dialog id="public-calendar-modal" class="universal-modal calendar-modal" data-modal-id="public-calendar-modal">
     <div class="modal-content">
@@ -50,6 +70,12 @@
         </div>
         <div class="modal-body">
             <div class="calendar-controls">
+                <div class="calendar-category-filter">
+                    <label for="public-calendar-category">Filtrer par catégorie</label>
+                    <select id="public-calendar-category">
+                        <option value="all">Toutes</option>
+                    </select>
+                </div>
                 <div class="calendar-view-switch">
                     <button type="button" class="calendar-view-btn is-active"
                         data-calendar-view="week">{{str.agenda_calendar_view_week}}</button>

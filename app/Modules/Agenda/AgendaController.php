@@ -57,9 +57,13 @@ final class AgendaController extends BaseController
     {
         $monday = $this->mondayFromQuery($req);
         $events = $this->agenda->getWeekEvents($monday);
+        $categories = $this->agenda->listCategories();
 
         $agendaData = AgendaPresenter::index(
-            base: ['csrfInput' => $this->csrfInput()],
+            base: [
+                'csrfInput' => $this->csrfInput(),
+                'categories' => $categories,
+            ],
             events: $events,
             monday: $monday
         );
@@ -192,8 +196,13 @@ final class AgendaController extends BaseController
                 'end' => $event->endsAt()->format('Y-m-d H:i:s'),
                 'location' => $event->location,
                 'description' => $event->description,
+                'info' => $event->info,
                 'links' => $event->links,
-                'color' => $event->color,
+                'category_id' => $event->categoryId,
+                'category_name' => $event->categoryName,
+                'category_label' => $event->categoryLabel,
+                'category_color' => $event->categoryColor,
+                'color' => $event->categoryColor ?? $event->color,
                 'all_day' => false,
             ];
         }, $events);
@@ -235,6 +244,8 @@ final class AgendaController extends BaseController
             $description = trim((string) ($_POST['description'] ?? ''));
             $location = trim((string) ($_POST['location'] ?? ''));
             $links = trim((string) ($_POST['links'] ?? ''));
+            $info = trim((string) ($_POST['info'] ?? ''));
+            $categoryId = isset($_POST['category_id']) ? (int) $_POST['category_id'] : null;
             $color = (string) ($_POST['color'] ?? '#3788d8');
 
             // Debug
@@ -296,6 +307,8 @@ final class AgendaController extends BaseController
                 location: !empty($location) ? $location : null,
                 description: !empty($description) ? $description : null,
                 links: !empty($links) ? $links : null,
+                info: !empty($info) ? $info : null,
+                categoryId: $categoryId ?: null,
                 durationHours: $durationHours,
                 createdBy: $this->currentUser()['id'] ?? null,
                 color: $color
@@ -330,9 +343,22 @@ final class AgendaController extends BaseController
             $location = trim((string) ($_POST['location'] ?? ''));
             $description = trim((string) ($_POST['description'] ?? ''));
             $links = trim((string) ($_POST['links'] ?? ''));
+            $info = trim((string) ($_POST['info'] ?? ''));
+            $categoryId = isset($_POST['category_id']) ? (int) $_POST['category_id'] : null;
             $color = (string) ($_POST['color'] ?? '#3788d8');
 
-            [$ok, $errors] = $this->agenda->update($id, $title, $startStr, $endStr, !empty($location) ? $location : null, !empty($description) ? $description : null, !empty($links) ? $links : null, $color);
+            [$ok, $errors] = $this->agenda->update(
+                id: $id,
+                title: $title,
+                startStr: $startStr,
+                endStr: $endStr,
+                location: !empty($location) ? $location : null,
+                description: !empty($description) ? $description : null,
+                links: !empty($links) ? $links : null,
+                info: !empty($info) ? $info : null,
+                categoryId: $categoryId ?: null,
+                color: $color
+            );
 
             if (!$ok) {
                 return $this->res->json(['success' => false, 'errors' => $errors], 400);
@@ -360,6 +386,47 @@ final class AgendaController extends BaseController
             '/dashboard/agenda',
             'Événement supprimé avec succès.'
         );
+    }
+
+    #[Route(path: '/category/create', methods: ['POST'])]
+    public function createCategory(): Response
+    {
+        CsrfTokenManager::requireValidToken();
+        $name = trim((string)($_POST['name'] ?? ''));
+        $label = trim((string)($_POST['label'] ?? ''));
+        $color = trim((string)($_POST['color'] ?? '#3788d8'));
+        $result = $this->agenda->createCategory($name, $label, $color);
+        if (isset($result['errors'])) {
+            return $this->redirectWithErrors('/dashboard/agenda', 'Erreur lors de la création de la catégorie.', $result['errors']);
+        }
+        return $this->redirectWithSuccess('/dashboard/agenda', 'Catégorie créée.');
+    }
+
+    #[Route(path: '/category/update', methods: ['POST'])]
+    public function updateCategory(): Response
+    {
+        CsrfTokenManager::requireValidToken();
+        $id = (int)($_POST['id'] ?? 0);
+        $name = trim((string)($_POST['name'] ?? ''));
+        $label = trim((string)($_POST['label'] ?? ''));
+        $color = trim((string)($_POST['color'] ?? '#3788d8'));
+        $result = $this->agenda->updateCategory($id, $name, $label, $color);
+        if (isset($result['errors'])) {
+            return $this->redirectWithErrors('/dashboard/agenda', 'Erreur lors de la mise à jour de la catégorie.', $result['errors']);
+        }
+        return $this->redirectWithSuccess('/dashboard/agenda', 'Catégorie mise à jour.');
+    }
+
+    #[Route(path: '/category/delete', methods: ['POST'])]
+    public function deleteCategory(): Response
+    {
+        CsrfTokenManager::requireValidToken();
+        $id = (int)($_POST['id'] ?? 0);
+        $result = $this->agenda->deleteCategory($id);
+        if (isset($result['errors'])) {
+            return $this->redirectWithErrors('/dashboard/agenda', 'Erreur lors de la suppression de la catégorie.', $result['errors']);
+        }
+        return $this->redirectWithSuccess('/dashboard/agenda', 'Catégorie supprimée.');
     }
 
     /* ======= Helpers ======= */

@@ -179,6 +179,8 @@ class ArticleRepository extends BaseRepository
             titre: (string)($data['titre'] ?? ''),
             resume: (string)($data['resume'] ?? ''),
             description: isset($data['description']) ? (string)$data['description'] : null,
+            info: isset($data['info']) ? (string)$data['info'] : null,
+            inscription_link: isset($data['inscription_link']) ? (string)$data['inscription_link'] : null,
             date_article: (string)($data['date_article'] ?? ''),
             hours: (string)($data['hours'] ?? ''),
             image: isset($data['image']) ? (string)$data['image'] : null,

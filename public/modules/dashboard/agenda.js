@@ -5,6 +5,7 @@ let currentDate = new Date();
 let currentView = 'month'; // 'week', 'month', 'year'
 
 // DOM Elements
+const rootCalendar = document.getElementById('dashboard-calendar');
 const calendarGrid = document.getElementById('dashboard-calendar-grid');
 const calendarLabel = document.getElementById('dashboard-calendar-label');
 const loadingIndicator = document.getElementById('dashboard-calendar-loading');
@@ -18,6 +19,21 @@ const deleteModal = document.getElementById('agenda-delete-modal');
 
 // State
 let selectedEvent = null;
+const categories = (() => {
+    try {
+        if (rootCalendar?.dataset?.categories) {
+            return JSON.parse(rootCalendar.dataset.categories);
+        }
+    } catch (e) {
+        console.warn('Impossible de parser les catégories agenda', e);
+    }
+    return [];
+})();
+
+function findCategory(id) {
+    if (!id) return null;
+    return categories.find(cat => Number(cat.id) === Number(id)) || null;
+}
 
 // Init
 document.addEventListener('DOMContentLoaded', () => {
@@ -327,11 +343,16 @@ function renderYearView(events) {
 function createEventChip(ev) {
     const button = document.createElement('button');
     button.className = 'calendar-event-chip';
-    button.style.backgroundColor = ev.color || '#1d72b8';
+    button.style.backgroundColor = ev.color || ev.category_color || '#1d72b8';
     button.type = 'button';
 
     const timeStr = ev.start.substring(11, 16); // HH:MM
-    button.textContent = `${timeStr} • ${ev.title}`;
+    const categoryLabel = ev.category_label || ev.category_name || '';
+    button.innerHTML = `
+      <span class="chip-time">${timeStr}</span>
+      <span class="chip-title">${ev.title}</span>
+      ${categoryLabel ? `<span class="chip-badge" style="background:${ev.category_color || ev.color}">${categoryLabel}</span>` : ''}
+    `;
 
     // Créer un titre au survol avec les détails complets
     let hoverTitle = ev.title;
@@ -407,16 +428,19 @@ function displayEventDetails(ev) {
         }).filter(Boolean).join('<br>');
     };
 
+    const categoryLabel = ev.category_label || ev.category_name || '';
     detailsPanel.innerHTML = `
-    <div class="detail-content">
-        <h3>${ev.title}</h3>
-        <p><strong>Date:</strong> ${dateLabel}</p>
-        <p><strong>Heure:</strong> ${timeLabel}</p>
-        ${ev.location ? `<p><strong>Lieux:</strong> ${ev.location}</p>` : ''}
-        ${ev.description ? `<p><strong>Description:</strong> ${ev.description}</p>` : ''}
-        ${ev.links ? `<p><strong>Liens:</strong>${renderLinks(ev.links)}</p>` : ''}
-    </div>
-        <button type="button" class="btn btn-primary" id="detail-edit-btn">Éditer</button>
+      <div class="detail-content">
+          <h3>${ev.title}</h3>
+          ${categoryLabel ? `<p><strong>Catégorie:</strong> <span class="chip-badge" style="background:${ev.category_color || ev.color}">${categoryLabel}</span></p>` : ''}
+          <p><strong>Date:</strong> ${dateLabel}</p>
+          <p><strong>Heure:</strong> ${timeLabel}</p>
+          ${ev.location ? `<p><strong>Lieux:</strong> ${ev.location}</p>` : ''}
+          ${ev.description ? `<p><strong>Description:</strong> ${ev.description}</p>` : ''}
+          ${ev.info ? `<p><strong>Infos:</strong> ${ev.info}</p>` : ''}
+          ${ev.links ? `<p><strong>Liens:</strong>${renderLinks(ev.links)}</p>` : ''}
+      </div>
+      <button type="button" class="btn btn-primary" id="detail-edit-btn">Éditer</button>
     `;
 
     document.getElementById('detail-edit-btn')?.addEventListener('click', () => {
@@ -542,6 +566,7 @@ async function handleCreateSubmit(e) {
         formData.append('end', `${endDate}T${endTime}:00`);
     }
 
+    applyCategoryColor(formData, 'create_category');
     await sendRequest(`${apiUrl}/api/create`, formData, createModal);
 }
 
@@ -582,9 +607,16 @@ function openEditModal(ev) {
     if (document.getElementById('edit_links')) {
         document.getElementById('edit_links').value = ev.links || '';
     }
+    if (document.getElementById('edit_info')) {
+        document.getElementById('edit_info').value = ev.info || '';
+    }
+    if (document.getElementById('edit_category')) {
+        document.getElementById('edit_category').value = ev.category_id || '';
+    }
 
     // Select correct color radio
-    const colorToSelect = ev.color || '#3788d8';
+    const category = findCategory(ev.category_id);
+    const colorToSelect = category?.color || ev.category_color || ev.color || '#3788d8';
     const radios = form?.querySelectorAll('input[name="color"]');
     let found = false;
 
@@ -622,6 +654,7 @@ async function handleEditSubmit(e) {
     formData.delete('end_time');
     formData.append('start', `${startDate}T${startTime}:00`);
     formData.append('end', `${endDate}T${endTime}:00`);
+    applyCategoryColor(formData, 'edit_category');
 
     await sendRequest(`${apiUrl}/api/update/${id}`, formData, editModal);
 }
@@ -691,7 +724,12 @@ async function sendRequest(url, formData, modalToClose) {
 async function fetchEvents(start, end) {
     try {
         const res = await fetch(`${apiUrl}/api/events?start=${start}&end=${end}`);
-        return await res.json();
+        const data = await res.json();
+        return Array.isArray(data) ? data.map(ev => ({
+            ...ev,
+            color: ev.category_color || ev.color,
+            category_label: ev.category_label || ev.category_name
+        })) : [];
     } catch (e) {
         console.error('Fetch events error:', e);
         return [];
@@ -713,6 +751,16 @@ function formatLocalDateTime(date) {
     const hours = String(date.getHours()).padStart(2, '0');
     const minutes = String(date.getMinutes()).padStart(2, '0');
     return `${year}-${month}-${day}T${hours}:${minutes}`;
+}
+
+function applyCategoryColor(formData, selectId) {
+    const select = document.getElementById(selectId);
+    if (!select) return;
+    const selectedId = select.value;
+    const category = findCategory(selectedId);
+    if (category?.color) {
+        formData.set('color', category.color);
+    }
 }
 
 function syncDateInputs(startId, endId, options = {}) {

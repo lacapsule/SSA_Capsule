@@ -206,6 +206,10 @@ class ArticleModalManager {
         if (resumeEl) resumeEl.value = article.resume || '';
         const descEl = form.querySelector('#edit_description');
         if (descEl) descEl.value = article.description || '';
+        const infoEl = form.querySelector('#edit_info');
+        if (infoEl) infoEl.value = article.info || '';
+        const inscEl = form.querySelector('#edit_inscription_link');
+        if (inscEl) inscEl.value = article.inscription_link || '';
         // Convertir JJ/MM/AAAA → AAAA-MM-JJ pour input type="date"
         const dateEl = form.querySelector('#edit_date_article');
         if (dateEl) dateEl.value = convertDateToInputFormat(article.date_article) || '';

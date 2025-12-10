@@ -7,6 +7,8 @@ declare(strict_types=1);
 // ==========================================
 use App\Modules\Galerie\GalerieController;
 use App\Modules\Projet\ProjetController;
+use App\Modules\Projet\ProjectMediaService;
+use App\Modules\Projet\ProjectAdminController;
 use Capsule\Contracts\TemplateLocatorInterface;
 use Capsule\Domain\Service\AuthService;
 use Capsule\Auth\PhpSessionReader;
@@ -225,6 +227,8 @@ return (function (): DIContainer {
         $c->get(AgendaRepository::class)
     ));
 
+    $c->set(ProjectMediaService::class, fn () => new ProjectMediaService());
+
     $c->set(HomeService::class, fn ($c) => new HomeService(
         $c->get(ArticleService::class),
         $c->get(PartnersService::class),
@@ -269,6 +273,13 @@ return (function (): DIContainer {
         $c->get(ViewRendererInterface::class),
     ));
     $c->set(ProjetController::class, fn ($c) => new ProjetController(
+        $c->get(ResponseFactoryInterface::class),
+        $c->get(ViewRendererInterface::class),
+        $c->get(ProjectMediaService::class),
+    ));
+    $c->set(ProjectAdminController::class, fn ($c) => new ProjectAdminController(
+        $c->get(ProjectMediaService::class),
+        $c->get(SidebarLinksProvider::class),
         $c->get(ResponseFactoryInterface::class),
         $c->get(ViewRendererInterface::class),
     ));

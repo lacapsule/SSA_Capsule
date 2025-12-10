@@ -19,6 +19,7 @@ import { initArticleModal } from './modules/articles/articleModal.js';
 import { initArticlesSort } from './modules/dashboard/articles-sort.js';
 import { initUsersFilter } from './modules/dashboard/users-filter.js';
 import { initPublicCalendar } from './modules/home/publicCalendar.js';
+import './modules/home/homeEvents.js';
 
 /**
  * Initialise tous les modules de l'application

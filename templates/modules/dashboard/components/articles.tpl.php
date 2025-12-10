@@ -109,6 +109,14 @@
               <textarea id="description" name="description" required></textarea>
             </div>
             <div class="form-group">
+              <label for="info">Infos (optionnel)</label>
+              <input type="text" id="info" name="info" placeholder="Infos pratiques, teaser...">
+            </div>
+            <div class="form-group">
+              <label for="inscription_link">Lien d'inscription (optionnel)</label>
+              <input type="url" id="inscription_link" name="inscription_link" placeholder="https://...">
+            </div>
+            <div class="form-group">
               <label for="date_article">Date *</label>
               <input type="date" id="date_article" name="date_article" required>
             </div>
@@ -162,6 +170,14 @@
             <div class="form-group">
               <label for="edit_description">Contenu de l'article *</label>
               <textarea id="edit_description" name="description" required></textarea>
+            </div>
+            <div class="form-group">
+              <label for="edit_info">Infos (optionnel)</label>
+              <input type="text" id="edit_info" name="info" placeholder="Infos pratiques, teaser...">
+            </div>
+            <div class="form-group">
+              <label for="edit_inscription_link">Lien d'inscription (optionnel)</label>
+              <input type="url" id="edit_inscription_link" name="inscription_link" placeholder="https://...">
             </div>
             <div class="form-group">
               <label for="edit_date_article">Date *</label>

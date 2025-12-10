@@ -263,6 +263,8 @@ final class ArticleController extends BaseController
                     'titre' => $dto->titre,
                     'resume' => $dto->resume,
                     'description' => $dto->description,
+                    'info' => $dto->info,
+                    'inscription_link' => $dto->inscription_link,
                     'date_article' => $dto->date_article,
                     'hours' => $dto->hours,
                     'lieu' => $dto->lieu,

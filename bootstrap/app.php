@@ -44,6 +44,7 @@ $controllers = [
     LoginController::class,
     GalerieController::class,
     ProjetController::class,
+    \App\Modules\Projet\ProjectAdminController::class,
     UserController::class,
     AgendaController::class,
     \App\Modules\Partners\PartnersController::class,

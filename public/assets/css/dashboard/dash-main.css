@@ -3,12 +3,14 @@
     flex-direction: column;
     gap: 20px;
     padding: 20px;
-    position: absolute;
-    left: 15vw;
-    z-index: 890;
+    position: relative;
+    left: 0;
+    z-index: auto;
     margin: 0 auto;
     border-radius: 0;
     font-family: system-ui, -apple-system, sans-serif;
+    margin-left: 16vw;
+    max-width: calc(100% - 18vw);
 }
 .dash-section-page-faq {
     display: flex;
@@ -72,6 +74,8 @@
 @media screen and (max-width: 980px) {
     .dash-section-page {
         left: 0;
+        margin-left: 0;
+        max-width: 100%;
     }
 
     .dash-components-header {

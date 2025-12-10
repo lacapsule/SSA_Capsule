@@ -46,7 +46,14 @@ final class AgendaPresenter
                 'date' => sprintf('%s %02d', $dayOfWeek, $day),
                 'time' => $e->startsAt->format('H:i'),
                 'location' => $e->location ?? '',
+                'description' => $e->description ?? '',
+                'info' => $e->info ?? '',
+                'links' => $e->links ?? '',
                 'duration' => round($e->durationMinutes / 60, 1),
+                'category_id' => $e->categoryId,
+                'category_name' => $e->categoryName,
+                'category_color' => $e->categoryColor,
+                'color' => $e->categoryColor ?? $e->color,
             ];
         }
 
@@ -59,6 +66,8 @@ final class AgendaPresenter
             'week_dates' => $weekDates, // ✅ Dates de la semaine
             'events' => $flatEvents,
             'events_count' => count($flatEvents),
+            'categories' => $base['categories'] ?? [],
+            'categories_json' => json_encode($base['categories'] ?? [], JSON_UNESCAPED_SLASHES),
         ]);
     }
 }

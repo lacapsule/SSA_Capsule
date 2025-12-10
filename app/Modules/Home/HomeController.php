@@ -53,6 +53,43 @@ final class HomeController extends BaseController
         // 2) Domaine — agrégation via HomeService
         $dto = $this->homeService->getHomeData($page);
 
+        // Événements à venir (90 jours) pour la page d'accueil
+        $today = new \DateTimeImmutable('today');
+        $horizon = $today->modify('+90 days');
+        $events = $this->agendaService->getEvents($today->format('Y-m-d'), $horizon->format('Y-m-d'));
+        $eventsForView = array_map(static function (AgendaEventDTO $event): array {
+            $start = $event->startsAt;
+            $end = $event->endsAt();
+            $summary = (string) ($event->description ?? '');
+            if ($summary === '') {
+                $summary = (string) ($event->info ?? '');
+            }
+            if ($summary === '') {
+                $summary = (string) ($event->location ?? '');
+            }
+            return [
+                'id' => $event->id,
+                'title' => $event->title,
+                'summary' => $summary,
+                'description' => (string) ($event->description ?? ''),
+                'info' => (string) ($event->info ?? ''),
+                'links' => (string) ($event->links ?? ''),
+                'location' => (string) ($event->location ?? ''),
+                'category_id' => $event->categoryId,
+                'category_label' => $event->categoryLabel ?? $event->categoryName,
+                'category_color' => $event->categoryColor ?? $event->color,
+                'color' => $event->categoryColor ?? $event->color,
+                'date_iso' => $start->format('Y-m-d'),
+                'time' => $start->format('H:i'),
+                'end' => $end->format('Y-m-d H:i:s'),
+                'start' => $start->format('Y-m-d H:i:s'),
+                'date_label' => $start->format('d/m/Y'),
+            ];
+        }, $events);
+        $categories = $this->agendaService->listCategories();
+        $eventsJson = json_encode($eventsForView, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) ?: '[]';
+        $categoriesJson = json_encode($categories, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) ?: '[]';
+
         // 3) Présentation — projection DOMAINE -> VUE
         $viewData = HomePresenter::forView($dto);
 
@@ -79,6 +116,11 @@ final class HomeController extends BaseController
             'contact_old' => $formData,
             'flash_success' => $flash['success'] ?? [],
             'flash_error' => $flash['error'] ?? [],
+            'events' => $eventsForView,
+            'events_count' => count($eventsForView),
+            'events_json' => $eventsJson,
+            'categories' => $categories,
+            'categories_json' => $categoriesJson,
         ] + $viewData);
     }
 
@@ -137,8 +179,13 @@ final class HomeController extends BaseController
                 'end' => $event->endsAt()->format('Y-m-d H:i:s'),
                 'location' => $event->location,
                 'description' => $event->description,
+                'info' => $event->info,
                 'links' => $event->links,
-                'color' => $event->color,
+                'category_id' => $event->categoryId,
+                'category_name' => $event->categoryName,
+                'category_label' => $event->categoryLabel,
+                'category_color' => $event->categoryColor,
+                'color' => $event->categoryColor ?? $event->color,
                 'all_day' => false,
             ];
         }, $events);
@@ -206,6 +253,8 @@ final class HomeController extends BaseController
             'date' => (string) $dto->date_article,
             'time' => substr((string) $dto->hours, 0, 5),
             'place' => (string) ($dto->lieu ?? ''),
+            'info' => (string) ($dto->info ?? ''),
+            'inscription_link' => (string) ($dto->inscription_link ?? ''),
             'author' => isset($dto->author) ? (string) $dto->author : '',
             'description' => isset($dto->description) ? (string) $dto->description : '',
             'image' => $coverSrc,

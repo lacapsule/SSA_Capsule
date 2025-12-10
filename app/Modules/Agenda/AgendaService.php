@@ -51,6 +51,8 @@ final class AgendaService
         ?string $location,
         ?string $description,
         ?string $links,
+        ?string $info,
+        ?int $categoryId,
         float $durationHours,
         ?int $createdBy,
         string $color = '#3788d8',
@@ -84,12 +86,26 @@ final class AgendaService
             $errors['duration'] = 'La durée doit être comprise entre 30 minutes et 30 jours.';
         }
 
+        if ($links !== null && $links !== '' && !filter_var($links, FILTER_VALIDATE_URL)) {
+            $errors['links'] = 'Le lien doit être une URL valide.';
+        }
+
         if ($errors !== []) {
             return [false, $errors, $startsAt];
         }
 
-        // ✨ CORRECTION ICI : Ajout de $description et $links qui manquaient dans l'appel insert
-        $this->repo->insert($title, $startsAt, $durationMinutes, $location, $description, $links, $createdBy, $color);
+        $this->repo->insert(
+            title: $title,
+            startsAt: $startsAt,
+            durationMinutes: $durationMinutes,
+            location: $location,
+            description: $description,
+            links: $links,
+            info: $info,
+            categoryId: $categoryId,
+            createdBy: $createdBy,
+            color: $color
+        );
 
         return [true, [], $startsAt];
     }
@@ -97,7 +113,18 @@ final class AgendaService
     /**
      * @return array{0:bool, 1:array<string,string>}
      */
-    public function update(int $id, string $title, string $startStr, string $endStr, ?string $location, ?string $description, ?string $links, string $color = '#3788d8'): array
+    public function update(
+        int $id,
+        string $title,
+        string $startStr,
+        string $endStr,
+        ?string $location,
+        ?string $description,
+        ?string $links,
+        ?string $info,
+        ?int $categoryId,
+        string $color = '#3788d8'
+    ): array
     {
         $errors = [];
         $title = trim($title);
@@ -134,6 +161,10 @@ final class AgendaService
             $errors['_global'] = 'La date de fin doit être après la date de début.';
         }
 
+        if ($links !== null && $links !== '' && !filter_var($links, FILTER_VALIDATE_URL)) {
+            $errors['links'] = 'Le lien doit être une URL valide.';
+        }
+
         if (!empty($errors)) {
             return [false, $errors];
         }
@@ -150,7 +181,18 @@ final class AgendaService
             return [false, $errors];
         }
 
-        $this->repo->update($id, $title, $startsAt, (int)$durationMinutes, $location, $description, $links, $color);
+        $this->repo->update(
+            id: $id,
+            title: $title,
+            startsAt: $startsAt,
+            durationMinutes: (int)$durationMinutes,
+            location: $location,
+            description: $description,
+            links: $links,
+            info: $info,
+            categoryId: $categoryId,
+            color: $color
+        );
 
         return [true, []];
     }
@@ -158,6 +200,46 @@ final class AgendaService
     public function delete(int $id): bool
     {
         return $this->repo->delete($id);
+    }
+
+    /** Catégories */
+    public function listCategories(): array
+    {
+        return $this->repo->getCategories();
+    }
+
+    public function createCategory(string $name, string $label, string $color): array
+    {
+        $errors = [];
+        if ($name === '') $errors['name'] = 'Nom requis';
+        if ($label === '') $errors['label'] = 'Libellé requis';
+        if ($color === '' || !preg_match('/^#[0-9a-fA-F]{6}$/', $color)) {
+            $errors['color'] = 'Couleur hexadécimale requise (ex: #ff0000)';
+        }
+        if ($errors !== []) return ['errors' => $errors];
+        $id = $this->repo->createCategory($name, $label, $color);
+        return ['id' => $id];
+    }
+
+    public function updateCategory(int $id, string $name, string $label, string $color): array
+    {
+        $errors = [];
+        if ($id <= 0) $errors['_global'] = 'ID invalide';
+        if ($name === '') $errors['name'] = 'Nom requis';
+        if ($label === '') $errors['label'] = 'Libellé requis';
+        if ($color === '' || !preg_match('/^#[0-9a-fA-F]{6}$/', $color)) {
+            $errors['color'] = 'Couleur hexadécimale requise (ex: #ff0000)';
+        }
+        if ($errors !== []) return ['errors' => $errors];
+        $this->repo->updateCategory($id, $name, $label, $color);
+        return [];
+    }
+
+    public function deleteCategory(int $id): array
+    {
+        if ($id <= 0) return ['errors' => ['_global' => 'ID invalide']];
+        $this->repo->deleteCategory($id);
+        return [];
     }
 
     public function mondayOf(DateTime $dt): DateTime

@@ -58,6 +58,14 @@
       {{#article.place}}
       <p class="lieu">Lieu : {{article.place}}</p>
       {{/article.place}}
+      {{#article.info}}
+      <p class="info">{{article.info}}</p>
+      {{/article.info}}
+      {{#article.inscription_link}}
+      <p class="actions">
+        <a class="theme-btn btn-style-one" href="{{article.inscription_link}}" target="_blank" rel="noopener noreferrer">S'inscrire</a>
+      </p>
+      {{/article.inscription_link}}
     </div>
   </div>
 </section>

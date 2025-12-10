@@ -2,6 +2,10 @@
 // Route publique définie dans HomeController::getEventsApi
 const API_URL = '/api/events';
 
+// État global (partagé entre les helpers et init)
+let state = null;
+let categorySelectEl = null;
+
 /**
  * Formate une date locale au format YYYY-MM-DD (sans décalage UTC).
  */
@@ -110,6 +114,45 @@ function normalizeEvents(rawEvents) {
   }).filter(event => event !== null); // Filtrer les événements invalides
 }
 
+function uniqueCategories(events) {
+  const map = new Map();
+  events.forEach((ev) => {
+    if (ev.category_id && ev.category_label) {
+      map.set(String(ev.category_id), {
+        id: ev.category_id,
+        label: ev.category_label,
+        color: ev.category_color || ev.color || '#3788d8',
+      });
+    }
+  });
+  return Array.from(map.values());
+}
+
+function populateCategorySelect() {
+  if (!categorySelectEl || !state) return;
+  const current = categorySelectEl.value || 'all';
+  categorySelectEl.innerHTML = '<option value="all">Toutes</option>';
+  state.categories.forEach((cat) => {
+    const opt = document.createElement('option');
+    opt.value = String(cat.id);
+    opt.textContent = cat.label;
+    opt.dataset.color = cat.color;
+    categorySelectEl.appendChild(opt);
+  });
+  if (Array.from(categorySelectEl.options).some((o) => o.value === current)) {
+    categorySelectEl.value = current;
+  } else {
+    categorySelectEl.value = 'all';
+  }
+  state.categoryFilter = categorySelectEl.value;
+}
+
+function applyCategoryFilter(events) {
+  if (!state) return events;
+  if (state.categoryFilter === 'all') return events;
+  return events.filter((ev) => ev.category_id && String(ev.category_id) === String(state.categoryFilter));
+}
+
 export function initPublicCalendar() {
   const modal = document.getElementById('public-calendar-modal');
   if (!modal) {
@@ -138,11 +181,16 @@ export function initPublicCalendar() {
   const defaultDetailsText = details?.dataset?.empty || '';
   const detailTitle = details?.dataset?.title || '';
 
-  const state = {
+  categorySelectEl = modal.querySelector('#public-calendar-category');
+
+  state = {
     currentDate: new Date(),
     currentView: 'week',
     cache: new Map(),
     selectedChip: null,
+    categoryFilter: 'all',
+    categories: [],
+    events: [],
   };
 
   function setGridClass(modifier) {
@@ -217,13 +265,19 @@ export function initPublicCalendar() {
         }).filter(Boolean).join('<br>');
     };
 
+    const badge = event.category_label
+      ? `<span class="event-badge" style="background:${event.category_color || event.color}">${event.category_label}</span>`
+      : '';
+
     details.innerHTML = `
     <div class="detail-content">
         <h3>${event.title}</h3>
+        ${badge ? `<p>${badge}</p>` : ''}
         <p><strong>Date: </strong>${dateLabel}</p>
         <p><strong>Heure: </strong>${timeLabel}</p>
         ${event.location ? `<p><strong>Lieu:</strong> ${event.location}</p>` : ''}
         ${event.description ? `<p><strong>Description:</strong> ${event.description}</p>` : ''}
+        ${event.info ? `<p><strong>Infos:</strong> ${event.info}</p>` : ''}
         ${event.links ? `<p><strong>Liens:</strong><br>${renderLinks(event.links)}</p>` : ''}
     </div>
     `;
@@ -309,7 +363,10 @@ export function initPublicCalendar() {
   async function loadEvents(startStr, endStr) {
     const cacheKey = `${startStr}_${endStr}`;
     if (state.cache && state.cache.has(cacheKey)) {
-      return state.cache.get(cacheKey);
+      const cached = state.cache.get(cacheKey);
+      state.categories = uniqueCategories(cached);
+      populateCategorySelect();
+      return cached;
     }
     
     // Construction de l'URL avec validation
@@ -331,7 +388,9 @@ export function initPublicCalendar() {
     
     try {
       const normalized = await fetchEventsFromUrl(url, startStr, endStr);
-      
+      state.categories = uniqueCategories(normalized);
+      populateCategorySelect();
+
       // Mettre en cache si succès
       if (state.cache && normalized) {
         state.cache.set(cacheKey, normalized);
@@ -348,8 +407,12 @@ export function initPublicCalendar() {
     const chip = document.createElement('button');
     chip.type = 'button';
     chip.className = 'calendar-event-chip';
-    chip.style.backgroundColor = event.color || '#1d72b8';
-    chip.textContent = `${event.timeLabel} • ${event.title}`;
+    chip.style.backgroundColor = event.category_color || event.color || '#1d72b8';
+    chip.innerHTML = `
+      <span class="chip-time">${event.timeLabel}</span>
+      <span class="chip-title">${event.title}</span>
+      ${event.category_label ? `<span class="chip-badge" style="background:${event.category_color || event.color}">${event.category_label}</span>` : ''}
+    `;
     chip.addEventListener('click', (e) => {
       e.stopPropagation();
       selectEvent(event, chip);
@@ -537,9 +600,11 @@ export function initPublicCalendar() {
         labelEl.textContent = range.label;
       }
       const events = await loadEvents(range.startStr, range.endStr);
+      state.events = events;
+      const filtered = applyCategoryFilter(events);
       showLoading(false);
       if (range.renderer && typeof range.renderer === 'function') {
-        range.renderer(range, events);
+        range.renderer(range, filtered);
       } else {
         console.error('Renderer invalide pour la vue:', state.currentView);
       }
@@ -579,6 +644,18 @@ export function initPublicCalendar() {
       render();
     });
   });
+
+  if (categorySelectEl) {
+    categorySelectEl.addEventListener('change', () => {
+      state.categoryFilter = categorySelectEl.value || 'all';
+      const range = getRange(state.currentView, state.currentDate);
+      const filtered = applyCategoryFilter(state.events || []);
+      if (range.renderer && typeof range.renderer === 'function') {
+        range.renderer(range, filtered);
+        if (labelEl) labelEl.textContent = range.label;
+      }
+    });
+  }
 
   render();
 }

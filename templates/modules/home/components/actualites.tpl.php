@@ -18,7 +18,11 @@
           <div class="actu-info">
             <h4 class="actu-title">{{titre}}</h4>
             <p class="actu-description">{{resume}}</p>
+            {{#info}}<p class="actu-extra">{{info}}</p>{{/info}}
             <a href="/article/{{id}}" class="btn-style-two">{{str.read_more}}</a>
+            {{#inscription_link}}
+            <a href="{{inscription_link}}" class="btn-style-two" target="_blank" rel="noopener noreferrer">S'inscrire</a>
+            {{/inscription_link}}
           </div>
         </div>
       {{/each}}

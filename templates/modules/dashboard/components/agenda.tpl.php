@@ -1,4 +1,4 @@
-<section class="evenement section dash-section-page" id="dashboard-calendar">
+<section class="evenement section dash-section-page" id="dashboard-calendar" data-categories='{{categories_json}}'>
   <div class="agenda-contain">
     <div class="title">
       <header class="section-title">
@@ -32,6 +32,73 @@
 
     <div id="dashboard-calendar-grid" class="calendar-grid calendar-grid--month" aria-live="polite"
       aria-label="Calendrier"></div>
+  </div>
+</section>
+
+<section class="dash-section-page">
+  <div class="agenda-contain agenda-categories">
+    <header class="section-title">
+      <h2>Catégories d'événements</h2>
+    </header>
+
+    <div class="categories-list">
+      {{#categories}}
+      <div class="category-item">
+        <div class="category-header">
+          <span class="category-badge">
+            <span class="category-color-dot" style="background: {{color}}"></span>
+            {{label}}
+          </span>
+        </div>
+        <form action="/dashboard/agenda/category/update" method="post" class="category-form">
+          {{{csrfInput}}}
+          <input type="hidden" name="id" value="{{id}}">
+          <div class="form-group">
+            <label>Nom technique</label>
+            <input type="text" name="name" value="{{name}}" required>
+          </div>
+          <div class="form-group">
+            <label>Libellé</label>
+            <input type="text" name="label" value="{{label}}" required>
+          </div>
+          <div class="form-group">
+            <label>Couleur</label>
+            <input type="color" name="color" value="{{color}}" required>
+          </div>
+          <div class="category-actions">
+            <button type="submit" class="btn btn-primary">Mettre à jour</button>
+          </div>
+        </form>
+        <form action="/dashboard/agenda/category/delete" method="post">
+          {{{csrfInput}}}
+          <input type="hidden" name="id" value="{{id}}">
+          <button type="submit" class="btn btn-danger-outline">Supprimer</button>
+        </form>
+      </div>
+      {{/categories}}
+
+      {{^categories}}
+      <p class="calendar-details-empty">Aucune catégorie pour le moment.</p>
+      {{/categories}}
+    </div>
+
+    <form action="/dashboard/agenda/category/create" method="post" class="category-form create-category-form">
+      {{{csrfInput}}}
+      <h3>Ajouter une catégorie</h3>
+      <div class="form-group">
+        <label>Nom technique</label>
+        <input type="text" name="name" placeholder="collectif" required>
+      </div>
+      <div class="form-group">
+        <label>Libellé</label>
+        <input type="text" name="label" placeholder="Collectif" required>
+      </div>
+      <div class="form-group">
+        <label>Couleur</label>
+        <input type="color" name="color" value="#3788d8" required>
+      </div>
+      <button type="submit" class="btn btn-primary">Ajouter</button>
+    </form>
   </div>
 </section>
 
@@ -94,6 +161,19 @@
         <div class="form-group">
           <label for="create_description">Description</label>
           <textarea id="create_description" name="description" placeholder="Description"></textarea>
+        </div>
+        <div class="form-group">
+          <label for="create_info">Infos (optionnel)</label>
+          <input id="create_info" name="info" placeholder="Infos pratiques, teaser">
+        </div>
+        <div class="form-group">
+          <label for="create_category">Catégorie</label>
+          <select id="create_category" name="category_id">
+            <option value="">Aucune</option>
+            {{#categories}}
+            <option value="{{id}}" data-color="{{color}}">{{label}}</option>
+            {{/categories}}
+          </select>
         </div>
         <div class="form-group">
           <label for="create_location">Lieux</label>
@@ -167,6 +247,19 @@
         <div class="form-group">
           <label for="edit_description">Description</label>
           <textarea id="edit_description" name="description" placeholder="Description"></textarea>
+        </div>
+        <div class="form-group">
+          <label for="edit_info">Infos (optionnel)</label>
+          <input id="edit_info" name="info" placeholder="Infos pratiques, teaser">
+        </div>
+        <div class="form-group">
+          <label for="edit_category">Catégorie</label>
+          <select id="edit_category" name="category_id">
+            <option value="">Aucune</option>
+            {{#categories}}
+            <option value="{{id}}" data-color="{{color}}">{{label}}</option>
+            {{/categories}}
+          </select>
         </div>
         <div class="form-group">
           <label for="edit_location">Lieux</label>

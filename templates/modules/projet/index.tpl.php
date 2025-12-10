@@ -1,6 +1,6 @@
 <section class="hero">
   <div class="overlay">
-    <img src="/assets/img/projetssa.webp" style="no-repeat center/cover" alt="banner">
+    <img src="{{hero_image}}" style="no-repeat center/cover" alt="banner">
   </div>
   <h1>Expérimentation d'une caisse de l'alimentation sur le Pays de Morlaix</h1>
   <p class="slogan">Une base de connaissances collaborative sur la Sécurité Sociale de l’Alimentation.</p>
@@ -34,7 +34,7 @@
   </div>
 
   <div class="illustration">
-    <img src="/assets/img/peep-102.svg" alt="illustration">
+    <img src="{{illustration_top}}" alt="illustration">
   </div>
 </section>
 
@@ -59,9 +59,9 @@
       Vous pouvez nous rejoindre pour participer à la construction de ce beau projet « collectif »,
       n’hésitez pas à nous contacter !
     </p>
-    <div class="btn-box"><a href="/contact" class="theme-btn btn-style-one">Nous rejoindre</a></div>
+    <div class="btn-box"><a href="/#contact-anchor" class="theme-btn btn-style-one">Nous rejoindre</a></div>
   </div>
-  <img src="/assets/img/illustration_projet_ssa.png" alt="illustration">
+  <img src="{{illustration_bottom}}" alt="illustration">
 
 </section>
 
@@ -69,7 +69,7 @@
   <div class="contain">
     <h2>On recrute !</h2>
 
-    <img src="/assets/img/recrutementBanner.png" alt="recrutementSSA">
+    <img src="/assets/img/projet/recrutementBanner.png" alt="recrutementSSA">
 
     <h3>Comment cela se passe concrètement ?</h3>
 
@@ -83,13 +83,12 @@
     </p>
 
     <p class="text">
-      L’appel à candidatures est ouvert à toutes et tous, sans condition de ressources, <strong>jusqu’au 20
-        septembre.</strong></p>
+      L’appel à candidatures est ouvert à toutes et tous, sans condition de ressources.</p>
     <p class="text">Pour postuler, il suffit de télécharger le dossier en ligne ou de s’inscrire directement via le
       formulaire
       dédié.
     </p>
-    <a id="download" class="theme-btn btn-style-one" href="/assets/docs/dossier_candidature.pdf" download>
+    <a id="download" class="theme-btn btn-style-one" href="/assets/files/dossier_de_candidature.pdf" download>
       Télécharger</a>
     <a href="https://framaforms.org/inscription-ssa-pays-de-morlaix-1750686939" target="_blank"
       class="theme-btn btn-style-one" rel="noopener noreferrer">
@@ -103,8 +102,7 @@
     <p class="text">Des temps d’échanges seront organisés entre les participants retenus, afin de choisir ensemble les
       lieux de dépense.</p>
 
-    <p class="text">Chaque participant s’engage à participer à une réunion et un atelier collectif par mois. Enfin, une
-      réunion d’information se tiendra en septembre.
+    <p class="text">Chaque participant s’engage à participer à une réunion et un atelier collectif par mois.
     </p>
   </div>
 </section>

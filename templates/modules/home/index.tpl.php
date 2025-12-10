@@ -7,6 +7,10 @@
   <div class="cta-buttons">
     <a href="/projet" class="btn-style-one">{{str.hero_cta_more}}</a>
     <a href="/#contact" class="btn-style-one">{{str.hero_cta_contact}}</a>
+    <a href="/projet#recrutement" class="btn-style-one btn-recrute" aria-label="On recrute">
+      <span class="btn-recrute-dot" aria-hidden="true"></span>
+      On recrute
+    </a>
   </div>
 </section>
 <!-- Composants du module A PROPOS -->

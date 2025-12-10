@@ -58,6 +58,20 @@
     gap: 10px;
     z-index: 2;
 }
+.btn-recrute {
+    background: var(--ssa-vert, #43c466);
+    color: #fff;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+.btn-recrute-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #fff;
+    display: inline-block;
+}
 
 
 /*=========================================
@@ -108,7 +122,7 @@
 .about-contain h2::before {
     position: absolute;
     left: 0;
-    bottom: -55px !important;
+    bottom: -55px;
     width: 40px;
     height: 3px;
     background-color: var(--ssa-vert);

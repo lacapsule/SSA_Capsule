@@ -1,13 +1,5 @@
 
-.projet .contain h2::before {
-    position: absolute;
-    left: 0;
-    bottom: -35px;
-    width: 40px;
-    height: 3px;
-    background-color: var(--ssa-vert);
-    content: '';
-}
+
 .projet .illustration {
     position: relative;
     display: none;
@@ -53,10 +45,10 @@
     line-height: 1.2em;
 }
 
-.projet-contain h2::before {
+.projet .contain h2::before {
     position: absolute;
     left: 0;
-    bottom: 0;
+    bottom: -35px !important;
     width: 40px;
     height: 3px;
     background-color: var(--ssa-vert);

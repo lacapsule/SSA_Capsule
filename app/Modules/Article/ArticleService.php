@@ -34,7 +34,7 @@ final class ArticleService
 
     /** Champs requis et optionnels pour create/update */
     private const REQUIRED_FIELDS = ['titre', 'resume', 'description', 'date_article', 'hours'];
-    private const OPTIONAL_FIELDS = ['lieu'];
+    private const OPTIONAL_FIELDS = ['lieu', 'info', 'inscription_link'];
 
     /* =======================
        ======= Queries =======
@@ -282,6 +282,10 @@ final class ArticleService
             if (!$h) {
                 $errors['hours'] = 'Format heure invalide (attendu : HH:MM ou HH:MM:SS)';
             }
+        }
+
+        if (!empty($data['inscription_link']) && !filter_var($data['inscription_link'], FILTER_VALIDATE_URL)) {
+            $errors['inscription_link'] = 'Le lien doit être une URL valide.';
         }
 
         return $errors;

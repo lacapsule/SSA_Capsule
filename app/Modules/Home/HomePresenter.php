@@ -119,6 +119,8 @@ final class HomePresenter
                 'summary' => $sum,
                 'location' => (string)($a->lieu ?? ''),
                 'ics_datetime' => $date . ' ' . $time . ':00',
+                'info' => (string)($a->info ?? ''),
+                'inscription_link' => (string)($a->inscription_link ?? ''),
 
                 // — clés Actualités —
                 'id' => (int)($a->id ?? 0),

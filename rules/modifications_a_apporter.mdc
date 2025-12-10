@@ -1,0 +1,26 @@
+**Quelques améliorations**
+
+- pourriez vous mettre  l'accès à "on recrute" en petit icone vert sur la première page du site , comme "en savoir plus" et "contact"
+
+- On voudrait pouvoir modifier les images de la page projet depuis le dashboard : "un 1er pas vers une SSA" et "qui  sommes nous", pour que ce soit des dessins de plusieurs personnes, une vidéo ou une photo ou juste le logo pour l'instant.
+
+- Pour les articles, il manque vraiment la possibilité de mettre un petit texte d'infos + la possibilité de mettre un lien pour s'inscrire.
+
+-  Pour les évènements, il faut reprendre la logique des articles afin de créer la possibilité de mettre un petit texte d'infos + la possibilité de mettre un lien pour s'inscrire.
+
+- Les évènements ont des couleurs en fonction de la catégorie. La logique est la suivante :
+
+  - Jaune = Collectif
+  - Bleu = Expérimentateurs
+  - Vert = Pour tous
+
+  Il doit être possible : 
+
+  - d'ajouter des catégories pour les évènements 
+  - de choisir la couleur et l'intitulé 
+  - d'assigner une catégorie à un évènement 
+  - modifier la catégorie d'un évènement 
+  - la catégorie doit apparaître de manière clair dans la vue publique 
+  - l'utilisateur visiteur doit pouvoir filtrer les évènements par catégorie s'il le souhaite depuis la vue publique
+
+- Sur la page d'accueil, l'affichage des évènements en cards doit être cliquable et ouvrir une modale contenant le détail de l'évènement cliqué, comprenant les liens et description.  

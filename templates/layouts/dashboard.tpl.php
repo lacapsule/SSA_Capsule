@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="/assets/css/dashboard/dash-partners.css">
     <link rel="stylesheet" href="/assets/css/dashboard/dash-users.css">
     <link rel="stylesheet" href="/assets/css/dashboard/dash-agenda.css">
+    <link rel="stylesheet" href="/assets/css/dashboard/dash-projet.css">
 
     <link rel="icon" type="image/png" href="/assets/img/logoSSA.png">
 </head>

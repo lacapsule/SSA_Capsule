@@ -16,8 +16,13 @@ final class AgendaEventDTO
         public readonly ?string $location = null,
         public readonly ?string $description = null,
         public readonly ?string $links = null,
+        public readonly ?string $info = null,
+        public readonly ?int $categoryId = null,
+        public readonly ?string $categoryName = null,
+        public readonly ?string $categoryLabel = null,
+        public readonly ?string $categoryColor = null,
         public readonly ?int $createdBy = null,
-        public string $color = '#3788d8' // Ajouter si nécessaire
+        public string $color = '#3788d8'
     ) {}
 
     /** Méthode helper calculée à la demande */
