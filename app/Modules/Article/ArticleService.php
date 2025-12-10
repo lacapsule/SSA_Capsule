@@ -32,6 +32,38 @@ final class ArticleService
     {
     }
 
+    /**
+     * Récupère la liste des colonnes existantes dans la table articles
+     * @return array<string>
+     */
+    private function getTableColumns(): array
+    {
+        static $columns = null;
+        if ($columns !== null) {
+            return $columns;
+        }
+        
+        try {
+            // Accéder à PDO via une réflexion ou créer une méthode dans le repository
+            $reflection = new \ReflectionClass($this->articleRepository);
+            $pdoProperty = $reflection->getProperty('pdo');
+            $pdoProperty->setAccessible(true);
+            $pdo = $pdoProperty->getValue($this->articleRepository);
+            
+            $stmt = $pdo->query("PRAGMA table_info(articles)");
+            $columns = [];
+            while ($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
+                $columns[] = $row['name'];
+            }
+        } catch (\Throwable $e) {
+            // En cas d'erreur, retourner les colonnes de base (sans info et inscription_link)
+            error_log("Erreur lors de la récupération des colonnes: " . $e->getMessage());
+            $columns = ['id', 'titre', 'resume', 'description', 'date_article', 'hours', 'lieu', 'image', 'created_at', 'author_id', 'author'];
+        }
+        
+        return $columns;
+    }
+
     /** Champs requis et optionnels pour create/update */
     private const REQUIRED_FIELDS = ['titre', 'resume', 'description', 'date_article', 'hours'];
     private const OPTIONAL_FIELDS = ['lieu', 'info', 'inscription_link'];
@@ -175,13 +207,19 @@ final class ArticleService
                 if ($stored !== []) {
                     $existing = $this->imageRepository->findPathsByArticle($id);
                     $merged = array_merge($existing, $stored);
-                    $this->imageRepository->replaceImages($id, $merged);
-                    $this->articleRepository->update($id, ['image' => $merged[0]]);
+                    if ($merged !== []) {
+                        $this->imageRepository->replaceImages($id, $merged);
+                        $this->articleRepository->update($id, ['image' => $merged[0]]);
+                    }
+                } else {
+                    // Si aucun fichier n'a pu être stocké, logger pour debug
+                    error_log("⚠️ Article Update: Aucune image n'a pu être stockée pour l'article {$id}");
                 }
             }
         } catch (\Throwable $e) {
-            // Log minimal (facultatif)
-            return ['errors' => ['_global' => 'Erreur lors de la mise à jour.'], 'data' => $data];
+            // Log détaillé pour debug
+            error_log("❌ Article Update Error: " . $e->getMessage() . " | Trace: " . $e->getTraceAsString());
+            return ['errors' => ['_global' => 'Erreur lors de la mise à jour: ' . $e->getMessage()], 'data' => $data];
         }
 
         return [];
@@ -329,7 +367,28 @@ final class ArticleService
             }
         }
 
-        return $out;
+        // Filtrer uniquement les champs qui existent dans la table
+        // Champs de base toujours présents
+        $baseFields = [
+            'titre', 'resume', 'description', 'date_article', 'hours', 
+            'lieu', 'image'
+        ];
+        
+        // Champs optionnels qui peuvent ne pas exister si la migration n'a pas été appliquée
+        $optionalFields = ['info', 'inscription_link'];
+        
+        // Vérifier quelles colonnes existent réellement dans la table
+        $existingColumns = $this->getTableColumns();
+        
+        // Ne garder que les champs qui existent dans la table
+        $filtered = [];
+        foreach (array_merge($baseFields, $optionalFields) as $field) {
+            if (in_array($field, $existingColumns, true) && array_key_exists($field, $out)) {
+                $filtered[$field] = $out[$field];
+            }
+        }
+        
+        return $filtered;
     }
 
     /**
