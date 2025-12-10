@@ -7,7 +7,13 @@
             </div>
         </div>
 
-        <div class="evenement row" id="home-events-list" data-events='{{{events_json}}}' data-categories='{{{categories_json}}}' data-events-count="{{events_count}}">
+        <script type="application/json" id="home-events-data">
+            {{{events_json}}}
+        </script>
+        <script type="application/json" id="home-categories-data">
+            {{{categories_json}}}
+        </script>
+        <div class="evenement row" id="home-events-list" data-events-count="{{events_count}}">
             {{#each events}}
             <button type="button" class="evenement-item event-card" data-event-id="{{id}}">
                 <div class="evenement-item-inner shadow-dark">

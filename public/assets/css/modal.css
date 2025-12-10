@@ -119,6 +119,16 @@
   overflow-y: auto;
 }
 
+/* Modale des événements publics - padding-bottom pour éviter que le texte soit coupé */
+#home-event-modal .modal-body {
+  padding-bottom: 25px;
+}
+
+/* Espacement entre les lignes de détails dans la modale des événements publics */
+#home-event-modal .modal-body p {
+  margin-bottom: 5px;
+}
+
 .modal-body form {
   display: flex;
   flex-direction: column;

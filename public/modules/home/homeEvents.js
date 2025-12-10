@@ -4,34 +4,114 @@ const modalBody = document.getElementById('home-event-modal-body');
 const modalTitle = document.getElementById('home-event-modal-title');
 
 function parseDataAttr(el, key) {
-  const raw = el?.dataset?.[key];
-  if (!raw) return [];
+  // Essayer d'abord de lire depuis une balise script avec l'ID correspondant
+  const scriptId = key === 'events' ? 'home-events-data' : 
+                   key === 'categories' ? 'home-categories-data' : null;
+  
+  if (scriptId) {
+    const scriptEl = document.getElementById(scriptId);
+    if (scriptEl) {
+      try {
+        const text = scriptEl.textContent.trim();
+        return JSON.parse(text);
+      } catch (e) {
+        console.error('home events: parse error depuis script', { error: e, key, scriptId });
+      }
+    }
+  }
+  
+  // Fallback: essayer avec dataset (qui décode automatiquement)
+  let raw = el?.dataset?.[key];
+  
+  // Si pas trouvé, essayer avec getAttribute directement
+  if (!raw && el) {
+    raw = el.getAttribute(`data-${key}`);
+  }
+  
+  if (!raw) {
+    console.warn('home events: données non trouvées', { el, key });
+    return [];
+  }
+  
+  // Nettoyer la chaîne (enlever les espaces, guillemets supplémentaires)
+  raw = String(raw).trim();
+  
+  // Si la chaîne commence et se termine par des guillemets, les enlever
+  if ((raw.startsWith('"') && raw.endsWith('"')) || 
+      (raw.startsWith("'") && raw.endsWith("'"))) {
+    raw = raw.slice(1, -1);
+  }
+  
   try {
-    return JSON.parse(raw);
+    // Décoder les entités HTML si nécessaire
+    const decoded = raw.replace(/&quot;/g, '"')
+                      .replace(/&#39;/g, "'")
+                      .replace(/&amp;/g, '&')
+                      .replace(/&lt;/g, '<')
+                      .replace(/&gt;/g, '>');
+    return JSON.parse(decoded);
   } catch (e) {
-    console.warn('home events: parse error', e);
+    console.error('home events: parse error', {
+      error: e,
+      raw: raw.substring(0, 200), // Afficher les 200 premiers caractères pour debug
+      key,
+      el
+    });
     return [];
   }
 }
 
 function renderLinks(linksStr) {
-  if (!linksStr) return '';
-  const items = linksStr.split(',').map(i => i.trim()).filter(Boolean);
+  if (!linksStr || typeof linksStr !== 'string') return '';
+  
+  // Nettoyer la chaîne
+  const cleaned = linksStr.trim();
+  if (!cleaned) return '';
+  
+  // Parser le format "label : url" séparé par des virgules
+  const items = cleaned.split(',').map(i => i.trim()).filter(Boolean);
+  
   return items.map(item => {
     let label = item;
     let url = item;
-    if (item.includes(':')) {
+    
+    // Vérifier s'il y a un séparateur ":" pour label et URL
+    // On cherche le premier ":" qui n'est pas dans le protocole (http:// ou https://)
+    const colonIndex = item.indexOf(':');
+    if (colonIndex > 0 && !item.substring(0, colonIndex).match(/^https?$/)) {
       const parts = item.split(':').map(p => p.trim());
       if (parts.length >= 2) {
         label = parts[0];
-        url = parts.slice(1).join(':').trim();
+        url = parts.slice(1).join(':').trim(); // Rejoindre en cas d'URL avec ':'
       }
     }
-    if (!/^https?:\/\//.test(url)) return '';
+    
+    // Nettoyer l'URL
+    url = url.trim();
+    
+    // Si l'URL ne commence pas par http:// ou https://, l'ajouter
+    if (url && !url.match(/^https?:\/\//i)) {
+      // Vérifier si c'est une URL valide sans protocole
+      if (url.match(/^[a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9]*\.[a-zA-Z]{2,}/)) {
+        url = 'https://' + url;
+      } else {
+        // Si ce n'est pas une URL valide, ne pas créer de lien
+        return '';
+      }
+    }
+    
+    // Valider que c'est une URL
+    if (!url.match(/^https?:\/\//i)) {
+      return '';
+    }
+    
     try {
-      new URL(url);
-      return `<div class="event-link"><strong>${label} :</strong> <a href="${encodeURI(url)}" target="_blank" rel="noopener noreferrer">${url}</a></div>`;
-    } catch {
+      const urlObj = new URL(url);
+      const displayUrl = urlObj.href;
+      
+      return `<a href="${encodeURI(displayUrl)}" target="_blank" rel="noopener noreferrer" class="event-link">${displayUrl}</a>`;
+    } catch (e) {
+      console.warn('homeEvents: URL invalide', { url, error: e });
       return '';
     }
   }).filter(Boolean).join('');
@@ -46,7 +126,30 @@ function openModal(evt) {
   }
   
   const target = evt.currentTarget || evt.target;
-  const id = Number(target?.dataset?.eventId);
+  let id = Number(target?.dataset?.eventId);
+  
+  // Si l'ID n'est pas dans dataset, essayer de le trouver dans l'attribut data-event-id directement
+  if (!id || isNaN(id)) {
+    const dataAttr = target?.getAttribute('data-event-id');
+    if (dataAttr) {
+      id = Number(dataAttr);
+    }
+  }
+  
+  // Si toujours pas d'ID, essayer de trouver la card parente et extraire l'ID depuis les événements
+  if (!id || isNaN(id)) {
+    const events = parseDataAttr(listEl, 'events');
+    // Chercher l'événement en comparant le titre ou d'autres propriétés visibles
+    const titleEl = target.querySelector?.('.evenement-title') || 
+                    target.closest?.('.evenement-item')?.querySelector('.evenement-title');
+    if (titleEl) {
+      const title = titleEl.textContent?.trim();
+      const ev = events.find(e => e.title === title);
+      if (ev) {
+        id = Number(ev.id);
+      }
+    }
+  }
   
   console.log('homeEvents: id extrait', { id, target, dataset: target?.dataset });
   
@@ -73,9 +176,9 @@ function openModal(evt) {
   modalBody.innerHTML = `
     <p><strong>Date :</strong> ${ev.date_label || ''} ${ev.time ? 'à ' + ev.time : ''}</p>
     ${ev.location ? `<p><strong>Lieu :</strong> ${ev.location}</p>` : ''}
-    ${ev.description ? `<p>${ev.description}</p>` : ''}
+    ${ev.description ? `<p><strong>Description :</strong> ${ev.description}</p>` : ''}
     ${ev.info ? `<p><strong>Infos :</strong> ${ev.info}</p>` : ''}
-    ${links ? `<div><strong>Liens :</strong><br>${links}</div>` : ''}
+    ${links ? `<p><strong>Liens :</strong> ${links}</p>` : ''}
   `;
   
   try {

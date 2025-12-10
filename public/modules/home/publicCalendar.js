@@ -234,17 +234,23 @@ export function initPublicCalendar() {
 
     // Fonction pour sécuriser et rendre cliquables les URLs
     const renderLinks = (linksStr) => {
-        if (!linksStr) return '';
+        if (!linksStr || typeof linksStr !== 'string') return '';
+        
+        // Nettoyer la chaîne
+        const cleaned = linksStr.trim();
+        if (!cleaned) return '';
         
         // Parser le format "label : url" séparé par des virgules
-        const linkItems = linksStr.split(',').map(item => item.trim()).filter(Boolean);
+        const linkItems = cleaned.split(',').map(item => item.trim()).filter(Boolean);
         
         return linkItems.map(item => {
             let label = item;
             let url = item;
             
             // Vérifier s'il y a un séparateur ":" pour label et URL
-            if (item.includes(':')) {
+            // On cherche le premier ":" qui n'est pas dans le protocole (http:// ou https://)
+            const colonIndex = item.indexOf(':');
+            if (colonIndex > 0 && !item.substring(0, colonIndex).match(/^https?$/)) {
                 const parts = item.split(':').map(p => p.trim());
                 if (parts.length >= 2) {
                     label = parts[0];
@@ -252,17 +258,35 @@ export function initPublicCalendar() {
                 }
             }
             
-            // Valider que c'est une URL
-            if (url.match(/^https?:\/\//)) {
-                try {
-                    new URL(url); // Valider l'URL
-                    return `<span class="event-link-item"><strong>${label}:</strong> <a href="${encodeURI(url)}" target="_blank" rel="noopener noreferrer" class="event-link">${url}</a></span>`;
-                } catch {
+            // Nettoyer l'URL
+            url = url.trim();
+            
+            // Si l'URL ne commence pas par http:// ou https://, l'ajouter
+            if (url && !url.match(/^https?:\/\//i)) {
+                // Vérifier si c'est une URL valide sans protocole
+                if (url.match(/^[a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9]*\.[a-zA-Z]{2,}/)) {
+                    url = 'https://' + url;
+                } else {
+                    // Si ce n'est pas une URL valide, ne pas créer de lien
                     return '';
                 }
             }
-            return '';
-        }).filter(Boolean).join('<br>');
+            
+            // Valider que c'est une URL
+            if (!url.match(/^https?:\/\//i)) {
+                return '';
+            }
+            
+            try {
+                const urlObj = new URL(url);
+                const displayUrl = urlObj.href;
+                
+                return `<a href="${encodeURI(displayUrl)}" target="_blank" rel="noopener noreferrer" class="event-link">${displayUrl}</a>`;
+            } catch (e) {
+                console.warn('publicCalendar: URL invalide', { url, error: e });
+                return '';
+            }
+        }).filter(Boolean).join(', ');
     };
 
     // Mettre à jour le panneau de détails uniquement (pas de modale)
@@ -274,7 +298,7 @@ export function initPublicCalendar() {
         ${event.location ? `<p><strong>Lieu:</strong> ${event.location}</p>` : ''}
         ${event.description ? `<p><strong>Description:</strong> ${event.description}</p>` : ''}
         ${event.info ? `<p><strong>Infos:</strong> ${event.info}</p>` : ''}
-        ${event.links ? `<p><strong>Liens:</strong><br>${renderLinks(event.links)}</p>` : ''}
+        ${event.links ? `<p><strong>Liens:</strong> ${renderLinks(event.links)}</p>` : ''}
     </div>
     `;
   }
