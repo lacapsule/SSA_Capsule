@@ -9,6 +9,6 @@
 
   </div>
   <div class="copyright">
-    <p>Site web éco-conçu par <a href="">La Capsule</a></p>
+    <p>Design et développement : <a href="https://kouzia.com/">Kouzia</a>, Alexandre Kouziaeff EI, au sein de <a href="https://lacapsule.org/">La Capsule</a> · site éco-conçu</p>
   </div>
 </footer>
