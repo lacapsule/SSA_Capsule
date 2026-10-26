@@ -1,0 +1,30 @@
+# Journal du kit
+
+Erreurs qui ont modifié le kit (`rules/`, `skills/`, hooks). Une ligne par erreur ; la règle elle-même vit dans le fichier indiqué.
+
+| Date | Projet | Erreur | Cause | Règle ajoutée (où) |
+|------|--------|--------|-------|--------------------|
+| 2026-10-26 | luska | Socle Astro choisi et annoncé sans demander | choix de cadrage fait seul, pas d'interview | aucun socle par défaut, choix à l'interview (`rules/web-architecture.md`, `rules/00-organisation.md` « Décider ») |
+| 2026-10-26 | luska | `Makefile` et `setup-local.sh` jugés « d'un autre projet » alors qu'ils servaient au dev local | rôle d'un fichier supposé sans demander | demander avant de conclure qu'un fichier est inutile (`rules/00-organisation.md` « Décider ») |
+| 2026-10-26 | luska | Le build PHP réussissait malgré des avertissements (clé manquante) | aucun contrôle ne rendait l'avertissement bloquant | le build échoue au moindre avertissement, pas d'opérateur `@` (`rules/web-architecture.md`) |
+| 2026-10-26 | luska | `pkill -f` a tué la commande en cours en même temps que le serveur de test | motif qui correspondait aussi à la ligne de commande du shell | arrêter un processus par son PID (`rules/web-method.md` « Vérifier ») |
+| 2026-10-26 | luska | Fichier de règles d'un autre projet (application interne) présent dans le `.claude` copié | copie manuelle du kit avec un mode d'emploi d'un autre dépôt | champ `depot` dans le mode d'emploi + hook de démarrage (`hooks/verifier-mode-emploi.sh`, `rules/00-organisation.md`) |
+| 2026-10-26 | luska | Indicateur d'accessibilité au format « non / partiellement / totalement conforme » (demande de changement, pas une erreur) | format non voulu par l'humain | lien « Accessibilité » + page avec WCAG 2.2 et niveau A/AA/AAA prouvé par l'audit, exception RGAA si obligation légale (`rules/web-a11y.md`, `skills/web-a11y-audit` §3, `skills/web-legal-fr`) |
+| 2026-10-26 | luska | `cp -a` de la base Ulamir a écrasé `.gitignore` et `README.md` du dépôt | copie sans lister les fichiers en collision | lister et traiter les collisions avant toute copie (`rules/web-method.md` « Écrire peu ») |
+| 2026-10-26 | luska | Textes de l'Ulamir écrits en dur restés à l'accueil après la recherche par nom ; capture mobile Chrome trompeuse | contrôle limité à une recherche de texte ; limite de Chrome sans interface | contrôle visuel de chaque page après une reprise, captures 390 px avec Firefox (`skills/livraison`, ligne 5) |
+| 2026-10-26 | luska | Site livré sans images | règle personnelle « en cas de doute, pas de photo » appliquée sans demander | décision de l'humain au mode d'emploi (projet) |
+| 2026-10-26 | luska | Logo répété 3 fois et flou, logos partenaires pixelisés | emplacements de l'Ulamir gardés, tailles d'image choisies au hasard | `skills/web-media` « Toujours la taille affichée » |
+| 2026-10-26 | luska | Textes peu lisibles, longs textes dans des cartes | composants remplis sans travailler la lecture | `rules/web-design.md` « Mise en page fluide » |
+| 2026-10-26 | luska | Mise en page éclatée, trop proche de l'Ulamir | gabarit de l'Ulamir repris au lieu d'une conception pour le public | `rules/00-organisation.md` « Décider » |
+| 2026-10-26 | luska | Pages cachées (équipe, presse) | sous-pages joignables seulement par des boutons | `rules/web-design.md` « Mise en page fluide » (navigation) |
+| 2026-10-26 | luska | Pas de fil d'Ariane | base SEO non appliquée | `rules/web-seo.md` |
+| 2026-10-26 | luska | Checklist de livraison « rendu vert » sur un site décevant | affichage vérifié, qualité non jugée | `skills/livraison` ligne 5 |
+| 2026-10-26 | luska | 26 images de luska.org non téléchargées | lecture d'un TSV par `while read` (tabulations vides fusionnées) | `rules/web-method.md` « Vérifier » |
+| 2026-10-26 | luska | Logos partenaires flous gardés tels quels | source de l'ancien site prise sans chercher mieux | consigne de l'humain : chercher une version nette en ligne (`skills/web-media`) |
+| 2026-10-26 | luska | `pkill -f` a de nouveau tué le shell malgré la règle « arrêter par PID » | règle de mémoire, rien ne l'impose | hook PreToolUse qui refuse `pkill`, `killall`, `taskkill /IM` et `Stop-Process -Name` (`hooks/refuser-arret-par-motif.mjs`, `settings.json`, validé le 2026-10-26) |
+| 2026-10-26 | luska | Hook d'arrêt limité à `pkill -f` (demande de changement) | `pkill` sans `-f` et `Stop-Process -Name` arrêtent aussi par nom | hook étendu à `pkill` dans tous les cas et à `Stop-Process -Name` (`hooks/refuser-arret-par-motif.mjs`) ; règle alignée sur le hook (`rules/web-method.md` « Vérifier ») |
+| 2026-10-26 | luska | Tirets cadratin et demi-cadratin, et tirets déguisés en CSS (demande de changement) | usage typographique non voulu par l'humain | interdiction partout, filets utiles permis ; deux tirets retirés (`rules/projet.md`, modèle `setup-local.sh`) (`rules/web-method.md` « Tirets ») |
+| 2026-10-26 | luska | Validation demandée pour chaque commit et fusion locale (demande de changement) | règle trop large | commit et fusion locale libres une fois les contrôles verts, push seulement avec l'accord de l'humain (`rules/00-organisation.md` « Décider », `skills/web-git`) |
+| 2026-10-26 | luska | Captures complètes exigées pour une petite modification (demande de changement) | checklist sans distinction de taille | captures complètes pour une nouvelle mise en page ou une reprise, zone touchée sinon (`skills/livraison` ligne 5) |
+| 2026-10-26 | luska | Socle statique présenté comme « par défaut » (demande de changement) | formulation contraire à « jamais par défaut » | « recommandé pour une vitrine, à valider à l'interview » (`rules/web-architecture.md`) |
+| 2026-10-26 | luska | `data/` dans `.gitignore` a empêché de versionner les contenus de l'import (`import/data/`, `migrations/data/`) | motif d'ignore sans `/` initial, aucun contrôle des fichiers ignorés | `git status --ignored` relu après tout changement du `.gitignore`, motif ancré (`skills/web-repo-hygiene` « Règles ») |
