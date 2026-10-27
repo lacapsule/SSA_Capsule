@@ -11,7 +11,7 @@ Source : `agent-validation-discipline.md` et la chaîne de gates `validate-all` 
 
 | Script | Contrôle |
 |--------|----------|
-| `scripts/check-dist.mjs [dist] [https://domaine]` | lang, h1, titres, title/description (longueur, unicité), canonical, Open Graph, viewport, alt et dimensions d'images, liens locaux cassés, ressources tierces, `var(--x)` orphelines, JSON-LD (syntaxe, `@id` dupliqués, booléens, FAQ visible), robots.txt, sitemap.xml, llms.txt, poids par page |
+| `scripts/check-dist.mjs [dist] [https://domaine]` | lang, h1, titres, title/description (longueur, unicité), canonical, Open Graph, viewport, alt et dimensions d'images, liens locaux cassés, ressources tierces, `var(--x)` orphelines, JSON-LD (syntaxe, `@id` dupliqués, booléens, FAQ visible), robots.txt, sitemap.xml, llms.txt, poids par page (une seule définition du poids, à réutiliser pour tout poids affiché par le site) |
 | `scripts/check-repo.mjs` | secrets et fichiers sensibles suivis par Git, `.gitignore`, verrouillage des dépendances |
 | `scripts/check-headers.sh https://domaine` | en-têtes de sécurité, CSP, HTTPS, 404, compression, fichiers sensibles inaccessibles (site en ligne) |
 
