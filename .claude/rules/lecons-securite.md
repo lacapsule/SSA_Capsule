@@ -45,6 +45,11 @@ Chaque ligne est un défaut constaté puis corrigé dans un projet réel, devenu
 |-------|----------|-------|
 | Export CSV : toute cellule qui commence par `=`, `+`, `-`, `@`, tabulation ou retour chariot est préfixée d'une apostrophe (sinon formule exécutée par le tableur). | test de l'export | A B E O |
 | Import CSV : taille et nombre de lignes plafonnés. | test | A B E O |
+| Import XLSX ou ODS : DTD refusée (XXE, entités en cascade), taille décompressée, nombre de lignes et de colonnes plafonnés avant lecture (bombe zip), format vérifié par le contenu et non par l'extension. | test : fichiers piégés refusés | A B E O |
+| Service worker : jamais de page personnelle, d'authentification, de réponse POST, `private` ou `no-store` en cache ; caches, IndexedDB et service worker effacés à la déconnexion (`Clear-Site-Data`). Saisie renvoyée hors ligne : clé d'idempotence, enregistrée une seule fois. | test hors ligne puis déconnexion | E O |
+| Sauvegarde : chiffrée et authentifiée (fichier tronqué ou modifié refusé), clé hors du dossier des sauvegardes, vérification régulière, restauration précédée d'une sauvegarde de sécurité, jamais téléchargeable par le web. | test : un octet modifié, restauration refusée | A B E O |
+| Fichier servi par plages (vidéo, audio) : chemin résolu sous le dossier prévu (liens symboliques compris), lecture par blocs sans tout charger en mémoire, 416 pour une plage hors du fichier. | test : `..`, lien symbolique, `bytes=-500` | A B E O |
+| Réservation d'une ressource limitée (créneau, dernier exemplaire) : contrôle et écriture dans une même transaction verrouillée, plus une contrainte d'unicité en dernier rempart. | test : deux processus simultanés, un seul réussit | A B E |
 | Noms de tables et de colonnes venus d'une configuration : vérifiés contre une liste blanche avant d'entrer dans le SQL. | relecture | A B E O |
 | Données ou coordonnées d'un client jamais en dur dans le code (JSON-LD, gabarits) : une source unique en configuration. | recherche dans le code | V F A B E O |
 

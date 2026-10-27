@@ -38,6 +38,7 @@ Puis : droits (accès, rectification, effacement, opposition, limitation, portab
 
 - Mesure d'audience exemptée (Matomo sans cookie, IP anonymisée, pas de croisement, données non partagées) : pas de bannière, mention dans la politique, opposition possible.
 - Tout autre traceur (publicité, réseaux sociaux, vidéo embarquée) : consentement préalable, bouton « Refuser » aussi visible que « Accepter », aucun dépôt avant choix.
+- Bannière nécessaire : brique `composants/consentement-cookies` de la boîte (refus au même niveau, choix redemandé à 6 mois, scripts bloqués jusqu'à l'accord).
 - Vidéo embarquée : version sans cookie (`youtube-nocookie.com`) ou façade qui ne charge le lecteur qu'au clic.
 
 ## Déclaration d'accessibilité

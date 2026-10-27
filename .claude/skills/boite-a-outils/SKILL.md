@@ -24,9 +24,9 @@ Contraintes : rule `boite-a-outils`. Format exact d'une brique : `../kouzia-boit
 
 Une brique mérite la boîte si elle a servi, fonctionne et peut servir à un autre site.
 
-1. Proposer : nom, catégorie (`composants`, `sections`, `modules`, `gabarits`), socles, ce qui la rend réutilisable. Attendre l'accord.
+1. Proposer : nom, catégorie (`composants`, `sections`, `modules`, `gabarits`), socles, ce qui la rend réutilisable, licence du projet d'origine. Attendre l'accord. Licence GPL ou inconnue : réécrire entièrement, ne rien copier ; provenance dans `fiche.json` (`origine`).
 2. Créer `../kouzia-boite-a-outils/elements/<categorie>/<id>/` avec `fiche.json`, `apercu.html`, `style.css`, `script.js` si besoin, `source/` (fichiers d'origine du socle) et `NOTES.md` (intégration, variantes, pièges).
 3. Rendre la brique générique : textes neutres, tokens de `base/tokens.css`, aucune marque ni donnée du client.
 4. Lancer `node ../kouzia-boite-a-outils/outils/indexer.mjs` : il vérifie les fiches, refuse les tirets interdits et regénère `INDEX.md` et `catalogue.html`.
-5. Ouvrir `catalogue.html`, vérifier l'aperçu en clair et en sombre, à 390 px et sur ordinateur.
+5. `node ../kouzia-boite-a-outils/outils/captures.mjs <dossier temporaire> elements/<categorie>/<id>` : 1440 et 390 px, sombre et clair, sans erreur ni défilement horizontal. Regarder les quatre captures.
 6. Commit dans le dépôt de la boîte (local, push sur accord).
