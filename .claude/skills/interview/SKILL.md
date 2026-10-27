@@ -42,6 +42,7 @@ But : un mode d'emploi assez complet pour que tout le travail puisse être fait 
 | Publics | qui visite, pour quelle action principale, par ordre de priorité ; ce qu'il doit trouver en un écran |
 | Contenu existant | textes, photos, logo, charte, documents, ancien site ; droits sur les images (personnes, enfants) |
 | Contenu manquant | qui le fournit, pour quand ; ce qui est masqué en attendant |
+| Type de site | vitrine, vitrine-formulaire, associatif, boutique, espace-client ou outil-interne (rule `types-de-site`) : il fixe les briques, les obligations et les exclusions ; rien d'un type plus lourd sans décision écrite |
 | Socle technique | statique PHP (architecture Astro), Astro (l'outil), ou dynamique PHP (rule `web-architecture`) ; comptes, paiement, formulaires, données personnelles |
 | Mise à jour | qui modifie le contenu, à quelle fréquence, avec quelles compétences |
 | Hébergement | hébergeur imposé, accès (FTP, SSH), domaine, DNS, e-mails ; qui détient les accès |

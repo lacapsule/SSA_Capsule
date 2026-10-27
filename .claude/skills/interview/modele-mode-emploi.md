@@ -1,6 +1,7 @@
 # Mode d'emploi : <nom du projet>
 
 - depot: <nom exact du dossier du dépôt>
+- type: vitrine | vitrine-formulaire | associatif | boutique | espace-client | outil-interne (rule types-de-site)
 - statut: brouillon | validé le AAAA-MM-JJ
 - mise à jour: AAAA-MM-JJ
 

@@ -24,4 +24,12 @@ elif [[ "$statut" != validé* ]]; then
 else
     echo "Mode d'emploi du dépôt « $depot » : $statut. Il fait foi ; livraison avec le skill livraison."
 fi
+
+type_site="$(grep -m1 -E '^- type:' "$fichier" | sed -E 's/^- type:[[:space:]]*//; s/[[:space:]]*$//')"
+case "$type_site" in
+    vitrine|vitrine-formulaire|associatif|boutique|espace-client|outil-interne)
+        echo "Type de site : $type_site. Briques, obligations et exclusions : rules types-de-site et lecons-securite." ;;
+    *)
+        echo "TYPE DE SITE ABSENT ou invalide dans le mode d'emploi (« ${type_site:-rien} ») : le fixer à l'interview (rule types-de-site) avant de coder." ;;
+esac
 exit 0
