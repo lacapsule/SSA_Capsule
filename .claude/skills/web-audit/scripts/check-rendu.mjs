@@ -7,6 +7,7 @@
 //  3. hiérarchie : titre de page > titre de section > libellé de champ, écart visible de taille ou de graisse ;
 //  4. barre d'enregistrement : invisible sans modification, visible et collante après une modification ;
 //  5. débordement horizontal à 320, 360, 1280 et 2560 px ;
+//  7. tableau de back-office avec ascenseur, texte d'une scène claire (mur) illisible dans un thème ;
 //  6. bloc décalé de sa place (position relative avec top ou left résiduel), lien d'en-tête sur deux lignes, zone défilante ouverte sur du vide.
 // Écrit les captures de chaque page, à regarder ensuite : un script ne juge pas une mise en page.
 import { readFileSync, mkdirSync } from 'node:fs';
@@ -150,6 +151,17 @@ for (const path of conf.pages) {
 }
 const placement = () => {
   const out = [];
+  document.querySelectorAll('main .table-wrap').forEach((t) => {
+    if (!t.getClientRects().length || t.closest('details') || t.closest('.prose')) return;
+    if (t.scrollWidth > t.clientWidth + 1 || t.scrollHeight > t.clientHeight) out.push(`ascenseur dans un tableau (${t.scrollWidth - t.clientWidth} x ${t.scrollHeight - t.clientHeight} px)`);
+  });
+  // Texte posé directement sur un mur : la scène reste claire dans les deux thèmes.
+  const lum = (c) => { const m = c.match(/[\d.]+/g).map(Number); const f = (v) => { const s = v / 255; return s <= 0.03928 ? s / 12.92 : ((s + 0.055) / 1.055) ** 2.4; }; return 0.2126 * f(m[0]) + 0.7152 * f(m[1]) + 0.0722 * f(m[2]); };
+  document.querySelectorAll('.hero-wall *, .wall *').forEach((el) => {
+    if (!el.getClientRects().length || ![...el.childNodes].some((n) => n.nodeType === 3 && n.textContent.trim())) return;
+    for (let p = el; p && !p.matches('.hero-wall, .wall'); p = p.parentElement) { if (getComputedStyle(p).backgroundColor !== 'rgba(0, 0, 0, 0)' || getComputedStyle(p).backgroundImage !== 'none') return; }
+    if ((lum('rgb(230, 221, 205)') + 0.05) / (lum(getComputedStyle(el).color) + 0.05) < 3) out.push(`texte illisible sur le mur : « ${el.textContent.trim().slice(0, 20)} »`);
+  });
   document.querySelectorAll('main *, header a').forEach((el) => {
     if (!el.getClientRects().length || el.closest('svg, [aria-hidden="true"]')) return;
     const c = getComputedStyle(el);
@@ -160,12 +172,13 @@ const placement = () => {
   });
   return [...new Set(out)];
 };
-for (const [w, h] of [[320, 640], [360, 780], [1280, 900], [2560, 1440]]) {
+for (const [w, h] of [[320, 640], [360, 780], [1024, 768], [1280, 900], [2560, 1440]]) {
   const p = await open(w, h);
   for (const path of conf.pages) {
     await p.goto(base + path);
     const over = await p.evaluate(() => document.documentElement.scrollWidth - innerWidth);
     if (over > 0) err(path, `débordement de ${over} px à ${w} px`);
+    await setTheme(p, 'dark');
     for (const m of await p.evaluate(placement)) err(path, `${m} (${w} px)`);
     if (shots && w === 360) await p.screenshot({ path: `${shots}/360${path.replace(/\W+/g, '_')}.png`, fullPage: true });
   }
