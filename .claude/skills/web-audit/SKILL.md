@@ -13,6 +13,7 @@ Source : `agent-validation-discipline.md` et la chaîne de gates `validate-all` 
 |--------|----------|
 | `scripts/check-dist.mjs [dist] [https://domaine]` | lang, h1, titres, title/description (longueur, unicité), canonical, Open Graph, viewport, alt et dimensions d'images, liens locaux cassés, ressources tierces, `var(--x)` orphelines, JSON-LD (syntaxe, `@id` dupliqués, booléens, FAQ visible), robots.txt, sitemap.xml, llms.txt, poids par page (une seule définition du poids, à réutiliser pour tout poids affiché par le site) |
 | `scripts/check-repo.mjs` | secrets et fichiers sensibles suivis par Git, `.gitignore`, verrouillage des dépendances |
+| `scripts/check-rendu.mjs <url> <rendu-pages.json> [captures]` | rendu réel de chaque page dans les deux thèmes : même géométrie et typographie, filets alignés et de même couleur, hiérarchie des titres, barre d'enregistrement cachée sans modification, débordement à 360, 1280 et 2560 px ; écrit les captures, à regarder ensuite (serveur local lancé, `playwright-core`) |
 | `scripts/check-headers.sh https://domaine` | en-têtes de sécurité, CSP, HTTPS, 404, compression, fichiers sensibles inaccessibles (site en ligne) |
 
 Chemins relatifs à `.claude/skills/web-audit/`.
@@ -23,6 +24,7 @@ Chemins relatifs à `.claude/skills/web-audit/`.
 |------------|------------------|
 | Texte, données, FAQ | build + `check-dist.mjs` |
 | Composant, page, CSS | build + `check-dist.mjs` + skill `web-a11y-audit` §1 sur la page touchée |
+| Écran avec thèmes ou back-office | `check-rendu.mjs`, puis captures regardées en clair et en sombre, à 1280 et 360 px |
 | Composant interactif (menu, modale, formulaire, filtre) | matrice d'états du skill `web-ui-states` rejouée au clavier et à la souris |
 | Image, police, vidéo | skill `web-media` + build + `check-dist.mjs` (poids, dimensions) |
 | Méta, JSON-LD, robots, sitemap | `check-dist.mjs` + Test des résultats enrichis Google |

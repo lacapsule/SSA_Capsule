@@ -1,0 +1,4 @@
+{
+  "login": { "path": "/admin/connexion/", "fill": { "#email": "compte-de-test@exemple.fr", "#mot-de-passe": "mot de passe de test" }, "submit": "button[type=submit]" },
+  "pages": ["/admin/", "/admin/reglages/"]
+}
