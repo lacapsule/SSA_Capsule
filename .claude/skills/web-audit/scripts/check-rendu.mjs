@@ -6,8 +6,8 @@
 //  2. filets : dans un même conteneur, les filets horizontaux ont les mêmes bords ; dans une ligne de tableau, toutes les cellules ont le même ;
 //  3. hiérarchie : titre de page > titre de section > libellé de champ, écart visible de taille ou de graisse ;
 //  4. barre d'enregistrement : invisible sans modification, visible et collante après une modification ;
-//  5. débordement horizontal à 360, 1280 et 2560 px.
-// Sélecteurs propres à un projet (.side, .settings-nav, .kpis, .frame-demo, [data-savebar]) : absents, le contrôle correspondant est ignoré ; à adapter au projet.
+//  5. débordement horizontal à 320, 360, 1280 et 2560 px ;
+//  6. bloc décalé de sa place (position relative avec top ou left résiduel), lien d'en-tête sur deux lignes, zone défilante ouverte sur du vide.
 // Écrit les captures de chaque page, à regarder ensuite : un script ne juge pas une mise en page.
 import { readFileSync, mkdirSync } from 'node:fs';
 import { createRequire } from 'node:module';
@@ -148,12 +148,25 @@ for (const path of conf.pages) {
     }
   }
 }
-for (const [w, h] of [[360, 780], [2560, 1440]]) {
+const placement = () => {
+  const out = [];
+  document.querySelectorAll('main *, header a').forEach((el) => {
+    if (!el.getClientRects().length || el.closest('svg, [aria-hidden="true"]')) return;
+    const c = getComputedStyle(el);
+    const r = el.getBoundingClientRect();
+    if (c.position === 'relative' && r.height > 40 && r.width > 120 && (Math.abs(parseFloat(c.top) || 0) > 8 || Math.abs(parseFloat(c.left) || 0) > 8)) out.push(`bloc décalé de sa place : ${el.tagName.toLowerCase()}.${el.classList[0] || ''} (top ${c.top})`);
+    if (el.matches('header a') && innerWidth >= 1101 && el.textContent.trim() && el.getBoundingClientRect().height > 60) out.push(`lien d'en-tête sur deux lignes : « ${el.textContent.trim().slice(0, 30)} »`);
+    if (el.matches('[data-chart]') && el.scrollWidth > el.clientWidth + 1 && el.scrollLeft < el.scrollWidth - el.clientWidth - 1) out.push('graphique ouvert sur sa partie ancienne');
+  });
+  return [...new Set(out)];
+};
+for (const [w, h] of [[320, 640], [360, 780], [1280, 900], [2560, 1440]]) {
   const p = await open(w, h);
   for (const path of conf.pages) {
     await p.goto(base + path);
     const over = await p.evaluate(() => document.documentElement.scrollWidth - innerWidth);
     if (over > 0) err(path, `débordement de ${over} px à ${w} px`);
+    for (const m of await p.evaluate(placement)) err(path, `${m} (${w} px)`);
     if (shots && w === 360) await p.screenshot({ path: `${shots}/360${path.replace(/\W+/g, '_')}.png`, fullPage: true });
   }
 }
