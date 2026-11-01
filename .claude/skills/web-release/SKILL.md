@@ -39,11 +39,12 @@ Hébergeur sans SSH : FileZilla en mode miroir, en relisant d'abord la liste des
 
 ## 4. Après l'envoi
 
-1. `bash .claude/skills/web-audit/scripts/check-headers.sh https://domaine`
-2. Parcours principal à la main sur mobile et ordinateur, console sans erreur.
-3. Formulaire : un envoi réel de test reçu.
-4. Search Console : sitemap soumis, pas de nouvelle erreur de couverture.
-5. `git tag release-AAAA-MM-JJ <commit>` (après accord), pour savoir ce qui est en ligne.
+1. Application avec base de données : lancer ses migrations (`php scripts/migrate.php`, ou le bouton Scripts du hub), lire la liste affichée et le code de sortie 0, avant tout autre contrôle. Puis vérifier que les pages publiques répondent 200 : accueil, boutique ou page principale, une page légale, feuille générée s'il y en a une.
+2. `bash .claude/skills/web-audit/scripts/check-headers.sh https://domaine`
+3. Parcours principal à la main sur mobile et ordinateur, console sans erreur.
+4. Formulaire : un envoi réel de test reçu.
+5. Search Console : sitemap soumis, pas de nouvelle erreur de couverture.
+6. `git tag release-AAAA-MM-JJ <commit>` (après accord), pour savoir ce qui est en ligne.
 
 ## 5. Retour arrière
 
