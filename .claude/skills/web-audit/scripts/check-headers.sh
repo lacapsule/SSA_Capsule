@@ -33,6 +33,16 @@ code="$(curl -s -o /dev/null -w '%{http_code} %{redirect_url}' --max-time 15 "ht
 [[ "$code" =~ ^30[18]\ https:// ]] && ok "http vers https ($code)" || ko "http://$HOST/ ne redirige pas en 301 vers https ($code)"
 code="$(curl -s -o /dev/null -w '%{http_code}' --max-time 15 "$URL/page-qui-n-existe-pas-$$")"
 [ "$code" = 404 ] && ok "page inconnue en 404" || ko "page inconnue renvoie $code (attendu 404)"
+# Le statut ne suffit pas : la page par défaut d'un hébergeur répond aussi 404.
+page404="$(curl -s --max-time 15 "$URL/page-qui-n-existe-pas-$$")"
+if grep -qi '<html[^>]*lang=' <<<"$page404" && grep -qiE '<meta[^>]*noindex' <<<"$page404"; then
+  ok "404 sur mesure (lang et noindex)"
+else
+  ko "404 sans lang ou noindex : page par défaut du serveur ou de l'hébergeur ?"
+fi
+for tiers in googletagmanager.com google-analytics.com doubleclick.net; do
+  grep -qi "$tiers" <<<"$page404" && ko "la page 404 charge un script tiers : $tiers"
+done
 
 echo "Fichiers sensibles"
 for p in .git/config .env .env.example package.json README.md node_modules/ .htaccess composer.json; do

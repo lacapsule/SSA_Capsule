@@ -25,11 +25,13 @@ Source : logique formelle, conventions clean code et validation de CapsuleOS, g�
 ## Écarts et dette
 
 - Tout écart connu est noté et classé : P0 bloquant (cassé, illégal, inaccessible, faux), P1 visible mais contournable, P2 finition.
+- Dette ancienne impossible à solder d'un coup : contrôle en cliquet. La dette listée reste un avertissement, tout nouvel écart du même type fait échouer le contrôle, et la liste ne fait que diminuer.
 - Absence d'une donnée réelle : échec visible ou section masquée, jamais un substitut inventé ni emprunté ailleurs.
 
 ## Vérifier
 
 - Pendant le travail : contrôle minimal du périmètre touché. Corriger les erreurs de cette zone, pas toute la dette du dépôt.
 - Avant de remettre : `make verify`, contrôles du skill `web-audit` adaptés au changement, puis skill `livraison`.
+- Une mesure compare des états frais et comparables : régénérer d'abord ce qui est généré, vérifier que la capture ou le fichier mesuré date bien du changement et que la géométrie est la même des deux côtés. Un fichier périmé se mesure comme un frais, sans erreur.
 - Lire un fichier TSV ou CSV avec Python (`csv`), jamais avec `while read` : les tabulations vides y sont fusionnées et décalent les colonnes.
 - Un serveur ou processus lancé pour un test s'arrête par son PID (`cmd & pid=$!; …; kill $pid`), jamais par motif ou par nom (`pkill`, `killall`, `taskkill /IM`, `Stop-Process -Name`) ; un hook le refuse (`hooks/refuser-arret-par-motif.mjs`).

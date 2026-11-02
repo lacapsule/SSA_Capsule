@@ -27,7 +27,7 @@ if (shots) mkdirSync(shots, { recursive: true });
 const errors = [];
 const err = (page, message) => errors.push(`${page} : ${message}`);
 
-const browser = await chromium.launch();
+const browser = await chromium.launch(process.env.CHROME_PATH ? { executablePath: process.env.CHROME_PATH } : {});
 const open = async (width, height) => {
   const page = await (await browser.newContext({ viewport: { width, height }, reducedMotion: 'reduce' })).newPage();
   if (conf.login) {

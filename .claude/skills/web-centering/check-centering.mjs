@@ -19,7 +19,7 @@ const login = Array.isArray(config) ? null : config.login;
 const WIDTHS = [360, 800, 1280, 1920];
 const TOLERANCE = 3;
 
-const browser = await chromium.launch();
+const browser = await chromium.launch(process.env.CHROME_PATH ? { executablePath: process.env.CHROME_PATH } : {});
 let total = 0;
 let failures = 0;
 try {

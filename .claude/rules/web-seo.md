@@ -11,5 +11,7 @@ Le balisage décrit la page affichée, rien de plus. Pas de `meta keywords`.
 - Fil d'Ariane visible et `BreadcrumbList` en JSON-LD sur toute page sauf l'accueil.
 - `llms.txt` à la racine : résumé Markdown, liens vers les pages réelles, mêmes faits que le site.
 - Navigation par les agents IA (catégorie « agentic browsing » de Lighthouse) : chaque contrôle a un nom accessible, un formulaire se comprend sans le visuel (`label`, `name` unique, `autocomplete`), aucune action seulement en JavaScript quand un `a`, `button` ou `form` suffit, aucune injection tardive qui décale la page. Attributs WebMCP (`toolname` et `tooldescription`, toujours ensemble) : seulement par décision écrite, la norme est expérimentale.
+- Liste d'objets (catalogue, produits, fiches) : de vrais liens `a` dans le HTML, pas seulement une fenêtre ou un bloc rempli en JavaScript.
+- Socle dynamique, si `llms.txt` existe : l'accueil peut annoncer sa version Markdown (`Link: </llms.txt>; rel="alternate"; type="text/markdown"`, `Vary: Accept`) et la servir à un agent qui demande `Accept: text/markdown`.
 - JSON-LD généré depuis la même source que le HTML visible. Un `@id` par nœud, un nœud par intention. Pas de `FAQPage` si le texte n'est pas affiché à l'identique. Aucun `Review`/`AggregateRating` sans avis publiés.
 - Procédure : skill `web-seo-structured-data`.

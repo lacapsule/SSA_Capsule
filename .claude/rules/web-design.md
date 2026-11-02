@@ -25,6 +25,7 @@ Un bloc plus étroit que son conteneur est centré, sauf s'il forme une colonne 
 - 320 px à grand écran sans scroll horizontal. Grilles en `minmax`/`auto-fit`, pas en largeurs d'appareils. Mesure de lecture 65 caractères maximum.
 - Interface centrée et adaptée jusqu'aux écrans de 27 pouces (2560 × 1440) : conteneur principal centré (`margin-inline: auto`), largeur maximale fluide qui grandit avec l'écran au lieu de figer une colonne étroite, typo, densité et cibles en `clamp()` qui suivent la largeur. Le texte courant garde sa mesure de lecture ; les listes, tableaux et tableaux de bord occupent la largeur utile. Contrôle visuel obligatoire à 360, 800, 1280, 1920 et 2560 px.
 - Lisibilité : corps de texte ≥ 1,0625 rem ; un texte de plus de 3 lignes ne va jamais dans une carte.
+- Accueil : un extrait de chaque rubrique, pas son contenu entier. Un catalogue, un parcours ou une longue FAQ a sa propre page et sa propre URL.
 - Navigation : toute page est atteignable depuis le menu principal ; pas de page joignable uniquement par le plan du site ou un bouton.
 - Header fixe : `scroll-padding-top` égal à sa hauteur réelle.
 - Centrage optique dans une barre asymétrique : `position: absolute; left: 50%; translate: -50%`, hors du flux.
@@ -43,3 +44,4 @@ Un bloc plus étroit que son conteneur est centré, sauf s'il forme une colonne 
 - Icônes en SVG local généré au build (ex. Font Awesome Free). Interdit : CDN, kit, police d'icônes, emoji ou caractère Unicode comme icône d'interface.
 - Icône décorative `aria-hidden="true"` ; icône seule dans un contrôle : nom accessible sur le contrôle.
 - Aucun texte de démo en production : une donnée manquante masque la section.
+- Aucun terme interne dans un texte public (nom de variable, d'outil, de fonctionnalité technique) : se relire à la place du public du mode d'emploi.

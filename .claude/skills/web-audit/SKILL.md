@@ -41,7 +41,7 @@ Chemins relatifs à `.claude/skills/web-audit/`.
 4. Accessibilité : skill `web-a11y-audit` (scan + passe manuelle) sur chaque gabarit.
 5. Performance : Lighthouse mobile (`npx --yes lighthouse https://domaine --form-factor=mobile --only-categories=performance,accessibility,best-practices,seo --view`). Viser ≥ 90 partout, LCP ≤ 2,5 s, CLS ≤ 0,1, TBT faible. En production, suivre les Core Web Vitals réels (Search Console).
 6. Éco-conception : poids et requêtes de `check-dist.mjs` dans le budget ; contrôle externe EcoIndex (ecoindex.fr), viser A ou B.
-7. Page d'erreur : une URL inexistante (statique et dynamique, ex. `/article/999999`) répond 404 avec la page d'erreur du site (en-tête, pied de page, styles, `noindex`), jamais une page serveur par défaut ni un texte brut.
+7. Page d'erreur (`check-headers.sh` en contrôle une partie, le statut seul ne prouve rien : la page par défaut d'un hébergeur répond aussi 404) : une URL inexistante (statique et dynamique, ex. `/article/999999`) répond 404 avec la page d'erreur du site (en-tête, pied de page, styles, `noindex`), jamais une page serveur par défaut ni un texte brut.
 8. Après déploiement : `bash scripts/check-headers.sh https://domaine`, console du navigateur sans erreur ni blocage CSP, sitemap soumis dans Search Console.
 9. Légal : skill `web-legal-fr`, aucun marqueur à remplir restant sur les pages publiées.
 
