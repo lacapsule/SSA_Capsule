@@ -102,7 +102,7 @@ Ordre validé le 2026-11-12. Le travail ne change ni la mise en page ni les cont
 | 6 | CSS aux conventions du kit (tokens reprenant les valeurs existantes) | CSS restructuré | captures identiques sur ordinateur, `check-centering.mjs` vert | à faire |
 | 7 | Code mort : liste puis suppression validée | liste, puis commits | liste validée par l'humain | à faire |
 | 8 | Pied de page sans SIRET (fait, commit `a330e28`) ; `robots.txt`, `sitemap.xml`, accessibilité invisible | partiel | SIRET retiré ; robots/sitemap/a11y restants | **en cours** |
-| 9 | Mentions légales, confidentialité, déclaration d'accessibilité | pages créées (commit `a330e28`) | pages en ligne en local, champs « À compléter » visibles ; **non finalisées** tant que l'éditeur/DP/durées/audit manquent | **créé, à compléter** |
+| 9 | Mentions légales, confidentialité, déclaration d'accessibilité | pages créées et renseignées (`a330e28`, `ab387b2`) | mentions + confidentialité complètes ; accessibilité attend l'audit RGAA | **mentions/confid. OK, accessibilité à auditer** |
 | 10 | Tableau de bord : étapes 2 à 7 | correctifs | idem | à faire |
 | 11 | Paquet de mise en ligne : liste des fichiers de production dans `FTP.md`, sans `data/` ni images envoyées | `FTP.md` | liste relue par l'humain ; envoi FTP fait par l'humain | à faire |
 
@@ -110,11 +110,8 @@ Ordre validé le 2026-11-12. Le travail ne change ni la mise en page ni les cont
 
 | Élément | Qui | Pour quand | Bloque |
 |---------|-----|------------|--------|
-| Éditeur légal (asso responsable, forme, SIRET/RNA, adresse) | humain | avant publication | finalisation mentions légales |
-| Nom du directeur/directrice de publication | humain | avant publication | finalisation mentions légales |
-| Hébergeur : entité exacte, adresse, téléphone | humain/La Capsule | avant publication | mentions légales |
-| Durée de conservation des messages de contact | humain | avant publication | politique de confidentialité |
 | Audit RGAA (état de conformité, résultats) | à planifier | avant publication | déclaration d'accessibilité |
+| Implémenter la purge des messages de contact à 3 ans (la politique l'annonce, aucune purge automatique n'existe) | à faire | avant mise en conformité | respect de la durée déclarée |
 
 ## Règles propres au projet
 
@@ -130,6 +127,7 @@ Ordre validé le 2026-11-12. Le travail ne change ni la mise en page ni les cont
 - **P1 (corrigé sur `dev`, `a855d13`)** `.gitignore` couvre `.env`.
 - **P2** `vendor/` absent : tests PHPUnit et PHPStan non lancés. Pas de cible `make verify`.
 - **P2** Traductions mortes avec des coordonnées factices (`contact_address`, `contact_phone`, `contact_email1/2` dans `app/Lang/locales`) : le gabarit `contact.tpl.php` affiche les coordonnées en dur, donc non traduites en breton.
+- **Demandes du 2026-11-12 (suite) :** menu mobile plein écran + fermeture au clic (fait), cartes d'événements mobile (fait), titre d'article (fait), retour au site connexion (fait), page 404 (fait), pages légales + liens (fait), conventions anti-trace d'IA (fait). **À faire ensuite, avant l'audit RGAA :** audit d'optimisation, tri du code mort.
 - **Audit complet du 2026-11-12 (5 pages × 5 largeurs) — à arbitrer par l'humain :**
   - ✅ Cartes d'événements mobile (date + description) — commit `bd82efe`.
   - ✅ Connexion : retour au site (lien + logo cliquable) — commit `efa1732`.
@@ -160,3 +158,4 @@ Ordre validé le 2026-11-12. Le travail ne change ni la mise en page ni les cont
 | 2026-11-12 | Inventaire faussé : « +302 px de débordement sur toutes les pages » | c'était la bannière d'erreur PHP (DB KO), pas un bug CSS | toujours vérifier que le site répond sans erreur avant un audit visuel |
 | 2026-11-12 | Faux bug « pagination qui chevauche le titre des actus » | artefact de capture pleine page : les éléments `position:sticky` s'y placent mal | vérifier tout défaut suspect dans un vrai écran (viewport) avant de conclure, pas seulement en capture fullPage |
 | 2026-11-12 | todo.md recréé par erreur alors que l'humain l'avait supprimé | j'ai cru à une perte comme pour `data/`, sans demander | devant un fichier suivi disparu, demander avant de restaurer : ce peut être une suppression volontaire |
+| 2026-11-12 | Tirets cadratin « — » et bordure gauche accent utilisés dans mon code (pages légales, 404, connexion, données de test) | convention kit `web-method` (Tirets) et `web-design` (bordure accent) non appliquée | tirets retirés partout (textes, templates, JS, commentaires PHP), bordure accent remplacée par contour 1 px ; à respecter aussi dans les messages de commit |
