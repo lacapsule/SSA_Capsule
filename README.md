@@ -25,3 +25,35 @@ On peut aussi demander à Claude : « crée le site <nom> depuis le modèle ».
 ## Faire évoluer le kit
 
 Une amélioration utile à tous les sites se fait ici d'abord (proposer, valider, appliquer, noter au journal), puis se reporte dans les sites en cours qui en ont besoin.
+
+La boîte à outils garde une copie de ce `.claude/` : après chaque changement du kit, la resynchroniser en gardant ses deux fichiers propres (`rules/projet.md`, `settings.json`), d'abord à blanc (`--dry-run --itemize-changes`) :
+
+```bash
+rsync -a --delete --exclude rules/projet.md --exclude settings.json --exclude settings.local.json --exclude etat/ kouzia-modele-site/.claude/ kouzia-boite-a-outils/.claude/
+```
+
+Puis dans la boîte : `node outils/indexer.mjs`, `node .claude/skills/web-audit/scripts/check-repo.mjs`, commit.
+
+### Reprendre sur un autre poste
+
+1. Cloner `kouzia-modele-site` et `kouzia-boite-a-outils` côte à côte (ou seulement le premier : `make deps` clone la boîte à côté).
+2. `make deps` dans `kouzia-modele-site`, puis `make outils` : tout doit être `ok`.
+
+### Reste à faire (état au 2026-11-12)
+
+But : un agent crée seul un site client sur mesure (branding repris du site actuel ou des fichiers fournis, métier, vrais besoins), avec tous les documents de conception et de livraison, uniformes. Décidé le 2026-11-12 : 4 validations du client (cahier des charges, wireframes, direction artistique et maquettes, recette), documents en HTML et PDF à la charte Kouzia (variante claire des tokens de la boîte, Exo 2). Pas de logo Kouzia : le nom est écrit en texte.
+
+Fait (skill `livrables`) : 01 audit de l'existant, 02 cahier des charges, 03 wireframes. Testés sur un faux site local seulement.
+
+- [ ] **04 Direction artistique** : couleurs de l'audit converties en tokens N0, contraste vérifié et accent décliné (exemple relevé : orange `#d9822b` à 2,93:1 sur blanc, insuffisant pour du texte), variantes clair et sombre, polices (licence, woff2 local), usage du logo, 2 ou 3 pistes. Il manque un script de contraste et un skill de direction par métier (artisan, santé, restaurant, association…), sans lequel les sites se ressemblent.
+- [ ] **05 Maquettes** : captures du vrai site en construction (1280 et 390 px, clair et sombre), à partir de `check-rendu.mjs` ; validation 3 avec le 04.
+- [ ] **06 PV de recette** : depuis `make verify`, `make a11y`, Lighthouse et la checklist du skill `livraison` ; validation 4 avant mise en ligne.
+- [ ] **07 Dossier de livraison** : guide d'utilisation pour le client, dossier technique (hébergement, emplacement des accès, sauvegardes, mise en ligne, retour arrière).
+- [ ] **Données de l'activité** : schéma `site.json` enrichi (adresse, horaires, coordonnées GPS, profils sociaux, SIREN, logo) et JSON-LD `LocalBusiness` généré (`Base.php` le marque encore « à compléter ») ; vérification du SIREN par l'API recherche-entreprises.api.gouv.fr.
+- [ ] **Vitrine de base** assemblée dans le modèle statique depuis la boîte : accueil, services, à propos, contact, pages légales, accessibilité, plan du site, 404, `.htaccess` durci.
+- [ ] **Reprise automatique de l'audit** : faits de l'inventaire versés au mode d'emploi en `déduit` ; anciennes adresses et colonne « Remplace » de l'arborescence converties en `src/data/redirections.json`.
+- [ ] **Mode autonome** : brief en fichier avec schéma (URL, fichiers fournis, type de site, objectifs), parcours de bout en bout avec les 4 points d'arrêt.
+- [ ] **Fichiers fournis** : lire une charte PDF (`pdftotext`) et les couleurs d'un logo fourni, pas seulement les lister.
+- [ ] **Tester `make audit` sur de vrais sites en ligne** : site lourd en JavaScript, site qui bloque les robots.
+
+Limites connues : dans le PDF, une page de wireframe très longue est réduite (vue téléphone petite, la version HTML est en taille réelle) ; 4 avertissements anciens de `check-repo` dans la boîte (IP privées dans les tests de `securite-api-fastify`).
