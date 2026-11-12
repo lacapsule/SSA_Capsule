@@ -157,7 +157,7 @@ Ordre validé le 2026-11-12. Le travail ne change ni la mise en page ni les cont
 - Accueil 1,9 Mo ; projet **17,5 Mo** ; galerie 2,1 Mo ; article **57 Mo** ; connexion 181 Ko.
 - Assets lourds à recompresser (touche aux fichiers, accord requis) :
   - `projet/projetssa.webp` **13,5 Mo** (héros) ; `projet/recrutementBanner.png` 2,4 Mo ; `projet/illustration_projet_ssa.png` 1,3 Mo.
-  - `articles/15/....webm` **57 Mo** (vidéo).
+  - `articles/15/....webm` **57 Mo → 7,4 Mo** et `articles/13/....webm` **529 Mo → 25 Mo** (ré-encodées VP9 720p, à redéployer en prod).
   - `logoSSA.png` **499 Ko** (logo, devrait faire < 20 Ko) ; `logo.svg` 115 Ko.
 - Fait : `loading="lazy"` sur images sous la ligne de flottaison (commit). Vidéo déjà en `preload="metadata"`.
 - JS : chargement conditionnel par page (accueil 5 fichiers au lieu de ~20).
