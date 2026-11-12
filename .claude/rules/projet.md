@@ -100,7 +100,7 @@ Ordre validé le 2026-11-12. Le travail ne change ni la mise en page ni les cont
 | 3b | Héros mobile : pleine hauteur d'écran + titre équilibré (< 600 px) | commit `6ff8eeb` | héros = 100 % écran ≤600 px, desktop inchangé | **livré** (demande du 2026-11-12) |
 | 4 | Traits `::before` qui chevauchent les textes (ancrés au bas du h2) | commit `7317496` | captures avant/après about+projet, 320 et 1280 : plus de chevauchement | **livré** |
 | 5 | Connexion : débordement +5 px à 320 px (carte fluide ≤360 px) | commit `d8f1c86` | captures avant/après, vérif 320→1280 : 0 débord | **livré** |
-| 6 | CSS aux conventions du kit (tokens reprenant les valeurs existantes) | CSS restructuré | captures identiques sur ordinateur, `check-centering.mjs` vert | à faire |
+| 6 | CSS aux conventions (tokens) | 1re passe : hex = token existant remplaces (commit `190ea58`) | ~38 couleurs sans token (dashboard) a tokeniser en 2e passe | **en cours (1re passe)** |
 | 7 | Code mort : liste puis suppression validée | liste, puis commits | liste validée par l'humain | à faire |
 | 8 | Pied de page sans SIRET (fait, commit `a330e28`) ; `robots.txt`, `sitemap.xml`, accessibilité invisible | partiel | SIRET retiré ; robots/sitemap/a11y restants | **en cours** |
 | 9 | Mentions légales, confidentialité, déclaration d'accessibilité | pages créées et renseignées (`a330e28`, `ab387b2`) | mentions + confidentialité complètes ; accessibilité attend l'audit RGAA | **mentions/confid. OK, accessibilité à auditer** |
@@ -161,6 +161,11 @@ Ordre validé le 2026-11-12. Le travail ne change ni la mise en page ni les cont
   - `logoSSA.png` **499 Ko** (logo, devrait faire < 20 Ko) ; `logo.svg` 115 Ko.
 - Fait : `loading="lazy"` sur images sous la ligne de flottaison (commit). Vidéo déjà en `preload="metadata"`.
 - JS : chargement conditionnel par page (accueil 5 fichiers au lieu de ~20).
+
+### Accessibilité (RGAA/WCAG 2.2 AA, 12 novembre 2026)
+- Scan axe-core sur 6 gabarits + passe manuelle. **0 violation** après corrections.
+- Corrigé : `<li>` orphelins, lien d'évitement, focus clavier (`:focus-visible`), `prefers-reduced-motion`, contrastes AA (boutons, cartes événement, 404, date d'article).
+- Déclaration d'accessibilité renseignée (partiellement conforme ; audit RGAA tiers complet recommandé avant de revendiquer la conformité totale).
 
 ### Code mort (liste, suppression soumise à l'humain)
 1. `app/Modules/Agenda/PublicAgendaController.php` : non enregistré (bootstrap/container), route `/agenda/api/events` morte → le calendrier public (modale « Voir le calendrier complet ») ne charge rien. **Décision : l'enregistrer (activer le calendrier) ou le supprimer (abandonner le calendrier).**
