@@ -50,8 +50,9 @@ ErrorDocument 404 /404.html
 
 <IfModule mod_setenvif.c>
     SetEnvIf Host "^(www\.)?example\.com$" PUBLIC_HOST
-    # Variantes à paramètres (tri, filtre, suivi) : pas d'indexation
-    SetEnvIf Query_String "(^|&)(utm_[a-z]+|sort|filter|q)=" NOINDEX_QUERY
+    # Résultats de recherche interne : pas d'indexation. Les variantes de suivi, tri ou filtre
+    # (utm_*, sort…) gardent la canonique de la page, sans noindex (rule web-seo, « Indexation »).
+    SetEnvIf Query_String "(^|&)q=" NOINDEX_QUERY
 </IfModule>
 
 <IfModule mod_headers.c>

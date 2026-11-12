@@ -48,6 +48,7 @@ But : un mode d'emploi assez complet pour que tout le travail puisse être fait 
 | Hébergement | hébergeur imposé, accès (FTP, SSH), domaine, DNS, e-mails ; qui détient les accès |
 | Modèle à respecter | charte graphique, maquette, page type, site de référence, document déjà validé ; sinon `sans objet` |
 | Ton et vocabulaire | registre, mots imposés ou interdits, langue(s) |
+| Référencement | 3 à 10 questions que le public tape (une page par intention) ; zone servie ; fiche d'établissement Google (existe, qui la tient) ; accès Search Console et Bing Webmaster (qui vérifie le domaine) ; usage du contenu par les IA (`ai-train` oui ou non, rule `web-seo`) ; profils réels pour `sameAs` |
 | Contraintes | accessibilité exigée (secteur public, EAA), budget, délais, prestataires imposés |
 | Validation | qui valide quoi, à quelles étapes ; ce qui part sans validation |
 | Rapport | jour du rapport hebdo, points à suivre en particulier |

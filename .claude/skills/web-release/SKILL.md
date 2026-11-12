@@ -43,7 +43,7 @@ Hébergeur sans SSH : FileZilla en mode miroir, en relisant d'abord la liste des
 2. `bash .claude/skills/web-audit/scripts/check-headers.sh https://domaine`
 3. Parcours principal à la main sur mobile et ordinateur, console sans erreur.
 4. Formulaire : un envoi réel de test reçu.
-5. Search Console : sitemap soumis, pas de nouvelle erreur de couverture.
+5. Search Console et Bing Webmaster Tools : sitemap soumis, pas de nouvelle erreur de couverture (skill `web-seo-structured-data` § 9).
 6. `git tag release-AAAA-MM-JJ <commit>` (après accord), pour savoir ce qui est en ligne.
 
 ## 5. Retour arrière

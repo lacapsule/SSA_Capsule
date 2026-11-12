@@ -11,7 +11,7 @@ Source : logique formelle, conventions clean code et validation de CapsuleOS, g�
 
 - Avant de copier une base ou un modèle dans un dépôt existant, lister les fichiers en collision et les traiter un par un, jamais de `cp -a` à l'aveugle.
 - Avant d'ajouter un fichier, un module ou une dépendance : un besoin réel l'exige-t-il ? un existant peut-il être étendu ? est-ce de la donnée plutôt que de la logique ? Trois non : ne pas l'ajouter.
-- Une source de vérité par information (identité, contenu, prix, FAQ, tokens). Le reste est généré à partir d'elle. Un fichier généré ne se modifie jamais à la main.
+- Une source de vérité par information (identité, contenu, prix, FAQ, tokens). Le reste est généré à partir d'elle. Un fichier généré ne se modifie jamais à la main : une amélioration utile se porte dans la source ou dans le générateur, sinon la régénération suivante l'efface sans erreur.
 - Diff minimal : une intention, une zone, un contrôle vert. Pas de refactor hors demande.
 - Commentaires seulement pour un invariant non évident. Pas de commentaire narratif, pas de TODO non classé.
 - Pas de nouvelle doc parallèle (roadmap, plan) : le mode d'emploi du projet couvre le sujet.
@@ -33,5 +33,8 @@ Source : logique formelle, conventions clean code et validation de CapsuleOS, g�
 - Pendant le travail : contrôle minimal du périmètre touché. Corriger les erreurs de cette zone, pas toute la dette du dépôt.
 - Avant de remettre : `make verify`, contrôles du skill `web-audit` adaptés au changement, puis skill `livraison`.
 - Une mesure compare des états frais et comparables : régénérer d'abord ce qui est généré, vérifier que la capture ou le fichier mesuré date bien du changement et que la géométrie est la même des deux côtés. Un fichier périmé se mesure comme un frais, sans erreur.
+- Avant un test qui charge des pages sur un serveur local : vérifier qu'il sert l'arbre courant (une page connue répond 200 avec le titre attendu). Un serveur resté d'une autre session ou d'un dossier supprimé fait échouer toutes les pages de la même façon : un échec uniforme se diagnostique côté serveur avant d'accuser le code.
+- Un rouge s'attribue après l'avoir reproduit sur un état propre (dernier commit, régénéré) : jamais sur la foi d'un `git diff`.
+- Un test d'interface vise un élément visible (`isVisible`, style calculé), pas seulement présent dans le DOM : un élément masqué selon la variante donne un faux échec ou un faux succès.
 - Lire un fichier TSV ou CSV avec Python (`csv`), jamais avec `while read` : les tabulations vides y sont fusionnées et décalent les colonnes.
 - Un serveur ou processus lancé pour un test s'arrête par son PID (`cmd & pid=$!; …; kill $pid`), jamais par motif ou par nom (`pkill`, `killall`, `taskkill /IM`, `Stop-Process -Name`) ; un hook le refuse (`hooks/refuser-arret-par-motif.mjs`).

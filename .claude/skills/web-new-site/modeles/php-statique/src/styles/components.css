@@ -1,3 +1,5 @@
 /* N1 : composants. */
 .evitement { position: absolute; transform: translateY(-200%); }
 .evitement:focus { transform: none; }
+.ariane { display: flex; flex-wrap: wrap; gap: 0.5rem; padding: 0; list-style: none; }
+.ariane li + li::before { margin-inline-end: 0.5rem; content: "/"; }
