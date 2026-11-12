@@ -1,0 +1,11 @@
+{
+  "name": "outillage-site",
+  "private": true,
+  "description": "Outils de contrôle et de préparation des médias, jamais publiés : rendu, accessibilité, SVG.",
+  "license": "GPL-3.0-or-later",
+  "devDependencies": {
+    "axe-core": "4.14.0",
+    "playwright-core": "1.65.0",
+    "svgo": "4.1.0"
+  }
+}

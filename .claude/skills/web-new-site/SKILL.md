@@ -13,7 +13,13 @@ Rien ne se code avant un mode d'emploi validé (`.claude/rules/projet.md`). Les 
 
 ## 2. Architecture : rule `web-architecture`
 
-Le socle (statique PHP à l'architecture Astro, Astro sur demande, dynamique PHP) se tranche à l'interview. Pour un socle statique PHP, partir du modèle `modeles/php-statique/` (voir son README).
+Le socle (statique PHP à l'architecture Astro, Astro sur demande, dynamique PHP) se tranche à l'interview. Point de départ selon le socle, jamais une page blanche :
+
+- statique PHP : le modèle `modeles/php-statique/` de ce skill (voir son README) ;
+- dynamique PHP : la brique `gabarits/socle-php` de la boîte (`NOTES.md`, « Intégration pas à pas »), plus `gabarits/site-public-php` pour les pages publiques ; pas de copie dans le kit (une seule source) ;
+- Astro : la brique `gabarits/page-base-seo` de la boîte.
+
+Premier geste dans le dépôt : `make outils` (ou `bash .claude/skills/web-audit/scripts/check-outils.sh`) ; un outil obligatoire absent se signale à l'humain avec sa commande d'installation avant tout travail.
 
 | Besoin | Réponse dans le socle choisi |
 |--------|------------------------------|
@@ -53,8 +59,9 @@ Une demande multi-métiers se découpe : classer, charger les skills des rôles 
 ## 5. Ordre de livraison
 
 1. Interview terminée, mode d'emploi validé, données sources créées (même incomplètes, éléments manquants dans « À fournir »).
-2. Tokens et composants de base (skill `web-design-system`).
-3. Gabarits de pages avec contenu réel, mobile d'abord.
-4. SEO, données structurées, pages légales.
-5. Formulaires et sécurité.
-6. Recette complète (skill `web-audit`), livraison (skill `livraison`), puis mise en production (skill `web-release`).
+2. Maquette en texte de chaque page, validée par l'humain (skill `web-contenu`).
+3. Tokens et composants de base (skill `web-design-system`).
+4. Textes rédigés depuis les faits (skill `web-contenu`), gabarits de pages avec ce contenu réel, mobile d'abord ; image de partage et icônes (`make images`, skill `web-media`).
+5. SEO, données structurées, pages légales.
+6. Formulaires et sécurité.
+7. Recette complète (skill `web-audit`), livraison (skill `livraison`), puis mise en production (skill `web-release`).

@@ -15,6 +15,9 @@ Source : `agent-validation-discipline.md` et la chaîne de gates `validate-all` 
 | `scripts/check-repo.mjs` | secrets et fichiers sensibles suivis par Git, `.gitignore`, verrouillage des dépendances |
 | `scripts/ordre-css.mjs [--check] <dossier>` | ordre des propriétés CSS par familles (rule `web-code`), tri stable sans changement de cascade ; sans `--check`, réécrit (copie de la brique `modules/ordre-proprietes-css` de la boîte) |
 | `scripts/check-rendu.mjs <url> <rendu-pages.json> [captures]` | rendu réel de chaque page dans les deux thèmes : même géométrie et typographie, filets alignés et de même couleur, hiérarchie des titres, barre d'enregistrement cachée sans modification, débordement à 360, 1280 et 2560 px ; écrit les captures, à regarder ensuite (serveur local lancé, `playwright-core`) |
+| `scripts/check-outils.sh` | outils de la machine présents ou absents, commande d'installation à donner à l'humain (code 1 si un outil obligatoire manque) ; à lancer au début de chaque projet (`make outils`) |
+| `../web-a11y-audit/check-a11y.mjs <url> [chemins]` | scan axe-core de chaque page du sitemap et de la 404 (`make a11y`) |
+| `../web-media/scripts/images-partage.mjs` | image de partage 1200 × 630 et icônes depuis leurs sources (`make images`) |
 | `scripts/check-headers.sh https://domaine` | en-têtes de sécurité, CSP, HTTPS, 404, compression, fichiers sensibles inaccessibles (site en ligne) |
 
 Chemins relatifs à `.claude/skills/web-audit/`.
@@ -24,7 +27,7 @@ Chemins relatifs à `.claude/skills/web-audit/`.
 | Changement | Contrôle minimal |
 |------------|------------------|
 | Texte, données, FAQ | build + `check-dist.mjs` |
-| Composant, page, CSS | build + `check-dist.mjs` + `ordre-css.mjs --check` + skill `web-a11y-audit` §1 sur la page touchée |
+| Composant, page, CSS | build + `check-dist.mjs` + `ordre-css.mjs --check` + `make a11y` (skill `web-a11y-audit` §1) |
 | Écran avec thèmes ou back-office | `check-rendu.mjs`, puis captures regardées en clair et en sombre, à 1280 et 360 px |
 | Composant interactif (menu, modale, formulaire, filtre) | matrice d'états du skill `web-ui-states` rejouée au clavier et à la souris |
 | Image, police, vidéo | skill `web-media` + build + `check-dist.mjs` (poids, dimensions) |
@@ -40,7 +43,7 @@ Chemins relatifs à `.claude/skills/web-audit/`.
 2. Socle dynamique : tests automatiques verts, y compris droits (403) et validation.
 3. `node scripts/check-dist.mjs dist https://domaine` : 0 erreur ; chaque avertissement corrigé ou justifié.
 4. Accessibilité : skill `web-a11y-audit` (scan + passe manuelle) sur chaque gabarit.
-5. Performance : Lighthouse mobile (`npx --yes lighthouse https://domaine --form-factor=mobile --only-categories=performance,accessibility,best-practices,seo --view`). Viser ≥ 90 partout, LCP ≤ 2,5 s, CLS ≤ 0,1, TBT faible. En production, suivre les Core Web Vitals réels (Search Console).
+5. Performance : Lighthouse mobile (`npx --yes lighthouse@13.6.0 https://domaine --form-factor=mobile --only-categories=performance,accessibility,best-practices,seo --view`). Viser ≥ 90 partout, LCP ≤ 2,5 s, CLS ≤ 0,1, TBT faible. En production, suivre les Core Web Vitals réels (Search Console).
 6. Éco-conception : poids et requêtes de `check-dist.mjs` dans le budget ; contrôle externe EcoIndex (ecoindex.fr), viser A ou B.
 7. Page d'erreur (`check-headers.sh` en contrôle une partie, le statut seul ne prouve rien : la page par défaut d'un hébergeur répond aussi 404) : une URL inexistante (statique et dynamique, ex. `/article/999999`) répond 404 avec la page d'erreur du site (en-tête, pied de page, styles, `noindex`), jamais une page serveur par défaut ni un texte brut.
 8. Après déploiement : `bash scripts/check-headers.sh https://domaine`, console du navigateur sans erreur ni blocage CSP, sitemap soumis dans Search Console.

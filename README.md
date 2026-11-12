@@ -15,7 +15,8 @@ On peut aussi demander à Claude : « crée le site <nom> depuis le modèle ».
 
 - `.claude/rules/` : règles communes (`00-organisation` prime), dont `boite-a-outils` : lire l'index de la boîte avant de coder.
 - `.claude/skills/` : procédures (interview, livraison, audit, design system, boîte à outils…). Modèle de socle statique PHP : `skills/web-new-site/modeles/php-statique/`.
-- `.claude/hooks/` : vérification du mode d'emploi au démarrage, refus de l'arrêt d'un processus par son nom.
+- `.claude/hooks/` : vérification du mode d'emploi au démarrage, refus de l'arrêt d'un processus par son nom, refus d'une écriture qui enfreint une règle mécanique (tiret cadratin, `innerHTML`, couleur brute hors tokens, `outline` supprimé), rappel de `make verify` et de la livraison avant de rendre la main.
+- `.claude/settings.json` : permissions de travail courantes accordées ; push, envoi, suppression et `sudo` toujours demandés ; `.env` et accès de déploiement jamais lus.
 - `.claude/journal-kit.md` : historique des changements du kit.
 
 ## Faire évoluer le kit

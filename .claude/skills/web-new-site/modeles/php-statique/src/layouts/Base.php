@@ -34,6 +34,12 @@ $ariane = $chemin === '/' || !empty($props['noindex'])
   <meta name="twitter:card" content="summary_large_image">
 <?php endif ?>
 <?php endif ?>
+<?php if (is_file(ROOT . '/public/favicon.svg')): ?>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<?php endif ?>
+<?php if (is_file(ROOT . '/public/apple-touch-icon.png')): ?>
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<?php endif ?>
   <link rel="stylesheet" href="<?= e(css_href()) ?>">
 <?php if ($ariane): ?>
   <script type="application/ld+json"><?= json_encode([

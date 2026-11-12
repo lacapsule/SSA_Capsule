@@ -25,6 +25,7 @@ Le socle se choisit à l'interview, jamais par défaut. Trois socles possibles :
 ## Dynamique PHP
 
 - Même rangement des vues et du contenu. Code serveur dans `src/` hors du dossier public, seul `public/index.php` exposé.
+- Point de départ : brique `gabarits/socle-php` de la boîte à outils.
 - Requêtes préparées uniquement, sessions sécurisées, CSRF sur tout POST, rôles déclarés par route, secrets dans `.env` non versionné. Skills `web-forms-security`, `web-security-headers`.
 - Paiement par prestataire, jamais de carte stockée. Tests automatiques pour chaque règle métier et chaque droit (403).
 

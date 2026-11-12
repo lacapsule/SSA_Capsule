@@ -45,6 +45,12 @@ Faits vérifiés, chacun avec sa source (document, page, réponse d'interview du
 
 - …
 
+## Hébergement et accès
+
+- Hébergeur, offre, type d'accès (FTP, SFTP, SSH) : …
+- Domaine, DNS, e-mails : chez qui, qui les gère : …
+- Accès rangés dans : `~/.config/kouzia/<depot>/deploiement.env` (droits 600) ou gestionnaire de mots de passe : … ; jamais une valeur ici.
+
 ## Données et contenus
 
 - Sources uniques : `src/data/…`, `src/content/…`

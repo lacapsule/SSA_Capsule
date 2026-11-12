@@ -35,7 +35,21 @@ Puis la recette (skill `web-audit`) sur `"$DIR/dist"`. Le manifeste de version (
 rsync -avz --delete --exclude='.release' "$DIR/dist/" user@hote:/chemin/public_html/
 ```
 
-Hébergeur sans SSH : FileZilla en mode miroir, en relisant d'abord la liste des fichiers à envoyer et à supprimer. Ne jamais envoyer `node_modules`, sources, `.env`, `.git`.
+Hébergeur sans SSH (Hostinger, OVH mutualisé) : miroir `lftp`, d'abord à blanc, liste relue par l'humain, puis envoi réel après son accord :
+
+```bash
+set -a; . ~/.config/kouzia/<depot>/deploiement.env; set +a     # FTP_HOTE, FTP_UTILISATEUR, FTP_MOT_DE_PASSE, FTP_DOSSIER
+ESSAI=--dry-run   # vide après accord
+lftp -u "$FTP_UTILISATEUR","$FTP_MOT_DE_PASSE" "sftp://$FTP_HOTE" -e "set ftp:ssl-force true; mirror --reverse --delete --verbose $ESSAI --exclude-glob .release \"$DIR/dist/\" \"$FTP_DOSSIER\"; quit"
+```
+
+`sftp://` si l'offre le permet, sinon `ftp://` avec `ftp:ssl-force` (jamais de FTP en clair). Sans `lftp` : FileZilla en mode miroir, même relecture. Ne jamais envoyer `node_modules`, sources, `.env`, `.git`.
+
+### Accès
+
+- Rangés hors du dépôt : `~/.config/kouzia/<depot>/deploiement.env` (dossier 700, fichier 600) ou gestionnaire de mots de passe de l'humain. Le mode d'emploi dit où, jamais la valeur.
+- L'agent ne lit pas ce fichier (lecture refusée par `settings.json`) : il le charge dans la commande d'envoi, que l'humain valide.
+- Un accès donné dans le chat est rangé là puis signalé comme à changer (il est passé par la conversation).
 
 ## 4. Après l'envoi
 

@@ -9,11 +9,13 @@ Source : gate `validate-a11y.mjs` et contrat `a11y-scan-targets.json` de Capsule
 
 ## 1. Scan automatisé
 
-Site servi en local (`make preview`, port 8001 par défaut ; socle Astro : `npm run preview`, port 4321), puis :
+Socle statique PHP : `make a11y` (construit, sert `dist/`, scanne chaque URL du sitemap et une adresse inexistante, arrête le serveur). Autre socle, site servi en local :
 
 ```bash
-npx --yes @axe-core/cli http://localhost:8001/ --tags wcag2a,wcag2aa,wcag22aa --exit
+node .claude/skills/web-a11y-audit/check-a11y.mjs http://localhost:4321 [/chemin/ …]
 ```
+
+Le script utilise `axe-core` et `playwright-core` verrouillés dans le `package.json` du projet (`make outils` ou `npm ci`), jamais un paquet téléchargé à la volée. Une page qui porte `data-theme` sur `<html>` est scannée en clair et en sombre. Code de sortie 1 au premier impact `serious` ou `critical`.
 
 - `critical` et `serious` : bloquants, à corriger avant livraison.
 - `moderate` et `minor` : à corriger au fil de l'eau, listés dans le rapport.

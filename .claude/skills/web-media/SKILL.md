@@ -39,12 +39,21 @@ Source : `spec-prepare-web-media.md` et `politique-assets.md` de CapsuleOS. Prin
 cwebp -q 82 photo.jpg -o photo.webp
 cwebp -lossless icone.png -o icone.webp
 avifenc --min 20 --max 30 photo.jpg photo.avif
-npx --yes svgo --multipass logo.svg
+npx svgo --multipass logo.svg   # svgo verrouillé dans le package.json du projet
 pyftsubset Police.ttf --flavor=woff2 --layout-features='*' --unicodes='U+0000-00FF,U+0131,U+0152-0153,U+2018-201E,U+2026,U+20AC' --output-file=police.woff2
 ffmpeg -i video.mov -c:v libx264 -crf 26 -preset slow -an -movflags +faststart video.mp4
 ```
 
 Après conversion : mettre à jour les références (HTML, CSS, données), puis relancer le build et `check-dist.mjs` pour détecter un lien cassé ou une image sans dimensions.
+
+## Image de partage et icônes
+
+Fichiers générés depuis une source, jamais retouchés à la main (rule `web-method`) :
+
+- `src/partage/og.html` : page de 1200 × 630 avec les textes et visuels réels du site (nom, accroche de `site.json`, photo fournie), styles du site. Sortie : `public/og.jpg` (JPEG qualité 85 : le WebP n'est pas lu par tous les réseaux).
+- `src/partage/logo.svg` : logo carré sur fond plein. Sorties : `favicon.svg`, `apple-touch-icon.png` (180), `icon-192.png`, `icon-512.png`.
+- Commande : `make images` (ou `node .claude/skills/web-media/scripts/images-partage.mjs --og … --logo …`), puis build et `check-dist.mjs` (dimensions de `og:image` contrôlées). Le gabarit `Base.php` du modèle pose les balises d'icônes dès que les fichiers existent.
+- Sans logo ni visuel fourni : pas d'image de partage plutôt qu'une image inventée.
 
 ## Chargement
 

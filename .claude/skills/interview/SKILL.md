@@ -45,7 +45,7 @@ But : un mode d'emploi assez complet pour que tout le travail puisse être fait 
 | Type de site | vitrine, vitrine-formulaire, associatif, boutique, espace-client ou outil-interne (rule `types-de-site`) : il fixe les briques, les obligations et les exclusions ; rien d'un type plus lourd sans décision écrite |
 | Socle technique | statique PHP (architecture Astro), Astro (l'outil), ou dynamique PHP (rule `web-architecture`) ; comptes, paiement, formulaires, données personnelles |
 | Mise à jour | qui modifie le contenu, à quelle fréquence, avec quelles compétences |
-| Hébergement | hébergeur imposé, accès (FTP, SSH), domaine, DNS, e-mails ; qui détient les accès |
+| Hébergement | hébergeur imposé, type d'accès (FTP, SFTP, SSH), domaine, DNS, e-mails ; qui détient les accès et où ils sont rangés hors du dépôt (skill `web-release`, « Accès ») ; jamais la valeur d'un mot de passe dans le chat ni le mode d'emploi |
 | Modèle à respecter | charte graphique, maquette, page type, site de référence, document déjà validé ; sinon `sans objet` |
 | Ton et vocabulaire | registre, mots imposés ou interdits, langue(s) |
 | Référencement | 3 à 10 questions que le public tape (une page par intention) ; zone servie ; fiche d'établissement Google (existe, qui la tient) ; accès Search Console et Bing Webmaster (qui vérifie le domaine) ; usage du contenu par les IA (`ai-train` oui ou non, rule `web-seo`) ; profils réels pour `sameAs` |

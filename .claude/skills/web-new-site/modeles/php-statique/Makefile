@@ -9,7 +9,7 @@ SITE  ?= https://example.org
 AUDIT := .claude/skills/web-audit/scripts
 
 .DEFAULT_GOAL := help
-.PHONY: help info deps dev open build preview lint check verify repo clean
+.PHONY: help info deps outils dev open build preview lint check verify repo a11y images clean
 
 # ---------- Aide ----------
 help: ## Affiche cette aide
@@ -22,6 +22,10 @@ info:    ## État local : PHP, extensions, dist/
 
 deps:    ## Installe PHP 8.2+ et mbstring (dnf ou apt)
 	$(LOCAL) deps
+
+outils:  ## Vérifie les outils de la machine et installe l'outillage npm verrouillé
+	-bash $(AUDIT)/check-outils.sh
+	npm ci --ignore-scripts
 
 # ---------- Développement ----------
 dev:     ## Serveur de dev, pages rendues à la volée (Ctrl+C pour arrêter)
@@ -48,6 +52,17 @@ repo:    ## Aucun secret ni fichier sensible suivi par Git
 	node $(AUDIT)/check-repo.mjs
 
 verify: lint check repo ## Tout ce qui doit être vert avant de livrer
+	@mkdir -p .claude/etat && date -Iseconds > .claude/etat/verify-ok
+
+a11y: build ## Scan axe-core de chaque page du sitemap et de la 404 (serveur de prévisualisation lancé puis arrêté)
+	@php -S $(HOST):$(PREVIEW_PORT) -t dist bin/preview.php >/dev/null 2>&1 & pid=$$!; \
+	for i in 1 2 3 4 5 6 7 8 9 10; do curl -s -o /dev/null http://$(HOST):$(PREVIEW_PORT)/ && break; sleep 0.3; done; \
+	node .claude/skills/web-a11y-audit/check-a11y.mjs http://$(HOST):$(PREVIEW_PORT); code=$$?; kill $$pid; exit $$code
+
+images:  ## Image de partage (src/partage/og.html) et icônes (src/partage/logo.svg) vers public/
+	node .claude/skills/web-media/scripts/images-partage.mjs \
+	  $$([ -f src/partage/og.html ] && echo --og src/partage/og.html) \
+	  $$([ -f src/partage/logo.svg ] && echo --logo src/partage/logo.svg)
 
 clean:   ## Supprime dist/
 	rm -rf dist

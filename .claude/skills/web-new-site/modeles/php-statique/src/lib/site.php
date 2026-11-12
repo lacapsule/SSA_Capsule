@@ -17,9 +17,12 @@ function e(?string $texte): string
 function data(string $nom): array
 {
     static $cache = [];
-    return $cache[$nom] ??= json_decode(
-        file_get_contents(ROOT . "/src/data/$nom.json"), true, 512, JSON_THROW_ON_ERROR
-    );
+    $fichier = ROOT . "/src/data/$nom.json";
+    if (!is_file($fichier)) {
+        throw new RuntimeException("src/data/$nom.json absent : le créer avec les données de l'interview"
+            . ($nom === 'site' ? ' (champs : src/data/site.exemple.json)' : ''));
+    }
+    return $cache[$nom] ??= json_decode(file_get_contents($fichier), true, 512, JSON_THROW_ON_ERROR);
 }
 
 /** Adresse absolue d'un chemin du site (canonical, sitemap, Open Graph). */
