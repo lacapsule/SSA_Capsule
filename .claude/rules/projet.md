@@ -96,7 +96,8 @@ Ordre validé le 2026-11-12. Le travail ne change ni la mise en page ni les cont
 | 1 | Préparer `dev` (= contenu de `save/ssa-dev-2026-11-12`, option A), `.gitignore` corrigé | branche `dev` locale | `check-repo.mjs` vert ; commit `a855d13` | **livré** (local, non poussé) |
 | 2 | Inventaire des bugs des pages publiques à 320/768/1280/1920 px (Chrome headless + mesure de débordement) | liste priorisée + captures | fait le 2026-11-12 | **livré** |
 | 3 | Boutons du héros en mobile (empilés < 600 px) | commit `f7c6b7f` | captures avant/après, vérif 320→1920 px : 0 tronqué, 0 débord | **livré** |
-| 4 | Traits `::before`/`::after` qui chevauchent les textes | correctif | captures avant/après à toutes les largeurs | à faire |
+| 3b | Héros mobile : pleine hauteur d'écran + titre équilibré (< 600 px) | commit `6ff8eeb` | héros = 100 % écran ≤600 px, desktop inchangé | **livré** (demande du 2026-11-12) |
+| 4 | Traits `::before` qui chevauchent les textes (ancrés au bas du h2) | commit `7317496` | captures avant/après about+projet, 320 et 1280 : plus de chevauchement | **livré** |
 | 5 | Autres bugs de l'inventaire | correctifs, un commit chacun | captures, aucun défilement horizontal | à faire |
 | 6 | CSS aux conventions du kit (tokens reprenant les valeurs existantes) | CSS restructuré | captures identiques sur ordinateur, `check-centering.mjs` vert | à faire |
 | 7 | Code mort : liste puis suppression validée | liste, puis commits | liste validée par l'humain | à faire |
