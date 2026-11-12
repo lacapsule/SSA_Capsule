@@ -98,7 +98,7 @@ Ordre validé le 2026-11-12. Le travail ne change ni la mise en page ni les cont
 | 3 | Boutons du héros en mobile (empilés < 600 px) | commit `f7c6b7f` | captures avant/après, vérif 320→1920 px : 0 tronqué, 0 débord | **livré** |
 | 3b | Héros mobile : pleine hauteur d'écran + titre équilibré (< 600 px) | commit `6ff8eeb` | héros = 100 % écran ≤600 px, desktop inchangé | **livré** (demande du 2026-11-12) |
 | 4 | Traits `::before` qui chevauchent les textes (ancrés au bas du h2) | commit `7317496` | captures avant/après about+projet, 320 et 1280 : plus de chevauchement | **livré** |
-| 5 | Autres bugs de l'inventaire | correctifs, un commit chacun | captures, aucun défilement horizontal | à faire |
+| 5 | Connexion : débordement +5 px à 320 px (carte fluide ≤360 px) | commit `d8f1c86` | captures avant/après, vérif 320→1280 : 0 débord | **livré** |
 | 6 | CSS aux conventions du kit (tokens reprenant les valeurs existantes) | CSS restructuré | captures identiques sur ordinateur, `check-centering.mjs` vert | à faire |
 | 7 | Code mort : liste puis suppression validée | liste, puis commits | liste validée par l'humain | à faire |
 | 8 | Pied de page sans SIRET, `robots.txt`, `sitemap.xml`, accessibilité invisible | correctifs | `curl` 200, audit axe-core | à faire |
@@ -126,7 +126,7 @@ Ordre validé le 2026-11-12. Le travail ne change ni la mise en page ni les cont
 - **P1 (corrigé sur `dev`, `a855d13`)** `.gitignore` couvre `.env`.
 - **P2** `vendor/` absent : tests PHPUnit et PHPStan non lancés. Pas de cible `make verify`.
 - **P2** Traductions mortes avec des coordonnées factices (`contact_address`, `contact_phone`, `contact_email1/2` dans `app/Lang/locales`) : le gabarit `contact.tpl.php` affiche les coordonnées en dur, donc non traduites en breton.
-- **P2 (inventaire étape 2)** Accueil desktop : la pagination « 1 2 3 Page 1/3 » de la section Actualités chevauche le titre « NOS ACTUALITÉS ». À corriger avec les autres bugs d'affichage.
+- **~~P2 pagination actus~~ (faux positif, 2026-11-12)** Le « chevauchement » de la pagination sur le titre « NOS ACTUALITÉS » était un artefact de capture pleine page (la pagination réutilise `.gallery-pagination` en `position:sticky`). Vérifié dans un vrai écran : aucun chevauchement. Aucune correction.
 - **P2** Restes à trier : `templates/modules/wiki` (lien `projet-ssa.html`, sans route), `public/assets/css/bak`, `tests/Http/RequestTestV2.php.bak`, `bin/resolve-git-conflicts.sh`.
 
 ## Ajouts à la checklist de livraison
@@ -147,3 +147,5 @@ Ordre validé le 2026-11-12. Le travail ne change ni la mise en page ni les cont
 | 2026-11-12 | CSS absents en local après clone de `main` | `/public/assets` ignoré en entier par `.gitignore`, CSS jamais commités | `.gitignore` : n'ignorer que `/public/assets/img/` (commit `a855d13` sur `dev`) |
 | 2026-11-12 | `data/database.sqlite` et `config/database.php` disparus du dossier local → site en erreur fatale PDO sur toutes les pages | fichiers ignorés par git perdus pendant des manips de branches/stash ; `git stash -u` ne les protège pas (il ignore les fichiers gitignored) | **Règle** : ne jamais faire de manips git risquées (stash -u, bascule de branche, merge test) sans sauvegarder d'abord `data/` et `config/database.php` hors dépôt. Restaurés depuis le partage SSA_DEV. |
 | 2026-11-12 | Inventaire faussé : « +302 px de débordement sur toutes les pages » | c'était la bannière d'erreur PHP (DB KO), pas un bug CSS | toujours vérifier que le site répond sans erreur avant un audit visuel |
+| 2026-11-12 | Faux bug « pagination qui chevauche le titre des actus » | artefact de capture pleine page : les éléments `position:sticky` s'y placent mal | vérifier tout défaut suspect dans un vrai écran (viewport) avant de conclure, pas seulement en capture fullPage |
+| 2026-11-12 | todo.md recréé par erreur alors que l'humain l'avait supprimé | j'ai cru à une perte comme pour `data/`, sans demander | devant un fichier suivi disparu, demander avant de restaurer : ce peut être une suppression volontaire |
