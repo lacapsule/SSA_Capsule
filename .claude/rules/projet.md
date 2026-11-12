@@ -100,9 +100,9 @@ Ordre validé le 2026-11-12. Le travail ne change ni la mise en page ni les cont
 | 3b | Héros mobile : pleine hauteur d'écran + titre équilibré (< 600 px) | commit `6ff8eeb` | héros = 100 % écran ≤600 px, desktop inchangé | **livré** (demande du 2026-11-12) |
 | 4 | Traits `::before` qui chevauchent les textes (ancrés au bas du h2) | commit `7317496` | captures avant/après about+projet, 320 et 1280 : plus de chevauchement | **livré** |
 | 5 | Connexion : débordement +5 px à 320 px (carte fluide ≤360 px) | commit `d8f1c86` | captures avant/après, vérif 320→1280 : 0 débord | **livré** |
-| 6 | CSS aux conventions (tokens) | 1re passe : hex = token existant remplaces (commit `190ea58`) | ~38 couleurs sans token (dashboard) a tokeniser en 2e passe | **en cours (1re passe)** |
+| 6 | CSS aux conventions (tokens) | public entierement tokenise (plus aucun hex hors variables.css dans le CSS public) ; dashboard (60 couleurs) a consolider a part | public **fait**, dashboard **a faire** |
 | 7 | Code mort : liste puis suppression validée | liste, puis commits | liste validée par l'humain | à faire |
-| 8 | Pied de page sans SIRET (fait, commit `a330e28`) ; `robots.txt`, `sitemap.xml`, accessibilité invisible | partiel | SIRET retiré ; robots/sitemap/a11y restants | **en cours** |
+| 8 | Pied de page sans SIRET ; `robots.txt` + `sitemap.xml` (module Seo) ; accessibilité invisible (audit RGAA) | tout fait | SIRET retiré, robots/sitemap en routes dynamiques, a11y 0 violation axe | **livré** |
 | 9 | Mentions légales, confidentialité, déclaration d'accessibilité | pages créées et renseignées (`a330e28`, `ab387b2`) | mentions + confidentialité complètes ; accessibilité attend l'audit RGAA | **mentions/confid. OK, accessibilité à auditer** |
 | 10 | Tableau de bord : étapes 2 à 7 | correctifs | idem | à faire |
 | 11 | Paquet de mise en ligne : liste des fichiers de production dans `FTP.md`, sans `data/` ni images envoyées | `FTP.md` | liste relue par l'humain ; envoi FTP fait par l'humain | à faire |
@@ -161,6 +161,9 @@ Ordre validé le 2026-11-12. Le travail ne change ni la mise en page ni les cont
   - `logoSSA.png` **499 Ko** (logo, devrait faire < 20 Ko) ; `logo.svg` 115 Ko.
 - Fait : `loading="lazy"` sur images sous la ligne de flottaison (commit). Vidéo déjà en `preload="metadata"`.
 - JS : chargement conditionnel par page (accueil 5 fichiers au lieu de ~20).
+
+### Héros (2026-11-12)
+- Voile sombre ajouté sur l'image de fond des héros (accueil, projet) pour la lisibilité du texte blanc.
 
 ### Accessibilité (RGAA/WCAG 2.2 AA, 12 novembre 2026)
 - Scan axe-core sur 6 gabarits + passe manuelle. **0 violation** après corrections.
