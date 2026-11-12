@@ -1,3 +1,20 @@
 *.webp filter=lfs diff=lfs merge=lfs -text
 *.jpg filter=lfs diff=lfs merge=lfs -text
 *.webm filter=lfs diff=lfs merge=lfs -text
+
+# Exclus du paquet de livraison (git archive) : outillage de developpement.
+# Le paquet ne contient que ce qui part sur le FTP de production.
+/Makefile export-ignore
+/setup-local.sh export-ignore
+/README.md export-ignore
+/FTP.md export-ignore
+/phpunit.xml export-ignore
+/.phpactor.json export-ignore
+/.php-cs-fixer.dist.php export-ignore
+/.gitignore export-ignore
+/.gitattributes export-ignore
+/tests export-ignore
+/docs export-ignore
+/archived export-ignore
+/migrations export-ignore
+/.claude export-ignore
