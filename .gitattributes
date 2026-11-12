@@ -17,4 +17,6 @@
 /docs export-ignore
 /archived export-ignore
 /migrations export-ignore
+/composer.json export-ignore
+/composer.lock export-ignore
 /.claude export-ignore
