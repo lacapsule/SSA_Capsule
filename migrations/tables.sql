@@ -47,6 +47,47 @@ CREATE TABLE IF NOT EXISTS articles (
     FOREIGN KEY (author_id) REFERENCES users(id) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+/* ===================== ARTICLE IMAGES ===================== */
+CREATE TABLE IF NOT EXISTS article_images (
+  id          INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  article_id  INT UNSIGNED NOT NULL,
+  path        VARCHAR(255) NOT NULL,
+  position    SMALLINT UNSIGNED NOT NULL DEFAULT 0,
+  created_at  DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (id),
+  KEY idx_article_images_article (article_id),
+  CONSTRAINT fk_article_images_article
+    FOREIGN KEY (article_id) REFERENCES articles(id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+/* ===================== PARTNERS ===================== */
+CREATE TABLE IF NOT EXISTS partner_sections (
+  id          INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  name        VARCHAR(191) NOT NULL,
+  slug        VARCHAR(191) NOT NULL UNIQUE,
+  description TEXT NULL,
+  kind        ENUM('partenaire','financeur') NOT NULL DEFAULT 'partenaire',
+  position    INT UNSIGNED NOT NULL DEFAULT 0,
+  is_active   TINYINT(1) NOT NULL DEFAULT 1,
+  created_at  DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at  DATETIME NULL ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+CREATE TABLE IF NOT EXISTS partner_logos (
+  id          INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  section_id  INT UNSIGNED NOT NULL,
+  name        VARCHAR(191) NOT NULL,
+  url         VARCHAR(255) NOT NULL,
+  logo_path   VARCHAR(255) NOT NULL,
+  position    INT UNSIGNED NOT NULL DEFAULT 0,
+  created_at  DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (id),
+  KEY idx_partner_logos_section (section_id),
+  CONSTRAINT fk_partner_logos_section
+    FOREIGN KEY (section_id) REFERENCES partner_sections(id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
 /* ===================== CONTACTS ===================== */
 CREATE TABLE IF NOT EXISTS contacts (
   id          INT UNSIGNED  NOT NULL AUTO_INCREMENT,
@@ -61,7 +102,7 @@ CREATE TABLE IF NOT EXISTS contacts (
 /* ===================== AGENDA (UTC, durée en minutes) ===================== */
 /* Contrat :
    - starts_at en UTC (DATETIME)
-   - duration_minutes en [30, 480] (vérifié par CHECK si supporté, sinon triggers/app)
+   - duration_minutes en [30, 43200] (30 minutes à 30 jours, vérifié par CHECK si supporté, sinon triggers/app)
    - created_by nullable, FK users(id), ON DELETE SET NULL
 */
 CREATE TABLE IF NOT EXISTS agenda_events (
@@ -81,7 +122,7 @@ CREATE TABLE IF NOT EXISTS agenda_events (
   CONSTRAINT fk_agenda_user
     FOREIGN KEY (created_by) REFERENCES users(id) ON DELETE SET NULL,
   CONSTRAINT ck_agenda_duration
-    CHECK (duration_minutes BETWEEN 30 AND 480)  -- MySQL 8.0.16+ & MariaDB 10.4+ appliquent le CHECK
+    CHECK (duration_minutes BETWEEN 30 AND 43200)  -- 30 minutes à 30 jours (30 * 24 * 60)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 /* ===================== SEED ===================== */

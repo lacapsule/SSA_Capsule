@@ -1,7 +1,7 @@
 /**
  * Module de gestion du téléchargement de fichiers
  */
-import { DOM_SELECTORS } from '../constants.js';
+import { DOM_SELECTORS, FILE_CONFIG } from '../constants.js';
 import { getElement, addEventListenerSafe, createElement } from '../utils/dom.js';
 
 /**
@@ -31,7 +31,14 @@ export function initFileDownloader() {
         return;
     }
 
-    addEventListenerSafe(downloadLink, 'click', () => {
+    if (typeof FILE_CONFIG === 'undefined' || !FILE_CONFIG?.CANDIDATURE) {
+        console.warn('Configuration de téléchargement absente (FILE_CONFIG)');
+        return;
+    }
+
+    addEventListenerSafe(downloadLink, 'click', (event) => {
+        // Empêche le téléchargement natif (double clic) : on gère via JS
+        event?.preventDefault?.();
         downloadFile(
             FILE_CONFIG.CANDIDATURE.url,
             FILE_CONFIG.CANDIDATURE.filename

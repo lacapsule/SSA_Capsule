@@ -5,6 +5,10 @@ declare(strict_types=1);
 namespace App\Modules\Article;
 
 use App\Modules\Article\Dto\ArticleDTO;
+use App\Support\ImageConverter;
+use FilesystemIterator;
+use RecursiveDirectoryIterator;
+use RecursiveIteratorIterator;
 
 /**
  * ArticleService
@@ -20,13 +24,17 @@ use App\Modules\Article\Dto\ArticleDTO;
  */
 final class ArticleService
 {
-    public function __construct(private ArticleRepository $articleRepository)
+    private const SUPPORTED_FS_MEDIA_EXT = ['webp', 'jpg', 'jpeg', 'png', 'gif', 'mp4', 'webm', 'ogv', 'ogg', 'mov'];
+    public function __construct(
+        private ArticleRepository $articleRepository,
+        private ArticleImageRepository $imageRepository,
+    )
     {
     }
 
     /** Champs requis et optionnels pour create/update */
     private const REQUIRED_FIELDS = ['titre', 'resume', 'description', 'date_article', 'hours'];
-    private const OPTIONAL_FIELDS = ['lieu', 'image'];
+    private const OPTIONAL_FIELDS = ['lieu', 'info', 'liens', 'inscription_link'];
 
     /* =======================
        ======= Queries =======
@@ -77,7 +85,23 @@ final class ArticleService
             throw new \InvalidArgumentException('ID doit être positif.');
         }
 
-        return $this->articleRepository->findById($id);
+        $article = $this->articleRepository->findById($id);
+
+        if ($article === null) {
+            return null;
+        }
+
+        $media = $this->imageRepository->findMediaByArticle($id);
+        if ($media !== []) {
+            return $article->withMedia($media);
+        }
+
+        $images = $this->imageRepository->findPathsByArticle($id);
+        if ($images === []) {
+            $images = $this->loadFilesystemMediaPaths($id);
+        }
+
+        return $images === [] ? $article : $article->withImages($images);
     }
 
     /* =======================
@@ -89,7 +113,10 @@ final class ArticleService
      * @param array<string,mixed> $user  (doit contenir au moins 'id')
      * @return array{errors?: array<string,string>, data?: array<string,mixed>}
      */
-    public function create(array $input, array $user): array
+    /**
+     * @param array<int, array{tmp_name:string,name:string,type:string,error:int,size:int}> $imageFiles
+     */
+    public function create(array $input, array $user, array $imageFiles = []): array
     {
         $data = $this->sanitize($input);
         $errors = $this->validate($data);
@@ -102,10 +129,18 @@ final class ArticleService
             $payload = $this->toPersistenceArray($data) + [
                 'author_id' => isset($user['id']) ? (int)$user['id'] : null,
             ];
-            $this->articleRepository->create($payload);
+            $articleId = $this->articleRepository->create($payload);
+
+            if ($articleId > 0 && $imageFiles !== []) {
+                $stored = $this->storeArticleImages($articleId, $imageFiles);
+                if ($stored !== []) {
+                    $this->imageRepository->replaceImages($articleId, $stored);
+                    $this->articleRepository->update($articleId, ['image' => $this->pickCoverPath($stored)]);
+                }
+            }
         } catch (\Throwable $e) {
-            // Log minimal (facultatif) : error_log($e->getMessage());
-            return ['errors' => ['_global' => 'Erreur lors de la création.'], 'data' => $data];
+            error_log("❌ Article Create Error: " . $e->getMessage() . " | Trace: " . $e->getTraceAsString());
+            return ['errors' => ['_global' => 'Erreur lors de la création: ' . $e->getMessage()], 'data' => $data];
         }
 
         return [];
@@ -115,7 +150,10 @@ final class ArticleService
      * @param array<string,mixed> $input
      * @return array{errors?: array<string,string>, data?: array<string,mixed>}
      */
-    public function update(int $id, array $input): array
+    /**
+     * @param array<int, array{tmp_name:string,name:string,type:string,error:int,size:int}> $newImages
+     */
+    public function update(int $id, array $input, array $newImages = []): array
     {
         if ($id <= 0) {
             return ['errors' => ['_global' => 'Identifiant invalide.'], 'data' => $input];
@@ -131,9 +169,25 @@ final class ArticleService
         try {
             $payload = $this->toPersistenceArray($data);
             $this->articleRepository->update($id, $payload);
+
+            if ($newImages !== []) {
+                $stored = $this->storeArticleImages($id, $newImages);
+                if ($stored !== []) {
+                    $existing = $this->imageRepository->findPathsByArticle($id);
+                    $merged = array_merge($existing, $stored);
+                    if ($merged !== []) {
+                        $this->imageRepository->replaceImages($id, $merged);
+                        $this->articleRepository->update($id, ['image' => $this->pickCoverPath($merged)]);
+                    }
+                } else {
+                    // Si aucun fichier n'a pu être stocké, logger pour debug
+                    error_log("⚠️ Article Update: Aucune image n'a pu être stockée pour l'article {$id}");
+                }
+            }
         } catch (\Throwable $e) {
-            // Log minimal (facultatif)
-            return ['errors' => ['_global' => 'Erreur lors de la mise à jour.'], 'data' => $data];
+            // Log détaillé pour debug
+            error_log("❌ Article Update Error: " . $e->getMessage() . " | Trace: " . $e->getTraceAsString());
+            return ['errors' => ['_global' => 'Erreur lors de la mise à jour: ' . $e->getMessage()], 'data' => $data];
         }
 
         return [];
@@ -144,7 +198,10 @@ final class ArticleService
         if ($id <= 0) {
             throw new \InvalidArgumentException('ID doit être positif.');
         }
+        $this->imageRepository->deleteByArticle($id);
+        $this->deleteArticleDirectory($id);
         $this->articleRepository->delete($id);
+        $this->cleanupDanglingArticleDirectories();
     }
 
     /* =======================
@@ -233,6 +290,10 @@ final class ArticleService
             }
         }
 
+        if (!empty($data['inscription_link']) && !filter_var($data['inscription_link'], FILTER_VALIDATE_URL)) {
+            $errors['inscription_link'] = 'Le lien doit être une URL valide.';
+        }
+
         return $errors;
     }
 
@@ -274,6 +335,325 @@ final class ArticleService
             }
         }
 
-        return $out;
+        $allowedFields = [
+            'titre', 'resume', 'description', 'date_article', 'hours',
+            'lieu', 'image', 'info', 'liens', 'inscription_link',
+        ];
+
+        $filtered = [];
+        foreach ($allowedFields as $field) {
+            if (array_key_exists($field, $out)) {
+                $filtered[$field] = $out[$field];
+            }
+        }
+
+        return $filtered;
     }
+
+    /**
+     * @param array<int, array{tmp_name:string,name:string,type:string,error:int,size:int}> $imageFiles
+     * @return list<string> chemins publics vers les médias sauvegardés
+     */
+    private function storeArticleImages(int $articleId, array $imageFiles): array
+    {
+        $destDir = $this->articleMediaRoot() . '/' . $articleId;
+        $saved = [];
+
+        foreach ($imageFiles as $file) {
+            if (($file['error'] ?? UPLOAD_ERR_NO_FILE) !== UPLOAD_ERR_OK) {
+                continue;
+            }
+
+            $path = ImageConverter::saveArticleMedia($file, $articleId, $destDir);
+            if ($path !== null) {
+                $saved[] = $path;
+            }
+        }
+
+        return $saved;
+    }
+
+    /**
+     * @return list<array{id:int,article_id:int,path:string,position:int}>
+     */
+    public function getMediaList(int $articleId): array
+    {
+        return $this->imageRepository->findMediaByArticle($articleId);
+    }
+
+    /**
+     * @return array{success?:true,error?:string}
+     */
+    public function deleteMedia(int $articleId, int $mediaId): array
+    {
+        if ($articleId <= 0 || $mediaId <= 0) {
+            return ['error' => 'Identifiants invalides.'];
+        }
+
+        $media = $this->imageRepository->findMediaById($mediaId);
+        if ($media === null || (int)$media['article_id'] !== $articleId) {
+            return ['error' => 'Média introuvable.'];
+        }
+
+        $this->imageRepository->deleteById($mediaId);
+        $this->imageRepository->resequencePositions($articleId);
+        $this->deleteMediaFile((string) $media['path']);
+        $this->refreshArticleCover($articleId);
+        $this->cleanupArticleDirectoryIfUnused($articleId);
+        $this->cleanupDanglingArticleDirectories();
+
+        return ['success' => true];
+    }
+
+    /**
+     * @return array{success?:true,error?:string,path?:string}
+     */
+    public function renameMedia(int $articleId, int $mediaId, string $newName): array
+    {
+        if ($articleId <= 0 || $mediaId <= 0) {
+            return ['error' => 'Identifiants invalides.'];
+        }
+
+        $media = $this->imageRepository->findMediaById($mediaId);
+        if ($media === null || (int)$media['article_id'] !== $articleId) {
+            return ['error' => 'Média introuvable.'];
+        }
+
+        $sanitized = $this->sanitizeFilename($newName);
+        if ($sanitized === '') {
+            return ['error' => 'Nom de fichier invalide.'];
+        }
+
+        $oldPublicPath = (string) $media['path'];
+        $oldAbsolute = $this->absoluteMediaPath($oldPublicPath);
+        if (!is_file($oldAbsolute)) {
+            return ['error' => 'Fichier introuvable sur le disque.'];
+        }
+
+        $extension = strtolower((string) pathinfo($oldPublicPath, PATHINFO_EXTENSION));
+        $extension = $extension !== '' ? $extension : 'webp';
+
+        $publicDir = rtrim(str_replace('\\', '/', dirname($oldPublicPath)), '/');
+        if ($publicDir === '' || $publicDir === '.') {
+            $publicDir = '/assets/img/articles';
+        }
+
+        $newPublicPath = $this->buildUniquePublicPath($publicDir, $sanitized, $extension);
+        $newAbsolute = $this->absoluteMediaPath($newPublicPath);
+
+        if (!$this->moveFile($oldAbsolute, $newAbsolute)) {
+            return ['error' => 'Impossible de renommer le fichier.'];
+        }
+
+        $this->imageRepository->updatePath($mediaId, $newPublicPath);
+        $this->refreshArticleCover($articleId);
+
+        return [
+            'success' => true,
+            'path' => $newPublicPath,
+        ];
+    }
+
+    private function deleteArticleDirectory(int $articleId): void
+    {
+        $dir = $this->articleMediaRoot() . '/' . $articleId;
+        $this->removeDirectory($dir);
+    }
+
+    private function deleteMediaFile(string $publicPath): void
+    {
+        $absolute = $this->absoluteMediaPath($publicPath);
+        if (is_file($absolute)) {
+            @unlink($absolute);
+        }
+    }
+
+    private function absoluteMediaPath(string $publicPath): string
+    {
+        $clean = '/' . ltrim($publicPath, '/');
+        $basePath = realpath(__DIR__ . '/../../..') ?: dirname(__DIR__, 2);
+
+        return $basePath . '/public' . $clean;
+    }
+
+    private function buildUniquePublicPath(string $publicDir, string $filename, string $extension): string
+    {
+        $baseDir = '/' . ltrim($publicDir, '/');
+        $counter = 0;
+        do {
+            $suffix = $counter === 0 ? '' : '-' . $counter;
+            $candidate = sprintf('%s/%s%s.%s', $baseDir, $filename, $suffix, $extension);
+            $counter++;
+            $absolute = $this->absoluteMediaPath($candidate);
+        } while (is_file($absolute));
+
+        return $candidate;
+    }
+
+    private function moveFile(string $from, string $to): bool
+    {
+        $dir = dirname($to);
+        if (!is_dir($dir)) {
+            @mkdir($dir, 0755, true);
+        }
+
+        if (@rename($from, $to)) {
+            return true;
+        }
+
+        if (@copy($from, $to)) {
+            @unlink($from);
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Retourne le chemin de la miniature à utiliser comme cover :
+     * priorité à la première image (non-vidéo), fallback sur le premier média.
+     *
+     * @param list<string> $paths
+     */
+    private function pickCoverPath(array $paths): ?string
+    {
+        foreach ($paths as $path) {
+            $ext = strtolower(pathinfo($path, PATHINFO_EXTENSION));
+            if (!in_array($ext, ['mp4', 'webm', 'ogv', 'ogg', 'mov'], true)) {
+                return $path;
+            }
+        }
+
+        return $paths[0] ?? null;
+    }
+
+    private function refreshArticleCover(int $articleId): void
+    {
+        $media = $this->imageRepository->findMediaByArticle($articleId);
+        $paths = array_column($media, 'path');
+        $cover = $this->pickCoverPath($paths);
+        $this->articleRepository->update($articleId, ['image' => $cover]);
+    }
+
+    private function sanitizeFilename(string $name): string
+    {
+        $clean = preg_replace('/[^a-zA-Z0-9_-]/', '-', $name);
+        $clean = preg_replace('/-+/', '-', $clean ?? '');
+
+        return trim((string) $clean, '-');
+    }
+
+    private function articleMediaRoot(): string
+    {
+        return (realpath(__DIR__ . '/../../..') ?: dirname(__DIR__, 2)) . '/public/assets/img/articles';
+    }
+
+    private function loadFilesystemMediaPaths(int $articleId): array
+    {
+        $dir = $this->articleMediaRoot() . '/' . $articleId;
+        if (!is_dir($dir)) {
+            return [];
+        }
+
+        $paths = [];
+        $iterator = new FilesystemIterator($dir, FilesystemIterator::SKIP_DOTS);
+
+        foreach ($iterator as $file) {
+            if (!$file->isFile()) {
+                continue;
+            }
+            $ext = strtolower($file->getExtension());
+            if (!in_array($ext, self::SUPPORTED_FS_MEDIA_EXT, true)) {
+                continue;
+            }
+
+            $paths[] = '/assets/img/articles/' . $articleId . '/' . $file->getFilename();
+        }
+
+        sort($paths);
+
+        return $paths;
+    }
+
+    private function cleanupArticleDirectoryIfUnused(int $articleId): void
+    {
+        $dir = $this->articleMediaRoot() . '/' . $articleId;
+        if (!is_dir($dir)) {
+            return;
+        }
+
+        $article = $this->articleRepository->findById($articleId);
+        if ($article === null) {
+            $this->deleteArticleDirectory($articleId);
+            return;
+        }
+
+        if ($this->imageRepository->findMediaByArticle($articleId) !== []) {
+            return;
+        }
+
+        if ($this->articleHasLegacyCover($article)) {
+            return;
+        }
+
+        $this->deleteArticleDirectory($articleId);
+    }
+
+    private function cleanupDanglingArticleDirectories(): void
+    {
+        $root = $this->articleMediaRoot();
+        if (!is_dir($root)) {
+            return;
+        }
+
+        $iterator = new FilesystemIterator($root, FilesystemIterator::SKIP_DOTS);
+        foreach ($iterator as $entry) {
+            if (!$entry->isDir()) {
+                continue;
+            }
+
+            $folder = $entry->getFilename();
+            if (!ctype_digit($folder)) {
+                $this->removeDirectory($entry->getPathname());
+                continue;
+            }
+
+            $this->cleanupArticleDirectoryIfUnused((int) $folder);
+        }
+    }
+
+    private function articleHasLegacyCover(ArticleDTO $article): bool
+    {
+        if ($article->image === null) {
+            return false;
+        }
+
+        $needle = '/articles/' . $article->id . '/';
+
+        return str_contains((string) $article->image, $needle);
+    }
+
+    private function removeDirectory(string $dir): void
+    {
+        if (!is_dir($dir)) {
+            return;
+        }
+
+        $iterator = new RecursiveIteratorIterator(
+            new RecursiveDirectoryIterator($dir, FilesystemIterator::SKIP_DOTS),
+            RecursiveIteratorIterator::CHILD_FIRST
+        );
+
+        /** @var \SplFileInfo $file */
+        foreach ($iterator as $file) {
+            if ($file->isDir()) {
+                @rmdir($file->getPathname());
+            } else {
+                @unlink($file->getPathname());
+            }
+        }
+
+        @rmdir($dir);
+    }
+
 }

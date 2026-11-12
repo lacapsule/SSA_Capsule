@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Support;
 
 use FilesystemIterator;
+use finfo;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 
@@ -13,6 +14,12 @@ final class ImageConverter
     private const SUPPORTED_MIMES = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp'];
     private const DEFAULT_QUALITY = 80;
     private const DEFAULT_MAX_WIDTH = 1920;
+    private const SUPPORTED_VIDEO_MIMES = [
+        'video/mp4' => 'mp4',
+        'video/webm' => 'webm',
+        'video/ogg' => 'ogv',
+        'video/quicktime' => 'mov',
+    ];
 
     /**
      * Convertit un fichier uploadé en WebP et retourne le chemin web (ex: /assets/img/articles/20251114-1.webp).
@@ -36,6 +43,79 @@ final class ImageConverter
     }
 
     /**
+     * Convertit un fichier uploadé en WebP pour un article (même traitement que la galerie)
+     * et retourne le chemin public complet.
+     *
+     * @param array{tmp_name:string,name:string,type:string,error:int,size:int} $file
+     */
+    public static function convertUploadedFileForArticle(
+        array $file,
+        int $articleId,
+        ?string $destDirAbsolute = null,
+        int $quality = self::DEFAULT_QUALITY,
+        ?int $maxWidth = self::DEFAULT_MAX_WIDTH
+    ): ?string {
+        $destDir = self::resolveArticleDirectory($articleId, $destDirAbsolute);
+        self::ensureDirectory($destDir);
+
+        $filename = self::generateTimestampedName($destDir, 'webp');
+        $savedPath = self::storeUploadedFile($file, $destDir, $filename, $quality, $maxWidth);
+
+        return $savedPath ? self::toPublicPath($savedPath) : null;
+    }
+
+    /**
+     * Sauvegarde un média (image ou vidéo) pour un article.
+     *
+     * @param array{tmp_name:string,name:string,type:string,error:int,size:int} $file
+     */
+    public static function saveArticleMedia(array $file, int $articleId, ?string $destDirAbsolute = null): ?string
+    {
+        $mime = self::detectMimeType($file);
+
+        if (isset(self::SUPPORTED_VIDEO_MIMES[$mime])) {
+            return self::moveUploadedVideoForArticle($file, $articleId, $destDirAbsolute);
+        }
+
+        return self::convertUploadedFileForArticle($file, $articleId, $destDirAbsolute);
+    }
+
+    /**
+     * Déplace un fichier vidéo (mp4/webm/...) vers le dossier de l'article.
+     *
+     * @param array{tmp_name:string,name:string,type:string,error:int,size:int} $file
+     */
+    public static function moveUploadedVideoForArticle(
+        array $file,
+        int $articleId,
+        ?string $destDirAbsolute = null
+    ): ?string {
+        $tmp = $file['tmp_name'] ?? null;
+        if (!$tmp || !is_file($tmp)) {
+            return null;
+        }
+
+        $mime = self::detectMimeType($file);
+        $extension = self::SUPPORTED_VIDEO_MIMES[$mime] ?? null;
+        if ($extension === null) {
+            return null;
+        }
+
+        $destDir = self::resolveArticleDirectory($articleId, $destDirAbsolute);
+        self::ensureDirectory($destDir);
+
+        $filename = self::generateTimestampedName($destDir, $extension);
+        $destPath = rtrim($destDir, '/\\') . '/' . $filename;
+
+        $moved = @move_uploaded_file($tmp, $destPath);
+        if (!$moved) {
+            $moved = @copy($tmp, $destPath);
+        }
+
+        return $moved ? self::toPublicPath($destPath) : null;
+    }
+
+    /**
      * Convertit un fichier uploadé en WebP pour la galerie avec un nom personnalisé
      * et retourne uniquement le filename (ex: mon-image.webp).
      *
@@ -43,7 +123,7 @@ final class ImageConverter
      */
     public static function convertUploadedFileForGallery(
         array $file,
-        int $lotNumber = 1,
+        ?string $customName = null,
         ?string $destDirAbsolute = null,
         int $quality = self::DEFAULT_QUALITY,
         ?int $maxWidth = self::DEFAULT_MAX_WIDTH
@@ -52,7 +132,9 @@ final class ImageConverter
         $destDir = $destDirAbsolute ?? ($basePath . '/public/assets/img/gallery');
         self::ensureDirectory($destDir);
 
-        $filename = self::generateGalleryLotFilename($destDir, $lotNumber);
+        $filename = $customName !== null && $customName !== ''
+            ? self::sanitizeCustomName($customName) . '.webp'
+            : self::generateTimestampedWebpName($destDir);
 
         $savedPath = self::storeUploadedFile($file, $destDir, $filename, $quality, $maxWidth);
 
@@ -90,8 +172,6 @@ final class ImageConverter
         $skipped = 0;
 
         /** @var \SplFileInfo $file */
-        $lotCounters = [];
-
         foreach ($iterator as $file) {
             if (!$file->isFile()) {
                 continue;
@@ -102,22 +182,7 @@ final class ImageConverter
                 continue;
             }
 
-            $absolutePath = $file->getPathname();
-            $result = self::reencodeExistingFile($absolutePath, $quality, $maxWidth, $dryRun);
-
-            if ($result && self::isGalleryPath($absolutePath)) {
-                $dateTime = date('Ymd_His', @filemtime($absolutePath) ?: time());
-                $lotCounters[$dateTime] = ($lotCounters[$dateTime] ?? 0) + 1;
-                $renameResult = self::renameGalleryFile(
-                    $absolutePath,
-                    $dateTime,
-                    $lotCounters[$dateTime],
-                    $quality,
-                    $maxWidth,
-                    $dryRun
-                );
-                $result = $renameResult ?? false;
-            }
+            $result = self::reencodeExistingFile($file->getPathname(), $quality, $maxWidth, $dryRun);
 
             if ($result) {
                 $optimized++;
@@ -282,57 +347,18 @@ final class ImageConverter
         return sprintf('%s-%d.webp', $prefix, $num);
     }
 
-    private static function generateGalleryLotFilename(string $destDir, int $lotNumber, ?string $dateTime = null): string
+    private static function generateTimestampedWebpName(string $destDir): string
     {
-        $timestamp = $dateTime ?? date('Ymd_His');
-        $lot = str_pad((string) max(1, $lotNumber), 3, '0', STR_PAD_LEFT);
-        $filename = sprintf('%s_lot%s.webp', $timestamp, $lot);
-        $fullPath = rtrim($destDir, '/\\') . '/' . $filename;
-
-        $counter = $lotNumber;
-        while (is_file($fullPath)) {
-            $counter++;
-            $lot = str_pad((string) $counter, 3, '0', STR_PAD_LEFT);
-            $filename = sprintf('%s_lot%s.webp', $timestamp, $lot);
-            $fullPath = rtrim($destDir, '/\\') . '/' . $filename;
-        }
-
-        return $filename;
+        return self::generateTimestampedName($destDir, 'webp');
     }
 
-    private static function renameGalleryFile(
-        string $absolutePath,
-        string $dateTime,
-        int $lotNumber,
-        int $quality,
-        ?int $maxWidth,
-        bool $dryRun
-    ): ?string {
-        $dir = dirname($absolutePath);
-        $newFilename = self::generateGalleryLotFilename($dir, $lotNumber, $dateTime);
-        $currentBasename = basename($absolutePath);
-
-        if ($currentBasename === $newFilename && str_ends_with(strtolower($currentBasename), '.webp')) {
-            return $absolutePath;
-        }
-
-        if ($dryRun) {
-            return $absolutePath;
-        }
-
-        $newPath = self::encodeToWebp($absolutePath, $dir, $newFilename, $quality, $maxWidth);
-        if ($newPath && $newPath !== $absolutePath && is_file($absolutePath)) {
-            @unlink($absolutePath);
-        }
-
-        return $newPath;
-    }
-
-    private static function isGalleryPath(string $path): bool
+    private static function sanitizeCustomName(string $customName): string
     {
-        $normalized = str_replace('\\', '/', $path);
+        $cleanName = preg_replace('/[^a-zA-Z0-9_-]/', '-', $customName);
+        $cleanName = preg_replace('/-+/', '-', $cleanName ?? '');
+        $cleanName = trim((string) $cleanName, '-');
 
-        return str_contains($normalized, '/assets/img/gallery/');
+        return $cleanName !== '' ? $cleanName : 'image';
     }
 
     private static function normalizeQuality(int $quality): int
@@ -356,5 +382,45 @@ final class ImageConverter
         }
 
         return $absolutePath;
+    }
+
+    private static function detectMimeType(array $file): string
+    {
+        $tmp = $file['tmp_name'] ?? null;
+        if ($tmp && is_file($tmp)) {
+            $finfo = new finfo(FILEINFO_MIME_TYPE);
+            $mime = $finfo->file($tmp);
+            if (is_string($mime) && $mime !== '') {
+                return $mime;
+            }
+        }
+
+        return isset($file['type']) ? (string) $file['type'] : '';
+    }
+
+    private static function resolveArticleDirectory(int $articleId, ?string $destDirAbsolute): string
+    {
+        if ($destDirAbsolute !== null) {
+            return rtrim($destDirAbsolute, '/\\');
+        }
+
+        $basePath = realpath(__DIR__ . '/../../') ?: dirname(__DIR__, 2);
+
+        return rtrim($basePath . '/public/assets/img/articles/' . $articleId, '/\\');
+    }
+
+    private static function generateTimestampedName(string $destDir, string $extension): string
+    {
+        $extension = ltrim($extension, '.');
+        $prefix = date('Ymd-His');
+        $index = 1;
+        $normalizedDir = rtrim($destDir, '/\\') . '/';
+
+        do {
+            $filename = sprintf('%s-%d.%s', $prefix, $index, strtolower($extension));
+            $index++;
+        } while (is_file($normalizedDir . $filename));
+
+        return $filename;
     }
 }

@@ -5,15 +5,20 @@ declare(strict_types=1);
 namespace App\Modules\Home;
 
 use App\Modules\Article\ArticleService;
+use App\Modules\Home\ContactService;
+use App\Modules\Agenda\AgendaService;
+use App\Modules\Agenda\Dto\AgendaEventDTO;
 use App\Providers\LanguageOptionsProvider;
 use Capsule\Support\Pagination\Page;
 use Capsule\Support\Pagination\Paginator;
 use Capsule\Contracts\ResponseFactoryInterface;
 use Capsule\Contracts\ViewRendererInterface;
 use Capsule\Routing\Attribute\Route;
+use Capsule\Security\CsrfTokenManager;
 use Capsule\View\BaseController;
-use Capsule\Http\Message\Response;
 use Capsule\View\Safe;
+use Capsule\Http\Message\Request;
+use Capsule\Http\Message\Response;
 
 final class HomeController extends BaseController
 {
@@ -25,6 +30,8 @@ final class HomeController extends BaseController
     public function __construct(
         private HomeService $homeService,
         private ArticleService $articleService,
+        private ContactService $contactService,
+        private AgendaService $agendaService,
         ResponseFactoryInterface $res,
         ViewRendererInterface $view
     ) {
@@ -46,15 +53,51 @@ final class HomeController extends BaseController
         // 2) Domaine — agrégation via HomeService
         $dto = $this->homeService->getHomeData($page);
 
-        $extraQuery = $_GET ?? [];
-        unset($extraQuery['page']);
+        // Événements à venir (90 jours) pour la page d'accueil - limité à 6
+        $today = new \DateTimeImmutable('today');
+        $horizon = $today->modify('+90 days');
+        $events = $this->agendaService->getEvents($today->format('Y-m-d'), $horizon->format('Y-m-d'));
+        // Limiter à 6 événements pour l'affichage sur la page d'accueil
+        $events = array_slice($events, 0, 3);
+        $eventsForView = array_map(static function (AgendaEventDTO $event): array {
+            $start = $event->startsAt;
+            $end = $event->endsAt();
+            $summary = (string) ($event->description ?? '');
+            if ($summary === '') {
+                $summary = (string) ($event->info ?? '');
+            }
+            if ($summary === '') {
+                $summary = (string) ($event->location ?? '');
+            }
+            return [
+                'id' => $event->id,
+                'title' => $event->title,
+                'summary' => $summary,
+                'description' => (string) ($event->description ?? ''),
+                'info' => (string) ($event->info ?? ''),
+                'links' => (string) ($event->links ?? ''),
+                'location' => (string) ($event->location ?? ''),
+                'category_id' => $event->categoryId,
+                'category_label' => $event->categoryLabel ?? $event->categoryName,
+                'category_color' => $event->categoryColor ?? $event->color,
+                'color' => $event->categoryColor ?? $event->color,
+                'date_iso' => $start->format('Y-m-d'),
+                'time' => $start->format('H:i'),
+                'end' => $end->format('Y-m-d H:i:s'),
+                'start' => $start->format('Y-m-d H:i:s'),
+                'date_label' => $start->format('d/m/Y'),
+            ];
+        }, $events);
+        $categories = $this->agendaService->listCategories();
+        $eventsJson = json_encode($eventsForView, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) ?: '[]';
+        $categoriesJson = json_encode($categories, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) ?: '[]';
 
         // 3) Présentation — projection DOMAINE -> VUE
-        $viewData = HomePresenter::forView($dto, [
-            'base_path' => '/',
-            'extra_query' => $extraQuery,
-            'anchor' => '#actu',
-        ]);
+        $viewData = HomePresenter::forView($dto);
+
+        $flash = $this->flashMessages();
+        $formErrors = $this->formErrors();
+        $formData = $this->formData();
 
         // 4) UI annexes (i18n/lang, csrf, auth)
         $i18n = $this->i18n();
@@ -71,33 +114,295 @@ final class HomeController extends BaseController
             'isAuthenticated' => $this->isAuthenticated(),
             'languages' => $languages,
             'contact_action' => '/contact',
+            'contact_errors' => $formErrors,
+            'contact_old' => $formData,
+            'flash_success' => $flash['success'] ?? [],
+            'flash_error' => $flash['error'] ?? [],
+            'events' => $eventsForView,
+            'events_count' => count($eventsForView),
+            'events_json' => $eventsJson,
+            'categories' => $categories,
+            'categories_json' => $categoriesJson,
         ] + $viewData);
+    }
+
+    #[Route(path: '/contact', methods: ['POST'])]
+    public function contactSubmit(): Response
+    {
+        CsrfTokenManager::requireValidToken();
+
+        $input = [
+            'name' => (string)($_POST['name'] ?? ''),
+            'email' => (string)($_POST['email'] ?? ''),
+            'subject' => (string)($_POST['subject'] ?? ''),
+            'message' => (string)($_POST['message'] ?? ''),
+            'honeypot' => (string)($_POST['website'] ?? ''),
+            'bot_check' => (string)($_POST['confirm_robot'] ?? ''),
+        ];
+
+        $result = $this->contactService->handle($input, $this->clientIp());
+
+        if (isset($result['errors'])) {
+            return $this->redirectWithErrors(
+                '/#contact',
+                'Merci de vérifier le formulaire de contact.',
+                $result['errors'],
+                $result['data'] ?? []
+            );
+        }
+
+        return $this->redirectWithSuccess(
+            '/#contact',
+            'Merci ! Votre message a bien été envoyé.'
+        );
+    }
+
+    /**
+     * GET /api/events
+     * API publique pour récupérer les événements du calendrier
+     */
+    #[Route(path: '/api/events', methods: ['GET'])]
+    public function getEventsApi(Request $req): Response
+    {
+        $start = $this->strFromQuery($req, 'start');
+        $end = $this->strFromQuery($req, 'end');
+
+        if ($start === null || $end === null) {
+            return $this->res->json(['error' => 'Les paramètres start et end sont requis.'], 400);
+        }
+
+        $events = $this->agendaService->getEvents($start, $end);
+
+        $formattedEvents = array_map(function (AgendaEventDTO $event) {
+            return [
+                'id' => $event->id,
+                'title' => $event->title,
+                'start' => $event->startsAt->format('Y-m-d H:i:s'),
+                'end' => $event->endsAt()->format('Y-m-d H:i:s'),
+                'location' => $event->location,
+                'description' => $event->description,
+                'info' => $event->info,
+                'links' => $event->links,
+                'category_id' => $event->categoryId,
+                'category_name' => $event->categoryName,
+                'category_label' => $event->categoryLabel,
+                'category_color' => $event->categoryColor,
+                'color' => $event->categoryColor ?? $event->color,
+                'all_day' => false,
+            ];
+        }, $events);
+
+        return $this->res->json($formattedEvents);
+    }
+
+    /**
+     * Récupère une valeur string depuis la query
+     */
+    private function strFromQuery(Request $req, string $key): ?string
+    {
+        $value = $req->query[$key] ?? null;
+        return is_string($value) && $value !== '' ? $value : null;
     }
 
     #[Route(path: '/article/{id}', methods: ['GET'])]
     public function article(int $id): Response
     {
         $dto = $this->articleService->getById($id);
+        if ($dto === null) {
+            return $this->res->text('Not Found', 404);
+        }
 
         // Projection minimale
+        $mediaPaths = $dto?->images ?? [];
+        if ($mediaPaths === [] && ($dto?->image)) {
+            $mediaPaths = [(string) $dto->image];
+        }
+
+        $normalizedPaths = array_map(
+            static fn (string $path): string => self::normalizeMediaPath($path),
+            $mediaPaths
+        );
+
+        // Sépare vidéos et images
+        $videoPaths = array_filter($normalizedPaths, static fn (string $p): bool => self::isVideoPath($p));
+        $imagePaths = array_filter($normalizedPaths, static fn (string $p): bool => !self::isVideoPath($p));
+
+        $hasVideo = count($videoPaths) > 0;
+
+        if ($hasVideo) {
+            // Article avec vidéo : on n'affiche que les vidéos dans le player/carousel
+            // Les images servent uniquement de miniature sur la home (article.image)
+            $displayPaths = array_values($videoPaths);
+        } else {
+            // Pas de vidéo : on affiche toutes les images (carousel si plusieurs)
+            $displayPaths = array_values($imagePaths);
+        }
+
+        // Prépare une structure riche pour le carousel (images + vidéos)
+        $mediaItems = array_map(
+            static function (string $path): array {
+                $isVideo = self::isVideoPath($path);
+
+                return [
+                    'src' => (string) Safe::imageUrl($path),
+                    'isVideo' => $isVideo,
+                    'isImage' => !$isVideo,
+                ];
+            },
+            $displayPaths
+        );
+
+        // Cover = miniature article (première image, utile pour la home)
+        $coverSrc = '';
+        if ($imagePaths !== []) {
+            $coverSrc = (string) Safe::imageUrl(array_values($imagePaths)[0]);
+        } elseif ($dto?->image) {
+            $coverSrc = (string) Safe::imageUrl(self::normalizeMediaPath((string) $dto->image));
+        }
+
         $article = [
-            'id' => (int)($dto->id ?? $id),
-            'title' => (string)($dto->titre ?? ''),
-            'summary' => (string)($dto->resume ?? ''),
-            'date' => (string)($dto->date_article ?? ''),
-            'time' => substr((string)($dto->hours ?? ''), 0, 5),
-            'place' => (string)($dto->lieu ?? ''),
-            'author' => isset($dto->author) ? (string)$dto->author : '',
-            'description' => isset($dto->description) ? (string)$dto->description : '',
-            'image' => isset($dto->image) ? Safe::imageUrl((string)$dto->image) : '',
+            'id' => (int) $dto->id,
+            'title' => (string) $dto->titre,
+            'summary' => (string) $dto->resume,
+            'date' => (string) $dto->date_article,
+            'time' => substr((string) $dto->hours, 0, 5),
+            'place' => (string) ($dto->lieu ?? ''),
+            'info' => (string) ($dto->info ?? ''),
+            'links' => self::parseLiens((string) ($dto->liens ?? '')),
+            'inscription_link' => (string) ($dto->inscription_link ?? ''),
+            'author' => isset($dto->author) ? (string) $dto->author : '',
+            'description' => isset($dto->description) ? (string) $dto->description : '',
+            'image' => $coverSrc,
         ];
+
+        // Carousel si plusieurs médias à afficher (ex: plusieurs vidéos ou plusieurs photos)
+        $hasCarousel = count($mediaItems) > 1;
 
         // ✅ Résout vers page:article/articleDetails
         return $this->page('page:article/articleDetails', [
             'showHeader' => true,
             'showFooter' => true,
             'str' => $this->i18n(),
+            'isAuthenticated' => $this->isAuthenticated(),
             'article' => $article,
+            'medias' => $mediaItems,
+            'mediaCover' => $coverSrc,
+            'hasCarousel' => $hasCarousel,
         ]);
     }
+    /**
+     * Parse le champ liens (une ligne = un lien).
+     * Formats supportés par ligne :
+     *   - "url"              → affiche : [domaine]
+     *   - "label|url"        → affiche : [label]  (label cliquable)
+     *   - "texte : url"      → affiche : texte : [domaine]  (texte fixe + lien)
+     * @return list<array{url: string, label: string, prefix: string}>
+     */
+    private static function parseLiens(string $raw): array
+    {
+        $out = [];
+        foreach (preg_split('/\r\n|\r|\n/', trim($raw), -1, PREG_SPLIT_NO_EMPTY) ?: [] as $line) {
+            $line = trim($line);
+            if ($line === '') {
+                continue;
+            }
+
+            // Priorité 1 : séparateur pipe "label|url" → label cliquable seul
+            if (str_contains($line, '|')) {
+                $parts  = explode('|', $line, 2);
+                $label  = trim($parts[0]);
+                $url    = trim($parts[1]);
+                $prefix = '';
+            // Priorité 2 : "texte : url" → texte fixe affiché + lien (domaine)
+            } elseif (preg_match('/^(.+?)\s:\s(https?:\/\/.+)$/i', $line, $m)) {
+                $prefix = trim($m[1]) . ' : ';
+                $url    = trim($m[2]);
+                $label  = self::urlToDomainLabel($url);
+            // Priorité 3 : URL seule
+            } else {
+                $url    = $line;
+                $label  = self::urlToDomainLabel($url);
+                $prefix = '';
+            }
+
+            if ($url !== '') {
+                $out[] = [
+                    'url'    => $url,
+                    'label'  => $label !== '' ? $label : self::urlToDomainLabel($url),
+                    'prefix' => $prefix,
+                ];
+            }
+        }
+        return $out;
+    }
+
+    /**
+     * Retourne le nom de domaine pour affichage (ex. https://www.jne-asso.org/... → jne-asso.org).
+     */
+    private static function urlToDomainLabel(string $url): string
+    {
+        $host = parse_url($url, PHP_URL_HOST);
+        if (!is_string($host) || $host === '') {
+            return $url;
+        }
+        $host = strtolower($host);
+        if (str_starts_with($host, 'www.')) {
+            $host = substr($host, 4);
+        }
+        return $host;
+    }
+
+    private static function isVideoPath(string $path): bool
+    {
+        $target = parse_url($path, PHP_URL_PATH) ?: $path;
+        $extension = strtolower(pathinfo((string) $target, PATHINFO_EXTENSION));
+
+        return in_array($extension, ['mp4', 'webm', 'ogv', 'ogg', 'mov'], true);
+    }
+
+    private static function normalizeMediaPath(string $path): string
+    {
+        $path = trim($path);
+        if ($path === '') {
+            return '';
+        }
+
+        if (str_starts_with($path, '/assets/')) {
+            return $path;
+        }
+
+        $withoutLeadingPublic = preg_replace('#^/?public/#', '/', $path) ?? $path;
+        if (str_starts_with($withoutLeadingPublic, '/assets/')) {
+            return $withoutLeadingPublic;
+        }
+
+        if (str_starts_with($path, 'assets/')) {
+            return '/' . ltrim($path, '/');
+        }
+
+        $pos = strpos($path, '/assets/');
+        if ($pos !== false) {
+            return substr($path, $pos);
+        }
+
+        return $path;
+    }
+    private function clientIp(): string
+    {
+        foreach (['HTTP_CLIENT_IP', 'HTTP_X_FORWARDED_FOR', 'REMOTE_ADDR'] as $key) {
+            if (!isset($_SERVER[$key]) || $_SERVER[$key] === '') {
+                continue;
+            }
+
+            $value = explode(',', (string)$_SERVER[$key])[0];
+            $value = trim($value);
+
+            if ($value !== '') {
+                return $value;
+            }
+        }
+
+        return 'unknown';
+    }
 }
+

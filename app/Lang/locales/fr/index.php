@@ -7,7 +7,7 @@ return [
     // SECTION HERO
     'hero_title' => 'Sécurité Sociale de l’Alimentation – Pays de Morlaix',
     'hero_slogan' => 'Pour un droit fondamental et universel à une alimentation saine et durable.',
-    'hero_cta_more' => 'En savoir plus',
+    'hero_cta_more' => 'En savoir +',
     'hero_cta_participate' => 'Participer',
     'hero_cta_contact' => 'Contact',
 
@@ -55,6 +55,14 @@ return [
     // CONTENU
     'agenda_intro' => 'Retrouvez nos événements à venir :',
     'no_upcoming_articles' => 'Aucun événement à venir.',
+    'agenda_calendar_button' => 'Voir le calendrier complet',
+    'agenda_calendar_modal_title' => 'Calendrier des évènements',
+    'agenda_calendar_view_week' => 'Semaine',
+    'agenda_calendar_view_month' => 'Mois',
+    'agenda_calendar_view_year' => 'Année',
+    'agenda_calendar_no_event' => 'Sélectionnez un événement pour afficher ses détails.',
+    'agenda_calendar_details_title' => 'Détails de l’événement',
+    'agenda_calendar_close' => 'Fermer',
     'partners_title' => 'Ils nous accompagnent',
     'about_title' => 'Qui sommes-nous ?',
     'about_subtitle' => 'Le groupe "Sécurité Sociale de l\'Alimentation" (SSA)',
@@ -66,7 +74,7 @@ return [
     'about_axes_4' => 'du Pays de Morlaix, pôle ESS du Pays de Morlaix',
     'about_goal_label' => 'Objectif :',
     'about_goal' => 'Connecter les initiatives locales autour de l’alimentation et renforcer les coopérations entre acteurs.',
-    'about_cta' => 'En savoir plus',
+    'about_cta' => 'En savoir +',
     'about_logo_alt' => 'Logo SSA',
 
     // CONTACT

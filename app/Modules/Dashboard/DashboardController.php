@@ -89,17 +89,10 @@ final class DashboardController extends BaseController
         );
 
         // Préparer les données pour le template
-        $extraQuery = $_GET ?? [];
-        unset($extraQuery['page']);
-
         $data = GaleriePresenter::index(
             images: $images,
             page: $page,
-            base: $base,
-            paginationOptions: [
-                'base_path' => '/dashboard/galerie',
-                'extra_query' => $extraQuery,
-            ]
+            base: $base
         );
 
         $data['component'] = 'dashboard/components/galerie';

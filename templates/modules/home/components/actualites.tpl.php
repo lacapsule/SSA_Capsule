@@ -9,65 +9,49 @@
       {{#each articles}}
         <div class="actu-item-inner shadow-dark">
           <div class="actu-img">
+            {{#image}}
             <img src="{{image}}" alt="{{titre}}">
+            {{/image}}
             <div class="actu-date">{{date_actu}}</div>
           </div>
           <div class="actu-info">
             <h4 class="actu-title">{{titre}}</h4>
             <p class="actu-description">{{resume}}</p>
+            {{#info}}<p class="actu-extra">{{info}}</p>{{/info}}
             <a href="/article/{{id}}" class="btn-style-two">{{str.read_more}}</a>
+            {{#inscription_link}}
+            <a href="{{inscription_link}}" class="btn-style-two" target="_blank" rel="noopener noreferrer">S'inscrire</a>
+            {{/inscription_link}}
           </div>
         </div>
       {{/each}}
     </div>
-    {{#pagination.show}}
-      <div class="pagination-info">
-        <span>Page {{pagination.current}} / {{pagination.total}}</span>
-        {{#pagination.hasPrev}}
-        <span class="pagination-prev-label">Page précédente : {{pagination.prev}}</span>
-        {{/pagination.hasPrev}}
-      </div>
-      <nav class="gallery-pagination" aria-label="Pagination">
-        {{#pagination.hasPrev}}
-        <a href="{{pagination.firstUrl}}" class="page-link" aria-label="Première page">&laquo;&laquo;</a>
-        <a href="{{pagination.prevUrl}}" class="page-link" aria-label="Page précédente">&laquo;</a>
-        {{/pagination.hasPrev}}
-        {{^pagination.hasPrev}}
-        <span class="page-link is-disabled" aria-hidden="true">&laquo;&laquo;</span>
-        <span class="page-link is-disabled" aria-hidden="true">&laquo;</span>
-        {{/pagination.hasPrev}}
+  </div>
+  {{#pagination.showPagination}}
+  <nav class="gallery-pagination">
+    {{#pagination.hasFirst}}
+    <a href="?page={{pagination.first}}#actu" class="page-link first-page" aria-label="Première page">&laquo; <span class="pagi-hide">Première</span></a>
+    {{/pagination.hasFirst}}
 
-        {{#pagination.showFirstEdge}}
-        <a href="{{pagination.firstUrl}}" class="page-link">1</a>
-        {{/pagination.showFirstEdge}}
-        {{#pagination.showGapBefore}}
-        <span class="page-link ellipsis">…</span>
-        {{/pagination.showGapBefore}}
+    {{#pagination.hasPrev}}
+    <a href="?page={{pagination.prev}}#actu" class="page-link prev-page" aria-label="Page précédente">&lsaquo;</a>
+    {{/pagination.hasPrev}}
 
-        {{#pagination.pages}}
-          {{#isCurrent}}
-          <span class="page-link is-active" aria-current="page">{{number}}</span>
-          {{/isCurrent}}
-          {{^isCurrent}}
-          <a href="{{url}}" class="page-link">{{number}}</a>
-          {{/isCurrent}}
-        {{/pagination.pages}}
+    <div class="pagination-pages">
+      {{#each pagination.pages}}
+      <a href="?page={{number}}#actu" class="page-link{{#isCurrent}} is-active{{/isCurrent}}">{{number}}</a>
+      {{/each}}
+    </div>
 
-        {{#pagination.showGapAfter}}
-        <span class="page-link ellipsis">…</span>
-        {{/pagination.showGapAfter}}
-        {{#pagination.showLastEdge}}
-        <a href="{{pagination.lastUrl}}" class="page-link">{{pagination.total}}</a>
-        {{/pagination.showLastEdge}}
+    <span class="pagination-info">Page {{pagination.current}} / {{pagination.total}}</span>
 
-        {{#pagination.hasNext}}
-        <a href="{{pagination.nextUrl}}" class="page-link" aria-label="Page suivante">&raquo;</a>
-        <a href="{{pagination.lastUrl}}" class="page-link" aria-label="Dernière page">&raquo;&raquo;</a>
-        {{/pagination.hasNext}}
-        {{^pagination.hasNext}}
-        <span class="page-link is-disabled" aria-hidden="true">&raquo;</span>
-        <span class="page-link is-disabled" aria-hidden="true">&raquo;&raquo;</span>
-        {{/pagination.hasNext}}
-      </nav>
-    {{/pagination.show}}
-</section>
+    {{#pagination.hasNext}}
+    <a href="?page={{pagination.next}}#actu" class="page-link next-page" aria-label="Page suivante">&rsaquo;</a>
+    {{/pagination.hasNext}}
+
+    {{#pagination.hasLast}}
+    <a href="?page={{pagination.last}}#actu" class="page-link last-page" aria-label="Dernière page"><span class="pagi-hide">Dernière</span> &raquo;</a>
+    {{/pagination.hasLast}}
+  </nav>
+  {{/pagination.showPagination}}
+  </section>

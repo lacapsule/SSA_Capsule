@@ -107,7 +107,7 @@ install_deps() {
     pm="$(detect_pkg)"
     case "$pm" in
         dnf)
-            pkgs=(php-cli php-pdo sqlite3 php-mysqlnd php-intl php-sqlite3)
+            pkgs=(php-cli php-pdo sqlite3 php-mysqlnd php-intl php-sqlite3 php-gd)
             log "Installer via dnf: ${pkgs[*]}"
             if command -v sudo >/dev/null 2>&1; then
                 sudo dnf install -y "${pkgs[@]}"
@@ -116,7 +116,7 @@ install_deps() {
             fi
             ;;
         apt)
-            pkgs=(php-cli sqlite3 php-mysql php-intl php-sqlite3)
+            pkgs=(php-cli sqlite3 php-mysql php-intl php-sqlite3 php-gd)
             log "Installer via apt: ${pkgs[*]}"
             if command -v sudo >/dev/null 2>&1; then
                 sudo apt-get update
@@ -273,7 +273,11 @@ case "$cmd" in
         need php
         [[ -d "$PUBLIC_DIR" ]] || die "$PUBLIC_DIR manquant"
         echo "🔌 Serveur dev → http://localhost:${PORT:-8080}  (CTRL+C pour arrêter)"
-        php -d display_errors=1 -d error_reporting=32767 -S "localhost:${PORT:-8080}" -t "$PUBLIC_DIR"
+        php -d display_errors=1 -d error_reporting=32767 \
+            -d upload_max_filesize=256M \
+            -d post_max_size=512M \
+            -d memory_limit=256M \
+            -S "localhost:${PORT:-8080}" -t "$PUBLIC_DIR"
         ;;
     db.shell)
         need sqlite3

@@ -48,9 +48,6 @@ final class GalerieController extends BaseController
         );
 
         // Préparer les données pour le template
-        $extraQuery = $_GET ?? [];
-        unset($extraQuery['page']);
-
         $data = GaleriePresenter::index(
             images: $images,
             page: $page,
@@ -59,10 +56,6 @@ final class GalerieController extends BaseController
                 'showFooter' => true,
                 'str' => $this->i18n(),
                 'isAuthenticated' => $this->isAuthenticated(),
-            ],
-            paginationOptions: [
-                'base_path' => '/galerie',
-                'extra_query' => $extraQuery,
             ]
         );
 

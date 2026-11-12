@@ -1,36 +1,93 @@
 <section class="details">
-  <div class="heading">
-    <h1>{{article.title}}</h1>
+  <div class="details-media">
+    {{#hasCarousel}}
+    <div class="article-carousel" data-article-carousel>
+      <div class="article-carousel__track" data-carousel-track>
+        {{#each medias}}
+        <figure class="article-carousel__slide">
+          {{#isVideo}}
+          <video src="{{src}}" controls playsinline preload="metadata" controlsList="nodownload"></video>
+          {{/isVideo}}
+          {{^isVideo}}
+          <img src="{{src}}" alt="illustration">
+          {{/isVideo}}
+        </figure>
+        {{/each}}
+      </div>
+      <button class="article-carousel__nav article-carousel__nav--prev" data-carousel-prev aria-label="Media précédent">‹</button>
+      <button class="article-carousel__nav article-carousel__nav--next" data-carousel-next aria-label="Media suivant">›</button>
+      <div class="article-carousel__dots" data-carousel-dots>
+        {{#each medias}}
+        <button class="article-carousel__dot" data-carousel-dot aria-label="Aller au média"></button>
+        {{/each}}
+      </div>
+    </div>
+    {{/hasCarousel}}
 
-    {{#article.date}}
-      <p class="date">Date : {{article.date}}{{#article.time}} à {{article.time}}{{/article.time}}</p>
-    {{/article.date}}
-
-    {{#article.author}}
-      <p>Article rédigé par : {{article.author}}</p>
-    {{/article.author}}
-
-    {{#article.place}}
-      <p class="lieu">Lieu : {{article.place}}</p>
-    {{/article.place}}
+    {{^hasCarousel}}
+      {{#each medias}}
+      {{#isVideo}}
+      <video src="{{src}}" controls playsinline preload="metadata" controlsList="nodownload"></video>
+      {{/isVideo}}
+      {{^isVideo}}
+      <img src="{{src}}" alt="illustration">
+      {{/isVideo}}
+      {{/each}}
+      {{^medias}}
+      {{#article.image}}
+      <img src="{{article.image}}" alt="illustration">
+      {{/article.image}}
+      {{^article.image}}
+      <img src="/assets/img/banner.webp" alt="illustration">
+      {{/article.image}}
+      {{/medias}}
+    {{/hasCarousel}}
   </div>
 
-  <div class="separateur"></div>
+  <div class="heading">
+    <div class="details-content">
+      <h1>{{article.title}}</h1>
 
-  {{#article.summary}}
-    <h3>{{article.summary}}</h3>
-  {{/article.summary}}
+      {{#article.summary}}
+      <h3>{{article.summary}}</h3>
+      {{/article.summary}}
+    </div>
+    <div class="details-desc">
+      {{#article.description}}
+      <p class="description">{{article.description}}</p>
+      {{/article.description}}
 
-  {{#article.description}}
-    <p class="description">{{article.description}}</p>
-  {{/article.description}}
+      {{#article.date}}
+      <p class="date">Date : {{article.date}}{{#article.time}} à {{article.time}}{{/article.time}}</p>
+      {{/article.date}}
 
-  <div class="separateur"></div>
+      {{#article.author}}
+      <p>Article rédigé par : {{article.author}}</p>
+      {{/article.author}}
 
-  {{#article.image}}
-    <img src="{{article.image}}" alt="illustration">
-  {{/article.image}}
-  {{^article.image}}
-    <img src="/assets/img/banner.webp" alt="illustration">
-  {{/article.image}}
+      {{#article.place}}
+      <p class="lieu">Lieu : {{article.place}}</p>
+      {{/article.place}}
+      {{#article.info}}
+      <p class="info">{{article.info}}</p>
+      {{/article.info}}
+      {{#article.links}}
+      <div class="liens">
+        <p class="liens-title">Liens :</p>
+        <ul class="liens-list">
+          {{#each article.links}}
+          <li>{{prefix}}<a href="{{url}}" target="_blank" rel="noopener noreferrer">{{label}}</a></li>
+          {{/each}}
+        </ul>
+      </div>
+      {{/article.links}}
+      {{#article.inscription_link}}
+      <p class="actions">
+        <a class="theme-btn btn-style-one" href="{{article.inscription_link}}" target="_blank" rel="noopener noreferrer">S'inscrire</a>
+      </p>
+      {{/article.inscription_link}}
+    </div>
+  </div>
 </section>
+
+<script type="module" src="/modules/article/carousel.js"></script>

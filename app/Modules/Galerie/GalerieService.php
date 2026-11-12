@@ -79,16 +79,16 @@ final class GalerieService
         $success = 0;
         $errors = [];
 
-        $lotCounter = 1;
         foreach ($files as $index => $file) {
             if (($file['error'] ?? UPLOAD_ERR_NO_FILE) !== UPLOAD_ERR_OK) {
                 $errors[$index] = 'Erreur lors de l\'upload du fichier';
                 continue;
             }
 
+            $customName = $customNames[$index] ?? null;
             $filename = \App\Support\ImageConverter::convertUploadedFileForGallery(
                 $file,
-                $lotCounter++,
+                $customName,
                 $this->repository->getGalleryPath()
             );
 

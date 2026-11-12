@@ -6,7 +6,6 @@ namespace App\Modules\Home;
 
 use App\Modules\Home\Dto\HomeDTO;
 use Capsule\View\Safe;
-use App\Support\PaginationRenderer;
 use Capsule\View\Presenter\IterablePresenter;
 
 /**
@@ -21,6 +20,34 @@ use Capsule\View\Presenter\IterablePresenter;
 final class HomePresenter
 {
     private static ?\IntlDateFormatter $dateFormatter = null;
+    private static function buildPagination(\Capsule\Support\Pagination\Page $page): array
+    {
+        $totalPages = $page->pages();
+        $currentPage = max(1, min($totalPages, $page->page));
+
+        $pages = [];
+        for ($i = 1; $i <= $totalPages; $i++) {
+            $pages[] = [
+                'number' => $i,
+                'isCurrent' => $i === $currentPage,
+            ];
+        }
+
+        return [
+            'current' => $currentPage,
+            'total' => $totalPages,
+            'hasPrev' => $page->hasPrev(),
+            'hasNext' => $page->hasNext(),
+            'prev' => max(1, $currentPage - 1),
+            'next' => min($totalPages, $currentPage + 1),
+            'first' => 1,
+            'last' => $totalPages,
+            'hasFirst' => $currentPage > 1,
+            'hasLast' => $currentPage < $totalPages,
+            'pages' => $pages,
+            'showPagination' => $totalPages >= 1,
+        ];
+    }
 
     /**
      * Obtient une instance réutilisable du formateur de date.
@@ -72,10 +99,7 @@ final class HomePresenter
      *   financeurs: array<array{name:string,role:string,url:string,logo:string}>
      * }
      */
-    /**
-     * @param array<string,mixed> $paginationOptions
-     */
-    public static function forView(HomeDTO $dto, array $paginationOptions = []): array
+    public static function forView(HomeDTO $dto): array
     {
         $articlesIt = IterablePresenter::map($dto->articles, static function ($a) {
             $date = (string)($a->date_article ?? '');
@@ -95,6 +119,8 @@ final class HomePresenter
                 'summary' => $sum,
                 'location' => (string)($a->lieu ?? ''),
                 'ics_datetime' => $date . ' ' . $time . ':00',
+                'info' => (string)($a->info ?? ''),
+                'inscription_link' => (string)($a->inscription_link ?? ''),
 
                 // — clés Actualités —
                 'id' => (int)($a->id ?? 0),
@@ -106,10 +132,10 @@ final class HomePresenter
         });
 
         return [
-            'articles' => IterablePresenter::toArray($articlesIt),
-            'partenaires' => $dto->partenaires,
-            'financeurs' => $dto->financeurs,
-            'pagination' => PaginationRenderer::build($dto->page, $paginationOptions),
+          'articles' => IterablePresenter::toArray($articlesIt),
+          'partenaires' => $dto->partenaires,
+          'financeurs' => $dto->financeurs,
+          'pagination' => self::buildPagination($dto->page),
         ];
     }
 }

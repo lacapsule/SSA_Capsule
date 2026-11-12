@@ -1,3 +1,4 @@
+
 # Fichier .htaccess à la racine pour Hostinger
 # Redirige toutes les requêtes vers le dossier public/
 
@@ -15,6 +16,17 @@
 
     # ✅ Sinon, on route vers index.php (dans /public)
     RewriteRule ^(.*)$ public/index.php [QSA,L]
+</IfModule>
+
+# Cache et MIME optimisés
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType text/css "access plus 1 week"
+  ExpiresByType application/javascript "access plus 1 week"
+  ExpiresByType image/webp "access plus 1 year"
+  ExpiresByType image/jpeg "access plus 1 year"
+  ExpiresByType image/png "access plus 1 year"
+  ExpiresByType image/gif "access plus 1 year"
 </IfModule>
 
 # Désactiver l'énumération de répertoire

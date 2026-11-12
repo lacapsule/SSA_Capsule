@@ -40,56 +40,33 @@
     </div>
   </div>
 
-  {{#pagination.show}}
-  <div class="pagination-info">
-    <span>Page {{pagination.current}} / {{pagination.total}}</span>
+  {{#pagination.showPagination}}
+  <nav class="gallery-pagination">
+    {{#pagination.hasFirst}}
+    <a href="?page={{pagination.first}}" class="page-link first-page" aria-label="Première page">&laquo; <span class="pagi-hide">Première</span></a>
+    {{/pagination.hasFirst}}
+  
     {{#pagination.hasPrev}}
-    <span class="pagination-prev-label">Page précédente : {{pagination.prev}}</span>
+    <a href="?page={{pagination.prev}}" class="page-link prev-page" aria-label="Page précédente">&lsaquo;</a>
     {{/pagination.hasPrev}}
-  </div>
-  <nav class="gallery-pagination" aria-label="Pagination">
-    {{#pagination.hasPrev}}
-    <a href="{{pagination.firstUrl}}" class="page-link" aria-label="Première page">&laquo;&laquo;</a>
-    <a href="{{pagination.prevUrl}}" class="page-link" aria-label="Page précédente">&laquo;</a>
-    {{/pagination.hasPrev}}
-    {{^pagination.hasPrev}}
-    <span class="page-link is-disabled" aria-hidden="true">&laquo;&laquo;</span>
-    <span class="page-link is-disabled" aria-hidden="true">&laquo;</span>
-    {{/pagination.hasPrev}}
-
-    {{#pagination.showFirstEdge}}
-    <a href="{{pagination.firstUrl}}" class="page-link">1</a>
-    {{/pagination.showFirstEdge}}
-    {{#pagination.showGapBefore}}
-    <span class="page-link ellipsis">…</span>
-    {{/pagination.showGapBefore}}
-
-    {{#pagination.pages}}
-      {{#isCurrent}}
-      <span class="page-link is-active" aria-current="page">{{number}}</span>
-      {{/isCurrent}}
-      {{^isCurrent}}
-      <a href="{{url}}" class="page-link">{{number}}</a>
-      {{/isCurrent}}
-    {{/pagination.pages}}
-
-    {{#pagination.showGapAfter}}
-    <span class="page-link ellipsis">…</span>
-    {{/pagination.showGapAfter}}
-    {{#pagination.showLastEdge}}
-    <a href="{{pagination.lastUrl}}" class="page-link">{{pagination.total}}</a>
-    {{/pagination.showLastEdge}}
-
+  
+    <div class="pagination-pages">
+      {{#each pagination.pages}}
+      <a href="?page={{number}}" class="page-link{{#isCurrent}} is-active{{/isCurrent}}">{{number}}</a>
+      {{/each}}
+    </div>
+  
+    <span class="pagination-info">Page {{pagination.current}} / {{pagination.total}}</span>
+  
     {{#pagination.hasNext}}
-    <a href="{{pagination.nextUrl}}" class="page-link" aria-label="Page suivante">&raquo;</a>
-    <a href="{{pagination.lastUrl}}" class="page-link" aria-label="Dernière page">&raquo;&raquo;</a>
+    <a href="?page={{pagination.next}}" class="page-link next-page" aria-label="Page suivante">&rsaquo;</a>
     {{/pagination.hasNext}}
-    {{^pagination.hasNext}}
-    <span class="page-link is-disabled" aria-hidden="true">&raquo;</span>
-    <span class="page-link is-disabled" aria-hidden="true">&raquo;&raquo;</span>
-    {{/pagination.hasNext}}
+  
+    {{#pagination.hasLast}}
+    <a href="?page={{pagination.last}}" class="page-link last-page" aria-label="Dernière page"><span class="pagi-hide">Dernière</span> &raquo;</a>
+    {{/pagination.hasLast}}
   </nav>
-  {{/pagination.show}}
+  {{/pagination.showPagination}}
 </section>
 
 <!-- Modal: Ajouter des photos -->

@@ -7,6 +7,8 @@ declare(strict_types=1);
 // ==========================================
 use App\Modules\Galerie\GalerieController;
 use App\Modules\Projet\ProjetController;
+use App\Modules\Projet\ProjectMediaService;
+use App\Modules\Projet\ProjectAdminController;
 use Capsule\Contracts\TemplateLocatorInterface;
 use Capsule\Domain\Service\AuthService;
 use Capsule\Auth\PhpSessionReader;
@@ -16,12 +18,16 @@ use Capsule\Contracts\ViewRendererInterface;
 use Capsule\Domain\Repository\UserRepository;
 use Capsule\Domain\Service\PasswordService;
 use Capsule\Domain\Service\UserService;
+use Capsule\Domain\Repository\PartnerSectionRepository;
+use Capsule\Domain\Repository\PartnerLogoRepository;
+use Capsule\Domain\Service\PartnersService;
 use Capsule\Http\Factory\ResponseFactory;
 use Capsule\Http\Middleware\AuthRequiredMiddleware;
 use Capsule\Http\Middleware\DebugHeaders;
 use Capsule\Http\Middleware\ErrorBoundary;
 use Capsule\Http\Middleware\LangMiddleware;
 use Capsule\Http\Middleware\SecurityHeaders;
+use Capsule\Http\Middleware\HealthCheckMiddleware;
 use Capsule\Infrastructure\Container\DIContainer;
 use Capsule\View\FilesystemTemplateLocator;
 use Capsule\View\MiniMustache;
@@ -37,17 +43,20 @@ use App\Modules\Agenda\AgendaService;
 use App\Modules\Article\ArticleController;
 use App\Modules\Article\ArticleRepository;
 use App\Modules\Article\ArticleService;
+use App\Modules\Article\ArticleImageRepository;
 use App\Modules\Dashboard\DashboardController;
 use App\Modules\Dashboard\DashboardService;
 use App\Modules\Galerie\GalerieRepository;
 use App\Modules\Galerie\GalerieService;
 use App\Modules\Home\HomeController;
 use App\Modules\Home\HomeService;
+use App\Modules\Home\ContactRepository;
+use App\Modules\Home\ContactService;
+use App\Modules\Partners\PartnersController;
 use App\Modules\Login\LoginController;
 use App\Modules\User\UserController;
 use App\Providers\PartnersProvider;
 use App\Providers\SidebarLinksProvider;
-
 return (function (): DIContainer {
     $c = new DIContainer();
 
@@ -57,6 +66,9 @@ return (function (): DIContainer {
     $LENGTH_PASSWORD = 8;
     $isDev = true;   // -> Changer vers false en prod
     $https = false;  // -> Changer vers true en prod
+    $contactToEmail = $_ENV['CONTACT_TO_EMAIL'] ?? 'ssapaysdemorlaix@mailo.com';
+    $contactFromEmail = $_ENV['CONTACT_FROM_EMAIL'] ?? $contactToEmail;
+    $contactSiteName = $_ENV['CONTACT_SITE_NAME'] ?? 'Sécurité Sociale de l’Alimentation';
 
     // ==========================================
     // BASE DE DONNÉES
@@ -89,10 +101,19 @@ return (function (): DIContainer {
         res:             $c->get(ResponseFactoryInterface::class),
         requiredRole:    'admin',
         protectedPrefix: '/dashboard',
-        whitelist:       ['/login', '/logout'],
+        whitelist:       [
+            '/login',
+            '/logout',
+        ],
         redirectTo:      '/login',
         sessionKey:      'admin',
         roleKey:         'role',
+    ));
+
+    $c->set(HealthCheckMiddleware::class, fn ($c) => new HealthCheckMiddleware(
+        $c->get(PartnerSectionRepository::class),
+        $c->get(ResponseFactoryInterface::class),
+        $isDev,
     ));
 
     // ==========================================
@@ -161,8 +182,12 @@ return (function (): DIContainer {
     // ==========================================
     $c->set(UserRepository::class, fn ($c) => new UserRepository($c->get('pdo')));
     $c->set(ArticleRepository::class, fn ($c) => new ArticleRepository($c->get('pdo')));
+    $c->set(ArticleImageRepository::class, fn ($c) => new ArticleImageRepository($c->get('pdo')));
     $c->set(AgendaRepository::class, fn ($c) => new AgendaRepository($c->get('pdo')));
     $c->set(GalerieRepository::class, fn () => new GalerieRepository());
+    $c->set(PartnerSectionRepository::class, fn ($c) => new PartnerSectionRepository($c->get('pdo')));
+    $c->set(PartnerLogoRepository::class, fn ($c) => new PartnerLogoRepository($c->get('pdo')));
+    $c->set(ContactRepository::class, fn ($c) => new ContactRepository($c->get('pdo')));
 
     // ==========================================
     // SERVICES (Logique métier)
@@ -181,16 +206,32 @@ return (function (): DIContainer {
         $c->get(UserRepository::class)
     ));
 
+    $c->set(PartnersService::class, fn ($c) => new PartnersService(
+        $c->get(PartnerSectionRepository::class),
+        $c->get(PartnerLogoRepository::class),
+    ));
+
+    $c->set(ContactService::class, fn ($c) => new ContactService(
+        $c->get(ContactRepository::class),
+        $contactToEmail,
+        $contactFromEmail,
+        $contactSiteName,
+    ));
+
     $c->set(ArticleService::class, fn ($c) => new ArticleService(
-        $c->get(ArticleRepository::class)
+        $c->get(ArticleRepository::class),
+        $c->get(ArticleImageRepository::class)
     ));
 
     $c->set(AgendaService::class, fn ($c) => new AgendaService(
         $c->get(AgendaRepository::class)
     ));
 
+    $c->set(ProjectMediaService::class, fn () => new ProjectMediaService());
+
     $c->set(HomeService::class, fn ($c) => new HomeService(
         $c->get(ArticleService::class),
+        $c->get(PartnersService::class),
         $c->get(PartnersProvider::class),
     ));
 
@@ -220,6 +261,8 @@ return (function (): DIContainer {
     $c->set(HomeController::class, fn ($c) => new HomeController(
         $c->get(HomeService::class),
         $c->get(ArticleService::class),
+        $c->get(ContactService::class),
+        $c->get(AgendaService::class),
         $c->get(ResponseFactoryInterface::class),
         $c->get(ViewRendererInterface::class),
     ));
@@ -230,6 +273,13 @@ return (function (): DIContainer {
         $c->get(ViewRendererInterface::class),
     ));
     $c->set(ProjetController::class, fn ($c) => new ProjetController(
+        $c->get(ResponseFactoryInterface::class),
+        $c->get(ViewRendererInterface::class),
+        $c->get(ProjectMediaService::class),
+    ));
+    $c->set(ProjectAdminController::class, fn ($c) => new ProjectAdminController(
+        $c->get(ProjectMediaService::class),
+        $c->get(SidebarLinksProvider::class),
         $c->get(ResponseFactoryInterface::class),
         $c->get(ViewRendererInterface::class),
     ));
@@ -245,6 +295,13 @@ return (function (): DIContainer {
 
     $c->set(UserController::class, fn ($c) => new UserController(
         $c->get(UserService::class),
+        $c->get(ResponseFactoryInterface::class),
+        $c->get(ViewRendererInterface::class),
+    ));
+
+    $c->set(PartnersController::class, fn ($c) => new PartnersController(
+        $c->get(PartnersService::class),
+        $c->get(SidebarLinksProvider::class),
         $c->get(ResponseFactoryInterface::class),
         $c->get(ViewRendererInterface::class),
     ));
@@ -265,3 +322,4 @@ return (function (): DIContainer {
 
     return $c;
 })();
+

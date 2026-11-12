@@ -9,7 +9,7 @@
     <p class="notice notice--error">{{.}}</p>
   {{/errors._global}}
 
-  <form method="post" action="{{action}}" novalidate>
+  <form method="post" action="{{action}}" enctype="multipart/form-data" novalidate>
     {{{csrf_input}}}
 
     <div class="form-row">
@@ -19,14 +19,14 @@
     </div>
 
     <div class="form-row">
-      <label for="resume">Résumé</label>
+      <label for="resume">Résumé de la miniature</label>
       <input id="resume" name="resume" type="text" value="{{article.resume}}" required/>
       {{#errors.resume}}<p class="field-error">{{.}}</p>{{/errors.resume}}
     </div>
 
     <div class="form-row">
-      <label for="description">Description</label>
-      <textarea id="description" name="description" rows="6">{{article.description}}required</textarea>
+      <label for="description">Contenue de l'article</label>
+      <textarea id="description" name="description" rows="6" required>{{article.description}}</textarea>
       {{#errors.description}}<p class="field-error">{{.}}</p>{{/errors.description}}
     </div>
 
@@ -46,8 +46,34 @@
 
     <div class="form-row">
       <label for="lieu">Lieu</label>
-      <input id="lieu" name="lieu" type="text" value="{{article.lieu}}" required/>
+      <input id="lieu" name="lieu" type="text" value="{{article.lieu}}"/>
       {{#errors.lieu}}<p class="field-error">{{.}}</p>{{/errors.lieu}}
+    </div>
+
+    <div class="form-row">
+      <label for="info">Infos (optionnel)</label>
+      <input id="info" name="info" type="text" value="{{article.info}}" placeholder="Infos pratiques, teaser..."/>
+      {{#errors.info}}<p class="field-error">{{.}}</p>{{/errors.info}}
+    </div>
+
+    <div class="form-row">
+      <label for="liens">Liens (optionnel)</label>
+      <textarea id="liens" name="liens" rows="3" placeholder="Un lien par ligne : URL ou Libellé|URL">{{article.liens}}</textarea>
+      <small>Un lien par ligne. S'ouvrent dans un nouvel onglet sur la page article.</small>
+      {{#errors.liens}}<p class="field-error">{{.}}</p>{{/errors.liens}}
+    </div>
+
+    <div class="form-row">
+      <label for="inscription_link">Lien d'inscription (optionnel)</label>
+      <input id="inscription_link" name="inscription_link" type="url" value="{{article.inscription_link}}" placeholder="https://..."/>
+      {{#errors.inscription_link}}<p class="field-error">{{.}}</p>{{/errors.inscription_link}}
+    </div>
+
+    <div class="form-row">
+      <label for="images">Images</label>
+      <input id="images" name="images[]" type="file" accept="image/*" multiple/>
+      <small>La première image sera utilisée comme miniature.</small>
+      {{#errors.images}}<p class="field-error">{{.}}</p>{{/errors.images}}
     </div>
 
     <div class="actions">

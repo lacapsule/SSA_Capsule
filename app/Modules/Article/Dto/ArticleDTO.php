@@ -18,6 +18,8 @@ namespace App\Modules\Article\Dto;
  * @property string|null $lieu Lieu de l'événement (optionnel)
  * @property string $created_at Date/heure de création de l'événement
  * @property int $author_id Identifiant de l'auteur/organisateur
+ * @property array<int,string> $images Liste des chemins publics des images
+ * @property array<int,array{id:int,article_id:int,path:string,position:int}> $media Métadonnées des médias
  */
 class ArticleDTO
 {
@@ -36,12 +38,72 @@ class ArticleDTO
         public readonly string $titre,
         public readonly string $resume,
         public readonly ?string $description,
+        public readonly ?string $info,
+        public readonly ?string $liens,
+        public readonly ?string $inscription_link,
         public readonly string $date_article,
         public readonly string $hours,
         public readonly ?string $lieu,
         public readonly ?string $image,
         public readonly string $created_at,
         public readonly int $author_id,
+        /** @var list<string> */
+        public readonly array $images = [],
+        /** @var list<array{id:int,article_id:int,path:string,position:int}> */
+        public readonly array $media = [],
     ) {
+    }
+
+    /**
+     * @param list<string> $images
+     */
+    public function withImages(array $images): self
+    {
+        return new self(
+            id: $this->id,
+            titre: $this->titre,
+            resume: $this->resume,
+            description: $this->description,
+            info: $this->info,
+            liens: $this->liens,
+            inscription_link: $this->inscription_link,
+            date_article: $this->date_article,
+            hours: $this->hours,
+            lieu: $this->lieu,
+            image: $this->image,
+            created_at: $this->created_at,
+            author_id: $this->author_id,
+            images: $images,
+            media: $this->media,
+        );
+    }
+
+    /**
+     * @param list<array{id:int,article_id:int,path:string,position:int}> $media
+     */
+    public function withMedia(array $media): self
+    {
+        $paths = array_map(
+            static fn (array $item): string => (string) ($item['path'] ?? ''),
+            $media
+        );
+
+        return new self(
+            id: $this->id,
+            titre: $this->titre,
+            resume: $this->resume,
+            description: $this->description,
+            info: $this->info,
+            liens: $this->liens,
+            inscription_link: $this->inscription_link,
+            date_article: $this->date_article,
+            hours: $this->hours,
+            lieu: $this->lieu,
+            image: $this->image,
+            created_at: $this->created_at,
+            author_id: $this->author_id,
+            images: $paths,
+            media: $media
+        );
     }
 }

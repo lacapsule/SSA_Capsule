@@ -16,7 +16,8 @@ final class ProjetController extends BaseController
 
     public function __construct(
         ResponseFactoryInterface $res,
-        ViewRendererInterface $view
+        ViewRendererInterface $view,
+        private ProjectMediaService $mediaService,
     ) {
         parent::__construct($res, $view);
     }
@@ -25,11 +26,16 @@ final class ProjetController extends BaseController
     #[Route(path: '/projet', methods: ['GET'])]
     public function projet(): Response
     {
+        $media = $this->mediaService->getMedia();
+
         return $this->page('index', [
             'showHeader' => true,
             'showFooter' => true,
             'str' => $this->i18n(),
             'isAuthenticated' => $this->isAuthenticated(),
+            'hero_image' => $media['hero'],
+            'illustration_top' => $media['illustration_top'],
+            'illustration_bottom' => $media['illustration_bottom'],
         ]);
     }
 }

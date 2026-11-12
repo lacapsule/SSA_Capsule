@@ -1,0 +1,348 @@
+/* Partners Dashboard Styles */
+
+.partners-admin {
+  padding: 20px;
+}
+
+/* Logos count display in table */
+.logos-count-display {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  justify-content: center;
+}
+
+.logos-icon {
+  width: 20px;
+  height: 20px;
+  vertical-align: middle;
+  opacity: 0.8;
+  filter: grayscale(0.2);
+}
+
+.col-logos {
+  text-align: center;
+}
+
+.logos-badge {
+  font-size: 0.75rem;
+  padding: 2px 6px;
+  min-width: 20px;
+  text-align: center;
+  background-color: #3b82f6;
+  color: white;
+}
+
+.partners-header {
+  margin-bottom: 20px;
+}
+
+.partners-header h1 {
+  margin: 0 0 10px 0;
+}
+
+/* Badge styles */
+.badge {
+  display: inline-block;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  background-color: #e5e7eb;
+  color: #374151;
+}
+
+.badge-partenaire {
+  background-color: #dbeafe;
+  color: #1e40af;
+}
+
+.badge-financeur {
+  background-color: #d1fae5;
+  color: #065f46;
+}
+
+/* Logos grid in manage modal */
+.logos-grid-manage {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 16px;
+  margin: 20px 0;
+}
+
+.logo-card-manage {
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 12px;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.logo-card-manage img {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  border-radius: 4px;
+  background: #f9fafb;
+  padding: 8px;
+}
+
+.logo-info h4 {
+  margin: 0 0 4px 0;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.logo-info p {
+  margin: 4px 0;
+  font-size: 0.875rem;
+  color: #6b7280;
+}
+
+.logo-info a {
+  color: #3b82f6;
+  text-decoration: none;
+  word-break: break-all;
+}
+
+.logo-info a:hover {
+  text-decoration: underline;
+}
+
+.logo-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: auto;
+}
+
+.logo-actions .btn {
+  flex: 1;
+}
+
+/* Large modal for logos management */
+.universal-modal.large .modal-content {
+  max-width: 900px;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+/* Logo preview - similar to gallery */
+.upload-preview {
+  margin-top: 16px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 16px;
+}
+
+.upload-preview-item {
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 12px;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  position: relative;
+}
+
+.upload-preview-item .preview-header {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  z-index: 10;
+}
+
+.btn-remove-preview {
+  background: #dc2626;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  line-height: 1;
+  padding: 0;
+  transition: background-color 0.2s;
+}
+
+.btn-remove-preview:hover {
+  background: #b91c1c;
+}
+
+.preview-image {
+  width: 100%;
+  max-width: 200px;
+  max-height: 150px;
+  object-fit: contain;
+  border-radius: 4px;
+  background: #f9fafb;
+  padding: 8px;
+  margin: 0 auto;
+}
+
+.upload-preview-item .form-group {
+  margin: 0;
+}
+
+.upload-preview-item label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 4px;
+  display: block;
+}
+
+.upload-preview-item input {
+  width: 100%;
+  padding: 6px 8px;
+  border: 1px solid #d1d5db;
+  border-radius: 4px;
+  font-size: 0.875rem;
+}
+
+.upload-status {
+  font-size: 0.75rem;
+  padding: 4px 8px;
+  border-radius: 4px;
+  margin-top: 4px;
+}
+
+.upload-status.error {
+  background: #fef2f2;
+  color: #dc2626;
+}
+
+.upload-status.success {
+  background: #f0fdf4;
+  color: #16a34a;
+}
+
+/* Progress bar */
+.upload-progress-bar {
+  margin: 16px 0;
+  padding: 16px;
+  background: #f9fafb;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+}
+
+.progress-bar-container {
+  width: 100%;
+  height: 8px;
+  background: #e5e7eb;
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 8px;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  background: #3b82f6;
+  border-radius: 4px;
+  transition: width 0.3s ease;
+  width: 0%;
+}
+
+.progress-text {
+  margin: 0;
+  font-size: 0.875rem;
+  color: #6b7280;
+  text-align: center;
+}
+
+.upload-success-message {
+  padding: 12px;
+  background: #f0fdf4;
+  color: #16a34a;
+  border-radius: 4px;
+  margin: 16px 0;
+  text-align: center;
+  font-weight: 500;
+}
+
+/* Single logo preview (for edit) */
+.logo-preview {
+  margin-top: 12px;
+  padding: 12px;
+  border: 1px dashed #d1d5db;
+  border-radius: 4px;
+  background: #f9fafb;
+  text-align: center;
+  min-height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo-preview img {
+  max-width: 100%;
+  max-height: 200px;
+  border-radius: 4px;
+}
+
+.logo-preview:empty::before {
+  content: 'Aperçu du logo';
+  color: #9ca3af;
+  font-size: 0.875rem;
+}
+
+/* Current logo display */
+#logo-edit-current {
+  margin-top: 16px;
+  padding: 12px;
+  background: #f9fafb;
+  border-radius: 4px;
+}
+
+#logo-edit-current-img {
+  display: block;
+  margin-top: 8px;
+  border-radius: 4px;
+  border: 1px solid #e5e7eb;
+}
+
+/* Warning text */
+.warning {
+  color: #dc2626;
+  font-size: 0.875rem;
+  margin-top: 8px;
+}
+
+/* Loading state */
+.loading {
+  text-align: center;
+  color: #6b7280;
+  padding: 20px;
+}
+
+/* Error state */
+.error {
+  color: #dc2626;
+  padding: 12px;
+  background: #fef2f2;
+  border-radius: 4px;
+  margin: 12px 0;
+}
+
+/* Muted text */
+.muted {
+  color: #9ca3af;
+  font-style: italic;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .logos-grid-manage {
+    grid-template-columns: 1fr;
+  }
+  
+  .universal-modal.large .modal-content {
+    max-width: 95vw;
+  }
+}

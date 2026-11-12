@@ -34,8 +34,41 @@ CREATE TABLE IF NOT EXISTS articles (
   FOREIGN KEY (author_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
+CREATE TABLE IF NOT EXISTS article_images (
+  id          INTEGER PRIMARY KEY AUTOINCREMENT,
+  article_id  INTEGER NOT NULL,
+  path        TEXT NOT NULL,
+  position    INTEGER NOT NULL DEFAULT 0,
+  created_at  TEXT NOT NULL DEFAULT (CURRENT_TIMESTAMP),
+  FOREIGN KEY (article_id) REFERENCES articles(id) ON DELETE CASCADE
+);
+
 CREATE INDEX IF NOT EXISTS idx_articles_date   ON articles(date_article);
 CREATE INDEX IF NOT EXISTS idx_articles_author ON articles(author_id);
+
+/* ===================== PARTNERS ===================== */
+CREATE TABLE IF NOT EXISTS partner_sections (
+  id          INTEGER PRIMARY KEY AUTOINCREMENT,
+  name        TEXT NOT NULL,
+  slug        TEXT NOT NULL UNIQUE,
+  description TEXT,
+  kind        TEXT NOT NULL DEFAULT 'partenaire',
+  position    INTEGER NOT NULL DEFAULT 0,
+  is_active   INTEGER NOT NULL DEFAULT 1,
+  created_at  TEXT NOT NULL DEFAULT (CURRENT_TIMESTAMP),
+  updated_at  TEXT
+);
+
+CREATE TABLE IF NOT EXISTS partner_logos (
+  id          INTEGER PRIMARY KEY AUTOINCREMENT,
+  section_id  INTEGER NOT NULL,
+  name        TEXT NOT NULL,
+  url         TEXT NOT NULL,
+  logo_path   TEXT NOT NULL,
+  position    INTEGER NOT NULL DEFAULT 0,
+  created_at  TEXT NOT NULL DEFAULT (CURRENT_TIMESTAMP),
+  FOREIGN KEY (section_id) REFERENCES partner_sections(id) ON DELETE CASCADE
+);
 
 /* ===================== CONTACTS ===================== */
 CREATE TABLE IF NOT EXISTS contacts (
@@ -57,7 +90,7 @@ CREATE TABLE IF NOT EXISTS agenda_events (
   id               INTEGER PRIMARY KEY AUTOINCREMENT,
   title            TEXT NOT NULL,
   starts_at        TEXT NOT NULL,      -- UTC 'YYYY-MM-DD HH:MM:SS'
-  duration_minutes INTEGER NOT NULL CHECK (duration_minutes BETWEEN 30 AND 480),
+  duration_minutes INTEGER NOT NULL CHECK (duration_minutes BETWEEN 30 AND 43200), -- 30 minutes à 30 jours
   location         TEXT,
   color            TEXT    NOT NULL DEFAULT '#3788d8',
   description      TEXT,

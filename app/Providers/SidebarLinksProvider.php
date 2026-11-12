@@ -26,6 +26,8 @@ final class SidebarLinksProvider
             ['title' => 'Mes articles', 'url' => '/dashboard/articles', 'icon' => 'articles'],
             ['title' => 'Mon Agenda', 'url' => '/dashboard/agenda', 'icon' => 'calendar'],
             ['title' => 'Ma galerie', 'url' => '/dashboard/galerie', 'icon' => 'galerie'],
+            ['title' => 'Projet', 'url' => '/dashboard/projet', 'icon' => 'projet'],
+            ['title' => 'Partenaires', 'url' => '/dashboard/partners', 'icon' => 'partners'],
             
             ['title' => 'Utilisateurs', 'url' => '/dashboard/users', 'icon' => 'users'],
             ['title' => 'Mon profil', 'url' => '/dashboard/account', 'icon' => 'profil'],
@@ -51,7 +53,12 @@ final class SidebarLinksProvider
             return $l;
         }, $links);
 
-        $filtered = $isAdmin ? $normalized : array_values(array_filter($normalized, fn ($l) => $l['url'] !== '/dashboard/users'));
+        $filtered = $isAdmin
+            ? $normalized
+            : array_values(array_filter(
+                $normalized,
+                fn ($l) => !in_array($l['url'], ['/dashboard/users', '/dashboard/partners', '/dashboard/projet'], true)
+            ));
 
         return $filtered;
     }

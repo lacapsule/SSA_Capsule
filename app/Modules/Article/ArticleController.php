@@ -12,8 +12,8 @@ use Capsule\Routing\Attribute\Route;
 use Capsule\Routing\Attribute\RoutePrefix;
 use Capsule\Security\CsrfTokenManager;
 use Capsule\Support\Pagination\Paginator;
-use App\Support\ImageConverter;
 use Capsule\View\BaseController;
+use Capsule\View\Safe;
 
 #[RoutePrefix('/dashboard/articles')]
 final class ArticleController extends BaseController
@@ -117,20 +117,21 @@ final class ArticleController extends BaseController
 
         $current = $this->currentUser();
 
-        // Handle uploaded image if present
-        if (!empty($_FILES['image']) && ($_FILES['image']['error'] ?? UPLOAD_ERR_NO_FILE) === UPLOAD_ERR_OK) {
-            $uploaded = ImageConverter::convertUploadedFile($_FILES['image']);
-            if ($uploaded !== null) {
-                // store web path in POST for service
-                $_POST['image'] = $uploaded;
-            }
+        $imageFiles = $this->collectUploadedImages('images');
+        if ($imageFiles === [] && isset($_FILES['image'])) {
+            $imageFiles = $this->collectUploadedImages('image');
         }
 
-        $result = $this->articles->create($_POST, $current);
+        error_log("📤 Article Create - POST: " . json_encode($_POST) . " | Files: " . count($imageFiles));
+        
+        $result = $this->articles->create($_POST, $current, $imageFiles);
+        
+        error_log("📊 Article Create Result: " . json_encode($result));
 
             // Détection requête AJAX
             $isAjax = $_SERVER['HTTP_X_REQUESTED_WITH'] ?? '' === 'XMLHttpRequest' || 
-                      !empty($_POST) && strpos($_SERVER['CONTENT_TYPE'] ?? '', 'application/x-www-form-urlencoded') === 0;
+                      !empty($_POST) && (strpos($_SERVER['CONTENT_TYPE'] ?? '', 'application/x-www-form-urlencoded') === 0 || 
+                      strpos($_SERVER['CONTENT_TYPE'] ?? '', 'multipart/form-data') === 0);
 
             if (!empty($result['errors'])) {
                 if ($isAjax) {
@@ -189,23 +190,16 @@ final class ArticleController extends BaseController
             return $this->res->text('Not Found', 404);
         }
 
-        // Récupérer ancienne image si besoin
-        $dto = $this->articles->getById($id);
-        $oldImage = $dto?->image ?? null;
-
-        // Handle uploaded image if present
-        $uploaded = null;
-        if (!empty($_FILES['image']) && ($_FILES['image']['error'] ?? UPLOAD_ERR_NO_FILE) === UPLOAD_ERR_OK) {
-            $uploaded = ImageConverter::convertUploadedFile($_FILES['image']);
-            if ($uploaded !== null) {
-                $_POST['image'] = $uploaded;
-            }
+        $newImages = $this->collectUploadedImages('images');
+        if ($newImages === [] && isset($_FILES['image'])) {
+            $newImages = $this->collectUploadedImages('image');
         }
 
-        $result = $this->articles->update($id, $_POST);
+        $result = $this->articles->update($id, $_POST, $newImages);
             // Détection requête AJAX
             $isAjax = $_SERVER['HTTP_X_REQUESTED_WITH'] ?? '' === 'XMLHttpRequest' || 
-                      !empty($_POST) && strpos($_SERVER['CONTENT_TYPE'] ?? '', 'application/x-www-form-urlencoded') === 0;
+                      !empty($_POST) && (strpos($_SERVER['CONTENT_TYPE'] ?? '', 'application/x-www-form-urlencoded') === 0 || 
+                      strpos($_SERVER['CONTENT_TYPE'] ?? '', 'multipart/form-data') === 0);
 
             if (!empty($result['errors'])) {
                 if ($isAjax) {
@@ -220,22 +214,7 @@ final class ArticleController extends BaseController
             }
 
             if ($isAjax) {
-                // If we uploaded a new image, remove the old file from disk (only if it was stored in articles dir)
-                if ($uploaded && $oldImage && str_starts_with($oldImage, '/assets/img/articles/')) {
-                    $oldPath = __DIR__ . '/../../..' . $oldImage;
-                    if (is_file($oldPath)) {
-                        @unlink($oldPath);
-                    }
-                }
-
                 return $this->res->json(['success' => true, 'message' => 'Article modifié avec succès.']);
-            }
-            // Cleanup old image when not AJAX as well
-            if ($uploaded && $oldImage && str_starts_with($oldImage, '/assets/img/articles/')) {
-                $oldPath = __DIR__ . '/../../..' . $oldImage;
-                if (is_file($oldPath)) {
-                    @unlink($oldPath);
-                }
             }
 
             return $this->redirectWithSuccess('/dashboard/articles', 'Article mis à jour.');
@@ -284,10 +263,27 @@ final class ArticleController extends BaseController
                     'titre' => $dto->titre,
                     'resume' => $dto->resume,
                     'description' => $dto->description,
+                    'info' => $dto->info,
+                    'liens' => $dto->liens,
+                    'inscription_link' => $dto->inscription_link,
                     'date_article' => $dto->date_article,
                     'hours' => $dto->hours,
                     'lieu' => $dto->lieu,
-                    'image' => $dto->image,
+                    'image' => $dto->image ? (string) Safe::imageUrl((string) $dto->image) : '',
+                    'images' => array_map(
+                        static fn (string $path): string => (string) Safe::imageUrl($path),
+                        $dto->images
+                    ),
+                    'media' => array_map(
+                        fn (array $media): array => [
+                            'id' => (int) $media['id'],
+                            'path' => $media['path'],
+                            'filename' => basename((string) $media['path']),
+                            'src' => (string) Safe::imageUrl((string) $media['path']),
+                            'isVideo' => self::isVideoPath((string) $media['path']),
+                        ],
+                        $this->articles->getMediaList($id)
+                    ),
                 ]
             ]);
         } catch (\Throwable $e) {
@@ -296,5 +292,88 @@ final class ArticleController extends BaseController
                 'message' => 'Erreur lors de la récupération de l\'article'
             ], 500);
         }
+    }
+
+    #[Route(path: '/{articleId}/media/{mediaId}/delete', methods: ['POST'])]
+    public function deleteMedia(int $articleId, int $mediaId): Response
+    {
+        CsrfTokenManager::requireValidToken();
+        $result = $this->articles->deleteMedia($articleId, $mediaId);
+
+        if (!empty($result['error'])) {
+            return $this->res->json(['success' => false, 'message' => $result['error']], 400);
+        }
+
+        return $this->res->json(['success' => true]);
+    }
+
+    #[Route(path: '/{articleId}/media/{mediaId}/rename', methods: ['POST'])]
+    public function renameMedia(int $articleId, int $mediaId): Response
+    {
+        CsrfTokenManager::requireValidToken();
+        $newName = $_POST['name'] ?? '';
+        $result = $this->articles->renameMedia($articleId, $mediaId, (string) $newName);
+
+        if (!empty($result['error'])) {
+            return $this->res->json(['success' => false, 'message' => $result['error']], 400);
+        }
+
+        $path = (string) ($result['path'] ?? '');
+
+        return $this->res->json([
+            'success' => true,
+            'media' => [
+                'id' => $mediaId,
+                'path' => $path,
+                'filename' => basename($path),
+                'src' => (string) Safe::imageUrl($path),
+                'isVideo' => self::isVideoPath($path),
+            ],
+        ]);
+    }
+
+    /**
+     * @return array<int, array{tmp_name:string,name:string,type:string,error:int,size:int}>
+     */
+    private function collectUploadedImages(string $fieldName): array
+    {
+        if (!isset($_FILES[$fieldName])) {
+            return [];
+        }
+
+        $field = $_FILES[$fieldName];
+        $normalized = [];
+
+        if (is_array($field['name'])) {
+            foreach ($field['name'] as $idx => $name) {
+                $normalized[] = [
+                    'name' => $name,
+                    'type' => $field['type'][$idx] ?? '',
+                    'tmp_name' => $field['tmp_name'][$idx] ?? '',
+                    'error' => $field['error'][$idx] ?? UPLOAD_ERR_NO_FILE,
+                    'size' => $field['size'][$idx] ?? 0,
+                ];
+            }
+        } else {
+            $normalized[] = [
+                'name' => $field['name'] ?? '',
+                'type' => $field['type'] ?? '',
+                'tmp_name' => $field['tmp_name'] ?? '',
+                'error' => $field['error'] ?? UPLOAD_ERR_NO_FILE,
+                'size' => $field['size'] ?? 0,
+            ];
+        }
+
+        return array_values(array_filter(
+            $normalized,
+            static fn (array $file): bool => ($file['error'] ?? UPLOAD_ERR_NO_FILE) === UPLOAD_ERR_OK
+        ));
+    }
+    private static function isVideoPath(string $path): bool
+    {
+        $target = parse_url($path, PHP_URL_PATH) ?: $path;
+        $ext = strtolower((string) pathinfo((string) $target, PATHINFO_EXTENSION));
+
+        return in_array($ext, ['mp4', 'webm', 'ogv', 'ogg', 'mov'], true);
     }
 }

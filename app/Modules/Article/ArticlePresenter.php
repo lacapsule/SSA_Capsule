@@ -59,6 +59,7 @@ final class ArticlePresenter
                 'resume' => (string)$a->resume,
                 'date' => $dateStr,
                 'author' => (string)($a->author ?? 'Inconnu'),
+                'image' => (string)($a->image ?? ''),
                 'editUrl' => rtrim($editBase, '/') . '/' . rawurlencode((string)$id),
                 'deleteUrl' => rtrim($deleteBase, '/') . '/' . rawurlencode((string)$id),
                 'showUrl' => rtrim($showBase, '/') . '/' . rawurlencode((string)$id),
@@ -66,7 +67,7 @@ final class ArticlePresenter
         });
 
         // FRONTIÈRE VUE : matérialise uniquement la page courante
-        $items = IterablePresenter::toArray($mapped, $limit); // supporte un $limit optionnel
+        $items = IterablePresenter::toArray($mapped);
 
         return $base + [
             'title' => 'Articles',
@@ -88,6 +89,9 @@ final class ArticlePresenter
                 'title' => (string)$a->titre,
                 'summary' => (string)$a->resume,
                 'description' => (string)($a->description ?? ''),
+                'info' => (string)($a->info ?? ''),
+                'liens' => (string)($a->liens ?? ''),
+                'inscription_link' => (string)($a->inscription_link ?? ''),
                 'date' => (string)$a->date_article,
                 'time' => substr((string)$a->hours, 0, 5),
                 'location' => (string)($a->lieu ?? ''),
@@ -125,6 +129,9 @@ final class ArticlePresenter
                 'titre' => '',
                 'resume' => '',
                 'description' => '',
+                'info' => '',
+                'liens' => '',
+                'inscription_link' => '',
                 'date_article' => '',
                 'hours' => '',
                 'lieu' => '',
@@ -135,6 +142,9 @@ final class ArticlePresenter
                 'titre' => (string)$src->titre,
                 'resume' => (string)$src->resume,
                 'description' => (string)($src->description ?? ''),
+                'info' => (string)($src->info ?? ''),
+                'liens' => (string)($src->liens ?? ''),
+                'inscription_link' => (string)($src->inscription_link ?? ''),
                 'date_article' => (string)$src->date_article,
                 'hours' => (string)$src->hours,
                 'lieu' => (string)($src->lieu ?? ''),
@@ -146,6 +156,9 @@ final class ArticlePresenter
             'titre' => (string)($src['titre'] ?? ''),
             'resume' => (string)($src['resume'] ?? ''),
             'description' => (string)($src['description'] ?? ''),
+            'info' => (string)($src['info'] ?? ''),
+            'liens' => (string)($src['liens'] ?? ''),
+            'inscription_link' => (string)($src['inscription_link'] ?? ''),
             'date_article' => (string)($src['date_article'] ?? ''),
             'hours' => (string)($src['hours'] ?? ''),
             'lieu' => (string)($src['lieu'] ?? ''),

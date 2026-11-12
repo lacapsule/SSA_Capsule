@@ -1,164 +1,459 @@
-// assets/modules/dashboard/agenda.js
+// /public/modules/dashboard/agenda.js - Calendar with Home Design
 
 const apiUrl = '/dashboard/agenda';
 let currentDate = new Date();
+let currentView = 'month'; // 'week', 'month', 'year'
 
 // DOM Elements
-const calendarHeader = document.getElementById('calendar-header');
-const calendarGrid = document.getElementById('calendar-grid');
-const monthLabel = document.getElementById('monthLabel');
+const rootCalendar = document.getElementById('dashboard-calendar');
+const calendarGrid = document.getElementById('dashboard-calendar-grid');
+const calendarLabel = document.getElementById('dashboard-calendar-label');
+const loadingIndicator = document.getElementById('dashboard-calendar-loading');
+const errorIndicator = document.getElementById('dashboard-calendar-error');
+const detailsPanel = document.getElementById('public-calendar-details');
 
 // Modals
 const createModal = document.getElementById('agenda-create-modal');
 const editModal = document.getElementById('agenda-edit-modal');
 const deleteModal = document.getElementById('agenda-delete-modal');
 
+// State
+let selectedEvent = null;
+const categories = (() => {
+    try {
+        if (rootCalendar?.dataset?.categories) {
+            return JSON.parse(rootCalendar.dataset.categories);
+        }
+    } catch (e) {
+        console.warn('Impossible de parser les catégories agenda', e);
+    }
+    return [];
+})();
+
+function findCategory(id) {
+    if (!id) return null;
+    return categories.find(cat => Number(cat.id) === Number(id)) || null;
+}
+
 // Init
 document.addEventListener('DOMContentLoaded', () => {
     if (!calendarGrid) return;
 
+    // Set initial active view button to match currentView (month)
+    document.querySelectorAll('.calendar-view-btn').forEach(btn => {
+        btn.classList.remove('is-active');
+        if (btn.getAttribute('data-calendar-view') === currentView) {
+            btn.classList.add('is-active');
+        }
+    });
+
     renderCalendar();
     setupNavigation();
+    setupViewSwitch();
     setupModalListeners();
 });
 
 function setupNavigation() {
-    document.getElementById('prevBtn').addEventListener('click', () => changeMonth(-1));
-    document.getElementById('nextBtn').addEventListener('click', () => changeMonth(1));
-    document.getElementById('addEventBtn').addEventListener('click', () => {
-        // Par défaut, ouvre pour aujourd'hui à 09:00
+    // Navigation (Previous/Next buttons)
+    document.querySelectorAll('[data-calendar-nav]').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const delta = parseInt(btn.getAttribute('data-calendar-nav'));
+            if (currentView === 'week') {
+                currentDate.setDate(currentDate.getDate() + delta * 7);
+            } else if (currentView === 'month') {
+                currentDate.setMonth(currentDate.getMonth() + delta);
+            } else if (currentView === 'year') {
+                currentDate.setFullYear(currentDate.getFullYear() + delta);
+            }
+            renderCalendar();
+        });
+    });
+
+    // Add Event button
+    document.getElementById('addEventBtn')?.addEventListener('click', () => {
         openCreateModal(new Date());
     });
 }
 
-function changeMonth(delta) {
-    currentDate.setMonth(currentDate.getMonth() + delta);
-    renderCalendar();
+function setupViewSwitch() {
+    // Calendar view switch buttons (Week/Month/Year)
+    document.querySelectorAll('.calendar-view-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('.calendar-view-btn').forEach(b => b.classList.remove('is-active'));
+            btn.classList.add('is-active');
+            currentView = btn.getAttribute('data-calendar-view');
+            renderCalendar();
+        });
+    });
 }
 
 /* ===========================================
-   CORE RENDERING LOGIC (Fixes Date Bug)
+   CORE RENDERING LOGIC (NEW HOME DESIGN)
    =========================================== */
+
 async function renderCalendar() {
+    // Reset details panel
+    resetDetails();
+
+    // Update calendar grid class based on view
+    calendarGrid.className = `calendar-grid calendar-grid--${currentView}`;
     calendarGrid.innerHTML = '';
-    calendarHeader.innerHTML = '';
 
-    const year = currentDate.getFullYear();
-    const month = currentDate.getMonth();
+    // Update label
+    updateCalendarLabel();
 
-    // Mise à jour label
-    monthLabel.textContent = currentDate.toLocaleString('fr-FR', { month: 'long', year: 'numeric' });
+    // Show loading
+    loadingIndicator?.removeAttribute('hidden');
+    errorIndicator?.setAttribute('hidden', '');
 
-    // 1. Générer l'en-tête (Lundi -> Dimanche)
-    const days = ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'];
-    days.forEach(day => {
-        const div = document.createElement('div');
-        div.className = 'day-name';
-        div.textContent = day;
-        calendarHeader.appendChild(div);
-    });
+    try {
+        // Fetch events for the current range
+        const { startDate, endDate } = getDateRange();
+        const events = await fetchEvents(startDate, endDate);
 
-    // 2. Calcul des bornes du calendrier
-    // On trouve le premier jour du mois
-    const firstDayOfMonth = new Date(year, month, 1);
-    // On trouve le lundi précédent (ou ce jour si c'est lundi)
-    // getDay(): 0=Dim, 1=Lun... on veut 0=Lun, 6=Dim pour le calcul
-    let dayOfWeek = firstDayOfMonth.getDay(); // 0 (Dim) à 6 (Sam) standard JS
-    // Conversion pour Lundi=0 ... Dimanche=6
-    let adjustedDay = (dayOfWeek === 0) ? 6 : dayOfWeek - 1;
+        // Render based on current view
+        if (currentView === 'week') {
+            renderWeekView(events);
+        } else if (currentView === 'month') {
+            renderMonthView(events);
+        } else if (currentView === 'year') {
+            renderYearView(events);
+        }
 
-    // Date de début de la grille (Lundi de la première semaine)
-    const startDate = new Date(year, month, 1 - adjustedDay);
-
-    // On affiche toujours 6 semaines (42 cases) pour garder la taille fixe
-    const totalDays = 42;
-
-    // Préparer les chaînes YYYY-MM-DD pour l'API
-    const endDate = new Date(startDate);
-    endDate.setDate(startDate.getDate() + totalDays);
-
-    const startStr = formatLocalISODate(startDate);
-    const endStr = formatLocalISODate(endDate);
-
-    // 3. Récupérer les événements
-    const events = await fetchEvents(startStr, endStr);
-
-    // 4. Boucle de création des cellules
-    const todayStr = formatLocalISODate(new Date());
-
-    for (let i = 0; i < totalDays; i++) {
-        // Créer une copie fraîche de la date pour cette case
-        const cellDate = new Date(startDate);
-        cellDate.setDate(startDate.getDate() + i);
-
-        const cellDateStr = formatLocalISODate(cellDate); // YYYY-MM-DD local
-
-        const cell = document.createElement('div');
-        cell.className = 'day-cell';
-        if (cellDate.getMonth() !== month) cell.classList.add('other-month');
-        if (cellDateStr === todayStr) cell.classList.add('today');
-
-        // Ajout attribut data pour responsive (nom du jour)
-        const dayName = cellDate.toLocaleString('fr-FR', { weekday: 'long' });
-
-        // Numéro du jour
-        const dateNum = document.createElement('div');
-        dateNum.className = 'date-number';
-        dateNum.textContent = cellDate.getDate();
-        dateNum.setAttribute('data-dayname', dayName); // Pour le CSS mobile
-        cell.appendChild(dateNum);
-
-        // Conteneur événements
-        const evContainer = document.createElement('div');
-        evContainer.className = 'events-wrapper';
-
-        // Filtrer les événements du jour par comparaison de chaînes strictes
-        // Cela corrige le bug du "6 qui apparait le 7" dû aux fuseaux horaires
-        const dayEvents = events.filter(ev => ev.start.startsWith(cellDateStr));
-
-        dayEvents.forEach(ev => {
-            const el = createEventElement(ev);
-            evContainer.appendChild(el);
-        });
-
-        cell.appendChild(evContainer);
-
-        // Clic sur une case vide -> Création
-        cell.addEventListener('click', (e) => {
-            if (e.target === cell || e.target === evContainer || e.target === dateNum) {
-                openCreateModal(cellDate);
-            }
-        });
-
-        calendarGrid.appendChild(cell);
+        loadingIndicator?.setAttribute('hidden', '');
+    } catch (err) {
+        console.error('Calendar render error:', err);
+        errorIndicator?.removeAttribute('hidden');
+        errorIndicator.textContent = 'Erreur lors du chargement du calendrier';
+        loadingIndicator?.setAttribute('hidden', '');
     }
 }
 
-function createEventElement(ev) {
-    const div = document.createElement('div');
-    div.className = 'event-item';
-    div.style.backgroundColor = ev.color || '#3788d8';
+function resetDetails() {
+    if (!detailsPanel) return;
+    selectedEvent = null;
+    detailsPanel.innerHTML = `<p class="calendar-details-empty">Sélectionner un événement pour voir les détails</p>`;
+}
 
-    // Icones SVG inline
-    const iconClock = `<svg class="icon-svg" viewBox="0 0 24 24"><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm4.2 14.2L11 13V7h1.5v5.2l4.5 2.7-.8 1.3z"/></svg>`;
-    const iconPin = `<svg class="icon-svg" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>`;
+function updateCalendarLabel() {
+    let label = '';
+    if (currentView === 'week') {
+        const weekStart = new Date(currentDate);
+        const day = weekStart.getDay();
+        const diff = weekStart.getDate() - (day === 0 ? 6 : day - 1);
+        weekStart.setDate(diff);
+        const weekEnd = new Date(weekStart);
+        weekEnd.setDate(weekStart.getDate() + 6);
+        label = `Semaine du ${formatLocalISODate(weekStart)} au ${formatLocalISODate(weekEnd)}`;
+    } else if (currentView === 'month') {
+        label = currentDate.toLocaleString('fr-FR', { month: 'long', year: 'numeric' });
+    } else if (currentView === 'year') {
+        label = currentDate.getFullYear().toString();
+    }
+    calendarLabel.textContent = label;
+}
+
+function getDateRange() {
+    const year = currentDate.getFullYear();
+    const month = currentDate.getMonth();
+
+    let startDate, endDate;
+
+    if (currentView === 'week') {
+        startDate = new Date(currentDate);
+        const day = startDate.getDay();
+        const diff = startDate.getDate() - (day === 0 ? 6 : day - 1);
+        startDate.setDate(diff);
+        endDate = new Date(startDate);
+        endDate.setDate(startDate.getDate() + 6);
+    } else if (currentView === 'month') {
+        startDate = new Date(year, month, 1);
+        let dayOfWeek = startDate.getDay();
+        let adjustedDay = dayOfWeek === 0 ? 6 : dayOfWeek - 1;
+        startDate.setDate(1 - adjustedDay);
+        endDate = new Date(startDate);
+        endDate.setDate(startDate.getDate() + 41);
+    } else if (currentView === 'year') {
+        startDate = new Date(year, 0, 1);
+        endDate = new Date(year, 11, 31);
+    }
+
+    return {
+        startDate: formatLocalISODate(startDate),
+        endDate: formatLocalISODate(endDate)
+    };
+}
+
+function renderWeekView(events) {
+    const weekStart = new Date(currentDate);
+    const day = weekStart.getDay();
+    const diff = weekStart.getDate() - (day === 0 ? 6 : day - 1);
+    weekStart.setDate(diff);
+
+    const days = ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'];
+    for (let i = 0; i < 7; i++) {
+        const date = new Date(weekStart);
+        date.setDate(weekStart.getDate() + i);
+        const dateStr = formatLocalISODate(date);
+
+        const dayEvents = events.filter(ev => ev.start.startsWith(dateStr));
+        const column = document.createElement('div');
+        column.className = 'calendar-day';
+
+        const header = document.createElement('div');
+        header.className = 'calendar-day-header';
+        header.innerHTML = `
+            <span class="calendar-day-name">${days[i]}</span>
+            <span class="calendar-day-number">${date.getDate()}</span>
+        `;
+        column.appendChild(header);
+
+        const eventContainer = document.createElement('div');
+        eventContainer.className = 'calendar-events';
+
+        if (dayEvents.length === 0) {
+            const empty = document.createElement('p');
+            empty.className = 'calendar-details-empty';
+            empty.textContent = '—';
+            eventContainer.appendChild(empty);
+        } else {
+            dayEvents.forEach((event) => {
+                const chip = createEventChip(event);
+                eventContainer.appendChild(chip);
+            });
+        }
+
+        column.appendChild(eventContainer);
+
+        // Click to create event
+        column.addEventListener('click', (e) => {
+            if (e.target === column || e.target === header || e.target.parentElement === header) {
+                openCreateModal(date);
+            }
+        });
+
+        calendarGrid.appendChild(column);
+    }
+}
+
+function renderMonthView(events) {
+    const year = currentDate.getFullYear();
+    const month = currentDate.getMonth();
+    const firstDayOfMonth = new Date(year, month, 1);
+    let dayOfWeek = firstDayOfMonth.getDay();
+    let adjustedDay = dayOfWeek === 0 ? 6 : dayOfWeek - 1;
+
+    const startDate = new Date(year, month, 1 - adjustedDay);
+    const todayStr = formatLocalISODate(new Date());
+
+    for (let i = 0; i < 42; i++) {
+        const date = new Date(startDate);
+        date.setDate(startDate.getDate() + i);
+        const dateStr = formatLocalISODate(date);
+
+        const dayElement = document.createElement('div');
+        dayElement.className = 'calendar-day';
+
+        if (date.getMonth() !== month) {
+            dayElement.classList.add('other-month');
+        }
+        if (dateStr === todayStr) {
+            dayElement.classList.add('today');
+        }
+
+        // Day header
+        const header = document.createElement('div');
+        header.className = 'calendar-day-header';
+        header.innerHTML = `
+            <span class="calendar-day-name">${date.toLocaleDateString('fr-FR', { weekday: 'short' })}</span>
+            <span class="calendar-day-number">${date.getDate()}</span>
+        `;
+        dayElement.appendChild(header);
+
+        // Events container
+        const eventsContainer = document.createElement('div');
+        eventsContainer.className = 'calendar-events';
+
+        const dayEvents = events.filter(ev => ev.start.startsWith(dateStr));
+        if (dayEvents.length === 0) {
+            const empty = document.createElement('p');
+            empty.className = 'calendar-details-empty';
+            empty.textContent = '—';
+            eventsContainer.appendChild(empty);
+        } else {
+            // Limiter à 3 événements, afficher les autres en nombre
+            dayEvents.slice(0, 3).forEach(ev => {
+                const chip = createEventChip(ev);
+                eventsContainer.appendChild(chip);
+            });
+            if (dayEvents.length > 3) {
+                const more = document.createElement('p');
+                more.className = 'calendar-details-empty';
+                more.textContent = `+${dayEvents.length - 3} autre(s)`;
+                eventsContainer.appendChild(more);
+            }
+        }
+
+        dayElement.appendChild(eventsContainer);
+
+        // Click to create event
+        dayElement.addEventListener('click', (e) => {
+            if (e.target === dayElement || e.target === header || e.target.parentElement === header) {
+                openCreateModal(date);
+            }
+        });
+
+        calendarGrid.appendChild(dayElement);
+    }
+}
+
+function renderYearView(events) {
+    const year = currentDate.getFullYear();
+
+    for (let month = 0; month < 12; month++) {
+        const monthDate = new Date(year, month, 1);
+        const card = document.createElement('div');
+        card.className = 'calendar-month';
+
+        const monthEvents = events.filter(ev => {
+            const eventDate = new Date(ev.start);
+            return eventDate.getMonth() === month && eventDate.getFullYear() === year;
+        });
+
+        const header = document.createElement('div');
+        header.className = 'calendar-day-header';
+        header.innerHTML = `
+            <span class="calendar-day-name">${monthDate.toLocaleDateString('fr-FR', { month: 'long' })}</span>
+            <span class="calendar-month-number">${monthEvents.length} évènement(s)</span>
+        `;
+        card.appendChild(header);
+
+        const eventContainer = document.createElement('div');
+        eventContainer.className = 'calendar-events';
+
+        if (monthEvents.length === 0) {
+            const empty = document.createElement('p');
+            empty.className = 'calendar-details-empty';
+            empty.textContent = '—';
+            eventContainer.appendChild(empty);
+        } else {
+            monthEvents.slice(0, 4).forEach((event) => {
+                const chip = createEventChip(event);
+                eventContainer.appendChild(chip);
+            });
+        }
+
+        card.appendChild(eventContainer);
+        calendarGrid.appendChild(card);
+    }
+}
+
+function createEventChip(ev) {
+    const button = document.createElement('button');
+    button.className = 'calendar-event-chip';
+    button.style.backgroundColor = ev.color || ev.category_color || '#1d72b8';
+    button.type = 'button';
 
     const timeStr = ev.start.substring(11, 16); // HH:MM
-
-    div.innerHTML = `
-        <div class="event-row event-title">${ev.title}</div>
-        <div class="event-row">
-            ${iconClock} <span>${timeStr}</span>
-        </div>
-        ${ev.description ? `<div class="event-row">${iconPin} <span>${ev.description}</span></div>` : ''}
+    const categoryLabel = ev.category_label || ev.category_name || '';
+    button.innerHTML = `
+      <span class="chip-time">${timeStr}</span>
+      <span class="chip-title">${ev.title}</span>
+      ${categoryLabel ? `<span class="chip-badge" style="background:${ev.category_color || ev.color}">${categoryLabel}</span>` : ''}
     `;
 
-    div.addEventListener('click', (e) => {
+    // Créer un titre au survol avec les détails complets
+    let hoverTitle = ev.title;
+    if (ev.location) hoverTitle += ` - ${ev.location}`;
+    if (ev.description) hoverTitle += ` - ${ev.description}`;
+    button.title = hoverTitle;
+
+    button.addEventListener('click', (e) => {
         e.stopPropagation();
         openEditModal(ev);
     });
 
-    return div;
+    return button;
+}
+
+function displayEventDetails(ev) {
+    selectedEvent = ev;
+
+    if (!detailsPanel) return;
+
+    const startDate = new Date(ev.start.replace(' ', 'T'));
+    const endDate = new Date(ev.end.replace(' ', 'T'));
+
+    const dateLabel = startDate.toLocaleDateString('fr-FR', {
+        weekday: 'long',
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric',
+    });
+
+    const startTime = startDate.toLocaleTimeString('fr-FR', {
+        hour: '2-digit',
+        minute: '2-digit',
+    });
+
+    const endTime = endDate.toLocaleTimeString('fr-FR', {
+        hour: '2-digit',
+        minute: '2-digit',
+    });
+
+    const timeLabel = `${startTime} à ${endTime}`;
+
+    // Fonction pour sécuriser et rendre cliquables les URLs
+    const renderLinks = (linksStr) => {
+        if (!linksStr) return '';
+        
+        // Parser le format "label : url" séparé par des virgules
+        const linkItems = linksStr.split(',').map(item => item.trim()).filter(Boolean);
+        
+        return linkItems.map(item => {
+            let label = item;
+            let url = item;
+            
+            // Vérifier s'il y a un séparateur ":" pour label et URL
+            if (item.includes(':')) {
+                const parts = item.split(':').map(p => p.trim());
+                if (parts.length >= 2) {
+                    label = parts[0];
+                    url = parts.slice(1).join(':').trim(); // Rejoindre en cas d'URL avec ':'
+                }
+            }
+            
+            // Valider que c'est une URL
+            if (url.match(/^https?:\/\//)) {
+                try {
+                    new URL(url); // Valider l'URL
+                    return `<span class="event-link-item"><strong>${label}:</strong> <a href="${encodeURI(url)}" target="_blank" rel="noopener noreferrer" class="event-link">${url}</a></span>`;
+                } catch {
+                    return '';
+                }
+            }
+            return '';
+        }).filter(Boolean).join('<br>');
+    };
+
+    const categoryLabel = ev.category_label || ev.category_name || '';
+    detailsPanel.innerHTML = `
+      <div class="detail-content">
+          <h3>${ev.title}</h3>
+          ${categoryLabel ? `<p><strong>Catégorie:</strong> <span class="chip-badge" style="background:${ev.category_color || ev.color}">${categoryLabel}</span></p>` : ''}
+          <p><strong>Date:</strong> ${dateLabel}</p>
+          <p><strong>Heure:</strong> ${timeLabel}</p>
+          ${ev.location ? `<p><strong>Lieux:</strong> ${ev.location}</p>` : ''}
+          ${ev.description ? `<p><strong>Description:</strong> ${ev.description}</p>` : ''}
+          ${ev.info ? `<p><strong>Infos:</strong> ${ev.info}</p>` : ''}
+          ${ev.links ? `<p><strong>Liens:</strong>${renderLinks(ev.links)}</p>` : ''}
+      </div>
+      <button type="button" class="btn btn-primary" id="detail-edit-btn">Éditer</button>
+    `;
+
+    document.getElementById('detail-edit-btn')?.addEventListener('click', () => {
+        openEditModal(ev);
+    });
 }
 
 /* ===========================================
@@ -168,48 +463,100 @@ function createEventElement(ev) {
 function showModal(modalEl) {
     modalEl.showModal();
 }
+
 function closeModal(modalEl) {
     modalEl.close();
 }
 
 function setupModalListeners() {
-    // Gestion fermeture générique (boutons X et Annuler)
+    // Close button handlers
     document.querySelectorAll('[data-close]').forEach(btn => {
         btn.addEventListener('click', () => {
-            const id = btn.getAttribute('data-close');
-            document.getElementById(id).close();
+            const modalId = btn.getAttribute('data-close');
+            document.getElementById(modalId)?.close();
         });
     });
 
-    // Formulaires
-    document.getElementById('createEventForm').addEventListener('submit', handleCreateSubmit);
-    document.getElementById('editEventForm').addEventListener('submit', handleEditSubmit);
+    // Form submissions
+    document.getElementById('createEventForm')?.addEventListener('submit', handleCreateSubmit);
+    document.getElementById('editEventForm')?.addEventListener('submit', handleEditSubmit);
 
-    // Bouton "Supprimer" dans la modale d'édition -> Ouvre confirmation
-    document.getElementById('triggerDeleteBtn').addEventListener('click', () => {
+    // Delete trigger in edit modal
+    document.getElementById('triggerDeleteBtn')?.addEventListener('click', () => {
         closeModal(editModal);
         const id = document.getElementById('edit_eventId').value;
         const title = document.getElementById('edit_title').value;
         openDeleteModal(id, title);
     });
 
-    // Confirmation suppression
-    document.getElementById('confirmDeleteBtn').addEventListener('click', handleDeleteConfirm);
+    // Delete confirmation
+    document.getElementById('confirmDeleteBtn')?.addEventListener('click', handleDeleteConfirm);
+
+    // All day checkbox handler
+    document.getElementById('create_all_day')?.addEventListener('change', toggleAllDayFields);
+    
+    // Category color sync
+    document.getElementById('create_category')?.addEventListener('change', () => syncCategoryToColor('create_category'));
+    document.getElementById('edit_category')?.addEventListener('change', () => syncCategoryToColor('edit_category'));
+    
+    // Category creation
+    document.getElementById('addCategoryBtn')?.addEventListener('click', () => {
+        const modal = document.getElementById('agenda-category-modal');
+        if (modal) modal.showModal();
+    });
+    
+    document.getElementById('createCategoryForm')?.addEventListener('submit', handleCategoryCreate);
 }
 
 // --- CREATE ---
+function toggleAllDayFields() {
+    const allDayCheckbox = document.getElementById('create_all_day');
+    const timeSection = document.getElementById('create-time-section');
+
+    if (allDayCheckbox.checked) {
+        timeSection?.setAttribute('hidden', '');
+    } else {
+        timeSection?.removeAttribute('hidden');
+    }
+}
+
 function openCreateModal(dateObj) {
     const form = document.getElementById('createEventForm');
-    form.reset();
+    form?.reset();
 
-    // Par défaut, on coche le premier radio (Bleu)
-    const radios = form.querySelectorAll('input[name="color"]');
-    if (radios.length > 0) radios[0].checked = true;
+    // Reset category and color
+    const categorySelect = document.getElementById('create_category');
+    if (categorySelect) {
+        categorySelect.value = '';
+        syncCategoryToColor('create_category');
+    }
 
-    // Pré-remplir date et heure (09:00 - 10:00)
-    const ymd = formatLocalISODate(dateObj);
-    document.getElementById('create_start').value = `${ymd}T09:00`;
-    document.getElementById('create_end').value = `${ymd}T10:00`;
+    // Reset all day checkbox
+    const allDayCheckbox = document.getElementById('create_all_day');
+    if (allDayCheckbox) {
+        allDayCheckbox.checked = false;
+        toggleAllDayFields();
+    }
+
+    // Pre-fill date and time only if dateObj is provided (clicked on a date)
+    if (dateObj) {
+        const ymd = formatLocalISODate(dateObj);
+        if (document.getElementById('create_date')) {
+            document.getElementById('create_date').value = ymd;
+        }
+        if (document.getElementById('create_end_date')) {
+            document.getElementById('create_end_date').value = ymd;
+        }
+    }
+
+    if (document.getElementById('create_start_time')) {
+        document.getElementById('create_start_time').value = '09:00';
+    }
+    if (document.getElementById('create_end_time')) {
+        document.getElementById('create_end_time').value = '10:00';
+    }
+
+    syncDateInputs('create_start', 'create_end', { forceUpdate: true });
 
     showModal(createModal);
 }
@@ -217,39 +564,81 @@ function openCreateModal(dateObj) {
 async function handleCreateSubmit(e) {
     e.preventDefault();
     const form = e.target;
-    const formData = new FormData(form);
 
+    const isAllDay = document.getElementById('create_all_day')?.checked || false;
+    const startDate = document.getElementById('create_date')?.value || '';
+
+    const formData = new FormData(form);
+    formData.delete('date');
+    formData.delete('end_date');
+    formData.delete('start_time');
+    formData.delete('end_time');
+    formData.delete('all_day');
+
+    if (isAllDay) {
+        // For all-day events: start at 00:00, end at 23:59
+        formData.append('start', `${startDate}T00:00:00`);
+        formData.append('end', `${startDate}T23:59:00`);
+    } else {
+        // Use separated fields
+        const startTime = document.getElementById('create_start_time')?.value || '';
+        const endDate = document.getElementById('create_end_date')?.value || '';
+        const endTime = document.getElementById('create_end_time')?.value || '';
+
+        formData.append('start', `${startDate}T${startTime}:00`);
+        formData.append('end', `${endDate}T${endTime}:00`);
+    }
+
+    applyCategoryColor(formData, 'create_category');
     await sendRequest(`${apiUrl}/api/create`, formData, createModal);
 }
 
 // --- EDIT ---
 function openEditModal(ev) {
     const form = document.getElementById('editEventForm');
-    form.reset();
+    form?.reset();
 
     document.getElementById('edit_eventId').value = ev.id;
     document.getElementById('edit_title').value = ev.title;
-    document.getElementById('edit_start').value = ev.start.replace(' ', 'T').slice(0, 16);
-    document.getElementById('edit_end').value = ev.end.replace(' ', 'T').slice(0, 16);
-    document.getElementById('edit_description').value = ev.description || '';
 
-    // Gestion de la sélection de couleur via Radio Buttons
-    const colorToSelect = ev.color || '#3788d8'; // Fallback bleu
-    const radios = form.querySelectorAll('input[name="color"]');
-    let found = false;
+    // Parser start et end pour extraire dates et heures
+    const startDate = new Date(ev.start.replace(' ', 'T'));
+    const endDate = new Date(ev.end.replace(' ', 'T'));
 
-    radios.forEach(radio => {
-        if (radio.value === colorToSelect) {
-            radio.checked = true;
-            found = true;
-        }
-    });
+    const startDateStr = formatLocalISODate(startDate);
+    const endDateStr = formatLocalISODate(endDate);
+    const startTimeStr = startDate.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
+    const endTimeStr = endDate.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
 
-    // Si la couleur de l'event n'est pas dans nos 3 choix (ex: ancien event), on coche le bleu par défaut
-    if (!found && radios.length > 0) {
-        radios[0].checked = true;
+    if (document.getElementById('edit_date')) {
+        document.getElementById('edit_date').value = startDateStr;
+    }
+    if (document.getElementById('edit_end_date')) {
+        document.getElementById('edit_end_date').value = endDateStr;
+    }
+    if (document.getElementById('edit_start_time')) {
+        document.getElementById('edit_start_time').value = startTimeStr;
+    }
+    if (document.getElementById('edit_end_time')) {
+        document.getElementById('edit_end_time').value = endTimeStr;
     }
 
+    document.getElementById('edit_description').value = ev.description || '';
+    if (document.getElementById('edit_location')) {
+        document.getElementById('edit_location').value = ev.location || '';
+    }
+    if (document.getElementById('edit_links')) {
+        document.getElementById('edit_links').value = ev.links || '';
+    }
+    if (document.getElementById('edit_info')) {
+        document.getElementById('edit_info').value = ev.info || '';
+    }
+    if (document.getElementById('edit_category')) {
+        document.getElementById('edit_category').value = ev.category_id || '';
+        syncCategoryToColor('edit_category');
+    }
+
+    syncDateInputs('edit_start', 'edit_end', { forceUpdate: true });
     showModal(editModal);
 }
 
@@ -257,7 +646,22 @@ async function handleEditSubmit(e) {
     e.preventDefault();
     const form = e.target;
     const id = document.getElementById('edit_eventId').value;
+
+    // Construire start et end à partir des champs séparés
+    const startDate = document.getElementById('edit_date')?.value || '';
+    const startTime = document.getElementById('edit_start_time')?.value || '';
+    const endDate = document.getElementById('edit_end_date')?.value || '';
+    const endTime = document.getElementById('edit_end_time')?.value || '';
+
     const formData = new FormData(form);
+    // Remplacer par les champs datetime-local combinés
+    formData.delete('date');
+    formData.delete('end_date');
+    formData.delete('start_time');
+    formData.delete('end_time');
+    formData.append('start', `${startDate}T${startTime}:00`);
+    formData.append('end', `${endDate}T${endTime}:00`);
+    applyCategoryColor(formData, 'edit_category');
 
     await sendRequest(`${apiUrl}/api/update/${id}`, formData, editModal);
 }
@@ -285,45 +689,163 @@ async function handleDeleteConfirm() {
         }
     } catch (err) {
         console.error(err);
+        alert("Erreur réseau");
     }
 }
+
+// --- CATEGORY CREATE ---
+async function handleCategoryCreate(e) {
+    e.preventDefault();
+    const form = e.target;
+    const formData = new FormData(form);
+    const modal = document.getElementById('agenda-category-modal');
+    
+    try {
+        const res = await fetch(`${apiUrl}/category/create`, {
+            method: 'POST',
+            body: formData
+        });
+        
+        if (res.ok) {
+            // Reload page to refresh categories
+            window.location.reload();
+        } else {
+            const text = await res.text();
+            alert("Erreur lors de la création de la catégorie: " + text);
+        }
+    } catch (err) {
+        console.error(err);
+        alert("Erreur réseau: " + err.message);
+    }
+}
+
 
 /* ===========================================
    HELPERS
    =========================================== */
 
-// Helper générique pour create/update
+// Generic request sender for create/update
 async function sendRequest(url, formData, modalToClose) {
     try {
-        const res = await fetch(url, { method: 'POST', body: formData });
+        const res = await fetch(url, {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+        });
         const data = await res.json();
 
         if (res.ok && data.success) {
             closeModal(modalToClose);
             renderCalendar();
         } else {
-            alert(data.message || "Une erreur est survenue");
+            const errors = Array.isArray(data.errors)
+                ? data.errors.join(', ')
+                : typeof data.errors === 'object' && data.errors !== null
+                    ? Object.values(data.errors).join(', ')
+                    : null;
+            alert(data.message || errors || "Une erreur est survenue");
         }
     } catch (err) {
         console.error(err);
-        alert("Erreur réseau");
+        alert("Erreur réseau: " + err.message);
     }
 }
 
+// Fetch events from API
 async function fetchEvents(start, end) {
     try {
         const res = await fetch(`${apiUrl}/api/events?start=${start}&end=${end}`);
-        return await res.json();
+        const data = await res.json();
+        return Array.isArray(data) ? data.map(ev => ({
+            ...ev,
+            color: ev.category_color || ev.color,
+            category_label: ev.category_label || ev.category_name
+        })) : [];
     } catch (e) {
-        console.error(e);
+        console.error('Fetch events error:', e);
         return [];
     }
 }
 
-// Retourne YYYY-MM-DD en respectant le fuseau local (évite le décalage UTC)
+// Format date as YYYY-MM-DD (respecting local timezone)
 function formatLocalISODate(date) {
     const year = date.getFullYear();
     const month = String(date.getMonth() + 1).padStart(2, '0');
     const day = String(date.getDate()).padStart(2, '0');
     return `${year}-${month}-${day}`;
+}
+
+function formatLocalDateTime(date) {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    const hours = String(date.getHours()).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+    return `${year}-${month}-${day}T${hours}:${minutes}`;
+}
+
+function applyCategoryColor(formData, selectId) {
+    const select = document.getElementById(selectId);
+    if (!select) return;
+    const selectedId = select.value;
+    const category = findCategory(selectedId);
+    const color = category?.color || '#3788d8';
+    formData.set('color', color);
+    
+    // Update hidden color field
+    const colorField = document.getElementById(selectId.replace('category', 'color'));
+    if (colorField) {
+        colorField.value = color;
+    }
+}
+
+function syncCategoryToColor(selectId) {
+    const select = document.getElementById(selectId);
+    if (!select) return;
+    const selectedId = select.value;
+    const category = findCategory(selectedId);
+    const color = category?.color || '#3788d8';
+    
+    const colorField = document.getElementById(selectId.replace('category', 'color'));
+    if (colorField) {
+        colorField.value = color;
+    }
+}
+
+function syncDateInputs(startId, endId, options = {}) {
+    const startInput = document.getElementById(startId);
+    const endInput = document.getElementById(endId);
+    if (!startInput || !endInput) {
+        return;
+    }
+
+    const ensureOrder = () => {
+        if (!startInput.value) {
+            return;
+        }
+
+        endInput.min = startInput.value;
+
+        if (!endInput.value || endInput.value < startInput.value) {
+            const baseDate = new Date(startInput.value);
+            if (Number.isNaN(baseDate.getTime())) {
+                return;
+            }
+            baseDate.setHours(baseDate.getHours() + 1);
+            endInput.value = formatLocalDateTime(baseDate);
+        }
+    };
+
+    if (!startInput.dataset.syncBound) {
+        ['change', 'input'].forEach(evt => {
+            startInput.addEventListener(evt, ensureOrder);
+        });
+        startInput.dataset.syncBound = 'true';
+    }
+
+    if (options.forceUpdate) {
+        ensureOrder();
+    }
 }
