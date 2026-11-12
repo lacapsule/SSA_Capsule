@@ -45,7 +45,11 @@
     color: var(--ssa-txt-jaune);
     font-weight: 700;
     line-height: 1.2;
-    word-break: break-word;
+    /* césure propre : ne coupe un mot que s'il ne tient pas, et à un point
+       de césure correct (le site est en lang="fr"), au lieu d'une coupure
+       arbitraire en plein mot comme le faisait word-break: break-word */
+    overflow-wrap: break-word;
+    hyphens: auto;
 }
 
 .details h3 {
@@ -230,6 +234,10 @@
 
         & .heading{
             border-radius: 0;
+
+            & h1 {
+                font-size: 1.6rem;
+            }
         }
     }
 
