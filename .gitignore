@@ -39,9 +39,13 @@ composer.lock  # <- Garde-le SI (et seulement si) tu décides de ne pas versionn
 .env.*
 !.env.example
 
-# Médias lourds et téléversements du back-office (non versionnés, sauvegardés hors git)
-# Le reste de public/assets (css, icônes, polices, js, files) EST versionné.
-/public/assets/img/
+# Médias : on versionne les images du site (logo, héros, illustrations,
+# icônes, logos partenaires) pour qu'elles se déploient avec le code.
+# On ignore les téléversements du tableau de bord et les vidéos (lourds).
+/public/assets/img/articles/
+/public/assets/img/gallery/
+*.webm
+*.mp4
 
 # Database conf
 /src/Infrastructure/Database
@@ -49,3 +53,8 @@ composer.lock  # <- Garde-le SI (et seulement si) tu décides de ne pas versionn
 # Build artifacts éventuels
 /public/build/
 /node_modules/   # si frontend
+
+# Fichiers parasites racine (test, upload isolé)
+/public/assets/img/test_fond.jpg
+/public/assets/img/20260224-142558-1.webp
+/public/assets/img/recrutementBanner.png
