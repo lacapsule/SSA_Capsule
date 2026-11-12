@@ -1,0 +1,3 @@
+/* Colonnes des familles de gabarits (src/layouts) : lecture (Contenu) et page isolée centrée (Isolee). */
+.lecture { max-width: 65ch; margin-inline: auto; }
+.isolee { max-width: 40rem; margin-inline: auto; text-align: center; }

@@ -1,6 +1,8 @@
 <?php
-// Gabarit commun. Props : titre, description, [noindex], [image] (chemin d'une image 1200×630),
+// Document commun à toutes les familles de gabarits (Contenu, Isolee) et à l'accueil.
+// Props : titre, description, [noindex], [image] (chemin d'une image 1200×630),
 // [parents] (liste de [titre, chemin] entre l'accueil et la page, pour le fil d'Ariane).
+// En-tête, fil d'Ariane et pied de page sont des composants (src/components) : un bloc, un fichier.
 $site = data('site');
 $chemin = chemin_courant();
 $titreComplet = $props['titre'] . ' · ' . $site['nom'];
@@ -54,19 +56,11 @@ $ariane = $chemin === '/' || !empty($props['noindex'])
 </head>
 <body>
   <a class="evitement" href="#contenu">Aller au contenu</a>
-  <header><a href="/"><?= e($site['nom']) ?></a></header>
+<?php component('en-tete'); ?>
   <main id="contenu">
-<?php if ($ariane): ?>
-    <nav aria-label="Fil d'Ariane">
-      <ol class="ariane">
-<?php foreach ($ariane as $i => [$nom, $lien]): ?>
-        <li><?php if ($i === array_key_last($ariane)): ?><span aria-current="page"><?= e($nom) ?></span><?php else: ?><a href="<?= e($lien) ?>"><?= e($nom) ?></a><?php endif ?></li>
-<?php endforeach ?>
-      </ol>
-    </nav>
-<?php endif ?>
+<?php if ($ariane): component('fil-ariane', ['liens' => $ariane]); endif ?>
 <?php $contenu(); ?>
   </main>
-  <footer><a href="mailto:<?= e($site['contact']['email']) ?>"><?= e($site['contact']['email']) ?></a></footer>
+<?php component('pied-de-page'); ?>
 </body>
 </html>

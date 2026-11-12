@@ -79,9 +79,32 @@ fi
 if command -v php >/dev/null; then
     if ! php -r 'exit(PHP_VERSION_ID >= 80200 ? 0 : 1);'; then
         echo "PHP $(php -r 'echo PHP_VERSION;') trop ancien : 8.2 au moins."; manque_obligatoire=1
-    elif ! php -r 'exit(extension_loaded("mbstring") ? 0 : 1);'; then
-        echo "Extension PHP mbstring absente."; manque_obligatoire=1; paquets+=(php-mbstring)
+    else
+        # Extensions : mbstring pour tout socle ; socle dynamique (app/bootstrap.php) : SQLite de dev, sodium, fileinfo.
+        # extension | paquet apt | paquet dnf
+        extensions=("mbstring|php-mbstring|php-mbstring")
+        [[ -f app/bootstrap.php ]] && extensions+=("pdo_sqlite|php-sqlite3|php-pdo" "sodium|php-common|php-sodium" "fileinfo|php-common|php-common")
+        for ligne in "${extensions[@]}"; do
+            IFS='|' read -r ext apt dnf <<<"$ligne"
+            if ! php -r "exit(extension_loaded('$ext') ? 0 : 1);"; then
+                echo "Extension PHP $ext absente."; manque_obligatoire=1
+                if [[ "$gestionnaire" == dnf ]]; then paquets+=("$dnf"); else paquets+=("$apt"); fi
+            fi
+        done
     fi
+fi
+
+# Boîte à outils : dépôt séparé, attendu à côté du projet (rule boite-a-outils, settings.json).
+racine="$(git rev-parse --show-toplevel 2>/dev/null || pwd)"
+boite="$(dirname "$racine")/kouzia-boite-a-outils"
+boite_depot="${BOITE_DEPOT:-https://github.com/K0uzia/kouzia-boite-a-outils.git}"
+boite_a_cloner=0
+if [[ -f "$boite/INDEX.md" ]]; then
+    printf '%-22s %-8s %s\n' "Boîte à outils" "ok" "$boite"
+else
+    printf '%-22s %-8s %s\n' "Boîte à outils" "ABSENT" "attendue dans $boite (clonée par --installer)"
+    manque_obligatoire=1
+    boite_a_cloner=1
 fi
 if command -v node >/dev/null && (( $(node -p 'process.versions.node.split(".")[0]') < 20 )); then
     echo "Node.js $(node -v) trop ancien : 20 au moins (paquet de la distribution trop vieux : installer depuis nodejs.org ou nvm)."
@@ -109,6 +132,7 @@ if ((${#paquets[@]})); then
         *)   echo "Gestionnaire de paquets non reconnu : installer à la main ${paquets[*]}" ;;
     esac
 fi
+((boite_a_cloner)) && commandes+=("git clone $boite_depot '$boite'")
 ((npm_a_installer)) && commandes+=("npm ci --ignore-scripts")
 chrome || commandes+=("npx --yes playwright-core@1.65.0 install chromium")
 

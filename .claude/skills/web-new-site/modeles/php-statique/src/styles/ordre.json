@@ -1,0 +1,11 @@
+{
+  "description": "Ordre d'assemblage de la feuille du site (cascade) : base (tokens N0, socle, gabarits), composants (N1), sections (N2 réutilisées), pages (N2 propres à une page). Chaque fichier de src/styles y figure une seule fois, sinon le build échoue.",
+  "fichiers": [
+    "base/tokens.css",
+    "base/socle.css",
+    "base/gabarits.css",
+    "composants/lien-evitement.css",
+    "composants/fil-ariane.css",
+    "composants/navigation.css"
+  ]
+}

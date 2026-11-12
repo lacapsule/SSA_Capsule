@@ -17,7 +17,7 @@ if ($chemin === '/assets/site.css') {
     echo css_bundle();
     return true;
 }
-// Anciennes adresses Wix → 301, comme en production
+// Anciennes adresses (src/data/redirections.json) → 301, comme en production
 foreach (data('redirections') as $r) {
     if ($r['de'] === $chemin) {
         header('Location: ' . $r['vers'], true, 301);

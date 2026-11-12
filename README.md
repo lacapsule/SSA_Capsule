@@ -4,10 +4,11 @@ Point de départ de chaque nouveau site client : le kit `.claude` commun (règle
 
 ## Créer un site client
 
-1. Copier ce dossier dans `Documents/GitHub/`, sous le nom du futur dépôt (minuscules, mots séparés par `-`), par exemple `boulangerie-martin`. Le dossier doit rester à côté de `kouzia-boite-a-outils`.
-2. Supprimer le `README.md` copié (il décrit le modèle, pas le site).
+1. Copier ou cloner ce dépôt sous le nom du futur site (minuscules, mots séparés par `-`), par exemple `boulangerie-martin`.
+2. `make deps` : installe tout en une commande (paquets système, extensions PHP, navigateur) et clone la boîte à outils à côté du dépôt (`../kouzia-boite-a-outils`) si elle n'y est pas. `make outils` montre l'état sans rien installer.
 3. Ouvrir Claude Code dans le nouveau dossier. Le hook de démarrage voit qu'il n'y a pas de mode d'emploi et lance l'interview (skill `interview`).
-4. Après l'interview, le mode d'emploi est écrit dans `.claude/rules/projet.md`, validé par l'humain, puis le travail commence étape par étape.
+4. Après l'interview, le mode d'emploi est écrit dans `.claude/rules/projet.md`, validé par l'humain.
+5. Poser le socle choisi : `make statique` (vitrine) ou `make dynamique` (`gabarits/socle-php` de la boîte). Le Makefile et ce README sont remplacés par ceux du socle ; toute autre collision arrête la copie. Puis `make deps` une fois de plus (outillage npm du socle) et le travail commence étape par étape.
 
 On peut aussi demander à Claude : « crée le site <nom> depuis le modèle ».
 

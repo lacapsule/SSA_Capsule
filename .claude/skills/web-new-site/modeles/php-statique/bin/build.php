@@ -51,6 +51,17 @@ function date_contenu(string $fichier, ?string $param): ?string
     return $dates ? max($dates) : null;
 }
 
+// 0. Données conformes à leur schéma, menus qui pointent vers de vraies pages.
+valider_donnees();
+$routes = routes();
+foreach (['principale', 'pied'] as $menu) {
+    foreach (data('navigation')[$menu] as $lien) {
+        if ($lien['chemin'] !== '/' && !isset($routes[$lien['chemin']])) {
+            throw new RuntimeException("src/data/navigation.json ($menu) : « {$lien['chemin']} » n'est pas une page du site");
+        }
+    }
+}
+
 vider($dist);
 
 // 1. public/ copié tel quel
@@ -68,7 +79,6 @@ $GLOBALS['SITE_CSS'] = '/assets/site.' . substr(hash('sha256', $css), 0, 10) . '
 ecrire($dist . $GLOBALS['SITE_CSS'], $css);
 
 // 3. Pages
-$routes = routes();
 foreach ($routes as $chemin => [$fichier, $param]) {
     ecrire($dist . $chemin . 'index.html', render($fichier, $param, $chemin));
 }
@@ -95,7 +105,8 @@ ecrire("$dist/robots.txt", "User-agent: *\nContent-Signal: {$site['contentSignal
 
 // llms.txt : mêmes faits que site.json et que les pages, rien d'écrit en dur.
 $llms = "# {$site['nom']}\n\n> {$site['description']}\n\n"
-    . "Zone : {$site['zone']}. Contact : {$site['contact']['email']}, {$site['contact']['telephoneAffiche']}.\n\n## Pages\n\n";
+    . "Zone : {$site['zone']}. Contact : {$site['contact']['email']}"
+    . (isset($site['contact']['telephoneAffiche']) ? ", {$site['contact']['telephoneAffiche']}" : '') . ".\n\n## Pages\n\n";
 foreach ($indexables as $chemin => [, , $html]) {
     preg_match('#<title>(.*?)</title>#s', $html, $t);
     preg_match('#<meta name="description" content="([^"]*)"#', $html, $d);

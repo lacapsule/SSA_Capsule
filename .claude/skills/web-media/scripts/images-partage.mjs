@@ -14,7 +14,7 @@ import { pathToFileURL } from 'node:url';
 const require = createRequire(process.cwd() + '/');
 let chromium;
 try { ({ chromium } = require('playwright-core')); } catch {
-  console.error('playwright-core absent : lancer « npm ci » à la racine du projet (make outils).');
+  console.error('playwright-core absent : lancer « make deps » (ou « npm ci ») à la racine du projet.');
   process.exit(2);
 }
 

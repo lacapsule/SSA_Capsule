@@ -1,0 +1,3 @@
+/* N1 : menu principal et liens du pied de page, lus dans src/data/navigation.json. */
+.navigation { display: flex; flex-wrap: wrap; gap: 1rem; list-style: none; margin: 0; padding: 0; }
+.navigation a[aria-current="page"] { font-weight: 700; }

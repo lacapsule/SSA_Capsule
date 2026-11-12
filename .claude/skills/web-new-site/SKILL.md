@@ -15,11 +15,11 @@ Rien ne se code avant un mode d'emploi validé (`.claude/rules/projet.md`). Les 
 
 Le socle (statique PHP à l'architecture Astro, Astro sur demande, dynamique PHP) se tranche à l'interview. Point de départ selon le socle, jamais une page blanche :
 
-- statique PHP : le modèle `modeles/php-statique/` de ce skill (voir son README) ;
-- dynamique PHP : la brique `gabarits/socle-php` de la boîte (`NOTES.md`, « Intégration pas à pas »), plus `gabarits/site-public-php` pour les pages publiques ; pas de copie dans le kit (une seule source) ;
+- statique PHP : `make statique` (modèle `modeles/php-statique/` de ce skill, voir son README) ;
+- dynamique PHP : `make dynamique` (brique `gabarits/socle-php` de la boîte, puis `NOTES.md`, « Intégration pas à pas »), plus `gabarits/site-public-php` pour les pages publiques ; pas de copie dans le kit (une seule source) ;
 - Astro : la brique `gabarits/page-base-seo` de la boîte.
 
-Premier geste dans le dépôt : `make outils` (ou `bash .claude/skills/web-audit/scripts/check-outils.sh`). Un outil absent : demander à l'humain de lancer `make deps` (une commande, `sudo` une fois) avant tout travail.
+Premier geste dans le dépôt : `make outils` (ou `bash .claude/skills/web-audit/scripts/check-outils.sh`). Un outil ou la boîte absents : demander à l'humain de lancer `make deps` (une commande, `sudo` une fois, boîte clonée à côté du dépôt) avant tout travail.
 
 | Besoin | Réponse dans le socle choisi |
 |--------|------------------------------|

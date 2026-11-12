@@ -1,0 +1,21 @@
+{
+  "description": "Menu principal (en-tête) et liens du pied de page. Chaque chemin est une page du site (contrôlé au build) ; toute page indexable figure dans le menu principal ou y est reliée (rule web-design, « Navigation »).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["principale", "pied"],
+  "properties": {
+    "principale": { "type": "array", "items": { "$ref": "lien" } },
+    "pied": { "type": "array", "items": { "$ref": "lien" } }
+  },
+  "definitions": {
+    "lien": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["titre", "chemin"],
+      "properties": {
+        "titre": { "type": "string", "minLength": 2, "maxLength": 40, "description": "libellé du lien" },
+        "chemin": { "type": "string", "pattern": "^/([a-z0-9-]+/)*$", "description": "chemin local avec barre finale, ex. /services/" }
+      }
+    }
+  }
+}

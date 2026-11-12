@@ -4,7 +4,7 @@
 
 - N0 : couleurs, typo, espaces, rayons, durées, courbes. Seul endroit des valeurs brutes (`#hex`, `px`).
 - N1 : composants (bouton, carte, champ, lien) en `var(--*)` uniquement.
-- N2 : pages, assemblent des N1. Avant toute classe nouvelle : étendre un token ou un composant existant.
+- N2 : sections (bloc réutilisé d'une page à l'autre : héros, services, témoignages) et pages, qui assemblent des N1. Fichiers : `src/styles/sections/` et `src/styles/pages/` du socle statique. Avant toute classe nouvelle : étendre un token ou un composant existant.
 - Toute `var(--x)` utilisée est définie. Une seule source par token, pas de doublon d'échelle.
 - Un rôle visuel = un composant. États prévus : repos, survol, focus clavier, actif, désactivé, chargement, vide, erreur.
 - Ordre des propriétés CSS : `position`, `display`, `width`, `height`, `margin`, `padding`, `border`, `font`, `color`, `background`, `transform`, `animation`, `transition`, `overflow`, `z-index`.

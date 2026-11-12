@@ -44,12 +44,32 @@ function render(string $fichier, ?string $param, string $chemin): string
     return ob_get_clean();
 }
 
-/** Feuilles de style concaténées dans l'ordre : jetons, base, composants, pages. */
+/**
+ * Feuille du site : fichiers de src/styles assemblés dans l'ordre de src/styles/ordre.json (cascade).
+ * Un fichier absent de la liste, listé deux fois ou introuvable arrête le rendu : rien n'est oublié en silence.
+ */
 function css_bundle(): string
 {
+    $dossier = ROOT . '/src/styles';
+    $ordre = json_decode(file_get_contents("$dossier/ordre.json"), true, 512, JSON_THROW_ON_ERROR)['fichiers'];
+    $presents = [];
+    foreach (new RecursiveIteratorIterator(new RecursiveDirectoryIterator($dossier, FilesystemIterator::SKIP_DOTS)) as $f) {
+        if ($f->getExtension() === 'css') {
+            $presents[] = substr($f->getPathname(), strlen($dossier) + 1);
+        }
+    }
+    $doublons = array_keys(array_filter(array_count_values($ordre), fn($n) => $n > 1));
+    $absents = array_diff($ordre, $presents);
+    $oublies = array_diff($presents, $ordre);
+    if ($doublons || $absents || $oublies) {
+        throw new RuntimeException('src/styles/ordre.json : '
+            . ($oublies ? 'non listé(s) : ' . implode(', ', $oublies) . ' ; ' : '')
+            . ($absents ? 'introuvable(s) : ' . implode(', ', $absents) . ' ; ' : '')
+            . ($doublons ? 'en double : ' . implode(', ', $doublons) : ''));
+    }
     $css = '';
-    foreach (['tokens', 'base', 'components', 'pages'] as $nom) {
-        $css .= "/* $nom.css */\n" . file_get_contents(ROOT . "/src/styles/$nom.css") . "\n";
+    foreach ($ordre as $fichier) {
+        $css .= "/* $fichier */\n" . file_get_contents("$dossier/$fichier") . "\n";
     }
     return $css;
 }

@@ -20,7 +20,7 @@ help: ## Affiche cette aide
 info:    ## État local : PHP, extensions, dist/
 	@$(LOCAL) info
 
-deps:    ## Installe toutes les dépendances en une commande : paquets système, outillage npm verrouillé, navigateur
+deps:    ## Installe toutes les dépendances en une commande : paquets système, boîte à outils, outillage npm verrouillé, navigateur
 	bash $(AUDIT)/check-outils.sh --installer
 
 outils:  ## État des outils (rien n'est installé : make deps)

@@ -15,7 +15,7 @@ Contraintes : rule `boite-a-outils`. Format exact d'une brique : `../kouzia-boit
 
 ## Reprendre
 
-1. Copier les fichiers de la brique dans le projet, au bon endroit du socle (`src/components/`, `src/styles/components.css`, `templates/…`).
+1. Copier les fichiers de la brique dans le projet, au bon endroit du socle (statique : `src/components/`, `src/styles/composants/<nom>.css` ou `src/styles/sections/<nom>.css` ajouté à `src/styles/ordre.json` ; dynamique : `app/<Domaine>/`, `templates/…`, `public/assets/css/<domaine>.css`).
 2. Remplacer les tokens de `base/tokens.css` par ceux du projet (mêmes noms : rien à faire si le projet suit le skill `web-design-system`).
 3. Remplacer les textes neutres par le contenu réel du projet. Aucune donnée manquante inventée : la section se masque.
 4. Contrôles habituels du projet (`make verify`, skill `livraison`).

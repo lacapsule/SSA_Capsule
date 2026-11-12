@@ -1,0 +1,3 @@
+/* N1 : lien d'évitement, visible au focus clavier. */
+.evitement { position: absolute; transform: translateY(-200%); }
+.evitement:focus { transform: none; }

@@ -15,12 +15,16 @@ process.stdin.on('end', () => {
   if (donnees.stop_hook_active) process.exit(0);
 
   const racine = process.env.CLAUDE_PROJECT_DIR || process.cwd();
-  // Seulement dans un projet de site construit par make (pas dans le modèle ni la boîte).
-  if (!existsSync(path.join(racine, 'Makefile')) || !existsSync(path.join(racine, 'src'))) process.exit(0);
+  // Seulement quand un socle est posé : statique (src/) ou dynamique (app/). Pas dans le modèle de dépôt ni la boîte.
+  const socleStatique = existsSync(path.join(racine, 'src'));
+  const socleDynamique = existsSync(path.join(racine, 'app'));
+  if (!existsSync(path.join(racine, 'Makefile')) || (!socleStatique && !socleDynamique)) process.exit(0);
+  const surveilles = ['src', 'public', 'bin', 'app', 'templates', 'config', 'migrations', 'scripts', 'Makefile', 'package.json']
+    .filter((f) => existsSync(path.join(racine, f)));
 
   let modifies = [];
   try {
-    const sortie = execFileSync('git', ['-C', racine, 'status', '--porcelain', '--untracked-files=all', '--', 'src', 'public', 'bin', 'Makefile', 'package.json'], { encoding: 'utf8' });
+    const sortie = execFileSync('git', ['-C', racine, 'status', '--porcelain', '--untracked-files=all', '--', ...surveilles], { encoding: 'utf8' });
     modifies = sortie.split('\n').filter(Boolean).map((l) => l.slice(3).replace(/^.* -> /, ''));
   } catch { process.exit(0); }
   if (!modifies.length) process.exit(0);

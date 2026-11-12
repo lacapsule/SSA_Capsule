@@ -13,16 +13,106 @@ function e(?string $texte): string
     return htmlspecialchars($texte ?? '', ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
 }
 
-/** Lit src/data/<nom>.json (mis en cache pour la durée de la requête ou du build). */
+/**
+ * Lit src/data/<nom>.json, validé par src/data/schemas/<nom>.schema.json (mis en cache pour la requête ou le build).
+ * Fichier absent, schéma absent ou donnée non conforme : exception qui dit quoi corriger.
+ */
 function data(string $nom): array
 {
     static $cache = [];
-    $fichier = ROOT . "/src/data/$nom.json";
-    if (!is_file($fichier)) {
-        throw new RuntimeException("src/data/$nom.json absent : le créer avec les données de l'interview"
-            . ($nom === 'site' ? ' (champs : src/data/site.exemple.json)' : ''));
+    if (isset($cache[$nom])) {
+        return $cache[$nom];
     }
-    return $cache[$nom] ??= json_decode(file_get_contents($fichier), true, 512, JSON_THROW_ON_ERROR);
+    $fichier = ROOT . "/src/data/$nom.json";
+    $schema = ROOT . "/src/data/schemas/$nom.schema.json";
+    if (!is_file($schema)) {
+        throw new RuntimeException("src/data/schemas/$nom.schema.json absent : toute donnée a son schéma");
+    }
+    if (!is_file($fichier)) {
+        throw new RuntimeException("src/data/$nom.json absent : le créer avec les données de l'interview (champs : src/data/schemas/$nom.schema.json)");
+    }
+    $valeur = json_decode(file_get_contents($fichier), true, 512, JSON_THROW_ON_ERROR);
+    $erreurs = valider_schema($valeur, json_decode(file_get_contents($schema), true, 512, JSON_THROW_ON_ERROR), $nom);
+    if ($erreurs) {
+        throw new RuntimeException("src/data/$nom.json non conforme à son schéma :\n- " . implode("\n- ", $erreurs));
+    }
+    return $cache[$nom] = $valeur;
+}
+
+/**
+ * Sous-ensemble de JSON Schema suffisant pour les données d'un site : type, required, properties,
+ * additionalProperties (false), items, minItems, minLength, maxLength, pattern, enum, format (uri, email),
+ * $ref vers une entrée de « definitions » du même schéma.
+ * Renvoie la liste des écarts (vide si conforme).
+ */
+function valider_schema(mixed $valeur, array $schema, string $chemin, ?array $racine = null): array
+{
+    $racine ??= $schema;
+    if (isset($schema['$ref'])) {
+        $schema = $racine['definitions'][$schema['$ref']] ?? throw new RuntimeException("schéma : définition « {$schema['$ref']} » absente");
+    }
+    $erreurs = [];
+    $type = $schema['type'] ?? null;
+    $types = ['object' => fn($v) => is_array($v) && ($v === [] || !array_is_list($v)), 'array' => fn($v) => is_array($v) && array_is_list($v),
+        'string' => 'is_string', 'integer' => 'is_int', 'number' => fn($v) => is_int($v) || is_float($v), 'boolean' => 'is_bool'];
+    if ($type !== null && !($types[$type])($valeur)) {
+        return ["$chemin : $type attendu"];
+    }
+    if (isset($schema['enum']) && !in_array($valeur, $schema['enum'], true)) {
+        $erreurs[] = "$chemin : une valeur parmi " . implode(', ', array_map('json_encode', $schema['enum']));
+    }
+    if (is_string($valeur)) {
+        $n = mb_strlen($valeur);
+        if (isset($schema['minLength']) && $n < $schema['minLength']) {
+            $erreurs[] = "$chemin : $n caractères, {$schema['minLength']} au moins";
+        }
+        if (isset($schema['maxLength']) && $n > $schema['maxLength']) {
+            $erreurs[] = "$chemin : $n caractères, {$schema['maxLength']} au plus";
+        }
+        if (isset($schema['pattern']) && !preg_match('~' . str_replace('~', '\~', $schema['pattern']) . '~u', $valeur)) {
+            $erreurs[] = "$chemin : forme attendue " . ($schema['description'] ?? $schema['pattern']);
+        }
+        $format = $schema['format'] ?? null;
+        if ($format === 'uri' && !filter_var($valeur, FILTER_VALIDATE_URL)) {
+            $erreurs[] = "$chemin : adresse web complète attendue";
+        }
+        if ($format === 'email' && !filter_var($valeur, FILTER_VALIDATE_EMAIL)) {
+            $erreurs[] = "$chemin : adresse e-mail attendue";
+        }
+    }
+    if ($type === 'object') {
+        foreach ($schema['required'] ?? [] as $cle) {
+            if (!array_key_exists($cle, $valeur)) {
+                $erreurs[] = "$chemin.$cle : manquant" . (isset($schema['properties'][$cle]['description']) ? " ({$schema['properties'][$cle]['description']})" : '');
+            }
+        }
+        foreach ($valeur as $cle => $v) {
+            if (isset($schema['properties'][$cle])) {
+                $erreurs = array_merge($erreurs, valider_schema($v, $schema['properties'][$cle], "$chemin.$cle", $racine));
+            } elseif (($schema['additionalProperties'] ?? true) === false) {
+                $erreurs[] = "$chemin.$cle : clé inconnue du schéma";
+            }
+        }
+    }
+    if ($type === 'array') {
+        if (isset($schema['minItems']) && count($valeur) < $schema['minItems']) {
+            $erreurs[] = "$chemin : {$schema['minItems']} élément(s) au moins";
+        }
+        foreach ($valeur as $i => $v) {
+            if (isset($schema['items'])) {
+                $erreurs = array_merge($erreurs, valider_schema($v, $schema['items'], "{$chemin}[$i]", $racine));
+            }
+        }
+    }
+    return $erreurs;
+}
+
+/** Valide toutes les données de src/data (build) : chaque fichier a son schéma et le respecte. */
+function valider_donnees(): void
+{
+    foreach (glob(ROOT . '/src/data/*.json') ?: [] as $fichier) {
+        data(basename($fichier, '.json'));
+    }
 }
 
 /** Adresse absolue d'un chemin du site (canonical, sitemap, Open Graph). */

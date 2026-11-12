@@ -1,0 +1,13 @@
+{
+  "description": "Anciennes adresses redirigées en 301 (dev et .htaccess de production). Une variante d'une page garde la canonique de la page qu'elle répète (rule web-seo).",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": ["de", "vers"],
+    "properties": {
+      "de": { "type": "string", "pattern": "^/", "description": "ancien chemin, ex. /ancienne-page" },
+      "vers": { "type": "string", "pattern": "^/([a-z0-9-]+/)*$", "description": "chemin canonique avec barre finale" }
+    }
+  }
+}
