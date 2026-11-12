@@ -27,22 +27,22 @@
     </ul>
     
     {{#isAuthenticated}}
-    <ul class="user">
-      <li><a class="icons" href="/dashboard">
-          <img src="/assets/icons/dashboard.svg" alt="Dashboard icon">
-        </a></li>
-      <li><a class="icons" href="/logout">
-          <img src="/assets/icons/logout.svg" alt="Logout icon">
-        </a></li>
-    </ul>
+    <div class="user">
+      <a class="icons" href="/dashboard">
+        <img src="/assets/icons/dashboard.svg" alt="Tableau de bord">
+      </a>
+      <a class="icons" href="/logout">
+        <img src="/assets/icons/logout.svg" alt="Déconnexion">
+      </a>
+    </div>
     {{/isAuthenticated}}
 
     {{^isAuthenticated}}
-    <ul class="user">
-      <li><a class="icons" href="/login">
-          <img src="/assets/icons/login.svg" alt="Login icon">
-        </a></li>
-    </ul>
+    <div class="user">
+      <a class="icons" href="/login">
+        <img src="/assets/icons/login.svg" alt="Connexion">
+      </a>
+    </div>
     {{/isAuthenticated}}
   </nav>
 </header>
