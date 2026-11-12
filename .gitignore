@@ -34,8 +34,14 @@ composer.lock  # <- Garde-le SI (et seulement si) tu décides de ne pas versionn
 /var/*
 !var/.gitkeep
 
-# Médias
-/public/assets
+# Secrets / environnement
+.env
+.env.*
+!.env.example
+
+# Médias lourds et téléversements du back-office (non versionnés, sauvegardés hors git)
+# Le reste de public/assets (css, icônes, polices, js, files) EST versionné.
+/public/assets/img/
 
 # Database conf
 /src/Infrastructure/Database
