@@ -60,6 +60,11 @@ final class ContactService
             'ip' => $ip,
         ]);
 
+        // Purge RGPD : supprime les messages de plus de 3 ans (reco CNIL),
+        // à chaque enregistrement (pas de tâche planifiée sur l'hébergement).
+        $cutoff = (new \DateTimeImmutable('-3 years', new \DateTimeZone('UTC')))->format('Y-m-d H:i:s');
+        $this->repository->purgeOlderThan($cutoff);
+
         $subject = $data['subject'] !== '' ? $data['subject'] : 'Nouveau message du site';
         $body = $this->buildBody($data, $ip);
 

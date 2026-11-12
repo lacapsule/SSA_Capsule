@@ -28,6 +28,21 @@ final class ContactRepository extends BaseRepository
 
         return (int) $stmt->fetchColumn();
     }
+
+    /**
+     * Supprime les messages antérieurs à la date limite (purge RGPD).
+     *
+     * @param string $cutoff Date limite UTC au format 'Y-m-d H:i:s'
+     * @return int Nombre de messages supprimés
+     */
+    public function purgeOlderThan(string $cutoff): int
+    {
+        $sql = "DELETE FROM {$this->table} WHERE created_at < :cutoff";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute(['cutoff' => $cutoff]);
+
+        return $stmt->rowCount();
+    }
 }
 
 
