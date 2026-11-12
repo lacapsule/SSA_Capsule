@@ -101,8 +101,8 @@ Ordre validé le 2026-11-12. Le travail ne change ni la mise en page ni les cont
 | 5 | Connexion : débordement +5 px à 320 px (carte fluide ≤360 px) | commit `d8f1c86` | captures avant/après, vérif 320→1280 : 0 débord | **livré** |
 | 6 | CSS aux conventions du kit (tokens reprenant les valeurs existantes) | CSS restructuré | captures identiques sur ordinateur, `check-centering.mjs` vert | à faire |
 | 7 | Code mort : liste puis suppression validée | liste, puis commits | liste validée par l'humain | à faire |
-| 8 | Pied de page sans SIRET, `robots.txt`, `sitemap.xml`, accessibilité invisible | correctifs | `curl` 200, audit axe-core | à faire |
-| 9 | Mentions légales, confidentialité, déclaration d'accessibilité | pages prêtes | relecture par l'humain ; publication bloquée par « À fournir » | à faire |
+| 8 | Pied de page sans SIRET (fait, commit `a330e28`) ; `robots.txt`, `sitemap.xml`, accessibilité invisible | partiel | SIRET retiré ; robots/sitemap/a11y restants | **en cours** |
+| 9 | Mentions légales, confidentialité, déclaration d'accessibilité | pages créées (commit `a330e28`) | pages en ligne en local, champs « À compléter » visibles ; **non finalisées** tant que l'éditeur/DP/durées/audit manquent | **créé, à compléter** |
 | 10 | Tableau de bord : étapes 2 à 7 | correctifs | idem | à faire |
 | 11 | Paquet de mise en ligne : liste des fichiers de production dans `FTP.md`, sans `data/` ni images envoyées | `FTP.md` | liste relue par l'humain ; envoi FTP fait par l'humain | à faire |
 
@@ -110,7 +110,11 @@ Ordre validé le 2026-11-12. Le travail ne change ni la mise en page ni les cont
 
 | Élément | Qui | Pour quand | Bloque |
 |---------|-----|------------|--------|
-| Éditeur légal, nom et contact du directeur de publication | humain | plus tard | publication des mentions légales |
+| Éditeur légal (asso responsable, forme, SIRET/RNA, adresse) | humain | avant publication | finalisation mentions légales |
+| Nom du directeur/directrice de publication | humain | avant publication | finalisation mentions légales |
+| Hébergeur : entité exacte, adresse, téléphone | humain/La Capsule | avant publication | mentions légales |
+| Durée de conservation des messages de contact | humain | avant publication | politique de confidentialité |
+| Audit RGAA (état de conformité, résultats) | à planifier | avant publication | déclaration d'accessibilité |
 
 ## Règles propres au projet
 
@@ -127,11 +131,11 @@ Ordre validé le 2026-11-12. Le travail ne change ni la mise en page ni les cont
 - **P2** `vendor/` absent : tests PHPUnit et PHPStan non lancés. Pas de cible `make verify`.
 - **P2** Traductions mortes avec des coordonnées factices (`contact_address`, `contact_phone`, `contact_email1/2` dans `app/Lang/locales`) : le gabarit `contact.tpl.php` affiche les coordonnées en dur, donc non traduites en breton.
 - **Audit complet du 2026-11-12 (5 pages × 5 largeurs) — à arbitrer par l'humain :**
-  - **P1** Cartes d'événements (accueil) sous ~480 px : date coupée à gauche (« 20/11/2026 » illisible) et description tronquée par une hauteur de carte fixe. Correct ≥ 768 px.
-  - **P1** Page de connexion : aucun retour au site (en-tête et pied désactivés, logo non cliquable). L'utilisateur est bloqué sur `/login`.
-  - **P1** Pas de page 404 au gabarit : une URL inconnue renvoie du JSON brut (`{"status":404,...}`).
-  - **P2** Titre d'article en mobile : coupure en plein mot (« l'expérimentatio / n »).
-  - **P2** Menu mobile : « Qui sommes-nous ? » renvoie le « ? » seul sur une ligne.
+  - ✅ Cartes d'événements mobile (date + description) — commit `bd82efe`.
+  - ✅ Connexion : retour au site (lien + logo cliquable) — commit `efa1732`.
+  - ✅ Page 404 au gabarit du site — commit `af72085`.
+  - ✅ Titre d'article (césure) — commit `8c4d820`.
+  - ✅ Menu mobile plein écran (règle aussi le « ? » seul) — commit `7a8d649`.
   - **Faux positifs écartés** : pagination actus/galerie (artefact de capture pleine page, `position:sticky`), « +302 px partout » (était l'erreur PHP/DB).
 - **~~P2 pagination actus~~ (faux positif, 2026-11-12)** Le « chevauchement » de la pagination sur le titre « NOS ACTUALITÉS » était un artefact de capture pleine page (la pagination réutilise `.gallery-pagination` en `position:sticky`). Vérifié dans un vrai écran : aucun chevauchement. Aucune correction.
 - **P2** Restes à trier : `templates/modules/wiki` (lien `projet-ssa.html`, sans route), `public/assets/css/bak`, `tests/Http/RequestTestV2.php.bak`, `bin/resolve-git-conflicts.sh`.
