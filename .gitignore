@@ -58,3 +58,6 @@ composer.lock  # <- Garde-le SI (et seulement si) tu décides de ne pas versionn
 /public/assets/img/test_fond.jpg
 /public/assets/img/20260224-142558-1.webp
 /public/assets/img/recrutementBanner.png
+
+# Paquet de livraison genere
+/dist/

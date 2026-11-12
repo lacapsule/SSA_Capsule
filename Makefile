@@ -12,6 +12,7 @@ PORT ?= 8080
   up down restart build pull logs \
   d-init d-setup setup-docker setup-dev vendor-clean dump \
   phpstan test \
+  dist \
   pma pma-stop
 
 # ---------- Aide ----------
@@ -56,6 +57,11 @@ pma:     ## Ouvre phpMyAdmin (navigateur)
 
 doc:          ## Ouvre la doc
 	xdg-open doc.md
+
+dist:         ## Construit le paquet de livraison FTP dans dist/ (fichiers de prod uniquement)
+	@rm -rf dist && mkdir dist
+	@git archive HEAD | tar -x -C dist
+	@echo "Paquet pret dans dist/ : a envoyer tel quel sur le FTP Hostinger (aucun vendor requis)."
 
 vendor-clean: ## Réinstalle vendor proprement (host)
 	rm -rf vendor composer.lock
