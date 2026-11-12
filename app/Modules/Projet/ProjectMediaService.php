@@ -12,7 +12,7 @@ final class ProjectMediaService
     private const DEFAULTS = [
         'hero' => '/assets/img/projet/projetssa.webp',
         'illustration_top' => '/assets/img/projet/peep-102.svg',
-        'illustration_bottom' => '/assets/img/projet/illustration_projet_ssa.png',
+        'illustration_bottom' => '/assets/img/projet/illustration_projet_ssa.webp',
     ];
 
     /**

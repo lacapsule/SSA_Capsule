@@ -69,7 +69,7 @@
   <div class="contain">
     <h2>On recrute !</h2>
 
-    <img src="/assets/img/projet/recrutementBanner.png" alt="recrutementSSA">
+    <img src="/assets/img/projet/recrutementBanner.webp" alt="recrutementSSA">
 
     <h3>Comment cela se passe concrètement ?</h3>
 
