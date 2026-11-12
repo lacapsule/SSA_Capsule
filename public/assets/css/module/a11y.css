@@ -9,7 +9,7 @@
     top: 0;
     z-index: 2000;
     padding: 10px 16px;
-    background: var(--ssa-blanc, #fff);
+    background: var(--ssa-blanc);
     color: var(--ssa-txt-noir, #1b1b1b);
     border-radius: 0 0 6px 0;
     text-decoration: none;
@@ -27,7 +27,7 @@ select:focus-visible,
 textarea:focus-visible,
 summary:focus-visible,
 [tabindex]:focus-visible {
-    outline: 2px solid var(--ssa-vert, #43c466) !important;
+    outline: 2px solid var(--ssa-vert) !important;
     outline-offset: 2px;
 }
 

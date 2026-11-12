@@ -53,7 +53,7 @@ div.container div.myform .form-error {
 }
 
 div.container div.myform button {
-  color: white;
+  color: var(--ssa-txt-noir);
   background-color: var(--ssa-vert);
   border: none;
   outline: none;

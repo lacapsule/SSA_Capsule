@@ -14,12 +14,14 @@
     /*-TEXTE----------------*/
     --ssa-txt-jaune: var(--ssa-jaune);
     --ssa-txt-vert: var(--ssa-vert);
+    --ssa-txt-vert-fonce: var(--ssa-vert-fonce);
     --ssa-txt-gris: var(--ssa-gris);
     --ssa-txt-blanc: var(--ssa-blanc);
     --ssa-txt-noir: var(--ssa-noir);
     /*-BOUTON---------------*/
     --ssa-hover-jaune: #da9b37;
     --ssa-hover-vert: #38a355;
+    --ssa-vert-fonce: #1b7a3d;
     --ssa-hover-gris: #253349;
     /*-LIEN-----------------*/
     --ssa-lien-jaune: var(--ssa-jaune);
@@ -94,7 +96,7 @@
     border-radius: 5px;
     border: none;
     background-color: var(--ssa-vert);
-    color: var(--ssa-blanc);
+    color: var(--ssa-txt-noir);
     font-weight: 600;
     letter-spacing: 0.02em;
     cursor: pointer;

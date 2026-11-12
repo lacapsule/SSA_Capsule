@@ -236,10 +236,10 @@ final class ErrorBoundary implements MiddlewareInterface
     .err404 { min-height: 100vh; min-height: 100svh; display: flex; flex-direction: column;
       align-items: center; justify-content: center; text-align: center; gap: 1rem; padding: 2rem 1.25rem; }
     .err404 img { width: 120px; height: auto; }
-    .err404 h1 { font-size: clamp(3rem, 15vw, 6rem); color: var(--ssa-vert, #43c466); margin: 0; line-height: 1; }
+    .err404 h1 { font-size: clamp(3rem, 15vw, 6rem); color: var(--ssa-vert-fonce, #1b7a3d); margin: 0; line-height: 1; }
     .err404 p { color: var(--ssa-txt-noir, #222); font-size: 1.1rem; margin: 0; max-width: 32rem; }
     .err404 a.home { display: inline-block; margin-top: 1rem; padding: 12px 28px;
-      background: var(--ssa-vert, #43c466); color: #fff; border-radius: 5px; text-decoration: none; font-weight: 600; }
+      background: var(--ssa-vert, #43c466); color: var(--ssa-txt-noir, #1b1b1b); border-radius: 5px; text-decoration: none; font-weight: 600; }
     .err404 a.home:hover { background: var(--ssa-hover-vert, #2fa34f); }
   </style>
 </head>

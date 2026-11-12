@@ -70,7 +70,7 @@
     border-radius: 15px 15px 0 0;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     display: block;
-    background: #000;
+    background: var(--ssa-noir);
     margin: 0;
 }
 
@@ -97,7 +97,7 @@
     transform: translateY(-50%);
     border: none;
     background: rgba(20, 33, 61, 0.6);
-    color: #fff;
+    color: var(--ssa-blanc);
     width: 38px;
     height: 38px;
     border-radius: 50%;
@@ -150,7 +150,7 @@
 
 .details .heading .date {
     font-weight: 600;
-    color: var(--ssa-txt-vert);
+    color: var(--ssa-txt-jaune);
     display: flex;
     align-items: center;
     margin-bottom: .7rem;
