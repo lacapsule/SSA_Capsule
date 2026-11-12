@@ -30,6 +30,14 @@ Faits vérifiés, chacun avec sa source (document, page, réponse d'interview du
 - **Dans** : …
 - **Hors** : …
 
+## Arborescence
+
+Une ligne par page du nouveau site (source du cahier des charges, des wireframes et du menu).
+
+| Page | Adresse | Intention du public (question tapée) | Remplace (ancienne adresse) |
+|------|---------|--------------------------------------|-----------------------------|
+| Accueil | `/` | … | `/` |
+
 ## Décisions validées
 
 | Date | Décision | Raison |

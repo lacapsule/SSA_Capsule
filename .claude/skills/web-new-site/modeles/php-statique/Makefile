@@ -8,6 +8,8 @@ HOST  ?= localhost
 SITE  ?= https://example.org
 AUDIT := .claude/skills/web-audit/scripts
 
+-include .claude/skills/livrables/livrables.mk
+
 .DEFAULT_GOAL := help
 .PHONY: help info deps outils dev open build preview lint check verify repo a11y images clean
 

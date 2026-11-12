@@ -29,7 +29,8 @@ for deja in src app public; do
     fi
 done
 
-remplacables=(Makefile README.md)
+# .gitignore : fusionné (les lignes du socle absentes de celui du dépôt sont ajoutées), jamais écrasé.
+remplacables=(Makefile README.md .gitignore)
 collisions=()
 while IFS= read -r -d '' f; do
     relatif="${f#"$source_socle"/}"
@@ -45,11 +46,17 @@ if ((${#collisions[@]})); then
     exit 1
 fi
 
-for r in "${remplacables[@]}"; do
+gitignore_depot=""
+[[ -f .gitignore ]] && gitignore_depot="$(cat .gitignore)"
+for r in Makefile README.md; do
     [[ -e "$r" ]] && echo "remplacé : $r (décrivait le modèle de dépôt)"
 done
-cp -R "$source_socle"/. "$racine"/
-rm -rf "$racine/node_modules"
+# Copie fichier par fichier, sans node_modules éventuel de la source (l'outillage npm vit à la racine du dépôt).
+(cd "$source_socle" && find . -name node_modules -prune -o \( -type f -o -type l \) -print0 | xargs -0 cp --parents -t "$racine")
+if [[ -n "$gitignore_depot" && -f "$source_socle/.gitignore" ]]; then
+    { printf '%s\n' "$gitignore_depot"; grep -vxF -f <(printf '%s\n' "$gitignore_depot") "$source_socle/.gitignore" || true; } > .gitignore
+    echo "fusionné : .gitignore (lignes du socle ajoutées à celles du dépôt)"
+fi
 
 if [[ "$socle" == dynamique && ! -f .env && -f .env.example ]]; then
     cp .env.example .env

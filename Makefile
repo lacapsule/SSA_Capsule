@@ -6,6 +6,8 @@ KIT := .claude/skills
 .DEFAULT_GOAL := help
 .PHONY: help deps outils statique dynamique
 
+-include .claude/skills/livrables/livrables.mk
+
 help: ## Affiche cette aide
 	@awk 'BEGIN {FS = ":.*##"; printf "\nCibles disponibles :\n\n"} /^[a-zA-Z0-9_.-]+:.*##/ { printf "  \033[36m%-10s\033[0m %s\n", $$1, $$2 }' $(MAKEFILE_LIST)
 	@echo

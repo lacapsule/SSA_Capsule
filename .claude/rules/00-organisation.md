@@ -6,7 +6,7 @@ Ce `.claude/` est un kit commun à tous les projets de sites. Règle maîtresse 
 
 1. **Interview** (skill `interview`) : analyse du dépôt d'abord (projet existant : il répond seul à ce qu'il peut, puis fait confirmer les doutes), questions ensuite, jusqu'à pouvoir faire tout le travail sans l'humain.
 2. **Mode d'emploi** : les réponses rangées dans `.claude/rules/projet.md` (modèle : `skills/interview/modele-mode-emploi.md`), validé par l'humain. C'est la source de vérité du projet.
-3. **Travail par étapes**, dans l'ordre du mode d'emploi, une étape à la fois.
+3. **Travail par étapes**, dans l'ordre du mode d'emploi, une étape à la fois. Chaque étape de conception remet son livrable au client (skill `livrables` : audit, cahier des charges, wireframes, direction artistique et maquettes, PV de recette, dossier de livraison), avec 4 validations du client qui arrêtent la suite : cahier des charges, wireframes, direction artistique et maquettes, recette.
 4. **Livraison avec preuve** (skill `livraison`) : checklist cochée avant de remettre quoi que ce soit à vérifier.
 5. **Rapport hebdo** (skill `rapport-hebdo`) dans `docs/rapports/`.
 6. **Erreur signalée** (skill `retour-erreur`) : d'abord la règle qui l'aurait évitée, ensuite la correction.

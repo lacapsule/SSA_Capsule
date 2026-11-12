@@ -34,6 +34,7 @@ outils=(
     "avifenc|avifenc|0|libavif-bin|libavif-tools|conversion AVIF"
     "pyftsubset|pyftsubset|0|fonttools|fonttools|sous-ensemble de police woff2"
     "lftp|lftp|0|lftp|lftp|mise en ligne FTP ou SFTP sans SSH (skill web-release)"
+    "pdftoppm|pdftoppm|0|poppler-utils|poppler-utils|contrôle visuel des PDF des livrables (skill livrables)"
     "rsync|rsync|0|rsync|rsync|mise en ligne par SSH (skill web-release)"
 )
 

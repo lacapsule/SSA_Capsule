@@ -19,7 +19,7 @@ But : un mode d'emploi assez complet pour que tout le travail puisse être fait 
    - historique : `git log` (rythme, auteurs, dernières zones touchées), branches, tags ;
    - technique : `package.json`, `composer.json`, `Makefile`, scripts, structure de `src/`, routes, base de données, `.env.example` (noms seulement, jamais les valeurs) ;
    - hébergement et mise en ligne : `.htaccess`, scripts de déploiement, CI, domaine dans la config ;
-   - contenu et site : pages, données, mentions légales, formulaires, traceurs, langues ; site en ligne ou copie `wget` s'il y en a une ;
+   - contenu et site : pages, données, mentions légales, formulaires, traceurs, langues ; site actuel du client : `make audit URL=https://site-actuel` (skill `livrables`, accord du client acquis quand l'humain donne le lien), fichiers fournis rangés dans `docs/source/fournis/` ; chaque fait de l'inventaire entre ici en `déduit` ;
    - état : lancer les contrôles existants (`make verify`, tests, build) et noter le résultat.
 2. **Classer chaque information** avec sa source :
    - `constaté` : lu dans un fichier ou une sortie de commande (citer le chemin) ;

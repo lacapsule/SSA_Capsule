@@ -23,7 +23,6 @@ Socle décrit dans la rule `web-architecture`. PHP fabrique le HTML en dev et au
 | `src/data/*.json`, `src/data/schemas/*.schema.json` | données du site, chacune validée par son schéma au chargement et au build (`site`, `navigation` dont chaque chemin doit être une page, `redirections`) |
 | `src/styles/ordre.json`, `base/`, `composants/`, `sections/`, `pages/` | styles rangés par rôle, assemblés dans l'ordre de `ordre.json` en une feuille au nom haché ; un fichier non listé arrête le build |
 | `src/partage/og.html`, `src/partage/logo.svg` | sources de l'image de partage et des icônes (`make images` → `public/`) |
-| `package.json`, `package-lock.json` | outillage de contrôle seulement (`playwright-core`, `axe-core`, `svgo`), jamais publié |
 
 Cibles de contrôle : `make verify` (lint, build, `check-dist`, ordre CSS, dépôt ; écrit `.claude/etat/verify-ok`, lu par le hook de fin de tour), `make a11y` (scan axe-core de chaque page).
 
