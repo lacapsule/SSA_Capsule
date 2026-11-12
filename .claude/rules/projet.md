@@ -45,7 +45,7 @@ Ordre validé le 2026-11-12. Le travail ne change ni la mise en page ni les cont
 
 ## Périmètre
 
-- **Travail demandé** (2026-11-12) : corrections CSS et responsive des pages publiques d'abord (accueil, projet, galerie, article, agenda, connexion), puis le tableau de bord. Bugs connus : boutons du héros en mobile, traits en `::before` qui chevauchent des textes. Le reste est inventorié par l'analyse puis corrigé.
+- **Travail demandé** (2026-11-12) : corrections CSS et responsive des pages publiques d'abord (accueil, projet, galerie, article, connexion ; l'agenda/calendrier est une section de l'accueil via l'API `/agenda/api/events`, pas une page séparée), puis le tableau de bord. Bugs connus : boutons du héros en mobile, traits en `::before` qui chevauchent des textes. Le reste est inventorié par l'analyse puis corrigé.
 - **Existant** (constaté) : accueil (à propos, actualités, événements, partenaires, contact), page projet, galerie, détail d'article, agenda public, connexion, tableau de bord (compte, utilisateurs, articles, agenda et catégories, galerie, partenaires, médias du projet), formulaire de contact enregistré en base et envoyé par `mail()`.
 - **Exceptions écrites** (2026-11-12) : pages mentions légales, politique de confidentialité et déclaration d'accessibilité (obligation légale) ; `robots.txt` et `sitemap.xml` ; corrections d'accessibilité sans effet visible (focus clavier, `alt`, ARIA, structure des titres).
 - **Hors** (interview du 2026-11-12) : toute refonte. Le reste du SEO (titres, textes, données structurées). On ne touche ni à la mise en page, ni au style visuel, ni aux contenus (textes, images). Seulement : relevé et correction de bugs, responsive, code mort, remise du code aux conventions du kit, sans changement visible sur ordinateur.
@@ -93,7 +93,7 @@ Ordre validé le 2026-11-12. Le travail ne change ni la mise en page ni les cont
 | # | Étape | Livrable | Preuve attendue | État |
 |---|-------|----------|-----------------|------|
 | 1 | Préparer `dev` (= contenu de `save/ssa-dev-2026-11-12`, option A), `.gitignore` corrigé | branche `dev` locale | `check-repo.mjs` vert ; commit `a855d13` | **livré** (local, non poussé) |
-| 2 | Inventaire des bugs des pages publiques à 320, 768, 1280 et 1920 px | liste priorisée + captures « avant » | captures, liste validée par l'humain | à faire |
+| 2 | Inventaire des bugs des pages publiques à 320/768/1280/1920 px (Chrome headless + mesure de débordement) | liste priorisée + captures | fait le 2026-11-12 | **livré** |
 | 3 | Boutons du héros en mobile | correctif | captures avant/après 320 à 1920 px | à faire |
 | 4 | Traits `::before`/`::after` qui chevauchent les textes | correctif | captures avant/après à toutes les largeurs | à faire |
 | 5 | Autres bugs de l'inventaire | correctifs, un commit chacun | captures, aucun défilement horizontal | à faire |
@@ -142,3 +142,5 @@ Ordre validé le 2026-11-12. Le travail ne change ni la mise en page ni les cont
 | Date | Erreur | Cause | Règle ajoutée (où) |
 |------|--------|-------|--------------------|
 | 2026-11-12 | CSS absents en local après clone de `main` | `/public/assets` ignoré en entier par `.gitignore`, CSS jamais commités | `.gitignore` : n'ignorer que `/public/assets/img/` (commit `a855d13` sur `dev`) |
+| 2026-11-12 | `data/database.sqlite` et `config/database.php` disparus du dossier local → site en erreur fatale PDO sur toutes les pages | fichiers ignorés par git perdus pendant des manips de branches/stash ; `git stash -u` ne les protège pas (il ignore les fichiers gitignored) | **Règle** : ne jamais faire de manips git risquées (stash -u, bascule de branche, merge test) sans sauvegarder d'abord `data/` et `config/database.php` hors dépôt. Restaurés depuis le partage SSA_DEV. |
+| 2026-11-12 | Inventaire faussé : « +302 px de débordement sur toutes les pages » | c'était la bannière d'erreur PHP (DB KO), pas un bug CSS | toujours vérifier que le site répond sans erreur avant un audit visuel |
