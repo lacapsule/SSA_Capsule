@@ -185,3 +185,21 @@ div.container div.myform .admin-message {
   color: var(--ssa-vert);
   text-decoration: underline;
 }
+
+/* Attribution (backlink) en bas de la page de connexion, qui n'a pas de pied */
+.login-credit {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  margin: 0;
+  padding: 12px;
+  text-align: center;
+  font-size: 0.8rem;
+  color: var(--ssa-txt-gris);
+}
+
+.login-credit a {
+  color: var(--ssa-txt-gris);
+  font-weight: bold;
+}

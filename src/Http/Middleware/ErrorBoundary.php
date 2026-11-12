@@ -241,6 +241,8 @@ final class ErrorBoundary implements MiddlewareInterface
     .err404 a.home { display: inline-block; margin-top: 1rem; padding: 12px 28px;
       background: var(--ssa-vert, #43c466); color: var(--ssa-txt-noir, #1b1b1b); border-radius: 5px; text-decoration: none; font-weight: 600; }
     .err404 a.home:hover { background: var(--ssa-hover-vert, #2fa34f); }
+    .err404 .credit { margin-top: 2.5rem; font-size: 0.8rem; color: var(--ssa-txt-gris, #364a6b); }
+    .err404 .credit a { color: var(--ssa-txt-gris, #364a6b); font-weight: bold; }
   </style>
 </head>
 <body>
@@ -249,6 +251,10 @@ final class ErrorBoundary implements MiddlewareInterface
     <h1>404</h1>
     <p>Désolé, cette page n'existe pas ou a été déplacée.</p>
     <a class="home" href="/">Retour à l'accueil</a>
+    <p class="credit">Design et développement :
+      <a href="https://kouzia.com/" target="_blank" rel="noopener">Kouzia</a>,
+      Alexandre Kouziaeff EI, au sein de
+      <a href="https://lacapsule.org/" target="_blank" rel="noopener">La Capsule</a></p>
   </main>
 </body>
 </html>

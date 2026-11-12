@@ -35,3 +35,10 @@
     </a>
   </div>
 </div>
+
+<p class="login-credit">
+  Design et développement :
+  <a href="https://kouzia.com/" target="_blank" rel="noopener">Kouzia</a>,
+  Alexandre Kouziaeff EI, au sein de
+  <a href="https://lacapsule.org/" target="_blank" rel="noopener">La Capsule</a>
+</p>
