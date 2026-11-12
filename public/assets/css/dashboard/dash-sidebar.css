@@ -73,7 +73,6 @@
 }
 
 .navbar a:hover {
-  line-height: 15px;
   text-decoration: underline var(--ssa-vert) 2px;
 }
 

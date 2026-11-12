@@ -223,7 +223,7 @@
 
 .list-style-one li a:hover {
     color: var(--ssa-hover-jaune);
-    font-weight: 900;
+    text-decoration: underline;
 }
 
 
