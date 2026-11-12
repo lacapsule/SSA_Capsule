@@ -5,21 +5,21 @@
     <h2>Éditeur du site</h2>
     <p>
       Ce site présente l'expérimentation de la Sécurité Sociale de l'Alimentation
-      (SSA) en Pays de Morlaix, projet collectif et citoyen porté conjointement par
-      quatre structures associatives du territoire : l'ULAMIR-CPIE, le Résam,
-      Le Buzuk et l'Adess du Pays de Morlaix.
+      (SSA) du Pays de Morlaix. Ce projet n'a pas de dirigeant unique : il est
+      gouverné par un collectif citoyen appelé « La Collective » et co-animé par un
+      groupement d'associations locales du territoire (ULAMIR-CPIE, Résam, Le Buzuk
+      et Adess du Pays de Morlaix).
     </p>
-    <p class="legal-todo">
-      <strong>À compléter :</strong> structure juridiquement responsable de la
-      publication (raison sociale, forme juridique, adresse du siège, SIRET,
-      numéro RNA pour une association).
+    <p>
+      Référente et contact principal : Géraldine Gabillet, chargée de mission à
+      l'association ULAMIR-CPIE, joignable à
+      <a href="mailto:ssapaysdemorlaix@mailo.com">ssapaysdemorlaix@mailo.com</a>.
     </p>
 
     <h2>Directeur de la publication</h2>
-    <p class="legal-todo">
-      <strong>À compléter :</strong> nom et prénom du directeur ou de la directrice
-      de la publication (par défaut, le ou la représentante légale de la structure
-      éditrice).
+    <p>
+      La responsabilité éditoriale du site est assurée par Géraldine Gabillet, en
+      sa qualité de référente de l'expérimentation.
     </p>
 
     <h2>Contact</h2>
@@ -31,11 +31,10 @@
 
     <h2>Hébergement</h2>
     <p>
-      Le site est hébergé par Hostinger.
-    </p>
-    <p class="legal-todo">
-      <strong>À compléter :</strong> entité d'hébergement exacte, adresse postale
-      et téléphone de l'hébergeur.
+      Le site est hébergé par Hostinger International Ltd, 61 Lordou Vironos Street,
+      6023 Larnaca, Chypre. L'hébergeur ne publie pas de numéro de téléphone de
+      contact ; les demandes peuvent être adressées via son site
+      <a href="https://www.hostinger.fr/" target="_blank" rel="noopener noreferrer">hostinger.fr</a>.
     </p>
 
     <h2>Propriété intellectuelle et crédits</h2>
@@ -50,6 +49,6 @@
       ne peuvent être réutilisés sans autorisation.
     </p>
 
-    <p class="legal-updated">Dernière mise à jour : <span class="legal-todo">à compléter</span>.</p>
+    <p class="legal-updated">Dernière mise à jour : 12 novembre 2026.</p>
   </div>
 </section>

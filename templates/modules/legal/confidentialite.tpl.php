@@ -13,7 +13,7 @@
       <li><strong>Finalité :</strong> répondre à votre demande et prévenir les abus (anti-spam).</li>
       <li><strong>Base légale :</strong> intérêt légitime (répondre à une sollicitation que vous avez initiée).</li>
       <li><strong>Destinataires :</strong> le collectif SSA Pays de Morlaix et l'hébergeur du site. Aucune donnée n'est vendue ni transmise à des tiers à des fins commerciales.</li>
-      <li><strong>Durée de conservation :</strong> <span class="legal-todo">à compléter (par exemple : 3 ans après le dernier contact)</span>.</li>
+      <li><strong>Durée de conservation :</strong> 3 ans à compter du dernier contact, conformément à la recommandation de la CNIL, puis suppression.</li>
       <li><strong>Transfert hors Union européenne :</strong> aucun.</li>
     </ul>
 
@@ -45,6 +45,6 @@
       (<a href="https://www.cnil.fr/" target="_blank" rel="noopener noreferrer">www.cnil.fr</a>).
     </p>
 
-    <p class="legal-updated">Dernière mise à jour : <span class="legal-todo">à compléter</span>.</p>
+    <p class="legal-updated">Dernière mise à jour : 12 novembre 2026.</p>
   </div>
 </section>
