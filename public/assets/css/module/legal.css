@@ -43,8 +43,8 @@
    Hiérarchie par le fond et un contour complet de 1 px (pas de bordure
    gauche accent, proscrite par web-design). */
 .legal-todo {
-    background: #fff6e0;
-    border: 1px solid var(--ssa-jaune, #f3b43b);
+    background: var(--ssa-ambre-bg);
+    border: 1px solid var(--ssa-jaune);
     padding: 0.6rem 0.9rem;
     border-radius: 4px;
 }

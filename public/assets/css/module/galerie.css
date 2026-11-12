@@ -34,21 +34,21 @@
   justify-content: center;
   min-width: 32px;
   padding: 0.35rem 0.65rem;
-  border: 1px solid #1d2e4a;
+  border: 1px solid var(--ssa-navy-2);
   border-radius: 999px;
   font-size: 0.95rem;
-  color: #1d2e4a;
+  color: var(--ssa-navy-2);
   transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 .gallery-pagination .page-link:hover {
   background-color: var(--ssa-jaune);
-  color: #1d2e4a;
+  color: var(--ssa-navy-2);
 }
 
 .gallery-pagination .page-link.is-active {
   background-color: var(--ssa-jaune);
-  color: #1d2e4a;
+  color: var(--ssa-navy-2);
   cursor: default;
   pointer-events: none;
   font-weight: 600;
@@ -56,7 +56,7 @@
 
 .gallery-pagination .pagination-info {
   font-size: 0.9rem;
-  color: #1d2e4a;
+  color: var(--ssa-navy-2);
   font-weight: 500;
 }
 

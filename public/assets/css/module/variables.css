@@ -22,6 +22,25 @@
     --ssa-hover-jaune: #da9b37;
     --ssa-hover-vert: #38a355;
     --ssa-vert-fonce: #1b7a3d;
+    /* couleurs UI (modale calendrier, erreurs) */
+    --ssa-danger: #c0392b;
+    --ssa-danger-bg: #fce8e6;
+    --ssa-danger-border: #e74c3c;
+    --ssa-navy: #14213d;
+    --ssa-navy-2: #1d2e4a;
+    --ssa-bleu-gris: #4e5a6b;
+    --ssa-gris-2: #6c7a92;
+    --ssa-violet-gris: #504e70;
+    --ssa-bordure-claire: #e4e8f0;
+    --ssa-fond-gris-1: #f8fafc;
+    --ssa-fond-gris-2: #f2f4f8;
+    --ssa-fond-gris-3: #f3f3f3;
+    --ssa-presque-blanc: #fefefe;
+    --ssa-ambre-bg: #fff6e0;
+    --ssa-bleu: #2563eb;
+    --ssa-bleu-agenda: #3788d8;
+    --ssa-gris-texte: #555;
+    --ssa-noir-doux: #1b1b1b;
     --ssa-hover-gris: #253349;
     /*-LIEN-----------------*/
     --ssa-lien-jaune: var(--ssa-jaune);
