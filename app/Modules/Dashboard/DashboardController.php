@@ -114,7 +114,7 @@ final class DashboardController extends BaseController
         // Domaine
         $usersIt = $this->dashboard->getUsers($page); // iterable<object>
 
-        // Vue (Presenter) — matérialise page-size
+        // Vue (Presenter) - matérialise page-size
         $data = DashboardPresenter::users(
             base: $base,
             users: $usersIt,

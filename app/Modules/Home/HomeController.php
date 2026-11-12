@@ -41,7 +41,7 @@ final class HomeController extends BaseController
     #[Route(path: '/', methods: ['GET'])]
     public function home(): Response
     {
-        // 1) Inputs (query) — pagination standardisée
+        // 1) Inputs (query) - pagination standardisée
         $paginator = Paginator::fromGlobals(defaultLimit: 3, maxLimit: 100);
         $totalArticles = $this->articleService->countAll();
         $page = new Page(
@@ -50,7 +50,7 @@ final class HomeController extends BaseController
             total: $totalArticles
         );
 
-        // 2) Domaine — agrégation via HomeService
+        // 2) Domaine - agrégation via HomeService
         $dto = $this->homeService->getHomeData($page);
 
         // Événements à venir (90 jours) pour la page d'accueil - limité à 6
@@ -92,7 +92,7 @@ final class HomeController extends BaseController
         $eventsJson = json_encode($eventsForView, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) ?: '[]';
         $categoriesJson = json_encode($categories, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) ?: '[]';
 
-        // 3) Présentation — projection DOMAINE -> VUE
+        // 3) Présentation - projection DOMAINE -> VUE
         $viewData = HomePresenter::forView($dto);
 
         $flash = $this->flashMessages();

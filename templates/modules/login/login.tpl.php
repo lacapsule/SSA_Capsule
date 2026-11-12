@@ -31,7 +31,7 @@
 
   <div class="image">
     <a href="/" aria-label="{{str.login_back}}">
-      <img src="/assets/img/logo.svg" alt="Sécurité Sociale de l'Alimentation — Pays de Morlaix">
+      <img src="/assets/img/logo.svg" alt="Sécurité Sociale de l’Alimentation, Pays de Morlaix">
     </a>
   </div>
 </div>

@@ -229,7 +229,7 @@ final class ErrorBoundary implements MiddlewareInterface
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Page introuvable – Sécurité Sociale de l'Alimentation</title>
+  <title>Page introuvable : Sécurité Sociale de l'Alimentation</title>
   <link rel="stylesheet" href="/assets/css/global.css">
   <link rel="icon" type="image/png" href="/assets/img/logoSSA.png">
   <style>
@@ -245,7 +245,7 @@ final class ErrorBoundary implements MiddlewareInterface
 </head>
 <body>
   <main class="err404">
-    <img src="/assets/img/logo.svg" alt="Sécurité Sociale de l'Alimentation — Pays de Morlaix">
+    <img src="/assets/img/logo.svg" alt="Sécurité Sociale de l’Alimentation, Pays de Morlaix">
     <h1>404</h1>
     <p>Désolé, cette page n'existe pas ou a été déplacée.</p>
     <a class="home" href="/">Retour à l'accueil</a>

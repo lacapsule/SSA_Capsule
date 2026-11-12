@@ -39,10 +39,12 @@
     color: var(--ssa-vert);
 }
 
-/* Marqueur visible des informations à compléter avant publication */
+/* Marqueur visible des informations à compléter avant publication.
+   Hiérarchie par le fond et un contour complet de 1 px (pas de bordure
+   gauche accent, proscrite par web-design). */
 .legal-todo {
     background: #fff6e0;
-    border-left: 4px solid var(--ssa-jaune, #f3b43b);
+    border: 1px solid var(--ssa-jaune, #f3b43b);
     padding: 0.6rem 0.9rem;
     border-radius: 4px;
 }

@@ -10,7 +10,7 @@ use Capsule\Http\Message\Request;
 use Capsule\Http\Message\Response;
 
 /**
- * LangMiddleware — détection & préparation i18n.
+ * LangMiddleware - détection & préparation i18n.
  *
  * Invariants :
  * - Langue ∈ whitelist ; fallback $default.

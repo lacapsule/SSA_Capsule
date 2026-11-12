@@ -62,7 +62,7 @@ final class ArticleService
      */
     public function getUpcomingPage(int $limit, int $offset): iterable
     {
-        // Le repo peut retourner array|iterable — on unifie en flux paresseux
+        // Le repo peut retourner array|iterable - on unifie en flux paresseux
         $rows = $this->articleRepository->findUpcoming($limit, $offset);
 
         return $this->asIterable($rows);

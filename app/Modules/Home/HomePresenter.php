@@ -110,7 +110,7 @@ final class HomePresenter
             $formattedDate = self::formatDateFr($date);
 
             return [
-                // — clés Agenda —
+                // - clés Agenda -
                 'date' => $formattedDate,
                 'date_actu' => $date,
                 'date_event' => $formattedDate,
@@ -122,7 +122,7 @@ final class HomePresenter
                 'info' => (string)($a->info ?? ''),
                 'inscription_link' => (string)($a->inscription_link ?? ''),
 
-                // — clés Actualités —
+                // - clés Actualités -
                 'id' => (int)($a->id ?? 0),
                 'titre' => $title,
                 'resume' => $sum,

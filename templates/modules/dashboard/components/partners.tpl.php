@@ -59,7 +59,7 @@
             </td>
             <td class="col-description" data-label="Description" title="{{description}}">
               {{#description}}{{description}}{{/description}}
-              {{^description}}<span class="muted">—</span>{{/description}}
+              {{^description}}<span class="muted">non renseigné</span>{{/description}}
             </td>
             <td class="col-position" data-label="Position">{{position}}</td>
             <td class="col-logos" data-label="Logos">

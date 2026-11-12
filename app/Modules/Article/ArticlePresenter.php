@@ -102,7 +102,7 @@ final class ArticlePresenter
     }
 
     /**
-     * Formulaire (création/édition) – on passe un tableau simple à la vue.
+     * Formulaire (création/édition) - on passe un tableau simple à la vue.
      * @param array<string,mixed>|ArticleDTO|null $src
      * @param array<string,string> $errors
      * @return array<string,mixed>

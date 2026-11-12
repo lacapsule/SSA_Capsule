@@ -22,7 +22,7 @@ final class SecurityHeaders implements MiddlewareInterface
         $res = $next->handle($request);
 
         $csp = $this->dev
-            // DEV — permissif (pas d’inline JS, mais styles inline tolérés au besoin)
+            // DEV - permissif (pas d’inline JS, mais styles inline tolérés au besoin)
             ? "default-src 'self'; "
             . "style-src 'self' 'unsafe-inline'; "
             . "script-src 'self'; "
@@ -32,7 +32,7 @@ final class SecurityHeaders implements MiddlewareInterface
             . "form-action 'self'; "
             . "base-uri 'self'; "
             . "frame-ancestors 'none'"
-            // PROD — plus strict (pas d'inline CSS/JS)
+            // PROD - plus strict (pas d'inline CSS/JS)
             : "default-src 'self'; "
             . "style-src 'self'; "
             . "script-src 'self'; "

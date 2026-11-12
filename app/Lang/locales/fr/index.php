@@ -5,7 +5,7 @@ declare(strict_types=1);
 return [
 
     // SECTION HERO
-    'hero_title' => 'Sécurité Sociale de l’Alimentation – Pays de Morlaix',
+    'hero_title' => 'Sécurité Sociale de l’Alimentation · Pays de Morlaix',
     'hero_slogan' => 'Pour un droit fondamental et universel à une alimentation saine et durable.',
     'hero_cta_more' => 'En savoir +',
     'hero_cta_participate' => 'Participer',
@@ -23,13 +23,13 @@ return [
     'read_more' => 'Lire plus',
 
     // META
-    'meta_description' => 'Sécurité Sociale de l’Alimentation au Pays de Morlaix – Pour un droit universel à une alimentation saine et durable.',
+    'meta_description' => 'Sécurité Sociale de l’Alimentation au Pays de Morlaix : Pour un droit universel à une alimentation saine et durable.',
     'meta_keywords' => 'alimentation, accessibilité, Pays de Morlaix, sécurité sociale alimentaire, démocratie alimentaire, mobilisation citoyenne',
     'meta_author' => 'ULAMIR CPIE',
-    'page_title' => 'Sécurité Sociale de l’Alimentation – Pays de Morlaix',
+    'page_title' => 'Sécurité Sociale de l’Alimentation · Pays de Morlaix',
 
     // NAVIGATION
-    'nav_title' => 'Sécurité Sociale de l’Alimentation – Pays de Morlaix',
+    'nav_title' => 'Sécurité Sociale de l’Alimentation · Pays de Morlaix',
     'nav_home' => 'Accueil',
     'nav_project' => 'Le projet SSA',
     'nav_agenda' => 'Évènements',

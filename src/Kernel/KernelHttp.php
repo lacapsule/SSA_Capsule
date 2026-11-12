@@ -10,14 +10,14 @@ use Capsule\Http\Message\Request;
 use Capsule\Http\Message\Response;
 
 /**
- * Kernel — minimal.
+ * Kernel - minimal.
  *
  * Rôle : composer une pile de middlewares autour d'un handler final ($last).
  *
  * Invariants :
  * - Ordre d’exécution = ordre fourni : M1 → M2 → ... → Mn → $last.
  * - Un middleware peut court-circuiter en retournant sa propre Response.
- * - Aucune I/O ici (pas de header(), pas d’emit) — orchestration pure.
+ * - Aucune I/O ici (pas de header(), pas d’emit) - orchestration pure.
  * - $last est appelé si aucun middleware ne court-circuite.
  */
 final class KernelHttp implements HandlerInterface

@@ -42,7 +42,7 @@ final class PasswordService
         return $e;
     }
 
-    /** Hash/verify/rehash — encapsule les fonctions natives PHP. */
+    /** Hash/verify/rehash - encapsule les fonctions natives PHP. */
     public function hash(string $plain): string
     {
         return \password_hash($plain, \PASSWORD_DEFAULT, $this->hashOptions);

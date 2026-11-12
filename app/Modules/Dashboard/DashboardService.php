@@ -14,7 +14,7 @@ final class DashboardService
     }
 
     /**
-     * Renvoie la liste des utilisateurs (iterable) — paginable si ton UserService le supporte.
+     * Renvoie la liste des utilisateurs (iterable) - paginable si ton UserService le supporte.
      * @return iterable<object>  // ex: UserDTO ou stdClass/array hydratés par UserService
      */
     public function getUsers(Page $page): iterable

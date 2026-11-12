@@ -104,7 +104,7 @@
                 <div class="calendar-nav">
                     <a type="button" class="calendar-nav-btn" data-calendar-nav="-1"
                         aria-label="Précédent"><img src="/assets/icons/arrow-left.svg" alt=""></a>
-                    <div id="public-calendar-label">—</div>
+                    <div id="public-calendar-label"></div>
                     <a type="button" class="calendar-nav-btn" data-calendar-nav="1" aria-label="Suivant"><img src="/assets/icons/arrow-right.svg" alt=""></a>
                 </div>
             </div>

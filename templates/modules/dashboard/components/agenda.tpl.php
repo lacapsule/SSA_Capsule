@@ -19,7 +19,7 @@
       <div class="calendar-nav">
         <button type="button" class="calendar-nav-btn" data-calendar-nav="-1" aria-label="Précédent"><img
             src="/assets/icons/arrow-left.svg" alt=""></button>
-        <div id="dashboard-calendar-label">—</div>
+        <div id="dashboard-calendar-label"></div>
         <button type="button" class="calendar-nav-btn" data-calendar-nav="1" aria-label="Suivant"><img
             src="/assets/icons/arrow-right.svg" alt=""></button>
       </div>
