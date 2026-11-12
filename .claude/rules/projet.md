@@ -126,6 +126,13 @@ Ordre validé le 2026-11-12. Le travail ne change ni la mise en page ni les cont
 - **P1 (corrigé sur `dev`, `a855d13`)** `.gitignore` couvre `.env`.
 - **P2** `vendor/` absent : tests PHPUnit et PHPStan non lancés. Pas de cible `make verify`.
 - **P2** Traductions mortes avec des coordonnées factices (`contact_address`, `contact_phone`, `contact_email1/2` dans `app/Lang/locales`) : le gabarit `contact.tpl.php` affiche les coordonnées en dur, donc non traduites en breton.
+- **Audit complet du 2026-11-12 (5 pages × 5 largeurs) — à arbitrer par l'humain :**
+  - **P1** Cartes d'événements (accueil) sous ~480 px : date coupée à gauche (« 20/11/2026 » illisible) et description tronquée par une hauteur de carte fixe. Correct ≥ 768 px.
+  - **P1** Page de connexion : aucun retour au site (en-tête et pied désactivés, logo non cliquable). L'utilisateur est bloqué sur `/login`.
+  - **P1** Pas de page 404 au gabarit : une URL inconnue renvoie du JSON brut (`{"status":404,...}`).
+  - **P2** Titre d'article en mobile : coupure en plein mot (« l'expérimentatio / n »).
+  - **P2** Menu mobile : « Qui sommes-nous ? » renvoie le « ? » seul sur une ligne.
+  - **Faux positifs écartés** : pagination actus/galerie (artefact de capture pleine page, `position:sticky`), « +302 px partout » (était l'erreur PHP/DB).
 - **~~P2 pagination actus~~ (faux positif, 2026-11-12)** Le « chevauchement » de la pagination sur le titre « NOS ACTUALITÉS » était un artefact de capture pleine page (la pagination réutilise `.gallery-pagination` en `position:sticky`). Vérifié dans un vrai écran : aucun chevauchement. Aucune correction.
 - **P2** Restes à trier : `templates/modules/wiki` (lien `projet-ssa.html`, sans route), `public/assets/css/bak`, `tests/Http/RequestTestV2.php.bak`, `bin/resolve-git-conflicts.sh`.
 
