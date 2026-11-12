@@ -102,6 +102,7 @@ return [
     'login_username' => 'Nom d\'utilisateur :',
     'login_password' => 'Mot de passe :',
     'login_submit' => 'Se connecter',
+    'login_back' => 'Retour au site',
     'login_error'=> 'Oups ! Tes identifiants ne semblent pas corrects.',
     'login_password_forgot' => 'Mot de passe oublié ?',
     'login_admin_contact'=> 'Veuillez contacter l\'administrateur du site.',

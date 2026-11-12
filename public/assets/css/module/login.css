@@ -170,3 +170,17 @@ div.container div.myform .admin-message {
     margin: 0 auto;
   }
 }
+
+/* Lien de retour au site (la page de connexion n'a ni en-tête ni pied) */
+.back-to-site {
+  display: inline-block;
+  margin-top: 16px;
+  color: var(--ssa-txt-gris);
+  font-size: 14px;
+  text-decoration: none;
+}
+
+.back-to-site:hover {
+  color: var(--ssa-vert);
+  text-decoration: underline;
+}

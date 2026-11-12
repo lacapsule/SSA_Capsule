@@ -23,11 +23,15 @@
       <p id="adminContactMessage" class="admin-message"></p>
 
       <button type="submit" class="btn-style-one">{{str.login_submit}}</button>
+
+      <a href="/" class="back-to-site">&larr; {{str.login_back}}</a>
     </form>
 
   </div>
 
   <div class="image">
-    <img src="/assets/img/logo.svg">
+    <a href="/" aria-label="{{str.login_back}}">
+      <img src="/assets/img/logo.svg" alt="Sécurité Sociale de l'Alimentation — Pays de Morlaix">
+    </a>
   </div>
 </div>
