@@ -140,3 +140,33 @@ div.container div.myform .admin-message {
   background-image: url('/assets/img/eye-open.svg');
   opacity: 1;
 }
+/* Très petits écrans (≤ 360 px) : la carte de connexion (270 px + 2×30 px
+   de marge intérieure = 330 px fixes) dépassait la largeur du viewport.
+   On la rend fluide, et on empile le formulaire et le logo (côte à côte en
+   flex-row, le logo chevauchait les champs une fois la carte rétrécie). */
+@media screen and (max-width: 360px) {
+  div.container {
+    flex-direction: column;
+    width: calc(100vw - 16px);
+    padding: 24px 20px;
+    box-sizing: border-box;
+  }
+
+  div.container div.myform {
+    width: 100%;
+  }
+
+  div.container div.myform input {
+    min-width: 0;
+    width: 100%;
+  }
+
+  div.container div.image {
+    margin-top: 20px;
+  }
+
+  div.container div.image img {
+    display: block;
+    margin: 0 auto;
+  }
+}
