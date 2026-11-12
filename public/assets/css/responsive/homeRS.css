@@ -206,4 +206,34 @@
     .btn-recrute {
         justify-content: center;
     }
+
+    /* Cartes d'événements : en mobile, la grille 30 %/70 % avec hauteur fixe
+       de 120 px coupait la date (« 20/11/2026 ») et tronquait la description.
+       La colonne de date se dimensionne sur son contenu (jamais coupée) et la
+       carte s'adapte en hauteur au texte. */
+    .evenement .evenement-item-inner {
+        grid-template-columns: auto 1fr;
+        height: auto;
+        min-height: 110px;
+    }
+
+    .evenement-info.info {
+        padding: 10px 14px;
+    }
+
+    .evenement-date,
+    .evenement-time {
+        white-space: nowrap;
+    }
+
+    .desc {
+        height: auto;
+        padding: 12px 14px;
+    }
+
+    .desc .evenement-description {
+        display: block;
+        overflow: visible;
+        text-overflow: clip;
+    }
 }
