@@ -97,7 +97,7 @@ export function boite() {
 }
 
 /** Copie la charte (tokens et polices de la boîte, feuille du gabarit) dans docs/livrables/_commun. */
-function poserCommun() {
+export function poserCommun() {
   const commun = path.join(DOSSIER_LIVRABLES, '_commun');
   mkdirSync(path.join(commun, 'polices'), { recursive: true });
   const b = boite();
@@ -105,16 +105,26 @@ function poserCommun() {
   for (const p of ['exo2-latin.woff2', 'share-tech-mono-latin.woff2']) {
     copyFileSync(path.join(b, 'base/polices', p), path.join(commun, 'polices', p));
   }
-  copyFileSync(path.join(ICI, '../gabarit/document.css'), path.join(commun, 'document.css'));
+  for (const f of ['document.css', 'wireframe.css']) copyFileSync(path.join(ICI, '../gabarit', f), path.join(commun, f));
 }
 
-function lireRegistre() {
+export function lireRegistre() {
   const f = path.join(DOSSIER_LIVRABLES, 'registre.json');
   return existsSync(f) ? JSON.parse(readFileSync(f, 'utf8')) : { livrables: {} };
 }
 
 function ecrireRegistre(r) {
   writeFileSync(path.join(DOSSIER_LIVRABLES, 'registre.json'), JSON.stringify(r, null, 2) + '\n');
+}
+
+/** Navigateur des livrables (rendu, captures, PDF) : CHROME_PATH, sinon celui de Playwright. */
+export async function lancerNavigateur() {
+  const require = createRequire(RACINE + '/');
+  let chromium;
+  try { ({ chromium } = require('playwright-core')); } catch {
+    throw new Error('playwright-core absent : lancer make deps (ou npm ci) à la racine du dépôt.');
+  }
+  return chromium.launch(process.env.CHROME_PATH ? { executablePath: process.env.CHROME_PATH } : {});
 }
 
 /** Enregistre la validation d'un livrable (acte humain, sur instruction explicite). */
@@ -138,7 +148,8 @@ export function valider(id, par) {
 export async function ecrireLivrable(doc) {
   mkdirSync(path.join(DOSSIER_LIVRABLES, doc.id), { recursive: true });
   poserCommun();
-  const empreinte = createHash('sha256').update(doc.corps + (doc.avertissements ?? []).join('|')).digest('hex').slice(0, 16);
+  // Empreinte : texte du document, avertissements et sources rendues à part (pages de wireframe…).
+  const empreinte = createHash('sha256').update(doc.corps + (doc.avertissements ?? []).join('|') + (doc.sourcesRendues ?? '')).digest('hex').slice(0, 16);
   const r = lireRegistre();
   const avant = r.livrables[doc.id];
   const date = new Date().toISOString().slice(0, 10);
@@ -188,12 +199,7 @@ ${doc.corps}
   const fichierHtml = path.join(DOSSIER_LIVRABLES, doc.id, 'index.html');
   writeFileSync(fichierHtml, html);
 
-  const require = createRequire(RACINE + '/');
-  let chromium;
-  try { ({ chromium } = require('playwright-core')); } catch {
-    throw new Error('playwright-core absent : lancer make deps (ou npm ci) à la racine du dépôt.');
-  }
-  const navigateur = await chromium.launch(process.env.CHROME_PATH ? { executablePath: process.env.CHROME_PATH } : {});
+  const navigateur = await lancerNavigateur();
   const page = await navigateur.newPage();
   await page.goto(pathToFileURL(fichierHtml).href, { waitUntil: 'load' });
   await page.evaluate(() => document.fonts.ready);

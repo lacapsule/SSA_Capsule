@@ -2,11 +2,13 @@
 // Génère les livrables du projet (HTML et PDF, charte Kouzia) depuis leurs sources, jamais écrits à la main :
 //   01-audit-existant      ← docs/source/existant/inventaire.json (make audit URL=…)
 //   02-cahier-des-charges  ← .claude/rules/projet.md (mode d'emploi) et l'audit
+//   03-wireframes          ← section « Arborescence » du mode d'emploi et docs/maquettes/<page>.md
 // Usage : node generer.mjs [id…]            génère les livrables dont la source existe
 //         node generer.mjs --valider <id> "<qui>"   enregistre la validation (sur instruction de l'humain)
 import { existsSync, readFileSync } from 'node:fs';
 import path from 'node:path';
-import { echapper, ecrireLivrable, markdown, RACINE, valider } from '../lib/document.mjs';
+import { DOSSIER_LIVRABLES, echapper, ecrireLivrable, lancerNavigateur, lireRegistre, markdown, poserCommun, RACINE, valider } from '../lib/document.mjs';
+import { wireframes } from '../lib/wireframes.mjs';
 
 const args = process.argv.slice(2);
 if (args[0] === '--valider') {
@@ -31,6 +33,15 @@ function lireModeEmploi() {
     sections[titre.trim()] = corps.join('\n').trim();
   }
   return { nom, depot: champ('depot'), type: champ('type'), statut: champ('statut'), maj: champ('mise à jour'), sections, texte };
+}
+
+/** Lignes du tableau « Arborescence » du mode d'emploi : { page, adresse, intention, remplace }. */
+function lireArborescence(mode) {
+  const t = mode?.sections?.Arborescence ?? '';
+  return t.split('\n').filter((l) => /^\|/.test(l) && !/^\|[\s:|-]+\|$/.test(l)).slice(1)
+    .map((l) => l.replace(/^\||\|$/g, '').split('|').map((c) => c.trim().replace(/`/g, '')))
+    .filter((c) => c[0] && c[0] !== '…' && /^\//.test(c[1] ?? ''))
+    .map(([page, adresse, intention, remplace]) => ({ page, adresse, intention, remplace }));
 }
 
 function lireInventaire() {
@@ -232,6 +243,23 @@ if (veut('01-audit-existant')) {
 if (veut('02-cahier-des-charges')) {
   if (mode) faits.push(await ecrireLivrable(cahierDesCharges(mode, inv)));
   else console.log("02-cahier-des-charges : pas de mode d'emploi (.claude/rules/projet.md) : lancer l'interview.");
+}
+if (veut('03-wireframes') && mode) {
+  const arbo = lireArborescence(mode);
+  if (!arbo.length) console.log("03-wireframes : section « Arborescence » du mode d'emploi vide.");
+  else {
+    poserCommun();
+    const navigateur = await lancerNavigateur();
+    const { corps, avertissements, sourcesRendues } = await wireframes({ arborescence: arbo, dossier: path.join(DOSSIER_LIVRABLES, '03-wireframes'), navigateur });
+    await navigateur.close();
+    // Ordre de la chaîne : la structure se valide après le cahier des charges (validation 1).
+    if (lireRegistre().livrables['02-cahier-des-charges']?.statut !== 'validé') avertissements.unshift('Cahier des charges pas encore validé par le client : les wireframes attendent la validation 1.');
+    faits.push(await ecrireLivrable({
+      id: '03-wireframes', titre: 'Wireframes', client: mode.nom,
+      sousTitre: `Structure de chaque page du nouveau site (${arbo.length} page${arbo.length > 1 ? 's' : ''}), sur ordinateur et sur téléphone, avant tout travail graphique.`,
+      corps, sourcesRendues, brouillon: avertissements.length > 0, avertissements,
+    }));
+  }
 }
 for (const f of faits) console.log(`${f.titre} : version ${f.version} (${f.statut}) · ${f.html} · ${f.pdf}`);
 if (!faits.length) process.exit(1);

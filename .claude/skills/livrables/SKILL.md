@@ -13,7 +13,7 @@ Principe : un livrable ne s'écrit jamais à la main. Il est généré depuis la
 |---|----------|--------|----------|----------------------|
 | 01 | Audit de l'existant | site actuel et `docs/source/fournis/` | `make audit URL=https://site-actuel` | non (constat) |
 | 02 | Cahier des charges | `.claude/rules/projet.md` et audit | `make livrables` | **1** |
-| 03 | Wireframes | section « Arborescence » et maquettes en texte (skill `web-contenu`) | à venir | **2** |
+| 03 | Wireframes | section « Arborescence » et `docs/maquettes/<page>.md` (skill `web-contenu`) | `make livrables` | **2** |
 | 04 | Direction artistique | couleurs, logo et polices de l'audit, métier du client | à venir | **3** (avec 05) |
 | 05 | Maquettes | le site en construction, captures bureau et 390 px | à venir | **3** |
 | 06 | PV de recette | `make verify`, `make a11y`, Lighthouse, checklist du skill `livraison` | à venir | **4**, avant mise en ligne |
@@ -38,7 +38,15 @@ Quand l'humain donne le lien du site actuel, l'accord du client pour reprendre s
 - Validation du client (mail, réunion, signature) : `make valider ID=02-cahier-des-charges PAR="Nom, par e-mail du AAAA-MM-JJ"`, seulement sur instruction de l'humain, puis une ligne dans « Décisions validées » du mode d'emploi.
 - Les 4 validations du client sont des points d'arrêt : l'étape suivante ne commence pas avant (rule `00-organisation`, « Décider »).
 
-## 4. Rangement
+## 4. Wireframes
+
+- Une page de l'arborescence = une maquette en texte `docs/maquettes/<page>.md` (« / » donne `accueil.md`, « /a/b/ » donne `a-b.md`), au format du skill `web-contenu`. Page sans maquette : signalée dans l'encadré, livrable en brouillon.
+- Chaque zone numérotée devient un bloc de zoning reconnu par son nom (en-tête, héros, services, réalisations, équipe, témoignages, tarifs, questions, chiffres, étapes, formulaire, plan d'accès, appel, pied de page ; sinon bloc de texte). Le contenu de la ligne règle le dessin : liste entre parenthèses (menu, champs, éléments), libellés entre « » (boutons), nombre écrit (« 3 services »).
+- Rendu neutre (aucune couleur de marque ni photo), capturé à 1280 et 390 px ; pages HTML consultables dans `docs/livrables/03-wireframes/pages/`.
+- La brique de la boîte notée dans une zone reste pour l'agent : elle est retirée du document du client.
+- Brouillon tant que le cahier des charges n'est pas validé (ordre de la chaîne).
+
+## 5. Rangement
 
 | Chemin | Contenu | Versionné |
 |--------|---------|-----------|
@@ -50,8 +58,9 @@ Quand l'humain donne le lien du site actuel, l'accord du client pour reprendre s
 
 Rien de `docs/` n'est publié en ligne (hors de `dist/` et de `public/`).
 
-## 5. Règles d'écriture des livrables
+## 6. Règles d'écriture des livrables
 
+- L'encadré « À compléter » est une liste de travail pour Kouzia : un livrable ne part au client qu'une fois l'encadré vide.
 - Texte pour le client : aucun terme interne (nom d'outil, de fichier du kit, de variable), pas de jargon sans explication.
 - Aucun fait inventé : ce qui manque est écrit « à fournir » avec qui et pour quand (rule `web-legal`, « Zéro fiction »).
 - L'emplacement des accès (FTP, DNS) n'apparaît jamais dans un livrable.
