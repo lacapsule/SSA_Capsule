@@ -64,6 +64,15 @@ final class ErrorBoundary implements MiddlewareInterface
 
             return $resp;
         } catch (NotFound $e) {
+            // Navigateur (Accept: text/html, hors routes d'API) : page 404 au
+            // gabarit du site. API/XHR : réponse JSON comme avant.
+            $accept = $request->headers['Accept'] ?? '';
+            $isApi = str_starts_with($request->path, '/api') || str_contains($request->path, '/api/');
+            if (!$isApi && str_contains($accept, 'text/html')) {
+                return $this->res->html(self::notFoundHtml(), 404)
+                    ->withHeader('X-Request-Id', $reqId);
+            }
+
             $payload = $this->basePayload($request, $reqId, 404, 'Not Found');
 
             return $this->res->json($payload, 404)
@@ -205,6 +214,45 @@ final class ErrorBoundary implements MiddlewareInterface
         }
 
         return $resp;
+    }
+
+    /**
+     * Page 404 HTML au gabarit du site (pour les navigateurs).
+     *
+     * @return string Document HTML complet
+     */
+    private static function notFoundHtml(): string
+    {
+        return <<<'HTML'
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Page introuvable – Sécurité Sociale de l'Alimentation</title>
+  <link rel="stylesheet" href="/assets/css/global.css">
+  <link rel="icon" type="image/png" href="/assets/img/logoSSA.png">
+  <style>
+    .err404 { min-height: 100vh; min-height: 100svh; display: flex; flex-direction: column;
+      align-items: center; justify-content: center; text-align: center; gap: 1rem; padding: 2rem 1.25rem; }
+    .err404 img { width: 120px; height: auto; }
+    .err404 h1 { font-size: clamp(3rem, 15vw, 6rem); color: var(--ssa-vert, #43c466); margin: 0; line-height: 1; }
+    .err404 p { color: var(--ssa-txt-noir, #222); font-size: 1.1rem; margin: 0; max-width: 32rem; }
+    .err404 a.home { display: inline-block; margin-top: 1rem; padding: 12px 28px;
+      background: var(--ssa-vert, #43c466); color: #fff; border-radius: 5px; text-decoration: none; font-weight: 600; }
+    .err404 a.home:hover { background: var(--ssa-hover-vert, #2fa34f); }
+  </style>
+</head>
+<body>
+  <main class="err404">
+    <img src="/assets/img/logo.svg" alt="Sécurité Sociale de l'Alimentation — Pays de Morlaix">
+    <h1>404</h1>
+    <p>Désolé, cette page n'existe pas ou a été déplacée.</p>
+    <a class="home" href="/">Retour à l'accueil</a>
+  </main>
+</body>
+</html>
+HTML;
     }
 
     /**
