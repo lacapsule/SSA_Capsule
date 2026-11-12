@@ -40,8 +40,9 @@ preview: build ## Construit puis sert dist/ comme l'hébergeur
 lint:    ## Syntaxe de tous les fichiers PHP
 	@for f in $$(find bin src -name '*.php'); do php -l "$$f" >/dev/null || exit 1; done; echo "PHP : syntaxe OK"
 
-check: build ## Build + audit de dist/ (SEO, liens, titres, CSS, poids)
+check: build ## Build + audit de dist/ (SEO, liens, titres, CSS, poids) + ordre des propriétés CSS
 	node $(AUDIT)/check-dist.mjs dist $(SITE)
+	node $(AUDIT)/ordre-css.mjs --check src/styles
 
 repo:    ## Aucun secret ni fichier sensible suivi par Git
 	node $(AUDIT)/check-repo.mjs

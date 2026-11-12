@@ -69,7 +69,7 @@ Chaque ligne est un défaut constaté puis corrigé dans un projet réel, devenu
 
 | Règle | Contrôle | Types |
 |-------|----------|-------|
-| Pas d'`innerHTML` avec une donnée : construction par `createElement`/`textContent` ou `<template>` cloné. | `boite-a-outils/outils/regles.mjs` | V F A B E O |
+| Pas d'`innerHTML` ni d'équivalent (`outerHTML`, `insertAdjacentHTML`, `DOMParser`, `createContextualFragment`) avec une donnée : construction par `createElement`/`textContent` ou `<template>` cloné. | `boite-a-outils/outils/regles.mjs` | V F A B E O |
 | Échap dans un menu ou une bulle est arrêté (capture, `stopPropagation`) pour ne pas fermer aussi la fenêtre qui les contient ; la fenêtre ignore un Échap déjà traité. | test clavier | A B E O |
 | Une bibliothèque front se range hors de tout dossier `vendor/` : les serveurs PHP bloquent souvent `/vendor/` (QR code blanc constaté). | requête HTTP sur le fichier | A B E O |
 
