@@ -13,32 +13,38 @@
    .navbar {
      position: fixed;
      flex-direction: column;
-     align-items: flex-end;
-     justify-content: flex-start;
+     align-items: center;
+     justify-content: center;
      right: -100%;
      left: auto;
      top: 0;
-     width: 60%;
-     min-width: 60%;
+     width: 100%;
+     min-width: 100%;
      height: 100vh;
+     height: 100dvh;
      background: var(--ssa-fond-clair);
      box-shadow: -0.2em 0 0.8em rgba(0, 0, 0, 0.15);
-     padding: 5em 1.5em;
+     padding: 2em 1.5em;
      transition: right 0.4s ease;
    }
 
    .navbar ul {
      display: flex;
      flex-direction: column;
-     align-items: flex-end;
-     gap: 20px;
+     align-items: center;
+     gap: 28px;
      width: 100%;
-     margin: 20% 0;
+     margin: 1.5em 0;
+   }
+
+   .navbar li a {
+     font-size: 1.25rem;
+     white-space: nowrap;
    }
 
    .user {
      width: 100%;
-     justify-content: end;
+     justify-content: center;
      gap: 8px;
    }
 
