@@ -87,6 +87,7 @@ Ordre validé le 2026-11-12. Le travail ne change ni la mise en page ni les cont
 - Données personnelles : comptes (nom, e-mail), messages de contact (nom, e-mail, message, IP) sans durée de conservation (constaté : table `contacts`).
 - Images : des personnes figurent sur les photos ; les autorisations de droit à l'image ont été recueillies (interview du 2026-11-12).
 - Mise à jour du contenu : par la SSA via le tableau de bord, fréquence inconnue (interview du 2026-11-12).
+- **Données de test locales (2026-11-12)** : 3 événements à venir marqués « (test local) » ajoutés dans `data/database.sqlite` pour voir la section « événements à venir » remplie (la base restaurée du partage date de février 2026, tous ses événements sont passés). Local uniquement, `data/` hors git et hors paquet FTP. À retirer si une vraie base de prod est importée.
 
 ## Étapes
 
@@ -94,7 +95,7 @@ Ordre validé le 2026-11-12. Le travail ne change ni la mise en page ni les cont
 |---|-------|----------|-----------------|------|
 | 1 | Préparer `dev` (= contenu de `save/ssa-dev-2026-11-12`, option A), `.gitignore` corrigé | branche `dev` locale | `check-repo.mjs` vert ; commit `a855d13` | **livré** (local, non poussé) |
 | 2 | Inventaire des bugs des pages publiques à 320/768/1280/1920 px (Chrome headless + mesure de débordement) | liste priorisée + captures | fait le 2026-11-12 | **livré** |
-| 3 | Boutons du héros en mobile | correctif | captures avant/après 320 à 1920 px | à faire |
+| 3 | Boutons du héros en mobile (empilés < 600 px) | commit `f7c6b7f` | captures avant/après, vérif 320→1920 px : 0 tronqué, 0 débord | **livré** |
 | 4 | Traits `::before`/`::after` qui chevauchent les textes | correctif | captures avant/après à toutes les largeurs | à faire |
 | 5 | Autres bugs de l'inventaire | correctifs, un commit chacun | captures, aucun défilement horizontal | à faire |
 | 6 | CSS aux conventions du kit (tokens reprenant les valeurs existantes) | CSS restructuré | captures identiques sur ordinateur, `check-centering.mjs` vert | à faire |
@@ -124,6 +125,7 @@ Ordre validé le 2026-11-12. Le travail ne change ni la mise en page ni les cont
 - **P1 (corrigé sur `dev`, `a855d13`)** `.gitignore` couvre `.env`.
 - **P2** `vendor/` absent : tests PHPUnit et PHPStan non lancés. Pas de cible `make verify`.
 - **P2** Traductions mortes avec des coordonnées factices (`contact_address`, `contact_phone`, `contact_email1/2` dans `app/Lang/locales`) : le gabarit `contact.tpl.php` affiche les coordonnées en dur, donc non traduites en breton.
+- **P2 (inventaire étape 2)** Accueil desktop : la pagination « 1 2 3 Page 1/3 » de la section Actualités chevauche le titre « NOS ACTUALITÉS ». À corriger avec les autres bugs d'affichage.
 - **P2** Restes à trier : `templates/modules/wiki` (lien `projet-ssa.html`, sans route), `public/assets/css/bak`, `tests/Http/RequestTestV2.php.bak`, `bin/resolve-git-conflicts.sh`.
 
 ## Ajouts à la checklist de livraison
