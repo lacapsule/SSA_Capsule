@@ -29,7 +29,6 @@ function parseDataAttr(el, key) {
   }
   
   if (!raw) {
-    console.warn('home events: données non trouvées', { el, key });
     return [];
   }
   
@@ -118,10 +117,8 @@ function renderLinks(linksStr) {
 }
 
 function openModal(evt) {
-  console.log('homeEvents: openModal appelé', evt);
   
   if (!modal || !modalBody || !modalTitle) {
-    console.warn('homeEvents: modal, modalBody ou modalTitle non trouvé', { modal, modalBody, modalTitle });
     return;
   }
   
@@ -151,24 +148,19 @@ function openModal(evt) {
     }
   }
   
-  console.log('homeEvents: id extrait', { id, target, dataset: target?.dataset });
   
   if (!id || isNaN(id)) {
-    console.warn('homeEvents: eventId non trouvé ou invalide', { id, target });
     return;
   }
   
   const events = parseDataAttr(listEl, 'events');
-  console.log('homeEvents: événements parsés', { events, count: events.length });
   
   const ev = events.find(e => Number(e.id) === id);
   
   if (!ev) {
-    console.warn('homeEvents: événement non trouvé', { id, events });
     return;
   }
 
-  console.log('homeEvents: événement trouvé', ev);
 
   const links = renderLinks(ev.links);
 
@@ -182,9 +174,7 @@ function openModal(evt) {
   `;
   
   try {
-    console.log('homeEvents: ouverture de la modale');
     modal.showModal();
-    console.log('homeEvents: modale ouverte');
   } catch (error) {
     console.error('homeEvents: erreur lors de l\'ouverture de la modale', error);
   }
@@ -192,11 +182,9 @@ function openModal(evt) {
 
 function initHomeEvents() {
   if (!listEl || !modal) {
-    console.warn('homeEvents: listEl ou modal non trouvé', { listEl, modal });
     return;
   }
 
-  console.log('homeEvents: initialisation', { listEl, modal });
 
   // Utiliser la délégation d'événements pour gérer les clics même si les cards sont créées dynamiquement
   listEl.addEventListener('click', (evt) => {
@@ -224,7 +212,6 @@ function initHomeEvents() {
     if (card) {
       evt.preventDefault();
       evt.stopPropagation();
-      console.log('homeEvents: clic détecté sur card', card, card.dataset, card.className);
       
       // Si l'ID n'est pas dans dataset, essayer de le trouver dans les classes ou autres attributs
       if (!card.dataset.eventId) {
@@ -240,7 +227,6 @@ function initHomeEvents() {
       
       openModal({ currentTarget: card });
     } else {
-      console.log('homeEvents: clic non sur une card', evt.target, evt.target.parentElement);
     }
   });
 
@@ -258,7 +244,6 @@ function initHomeEvents() {
     }
   });
   
-  console.log('homeEvents: listeners attachés');
 }
 
 // Initialiser dès que le DOM est prêt

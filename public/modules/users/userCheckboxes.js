@@ -22,7 +22,6 @@ export function initUserCheckboxes() {
     const deleteBtn = getElement(DOM_SELECTORS.DELETE_USER_BTN);
 
     if (!checkboxes.length || !deleteBtn) {
-        console.warn('Éléments de checkboxes utilisateurs non trouvés');
         return;
     }
 

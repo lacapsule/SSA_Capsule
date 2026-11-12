@@ -27,7 +27,6 @@ export function initFileDownloader() {
     const downloadLink = getElement(DOM_SELECTORS.DOWNLOAD_LINK);
 
     if (!downloadLink) {
-        console.warn('Lien de téléchargement non trouvé');
         return;
     }
 

@@ -69,12 +69,10 @@ class ArticleModalManager {
 
     // Si aucune modal n'existe, ne pas initialiser
     if (!this.createModal || !this.editModal || !this.deleteModal) {
-      console.warn('⚠️ Modals des articles non trouvées');
       return;
     }
 
     this.attachEventListeners();
-    console.log('✅ Gestionnaire d\'articles initialisé');
   }
 
   /**
@@ -327,14 +325,12 @@ class ArticleModalManager {
     const csrfInputInForm = form.querySelector('input[name="_csrf"]');
     if (csrfInputInForm?.value) {
       csrfToken = csrfInputInForm.value;
-      console.log('✅ CSRF token found in form:', csrfToken.substring(0, 10) + '...');
     }
     
     // If not in form, check in document
     if (!csrfToken) {
       csrfToken = document.querySelector('input[name="_csrf"]')?.value;
       if (csrfToken) {
-        console.log('✅ CSRF token found in document:', csrfToken.substring(0, 10) + '...');
       }
     }
     
@@ -361,7 +357,6 @@ class ArticleModalManager {
 
     sendPromise
       .then(({ ok, status, data }) => {
-        console.log('📊 Réponse serveur:', { ok, status, data });
         this.createModal?.clearProgress();
 
         if (ok && data.success) {
@@ -416,16 +411,10 @@ class ArticleModalManager {
 
     const formData = new FormData(form);
     const csrfToken = document.querySelector('input[name="_csrf"]')?.value;
-    console.log('CSRF token found in document:', csrfToken);
     if (csrfToken) {
       formData.set('_csrf', csrfToken);
     }
     
-    // Debug: Log all FormData
-    console.log('📝 Edit FormData contents:', {
-      keys: Array.from(formData.keys()),
-      values: Array.from(formData.entries()).map(([k, v]) => [k, v instanceof File ? `File: ${v.name}` : v])
-    });
     
     const action = form.getAttribute('action') || '/dashboard/articles/edit';
 
@@ -438,7 +427,6 @@ class ArticleModalManager {
 
     sendPromise
       .then(({ ok, status, data }) => {
-        console.log('📊 Réponse serveur:', { ok, status, data });
         this.editModal?.clearProgress();
 
         if (ok && data.success) {
@@ -505,7 +493,6 @@ class ArticleModalManager {
         return { ok: response.ok, status: response.status, data };
       })
       .then(({ ok, status, data }) => {
-        console.log('📊 Réponse serveur:', { ok, status, data });
 
         if (ok && data.success) {
           this.deleteModal?.showSuccess(data.message || 'Article supprimé avec succès !');
@@ -796,12 +783,6 @@ class ArticleModalManager {
         }
       }
 
-      // Debug: Log all FormData keys and CSRF token specifically
-      console.log('📝 FormData contents:', {
-        keys: Array.from(formData.keys()),
-        csrfPresent: Array.from(formData.keys()).includes('_csrf'),
-        csrfValue: formData.get('_csrf') ? formData.get('_csrf').substring(0, 10) + '...' : 'NOT FOUND'
-      });
 
       const xhr = new XMLHttpRequest();
       xhr.open('POST', url, true);
@@ -845,7 +826,6 @@ class ArticleModalManager {
         reject(new Error('Network error'));
       };
 
-      console.log('📤 Sending to:', url, 'with credentials');
       xhr.send(formData);
     });
   }

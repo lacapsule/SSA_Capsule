@@ -102,7 +102,6 @@ function handleUserUpdate(userId, cells, roleSelect) {
  * @param {Event} event - Événement de clic
  */
 export function editLeUser(event) {
-    console.log("Bouton 'Gérer' cliqué");
 
     const row = event.target.closest('tr');
     if (!row) return;

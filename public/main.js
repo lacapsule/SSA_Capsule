@@ -1,78 +1,42 @@
 /**
- * Point d'entrée principal de l'application
- * Initialise tous les modules nécessaires
+ * Point d'entrée principal.
+ *
+ * Chaque module n'est téléchargé et initialisé que sur les pages qui en ont
+ * besoin : on teste la présence de son élément déclencheur, et on ne charge
+ * le module (import dynamique) que si l'élément existe. Cela évite de parser
+ * et d'exécuter tout le JavaScript du site sur chaque page, et supprime les
+ * avertissements « élément non trouvé » sur les pages où un module ne sert pas.
  */
 
-// Import des modules
-import { initPasswordToggle } from './modules/auth/passwordToggle.js';
-import { initPasswordForgot } from './modules/auth/passwordForgot.js';
-import { initLightbox } from './modules/gallery/lightbox.js';
-import { initFileDownloader } from './modules/download/fileDownload.js';
-import { initUserCheckboxes } from './modules/users/userCheckboxes.js';
-import { initUserModal } from './modules/users/userModal.js';
-import { initEventManager } from './modules/calendar/eventManager.js';
-import { initFaq } from './modules/dashboard/faq.js';
-import { initPasswordModal } from './modules/dashboard/password-modal.js';
-import { initEmailModal } from './modules/dashboard/email-modal.js';
-import { initModals } from './modules/modal/universalModal.js';
-import { initArticleModal } from './modules/articles/articleModal.js';
-import { initArticlesSort } from './modules/dashboard/articles-sort.js';
-import { initUsersFilter } from './modules/dashboard/users-filter.js';
-import { initPublicCalendar } from './modules/home/publicCalendar.js';
-import { initMobileMenu } from './modules/nav/mobileMenu.js';
-import './modules/home/homeEvents.js';
+// [ sélecteur déclencheur, chargeur ]
+const MODULES = [
+    ['#menu-toggle', () => import('./modules/nav/mobileMenu.js').then((m) => m.initMobileMenu())],
+    ['#togglePassword', () => import('./modules/auth/passwordToggle.js').then((m) => m.initPasswordToggle())],
+    ['#forgotPasswordLink', () => import('./modules/auth/passwordForgot.js').then((m) => m.initPasswordForgot())],
+    ['#lightbox, .gallery-img', () => import('./modules/gallery/lightbox.js').then((m) => m.initLightbox())],
+    ['#download', () => import('./modules/download/fileDownload.js').then((m) => m.initFileDownloader())],
+    ['.user-checkbox', () => import('./modules/users/userCheckboxes.js').then((m) => m.initUserCheckboxes())],
+    ['#createUserBtn', () => import('./modules/users/userModal.js').then((m) => m.initUserModal())],
+    ['#modalCreateEvent', () => import('./modules/calendar/eventManager.js').then((m) => m.initEventManager())],
+    ['.question', () => import('./modules/dashboard/faq.js').then((m) => m.initFaq())],
+    ['#password-modal', () => import('./modules/dashboard/password-modal.js').then((m) => m.initPasswordModal())],
+    ['#email-modal', () => import('./modules/dashboard/email-modal.js').then((m) => m.initEmailModal())],
+    ['[data-modal-id]', () => import('./modules/modal/universalModal.js').then((m) => m.initModals())],
+    ['#article-create-modal', () => import('./modules/articles/articleModal.js').then((m) => m.initArticleModal())],
+    ['.dash-components-table', () => import('./modules/dashboard/articles-sort.js').then((m) => m.initArticlesSort())],
+    ['.dash-components-table', () => import('./modules/dashboard/users-filter.js').then((m) => m.initUsersFilter())],
+    ['#public-calendar-modal', () => import('./modules/home/publicCalendar.js').then((m) => m.initPublicCalendar())],
+    ['#home-events-list', () => import('./modules/home/homeEvents.js')],
+];
 
-/**
- * Initialise tous les modules de l'application
- */
 function initApp() {
-    console.log('🚀 Initialisation de l\'application...');
-
-    try {
-        // Modules d'authentification
-        initPasswordToggle();
-        initPasswordForgot();
-
-        // Modules de galerie
-        initLightbox();
-
-        // Modules de téléchargement
-        initFileDownloader();
-
-        // Modules de gestion des utilisateurs
-        initUserCheckboxes();
-        initUserModal();
-
-        // Modules de calendrier
-        initEventManager();
-
-        // Dashboard - FAQ
-        initFaq();
-
-        // Dashboard - Password Modal
-        initPasswordModal();
-
-        // Dashboard - Email Modal
-        initEmailModal();
-
-        // Modals universelles
-        initModals();
-
-        // Articles client-side sorting
-        initArticlesSort();
-        // Users client-side filter + date sort
-        initUsersFilter();
-        initArticleModal();
-        initPublicCalendar();
-        initMobileMenu();
-
-        console.log('✅ Application initialisée avec succès');
-    } catch (error) {
-        console.error('❌ Erreur lors de l\'initialisation:', error);
+    for (const [selector, load] of MODULES) {
+        if (document.querySelector(selector)) {
+            load().catch((error) => console.error('Echec du chargement d\'un module :', error));
+        }
     }
 }
 
-// Initialisation au chargement du DOM
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', initApp);
 } else {

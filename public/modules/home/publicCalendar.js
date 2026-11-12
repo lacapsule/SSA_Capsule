@@ -156,7 +156,6 @@ function applyCategoryFilter(events) {
 export function initPublicCalendar() {
   const modal = document.getElementById('public-calendar-modal');
   if (!modal) {
-    console.warn('Modal public-calendar-modal introuvable');
     return;
   }
 
@@ -315,12 +314,6 @@ export function initPublicCalendar() {
         cache: 'no-cache'
       });
       
-      console.log('[loadEvents] Réponse reçue:', {
-        status: response.status,
-        statusText: response.statusText,
-        ok: response.ok,
-        url: url
-      });
       
       if (!response.ok) {
         const errorText = await response.text().catch(() => 'Impossible de lire le corps de la réponse');
@@ -352,7 +345,6 @@ export function initPublicCalendar() {
       }
       
       const data = await response.json();
-      console.log('[loadEvents] Données reçues:', data);
       
       // Vérifier que data est un tableau
       if (!Array.isArray(data)) {
@@ -361,7 +353,6 @@ export function initPublicCalendar() {
       }
       
       const normalized = normalizeEvents(data);
-      console.log('[loadEvents] Événements normalisés:', normalized.length);
       
       return normalized;
     } catch (err) {
@@ -397,7 +388,6 @@ export function initPublicCalendar() {
     }
     
     const url = `${API_URL}?start=${encodeURIComponent(startStr)}&end=${encodeURIComponent(endStr)}`;
-    console.log('[loadEvents] Requête vers:', url);
     
     // Vérification que l'URL est valide
     if (!url.startsWith('/') && !url.startsWith('http')) {

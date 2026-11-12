@@ -13,7 +13,6 @@ export function initPasswordToggle() {
     const passwordInput = getElement(DOM_SELECTORS.PASSWORD_INPUT);
 
     if (!toggleButton || !passwordInput) {
-        console.warn('Éléments de toggle password non trouvés');
         return;
     }
 

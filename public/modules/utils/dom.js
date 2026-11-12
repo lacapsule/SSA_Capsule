@@ -29,7 +29,6 @@ export function getAllElements(selector) {
  */
 export function addEventListenerSafe(element, event, handler) {
     if (!element) {
-        console.warn(`Élément non trouvé pour l'événement: ${event}`);
         return false;
     }
     element.addEventListener(event, handler);

@@ -22,7 +22,6 @@ export function initUserModal() {
     const createUserBtn = getElement(DOM_SELECTORS.CREATE_USER_BTN);
 
     if (!createUserBtn) {
-        console.warn('Bouton de création d\'utilisateur non trouvé');
         return;
     }
 
@@ -30,7 +29,6 @@ export function initUserModal() {
         const popup = getElement(DOM_SELECTORS.USER_POPUP);
 
         if (!popup) {
-            console.warn('Popup non trouvée');
             return;
         }
 

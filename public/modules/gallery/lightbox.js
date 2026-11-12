@@ -28,7 +28,6 @@ class Lightbox {
         this.nextBtn = getElement(DOM_SELECTORS.LIGHTBOX_NEXT);
 
         if (!this.images.length || !this.lightbox) {
-            console.warn('Éléments de lightbox non trouvés');
             return;
         }
 

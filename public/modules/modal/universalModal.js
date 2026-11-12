@@ -10,7 +10,6 @@ class UniversalModal {
     this.modalId = modalId;
     
     if (!this.modal) {
-      console.warn(`Modal with id "${modalId}" not found`);
       return;
     }
 
@@ -318,11 +317,9 @@ export const modalManager = new ModalManager();
 export function initModals() {
   // Initialiser toutes les modals trouvées
   const modalsFound = document.querySelectorAll('[data-modal-id]');
-  console.log(`🔍 ${modalsFound.length} modals trouvées dans le DOM`);
   
   modalsFound.forEach(modal => {
     const modalId = modal.getAttribute('data-modal-id');
-    console.log(`  → Initialisation de modal: "${modalId}"`);
     modalManager.get(modalId);
   });
 
@@ -334,7 +331,6 @@ export function initModals() {
     if (openBtn) {
       e.preventDefault();
       const modalId = openBtn.getAttribute('data-modal-open');
-      console.log(`📂 Ouverture de modal: "${modalId}"`);
       modalManager.open(modalId);
       return;
     }
@@ -344,13 +340,11 @@ export function initModals() {
     if (closeBtn) {
       e.preventDefault();
       const modalId = closeBtn.getAttribute('data-modal-close');
-      console.log(`📁 Fermeture de modal: "${modalId}"`);
       modalManager.close(modalId);
       return;
     }
   });
 
-  console.log('✅ Modals initialisées');
 }
 
 // Export pour utilisation directe

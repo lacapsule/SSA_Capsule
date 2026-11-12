@@ -101,7 +101,6 @@ function setupEventListeners() {
             e.stopImmediatePropagation(); // Empêcher les autres gestionnaires
             const filename = editBtn.dataset.filename;
             const alt = editBtn.dataset.alt;
-            console.log('Bouton d\'édition cliqué:', filename, alt);
             if (filename) {
                 openEditModal(filename, alt || '');
             }
@@ -115,7 +114,6 @@ function setupEventListeners() {
             e.stopPropagation();
             e.stopImmediatePropagation(); // Empêcher les autres gestionnaires
             const filename = deleteBtn.dataset.filename;
-            console.log('Bouton de suppression cliqué:', filename);
             if (filename) {
                 openDeleteModal(filename);
             }
@@ -250,7 +248,6 @@ function openUploadModal() {
 }
 
 function openEditModal(filename, alt) {
-    console.log('Ouverture de la modale d\'édition pour:', filename, alt);
     
     // Fermer d'abord toutes les autres modales ouvertes
     closeAllModals();
@@ -281,11 +278,9 @@ function openEditModal(filename, alt) {
     editModal.setAttribute('open', '');
     document.body.style.overflow = 'hidden';
     
-    console.log('Modale d\'édition ouverte');
 }
 
 function openDeleteModal(filename) {
-    console.log('Ouverture de la modale de suppression pour:', filename);
     
     // Fermer d'abord toutes les autres modales ouvertes
     closeAllModals();
@@ -311,7 +306,6 @@ function openDeleteModal(filename) {
     deleteModal.setAttribute('open', '');
     document.body.style.overflow = 'hidden';
     
-    console.log('Modale de suppression ouverte');
 }
 
 function handleFileSelection(e) {
