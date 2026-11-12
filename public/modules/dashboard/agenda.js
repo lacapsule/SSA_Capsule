@@ -214,7 +214,7 @@ function renderWeekView(events) {
         if (dayEvents.length === 0) {
             const empty = document.createElement('p');
             empty.className = 'calendar-details-empty';
-            empty.textContent = '—';
+            empty.textContent = 'Aucun évènement ce jour';
             eventContainer.appendChild(empty);
         } else {
             dayEvents.forEach((event) => {
@@ -278,7 +278,7 @@ function renderMonthView(events) {
         if (dayEvents.length === 0) {
             const empty = document.createElement('p');
             empty.className = 'calendar-details-empty';
-            empty.textContent = '—';
+            empty.textContent = 'Aucun évènement ce jour';
             eventsContainer.appendChild(empty);
         } else {
             // Limiter à 3 événements, afficher les autres en nombre
@@ -334,7 +334,7 @@ function renderYearView(events) {
         if (monthEvents.length === 0) {
             const empty = document.createElement('p');
             empty.className = 'calendar-details-empty';
-            empty.textContent = '—';
+            empty.textContent = 'Aucun évènement ce jour';
             eventContainer.appendChild(empty);
         } else {
             monthEvents.slice(0, 4).forEach((event) => {

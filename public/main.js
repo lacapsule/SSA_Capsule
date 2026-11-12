@@ -19,6 +19,7 @@ import { initArticleModal } from './modules/articles/articleModal.js';
 import { initArticlesSort } from './modules/dashboard/articles-sort.js';
 import { initUsersFilter } from './modules/dashboard/users-filter.js';
 import { initPublicCalendar } from './modules/home/publicCalendar.js';
+import { initMobileMenu } from './modules/nav/mobileMenu.js';
 import './modules/home/homeEvents.js';
 
 /**
@@ -45,13 +46,13 @@ function initApp() {
         // Modules de calendrier
         initEventManager();
 
-        // Dashboard — FAQ
+        // Dashboard - FAQ
         initFaq();
 
-        // Dashboard — Password Modal
+        // Dashboard - Password Modal
         initPasswordModal();
 
-        // Dashboard — Email Modal
+        // Dashboard - Email Modal
         initEmailModal();
 
         // Modals universelles
@@ -63,6 +64,7 @@ function initApp() {
         initUsersFilter();
         initArticleModal();
         initPublicCalendar();
+        initMobileMenu();
 
         console.log('✅ Application initialisée avec succès');
     } catch (error) {

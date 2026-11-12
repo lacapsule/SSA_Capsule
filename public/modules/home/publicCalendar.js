@@ -462,7 +462,7 @@ export function initPublicCalendar() {
       eventContainer.className = 'calendar-events';
 
       if (dayEvents.length === 0) {
-        eventContainer.innerHTML = '<p class="calendar-details-empty">—</p>';
+        eventContainer.innerHTML = '<p class="calendar-details-empty">Aucun évènement ce jour</p>';
       } else {
         dayEvents.forEach((event) => {
           const chip = buildEventChip(event);
@@ -502,7 +502,7 @@ export function initPublicCalendar() {
       eventContainer.className = 'calendar-events';
 
       if (dayEvents.length === 0) {
-        eventContainer.innerHTML = '<p class="calendar-details-empty">—</p>';
+        eventContainer.innerHTML = '<p class="calendar-details-empty">Aucun évènement ce jour</p>';
       } else {
         dayEvents.slice(0, 3).forEach((event) => {
           const chip = buildEventChip(event);
@@ -548,7 +548,7 @@ export function initPublicCalendar() {
       eventContainer.className = 'calendar-events';
 
       if (monthEvents.length === 0) {
-        eventContainer.innerHTML = '<p class="calendar-details-empty">—</p>';
+        eventContainer.innerHTML = '<p class="calendar-details-empty">Aucun évènement ce jour</p>';
       } else {
         monthEvents.slice(0, 4).forEach((event) => {
           const chip = buildEventChip(event);
