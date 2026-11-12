@@ -18,24 +18,24 @@ DASHBOARD - GESTION DES UTILISATEURS
 }
 
 .dash-components-table thead {
-    background: #f8f9fa;
+    background: var(--ssa-bleu-d4);
     font-weight: 600;
     text-transform: uppercase;
     font-size: 0.85rem;
     letter-spacing: 0.05em;
-    color: #495057;
+    color: var(--ssa-gris-d13);
 }
 
 .dash-components-table thead th {
     padding: 16px;
     text-align: left;
-    border-bottom: 2px solid #dee2e6;
+    border-bottom: 2px solid var(--ssa-gris-d5);
 }
 
 .dash-components-table tbody td {
     padding: 14px 16px;
-    border-bottom: 1px solid #dee2e6;
-    border-right: 1px solid #dee2e6;
+    border-bottom: 1px solid var(--ssa-gris-d5);
+    border-right: 1px solid var(--ssa-gris-d5);
     vertical-align: middle;
 }
 
@@ -44,7 +44,7 @@ DASHBOARD - GESTION DES UTILISATEURS
 }
 
 .dash-components-table tbody tr:hover {
-    background-color: #f8f9fa;
+    background-color: var(--ssa-bleu-d4);
     transition: background-color 0.2s ease;
 }
 
@@ -63,7 +63,7 @@ DASHBOARD - GESTION DES UTILISATEURS
 }
 
 .createdAtValue {
-    color: #6c757d;
+    color: var(--ssa-gris-d6);
     font-size: 0.9rem;
 }
 
@@ -118,12 +118,12 @@ DASHBOARD - GESTION DES UTILISATEURS
 
 /* Couleurs de boutons */
 .btn-primary {
-    background-color: #28a745;
+    background-color: var(--ssa-vert-d3);
     color: white;
 }
 
 .btn-primary:hover {
-    background-color: #218838;
+    background-color: var(--ssa-vert-d4);
     transform: translateY(-1px);
     box-shadow: 0 4px 8px rgba(40, 167, 69, 0.3);
 }
@@ -141,23 +141,23 @@ DASHBOARD - GESTION DES UTILISATEURS
 }
 
 .btn-danger {
-    background-color: #dc3545;
+    background-color: var(--ssa-rouge-d2);
     color: white;
 }
 
 .btn-danger:hover {
-    background-color: #bb2d3b;
+    background-color: var(--ssa-rouge-d6);
     transform: translateY(-1px);
     box-shadow: 0 4px 8px rgba(220, 53, 69, 0.3);
 }
 
 .btn-info {
-    background-color: #17a2b8;
+    background-color: var(--ssa-bleu-d6);
     color: white;
 }
 
 .btn-info:hover {
-    background-color: #138496;
+    background-color: var(--ssa-bleu-d7);
     transform: translateY(-1px);
     box-shadow: 0 4px 8px rgba(23, 162, 184, 0.3);
 }
@@ -171,17 +171,17 @@ DASHBOARD - GESTION DES UTILISATEURS
 /* Variantes de boutons (outline) */
 .btn-danger-outline {
     background: transparent;
-    border: 1px solid #dc3545 !important;
-    color: #dc3545;
+    border: 1px solid var(--ssa-rouge-d2) !important;
+    color: var(--ssa-rouge-d2);
 }
 
 .btn-danger-outline:hover {
-    background: #dc35451a;
+    background: var(--ssa-rouge-d7);
 }
 
 /* Messages */
 .text-mute {
-    color: #6c757d;
+    color: var(--ssa-gris-d6);
     font-size: 0.9rem;
 }
 
@@ -196,9 +196,9 @@ DASHBOARD - GESTION DES UTILISATEURS
 }
 
 .notice.notice--success {
-    background-color: #d4edda;
-    border: 1px solid #c3e6cb;
-    color: #155724;
+    background-color: var(--ssa-vert-d5);
+    border: 1px solid var(--ssa-vert-d6);
+    color: var(--ssa-vert-d7);
 }
 
 /* ======== RESPONSIVE ======== */

@@ -69,6 +69,55 @@
     --ssa-hover-ease: transform 0.3s ease;
     /*-TRANSFORMATION-----------------*/
     --ssa-hover-scale: scale(1.08);
+    /* couleurs tableau de bord (valeurs existantes, tokenisees) */
+    --ssa-gris-d1: #e5e7eb;
+    --ssa-gris-d2: #6b7280;
+    --ssa-bleu-d1: #d0d7e0;
+    --ssa-bleu-d2: #f9fafb;
+    --ssa-rouge-d1: #dc2626;
+    --ssa-gris-d3: #d1d5db;
+    --ssa-gris-d4: #ddd;
+    --ssa-gris-d5: #dee2e6;
+    --ssa-gris-d6: #6c757d;
+    --ssa-rouge-d2: #dc3545;
+    --ssa-bleu-d3: #3b82f6;
+    --ssa-bleu-d4: #f8f9fa;
+    --ssa-bleu-d5: #374151;
+    --ssa-rouge-d3: #b91c1c;
+    --ssa-rouge-d4: #fef2f2;
+    --ssa-vert-d1: #f0fdf4;
+    --ssa-vert-d2: #16a34a;
+    --ssa-gris-d7: #9ca3af;
+    --ssa-gris-d8: #f9f9f9;
+    --ssa-gris-d9: #ccc;
+    --ssa-gris-d10: #6b778a;
+    --ssa-rouge-d5: #fecaca;
+    --ssa-gris-d11: #333;
+    --ssa-gris-d12: #999;
+    --ssa-gris-d13: #495057;
+    --ssa-vert-d3: #28a745;
+    --ssa-vert-d4: #218838;
+    --ssa-rouge-d6: #bb2d3b;
+    --ssa-bleu-d6: #17a2b8;
+    --ssa-bleu-d7: #138496;
+    --ssa-rouge-d7: #dc35451a;
+    --ssa-vert-d5: #d4edda;
+    --ssa-vert-d6: #c3e6cb;
+    --ssa-vert-d7: #155724;
+    --ssa-bleu-d8: #dbeafe;
+    --ssa-bleu-d9: #1e40af;
+    --ssa-vert-d8: #d1fae5;
+    --ssa-vert-d9: #065f46;
+    --ssa-gris-d14: #f5f5f5;
+    --ssa-gris-d15: #4b5563;
+    --ssa-gris-d16: #f3f4f6;
+    --ssa-bleu-d10: #111827;
+    --ssa-rouge-d8: #fee2e2;
+    --ssa-bleu-d11: #0d6b63;
+    --ssa-rouge-d9: #a02e24;
+    --ssa-bleu-d12: #4a648a;
+    --ssa-gris-d17: #5c636a;
+
 }
 
 
