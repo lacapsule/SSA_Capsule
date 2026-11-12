@@ -45,7 +45,6 @@ return [
     'nav_galerie' => 'Skeudennoù',
     'nav_apropos' => 'Diwar-benn',
     'nav_contact' => 'Daremprediñ',
-    'nav_wiki' => 'Wiki SSA',
 
     // LANGUE
     'lang_fr' => 'Galleg',
@@ -53,11 +52,6 @@ return [
 
     // FOOTER
     'footer_address' => 'ULAMIR CPIE, Straed 19 Meurzh 1962, 29620 Lanmeur',
-    'footer_tel' => 'Pellgomz : 02 98 67 51 54',
-    'footer_email_1' => 'g.gabilletcpie@gmail.com',
-    'footer_email_2' => 'nicolas@buzuk.bzh',
-    'footer_siret' => 'SIRET : 300 79 63 489 000 11 | Kodoù APE : 9004Z',
-    'footer_copyright' => 'Copyright © 2025 SSA Pays de Morlaix',
 
     // BOUTON REMONTER
     'btn_top' => 'Distreiñ d’ar cʼhrecʼh',

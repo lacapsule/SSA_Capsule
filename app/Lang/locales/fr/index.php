@@ -37,7 +37,6 @@ return [
     'nav_galerie' => 'Galerie',
     'nav_apropos' => 'Qui sommes-nous ?',
     'nav_contact' => 'Contact',
-    'nav_wiki' => 'Wiki SSA',
 
     // LANGUE
     'lang_fr' => 'Français',
@@ -45,12 +44,6 @@ return [
 
     // FOOTER
     'footer_address' => '39 bellevue de la madeleine, 29600 Morlaix',
-    'footer_tel' => 'Tél : 06 15 06 82 08',
-    'footer_email_1' => 'ssapaysdemorlaix@mailo.com',
-    'footer_email_2' => 'nicolas@buzuk.bzh',
-    'footer_siret' => 'SIRET : 300 79 63 489 000 11',
-    'footer_APE' => 'Code APE : 9004Z',
-    'footer_copyright' => 'Copyright © 2025 SSA Pays de Morlaix',
 
     // CONTENU
     'agenda_intro' => 'Retrouvez nos événements à venir :',
