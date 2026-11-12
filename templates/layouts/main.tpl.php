@@ -15,11 +15,12 @@
 </head>
 
 <body>
+  <a class="skip-link" href="#contenu">Aller au contenu</a>
   {{#showHeader}}
   {{> partial:public/header }}
   {{/showHeader}}
 
-  <main>
+  <main id="contenu">
     {{{ content }}}
   </main>
 

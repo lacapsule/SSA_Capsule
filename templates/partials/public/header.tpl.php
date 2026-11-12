@@ -27,22 +27,22 @@
     </ul>
     
     {{#isAuthenticated}}
-    <div class="user">
+    <ul class="user">
       <li><a class="icons" href="/dashboard">
           <img src="/assets/icons/dashboard.svg" alt="Dashboard icon">
         </a></li>
       <li><a class="icons" href="/logout">
           <img src="/assets/icons/logout.svg" alt="Logout icon">
         </a></li>
-    </div>
+    </ul>
     {{/isAuthenticated}}
 
     {{^isAuthenticated}}
-    <div class="user">
+    <ul class="user">
       <li><a class="icons" href="/login">
           <img src="/assets/icons/login.svg" alt="Login icon">
         </a></li>
-    </div>
+    </ul>
     {{/isAuthenticated}}
   </nav>
 </header>

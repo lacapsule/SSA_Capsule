@@ -1,0 +1,44 @@
+/* Accessibilité : focus clavier, lien d'évitement, mouvement réduit.
+   N'affecte pas le rendu visuel normal (focus visible seulement au clavier,
+   lien d'évitement masqué jusqu'au focus). */
+
+/* Lien d'évitement : masqué jusqu'à ce qu'il reçoive le focus clavier */
+.skip-link {
+    position: absolute;
+    left: -999px;
+    top: 0;
+    z-index: 2000;
+    padding: 10px 16px;
+    background: var(--ssa-blanc, #fff);
+    color: var(--ssa-txt-noir, #1b1b1b);
+    border-radius: 0 0 6px 0;
+    text-decoration: none;
+}
+
+.skip-link:focus {
+    left: 0;
+}
+
+/* Focus clavier toujours visible, même là où `outline: none` est posé */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+summary:focus-visible,
+[tabindex]:focus-visible {
+    outline: 2px solid var(--ssa-vert, #43c466) !important;
+    outline-offset: 2px;
+}
+
+/* Respect du réglage système « animations réduites » */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}

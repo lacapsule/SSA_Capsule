@@ -10,6 +10,7 @@
 @import url(./module/login.css);
 @import url(./module/article.css);
 @import url(./module/legal.css);
+@import url(./module/a11y.css);
 
 /* CSS RESPONSIVE */
 @import url(./responsive/headerRS.css);
