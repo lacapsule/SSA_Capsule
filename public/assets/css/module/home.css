@@ -122,7 +122,7 @@
 .about-contain h2::before {
     position: absolute;
     left: 0;
-    bottom: -55px;
+    bottom: 0;
     width: 40px;
     height: 3px;
     background-color: var(--ssa-vert);
@@ -165,7 +165,7 @@
 .contain h2::before {
     position: absolute;
     left: 0;
-    bottom: -55px !important;
+    bottom: 0;
     width: 40px;
     height: 3px;
     background-color: var(--ssa-vert);

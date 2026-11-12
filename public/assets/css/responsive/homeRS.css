@@ -132,7 +132,7 @@
 @media screen and (min-width:564px) and (max-width:979px) {
 
     .contain h2::before {
-        bottom: -35px;
+        bottom: 0;
     }
 }
 
@@ -159,7 +159,7 @@
     .contain h2::before {
     position: absolute;
     left: 0;
-    bottom: -55px !important;
+    bottom: 0;
     width: 40px;
     height: 3px;
     background-color: var(--ssa-vert);

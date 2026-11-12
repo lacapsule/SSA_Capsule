@@ -48,7 +48,7 @@
 .projet .contain h2::before {
     position: absolute;
     left: 0;
-    bottom: -35px !important;
+    bottom: 0;
     width: 40px;
     height: 3px;
     background-color: var(--ssa-vert);
