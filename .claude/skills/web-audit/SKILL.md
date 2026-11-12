@@ -15,7 +15,7 @@ Source : `agent-validation-discipline.md` et la chaîne de gates `validate-all` 
 | `scripts/check-repo.mjs` | secrets et fichiers sensibles suivis par Git, `.gitignore`, verrouillage des dépendances |
 | `scripts/ordre-css.mjs [--check] <dossier>` | ordre des propriétés CSS par familles (rule `web-code`), tri stable sans changement de cascade ; sans `--check`, réécrit (copie de la brique `modules/ordre-proprietes-css` de la boîte) |
 | `scripts/check-rendu.mjs <url> <rendu-pages.json> [captures]` | rendu réel de chaque page dans les deux thèmes : même géométrie et typographie, filets alignés et de même couleur, hiérarchie des titres, barre d'enregistrement cachée sans modification, débordement à 360, 1280 et 2560 px ; écrit les captures, à regarder ensuite (serveur local lancé, `playwright-core`) |
-| `scripts/check-outils.sh` | outils de la machine présents ou absents, commande d'installation à donner à l'humain (code 1 si un outil obligatoire manque) ; à lancer au début de chaque projet (`make outils`) |
+| `scripts/check-outils.sh [--installer\|--simuler]` | liste unique des outils du kit : état (code 1 si un outil obligatoire manque, `make outils`) ou installation de tout ce qui manque en une commande (paquets système, `npm ci`, Chromium de Playwright sans Chrome, `make deps`, lancée par l'humain car `sudo`) |
 | `../web-a11y-audit/check-a11y.mjs <url> [chemins]` | scan axe-core de chaque page du sitemap et de la 404 (`make a11y`) |
 | `../web-media/scripts/images-partage.mjs` | image de partage 1200 × 630 et icônes depuis leurs sources (`make images`) |
 | `scripts/check-headers.sh https://domaine` | en-têtes de sécurité, CSP, HTTPS, 404, compression, fichiers sensibles inaccessibles (site en ligne) |

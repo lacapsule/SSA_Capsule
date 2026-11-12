@@ -20,12 +20,11 @@ help: ## Affiche cette aide
 info:    ## État local : PHP, extensions, dist/
 	@$(LOCAL) info
 
-deps:    ## Installe PHP 8.2+ et mbstring (dnf ou apt)
-	$(LOCAL) deps
+deps:    ## Installe toutes les dépendances en une commande : paquets système, outillage npm verrouillé, navigateur
+	bash $(AUDIT)/check-outils.sh --installer
 
-outils:  ## Vérifie les outils de la machine et installe l'outillage npm verrouillé
-	-bash $(AUDIT)/check-outils.sh
-	npm ci --ignore-scripts
+outils:  ## État des outils (rien n'est installé : make deps)
+	bash $(AUDIT)/check-outils.sh
 
 # ---------- Développement ----------
 dev:     ## Serveur de dev, pages rendues à la volée (Ctrl+C pour arrêter)

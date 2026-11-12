@@ -15,7 +15,7 @@ Socle statique PHP : `make a11y` (construit, sert `dist/`, scanne chaque URL du 
 node .claude/skills/web-a11y-audit/check-a11y.mjs http://localhost:4321 [/chemin/ …]
 ```
 
-Le script utilise `axe-core` et `playwright-core` verrouillés dans le `package.json` du projet (`make outils` ou `npm ci`), jamais un paquet téléchargé à la volée. Une page qui porte `data-theme` sur `<html>` est scannée en clair et en sombre. Code de sortie 1 au premier impact `serious` ou `critical`.
+Le script utilise `axe-core` et `playwright-core` verrouillés dans le `package.json` du projet (`make deps` ou `npm ci`), jamais un paquet téléchargé à la volée. Une page qui porte `data-theme` sur `<html>` est scannée en clair et en sombre. Code de sortie 1 au premier impact `serious` ou `critical`.
 
 - `critical` et `serious` : bloquants, à corriger avant livraison.
 - `moderate` et `minor` : à corriger au fil de l'eau, listés dans le rapport.

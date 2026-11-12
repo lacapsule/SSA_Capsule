@@ -7,7 +7,7 @@
 #
 # USAGE :
 #   ./setup-local.sh info      # version de PHP, extensions, état de dist/
-#   ./setup-local.sh deps      # installe PHP CLI et mbstring (dnf ou apt)
+#   ./setup-local.sh deps      # installe toutes les dépendances (liste unique : check-outils.sh du kit)
 #   ./setup-local.sh dev       # serveur de dev sur http://localhost:${PORT:-8000}
 #   ./setup-local.sh build     # génère le site statique dans dist/
 #   ./setup-local.sh preview   # sert dist/ comme l'hébergeur, sur ${PREVIEW_PORT:-8001}
@@ -39,18 +39,8 @@ check_php() {
 }
 
 install_deps() {
-    local sudo=()
-    [[ $EUID -ne 0 ]] && command -v sudo >/dev/null 2>&1 && sudo=(sudo)
-    if command -v dnf >/dev/null 2>&1; then
-        "${sudo[@]}" dnf install -y php-cli php-mbstring
-    elif command -v apt-get >/dev/null 2>&1; then
-        "${sudo[@]}" apt-get update
-        "${sudo[@]}" apt-get install -y php-cli php-mbstring
-    else
-        die "Gestionnaire de paquets non reconnu. À installer : PHP 8.2+ avec mbstring."
-    fi
-    check_php
-    ok "PHP prêt : $(php -r 'echo PHP_VERSION;')"
+    # Liste des outils tenue à un seul endroit, dans le kit.
+    bash .claude/skills/web-audit/scripts/check-outils.sh --installer
 }
 
 cmd_info() {

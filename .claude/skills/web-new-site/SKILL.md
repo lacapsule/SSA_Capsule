@@ -19,7 +19,7 @@ Le socle (statique PHP à l'architecture Astro, Astro sur demande, dynamique PHP
 - dynamique PHP : la brique `gabarits/socle-php` de la boîte (`NOTES.md`, « Intégration pas à pas »), plus `gabarits/site-public-php` pour les pages publiques ; pas de copie dans le kit (une seule source) ;
 - Astro : la brique `gabarits/page-base-seo` de la boîte.
 
-Premier geste dans le dépôt : `make outils` (ou `bash .claude/skills/web-audit/scripts/check-outils.sh`) ; un outil obligatoire absent se signale à l'humain avec sa commande d'installation avant tout travail.
+Premier geste dans le dépôt : `make outils` (ou `bash .claude/skills/web-audit/scripts/check-outils.sh`). Un outil absent : demander à l'humain de lancer `make deps` (une commande, `sudo` une fois) avant tout travail.
 
 | Besoin | Réponse dans le socle choisi |
 |--------|------------------------------|

@@ -7,7 +7,7 @@ Socle décrit dans la rule `web-architecture`. PHP fabrique le HTML en dev et au
 1. Copier le contenu de ce dossier à la racine du dépôt (avec le `.claude/` du kit).
 2. Créer `src/data/site.json` depuis `src/data/site.exemple.json` (le build échoue tant qu'il manque ; `nom`, `description`, `url`, `zone`, `contact.email`, `contact.telephoneAffiche` ; `image`, chemin de l'image de partage 1200 × 630 ; `contentSignal`, ex. `search=yes, ai-input=yes, ai-train=no`, valeur de l'interview) et `SITE` dans le `Makefile`.
 3. `.gitignore` fourni (`node_modules/`, `dist/`, `.env*`, `.claude/etat/`) : le garder (skill `web-git`).
-4. `make outils` (outils de la machine, puis `npm ci` de l'outillage verrouillé), `make deps` si PHP manque, `make dev`, puis `make verify` : doit être vert avant d'aller plus loin.
+4. `make deps` : installe tout en une commande (PHP, Node, outils d'images et de police, `lftp`, outillage npm verrouillé, navigateur si absent ; `sudo` demandé une fois). `make outils` montre l'état sans rien installer. Puis `make dev` et `make verify` : vert avant d'aller plus loin.
 
 ## Contenu
 
