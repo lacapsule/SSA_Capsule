@@ -66,7 +66,7 @@ Ordre validé le 2026-11-12. Le travail ne change ni la mise en page ni les cont
 | 2026-11-12 | Pages légales créées malgré le périmètre sans contenu nouveau | obligation légale |
 | 2026-11-12 | Code mort : liste soumise à l'humain avant toute suppression | rule `00-organisation` |
 | 2026-11-12 | Git : `main` = production ; travail en commits directs sur `dev` (un commit par correction, les commits servent de sauvegarde), pas de branche par correction ; fusion de `dev` dans `main` après validation de l'humain | interview |
-| 2026-11-12 | Option A : `dev` repart du contenu de `save/ssa-dev-2026-11-12`. `origin/dev` (travail de décembre 2025 : calendrier public, articles) **non fusionnée** — conflits lourds (20 fichiers code + 86 images), hors périmètre. Reste sur GitHub, reportée au cas par cas si un manque apparaît | fusion directe trop risquée |
+| 2026-11-12 | Option A : `dev` repart du contenu de `save/ssa-dev-2026-11-12`. L'ancienne `dev` distante (déc. 2025 : calendrier public, articles, SHA `336b6e2`) archivée en `archive/dev-2025-12` sur GitHub, puis `dev` distante remplacée par la nouvelle. Report au cas par cas si un manque apparaît | fusion directe trop risquée (20 fichiers code + 86 images en conflit) |
 | 2026-11-12 | Paquet FTP limité aux fichiers utiles en production ; `main` garde tout le code | éviter les conflits de fusion |
 | 2026-11-12 | Remise aux conventions sans changement visuel : les tokens reprennent les valeurs existantes | périmètre sans refonte |
 | 2026-11-12 | `FTP.md` tenu à jour : liste des fichiers modifiés à envoyer à chaque livraison | interview |
