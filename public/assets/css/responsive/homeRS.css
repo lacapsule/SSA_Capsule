@@ -166,3 +166,22 @@
     content: '';
 }
 }
+
+/* Héros : sous 600 px, boutons d'appel à l'action empilés en pleine largeur.
+   Les 3 boutons en ligne ont besoin d'environ 577 px de large ; en dessous,
+   le texte serait tronqué, donc on les empile. */
+@media screen and (max-width: 600px) {
+    .cta-buttons {
+        flex-direction: column;
+        align-items: stretch;
+        width: 100%;
+    }
+
+    .cta-buttons .btn-style-one {
+        width: 100%;
+    }
+
+    .btn-recrute {
+        justify-content: center;
+    }
+}
