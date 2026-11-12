@@ -9,28 +9,36 @@
     </p>
 
     <h2>État de conformité</h2>
-    <p class="legal-todo">
-      <strong>À compléter après audit :</strong> état de conformité au RGAA
-      (non conforme, partiellement conforme ou totalement conforme). Tant qu'aucun
-      audit n'a été réalisé, l'état par défaut à déclarer est « non conforme ».
+    <p>
+      Le site est <strong>partiellement conforme</strong> au référentiel WCAG 2.2
+      niveau AA, en raison des non-conformités listées ci-dessous.
     </p>
 
     <h2>Résultats des tests</h2>
-    <p class="legal-todo">
-      <strong>À compléter :</strong> taux de conformité aux critères RGAA issu de
-      l'audit, et date de l'audit.
+    <p>
+      Une évaluation a été menée le 12 novembre 2026 à l'aide de l'outil automatisé
+      axe-core (critères WCAG 2.0, 2.1 et 2.2, niveaux A et AA) sur les principaux
+      gabarits (accueil, projet, galerie, article, connexion, page 404), complétée
+      par des vérifications manuelles (navigation au clavier, lien d'évitement,
+      affichage à 320 px, réglage « animations réduites »). Un contrôle automatisé
+      ne couvre qu'une partie des critères : un audit RGAA complet par un tiers
+      reste recommandé.
     </p>
 
     <h2>Contenus non accessibles</h2>
-    <p class="legal-todo">
-      <strong>À compléter :</strong> liste des non-conformités relevées lors de
-      l'audit et, le cas échéant, des dérogations pour charge disproportionnée.
+    <p>Les non-conformités connues à ce jour sont :</p>
+    <ul>
+      <li>Contraste insuffisant de certains textes sur fond coloré (boutons verts, dates et titres des cartes d'événements), inférieur au seuil AA de 4,5:1.</li>
+    </ul>
+    <p>
+      Ces points seront corrigés lors d'une prochaine mise à jour. Aucune dérogation
+      pour charge disproportionnée n'est revendiquée.
     </p>
 
     <h2>Établissement de cette déclaration</h2>
-    <p class="legal-todo">
-      <strong>À compléter :</strong> date d'établissement de la déclaration et
-      méthode d'évaluation utilisée (auto-évaluation ou audit par un tiers).
+    <p>
+      Cette déclaration a été établie le 12 novembre 2026 sur la base d'une
+      auto-évaluation (outil axe-core et vérifications manuelles).
     </p>
 
     <h2>Retour d'information et contact</h2>
