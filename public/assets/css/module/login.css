@@ -7,9 +7,10 @@ div.container {
   display: flex;
   flex-direction: row;
   align-items: center;
+  gap: 2.5rem;
 
   background-color: var(--ssa-blanc);
-  padding: 30px;
+  padding: 30px 40px;
   box-shadow: 0 0 50px -15px var(--ssa-gris);
   border-radius: 15px;
 }
