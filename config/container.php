@@ -7,6 +7,7 @@ declare(strict_types=1);
 // ==========================================
 use App\Modules\Galerie\GalerieController;
 use App\Modules\Projet\ProjetController;
+use App\Modules\Legal\LegalController;
 use App\Modules\Projet\ProjectMediaService;
 use App\Modules\Projet\ProjectAdminController;
 use Capsule\Contracts\TemplateLocatorInterface;
@@ -276,6 +277,10 @@ return (function (): DIContainer {
         $c->get(ResponseFactoryInterface::class),
         $c->get(ViewRendererInterface::class),
         $c->get(ProjectMediaService::class),
+    ));
+    $c->set(LegalController::class, fn ($c) => new LegalController(
+        $c->get(ResponseFactoryInterface::class),
+        $c->get(ViewRendererInterface::class),
     ));
     $c->set(ProjectAdminController::class, fn ($c) => new ProjectAdminController(
         $c->get(ProjectMediaService::class),

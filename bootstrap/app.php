@@ -8,6 +8,7 @@ use App\Modules\Dashboard\DashboardController;
 use App\Modules\Login\LoginController;
 use App\Modules\Galerie\GalerieController;
 use App\Modules\Projet\ProjetController;
+use App\Modules\Legal\LegalController;
 use App\Modules\User\UserController;
 use App\Modules\Agenda\AgendaController;
 use App\Modules\Partners\PartnersController;
@@ -44,6 +45,7 @@ $controllers = [
     LoginController::class,
     GalerieController::class,
     ProjetController::class,
+    LegalController::class,
     \App\Modules\Projet\ProjectAdminController::class,
     UserController::class,
     AgendaController::class,
