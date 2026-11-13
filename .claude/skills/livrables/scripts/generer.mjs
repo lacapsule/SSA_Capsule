@@ -13,7 +13,7 @@
 import { copyFileSync, existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 import { DOSSIER_LIVRABLES, echapper, ecrireLivrable, lancerNavigateur, lireRegistre, markdown, poserCommun, RACINE, valider } from '../lib/document.mjs';
-import { wireframes } from '../lib/wireframes.mjs';
+import { adresseSeule, wireframes } from '../lib/wireframes.mjs';
 import { directionArtistique } from '../lib/direction.mjs';
 import { pistesSurPages } from '../lib/maquettes.mjs';
 import { DOSSIER_POLICES } from '../lib/polices.mjs';
@@ -58,7 +58,8 @@ function lireArborescence(mode) {
   return t.split('\n').filter((l) => /^\|/.test(l) && !/^\|[\s:|-]+\|$/.test(l)).slice(1)
     .map((l) => l.replace(/^\||\|$/g, '').split('|').map((c) => c.trim().replace(/`/g, '')))
     .filter((c) => c[0] && c[0] !== '…' && /^\//.test(c[1] ?? ''))
-    .map(([page, adresse, intention, remplace]) => ({ page, adresse, intention, remplace }));
+    // Adresse seule : une note qui la suit (« /admin/ (non référencée) ») n'entre ni dans un nom de fichier ni dans une URL testée.
+    .map(([page, adresse, intention, remplace]) => ({ page, adresse: adresseSeule(adresse), intention, remplace }));
 }
 
 function lireInventaire() {

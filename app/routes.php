@@ -9,5 +9,6 @@ $router = new Router();
 (require __DIR__ . '/Site/routes.php')($router);
 $router->get('/sitemap.xml', [App\Langue\Sitemap::class, 'afficher']);
 (require __DIR__ . '/Pages/routes.php')($router);
+(require __DIR__ . '/Reprise/routes.php')($router);
 
 return $router;

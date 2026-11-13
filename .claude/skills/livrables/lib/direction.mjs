@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 import { contraste, couleursDeMarque, jeuCouleurs, verifierJeu } from './couleurs.mjs';
 import { echapper } from './document.mjs';
 import { fontFace, obtenirPolice, pile } from './polices.mjs';
-import { lireMaquette } from './wireframes.mjs';
+import { boutonsDe, lireMaquette } from './wireframes.mjs';
 
 const ICI = path.dirname(fileURLToPath(import.meta.url));
 export const DIRECTIONS = JSON.parse(readFileSync(path.join(ICI, '../donnees/directions.json'), 'utf8')).metiers;
@@ -135,7 +135,7 @@ export async function directionArtistique({ inventaire, mode, arborescence, meti
   const accueil = inventaire?.pages?.[0];
   const logo = (id.logos ?? []).find((l) => l.fichier && /svg/.test(l.fichier)) ?? (id.logos ?? []).find((l) => l.fichier && !/icone/.test(l.type));
   // Libellés d'action : textes entre « » des zones de la maquette d'accueil (pas de la ligne d'en-tête, qui porte l'intention).
-  const boutons = [...new Set(lireMaquette(maquetteAccueil ?? '').zones.flatMap((z) => [...z.description.matchAll(/«\s*([^»]+?)\s*»/g)].map((x) => x[1])))];
+  const boutons = [...new Set(lireMaquette(maquetteAccueil ?? '').zones.flatMap((z) => boutonsDe(z.description)))];
   const contenu = {
     nom: mode?.nom ?? 'Site',
     logo: logo ? `../../../../source/existant/${logo.fichier}` : null,

@@ -7,3 +7,8 @@ node_modules/
 /data/
 /vendor/
 /node_modules/
+
+# Vidéos brutes du site actuel (670 Mo) : réencodées pour le site, jamais versionnées telles quelles.
+docs/source/existant/medias/**/*.mp4
+docs/source/existant/medias/**/*.webm
+/public/media/

@@ -9,8 +9,10 @@ import { echapper } from './document.mjs';
 const pourLeClient = (t) => t.replace(/\s*;?\s*briques?\s+[a-z-]+\/[a-z0-9/-]+(\s*(et|,)\s*[a-z-]+\/[a-z0-9/-]+)*/gi, '').replace(/\s*;\s*$/, '').trim();
 const sansAccent = (t) => t.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
 
-/** Nom de fichier de la maquette d'une adresse : « / » → accueil, « /a/b/ » → a-b. */
-export const slugAdresse = (adresse) => adresse.replace(/^\/|\/$/g, '').replace(/\//g, '-') || 'accueil';
+/** Adresse seule, sans la note qui la suit dans l'arborescence (« /admin/ (non référencée) » → /admin/). */
+export const adresseSeule = (adresse) => String(adresse ?? '').trim().split(/\s/)[0];
+/** Nom de fichier de la maquette d'une adresse : « / » → accueil, « /a/b/ » → a-b, partie variable → fiche (« /actualites/<titre>/ » → actualites-fiche). */
+export const slugAdresse = (adresse) => adresseSeule(adresse).replace(/<[^>]*>|\[[^\]]*\]|\{[^}]*\}|:[\w-]+/g, 'fiche').replace(/^\/|\/$/g, '').replace(/\//g, '-') || 'accueil';
 
 /**
  * Lit une maquette en texte :
@@ -28,7 +30,8 @@ export function lireMaquette(texte) {
     if (!l || /^```/.test(l)) continue;
     let r;
     if (/^page\s*:/i.test(l)) {
-      for (const morceau of l.split('·')) {
+      // Séparateur : « · » entouré d'espaces ; le point médian de l'écriture inclusive (participant·es) reste dans le champ.
+      for (const morceau of l.split(/\s+·\s+/)) {
         const [cle, ...v] = morceau.split(':');
         m.entete[sansAccent(cle.trim())] = v.join(':').trim();
       }
@@ -58,16 +61,20 @@ const GENRES = [
   ['carte', /carte|plan d'acces|acces|itineraire/],
   ['grille', /service|atout|prestation|engagement|avantage|categorie|rubrique/],
 ];
+/** Libellés de boutons d'une zone : entre « » après « bouton », « lien » ou « appel à l'action » ; un autre texte entre « » (slogan, titre) reste du texte. */
+export const boutonsDe = (description) => [...description.matchAll(/\b(?:boutons?|liens?|appels? à l'action)\s*:?\s*((?:«[^»]+»(?:\s*(?:,|et|ou)\s*)?)+)/gi)]
+  .flatMap((x) => [...x[1].matchAll(/«\s*([^»]+?)\s*»/g)].map((y) => y[1]));
 const NOMBRES = { deux: 2, trois: 3, quatre: 4, cinq: 5, six: 6, sept: 7, huit: 8 };
 
 function analyserZone(z) {
   const nom = sansAccent(z.nom);
   const genre = (GENRES.find(([, re]) => re.test(nom)) ?? ['texte'])[0];
-  const boutons = [...z.description.matchAll(/«\s*([^»]+?)\s*»/g)].map((x) => x[1]);
+  const boutons = boutonsDe(z.description);
+  const aFournir = /à fournir/i.test(z.description);
   const liste = z.description.match(/\(([^()]*,[^()]*)\)/)?.[1].split(',').map((x) => x.trim()).filter(Boolean) ?? [];
   const n = z.description.match(/\b(\d+|deux|trois|quatre|cinq|six|sept|huit)\b\s+(?:services|cartes|realisations|réalisations|photos|projets|membres|offres|formules|questions|chiffres|étapes|etapes|atouts|témoignages|temoignages|avis|articles)/i)?.[1];
   const nombre = n ? (NOMBRES[sansAccent(n)] ?? Number(n)) : liste.length || null;
-  return { ...z, genre, boutons, liste, nombre };
+  return { ...z, genre, boutons, liste, nombre, aFournir };
 }
 
 const lignes = (n, classe = '') => Array.from({ length: n }, (_, i) => `<span class="zf-ligne${classe}${i === n - 1 ? ' zf-ligne-courte' : ''}"></span>`).join('');
@@ -125,8 +132,8 @@ export function pageWireframe(maquette, contexte) {
 <title>Wireframe : ${echapper(contexte.titre)}</title>
 <link rel="stylesheet" href="../../_commun/tokens.css"><link rel="stylesheet" href="../../_commun/wireframe.css"></head>
 <body>
-${zones.map((z) => `<section class="zf zone-${z.genre}">
-  <p class="zf-etiquette"><span class="zf-num">${z.num}</span> ${echapper(z.nom)}</p>
+${zones.map((z) => `<section class="zf zone-${z.genre}${z.aFournir ? ' zf-a-fournir' : ''}">
+  <p class="zf-etiquette"><span class="zf-num">${z.num}</span> ${echapper(z.nom)}</p>${z.aFournir ? '\n  <p class="zf-manque">À fournir</p>' : ''}
   ${rendreZone(z, contexte)}
 </section>`).join('\n')}
 </body>
@@ -151,14 +158,15 @@ export async function wireframes({ arborescence, dossier, navigateur }) {
   for (const p of arborescence) {
     const slug = slugAdresse(p.adresse);
     const fichier = path.join(process.cwd(), 'docs/maquettes', `${slug}.md`);
-    corps += `<h2>${echapper(p.page)} <code>${echapper(p.adresse)}</code></h2>`;
+    // Une page du site = un bloc ; à l'impression, chacune commence sur une nouvelle page, titre, tableau et dessin ensemble.
+    corps += `<section class="wf-page"><h2>${echapper(p.page)}</h2>`;
     if (!existsSync(fichier)) {
       avert.push(`Maquette en texte absente pour « ${p.page} » : docs/maquettes/${slug}.md (skill web-contenu).`);
-      corps += '<p>Maquette en texte de cette page à écrire.</p>';
+      corps += '<p>Maquette en texte de cette page à écrire.</p></section>';
       continue;
     }
     const maquette = lireMaquette(readFileSync(fichier, 'utf8'));
-    if (!maquette.zones.length) { avert.push(`docs/maquettes/${slug}.md ne contient aucune zone numérotée (« 1. Zone : … »).`); continue; }
+    if (!maquette.zones.length) { avert.push(`docs/maquettes/${slug}.md ne contient aucune zone numérotée (« 1. Zone : … »).`); corps += '</section>'; continue; }
     const { zones, html } = pageWireframe(maquette, { titre: p.page, menu });
     writeFileSync(path.join(dossier, 'pages', `${slug}.html`), html);
     sourcesRendues += html;
@@ -169,6 +177,7 @@ export async function wireframes({ arborescence, dossier, navigateur }) {
     }
     const e = maquette.entete;
     corps += `<table><tbody>
+<tr><th scope="row">Adresse</th><td>${echapper(adresseSeule(p.adresse))}</td></tr>
 <tr><th scope="row">Public</th><td>${echapper(e.public ?? p.public ?? 'à préciser')}</td></tr>
 <tr><th scope="row">Recherche du public</th><td>${echapper(e.intention ?? p.intention ?? 'à préciser')}</td></tr>
 <tr><th scope="row">Action principale</th><td>${echapper(maquette.action || 'à préciser')}</td></tr>
@@ -180,7 +189,12 @@ export async function wireframes({ arborescence, dossier, navigateur }) {
 <table><thead><tr><th scope="col">N°</th><th scope="col">Zone</th><th scope="col">Rôle et contenu</th></tr></thead><tbody>
 ${zones.map((z) => `<tr><td>${z.num}</td><td>${echapper(z.nom)}</td><td>${echapper(pourLeClient(z.description))}</td></tr>`).join('\n')}
 </tbody></table>
-${maquette.masque ? `<p><strong>Masqué tant que la donnée manque :</strong> ${echapper(maquette.masque)}</p>` : ''}`;
+${maquette.masque ? `<p><strong>Masqué tant que la donnée manque :</strong> ${echapper(maquette.masque)}</p>` : ''}
+</section>`;
+    // Ancien format (tout texte entre « » était un bouton) : le signaler plutôt que perdre le bouton sans rien dire.
+    for (const z of zones) {
+      if (['heros', 'appel'].includes(z.genre) && !z.boutons.length && /«/.test(z.description)) avert.push(`docs/maquettes/${slug}.md, zone ${z.num} (${z.nom}) : texte entre « » sans « bouton », « lien » ou « appel à l'action » devant, dessiné comme du texte et non comme un bouton.`);
+    }
     if (!maquette.action) avert.push(`Action principale non indiquée dans docs/maquettes/${slug}.md.`);
   }
   await page.close();

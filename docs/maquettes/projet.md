@@ -1,7 +1,7 @@
 Page : Le projet  ·  URL : /projet/  ·  public : habitantes et habitants curieux  ·  intention : « comment fonctionne la caisse alimentaire de Morlaix »
 Action principale : comprendre le fonctionnement et savoir à qui s'adresser pour rejoindre le projet
 
-1. En-tête : logo, menu (Accueil, Le projet, Qui sommes-nous, Lieux conventionnés, Actualités, Agenda, Galerie, Contact), lien de langue « Brezhoneg » ; brique sections/en-tete-menu
+1. En-tête : logo, menu (Accueil, Le projet, Qui sommes-nous, Lieux conventionnés, Actualités, Agenda, Galerie, Contact), lien « Brezhoneg » vers la version bretonne ; brique sections/en-tete-menu
 2. Fil d'Ariane : Accueil, puis la page ; brique sections/haut-de-page
 3. Haut de page : titre Expérimentation d'une caisse de l'alimentation sur le Pays de Morlaix, chapô (site actuel) ; brique sections/haut-de-page
 4. Pourquoi : les 3 buts de l'expérimentation (droit à l'alimentation pour toutes et tous, système alimentaire plus juste et plus durable, pouvoir d'agir collectivement) ; bloc de texte

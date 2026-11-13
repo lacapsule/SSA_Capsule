@@ -97,6 +97,8 @@ Chaque page française a sa version bretonne, à la même adresse précédée de
 | 2026-11-13 | Une seule personne valide chaque étape côté client : Géraldine Gabillet | choix de Kouzia |
 | 2026-11-13 | Cahier des charges version 11 validé par Géraldine Gabillet (validation 1, accord oral transmis par Kouzia) : le type associatif et l'architecture sont figés | validation 1 du cycle |
 | 2026-11-13 | Wireframes version 6 validés par Géraldine Gabillet (validation 2, accord oral transmis par Kouzia) : structure des 15 pages figée | validation 2 du cycle |
+| 2026-11-13 | Accords reportés sur le cahier des charges version 12 et les wireframes version 9, régénérés après une correction du kit : mise en forme seule, contenu inchangé | décision de Kouzia |
+| 2026-11-13 | Contenus importés depuis les pages publiques du site actuel (articles, événements affichés, galerie, logos) ; les événements passés qui ne sont plus affichés ne sont pas repris | la base locale de l'ancien site n'est pas celle de production (données de test, 4 articles manquants) ; aucune donnée personnelle manipulée |
 
 ## Modèle à respecter
 
@@ -152,7 +154,7 @@ Chaque page française a sa version bretonne, à la même adresse précédée de
 
 - Demande dans les mots de l'humain (2026-11-13) : « il est pas propre, il est basé sur un framework un peu bancal qui a été fait main, il est pas à jour sur les bonnes pratiques que l'on va appliquer » ; reformulée pour le client le 2026-11-13 à sa demande.
 - Audit : `docs/source/existant/inventaire.json` et livrable 01 version 2 (relancé le 2026-11-13) : 18 pages, 40 variantes à paramètres, 18 anciennes adresses, 52 images. Défaut constaté : `?page=n` s'affiche dans la langue gardée en session.
-- Code et données de l'ancien site : `../SSA_Capsule1` (confirmé le 2026-11-13), lu seulement, jamais modifié. Base `data/database.sqlite`, médias `public/assets/img/` (vidéos dans `articles/13/` et `articles/15/`, lues par `templates/modules/article/articleDetails.tpl.php`), chaînes bretonnes humaines `app/Lang/locales/br` (ex. « Gwareziñ Sokial ar Boued · Bro Vorlaix ») à reprendre dans le glossaire.
+- Code et données de l'ancien site : `../SSA_Capsule1` (confirmé le 2026-11-13), lu seulement, jamais modifié. Sa base `data/database.sqlite` n'est pas celle de production (constaté le 2026-11-13 : 7 articles sur 11, événements de test) : elle ne sert pas à l'import. Code utile : médias `public/assets/img/` (vidéos dans `articles/13/` et `articles/15/`, lues par `templates/modules/article/articleDetails.tpl.php`), chaînes bretonnes humaines `app/Lang/locales/br` (ex. « Gwareziñ Sokial ar Boued · Bro Vorlaix ») à reprendre dans le glossaire.
 - Dossier de candidature : `docs/source/fournis/documents/dossier_de_candidature.pdf` (durée, date limite, adresse du Buzuk). Logo : `docs/source/fournis/logo/logo.svg`.
 - Identité légale d'ULAMIR-CPIE : API recherche-entreprises.api.gouv.fr, données INSEE du 2026-10-13 (SIREN 300796349, nature juridique 9220, active) ; fiche annuaire-entreprises illisible lors de la recherche.
 - Chaîne YouTube : `https://www.youtube.com/@jneasso9668/featured`, citée seulement dans `/article/10` ; aucun `sameAs` avant vérification.

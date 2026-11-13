@@ -356,6 +356,14 @@ blockquote {
     break-after: page;
   }
 
+  .wf-page {
+    break-before: page;
+  }
+
+  .wf-page .ecrans img {
+    max-height: 165mm;
+  }
+
   .cloture {
     break-before: page;
   }

@@ -15,6 +15,9 @@ $router = require __DIR__ . '/../app/routes.php';
 $router->error = static fn (int $status) => abort($status);
 // Langue lue dans l'URL (/br/...) : la suite reçoit le chemin interne, les routes sont déclarées en français.
 $path = App\Langue\Langue::demarrer($path, $router, $method);
+if ($method === 'GET' || $method === 'HEAD') {
+    App\Reprise\Reprise::parametreLangue($path);
+}
 
 if ($method === 'GET' || $method === 'HEAD') {
     if ($path === '/index.php') {

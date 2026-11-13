@@ -1,7 +1,7 @@
 Page : Mentions légales  ·  URL : /mentions-legales/  ·  public : tous  ·  intention : sans objet
 Action principale : savoir qui édite et héberge le site
 
-1. En-tête : logo, menu (Accueil, Le projet, Qui sommes-nous, Lieux conventionnés, Actualités, Agenda, Galerie, Contact), lien de langue « Brezhoneg » ; brique sections/en-tete-menu
+1. En-tête : logo, menu (Accueil, Le projet, Qui sommes-nous, Lieux conventionnés, Actualités, Agenda, Galerie, Contact), lien « Brezhoneg » vers la version bretonne ; brique sections/en-tete-menu
 2. Fil d'Ariane : Accueil, puis la page ; brique sections/haut-de-page
 3. Haut de page : titre Mentions légales, centré ; brique sections/haut-de-page
 4. Éditeur : ULAMIR-CPIE (nom légal, SIRET et siège à confirmer par Géraldine Gabillet), directrice de la publication Géraldine Gabillet ; brique gabarits/pages-legales-php

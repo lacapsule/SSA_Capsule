@@ -1,3 +1,4 @@
 # ancienne adresse	nouvelle adresse (séparées par une tabulation ; « * » final : tout le dossier)
-/ancienne-page/	/a-propos/
-/blog/*	/
+# Les /article/<n> suivent la base (app/Reprise) ; ce fichier ne garde que les cas fixes.
+/login	/admin/
+/article/16	/lieux-conventionnes/

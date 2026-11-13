@@ -15,7 +15,7 @@ Principe : une page se conçoit pour son public (rule `00-organisation`, « Déc
 
 ## 2. Maquette en texte (à faire valider avant d'intégrer)
 
-Une maquette par page de l'arborescence, dans `docs/maquettes/<page>.md` (« / » donne `accueil.md`, « /services/ » donne `services.md`) : elle est la source des wireframes (skill `livrables`, livrable 03). Format :
+Une maquette par page de l'arborescence, dans `docs/maquettes/<page>.md` (« / » donne `accueil.md`, « /services/ » donne `services.md`, une partie variable donne `fiche` : « /actualites/<titre>/ » donne `actualites-fiche.md`, maquette commune à toutes les fiches ; une note après l'adresse est ignorée) : elle est la source des wireframes (skill `livrables`, livrable 03). Format :
 
 ```
 Page : <titre>  ·  URL : /<adresse>/  ·  public : <qui>  ·  intention : « <question tapée> »
@@ -30,7 +30,8 @@ Masqué faute de donnée : <section> (à fournir : <qui>)
 Liens entrants : <pages qui pointent ici>  ·  liens sortants : <voisines, rubrique>
 ```
 
-- Nom de zone : un nom reconnu par les wireframes (en-tête, fil d'Ariane, héros, services, réalisations, équipe, témoignages, tarifs, questions fréquentes, chiffres clés, étapes, formulaire, plan d'accès, appel à prendre contact, pied de page) ; un autre nom donne un bloc de texte. Listes entre parenthèses, libellés de boutons entre « », nombre d'éléments écrit (« 3 services »).
+- Nom de zone : un nom reconnu par les wireframes (en-tête, fil d'Ariane, héros, services, réalisations, équipe, témoignages, tarifs, questions fréquentes, chiffres clés, étapes, formulaire, plan d'accès, appel à prendre contact, pied de page) ; un autre nom donne un bloc de texte. Listes entre parenthèses ; bouton : libellé entre « » juste après « bouton », « lien » ou « appel à l'action » (« bouton « Nous rejoindre » et « Agenda » ») ; tout autre texte entre « » (slogan, titre) est dessiné comme du texte ; nombre d'éléments écrit (« 3 services ») ; zone dont le contenu manque : « à fournir : <qui> » dans sa ligne, dessinée en pointillés avec la mention « À fournir ».
+- Séparateur de la ligne `Page :` : « · » entouré d'espaces ; le point médian de l'écriture inclusive (« participant·es ») reste dans son champ.
 - Ordre des sections : ce que le public cherche d'abord, pas l'ordre d'un modèle. Accueil : un extrait de chaque rubrique, pas son contenu entier (rule `web-design`).
 - Pour chaque section : une brique de la boîte si elle existe (lire `INDEX.md`, rule `boite-a-outils`), sinon le dire.
 - Validation : par le client, sur le livrable 03 (wireframes, validation 2), notée dans « Décisions validées » (date, page). Sans validation, rien n'est intégré.

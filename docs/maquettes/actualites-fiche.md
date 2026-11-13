@@ -1,7 +1,7 @@
 Page : Article  ·  URL : /actualites/<titre>/  ·  public : partenaires, médias, participantes et participants  ·  intention : « titre de l'article »
 Action principale : lire l'article et voir ses photos ou sa vidéo
 
-1. En-tête : logo, menu (Accueil, Le projet, Qui sommes-nous, Lieux conventionnés, Actualités, Agenda, Galerie, Contact), lien de langue « Brezhoneg » ; brique sections/en-tete-menu
+1. En-tête : logo, menu (Accueil, Le projet, Qui sommes-nous, Lieux conventionnés, Actualités, Agenda, Galerie, Contact), lien « Brezhoneg » vers la version bretonne ; brique sections/en-tete-menu
 2. Fil d'Ariane : Accueil, puis la page ; brique sections/haut-de-page
 3. Haut de page : titre de l'article, date, lieu s'il existe, résumé ; brique sections/article
 4. Corps : texte de l'article, photos en galerie, vidéo chargée au clic, liens utiles ; briques sections/article, modules/galerie-visionneuse, modules/video-locale

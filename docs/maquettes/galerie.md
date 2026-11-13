@@ -1,7 +1,7 @@
 Page : Galerie  ·  URL : /galerie/  ·  public : partenaires, participantes et participants  ·  intention : « photos du collectif »
 Action principale : parcourir les photos
 
-1. En-tête : logo, menu (Accueil, Le projet, Qui sommes-nous, Lieux conventionnés, Actualités, Agenda, Galerie, Contact), lien de langue « Brezhoneg » ; brique sections/en-tete-menu
+1. En-tête : logo, menu (Accueil, Le projet, Qui sommes-nous, Lieux conventionnés, Actualités, Agenda, Galerie, Contact), lien « Brezhoneg » vers la version bretonne ; brique sections/en-tete-menu
 2. Fil d'Ariane : Accueil, puis la page ; brique sections/haut-de-page
 3. Haut de page : titre Galerie de la SSA (site actuel) ; brique sections/haut-de-page
 4. Galerie : vignettes à leur format réel, grande image au clic, pages suivantes en liens ; brique modules/galerie-visionneuse

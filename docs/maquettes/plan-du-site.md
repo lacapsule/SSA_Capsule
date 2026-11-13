@@ -1,7 +1,7 @@
 Page : Plan du site  ·  URL : /plan-du-site/  ·  public : tous  ·  intention : sans objet
 Action principale : trouver une page
 
-1. En-tête : logo, menu (Accueil, Le projet, Qui sommes-nous, Lieux conventionnés, Actualités, Agenda, Galerie, Contact), lien de langue « Brezhoneg » ; brique sections/en-tete-menu
+1. En-tête : logo, menu (Accueil, Le projet, Qui sommes-nous, Lieux conventionnés, Actualités, Agenda, Galerie, Contact), lien « Brezhoneg » vers la version bretonne ; brique sections/en-tete-menu
 2. Fil d'Ariane : Accueil, puis la page ; brique sections/haut-de-page
 3. Haut de page : titre Plan du site, centré ; brique sections/haut-de-page
 4. Liste des pages : toutes les pages publiques, avec les articles et les événements sous leur rubrique ; bloc de texte

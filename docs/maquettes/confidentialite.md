@@ -1,7 +1,7 @@
 Page : Confidentialité  ·  URL : /confidentialite/  ·  public : tous  ·  intention : sans objet
 Action principale : savoir ce que devient un message envoyé par le formulaire
 
-1. En-tête : logo, menu (Accueil, Le projet, Qui sommes-nous, Lieux conventionnés, Actualités, Agenda, Galerie, Contact), lien de langue « Brezhoneg » ; brique sections/en-tete-menu
+1. En-tête : logo, menu (Accueil, Le projet, Qui sommes-nous, Lieux conventionnés, Actualités, Agenda, Galerie, Contact), lien « Brezhoneg » vers la version bretonne ; brique sections/en-tete-menu
 2. Fil d'Ariane : Accueil, puis la page ; brique sections/haut-de-page
 3. Haut de page : titre Politique de confidentialité, centré ; brique sections/haut-de-page
 4. Données collectées : formulaire de contact seulement, message envoyé par e-mail et non conservé sur le site ; finalité, base légale, destinataire, durée, droits et contact ; brique gabarits/pages-legales-php

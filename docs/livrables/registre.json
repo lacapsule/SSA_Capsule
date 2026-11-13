@@ -9,31 +9,31 @@
     },
     "02-cahier-des-charges": {
       "titre": "Cahier des charges",
-      "version": 11,
+      "version": 12,
       "date": "2026-11-13",
-      "empreinte": "c79442b7de642749",
+      "empreinte": "bd5da0061479ac6c",
       "statut": "validé",
       "validation": {
-        "par": "Géraldine Gabillet, accord oral transmis par Kouzia le 2026-11-13",
+        "par": "Géraldine Gabillet, accord oral du 2026-11-13 sur la version 11, reporté (mise en forme seule)",
         "date": "2026-11-13",
-        "version": 11
+        "version": 12
       }
     },
     "03-wireframes": {
       "titre": "Wireframes",
-      "version": 6,
+      "version": 9,
       "date": "2026-11-13",
-      "empreinte": "14f83054c9578655",
+      "empreinte": "f07635df2784fcc2",
       "statut": "validé",
       "validation": {
-        "par": "Géraldine Gabillet, accord oral transmis par Kouzia le 2026-11-13",
+        "par": "Géraldine Gabillet, accord oral du 2026-11-13 sur la version 6, reporté (mise en forme seule)",
         "date": "2026-11-13",
-        "version": 6
+        "version": 9
       }
     },
     "04-direction-artistique": {
       "titre": "Direction artistique et maquettes",
-      "version": 4,
+      "version": 6,
       "date": "2026-11-13",
       "empreinte": "94c708313c893d55",
       "statut": "brouillon"

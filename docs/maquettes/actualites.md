@@ -1,7 +1,7 @@
 Page : Actualités  ·  URL : /actualites/  ·  public : partenaires, financeurs, médias  ·  intention : « actualités SSA Morlaix »
 Action principale : lire les dernières nouvelles du collectif
 
-1. En-tête : logo, menu (Accueil, Le projet, Qui sommes-nous, Lieux conventionnés, Actualités, Agenda, Galerie, Contact), lien de langue « Brezhoneg » ; brique sections/en-tete-menu
+1. En-tête : logo, menu (Accueil, Le projet, Qui sommes-nous, Lieux conventionnés, Actualités, Agenda, Galerie, Contact), lien « Brezhoneg » vers la version bretonne ; brique sections/en-tete-menu
 2. Fil d'Ariane : Accueil, puis la page ; brique sections/haut-de-page
 3. Haut de page : titre Actualités ; brique sections/haut-de-page
 4. Liste des articles : articles du plus récent au plus ancien (photo, titre, résumé, date), pages suivantes en liens ; brique sections/blog-liste et modules/actualites

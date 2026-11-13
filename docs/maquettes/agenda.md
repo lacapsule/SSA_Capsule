@@ -1,7 +1,7 @@
 Page : Agenda  ·  URL : /agenda/  ·  public : participantes et participants  ·  intention : « événements alimentation Morlaix »
 Action principale : trouver le prochain événement, sa date et son lieu
 
-1. En-tête : logo, menu (Accueil, Le projet, Qui sommes-nous, Lieux conventionnés, Actualités, Agenda, Galerie, Contact), lien de langue « Brezhoneg » ; brique sections/en-tete-menu
+1. En-tête : logo, menu (Accueil, Le projet, Qui sommes-nous, Lieux conventionnés, Actualités, Agenda, Galerie, Contact), lien « Brezhoneg » vers la version bretonne ; brique sections/en-tete-menu
 2. Fil d'Ariane : Accueil, puis la page ; brique sections/haut-de-page
 3. Haut de page : titre Agenda ; filtre par public en liens (Tous, Collectif, Expérimentateurs, Pour tous, catégories du site actuel) ; brique sections/haut-de-page
 4. Événements à venir : liste par date (date, heure, titre, lieu, public) ; brique modules/agenda-inscriptions (liste, sans inscription)

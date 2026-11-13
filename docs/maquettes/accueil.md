@@ -1,7 +1,7 @@
 Page : Accueil  ·  URL : /  ·  public : participantes et participants, habitantes et habitants curieux, partenaires  ·  intention : « sécurité sociale de l'alimentation Morlaix »
 Action principale : voir les prochains événements et trouver les lieux où dépenser ses Buzuk SSA
 
-1. En-tête : logo, menu (Accueil, Le projet, Qui sommes-nous, Lieux conventionnés, Actualités, Agenda, Galerie, Contact), lien de langue « Brezhoneg » ; brique sections/en-tete-menu
+1. En-tête : logo, menu (Accueil, Le projet, Qui sommes-nous, Lieux conventionnés, Actualités, Agenda, Galerie, Contact), lien « Brezhoneg » vers la version bretonne ; brique sections/en-tete-menu
 2. Héros : dire en une phrase qui, quoi, où ; contenu : titre Sécurité Sociale de l'Alimentation, Pays de Morlaix, et devise Pour un droit fondamental et universel à une alimentation saine et durable (site actuel) ; boutons « Voir l'agenda » et « Trouver un lieu conventionné » ; brique sections/heros
 3. Prochains événements : les 3 prochains événements (date, heure, titre, lieu) ; lien « Tout l'agenda » ; brique modules/agenda-inscriptions (liste seule, sans inscription)
 4. Étapes : comment fonctionne l'expérimentation en 3 étapes (cotisation choisie librement, allocation en Buzuk SSA, dépense dans les lieux conventionnés) ; lien « Comprendre le projet » ; brique sections/etapes
