@@ -4,7 +4,7 @@ partial('site/haut', ['chemin' => $path, 'titre' => $t['titre'], 'chapo' => $t['
 ?>
 <section class="section" aria-labelledby="structures-titre">
   <div class="container duo">
-    <span class="illustration-rond"><img src="/assets/img/illustration-collectif.svg" alt="" width="240" height="324" loading="lazy" decoding="async"></span>
+    <span class="portail" aria-hidden="true"><span class="portail__calque"><img src="/assets/img/illustration-collectif.svg" alt="" width="240" height="324" loading="lazy" decoding="async"></span></span>
     <div class="prose">
       <h2 id="structures-titre"><?= e($t['structures_titre']) ?></h2>
       <ul class="puces">

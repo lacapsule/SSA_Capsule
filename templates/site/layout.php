@@ -123,6 +123,7 @@ $email = (string) Site::get('email');
       <div>
         <h2 class="site-footer__title"><?= e(t('langue.choisir')) ?></h2>
         <?php partial('langue/selecteur', ['chemin' => $path, 'disponibles' => $disponibles, 'variante' => 'liste', 'id' => 'langues-pied']) ?>
+        <a class="site-footer__haut" href="#haut"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false"><path d="M12 19V5M5 12l7-7 7 7" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"/></svg><?= e(t('site.haut')) ?></a>
       </div>
     </div>
     <div class="site-footer__bottom">
@@ -130,7 +131,6 @@ $email = (string) Site::get('email');
       <?php $c = (array) Site::get('credit', []); if ($c !== []): ?>
       <p class="site-footer__credit"><?= e($c['avant']) ?><a href="<?= e($c['lien']['url']) ?>" rel="noopener"><?= e($c['lien']['texte']) ?></a><?= e($c['apres']) ?><?php if (!empty($c['complement'])): ?><?= e($c['complement'][0]) ?><a href="<?= e($c['complement'][1]['url']) ?>" rel="noopener"><?= e($c['complement'][1]['texte']) ?></a><?php endif ?><?= e($c['fin']) ?></p>
       <?php endif ?>
-      <a class="site-footer__haut" href="#haut"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false"><path d="M12 19V5M5 12l7-7 7 7" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"/></svg><?= e(t('site.haut')) ?></a>
     </div>
   </div>
 </footer>

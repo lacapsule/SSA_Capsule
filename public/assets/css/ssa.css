@@ -44,23 +44,27 @@
 
 /* ---------- Sections : une colonne centrée, texte aligné à gauche dedans (rule web-design, Centrage) ---------- */
 .section { padding-block: var(--space-5); }
-.section > .container:not(.duo) { max-width: var(--measure); }
-.section > .container:has(.cards) { max-width: var(--wide); }
-.section__head { margin-inline: auto; text-align: center; }
+.section__head { max-width: none; margin-inline: 0; }
+/* Titre de section à gauche, lien « tout voir » sur la même ligne, à droite. */
+.section__head--lien { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: end; gap: var(--space-2) var(--space-4); }
+.lien-fleche { display: inline-flex; align-items: center; gap: var(--space-1); min-height: var(--target); font-weight: 700; color: var(--color-accent); }
+.lien-fleche svg { flex: none; transition: transform var(--duration-fast) var(--ease); }
+.lien-fleche:hover svg { transform: translateX(0.25rem); }
+@media (prefers-reduced-motion: reduce) { .lien-fleche svg { transition: none; } }
 .section__head h2, .prose h2 { color: var(--color-marque-sur-fond); }
 .page-head { background: var(--color-surface-2); }
-.page-head__inner { max-width: 60rem; padding-block: var(--space-5); }
+.page-head__inner { padding-block: var(--space-5); }
 .page-head h1 { max-width: none; }
 .page-head__intro { max-width: var(--measure); }
 .page-head h1 { color: var(--color-marque-sur-fond); }
 .more { margin: var(--space-4) 0 0; }
-.section .container > .more { text-align: center; }
+
 .section.cta > .container { max-width: 56rem; }
 
 /* Texte et illustration côte à côte, empilés sur téléphone. */
-.duo { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--space-5); align-items: center; max-width: 56rem; }
+.duo { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--space-5); align-items: center; }
 @media (min-width: 48rem) {
-  .duo { grid-template-columns: 14rem minmax(0, 1fr); }
+  .duo { grid-template-columns: minmax(14rem, 1fr) minmax(0, 2fr); }
 }
 
 /* Appel à prendre contact : bloc centré, compact. */
@@ -84,7 +88,7 @@
 /* ---------- Univers du site actuel (audit, rubrique « Univers visuel » ; maquettes, notes « adaptation ») ---------- */
 /* Trait vert sous les titres de section : un filet en fond, ni pseudo-élément ni tiret devant le titre. */
 .section__head h2, .prose h2, .page-head h1 { padding-bottom: var(--space-2); background: linear-gradient(var(--color-accent), var(--color-accent)) left bottom / 2.5rem 0.1875rem no-repeat; }
-.section__head h2, .section.cta h2 { background-position: center bottom; }
+.section.cta h2 { background-position: center bottom; }
 /* Boutons : arrondi léger et ombre, comme ceux du site actuel. */
 .button { border-radius: var(--radius-small); box-shadow: var(--ombre-bouton); }
 .button--ghost { box-shadow: none; }
@@ -92,8 +96,11 @@
 .card { border-radius: var(--radius); box-shadow: var(--ombre-carte); }
 /* Illustration du site actuel dans un rond jaune de marque. */
 /* Illustration qui sort d'un rond jaune (effet du site actuel : l'image déborde en haut et en bas, jamais rognée). */
-.illustration-rond { position: relative; display: block; justify-self: center; width: 13rem; height: 13rem; margin-block: 4rem 0.5rem; border-radius: 50%; background: var(--color-marque-2); }
-.illustration-rond img { position: absolute; bottom: -0.5rem; left: 50%; width: auto; height: 140%; transform: translateX(-50%); }
+/* Portail : le personnage sort d'un rond jaune (le haut et les bras dépassent, le bas disparaît dans le rond).
+   Calque plus grand que le rond, masqué : visible au-dessus du centre du rond, et dans le rond en dessous. */
+.portail { --d: 13rem; position: relative; display: block; justify-self: center; width: var(--d); height: var(--d); margin-block: calc(var(--d) * 0.55) var(--space-2); border-radius: 50%; background: var(--color-marque-2); box-shadow: inset 0 0 0 0.75rem color-mix(in srgb, var(--color-marque-2) 78%, var(--color-marque-2-texte)); }
+.portail__calque { position: absolute; inset: calc(var(--d) * -0.6) calc(var(--d) * -0.35) 0; mask: linear-gradient(#000, #000) top / 100% 68.75% no-repeat, radial-gradient(circle calc(var(--d) / 2) at 50% 68.75%, #000 calc(var(--d) / 2 - 1px), transparent calc(var(--d) / 2)); }
+.portail__calque img { position: absolute; bottom: calc(var(--d) * -0.3); left: 50%; width: auto; height: calc(var(--d) * 1.7); transform: translateX(-50%); }
 /* Puces en petit losange jaune (forme pleine). */
 .puces { list-style: none; padding-left: 0; }
 .prose ul.puces { padding-left: 0; }
@@ -116,8 +123,7 @@
 .schema summary { min-height: var(--target); font-weight: 700; color: var(--color-accent); cursor: pointer; }
 
 /* ---------- Événements : pastille de date jaune, carte arrondie avec ombre ---------- */
-.section.section--evenements > .container, .section > .container:has(.evenements) { max-width: 52rem; }
-.evenements { display: grid; gap: var(--space-3); list-style: none; margin: 0; padding: 0; }
+.evenements { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 26rem), 1fr)); gap: var(--space-3); list-style: none; margin: 0; padding: 0; }
 .evenement { position: relative; display: grid; grid-template-columns: auto minmax(0, 1fr); gap: var(--space-3); align-items: center; padding: var(--space-3); border: 1px solid var(--color-line); border-radius: var(--radius); background: var(--color-surface); box-shadow: var(--ombre-carte); }
 .evenement:hover { border-color: var(--color-accent); }
 .pastille-date { display: grid; width: 4.25rem; padding: var(--space-2) 0; border-radius: var(--radius-small); line-height: 1.1; text-align: center; color: var(--color-marque-2-texte); background: var(--color-marque-2); }
@@ -132,7 +138,6 @@
 .evenement__public { font-size: var(--step--1); font-weight: 700; }
 
 /* ---------- Cartes d'article : photo en haut, date en pastille, lien étiré ---------- */
-.section > .container:has(.cartes-articles) { max-width: var(--wide); }
 .cartes-articles { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr)); gap: var(--space-4); list-style: none; margin: 0; padding: 0; }
 .carte-article { position: relative; display: flex; flex-direction: column; border: 1px solid var(--color-line); border-radius: var(--radius); background: var(--color-surface); box-shadow: var(--ombre-carte); overflow: hidden; }
 .carte-article:hover { border-color: var(--color-accent); }
@@ -147,9 +152,8 @@
 .carte-article p { margin: 0; color: var(--color-text-muted); }
 
 /* ---------- Logos en grille fixe sur fond blanc ---------- */
-.section.section--logos > .container { max-width: 56rem; }
-.logos-titre { margin: var(--space-4) 0 var(--space-2); font-size: var(--step-0); text-align: center; color: var(--color-text-muted); }
-.grille-logos { display: flex; flex-wrap: wrap; justify-content: center; gap: var(--space-3); list-style: none; margin: 0; padding: 0; }
+.logos-titre { margin: var(--space-4) 0 var(--space-2); font-size: var(--step-0); color: var(--color-text-muted); }
+.grille-logos { display: flex; flex-wrap: wrap; justify-content: flex-start; gap: var(--space-3); list-style: none; margin: 0; padding: 0; }
 .grille-logos__lien { display: grid; place-items: center; width: 10rem; height: 6rem; padding: var(--space-3); border: 1px solid var(--color-line); border-radius: var(--radius); background: var(--voile-texte); }
 .grille-logos__lien img { max-width: 100%; height: auto; }
 
@@ -193,3 +197,25 @@
 .navigation-fiches__vignette { background: var(--color-marque-2); }
 .navigation-fiches__retour a { color: var(--color-accent); }
 .agenda-mois { margin: var(--space-4) 0 var(--space-2); font-size: var(--step-0); text-transform: uppercase; letter-spacing: var(--etiquette-espacement); color: var(--color-text-muted); }
+
+/* Étapes côte à côte dès que la largeur le permet, reliées par un filet horizontal. */
+@media (min-width: 48rem) {
+  .section--etapes .frise { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-5); }
+  .section--etapes .frise::before { top: 0.6875rem; right: 0; bottom: auto; left: 0; width: auto; height: 0.125rem; }
+  .section--etapes .frise__item { padding-top: var(--space-5); padding-left: 0; }
+}
+.section--etapes .frise__item p { margin: 0; font-size: var(--step-1); }
+/* Sections de texte en deux colonnes sur grand écran : titre à gauche, texte à droite (ni colonne étroite collée
+   à gauche, ni colonne centrée). */
+@media (min-width: 56rem) {
+  .section > .container.prose { display: grid; grid-template-columns: minmax(12rem, 1fr) minmax(0, 2fr); column-gap: var(--space-6); align-items: start; }
+  .section > .container.prose > h2 { grid-row: 1 / span 20; grid-column: 1; }
+  .section > .container.prose > :not(h2) { grid-column: 2; }
+}
+/* Cartes d'événement de même hauteur : description en 3 lignes, complète sur la page de l'événement. */
+.evenement { align-items: start; height: 100%; }
+.evenement__texte { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3; overflow: hidden; }
+/* Pied de page : retour en haut à droite, sous la langue, au-dessus du filet. */
+.site-footer__top > div:last-child { display: flex; flex-direction: column; }
+.site-footer__haut { align-self: flex-end; margin-top: auto; padding-top: var(--space-4); }
+

@@ -20,9 +20,8 @@
 <?php if ($evenements !== []): ?>
 <section class="section section--evenements" aria-labelledby="evenements-titre">
   <div class="container">
-    <div class="section__head"><h2 id="evenements-titre"><?= e(t('accueil.prochains_evenements')) ?></h2></div>
+    <div class="section__head section__head--lien"><h2 id="evenements-titre"><?= e(t('accueil.prochains_evenements')) ?></h2><a class="lien-fleche" href="<?= e(lurl('/agenda/')) ?>"><?= e(t('accueil.tout_agenda')) ?><svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" focusable="false"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a></div>
     <ul class="evenements"><?php foreach ($evenements as $e) partial('agenda/carte', ['e' => $e]) ?></ul>
-    <p class="more"><a href="<?= e(lurl('/agenda/')) ?>"><?= e(t('accueil.tout_agenda')) ?></a></p>
   </div>
 </section>
 <?php endif ?>
@@ -42,16 +41,15 @@
 <?php if ($articles !== []): ?>
 <section class="section section--fond" aria-labelledby="actualites-titre">
   <div class="container">
-    <div class="section__head"><h2 id="actualites-titre"><?= e(t('accueil.dernieres_actualites')) ?></h2></div>
+    <div class="section__head section__head--lien"><h2 id="actualites-titre"><?= e(t('accueil.dernieres_actualites')) ?></h2><a class="lien-fleche" href="<?= e(lurl('/actualites/')) ?>"><?= e(t('accueil.toutes_actualites')) ?><svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" focusable="false"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a></div>
     <ul class="cartes-articles"><?php foreach ($articles as $a) partial('actualites/carte', ['a' => $a]) ?></ul>
-    <p class="more"><a href="<?= e(lurl('/actualites/')) ?>"><?= e(t('accueil.toutes_actualites')) ?></a></p>
   </div>
 </section>
 <?php endif ?>
 
 <section class="section" aria-labelledby="collectif-titre">
   <div class="container duo">
-    <span class="illustration-rond"><img src="/assets/img/illustration-collectif.svg" alt="" width="240" height="324" loading="lazy" decoding="async"></span>
+    <span class="portail" aria-hidden="true"><span class="portail__calque"><img src="/assets/img/illustration-collectif.svg" alt="" width="240" height="324" loading="lazy" decoding="async"></span></span>
     <div class="prose">
       <h2 id="collectif-titre"><?= e($t['collectif_titre']) ?></h2>
       <p class="sous-titre"><?= e($t['collectif_soustitre']) ?></p>
