@@ -21,16 +21,16 @@
     },
     "03-wireframes": {
       "titre": "Wireframes",
-      "version": 2,
+      "version": 6,
       "date": "2026-11-13",
-      "empreinte": "4d01ee41e098cdfb",
-      "statut": "brouillon"
+      "empreinte": "14f83054c9578655",
+      "statut": "à valider"
     },
     "04-direction-artistique": {
       "titre": "Direction artistique et maquettes",
-      "version": 1,
+      "version": 4,
       "date": "2026-11-13",
-      "empreinte": "d93e213af71c00ba",
+      "empreinte": "94c708313c893d55",
       "statut": "brouillon"
     }
   }

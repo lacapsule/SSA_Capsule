@@ -1,0 +1,10 @@
+Page : Galerie  ·  URL : /galerie/  ·  public : partenaires, participantes et participants  ·  intention : « photos du collectif »
+Action principale : parcourir les photos
+
+1. En-tête : logo, menu (Accueil, Le projet, Qui sommes-nous, Lieux conventionnés, Actualités, Agenda, Galerie, Contact), lien de langue « Brezhoneg » ; brique sections/en-tete-menu
+2. Fil d'Ariane : Accueil, puis la page ; brique sections/haut-de-page
+3. Haut de page : titre Galerie de la SSA (site actuel) ; brique sections/haut-de-page
+4. Galerie : vignettes à leur format réel, grande image au clic, pages suivantes en liens ; brique modules/galerie-visionneuse
+5. Pied de page : colonnes (Coordonnées, Pages légales, Langue) ; Le Buzuk, 39 bellevue de la Madeleine, 29600 Morlaix, 06 15 06 82 08, ssapaysdemorlaix@mailo.com ; Mentions légales, Confidentialité, Accessibilité, Plan du site ; lien Brezhoneg ; brique sections/pied-de-page
+
+Liens entrants : menu  ·  liens sortants : Actualités
