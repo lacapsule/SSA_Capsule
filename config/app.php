@@ -9,7 +9,7 @@ return [
         'name' => 'SSA Pays de Morlaix',
         'timezone' => 'Europe/Paris',
         // Gabarit de page des écrans publics des modules (gabarits/site-public-php : 'site/layout').
-        'layout' => 'layout',
+        'layout' => 'site/layout',
     ],
 
     'security' => [
@@ -54,6 +54,8 @@ return [
         'guard' => '',
         'layout' => 'admin/layout',
     ],
+
+    'langues' => require __DIR__ . '/langues.php',
 
     // Réglages des modules : un fichier par module, inclus ici, lus par config('contact.destinataire').
     // 'contact' => require __DIR__ . '/contact.php',

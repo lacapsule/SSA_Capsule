@@ -96,6 +96,7 @@ Chaque page française a sa version bretonne, à la même adresse précédée de
 | 2026-11-13 | Recherches visées : « sécurité sociale de l'alimentation Morlaix », « caisse alimentaire Morlaix », « monnaie locale Buzuk », « lieux conventionnés SSA » ; contenus non cédés à l'entraînement des IA | choix de Kouzia |
 | 2026-11-13 | Une seule personne valide chaque étape côté client : Géraldine Gabillet | choix de Kouzia |
 | 2026-11-13 | Cahier des charges version 11 validé par Géraldine Gabillet (validation 1, accord oral transmis par Kouzia) : le type associatif et l'architecture sont figés | validation 1 du cycle |
+| 2026-11-13 | Wireframes version 6 validés par Géraldine Gabillet (validation 2, accord oral transmis par Kouzia) : structure des 15 pages figée | validation 2 du cycle |
 
 ## Modèle à respecter
 
@@ -129,8 +130,8 @@ Chaque page française a sa version bretonne, à la même adresse précédée de
 | 2 | Recueil des besoins | mode d'emploi du projet | validé par Kouzia | validé |
 | 3 | Cahier des charges | livrable 02 | validation 1 par Géraldine Gabillet | validé |
 | 4 | Mise en place technique | base du site | contrôles techniques au vert | fait |
-| 5 | Structure des pages | wireframes, livrable 03 | validation 2 | à faire |
-| 6 | Construction : pages, import des contenus, administration, traduction bretonne | site complet en test | contrôles techniques au vert | à faire |
+| 5 | Structure des pages | wireframes, livrable 03 | validation 2 | validé |
+| 6 | Construction : pages, import des contenus, administration, traduction bretonne | site complet en test | contrôles techniques au vert | en cours |
 | 7 | Direction artistique : 3 pistes montrées sur les vraies pages | livrable 04 | validation 3 : choix d'une piste | à faire |
 | 8 | Finitions et audits (référencement, accessibilité, sécurité, poids des pages) | rapports d'audit | contrôles au vert | à faire |
 | 9 | Recette | procès-verbal de recette | validation 4 signée | à faire |

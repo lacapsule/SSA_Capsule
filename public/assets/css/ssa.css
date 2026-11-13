@@ -1,0 +1,15 @@
+/* Mise en page propre au projet, sur les tokens de base (charte neutre jusqu'à la validation 3).
+   En-tête : logo et langue sur la première ligne, menu de 8 entrées sur la seconde dès le grand écran. */
+.site-header__inner { row-gap: 0; }
+.site-header__logo { order: 1; gap: var(--space-2); }
+.site-header__logo img { width: 2.75rem; height: auto; aspect-ratio: 433 / 446; }
+.site-header .langues { order: 2; margin-inline-start: auto; }
+.site-nav { order: 3; flex-basis: 100%; justify-content: flex-start; }
+.site-nav__list { margin-inline-start: calc(-1 * var(--space-3)); }
+@media (max-width: 56rem) {
+  .site-nav { flex-basis: auto; }
+  .site-nav__list { margin-inline-start: 0; }
+}
+.site-footer address { font-style: normal; }
+/* En-tête : seulement le lien vers l'autre langue (maquette) ; la liste complète reste au pied de page. */
+.site-header .langues li:has([aria-current]) { display: none; }

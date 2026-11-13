@@ -1,0 +1,140 @@
+/* N0 de la boîte à outils, au thème Kouzia (nuit, ambre, Exo 2, Share Tech Mono).
+   Thème par défaut : sombre (charte Kouzia). [data-theme="light"] : variante claire, pour vérifier qu'une brique
+   tient aussi sur un site clair. Un projet client garde les NOMS et remplace les valeurs par sa charte.
+   Contrastes vérifiés sur --color-bg et --color-surface : texte ≥ 4,5:1, champs et focus ≥ 3:1. */
+
+@font-face {
+  font-family: "Exo 2";
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url("polices/exo2-latin.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Share Tech Mono";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("polices/share-tech-mono-latin.woff2") format("woff2");
+}
+
+:root {
+  color-scheme: dark;
+
+  /* Couleurs : rôle, pas teinte */
+  --color-bg: #0b1020;
+  --color-surface: #121a2e;
+  --color-surface-2: #19233c;
+  --color-text: #e8eaf8;
+  --color-text-muted: #9aa1bf;
+  --color-line: #232d47;          /* filets décoratifs */
+  --color-line-strong: #3a4566;
+  --color-border: #6f7897;        /* champs, contours de contrôle : 3:1 sur fond et surfaces */
+  --color-accent: #fe9a00;
+  --color-accent-strong: #ffb900;
+  --color-accent-soft: rgb(254 154 0 / 0.1);
+  --color-accent-line: rgb(254 154 0 / 0.45);
+  --color-accent-text: #1a1103;   /* texte posé sur l'accent */
+  --color-focus: #ffb900;
+  --color-indigo: #8b93ff;
+  --color-danger: #ff9b8f;
+  --color-danger-soft: rgb(255 155 143 / 0.08);
+  --color-success: #5ee0a0;
+  --color-success-soft: rgb(94 224 160 / 0.08);
+  --color-warning: #ffcf6b;
+  --color-info: #8b93ff;
+  --color-info-soft: rgb(139 147 255 / 0.1);
+  --color-warning-soft: rgb(255 207 107 / 0.1);
+  --color-indigo-soft: rgb(124 134 255 / 0.12);
+  --color-backdrop: rgb(5 8 18 / 0.66);
+  --shadow: 0 1.5rem 3rem -1rem rgb(0 0 0 / 0.6);
+  --shadow-accent: 0 1rem 2.5rem -1rem rgb(254 154 0 / 0.35);
+  --shadow-bord: rgb(0 0 0 / 0.7);  /* couleur d'ombre de bord (contenu qui défile, barre collante) : une vraie ombre, sombre */
+
+  /* Séries de graphique et groupes de carte : distinctes entre elles, 3:1 au moins sur --color-surface et --color-surface-2 */
+  --color-serie-1: #fe9a00;
+  --color-serie-2: #8b93ff;
+  --color-serie-3: #2ec4b6;
+  --color-serie-4: #f472b6;
+
+  /* Typographie */
+  --font-ui: "Exo 2", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-mono: "Share Tech Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  --step--2: 0.8125rem;
+  --step--1: clamp(0.875rem, 0.85rem + 0.1vw, 0.9375rem);
+  --step-0: clamp(1.0625rem, 1rem + 0.2vw, 1.125rem);
+  --step-1: clamp(1.125rem, 1.05rem + 0.35vw, 1.3rem);
+  --step-2: clamp(1.6rem, 1.3rem + 1.3vw, 2.25rem);
+  --step-3: clamp(2.1rem, 1.5rem + 2.8vw, 3.5rem);
+  --etiquette-espacement: 0.08em;
+
+  /* Espaces et mise en page */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 1rem;
+  --space-4: 1.5rem;
+  --space-5: 2.5rem;
+  --space-6: clamp(4rem, 2.5rem + 5vw, 7rem);
+  --gutter: clamp(1rem, 4vw, 2rem);
+  --wide: clamp(74rem, 40rem + 40vw, 104rem);
+  --measure: 42rem;
+  --header-h: 4.5rem;
+  --target: 2.75rem;
+
+  /* Formes */
+  --radius: 0.875rem;
+  --radius-small: 0.5rem;
+  --radius-grand: clamp(1.25rem, 0.9rem + 1vw, 1.75rem);
+  --radius-pill: 999px;
+  --filet-fort: 0.125rem;
+  --focus-largeur: 0.1875rem;
+  --focus-ecart: 0.125rem;
+
+  /* Empilement : contenu < collant < menu < bulle < dialogue < notification */
+  --z-collant: 10;
+  --z-menu: 20;
+  --z-bulle: 30;
+  --z-dialogue: 40;
+  --z-notification: 50;
+
+  /* Mouvement */
+  --duration-fast: 150ms;
+  --duration-base: 300ms;
+  --ease: cubic-bezier(0.2, 0, 0, 1);
+}
+
+:root[data-theme="light"] {
+  --color-bg: #f7f5f0;
+  --color-surface: #ffffff;
+  --color-surface-2: #efece4;
+  --color-text: #141a2e;
+  --color-text-muted: #4a5270;
+  --color-line: #e2ddd2;
+  --color-line-strong: #c9c2b3;
+  --color-border: #767b8f;
+  --color-accent: #b45309;
+  --color-accent-strong: #92400e;
+  --color-accent-soft: rgb(180 83 9 / 0.08);
+  --color-accent-line: rgb(180 83 9 / 0.4);
+  --color-accent-text: #ffffff;
+  --color-focus: #b45309;
+  --color-indigo: #4048c8;
+  --color-danger: #b3261e;
+  --color-danger-soft: rgb(179 38 30 / 0.07);
+  --color-success: #1e7a46;
+  --color-success-soft: rgb(30 122 70 / 0.08);
+  --color-warning: #8a5300;
+  --color-info: #3640b8;
+  --color-info-soft: rgb(54 64 184 / 0.07);
+  --color-warning-soft: rgb(138 83 0 / 0.08);
+  --color-indigo-soft: rgb(64 72 200 / 0.08);
+  --color-backdrop: rgb(20 26 46 / 0.5);
+  --shadow: 0 1.25rem 2.5rem -1.25rem rgb(20 26 46 / 0.25);
+  --shadow-accent: 0 1rem 2rem -1rem rgb(180 83 9 / 0.3);
+  --shadow-bord: rgb(20 26 46 / 0.22);
+  --color-serie-1: #b45309;
+  --color-serie-2: #4048c8;
+  --color-serie-3: #0f766e;
+  --color-serie-4: #be185d;
+  color-scheme: light;
+}

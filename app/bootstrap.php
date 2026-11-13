@@ -52,3 +52,5 @@ if (!is_local() && PHP_SAPI !== 'cli') {
         abort(500);
     });
 }
+
+require __DIR__ . '/Langue/fonctions.php';

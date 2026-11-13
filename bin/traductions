@@ -1,0 +1,139 @@
+#!/usr/bin/env php
+<?php
+declare(strict_types=1);
+
+/*
+ * Traductions à faire (modules/multilingue). Code de sortie 1 s'il manque quelque chose : utilisable en CI.
+ *   php bin/traductions                 textes d'interface : clés manquantes, en trop, vides, pluriels et {variables}
+ *   php bin/traductions contenu         contenus en base : traductions manquantes ou périmées (texte d'origine modifié)
+ *   php bin/traductions --langue=en     une seule langue
+ *   php bin/traductions --detail        liste aussi les clés en trop (présentes dans la langue, absentes de la référence)
+ */
+
+if (PHP_SAPI !== 'cli') {
+    http_response_code(404);
+    exit;
+}
+
+require __DIR__ . '/../app/bootstrap.php';
+
+use App\Langue\Contenu;
+use App\Langue\Langue;
+use App\Langue\Pluriel;
+use App\Langue\T;
+
+$commande = 'interface';
+$options = [];
+foreach (array_slice($argv, 1) as $arg) {
+    if (preg_match('/^--([a-z]+)(?:=(.*))?$/', $arg, $m) === 1) {
+        $options[$m[1]] = $m[2] ?? true;
+    } else {
+        $commande = $arg;
+    }
+}
+$defaut = Langue::defaut();
+$langues = array_values(array_diff(array_keys(Langue::langues()), [$defaut]));
+if (isset($options['langue'])) {
+    $langues = array_values(array_intersect($langues, [(string) $options['langue']]));
+    if ($langues === []) {
+        fwrite(STDERR, 'Langue inconnue ou langue par défaut : ' . $options['langue'] . PHP_EOL);
+        exit(2);
+    }
+}
+
+exit(match ($commande) {
+    'interface' => interfaceManquante($defaut, $langues, isset($options['detail'])),
+    'contenu' => contenuManquant($langues),
+    default => inconnue($commande),
+});
+
+function inconnue(string $commande): int
+{
+    fwrite(STDERR, "Commande inconnue : $commande (interface ou contenu)" . PHP_EOL);
+    return 2;
+}
+
+/** @param list<string> $langues */
+function interfaceManquante(string $defaut, array $langues, bool $detail): int
+{
+    $reference = T::catalogue($defaut);
+    if ($reference === []) {
+        fwrite(STDERR, "Catalogue de référence vide ou absent : lang/$defaut.php" . PHP_EOL);
+        return 2;
+    }
+    $problemes = 0;
+    echo 'Référence : lang/' . $defaut . '.php (' . count($reference) . ' clés)' . PHP_EOL;
+    foreach ($langues as $langue) {
+        $cat = T::catalogue($langue);
+        $lignes = [];
+        foreach ($reference as $cle => $valeur) {
+            if (!array_key_exists($cle, $cat)) {
+                $lignes[] = "  manque   $cle";
+                continue;
+            }
+            $trad = $cat[$cle];
+            if (is_array($valeur) !== is_array($trad)) {
+                $lignes[] = "  forme    $cle : " . (is_array($valeur) ? 'pluriel attendu' : 'texte simple attendu');
+                continue;
+            }
+            if (is_array($trad)) {
+                $absentes = array_diff(Pluriel::requises($langue), array_keys($trad));
+                if ($absentes !== []) {
+                    $lignes[] = "  pluriel  $cle : forme(s) " . implode(', ', $absentes) . ' absente(s)';
+                }
+            }
+            foreach ((array) $trad as $forme => $texte) {
+                if (trim((string) $texte) === '') {
+                    $lignes[] = "  vide     $cle" . (is_array($trad) ? " ($forme)" : '');
+                }
+            }
+            $attendues = variables($valeur);
+            $trouvees = variables($trad);
+            if ($attendues !== $trouvees) {
+                $lignes[] = "  variable $cle : attendu {" . implode('} {', $attendues) . '}, trouvé {' . implode('} {', $trouvees) . '}';
+            }
+        }
+        $enTrop = array_diff(array_keys($cat), array_keys($reference));
+        echo PHP_EOL . Langue::nom($langue) . " ($langue) : " . (count($lignes) === 0 ? 'complet' : count($lignes) . ' à traiter')
+            . ($enTrop !== [] ? ', ' . count($enTrop) . ' clé(s) en trop' : '') . PHP_EOL;
+        foreach ($lignes as $l) {
+            echo $l . PHP_EOL;
+        }
+        if ($detail) {
+            foreach ($enTrop as $cle) {
+                echo "  en trop  $cle" . PHP_EOL;
+            }
+        }
+        $problemes += count($lignes);
+    }
+    return $problemes === 0 ? 0 : 1;
+}
+
+/** @param list<string> $langues */
+function contenuManquant(array $langues): int
+{
+    $liste = Contenu::aRevoir($langues);
+    $parLangue = [];
+    foreach ($liste as $l) {
+        $parLangue[$l['langue']][] = $l;
+    }
+    foreach ($langues as $langue) {
+        $items = $parLangue[$langue] ?? [];
+        $perimees = count(array_filter($items, static fn (array $i): bool => $i['etat'] === 'perimee'));
+        echo Langue::nom($langue) . " ($langue) : " . (count($items) === 0 ? 'à jour' : (count($items) - $perimees) . ' manquante(s), ' . $perimees . ' périmée(s)') . PHP_EOL;
+        foreach ($items as $i) {
+            $etat = $i['etat'] === 'perimee' ? 'périmée' : 'manque';
+            echo '  ' . $etat . str_repeat(' ', 9 - text_length($etat)) . $i['objet'] . ' ' . $i['objet_id'] . ' : ' . $i['champ'] . PHP_EOL;
+        }
+    }
+    return $liste === [] ? 0 : 1;
+}
+
+/** Variables {nom} d'un texte ou d'un pluriel, triées (le {n} d'un pluriel compte comme les autres). @return list<string> */
+function variables(string|array $valeur): array
+{
+    preg_match_all('/\{([a-z_][a-z0-9_]*)\}/i', implode("\n", (array) $valeur), $m);
+    $noms = array_values(array_unique($m[1]));
+    sort($noms);
+    return $noms;
+}

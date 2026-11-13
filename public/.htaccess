@@ -23,6 +23,8 @@ DirectoryIndex index.php
     RewriteCond %{REQUEST_METHOD} !^(GET|HEAD|OPTIONS)$ [NC]
     RewriteCond %{THE_REQUEST} !^POST\s/+(contact/|br/contact/|admin/)[^\s]*\s [NC]
     RewriteRule ^ - [F,L]
+    # Scripts glissés parmi les fichiers envoyés : jamais exécutés.
+    RewriteRule ^media/.*\.(?:php\d?|phtml|phar|cgi|pl|py|sh)$ - [F,L,NC]
 
     # Tout ce qui n'est pas un fichier réel passe par le contrôleur frontal.
     RewriteCond %{REQUEST_FILENAME} !-f
@@ -40,10 +42,10 @@ DirectoryIndex index.php
         Header set Referrer-Policy "strict-origin-when-cross-origin"
         Header set Cross-Origin-Resource-Policy "same-site"
     </FilesMatch>
-    # À ADAPTER : HSTS des fichiers statiques sur le seul domaine public (même valeur que config/app.php).
-    # <If "%{HTTPS} == 'on' && %{HTTP_HOST} == 'exemple.org'">
-    #     Header always set Strict-Transport-Security "max-age=31536000"
-    # </If>
+    # HSTS des fichiers statiques sur le seul domaine public (même valeur que config/app.php).
+    <If "%{HTTPS} == 'on' && %{HTTP_HOST} == 'ssapaysdemorlaix.fr'">
+        Header always set Strict-Transport-Security "max-age=31536000"
+    </If>
     Header unset X-Powered-By
 </IfModule>
 

@@ -2,18 +2,12 @@
 declare(strict_types=1);
 
 use App\Core\Router;
-use App\Core\View;
 
-// Table des routes : une ligne par adresse. Les contrôleurs vivent dans app/<Domaine>/ (App\Site\..., App\Admin\...).
+// Table des routes : chemins français seulement (modules/multilingue sert les mêmes sous /br/).
 $router = new Router();
 
-$router->get('/', static function (): void {
-    View::render('pages/home', ['title' => config('app.name', 'Accueil')], 'layout');
-});
-
-// Exemple de segment nommé : /fiches/12/ appelle le gestionnaire avec $id = '12'.
-$router->get('/fiches/{id}/', static function (string $id): void {
-    ctype_digit($id) ? View::render('pages/home', ['title' => 'Fiche ' . $id], 'layout') : abort(404);
-});
+(require __DIR__ . '/Site/routes.php')($router);
+$router->get('/sitemap.xml', [App\Langue\Sitemap::class, 'afficher']);
+(require __DIR__ . '/Pages/routes.php')($router);
 
 return $router;

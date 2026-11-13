@@ -1,0 +1,3 @@
+# ancienne adresse	nouvelle adresse (séparées par une tabulation ; « * » final : tout le dossier)
+/ancienne-page/	/a-propos/
+/blog/*	/

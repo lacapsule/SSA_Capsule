@@ -24,7 +24,12 @@
       "version": 6,
       "date": "2026-11-13",
       "empreinte": "14f83054c9578655",
-      "statut": "à valider"
+      "statut": "validé",
+      "validation": {
+        "par": "Géraldine Gabillet, accord oral transmis par Kouzia le 2026-11-13",
+        "date": "2026-11-13",
+        "version": 6
+      }
     },
     "04-direction-artistique": {
       "titre": "Direction artistique et maquettes",
