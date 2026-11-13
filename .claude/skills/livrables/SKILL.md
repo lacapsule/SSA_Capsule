@@ -14,7 +14,7 @@ Principe : un livrable ne s'écrit jamais à la main. Il est généré depuis la
 | 01 | Audit de l'existant | site actuel et `docs/source/fournis/` | `make audit URL=https://site-actuel` | non (constat) |
 | 02 | Cahier des charges | `.claude/rules/projet.md` et audit | `make livrables` | **1** |
 | 03 | Wireframes | section « Arborescence » et `docs/maquettes/<page>.md` (skill `web-contenu`) | `make livrables` | **2** |
-| 04 | Direction artistique | couleurs, logo et polices de l'audit, métier du client | à venir | **3** (avec 05) |
+| 04 | Direction artistique | couleurs, logo et polices de l'audit, champ `- metier:` du mode d'emploi, `donnees/directions.json` | `make livrables` | **3** (avec 05) |
 | 05 | Maquettes | le site en construction, captures bureau et 390 px | à venir | **3** |
 | 06 | PV de recette | `make verify`, `make a11y`, Lighthouse, checklist du skill `livraison` | à venir | **4**, avant mise en ligne |
 | 07 | Dossier de livraison | mode d'emploi, réglages, procédure de mise en ligne | à venir | non |
@@ -46,19 +46,29 @@ Quand l'humain donne le lien du site actuel, l'accord du client pour reprendre s
 - La brique de la boîte notée dans une zone reste pour l'agent : elle est retirée du document du client.
 - Brouillon tant que le cahier des charges n'est pas validé (ordre de la chaîne).
 
-## 5. Rangement
+## 5. Direction artistique
+
+- Trois pistes : **fidèle** (couleurs et polices du site actuel, en-tête dans la couleur de marque), **modernisée** (mêmes teintes avec retenue, fond neutre, polices du métier, plus d'air), **contrastée** (marque en grand dans l'en-tête et le haut de page, polices à plus fort caractère, angles plus nets). Décision du 2026-11-13.
+- Couleurs (`lib/couleurs.mjs`) : couleurs de marque prises dans le logo puis dans le site par poids ; jeu complet clair et sombre aux noms de `base/tokens.css` de la boîte, plus `--color-marque` et `--color-marque-texte` ; une couleur trop claire pour du texte est déclinée dans OKLCH (même teinte, clarté ajustée). Paires contrôlées : texte et texte secondaire, accent, messages, sur chaque fond (4,5:1), focus et contours (3:1), texte sur bouton et sur la couleur de marque.
+- Polices (`lib/polices.mjs`) : libres (OFL), téléchargées une fois depuis Google Fonts en woff2 latin dans `docs/source/polices/` (décision du 2026-11-13) ; aucune requête vers Google une fois le site en ligne. Police du système du site actuel (Georgia, Arial…) : gardée sans fichier. Police inconnue de Google : à demander au client avec sa licence web.
+- Métier (`donnees/directions.json`) : ton, deux paires de polices, arrondis, densité, style photo, sections de la boîte conseillées, à éviter. Un métier qui manque s'ajoute là, pas dans le code.
+- Chaque piste écrit `pistes/<n>-<nom>/tokens.css` (N0 prêt à poser dans le site, clair par défaut, sombre selon le système ou `data-theme`) et une planche avec les vrais textes du client, capturée en clair et en sombre.
+- Brouillon tant que les wireframes ne sont pas validés.
+
+## 6. Rangement
 
 | Chemin | Contenu | Versionné |
 |--------|---------|-----------|
 | `docs/source/fournis/` | fichiers remis par le client, tels quels | oui |
 | `docs/source/existant/` | inventaire, captures et fichiers récupérés par l'audit (généré) | oui |
+| `docs/source/polices/` | polices libres téléchargées (woff2 latin, `police.json` avec licence et source) | oui |
 | `docs/livrables/<id>/` | `index.html` et `<id>.pdf` de chaque livrable (généré) | oui |
 | `docs/livrables/_commun/` | charte copiée depuis la boîte (généré) | oui |
 | `docs/livrables/registre.json` | version, date, statut et validation de chaque livrable | oui |
 
 Rien de `docs/` n'est publié en ligne (hors de `dist/` et de `public/`).
 
-## 6. Règles d'écriture des livrables
+## 7. Règles d'écriture des livrables
 
 - L'encadré « À compléter » est une liste de travail pour Kouzia : un livrable ne part au client qu'une fois l'encadré vide.
 - Texte pour le client : aucun terme interne (nom d'outil, de fichier du kit, de variable), pas de jargon sans explication.

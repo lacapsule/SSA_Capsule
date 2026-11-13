@@ -3,12 +3,14 @@
 //   01-audit-existant      ← docs/source/existant/inventaire.json (make audit URL=…)
 //   02-cahier-des-charges  ← .claude/rules/projet.md (mode d'emploi) et l'audit
 //   03-wireframes          ← section « Arborescence » du mode d'emploi et docs/maquettes/<page>.md
+//   04-direction-artistique ← branding de l'audit, champ « metier » du mode d'emploi, donnees/directions.json
 // Usage : node generer.mjs [id…]            génère les livrables dont la source existe
 //         node generer.mjs --valider <id> "<qui>"   enregistre la validation (sur instruction de l'humain)
 import { existsSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import { DOSSIER_LIVRABLES, echapper, ecrireLivrable, lancerNavigateur, lireRegistre, markdown, poserCommun, RACINE, valider } from '../lib/document.mjs';
 import { wireframes } from '../lib/wireframes.mjs';
+import { directionArtistique } from '../lib/direction.mjs';
 
 const args = process.argv.slice(2);
 if (args[0] === '--valider') {
@@ -32,7 +34,7 @@ function lireModeEmploi() {
     const [titre, ...corps] = bloc.split('\n');
     sections[titre.trim()] = corps.join('\n').trim();
   }
-  return { nom, depot: champ('depot'), type: champ('type'), statut: champ('statut'), maj: champ('mise à jour'), sections, texte };
+  return { nom, depot: champ('depot'), type: champ('type'), metier: champ('metier'), statut: champ('statut'), maj: champ('mise à jour'), sections, texte };
 }
 
 /** Lignes du tableau « Arborescence » du mode d'emploi : { page, adresse, intention, remplace }. */
@@ -260,6 +262,24 @@ if (veut('03-wireframes') && mode) {
       corps, sourcesRendues, brouillon: avertissements.length > 0, avertissements,
     }));
   }
+}
+if (veut('04-direction-artistique') && mode && (inv || demandes.length)) {
+  poserCommun();
+  const navigateur = await lancerNavigateur();
+  const maquetteAccueil = existsSync(path.join(RACINE, 'docs/maquettes/accueil.md')) ? readFileSync(path.join(RACINE, 'docs/maquettes/accueil.md'), 'utf8') : '';
+  const { corps, avertissements, sourcesRendues } = await directionArtistique({
+    inventaire: inv, mode, arborescence: lireArborescence(mode), metier: mode.metier, maquetteAccueil,
+    dossier: path.join(DOSSIER_LIVRABLES, '04-direction-artistique'), navigateur,
+  });
+  await navigateur.close();
+  // Ordre de la chaîne : l'apparence se choisit sur une structure validée (validation 2).
+  if (lireRegistre().livrables['03-wireframes']?.statut !== 'validé') avertissements.unshift('Wireframes pas encore validés par le client : la direction artistique attend la validation 2.');
+  if (!inv) avertissements.push("Pas d'audit du site actuel : couleurs, logo et polices du client inconnus (make audit URL=…, ou fichiers dans docs/source/fournis/).");
+  faits.push(await ecrireLivrable({
+    id: '04-direction-artistique', titre: 'Direction artistique', client: mode.nom,
+    sousTitre: "Trois directions possibles pour l'apparence du site, construites depuis la marque actuelle et le métier, toutes conformes en contraste.",
+    corps, sourcesRendues, brouillon: avertissements.length > 0, avertissements,
+  }));
 }
 for (const f of faits) console.log(`${f.titre} : version ${f.version} (${f.statut}) · ${f.html} · ${f.pdf}`);
 if (!faits.length) process.exit(1);

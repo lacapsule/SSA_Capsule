@@ -43,9 +43,9 @@ Puis dans la boîte : `node outils/indexer.mjs`, `node .claude/skills/web-audit/
 
 But : un agent crée seul un site client sur mesure (branding repris du site actuel ou des fichiers fournis, métier, vrais besoins), avec tous les documents de conception et de livraison, uniformes. Décidé le 2026-11-12 : 4 validations du client (cahier des charges, wireframes, direction artistique et maquettes, recette), documents en HTML et PDF à la charte Kouzia (variante claire des tokens de la boîte, Exo 2). Pas de logo Kouzia : le nom est écrit en texte.
 
-Fait (skill `livrables`) : 01 audit de l'existant, 02 cahier des charges, 03 wireframes. Testés sur un faux site local seulement.
+Fait (skill `livrables`) : 01 audit de l'existant, 02 cahier des charges, 03 wireframes, 04 direction artistique. Testés sur un faux site local seulement.
 
-- [ ] **04 Direction artistique** : couleurs de l'audit converties en tokens N0, contraste vérifié et accent décliné (exemple relevé : orange `#d9822b` à 2,93:1 sur blanc, insuffisant pour du texte), variantes clair et sombre, polices (licence, woff2 local), usage du logo, 2 ou 3 pistes. Il manque un script de contraste et un skill de direction par métier (artisan, santé, restaurant, association…), sans lequel les sites se ressemblent.
+- [x] **04 Direction artistique** (2026-11-13) : 3 pistes (fidèle, modernisée, contrastée), couleurs de l'audit en tokens vérifiés clair et sombre (`lib/couleurs.mjs`), polices libres de Google Fonts en woff2 local (`lib/polices.mjs`), directions par métier (`donnees/directions.json`, champ `- metier:` du mode d'emploi). Reste : appliquer la piste validée au site (écrire `src/styles/base/tokens.css` et copier les polices dans `public/`), à faire avec le 05.
 - [ ] **05 Maquettes** : captures du vrai site en construction (1280 et 390 px, clair et sombre), à partir de `check-rendu.mjs` ; validation 3 avec le 04.
 - [ ] **06 PV de recette** : depuis `make verify`, `make a11y`, Lighthouse et la checklist du skill `livraison` ; validation 4 avant mise en ligne.
 - [ ] **07 Dossier de livraison** : guide d'utilisation pour le client, dossier technique (hébergement, emplacement des accès, sauvegardes, mise en ligne, retour arrière).

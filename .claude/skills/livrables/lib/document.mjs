@@ -105,7 +105,7 @@ export function poserCommun() {
   for (const p of ['exo2-latin.woff2', 'share-tech-mono-latin.woff2']) {
     copyFileSync(path.join(b, 'base/polices', p), path.join(commun, 'polices', p));
   }
-  for (const f of ['document.css', 'wireframe.css']) copyFileSync(path.join(ICI, '../gabarit', f), path.join(commun, f));
+  for (const f of ['document.css', 'wireframe.css', 'planche.css']) copyFileSync(path.join(ICI, '../gabarit', f), path.join(commun, f));
 }
 
 export function lireRegistre() {

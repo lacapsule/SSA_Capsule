@@ -1,0 +1,115 @@
+{
+  "description": "Directions artistiques par métier : point de départ des pistes 2 (modernisée) et 3 (contrastée) ; la piste 1 (fidèle) part du site actuel. Polices : familles libres de Google Fonts (OFL), téléchargées en woff2 local. Rayon en rem, densité : aéré, équilibré ou dense. Sections : briques de la boîte (elements/sections). Une valeur se discute avec le client : ce fichier propose, il ne décide pas.",
+  "metiers": {
+    "artisan": {
+      "libelle": "Artisan, bâtiment, fabrication",
+      "ton": "concret, fier du savoir-faire, rassurant sur le sérieux et les délais",
+      "modernisee": { "titres": ["Fraunces", "serif"], "texte": ["Inter", "sans"] },
+      "contrastee": { "titres": ["Archivo", "sans"], "texte": ["Source Sans 3", "sans"] },
+      "rayon": 0.375,
+      "densite": "équilibré",
+      "photos": "chantiers et pièces réelles, mains au travail, matière en gros plan, lumière naturelle",
+      "sections": ["heros", "services", "realisations", "etapes", "faq", "appel-contact", "contact-complet"],
+      "eviter": ["photos de banque d'images", "effets métalliques ou textures bois imprimées", "avis sans source"]
+    },
+    "sante": {
+      "libelle": "Santé, soin, bien-être",
+      "ton": "calme, clair, bienveillant, sans promesse médicale",
+      "modernisee": { "titres": ["Lexend", "sans"], "texte": ["Atkinson Hyperlegible", "sans"] },
+      "contrastee": { "titres": ["Lora", "serif"], "texte": ["Nunito Sans", "sans"] },
+      "rayon": 0.75,
+      "densite": "aéré",
+      "photos": "cabinet réel, praticien avec accord, pas de patient identifiable",
+      "sections": ["heros", "services", "etapes", "faq", "coordonnees", "appel-contact"],
+      "eviter": ["avant et après", "vocabulaire de guérison", "rouge vif hors alerte"]
+    },
+    "restaurant": {
+      "libelle": "Restaurant, café, métiers de bouche",
+      "ton": "chaleureux, gourmand, direct sur les horaires et la réservation",
+      "modernisee": { "titres": ["Playfair Display", "serif"], "texte": ["Work Sans", "sans"] },
+      "contrastee": { "titres": ["Bebas Neue", "sans"], "texte": ["Lato", "sans"] },
+      "rayon": 0.5,
+      "densite": "équilibré",
+      "photos": "plats et lieu réels, lumière chaude, pas de photo de stock",
+      "sections": ["heros", "services", "realisations", "coordonnees", "contact-complet"],
+      "eviter": ["menu en image ou en PDF seul", "carrousel automatique en héros"]
+    },
+    "association": {
+      "libelle": "Association, collectif, action sociale",
+      "ton": "accueillant, engagé, simple, en langage clair",
+      "modernisee": { "titres": ["Outfit", "sans"], "texte": ["Source Sans 3", "sans"] },
+      "contrastee": { "titres": ["Bitter", "serif"], "texte": ["Atkinson Hyperlegible", "sans"] },
+      "rayon": 0.75,
+      "densite": "aéré",
+      "photos": "membres et actions réels avec droit à l'image, pas de visage d'enfant sans accord",
+      "sections": ["heros", "chiffres-cles", "services", "etapes", "equipe", "logos-defilants", "newsletter-inscription", "appel-contact"],
+      "eviter": ["chiffres non sourcés", "jargon institutionnel"]
+    },
+    "commerce": {
+      "libelle": "Commerce de proximité, boutique",
+      "ton": "vivant, pratique, horaires et accès en premier",
+      "modernisee": { "titres": ["DM Sans", "sans"], "texte": ["Inter", "sans"] },
+      "contrastee": { "titres": ["Space Grotesk", "sans"], "texte": ["Work Sans", "sans"] },
+      "rayon": 0.5,
+      "densite": "dense",
+      "photos": "vitrine, rayons et produits réels",
+      "sections": ["heros", "services", "realisations", "coordonnees", "contact-complet"],
+      "eviter": ["promotions périmées laissées en ligne", "prix sans TTC"]
+    },
+    "conseil": {
+      "libelle": "Conseil, profession libérale, services aux entreprises",
+      "ton": "sobre, précis, orienté résultats vérifiables",
+      "modernisee": { "titres": ["Manrope", "sans"], "texte": ["Inter", "sans"] },
+      "contrastee": { "titres": ["Libre Baskerville", "serif"], "texte": ["Source Sans 3", "sans"] },
+      "rayon": 0.375,
+      "densite": "équilibré",
+      "photos": "portraits réels de l'équipe, lieux de travail, pas de poignée de main de stock",
+      "sections": ["heros", "services", "etapes", "equipe", "tarifs", "faq", "appel-contact"],
+      "eviter": ["logos de clients sans accord", "promesses chiffrées sans preuve"]
+    },
+    "tourisme": {
+      "libelle": "Tourisme, hébergement, loisirs",
+      "ton": "évocateur mais précis sur les dates, tarifs et accès",
+      "modernisee": { "titres": ["Cormorant Garamond", "serif"], "texte": ["Nunito Sans", "sans"] },
+      "contrastee": { "titres": ["Josefin Sans", "sans"], "texte": ["Lato", "sans"] },
+      "rayon": 0.75,
+      "densite": "aéré",
+      "photos": "lieux réels en grand format, saisons variées",
+      "sections": ["heros", "realisations", "tarifs", "faq", "coordonnees", "contact-complet"],
+      "eviter": ["photos retouchées trompeuses", "carte interactive chargée d'office"]
+    },
+    "culture": {
+      "libelle": "Culture, spectacle, patrimoine",
+      "ton": "expressif, éditorial, programme et billetterie lisibles",
+      "modernisee": { "titres": ["EB Garamond", "serif"], "texte": ["IBM Plex Sans", "sans"] },
+      "contrastee": { "titres": ["Oswald", "sans"], "texte": ["Source Sans 3", "sans"] },
+      "rayon": 0.25,
+      "densite": "équilibré",
+      "photos": "œuvres, lieux et spectacles réels avec crédits",
+      "sections": ["heros", "blog-liste", "realisations", "carrousel", "newsletter-inscription", "appel-contact"],
+      "eviter": ["texte en image", "animations décoratives"]
+    },
+    "education": {
+      "libelle": "Formation, éducation, accompagnement",
+      "ton": "pédagogique, encourageant, étapes claires",
+      "modernisee": { "titres": ["Lexend", "sans"], "texte": ["Atkinson Hyperlegible", "sans"] },
+      "contrastee": { "titres": ["Zilla Slab", "serif"], "texte": ["Nunito Sans", "sans"] },
+      "rayon": 0.75,
+      "densite": "aéré",
+      "photos": "séances réelles avec droit à l'image, supports de cours",
+      "sections": ["heros", "services", "etapes", "tarifs", "faq", "appel-contact"],
+      "eviter": ["taux de réussite non sourcés"]
+    },
+    "defaut": {
+      "libelle": "Activité non classée",
+      "ton": "clair, direct, au service de l'action principale",
+      "modernisee": { "titres": ["Inter", "sans"], "texte": ["Inter", "sans"] },
+      "contrastee": { "titres": ["Fraunces", "serif"], "texte": ["Source Sans 3", "sans"] },
+      "rayon": 0.5,
+      "densite": "équilibré",
+      "photos": "réelles, fournies par le client",
+      "sections": ["heros", "services", "faq", "appel-contact"],
+      "eviter": ["contenu inventé"]
+    }
+  }
+}

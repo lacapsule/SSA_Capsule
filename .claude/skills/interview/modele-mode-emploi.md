@@ -2,6 +2,7 @@
 
 - depot: <nom exact du dossier du dépôt>
 - type: vitrine | vitrine-formulaire | associatif | boutique | espace-client | outil-interne (rule types-de-site)
+- metier: artisan | sante | restaurant | association | commerce | conseil | tourisme | culture | education | defaut (skill livrables, direction artistique)
 - statut: brouillon | validé le AAAA-MM-JJ
 - mise à jour: AAAA-MM-JJ
 

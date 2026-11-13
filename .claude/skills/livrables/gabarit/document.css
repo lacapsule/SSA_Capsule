@@ -235,6 +235,10 @@ blockquote {
   margin: var(--space-3) 0;
 }
 
+.ecrans-egaux {
+  grid-template-columns: 1fr 1fr;
+}
+
 .ecrans figure {
   margin: 0;
 }
