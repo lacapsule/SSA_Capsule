@@ -128,7 +128,7 @@ Chaque page française a sa version bretonne, à la même adresse précédée de
 | 1 | Audit du site actuel | livrable 01 | inventaire des contenus | livré |
 | 2 | Recueil des besoins | mode d'emploi du projet | validé par Kouzia | validé |
 | 3 | Cahier des charges | livrable 02 | validation 1 par Géraldine Gabillet | validé |
-| 4 | Mise en place technique | base du site | contrôles techniques au vert | à faire |
+| 4 | Mise en place technique | base du site | contrôles techniques au vert | fait |
 | 5 | Structure des pages | wireframes, livrable 03 | validation 2 | à faire |
 | 6 | Construction : pages, import des contenus, administration, traduction bretonne | site complet en test | contrôles techniques au vert | à faire |
 | 7 | Direction artistique : 3 pistes montrées sur les vraies pages | livrable 04 | validation 3 : choix d'une piste | à faire |

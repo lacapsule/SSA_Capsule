@@ -1,0 +1,65 @@
+# Apache ou LiteSpeed. Racine web = ce dossier public/ : app/, config/, data/, migrations/ et scripts/ restent hors web.
+Options -Indexes -MultiViews +FollowSymLinks
+ServerSignature Off
+DirectoryIndex index.php
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # HTTPS et domaine sans « www », sauf en local. Derrière un mandataire qui termine le TLS, X-Forwarded-Proto évite la boucle.
+    RewriteCond %{HTTP_HOST} !^(localhost|127\.0\.0\.1)(:\d+)?$ [NC]
+    RewriteCond %{HTTPS} !=on
+    RewriteCond %{HTTP:X-Forwarded-Proto} !=https
+    RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L,NE]
+    RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
+    RewriteRule ^ https://%1%{REQUEST_URI} [R=301,L,NE]
+
+    # Fichiers cachés (.env, .git, .user.ini...), sauf /.well-known/ ; routeur du serveur de développement.
+    RewriteRule (^|/)\.(?!well-known/) - [F,L]
+    RewriteRule ^router\.php$ - [F,L]
+
+    # Méthodes : GET, HEAD et OPTIONS partout ; POST seulement vers les formulaires réels du site.
+    # Un préfixe par formulaire : contact (français et breton) et administration. THE_REQUEST est lu aussi par LiteSpeed.
+    RewriteCond %{REQUEST_METHOD} !^(GET|HEAD|OPTIONS)$ [NC]
+    RewriteCond %{THE_REQUEST} !^POST\s/+(contact/|br/contact/|admin/)[^\s]*\s [NC]
+    RewriteRule ^ - [F,L]
+
+    # Tout ce qui n'est pas un fichier réel passe par le contrôleur frontal.
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^ index.php [L,QSA]
+</IfModule>
+
+<FilesMatch "\.(?:env|ini|log|sh|md|bak|sql|sqlite|sqlite-journal|sqlite-wal|sqlite-shm|lock|ya?ml|map|tsv|key|dist|orig|swp)$">
+    Require all denied
+</FilesMatch>
+
+<IfModule mod_headers.c>
+    # Fichiers statiques (les pages PHP reçoivent leurs en-têtes de app/Core/Headers.php).
+    <FilesMatch "\.(?:css|js|webp|avif|png|jpe?g|svg|woff2|ico|pdf)$">
+        Header set X-Content-Type-Options "nosniff"
+        Header set Referrer-Policy "strict-origin-when-cross-origin"
+        Header set Cross-Origin-Resource-Policy "same-site"
+    </FilesMatch>
+    # À ADAPTER : HSTS des fichiers statiques sur le seul domaine public (même valeur que config/app.php).
+    # <If "%{HTTPS} == 'on' && %{HTTP_HOST} == 'exemple.org'">
+    #     Header always set Strict-Transport-Security "max-age=31536000"
+    # </If>
+    Header unset X-Powered-By
+</IfModule>
+
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/html text/css application/javascript application/json text/plain application/xml image/svg+xml
+</IfModule>
+
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresDefault "access plus 1 hour"
+    ExpiresByType text/html "access plus 0 seconds"
+    ExpiresByType text/css "access plus 7 days"
+    ExpiresByType application/javascript "access plus 7 days"
+    ExpiresByType image/webp "access plus 30 days"
+    ExpiresByType image/avif "access plus 30 days"
+    ExpiresByType image/png "access plus 30 days"
+    ExpiresByType image/svg+xml "access plus 30 days"
+    ExpiresByType font/woff2 "access plus 1 year"
+</IfModule>
