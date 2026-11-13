@@ -90,6 +90,7 @@ function auditExistant(inv, mode) {
 | Date de l'audit | ${inv.date.slice(0, 10)} |
 | Pages lues | ${inv.pagesLues}${inv.pagesLues >= inv.limite ? ` (limite de ${inv.limite} atteinte)` : ''} |
 | Anciennes adresses (redirections à prévoir) | ${inv.anciennesAdresses.length} |
+| Variantes à paramètres (langue, pagination) | ${(inv.variantes ?? []).length}${(inv.variantes ?? []).some((v) => v.langue) ? ` ; langues : ${[...new Set(inv.variantes.filter((v) => v.langue).map((v) => v.langue))].join(', ')}` : ''} |
 | Images de contenu récupérées | ${inv.images.length} |
 | Fichiers fournis par le client | ${inv.fournis.length} |
 
@@ -234,12 +235,27 @@ function cahierDesCharges(mode, inv) {
     section('Contenus et données', 'Données et contenus', 'À définir.'),
     // Un outil interne n'est jamais indexé : pas d'exigence de référencement.
     `## Exigences\n\n${mode.type === 'outil-interne' ? EXIGENCES_COMMUNES.split('\n').filter((l) => !/Référencement/.test(l)).join('\n') : EXIGENCES_COMMUNES}\n${EXIGENCES_TYPE[mode.type] ?? ''}\n`,
-    section('Hébergement', 'Hébergement et accès', 'À définir.'),
+    // « Hébergement » depuis le 2026-11-13 ; « Hébergement et accès » dans les modes d'emploi plus anciens.
+    section('Hébergement', s.Hébergement !== undefined ? 'Hébergement' : 'Hébergement et accès', 'À définir.'),
     section('Décisions prises', 'Décisions validées', 'Aucune décision encore notée.'),
     section('Étapes', 'Étapes', 'À définir.'),
     `## Validations\n\n${VALIDATIONS}\n`,
     section('Éléments à fournir', 'À fournir', 'Rien à fournir à ce jour.'),
   ];
+  // Les sections reprises du mode d'emploi s'adressent au client : un terme interne y est un défaut à corriger dans la source.
+  const TERMES_INTERNES = [
+    [/\.\.\/|\b(?:src|docs|config|public|app|templates|data)\/[\w./-]+/, 'chemin de fichier'],
+    [/[\w-]+\.(?:md|mjs|js|json|php|sqlite|tpl|css|env)\b/, 'nom de fichier'],
+    [/`make\b|\bmake (?:audit|verify|socle|statique|dynamique|livrables|valider|appliquer)\b/, 'commande make'],
+    [/\b(?:constaté|déduit)\b/, 'balise de source (constaté, déduit)'],
+    [/\bl'agent\b|\bl'humain\b|\b(?:rule|skill)s? `/, 'vocabulaire du kit'],
+  ];
+  const texteClient = ['Objectif', 'Contexte', 'Publics et action principale', 'Périmètre', 'Arborescence', 'Ton et vocabulaire', 'Données et contenus', 'Hébergement', 'Hébergement et accès', 'Décisions validées', 'Étapes', 'À fournir']
+    .map((cle) => garder((s[cle] ?? '').trim())).join('\n').replace(/\(mots de l'humain\)/g, '');
+  for (const [re, nom] of TERMES_INTERNES) {
+    const trouves = [...new Set(texteClient.split('\n').filter((l) => re.test(l)).map((l) => l.match(re)[0]))];
+    if (trouves.length) avert.push(`Terme interne dans un texte destiné au client (${nom}) : ${trouves.slice(0, 5).join(', ')}. À réécrire dans le mode d'emploi.`);
+  }
   if (!EXIGENCES_TYPE[mode.type]) avert.push(`Type de site absent ou invalide (« ${mode.type || 'rien'} ») dans le mode d'emploi.`);
   return {
     id: '02-cahier-des-charges', titre: 'Cahier des charges', client: mode.nom,

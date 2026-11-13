@@ -1,0 +1,249 @@
+/* Wireframes : zoning basse fidélité. Neutre (traits et fonds de la charte, aucune couleur de marque) :
+   le client juge la structure, pas le style. Colonnes en auto-fit : la même page se lit à 1280 et à 390 px. */
+body {
+  margin: 0;
+  padding: var(--space-3);
+  font-family: var(--font-ui);
+  font-size: var(--step--1);
+  color: var(--color-text-muted);
+  background: var(--color-surface);
+}
+
+.zf {
+  position: relative;
+  margin-block-end: var(--space-3);
+  padding: var(--space-5) var(--space-4) var(--space-4);
+  border: 1px dashed var(--color-line-strong);
+  border-radius: var(--radius-small);
+}
+
+.zf-etiquette {
+  position: absolute;
+  top: var(--space-2);
+  left: var(--space-3);
+  display: flex;
+  gap: var(--space-2);
+  align-items: center;
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: var(--step--2);
+  text-transform: uppercase;
+  letter-spacing: var(--etiquette-espacement);
+}
+
+.zf-num {
+  display: inline-grid;
+  place-items: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: var(--radius-pill);
+  color: var(--color-surface);
+  background: var(--color-text-muted);
+}
+
+.zf-ligne {
+  display: block;
+  height: 0.6rem;
+  margin-block: var(--space-2);
+  border-radius: var(--radius-pill);
+  background: var(--color-surface-2);
+}
+
+.zf-ligne-courte {
+  width: 60%;
+}
+
+.zf-titre {
+  display: block;
+  width: min(100%, 24rem);
+  height: 1.6rem;
+  margin-block-end: var(--space-3);
+  border-radius: var(--radius-small);
+  background: var(--color-line-strong);
+}
+
+.zf-intitule {
+  display: block;
+  margin-block: var(--space-2);
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.zf-image {
+  display: grid;
+  place-items: center;
+  min-height: 8rem;
+  border: 1px solid var(--color-line-strong);
+  border-radius: var(--radius-small);
+  background:
+    linear-gradient(to top right, transparent calc(50% - 0.5px), var(--color-line-strong) 50%, transparent calc(50% + 0.5px)),
+    linear-gradient(to top left, transparent calc(50% - 0.5px), var(--color-line-strong) 50%, transparent calc(50% + 0.5px)),
+    var(--color-surface-2);
+}
+
+.zf-image span {
+  padding: 0 var(--space-2);
+  background: var(--color-surface-2);
+}
+
+.zf-bouton {
+  display: inline-block;
+  margin-block-start: var(--space-2);
+  margin-inline-end: var(--space-2);
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--color-text-muted);
+  border-radius: var(--radius-small);
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.zf-entete {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  align-items: center;
+  justify-content: space-between;
+}
+
+.zf-logo {
+  display: inline-grid;
+  place-items: center;
+  width: 7rem;
+  height: 2.5rem;
+  border: 1px solid var(--color-line-strong);
+  border-radius: var(--radius-small);
+}
+
+.zf-menu {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+
+.zf-heros,
+.zf-colonnes {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr));
+  gap: var(--space-4);
+  align-items: center;
+}
+
+.zf-heros .zf-image {
+  min-height: 14rem;
+}
+
+.zf-grille {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr));
+  gap: var(--space-3);
+}
+
+.zf-grille-serree {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 9rem), 1fr));
+}
+
+.zf-carte {
+  padding: var(--space-3);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-small);
+}
+
+.zf-carte-portrait .zf-image {
+  width: 6rem;
+  min-height: 6rem;
+  border-radius: var(--radius-pill);
+}
+
+.zf-pictogramme {
+  display: block;
+  width: 2.5rem;
+  height: 2.5rem;
+  border: 1px solid var(--color-line-strong);
+  border-radius: var(--radius-pill);
+}
+
+.zf-chiffre {
+  display: grid;
+  gap: var(--space-1);
+  text-align: center;
+}
+
+.zf-nombre {
+  font-size: var(--step-2);
+  font-weight: 700;
+  color: var(--color-line-strong);
+}
+
+.zf-etapes {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 12rem), 1fr));
+  gap: var(--space-3);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.zf-numero {
+  display: inline-grid;
+  place-items: center;
+  width: 2rem;
+  height: 2rem;
+  border: 1px solid var(--color-text-muted);
+  border-radius: var(--radius-pill);
+}
+
+.zf-faq {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.zf-question {
+  display: flex;
+  justify-content: space-between;
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-small);
+  color: var(--color-text);
+}
+
+.zf-formulaire {
+  display: grid;
+  gap: var(--space-3);
+  max-width: 32rem;
+}
+
+.zf-champ {
+  display: grid;
+  gap: var(--space-1);
+  color: var(--color-text);
+}
+
+.zf-saisie {
+  display: block;
+  height: 2.5rem;
+  border: 1px solid var(--color-text-muted);
+  border-radius: var(--radius-small);
+}
+
+.zf-appel {
+  text-align: center;
+}
+
+.zf-appel .zf-titre {
+  margin-inline: auto;
+}
+
+.zf-appel .zf-ligne {
+  width: min(100%, 30rem);
+  margin-inline: auto;
+}
+
+.zf-pied {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 12rem), 1fr));
+  gap: var(--space-4);
+}
+
+.zf-ariane {
+  font-size: var(--step--2);
+}

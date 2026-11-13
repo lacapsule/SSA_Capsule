@@ -1,0 +1,195 @@
+/* Planche d'une piste de direction artistique : uniquement les tokens de la piste (tokens.css voisin),
+   pour montrer en situation ses couleurs, ses polices et ses arrondis. */
+body {
+  max-width: 76rem;
+  margin: 0 auto;
+  padding: 1.5rem;
+  font-family: var(--font-ui);
+  font-size: 1.0625rem;
+  line-height: 1.6;
+  color: var(--color-text);
+  background: var(--color-bg);
+}
+
+h1,
+h2,
+.pl-specimen-titre,
+.pl-nom {
+  font-family: var(--font-titres);
+  line-height: 1.15;
+}
+
+a {
+  color: var(--color-accent);
+}
+
+.pl-entete {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.25rem;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius);
+  color: var(--color-entete-texte);
+  background: var(--color-entete-fond);
+}
+
+.pl-logo {
+  height: 2.75rem;
+  width: auto;
+}
+
+.pl-nom {
+  font-size: 1.4rem;
+  font-weight: 700;
+}
+
+.pl-entete ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.pl-entete a:not(.pl-bouton) {
+  text-decoration: none;
+  color: var(--color-text);
+}
+
+.pl-heros {
+  margin: 1.5rem 0;
+  padding: clamp(2rem, 5vw, 4rem);
+  border-radius: var(--radius);
+  color: var(--color-heros-texte);
+  background: var(--color-heros-fond);
+}
+
+.pl-heros h1 {
+  max-width: 20ch;
+  margin: 0 0 1rem;
+  font-size: clamp(2.2rem, 4vw, 3.4rem);
+}
+
+.pl-heros p {
+  max-width: 60ch;
+}
+
+.pl-entete .pl-bouton {
+  border-color: var(--color-entete-accent);
+  color: var(--color-entete-fond);
+  background: var(--color-entete-accent);
+}
+
+.pl-heros .pl-bouton {
+  border-color: var(--color-heros-accent);
+  color: var(--color-heros-fond);
+  background: var(--color-heros-accent);
+}
+
+.pl-heros .pl-bouton-secondaire {
+  color: var(--color-heros-accent);
+  background: transparent;
+}
+
+.pl-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.pl-bouton {
+  display: inline-block;
+  padding: 0.7rem 1.2rem;
+  border: 1px solid var(--color-accent);
+  border-radius: var(--radius-small);
+  font-weight: 600;
+  text-decoration: none;
+  color: var(--color-accent-text);
+  background: var(--color-accent);
+}
+
+.pl-bouton-secondaire {
+  color: var(--color-accent);
+  background: var(--color-surface);
+}
+
+.pl-focus {
+  outline: 0.1875rem solid var(--color-focus);
+  outline-offset: 0.125rem;
+}
+
+.pl-cartes,
+.pl-elements {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr));
+  gap: 1rem;
+  margin-block-end: 1.5rem;
+}
+
+.pl-carte,
+.pl-elements > div,
+.pl-nuancier {
+  padding: 1.25rem;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius);
+  background: var(--color-surface);
+}
+
+.pl-carte h2,
+.pl-elements h2,
+.pl-nuancier h2 {
+  margin: 0 0 0.5rem;
+  font-size: 1.3rem;
+}
+
+.pl-specimen-titre {
+  margin: 0;
+  font-size: 2rem;
+}
+
+label {
+  display: grid;
+  gap: 0.35rem;
+  font-weight: 600;
+}
+
+input {
+  padding: 0.6rem 0.75rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-small);
+  font: inherit;
+  color: var(--color-text);
+  background: var(--color-bg);
+}
+
+.pl-erreur {
+  font-size: 0.95rem;
+  color: var(--color-danger);
+}
+
+.pl-nuancier ul {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr));
+  gap: 0.5rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.pl-nuancier li {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  font-size: 0.85rem;
+}
+
+.pl-nuancier span {
+  width: 1.75rem;
+  height: 1.75rem;
+  border: 1px solid var(--color-line-strong);
+  border-radius: var(--radius-small);
+}

@@ -1,0 +1,15 @@
+{
+  "famille": "Bitter",
+  "fichiers": [
+    {
+      "fichier": "bitter-400-700-latin.woff2",
+      "graisses": [
+        400,
+        700
+      ]
+    }
+  ],
+  "licence": "SIL Open Font License 1.1 (Google Fonts)",
+  "source": "https://fonts.google.com/specimen/Bitter",
+  "telechargee": "2026-11-13"
+}

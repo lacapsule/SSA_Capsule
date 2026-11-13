@@ -1,0 +1,32 @@
+{
+  "livrables": {
+    "01-audit-existant": {
+      "titre": "Audit de l'existant",
+      "version": 2,
+      "date": "2026-11-13",
+      "empreinte": "47bf9e874fc802a6",
+      "statut": "constat"
+    },
+    "02-cahier-des-charges": {
+      "titre": "Cahier des charges",
+      "version": 4,
+      "date": "2026-11-13",
+      "empreinte": "b0f55ddfdb353501",
+      "statut": "à valider"
+    },
+    "03-wireframes": {
+      "titre": "Wireframes",
+      "version": 2,
+      "date": "2026-11-13",
+      "empreinte": "4d01ee41e098cdfb",
+      "statut": "brouillon"
+    },
+    "04-direction-artistique": {
+      "titre": "Direction artistique et maquettes",
+      "version": 1,
+      "date": "2026-11-13",
+      "empreinte": "d93e213af71c00ba",
+      "statut": "brouillon"
+    }
+  }
+}

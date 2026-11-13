@@ -1,0 +1,4174 @@
+{
+  "source": "https://ssapaysdemorlaix.fr/",
+  "date": "2026-11-13T10:30:59.176Z",
+  "pagesLues": 18,
+  "limite": 40,
+  "echecs": [],
+  "pagesEnErreur": [],
+  "variantes": [
+    {
+      "url": "https://ssapaysdemorlaix.fr/?lang=fr",
+      "chemin": "/",
+      "parametres": [
+        "lang"
+      ],
+      "langue": "fr",
+      "langueDocument": "fr",
+      "titre": "Sécurité Sociale de l’Alimentation · Pays de Morlaix",
+      "h1": "Sécurité Sociale de l’Alimentation · Pays de Morlaix"
+    },
+    {
+      "url": "https://ssapaysdemorlaix.fr/?lang=br",
+      "chemin": "/",
+      "parametres": [
+        "lang"
+      ],
+      "langue": "br",
+      "langueDocument": "br",
+      "titre": "Gwarez Sokial Boued · Bro Vraez",
+      "h1": "Gwareziñ Sokial ar Boued · Bro Vorlaix"
+    },
+    {
+      "url": "https://ssapaysdemorlaix.fr/?page=1",
+      "chemin": "/",
+      "parametres": [
+        "page"
+      ],
+      "langueDocument": "br",
+      "titre": "Gwarez Sokial Boued · Bro Vraez",
+      "h1": "Gwareziñ Sokial ar Boued · Bro Vorlaix"
+    },
+    {
+      "url": "https://ssapaysdemorlaix.fr/?page=2",
+      "chemin": "/",
+      "parametres": [
+        "page"
+      ],
+      "langueDocument": "br",
+      "titre": "Gwarez Sokial Boued · Bro Vraez",
+      "h1": "Gwareziñ Sokial ar Boued · Bro Vorlaix"
+    },
+    {
+      "url": "https://ssapaysdemorlaix.fr/?page=3",
+      "chemin": "/",
+      "parametres": [
+        "page"
+      ],
+      "langueDocument": "br",
+      "titre": "Gwarez Sokial Boued · Bro Vraez",
+      "h1": "Gwareziñ Sokial ar Boued · Bro Vorlaix"
+    },
+    {
+      "url": "https://ssapaysdemorlaix.fr/?page=4",
+      "chemin": "/",
+      "parametres": [
+        "page"
+      ],
+      "langueDocument": "br",
+      "titre": "Gwarez Sokial Boued · Bro Vraez",
+      "h1": "Gwareziñ Sokial ar Boued · Bro Vorlaix"
+    },
+    {
+      "url": "https://ssapaysdemorlaix.fr/projet?lang=fr",
+      "chemin": "/projet",
+      "parametres": [
+        "lang"
+      ],
+      "langue": "fr",
+      "langueDocument": "fr",
+      "titre": "Sécurité Sociale de l’Alimentation · Pays de Morlaix",
+      "h1": "Expérimentation d'une caisse de l'alimentation sur le Pays de Morlaix"
+    },
+    {
+      "url": "https://ssapaysdemorlaix.fr/projet?lang=br",
+      "chemin": "/projet",
+      "parametres": [
+        "lang"
+      ],
+      "langue": "br",
+      "langueDocument": "br",
+      "titre": "Gwarez Sokial Boued · Bro Vraez",
+      "h1": "Expérimentation d'une caisse de l'alimentation sur le Pays de Morlaix"
+    },
+    {
+      "url": "https://ssapaysdemorlaix.fr/galerie?lang=fr",
+      "chemin": "/galerie",
+      "parametres": [
+        "lang"
+      ],
+      "langue": "fr",
+      "langueDocument": "fr",
+      "titre": "Sécurité Sociale de l’Alimentation · Pays de Morlaix",
+      "h1": "Galerie de la SSA"
+    },
+    {
+      "url": "https://ssapaysdemorlaix.fr/galerie?lang=br",
+      "chemin": "/galerie",
+      "parametres": [
+        "lang"
+      ],
+      "langue": "br",
+      "langueDocument": "br",
+      "titre": "Gwarez Sokial Boued · Bro Vraez",
+      "h1": "Galerie de la SSA"
+    },
+    {
+      "url": "https://ssapaysdemorlaix.fr/galerie?page=1",
+      "chemin": "/galerie",
+      "parametres": [
+        "page"
+      ],
+      "langueDocument": "br",
+      "titre": "Gwarez Sokial Boued · Bro Vraez",
+      "h1": "Galerie de la SSA"
+    },
+    {
+      "url": "https://ssapaysdemorlaix.fr/galerie?page=2",
+      "chemin": "/galerie",
+      "parametres": [
+        "page"
+      ],
+      "langueDocument": "br",
+      "titre": "Gwarez Sokial Boued · Bro Vraez",
+      "h1": "Galerie de la SSA"
+    },
+    {
+      "url": "https://ssapaysdemorlaix.fr/galerie?page=3",
+      "chemin": "/galerie",
+      "parametres": [
+        "page"
+      ],
+      "langueDocument": "br",
+      "titre": "Gwarez Sokial Boued · Bro Vraez",
+      "h1": "Galerie de la SSA"
+    },
+    {
+      "url": "https://ssapaysdemorlaix.fr/galerie?page=4",
+      "chemin": "/galerie",
+      "parametres": [
+        "page"
+      ],
+      "langueDocument": "br",
+      "titre": "Gwarez Sokial Boued · Bro Vraez",
+      "h1": "Galerie de la SSA"
+    },
+    {
+      "url": "https://ssapaysdemorlaix.fr/galerie?page=5",
+      "chemin": "/galerie",
+      "parametres": [
+        "page"
+      ],
+      "langueDocument": "br",
+      "titre": "Gwarez Sokial Boued · Bro Vraez",
+      "h1": "Galerie de la SSA"
+    },
+    {
+      "url": "https://ssapaysdemorlaix.fr/mentions-legales?lang=fr",
+      "chemin": "/mentions-legales",
+      "parametres": [
+        "lang"
+      ],
+      "langue": "fr",
+      "langueDocument": "fr",
+      "titre": "Sécurité Sociale de l’Alimentation · Pays de Morlaix",
+      "h1": "Mentions légales"
+    },
+    {
+      "url": "https://ssapaysdemorlaix.fr/mentions-legales?lang=br",
+      "chemin": "/mentions-legales",
+      "parametres": [
+        "lang"
+      ],
+      "langue": "br",
+      "langueDocument": "br",
+      "titre": "Gwarez Sokial Boued · Bro Vraez",
+      "h1": "Mentions légales"
+    },
+    {
+      "url": "https://ssapaysdemorlaix.fr/confidentialite?lang=fr",
+      "chemin": "/confidentialite",
+      "parametres": [
+        "lang"
+      ],
+      "langue": "fr",
+      "langueDocument": "fr",
+      "titre": "Sécurité Sociale de l’Alimentation · Pays de Morlaix",
+      "h1": "Politique de confidentialité"
+    },
+    {
+      "url": "https://ssapaysdemorlaix.fr/confidentialite?lang=br",
+      "chemin": "/confidentialite",
+      "parametres": [
+        "lang"
+      ],
+      "langue": "br",
+      "langueDocument": "br",
+      "titre": "Gwarez Sokial Boued · Bro Vraez",
+      "h1": "Politique de confidentialité"
+    },
+    {
+      "url": "https://ssapaysdemorlaix.fr/accessibilite?lang=fr",
+      "chemin": "/accessibilite",
+      "parametres": [
+        "lang"
+      ],
+      "langue": "fr",
+      "langueDocument": "fr",
+      "titre": "Sécurité Sociale de l’Alimentation · Pays de Morlaix",
+      "h1": "Déclaration d'accessibilité"
+    },
+    {
+      "url": "https://ssapaysdemorlaix.fr/accessibilite?lang=br",
+      "chemin": "/accessibilite",
+      "parametres": [
+        "lang"
+      ],
+      "langue": "br",
+      "langueDocument": "br",
+      "titre": "Gwarez Sokial Boued · Bro Vraez",
+      "h1": "Déclaration d'accessibilité"
+    },
+    {
+      "url": "https://ssapaysdemorlaix.fr/article/16?lang=fr",
+      "chemin": "/article/16",
+      "parametres": [
+        "lang"
+      ],
+      "langue": "fr",
+      "langueDocument": "fr",
+      "titre": "Sécurité Sociale de l’Alimentation · Pays de Morlaix",
+      "h1": "Carte des points de vente conventionnés"
+    },
+    {
+      "url": "https://ssapaysdemorlaix.fr/article/16?lang=br",
+      "chemin": "/article/16",
+      "parametres": [
+        "lang"
+      ],
+      "langue": "br",
+      "langueDocument": "br",
+      "titre": "Gwarez Sokial Boued · Bro Vraez",
+      "h1": "Carte des points de vente conventionnés"
+    },
+    {
+      "url": "https://ssapaysdemorlaix.fr/article/17?lang=fr",
+      "chemin": "/article/17",
+      "parametres": [
+        "lang"
+      ],
+      "langue": "fr",
+      "langueDocument": "fr",
+      "titre": "Sécurité Sociale de l’Alimentation · Pays de Morlaix",
+      "h1": "Soirée de lancement de la caisse citoyenne"
+    },
+    {
+      "url": "https://ssapaysdemorlaix.fr/article/17?lang=br",
+      "chemin": "/article/17",
+      "parametres": [
+        "lang"
+      ],
+      "langue": "br",
+      "langueDocument": "br",
+      "titre": "Gwarez Sokial Boued · Bro Vraez",
+      "h1": "Soirée de lancement de la caisse citoyenne"
+    },
+    {
+      "url": "https://ssapaysdemorlaix.fr/article/15?lang=fr",
+      "chemin": "/article/15",
+      "parametres": [
+        "lang"
+      ],
+      "langue": "fr",
+      "langueDocument": "fr",
+      "titre": "Sécurité Sociale de l’Alimentation · Pays de Morlaix",
+      "h1": "Synthèse en vidéo de l'atelier du parcours citoyen du 14 mars 2026"
+    },
+    {
+      "url": "https://ssapaysdemorlaix.fr/article/15?lang=br",
+      "chemin": "/article/15",
+      "parametres": [
+        "lang"
+      ],
+      "langue": "br",
+      "langueDocument": "br",
+      "titre": "Gwarez Sokial Boued · Bro Vraez",
+      "h1": "Synthèse en vidéo de l'atelier du parcours citoyen du 14 mars 2026"
+    },
+    {
+      "url": "https://ssapaysdemorlaix.fr/article/12?lang=fr",
+      "chemin": "/article/12",
+      "parametres": [
+        "lang"
+      ],
+      "langue": "fr",
+      "langueDocument": "fr",
+      "titre": "Sécurité Sociale de l’Alimentation · Pays de Morlaix",
+      "h1": "SSA dans les médias"
+    },
+    {
+      "url": "https://ssapaysdemorlaix.fr/article/12?lang=br",
+      "chemin": "/article/12",
+      "parametres": [
+        "lang"
+      ],
+      "langue": "br",
+      "langueDocument": "br",
+      "titre": "Gwarez Sokial Boued · Bro Vraez",
+      "h1": "SSA dans les médias"
+    },
+    {
+      "url": "https://ssapaysdemorlaix.fr/article/11?lang=fr",
+      "chemin": "/article/11",
+      "parametres": [
+        "lang"
+      ],
+      "langue": "fr",
+      "langueDocument": "fr",
+      "titre": "Sécurité Sociale de l’Alimentation · Pays de Morlaix",
+      "h1": "Intervention Emission Radio U - Podcast"
+    },
+    {
+      "url": "https://ssapaysdemorlaix.fr/article/11?lang=br",
+      "chemin": "/article/11",
+      "parametres": [
+        "lang"
+      ],
+      "langue": "br",
+      "langueDocument": "br",
+      "titre": "Gwarez Sokial Boued · Bro Vraez",
+      "h1": "Intervention Emission Radio U - Podcast"
+    },
+    {
+      "url": "https://ssapaysdemorlaix.fr/article/10?lang=fr",
+      "chemin": "/article/10",
+      "parametres": [
+        "lang"
+      ],
+      "langue": "fr",
+      "langueDocument": "fr",
+      "titre": "Sécurité Sociale de l’Alimentation · Pays de Morlaix",
+      "h1": "Colloque \"Ensemble cultivons l'avenir de notre alimentation\""
+    },
+    {
+      "url": "https://ssapaysdemorlaix.fr/article/10?lang=br",
+      "chemin": "/article/10",
+      "parametres": [
+        "lang"
+      ],
+      "langue": "br",
+      "langueDocument": "br",
+      "titre": "Gwarez Sokial Boued · Bro Vraez",
+      "h1": "Colloque \"Ensemble cultivons l'avenir de notre alimentation\""
+    },
+    {
+      "url": "https://ssapaysdemorlaix.fr/article/9?lang=fr",
+      "chemin": "/article/9",
+      "parametres": [
+        "lang"
+      ],
+      "langue": "fr",
+      "langueDocument": "fr",
+      "titre": "Sécurité Sociale de l’Alimentation · Pays de Morlaix",
+      "h1": "Parcours citoyen : Intervention de Jean Claude Balbot"
+    },
+    {
+      "url": "https://ssapaysdemorlaix.fr/article/9?lang=br",
+      "chemin": "/article/9",
+      "parametres": [
+        "lang"
+      ],
+      "langue": "br",
+      "langueDocument": "br",
+      "titre": "Gwarez Sokial Boued · Bro Vraez",
+      "h1": "Parcours citoyen : Intervention de Jean Claude Balbot"
+    },
+    {
+      "url": "https://ssapaysdemorlaix.fr/article/14?lang=fr",
+      "chemin": "/article/14",
+      "parametres": [
+        "lang"
+      ],
+      "langue": "fr",
+      "langueDocument": "fr",
+      "titre": "Sécurité Sociale de l’Alimentation · Pays de Morlaix",
+      "h1": "Vidéo fonctionnement du collectif d'animation de l'expérimentation"
+    },
+    {
+      "url": "https://ssapaysdemorlaix.fr/article/14?lang=br",
+      "chemin": "/article/14",
+      "parametres": [
+        "lang"
+      ],
+      "langue": "br",
+      "langueDocument": "br",
+      "titre": "Gwarez Sokial Boued · Bro Vraez",
+      "h1": "Vidéo fonctionnement du collectif d'animation de l'expérimentation"
+    },
+    {
+      "url": "https://ssapaysdemorlaix.fr/article/8?lang=fr",
+      "chemin": "/article/8",
+      "parametres": [
+        "lang"
+      ],
+      "langue": "fr",
+      "langueDocument": "fr",
+      "titre": "Sécurité Sociale de l’Alimentation · Pays de Morlaix",
+      "h1": "Journée d'immersion à la ferme"
+    },
+    {
+      "url": "https://ssapaysdemorlaix.fr/article/8?lang=br",
+      "chemin": "/article/8",
+      "parametres": [
+        "lang"
+      ],
+      "langue": "br",
+      "langueDocument": "br",
+      "titre": "Gwarez Sokial Boued · Bro Vraez",
+      "h1": "Journée d'immersion à la ferme"
+    },
+    {
+      "url": "https://ssapaysdemorlaix.fr/article/13?lang=fr",
+      "chemin": "/article/13",
+      "parametres": [
+        "lang"
+      ],
+      "langue": "fr",
+      "langueDocument": "fr",
+      "titre": "Sécurité Sociale de l’Alimentation · Pays de Morlaix",
+      "h1": "Vidéo de présentation du projet SSA"
+    }
+  ],
+  "identite": {
+    "logos": [
+      {
+        "type": "logo (lien vers l'accueil)",
+        "src": "https://ssapaysdemorlaix.fr/assets/img/logo.svg",
+        "alt": "Sécurité Sociale de l’Alimentation · Pays de Morlaix",
+        "rang": 1.5,
+        "fichier": "fichiers/logo-3fdacda0caeb.svg"
+      },
+      {
+        "type": "image nommée logo",
+        "src": "https://ssapaysdemorlaix.fr/assets/img/peep-52.svg",
+        "alt": "Logo SSA",
+        "rang": 2,
+        "fichier": "fichiers/peep-52-77c62eeae8c5.svg"
+      },
+      {
+        "type": "image nommée logo",
+        "src": "https://ssapaysdemorlaix.fr/assets/img/logos/buzuk.webp",
+        "alt": "BUZUK",
+        "rang": 2,
+        "fichier": "fichiers/buzuk-09f5b1ac4f31.webp"
+      },
+      {
+        "type": "image nommée logo",
+        "src": "https://ssapaysdemorlaix.fr/assets/img/logos/ess.webp",
+        "alt": "Pôle ESS Pays de Morlaix",
+        "rang": 2,
+        "fichier": "fichiers/ess-990370411167.webp"
+      },
+      {
+        "type": "image nommée logo",
+        "src": "https://ssapaysdemorlaix.fr/assets/img/logos/20251211-083116-1.webp",
+        "alt": "ulamircpie",
+        "rang": 2,
+        "fichier": "fichiers/20251211-083116-1-9f9a74e8e3f7.webp"
+      },
+      {
+        "type": "image nommée logo",
+        "src": "https://ssapaysdemorlaix.fr/assets/img/logos/resam.webp",
+        "alt": "resam",
+        "rang": 2,
+        "fichier": "fichiers/resam-210c8521ebfe.webp"
+      },
+      {
+        "type": "image nommée logo",
+        "src": "https://ssapaysdemorlaix.fr/assets/img/logos/bretagne.webp",
+        "alt": "Région Bretagne",
+        "rang": 2,
+        "fichier": "fichiers/bretagne-f4a8a3051fc7.webp"
+      },
+      {
+        "type": "image nommée logo",
+        "src": "https://ssapaysdemorlaix.fr/assets/img/logos/feader.webp",
+        "alt": "Leader financement Européen",
+        "rang": 2,
+        "fichier": "fichiers/feader-3ce5e5a91d43.webp"
+      },
+      {
+        "type": "image nommée logo",
+        "src": "https://ssapaysdemorlaix.fr/assets/img/logo.svg",
+        "alt": "SSA logo",
+        "rang": 2,
+        "fichier": "fichiers/logo-3fdacda0caeb.svg"
+      },
+      {
+        "type": "image d'en-tête (partenaire ou décor ?)",
+        "src": "https://ssapaysdemorlaix.fr/assets/icons/fr.svg",
+        "alt": "FR",
+        "rang": 3,
+        "fichier": "fichiers/fr-8cdacc8d79bc.svg"
+      },
+      {
+        "type": "image d'en-tête (partenaire ou décor ?)",
+        "src": "https://ssapaysdemorlaix.fr/assets/icons/br.svg",
+        "alt": "BR",
+        "rang": 3,
+        "fichier": "fichiers/br-21c19ed69d7b.svg"
+      },
+      {
+        "type": "image d'en-tête (partenaire ou décor ?)",
+        "src": "https://ssapaysdemorlaix.fr/assets/icons/login.svg",
+        "alt": "Connexion",
+        "rang": 3,
+        "fichier": "fichiers/login-159ea508bdeb.svg"
+      },
+      {
+        "type": "icone icon",
+        "src": "https://ssapaysdemorlaix.fr/assets/img/logoSSA.png",
+        "tailles": "",
+        "rang": 4,
+        "fichier": "fichiers/logossa-a87f025657af.png"
+      }
+    ],
+    "couleurs": [
+      {
+        "hex": "#364a6b",
+        "poids": 1944,
+        "roleProbable": "texte-action"
+      },
+      {
+        "hex": "#ffffff",
+        "poids": 1076,
+        "roleProbable": "fond-action"
+      },
+      {
+        "hex": "#000000",
+        "poids": 715,
+        "roleProbable": "texte"
+      },
+      {
+        "hex": "#43c466",
+        "poids": 660,
+        "roleProbable": "fond-action"
+      },
+      {
+        "hex": "#fdb544",
+        "poids": 536,
+        "roleProbable": "fond"
+      },
+      {
+        "hex": "#1d2e4a",
+        "poids": 78,
+        "roleProbable": "texte-action"
+      },
+      {
+        "hex": "#555555",
+        "poids": 5,
+        "roleProbable": "texte-action"
+      },
+      {
+        "hex": "#3788d8",
+        "poids": 4,
+        "roleProbable": "fond"
+      }
+    ],
+    "couleursLogo": [
+      "#fdb544",
+      "#364a6b",
+      "#43c466",
+      "#a8a8a8",
+      "#d08b5b",
+      "#ba98de"
+    ],
+    "polices": {
+      "usages": {
+        "corps": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, Oxygen, Ubuntu, Cantarell, \"Open Sans\", \"Helvetica Neue\", sans-serif",
+        "titres": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, Oxygen, Ubuntu, Cantarell, \"Open Sans\", \"Helvetica Neue\", sans-serif",
+        "actions": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, Oxygen, Ubuntu, Cantarell, \"Open Sans\", \"Helvetica Neue\", sans-serif"
+      },
+      "chargees": [],
+      "sources": []
+    },
+    "telephones": [
+      {
+        "valeur": "06 15 06 82 08",
+        "sources": [
+          "https://ssapaysdemorlaix.fr/",
+          "https://ssapaysdemorlaix.fr/mentions-legales"
+        ]
+      }
+    ],
+    "emails": [
+      {
+        "valeur": "ssapaysdemorlaix@mailo.com",
+        "sources": [
+          "https://ssapaysdemorlaix.fr/",
+          "https://ssapaysdemorlaix.fr/projet",
+          "https://ssapaysdemorlaix.fr/mentions-legales",
+          "https://ssapaysdemorlaix.fr/confidentialite",
+          "https://ssapaysdemorlaix.fr/accessibilite"
+        ]
+      },
+      {
+        "valeur": "candidature@mailo.com",
+        "sources": [
+          "https://ssapaysdemorlaix.fr/projet"
+        ]
+      }
+    ],
+    "siren": [],
+    "reseaux": [
+      {
+        "valeur": "https://www.youtube.com/@jneasso9668/featured",
+        "sources": [
+          "https://ssapaysdemorlaix.fr/article/10"
+        ]
+      }
+    ],
+    "codesPostaux": [],
+    "donneesStructurees": []
+  },
+  "menu": [
+    {
+      "texte": "Accueil",
+      "chemin": "/#hero-anchor"
+    },
+    {
+      "texte": "Qui sommes-nous ?",
+      "chemin": "/#about-anchor"
+    },
+    {
+      "texte": "Actualités",
+      "chemin": "/#actu-anchor"
+    },
+    {
+      "texte": "Évènements",
+      "chemin": "/#event-anchor"
+    },
+    {
+      "texte": "Le projet SSA",
+      "chemin": "/projet"
+    },
+    {
+      "texte": "Galerie",
+      "chemin": "/galerie"
+    },
+    {
+      "texte": "Contact",
+      "chemin": "/#contact-anchor"
+    },
+    {
+      "texte": "Mentions légales",
+      "chemin": "/mentions-legales"
+    },
+    {
+      "texte": "Confidentialité",
+      "chemin": "/confidentialite"
+    },
+    {
+      "texte": "Accessibilité",
+      "chemin": "/accessibilite"
+    }
+  ],
+  "pied": [
+    {
+      "texte": "Mentions légales",
+      "chemin": "/mentions-legales"
+    },
+    {
+      "texte": "Confidentialité",
+      "chemin": "/confidentialite"
+    },
+    {
+      "texte": "Accessibilité",
+      "chemin": "/accessibilite"
+    }
+  ],
+  "anciennesAdresses": [
+    "/",
+    "/accessibilite",
+    "/article/10",
+    "/article/11",
+    "/article/12",
+    "/article/13",
+    "/article/14",
+    "/article/15",
+    "/article/16",
+    "/article/17",
+    "/article/6",
+    "/article/8",
+    "/article/9",
+    "/confidentialite",
+    "/galerie",
+    "/login",
+    "/mentions-legales",
+    "/projet"
+  ],
+  "pages": [
+    {
+      "url": "https://ssapaysdemorlaix.fr/",
+      "urlFinale": "https://ssapaysdemorlaix.fr/",
+      "statut": 200,
+      "capture": "captures/accueil-bureau.jpg",
+      "titre": "Sécurité Sociale de l’Alimentation · Pays de Morlaix",
+      "description": "Sécurité Sociale de l’Alimentation au Pays de Morlaix : Pour un droit universel à une alimentation saine et durable.",
+      "langue": "fr",
+      "canonique": null,
+      "ogImage": null,
+      "h1": [
+        "Sécurité Sociale de l’Alimentation · Pays de Morlaix"
+      ],
+      "blocs": [
+        {
+          "balise": "h1",
+          "texte": "Sécurité Sociale de l’Alimentation · Pays de Morlaix"
+        },
+        {
+          "balise": "p",
+          "texte": "Pour un droit fondamental et universel à une alimentation saine et durable."
+        },
+        {
+          "balise": "h2",
+          "texte": "Qui sommes-nous ?"
+        },
+        {
+          "balise": "h3",
+          "texte": "Le groupe \"Sécurité Sociale de l'Alimentation\" (SSA)"
+        },
+        {
+          "balise": "p",
+          "texte": "Le collectif pour une Sécurité Sociale de l’Alimentation en Pays de Morlaix est composée d’une trentaine de citoyennes et citoyens vivant sur le Pays de Morlaix. Le collectif est accompagné par 4 structures associatives du Pays de Morlaix"
+        },
+        {
+          "balise": "p",
+          "texte": "Structures porteuses du projet :"
+        },
+        {
+          "balise": "li",
+          "texte": "L’Ulamir CPIE centre social et centre d’éducation à l’environnement"
+        },
+        {
+          "balise": "li",
+          "texte": "Le Resam maison des associations du Pays de Morlaix"
+        },
+        {
+          "balise": "li",
+          "texte": "Le Buzuk porteuse de la monnaie locale"
+        },
+        {
+          "balise": "li",
+          "texte": "L'Adess du Pays de Morlaix, pôle ESS du Pays de Morlaix"
+        },
+        {
+          "balise": "p",
+          "texte": "Objectif : Connecter les initiatives locales autour de l’alimentation et renforcer les coopérations entre acteurs."
+        },
+        {
+          "balise": "h2",
+          "texte": "NOS ACTUALITÉS"
+        },
+        {
+          "balise": "h4",
+          "texte": "Soirée de lancement de la caisse citoyenne"
+        },
+        {
+          "balise": "p",
+          "texte": "Une belle soirée de lancement de la caisse"
+        },
+        {
+          "balise": "h4",
+          "texte": "Carte des points de vente conventionnés"
+        },
+        {
+          "balise": "p",
+          "texte": "La liste des premiers points de vente conventionnées par les expérimentateurs et expérimentatrices"
+        },
+        {
+          "balise": "h4",
+          "texte": "Synthèse en vidéo de l'atelier du parcours citoyen du 14 mars 2026"
+        },
+        {
+          "balise": "p",
+          "texte": "Cette petite vidéo de 4 min synthétise l'atelier 5 du parcours citoyen autour des choix de lieux de conventionnement"
+        },
+        {
+          "balise": "h2",
+          "texte": "ÉVÈNEMENTS"
+        },
+        {
+          "balise": "p",
+          "texte": "Retrouvez nos événements à venir :"
+        },
+        {
+          "balise": "p",
+          "texte": "13/11/2026"
+        },
+        {
+          "balise": "p",
+          "texte": "20:00"
+        },
+        {
+          "balise": "h4",
+          "texte": "CINÉ-RENCONTRE \"FEMMES DES TERRES\""
+        },
+        {
+          "balise": "p",
+          "texte": "Femmes des terres est un documentaire réalisé par 6 étudiant.es en agronomie qui partagent les récits de vie de paysannes, agricultrices et leurs traditions ancestrales, entre la France, le Togo et la Bolivie. LA Dérive pont menou Plouégat Guerrand - Prix libre Organisé par le Collectif Sécurité Sociale de l'Alimentation dans le cadre du Festival Alimentaire et du Festisol"
+        },
+        {
+          "balise": "p",
+          "texte": "07/12/2026"
+        },
+        {
+          "balise": "p",
+          "texte": "18:00"
+        },
+        {
+          "balise": "h4",
+          "texte": "RÉUNION MENSUELLE LA COLLECTIVE D'ANIMATION"
+        },
+        {
+          "balise": "p",
+          "texte": "locaux de l'AFPA - bellevue de la madelaine - Morlaix"
+        },
+        {
+          "balise": "h2",
+          "texte": "ILS NOUS ACCOMPAGNENT"
+        },
+        {
+          "balise": "h2",
+          "texte": "FINANCEURS"
+        },
+        {
+          "balise": "h2",
+          "texte": "CONTACTEZ-NOUS"
+        },
+        {
+          "balise": "p",
+          "texte": "Pour toute question sur la Sécurité Sociale de l’Alimentation au Pays de Morlaix, contactez l’association ULAMIR CPIE."
+        },
+        {
+          "balise": "h3",
+          "texte": "NOS COORDONNÉES"
+        },
+        {
+          "balise": "p",
+          "texte": "Adresse : Le Buzuk, 39 bellevue de la madeleine, 29600 Morlaix"
+        },
+        {
+          "balise": "p",
+          "texte": "Téléphone : 06 15 06 82 08"
+        },
+        {
+          "balise": "p",
+          "texte": "Email : ssapaysdemorlaix@mailo.com"
+        },
+        {
+          "balise": "h3",
+          "texte": "Envoyez-nous un message"
+        }
+      ],
+      "images": [
+        {
+          "src": "https://ssapaysdemorlaix.fr/assets/img/logo.svg",
+          "alt": "Sécurité Sociale de l’Alimentation · Pays de Morlaix",
+          "largeur": 433,
+          "hauteur": 446,
+          "affichee": 39,
+          "dansEnTete": true,
+          "lienAccueil": true,
+          "indiceLogo": true
+        },
+        {
+          "src": "https://ssapaysdemorlaix.fr/assets/icons/fr.svg",
+          "alt": "FR",
+          "largeur": 200,
+          "hauteur": 150,
+          "affichee": 24,
+          "dansEnTete": true,
+          "lienAccueil": false,
+          "indiceLogo": false
+        },
+        {
+          "src": "https://ssapaysdemorlaix.fr/assets/icons/br.svg",
+          "alt": "BR",
+          "largeur": 683,
+          "hauteur": 683,
+          "affichee": 24,
+          "dansEnTete": true,
+          "lienAccueil": false,
+          "indiceLogo": false
+        },
+        {
+          "src": "https://ssapaysdemorlaix.fr/assets/icons/login.svg",
+          "alt": "Connexion",
+          "largeur": 256,
+          "hauteur": 256,
+          "affichee": 30,
+          "dansEnTete": true,
+          "lienAccueil": false,
+          "indiceLogo": false
+        },
+        {
+          "src": "https://ssapaysdemorlaix.fr/assets/img/banner.webp",
+          "alt": "banner",
+          "largeur": 1920,
+          "hauteur": 1281,
+          "affichee": 1440,
+          "dansEnTete": false,
+          "lienAccueil": false,
+          "indiceLogo": false
+        },
+        {
+          "src": "https://ssapaysdemorlaix.fr/assets/icons/Instance.svg",
+          "alt": "icon",
+          "largeur": 22,
+          "hauteur": 22,
+          "affichee": 18,
+          "dansEnTete": false,
+          "lienAccueil": false,
+          "indiceLogo": false
+        },
+        {
+          "src": "https://ssapaysdemorlaix.fr/assets/icons/Instance.svg",
+          "alt": "icon",
+          "largeur": 22,
+          "hauteur": 22,
+          "affichee": 18,
+          "dansEnTete": false,
+          "lienAccueil": false,
+          "indiceLogo": false
+        },
+        {
+          "src": "https://ssapaysdemorlaix.fr/assets/icons/Instance.svg",
+          "alt": "icon",
+          "largeur": 22,
+          "hauteur": 22,
+          "affichee": 18,
+          "dansEnTete": false,
+          "lienAccueil": false,
+          "indiceLogo": false
+        },
+        {
+          "src": "https://ssapaysdemorlaix.fr/assets/icons/Instance.svg",
+          "alt": "icon",
+          "largeur": 22,
+          "hauteur": 22,
+          "affichee": 18,
+          "dansEnTete": false,
+          "lienAccueil": false,
+          "indiceLogo": false
+        },
+        {
+          "src": "https://ssapaysdemorlaix.fr/assets/img/peep-52.svg",
+          "alt": "Logo SSA",
+          "largeur": 240,
+          "hauteur": 324,
+          "affichee": 360,
+          "dansEnTete": false,
+          "lienAccueil": false,
+          "indiceLogo": true
+        },
+        {
+          "src": "https://ssapaysdemorlaix.fr/assets/img/articles/17/20260504-132335-1.webp",
+          "alt": "Soirée de lancement de la caisse citoyenne",
+          "largeur": 480,
+          "hauteur": 360,
+          "affichee": 288,
+          "dansEnTete": false,
+          "lienAccueil": false,
+          "indiceLogo": false
+        },
+        {
+          "src": "https://ssapaysdemorlaix.fr/assets/img/articles/16/20260410-123159-1.webp",
+          "alt": "Carte des points de vente conventionnés",
+          "largeur": 1603,
+          "hauteur": 871,
+          "affichee": 288,
+          "dansEnTete": false,
+          "lienAccueil": false,
+          "indiceLogo": false
+        },
+        {
+          "src": "https://ssapaysdemorlaix.fr/assets/img/articles/15/20260324-100813-1.webp",
+          "alt": "Synthèse en vidéo de l'atelier du parcours citoyen du 14 mars 2026",
+          "largeur": 1920,
+          "hauteur": 1283,
+          "affichee": 288,
+          "dansEnTete": false,
+          "lienAccueil": false,
+          "indiceLogo": false
+        },
+        {
+          "src": "https://ssapaysdemorlaix.fr/assets/icons/arrow-left.svg",
+          "alt": "",
+          "largeur": 800,
+          "hauteur": 800,
+          "affichee": 0,
+          "dansEnTete": false,
+          "lienAccueil": false,
+          "indiceLogo": false
+        },
+        {
+          "src": "https://ssapaysdemorlaix.fr/assets/icons/arrow-right.svg",
+          "alt": "",
+          "largeur": 800,
+          "hauteur": 800,
+          "affichee": 0,
+          "dansEnTete": false,
+          "lienAccueil": false,
+          "indiceLogo": false
+        },
+        {
+          "src": "https://ssapaysdemorlaix.fr/assets/img/logos/buzuk.webp",
+          "alt": "BUZUK",
+          "largeur": 474,
+          "hauteur": 259,
+          "affichee": 124,
+          "dansEnTete": false,
+          "lienAccueil": false,
+          "indiceLogo": true
+        },
+        {
+          "src": "https://ssapaysdemorlaix.fr/assets/img/logos/ess.webp",
+          "alt": "Pôle ESS Pays de Morlaix",
+          "largeur": 647,
+          "hauteur": 828,
+          "affichee": 124,
+          "dansEnTete": false,
+          "lienAccueil": false,
+          "indiceLogo": true
+        },
+        {
+          "src": "https://ssapaysdemorlaix.fr/assets/img/logos/20251211-083116-1.webp",
+          "alt": "ulamircpie",
+          "largeur": 426,
+          "hauteur": 426,
+          "affichee": 124,
+          "dansEnTete": false,
+          "lienAccueil": false,
+          "indiceLogo": true
+        },
+        {
+          "src": "https://ssapaysdemorlaix.fr/assets/img/logos/resam.webp",
+          "alt": "resam",
+          "largeur": 800,
+          "hauteur": 208,
+          "affichee": 124,
+          "dansEnTete": false,
+          "lienAccueil": false,
+          "indiceLogo": true
+        },
+        {
+          "src": "https://ssapaysdemorlaix.fr/assets/img/logos/bretagne.webp",
+          "alt": "Région Bretagne",
+          "largeur": 800,
+          "hauteur": 800,
+          "affichee": 124,
+          "dansEnTete": false,
+          "lienAccueil": false,
+          "indiceLogo": true
+        },
+        {
+          "src": "https://ssapaysdemorlaix.fr/assets/img/logos/feader.webp",
+          "alt": "Leader financement Européen",
+          "largeur": 800,
+          "hauteur": 476,
+          "affichee": 124,
+          "dansEnTete": false,
+          "lienAccueil": false,
+          "indiceLogo": true
+        },
+        {
+          "src": "https://ssapaysdemorlaix.fr/assets/img/contact.svg",
+          "alt": "img_contact",
+          "largeur": 913,
+          "hauteur": 680,
+          "affichee": 576,
+          "dansEnTete": false,
+          "lienAccueil": false,
+          "indiceLogo": false
+        },
+        {
+          "src": "https://ssapaysdemorlaix.fr/assets/img/logo.svg",
+          "alt": "SSA logo",
+          "largeur": 433,
+          "hauteur": 446,
+          "affichee": 65,
+          "dansEnTete": true,
+          "lienAccueil": false,
+          "indiceLogo": true
+        }
+      ],
+      "icones": [
+        {
+          "rel": "icon",
+          "href": "https://ssapaysdemorlaix.fr/assets/img/logoSSA.png",
+          "tailles": ""
+        }
+      ],
+      "jsonld": [],
+      "enTete": "Accueil Qui sommes-nous ? Actualités Évènements Le projet SSA Galerie Contact •",
+      "pied": "Mentions légales Confidentialité Accessibilité Design et développement : Kouzia, Alexandre Kouziaeff EI, au sein de La Capsule · site éco-conçu",
+      "adresses": [],
+      "polices": {
+        "corps": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, Oxygen, Ubuntu, Cantarell, \"Open Sans\", \"Helvetica Neue\", sans-serif",
+        "titres": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, Oxygen, Ubuntu, Cantarell, \"Open Sans\", \"Helvetica Neue\", sans-serif",
+        "actions": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, Oxygen, Ubuntu, Cantarell, \"Open Sans\", \"Helvetica Neue\", sans-serif"
+      },
+      "captureMobile": "captures/accueil-mobile.jpg",
+      "mots": 398,
+      "liensInternes": 28
+    },
+    {
+      "url": "https://ssapaysdemorlaix.fr/projet",
+      "urlFinale": "https://ssapaysdemorlaix.fr/projet",
+      "statut": 200,
+      "capture": "captures/projet-bureau.jpg",
+      "titre": "Sécurité Sociale de l’Alimentation · Pays de Morlaix",
+      "description": "Sécurité Sociale de l’Alimentation au Pays de Morlaix : Pour un droit universel à une alimentation saine et durable.",
+      "langue": "fr",
+      "canonique": null,
+      "ogImage": null,
+      "h1": [
+        "Expérimentation d'une caisse de l'alimentation sur le Pays de Morlaix"
+      ],
+      "blocs": [
+        {
+          "balise": "h1",
+          "texte": "Expérimentation d'une caisse de l'alimentation sur le Pays de Morlaix"
+        },
+        {
+          "balise": "p",
+          "texte": "Une base de connaissances collaborative sur la Sécurité Sociale de l’Alimentation."
+        },
+        {
+          "balise": "h2",
+          "texte": "Un premier pas vers une Sécurité Sociale de l'Alimentation"
+        },
+        {
+          "balise": "h3",
+          "texte": "Pour un droit fondamental et universel à l'alimentation"
+        },
+        {
+          "balise": "p",
+          "texte": "La Sécurité Sociale de l’Alimentation en Pays de Morlaix est une expérimentation portée par un collectif d’associations et de citoyen·nes pour :"
+        },
+        {
+          "balise": "li",
+          "texte": "aller vers un droit à l'alimentation pour toutes et tous soutenir les paysan·nes…"
+        },
+        {
+          "balise": "li",
+          "texte": "contribuer à construire un système alimentaire plus juste et plus durable"
+        },
+        {
+          "balise": "li",
+          "texte": "recréer du lien et reprendre du pouvoir d'agir collectivement sur notre territoire"
+        },
+        {
+          "balise": "p",
+          "texte": "Objectif : C'est une initiative locale qui s'inspire d'un projet de société : celui de mettre en place une sécurité sociale de l'alimentation !"
+        },
+        {
+          "balise": "p",
+          "texte": "Plus concrètement, c'est :"
+        },
+        {
+          "balise": "li",
+          "texte": "un parcours citoyen qui débutera à l’automne 2025…"
+        },
+        {
+          "balise": "li",
+          "texte": "un budget collectif constitué par les cotisations des membres…"
+        },
+        {
+          "balise": "li",
+          "texte": "une allocation à dépenser chaque mois dans des lieux de distribution alimentaire"
+        },
+        {
+          "balise": "p",
+          "texte": "Vous pouvez nous rejoindre pour participer à la construction de ce beau projet « collectif », n’hésitez pas à nous contacter !"
+        },
+        {
+          "balise": "h2",
+          "texte": "On recrute !"
+        },
+        {
+          "balise": "h3",
+          "texte": "Comment cela se passe concrètement ?"
+        },
+        {
+          "balise": "p",
+          "texte": "Nous lançons une campagne pour recruter 100 volontaires afin de rejoindre l’expérimentation Sécurité Sociale de l’Alimentation. Chaque participant choisira librement le montant de sa cotisation mensuelle, puis recevra une allocation en monnaie locale alimentaire, le « Buzuk SSA », à dépenser dans des lieux validés démocratiquement par le groupe."
+        },
+        {
+          "balise": "p",
+          "texte": "L’appel à candidatures est ouvert à toutes et tous, sans condition de ressources."
+        },
+        {
+          "balise": "p",
+          "texte": "Pour postuler, il suffit de télécharger le dossier en ligne ou de s’inscrire directement via le formulaire dédié."
+        },
+        {
+          "balise": "h2",
+          "texte": "Besoin d’information ?"
+        },
+        {
+          "balise": "p",
+          "texte": "Contactez le collectif à ssapaysdemorlaix@mailo.com ou candidature@mailo.com."
+        },
+        {
+          "balise": "p",
+          "texte": "Des temps d’échanges seront organisés entre les participants retenus, afin de choisir ensemble les lieux de dépense."
+        },
+        {
+          "balise": "p",
+          "texte": "Chaque participant s’engage à participer à une réunion et un atelier collectif par mois."
+        }
+      ],
+      "images": [
+        {
+          "src": "https://ssapaysdemorlaix.fr/assets/img/logo.svg",
+          "alt": "Sécurité Sociale de l’Alimentation · Pays de Morlaix",
+          "largeur": 433,
+          "hauteur": 446,
+          "affichee": 39,
+          "dansEnTete": true,
+          "lienAccueil": true,
+          "indiceLogo": true
+        },
+        {
+          "src": "https://ssapaysdemorlaix.fr/assets/icons/fr.svg",
+          "alt": "FR",
+          "largeur": 200,
+          "hauteur": 150,
+          "affichee": 24,
+          "dansEnTete": true,
+          "lienAccueil": false,
+          "indiceLogo": false
+        },
+        {
+          "src": "https://ssapaysdemorlaix.fr/assets/icons/br.svg",
+          "alt": "BR",
+          "largeur": 683,
+          "hauteur": 683,
+          "affichee": 24,
+          "dansEnTete": true,
+          "lienAccueil": false,
+          "indiceLogo": false
+        },
+        {
+          "src": "https://ssapaysdemorlaix.fr/assets/icons/login.svg",
+          "alt": "Connexion",
+          "largeur": 256,
+          "hauteur": 256,
+          "affichee": 30,
+          "dansEnTete": true,
+          "lienAccueil": false,
+          "indiceLogo": false
+        },
+        {
+          "src": "https://ssapaysdemorlaix.fr/assets/img/projet/projetssa.webp",
+          "alt": "banner",
+          "largeur": 1920,
+          "hauteur": 1281,
+          "affichee": 1440,
+          "dansEnTete": false,
+          "lienAccueil": false,
+          "indiceLogo": false
+        },
+        {
+          "src": "https://ssapaysdemorlaix.fr/assets/icons/Instance.svg",
+          "alt": "icon",
+          "largeur": 22,
+          "hauteur": 22,
+          "affichee": 18,
+          "dansEnTete": false,
+          "lienAccueil": false,
+          "indiceLogo": false
+        },
+        {
+          "src": "https://ssapaysdemorlaix.fr/assets/icons/Instance.svg",
+          "alt": "icon",
+          "largeur": 22,
+          "hauteur": 22,
+          "affichee": 18,
+          "dansEnTete": false,
+          "lienAccueil": false,
+          "indiceLogo": false
+        },
+        {
+          "src": "https://ssapaysdemorlaix.fr/assets/icons/Instance.svg",
+          "alt": "icon",
+          "largeur": 22,
+          "hauteur": 22,
+          "affichee": 18,
+          "dansEnTete": false,
+          "lienAccueil": false,
+          "indiceLogo": false
+        },
+        {
+          "src": "https://ssapaysdemorlaix.fr/assets/img/projet/peep-102.svg",
+          "alt": "illustration",
+          "largeur": 240,
+          "hauteur": 324,
+          "affichee": 360,
+          "dansEnTete": false,
+          "lienAccueil": false,
+          "indiceLogo": false
+        },
+        {
+          "src": "https://ssapaysdemorlaix.fr/assets/icons/Instance.svg",
+          "alt": "icon",
+          "largeur": 22,
+          "hauteur": 22,
+          "affichee": 18,
+          "dansEnTete": false,
+          "lienAccueil": false,
+          "indiceLogo": false
+        },
+        {
+          "src": "https://ssapaysdemorlaix.fr/assets/icons/Instance.svg",
+          "alt": "icon",
+          "largeur": 22,
+          "hauteur": 22,
+          "affichee": 18,
+          "dansEnTete": false,
+          "lienAccueil": false,
+          "indiceLogo": false
+        },
+        {
+          "src": "https://ssapaysdemorlaix.fr/assets/icons/Instance.svg",
+          "alt": "icon",
+          "largeur": 22,
+          "hauteur": 22,
+          "affichee": 18,
+          "dansEnTete": false,
+          "lienAccueil": false,
+          "indiceLogo": false
+        },
+        {
+          "src": "https://ssapaysdemorlaix.fr/assets/img/projet/illustration_projet_ssa.webp",
+          "alt": "illustration",
+          "largeur": 1920,
+          "hauteur": 1357,
+          "affichee": 576,
+          "dansEnTete": false,
+          "lienAccueil": false,
+          "indiceLogo": false
+        },
+        {
+          "src": "https://ssapaysdemorlaix.fr/assets/img/projet/recrutementBanner.webp",
+          "alt": "recrutementSSA",
+          "largeur": 1920,
+          "hauteur": 600,
+          "affichee": 1152,
+          "dansEnTete": false,
+          "lienAccueil": false,
+          "indiceLogo": false
+        },
+        {
+          "src": "https://ssapaysdemorlaix.fr/assets/img/logo.svg",
+          "alt": "SSA logo",
+          "largeur": 433,
+          "hauteur": 446,
+          "affichee": 65,
+          "dansEnTete": true,
+          "lienAccueil": false,
+          "indiceLogo": true
+        }
+      ],
+      "icones": [
+        {
+          "rel": "icon",
+          "href": "https://ssapaysdemorlaix.fr/assets/img/logoSSA.png",
+          "tailles": ""
+        }
+      ],
+      "jsonld": [],
+      "enTete": "Accueil Qui sommes-nous ? Actualités Évènements Le projet SSA Galerie Contact •",
+      "pied": "Mentions légales Confidentialité Accessibilité Design et développement : Kouzia, Alexandre Kouziaeff EI, au sein de La Capsule · site éco-conçu",
+      "adresses": [],
+      "polices": {
+        "corps": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, Oxygen, Ubuntu, Cantarell, \"Open Sans\", \"Helvetica Neue\", sans-serif",
+        "titres": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, Oxygen, Ubuntu, Cantarell, \"Open Sans\", \"Helvetica Neue\", sans-serif",
+        "actions": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, Oxygen, Ubuntu, Cantarell, \"Open Sans\", \"Helvetica Neue\", sans-serif"
+      },
+      "captureMobile": "captures/projet-mobile.jpg",
+      "mots": 346,
+      "liensInternes": 17
+    },
+    {
+      "url": "https://ssapaysdemorlaix.fr/galerie",
+      "urlFinale": "https://ssapaysdemorlaix.fr/galerie",
+      "statut": 200,
+      "capture": "captures/galerie-bureau.jpg",
+      "titre": "Sécurité Sociale de l’Alimentation · Pays de Morlaix",
+      "description": "Sécurité Sociale de l’Alimentation au Pays de Morlaix : Pour un droit universel à une alimentation saine et durable.",
+      "langue": "fr",
+      "canonique": null,
+      "ogImage": null,
+      "h1": [
+        "Galerie de la SSA"
+      ],
+      "blocs": [
+        {
+          "balise": "h1",
+          "texte": "Galerie de la SSA"
+        }
+      ],
+      "images": [
+        {
+          "src": "https://ssapaysdemorlaix.fr/assets/img/logo.svg",
+          "alt": "Sécurité Sociale de l’Alimentation · Pays de Morlaix",
+          "largeur": 433,
+          "hauteur": 446,
+          "affichee": 39,
+          "dansEnTete": true,
+          "lienAccueil": true,
+          "indiceLogo": true
+        },
+        {
+          "src": "https://ssapaysdemorlaix.fr/assets/icons/fr.svg",
+          "alt": "FR",
+          "largeur": 200,
+          "hauteur": 150,
+          "affichee": 24,
+          "dansEnTete": true,
+          "lienAccueil": false,
+          "indiceLogo": false
+        },
+        {
+          "src": "https://ssapaysdemorlaix.fr/assets/icons/br.svg",
+          "alt": "BR",
+          "largeur": 683,
+          "hauteur": 683,
+          "affichee": 24,
+          "dansEnTete": true,
+          "lienAccueil": false,
+          "indiceLogo": false
+        },
+        {
+          "src": "https://ssapaysdemorlaix.fr/assets/icons/login.svg",
+          "alt": "Connexion",
+          "largeur": 256,
+          "hauteur": 256,
+          "affichee": 30,
+          "dansEnTete": true,
+          "lienAccueil": false,
+          "indiceLogo": false
+        },
+        {
+          "src": "https://ssapaysdemorlaix.fr/assets/img/gallery/20251124_144301_lot001.webp",
+          "alt": "20251124_144301_lot001",
+          "largeur": 1920,
+          "hauteur": 1281,
+          "affichee": 456,
+          "dansEnTete": false,
+          "lienAccueil": false,
+          "indiceLogo": false
+        },
+        {
+          "src": "https://ssapaysdemorlaix.fr/assets/img/gallery/20251124_144259_lot001.webp",
+          "alt": "20251124_144259_lot001",
+          "largeur": 1920,
+          "hauteur": 1281,
+          "affichee": 456,
+          "dansEnTete": false,
+          "lienAccueil": false,
+          "indiceLogo": false
+        },
+        {
+          "src": "https://ssapaysdemorlaix.fr/assets/img/gallery/20251124_144300_lot001.webp",
+          "alt": "20251124_144300_lot001",
+          "largeur": 1920,
+          "hauteur": 1281,
+          "affichee": 456,
+          "dansEnTete": false,
+          "lienAccueil": false,
+          "indiceLogo": false
+        },
+        {
+          "src": "https://ssapaysdemorlaix.fr/assets/img/gallery/20251124_144258_lot001.webp",
+          "alt": "20251124_144258_lot001",
+          "largeur": 1920,
+          "hauteur": 1281,
+          "affichee": 456,
+          "dansEnTete": false,
+          "lienAccueil": false,
+          "indiceLogo": false
+        },
+        {
+          "src": "https://ssapaysdemorlaix.fr/assets/img/gallery/20251124_144258_lot002.webp",
+          "alt": "20251124_144258_lot002",
+          "largeur": 1920,
+          "hauteur": 1281,
+          "affichee": 456,
+          "dansEnTete": false,
+          "lienAccueil": false,
+          "indiceLogo": false
+        },
+        {
+          "src": "https://ssapaysdemorlaix.fr/assets/img/gallery/20251124_144256_lot001.webp",
+          "alt": "20251124_144256_lot001",
+          "largeur": 1920,
+          "hauteur": 2877,
+          "affichee": 456,
+          "dansEnTete": false,
+          "lienAccueil": false,
+          "indiceLogo": false
+        },
+        {
+          "src": "https://ssapaysdemorlaix.fr/assets/img/gallery/20251124_144257_lot001.webp",
+          "alt": "20251124_144257_lot001",
+          "largeur": 1920,
+          "hauteur": 1281,
+          "affichee": 456,
+          "dansEnTete": false,
+          "lienAccueil": false,
+          "indiceLogo": false
+        },
+        {
+          "src": "https://ssapaysdemorlaix.fr/assets/img/gallery/20251124_144248_lot001.webp",
+          "alt": "20251124_144248_lot001",
+          "largeur": 1920,
+          "hauteur": 2877,
+          "affichee": 456,
+          "dansEnTete": false,
+          "lienAccueil": false,
+          "indiceLogo": false
+        },
+        {
+          "src": "https://ssapaysdemorlaix.fr/assets/img/gallery/20251124_144251_lot001.webp",
+          "alt": "20251124_144251_lot001",
+          "largeur": 1920,
+          "hauteur": 1281,
+          "affichee": 456,
+          "dansEnTete": false,
+          "lienAccueil": false,
+          "indiceLogo": false
+        },
+        {
+          "src": "https://ssapaysdemorlaix.fr/assets/img/gallery/20251124_144247_lot002.webp",
+          "alt": "20251124_144247_lot002",
+          "largeur": 1920,
+          "hauteur": 1281,
+          "affichee": 456,
+          "dansEnTete": false,
+          "lienAccueil": false,
+          "indiceLogo": false
+        },
+        {
+          "src": "https://ssapaysdemorlaix.fr/assets/img/gallery/20251124_144247_lot001.webp",
+          "alt": "20251124_144247_lot001",
+          "largeur": 1920,
+          "hauteur": 1281,
+          "affichee": 456,
+          "dansEnTete": false,
+          "lienAccueil": false,
+          "indiceLogo": false
+        },
+        {
+          "src": "https://ssapaysdemorlaix.fr/assets/img/gallery/20251124_144246_lot001.webp",
+          "alt": "20251124_144246_lot001",
+          "largeur": 1920,
+          "hauteur": 1281,
+          "affichee": 456,
+          "dansEnTete": false,
+          "lienAccueil": false,
+          "indiceLogo": false
+        },
+        {
+          "src": "https://ssapaysdemorlaix.fr/assets/img/gallery/20251124_144244_lot001.webp",
+          "alt": "20251124_144244_lot001",
+          "largeur": 1920,
+          "hauteur": 2877,
+          "affichee": 456,
+          "dansEnTete": false,
+          "lienAccueil": false,
+          "indiceLogo": false
+        },
+        {
+          "src": "https://ssapaysdemorlaix.fr/assets/img/gallery/20251124_144241_lot002.webp",
+          "alt": "20251124_144241_lot002",
+          "largeur": 1920,
+          "hauteur": 1281,
+          "affichee": 456,
+          "dansEnTete": false,
+          "lienAccueil": false,
+          "indiceLogo": false
+        },
+        {
+          "src": "https://ssapaysdemorlaix.fr/assets/img/gallery/20251124_144240_lot001.webp",
+          "alt": "20251124_144240_lot001",
+          "largeur": 1920,
+          "hauteur": 1281,
+          "affichee": 456,
+          "dansEnTete": false,
+          "lienAccueil": false,
+          "indiceLogo": false
+        },
+        {
+          "src": "https://ssapaysdemorlaix.fr/assets/img/gallery/20251124_144239_lot001.webp",
+          "alt": "20251124_144239_lot001",
+          "largeur": 1920,
+          "hauteur": 1281,
+          "affichee": 456,
+          "dansEnTete": false,
+          "lienAccueil": false,
+          "indiceLogo": false
+        },
+        {
+          "src": "https://ssapaysdemorlaix.fr/assets/img/gallery/20251124_144239_lot002.webp",
+          "alt": "20251124_144239_lot002",
+          "largeur": 1920,
+          "hauteur": 1281,
+          "affichee": 456,
+          "dansEnTete": false,
+          "lienAccueil": false,
+          "indiceLogo": false
+        },
+        {
+          "src": "https://ssapaysdemorlaix.fr/assets/img/gallery/20251124_144237_lot001.webp",
+          "alt": "20251124_144237_lot001",
+          "largeur": 1920,
+          "hauteur": 1281,
+          "affichee": 456,
+          "dansEnTete": false,
+          "lienAccueil": false,
+          "indiceLogo": false
+        },
+        {
+          "src": "https://ssapaysdemorlaix.fr/assets/img/gallery/20251124_144235_lot001.webp",
+          "alt": "20251124_144235_lot001",
+          "largeur": 1920,
+          "hauteur": 2877,
+          "affichee": 456,
+          "dansEnTete": false,
+          "lienAccueil": false,
+          "indiceLogo": false
+        },
+        {
+          "src": "https://ssapaysdemorlaix.fr/assets/img/gallery/20251124_144234_lot001.webp",
+          "alt": "20251124_144234_lot001",
+          "largeur": 1920,
+          "hauteur": 1281,
+          "affichee": 456,
+          "dansEnTete": false,
+          "lienAccueil": false,
+          "indiceLogo": false
+        },
+        {
+          "src": "https://ssapaysdemorlaix.fr/assets/img/gallery/20251124_144231_lot001.webp",
+          "alt": "20251124_144231_lot001",
+          "largeur": 1920,
+          "hauteur": 2877,
+          "affichee": 456,
+          "dansEnTete": false,
+          "lienAccueil": false,
+          "indiceLogo": false
+        },
+        {
+          "src": "https://ssapaysdemorlaix.fr/assets/img/gallery/20251124_144230_lot001.webp",
+          "alt": "20251124_144230_lot001",
+          "largeur": 1920,
+          "hauteur": 2877,
+          "affichee": 456,
+          "dansEnTete": false,
+          "lienAccueil": false,
+          "indiceLogo": false
+        },
+        {
+          "src": "https://ssapaysdemorlaix.fr/assets/img/gallery/20251124_144227_lot001.webp",
+          "alt": "20251124_144227_lot001",
+          "largeur": 1920,
+          "hauteur": 2877,
+          "affichee": 456,
+          "dansEnTete": false,
+          "lienAccueil": false,
+          "indiceLogo": false
+        },
+        {
+          "src": "https://ssapaysdemorlaix.fr/assets/img/gallery/20251124_144226_lot001.webp",
+          "alt": "20251124_144226_lot001",
+          "largeur": 1920,
+          "hauteur": 2877,
+          "affichee": 456,
+          "dansEnTete": false,
+          "lienAccueil": false,
+          "indiceLogo": false
+        },
+        {
+          "src": "https://ssapaysdemorlaix.fr/galerie",
+          "alt": "",
+          "largeur": 0,
+          "hauteur": 0,
+          "affichee": 0,
+          "dansEnTete": false,
+          "lienAccueil": false,
+          "indiceLogo": false
+        },
+        {
+          "src": "https://ssapaysdemorlaix.fr/assets/img/logo.svg",
+          "alt": "SSA logo",
+          "largeur": 433,
+          "hauteur": 446,
+          "affichee": 65,
+          "dansEnTete": true,
+          "lienAccueil": false,
+          "indiceLogo": true
+        }
+      ],
+      "icones": [
+        {
+          "rel": "icon",
+          "href": "https://ssapaysdemorlaix.fr/assets/img/logoSSA.png",
+          "tailles": ""
+        }
+      ],
+      "jsonld": [],
+      "enTete": "Accueil Qui sommes-nous ? Actualités Évènements Le projet SSA Galerie Contact •",
+      "pied": "Mentions légales Confidentialité Accessibilité Design et développement : Kouzia, Alexandre Kouziaeff EI, au sein de La Capsule · site éco-conçu",
+      "adresses": [],
+      "polices": {
+        "corps": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, Oxygen, Ubuntu, Cantarell, \"Open Sans\", \"Helvetica Neue\", sans-serif",
+        "titres": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, Oxygen, Ubuntu, Cantarell, \"Open Sans\", \"Helvetica Neue\", sans-serif",
+        "actions": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, Oxygen, Ubuntu, Cantarell, \"Open Sans\", \"Helvetica Neue\", sans-serif"
+      },
+      "captureMobile": "captures/galerie-mobile.jpg",
+      "mots": 51,
+      "liensInternes": 22
+    },
+    {
+      "url": "https://ssapaysdemorlaix.fr/mentions-legales",
+      "urlFinale": "https://ssapaysdemorlaix.fr/mentions-legales",
+      "statut": 200,
+      "capture": "captures/mentions-legales-bureau.jpg",
+      "titre": "Sécurité Sociale de l’Alimentation · Pays de Morlaix",
+      "description": "Sécurité Sociale de l’Alimentation au Pays de Morlaix : Pour un droit universel à une alimentation saine et durable.",
+      "langue": "fr",
+      "canonique": null,
+      "ogImage": null,
+      "h1": [
+        "Mentions légales"
+      ],
+      "blocs": [
+        {
+          "balise": "h1",
+          "texte": "Mentions légales"
+        },
+        {
+          "balise": "h2",
+          "texte": "Éditeur du site"
+        },
+        {
+          "balise": "p",
+          "texte": "Ce site présente l'expérimentation de la Sécurité Sociale de l'Alimentation (SSA) du Pays de Morlaix. Ce projet n'a pas de dirigeant unique : il est gouverné par un collectif citoyen appelé « La Collective » et co-animé par un groupement d'associations locales du territoire (ULAMIR-CPIE, Résam, Le Buzuk et Adess du Pays de Morlaix)."
+        },
+        {
+          "balise": "p",
+          "texte": "Référente et contact principal : Géraldine Gabillet, chargée de mission à l'association ULAMIR-CPIE, joignable à ssapaysdemorlaix@mailo.com."
+        },
+        {
+          "balise": "h2",
+          "texte": "Directeur de la publication"
+        },
+        {
+          "balise": "p",
+          "texte": "La responsabilité éditoriale du site est assurée par Géraldine Gabillet, en sa qualité de référente de l'expérimentation."
+        },
+        {
+          "balise": "h2",
+          "texte": "Contact"
+        },
+        {
+          "balise": "p",
+          "texte": "Adresse : Le Buzuk, 39 bellevue de la madeleine, 29600 Morlaix Téléphone : 06 15 06 82 08 E-mail : ssapaysdemorlaix@mailo.com"
+        },
+        {
+          "balise": "h2",
+          "texte": "Hébergement"
+        },
+        {
+          "balise": "p",
+          "texte": "Le site est hébergé par Hostinger International Ltd, 61 Lordou Vironos Street, 6023 Larnaca, Chypre. L'hébergeur ne publie pas de numéro de téléphone de contact ; les demandes peuvent être adressées via son site hostinger.fr."
+        },
+        {
+          "balise": "h2",
+          "texte": "Propriété intellectuelle et crédits"
+        },
+        {
+          "balise": "p",
+          "texte": "Conception et développement : Kouzia, Alexandre Kouziaeff EI, au sein de La Capsule."
+        },
+        {
+          "balise": "p",
+          "texte": "Photographies : collectif SSA Pays de Morlaix (les personnes représentées ont donné leur autorisation). Police de caractères : Outfit. Les contenus de ce site (textes, images, logo) sont la propriété de leurs auteurs respectifs et ne peuvent être réutilisés sans autorisation."
+        },
+        {
+          "balise": "p",
+          "texte": "Dernière mise à jour : 12 novembre 2026."
+        }
+      ],
+      "images": [
+        {
+          "src": "https://ssapaysdemorlaix.fr/assets/img/logo.svg",
+          "alt": "Sécurité Sociale de l’Alimentation · Pays de Morlaix",
+          "largeur": 433,
+          "hauteur": 446,
+          "affichee": 39,
+          "dansEnTete": true,
+          "lienAccueil": true,
+          "indiceLogo": true
+        },
+        {
+          "src": "https://ssapaysdemorlaix.fr/assets/icons/fr.svg",
+          "alt": "FR",
+          "largeur": 200,
+          "hauteur": 150,
+          "affichee": 24,
+          "dansEnTete": true,
+          "lienAccueil": false,
+          "indiceLogo": false
+        },
+        {
+          "src": "https://ssapaysdemorlaix.fr/assets/icons/br.svg",
+          "alt": "BR",
+          "largeur": 683,
+          "hauteur": 683,
+          "affichee": 24,
+          "dansEnTete": true,
+          "lienAccueil": false,
+          "indiceLogo": false
+        },
+        {
+          "src": "https://ssapaysdemorlaix.fr/assets/icons/login.svg",
+          "alt": "Connexion",
+          "largeur": 256,
+          "hauteur": 256,
+          "affichee": 30,
+          "dansEnTete": true,
+          "lienAccueil": false,
+          "indiceLogo": false
+        },
+        {
+          "src": "https://ssapaysdemorlaix.fr/assets/img/logo.svg",
+          "alt": "SSA logo",
+          "largeur": 433,
+          "hauteur": 446,
+          "affichee": 65,
+          "dansEnTete": true,
+          "lienAccueil": false,
+          "indiceLogo": true
+        }
+      ],
+      "icones": [
+        {
+          "rel": "icon",
+          "href": "https://ssapaysdemorlaix.fr/assets/img/logoSSA.png",
+          "tailles": ""
+        }
+      ],
+      "jsonld": [],
+      "enTete": "Accueil Qui sommes-nous ? Actualités Évènements Le projet SSA Galerie Contact •",
+      "pied": "Mentions légales Confidentialité Accessibilité Design et développement : Kouzia, Alexandre Kouziaeff EI, au sein de La Capsule · site éco-conçu",
+      "adresses": [],
+      "polices": {
+        "corps": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, Oxygen, Ubuntu, Cantarell, \"Open Sans\", \"Helvetica Neue\", sans-serif",
+        "titres": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, Oxygen, Ubuntu, Cantarell, \"Open Sans\", \"Helvetica Neue\", sans-serif",
+        "actions": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, Oxygen, Ubuntu, Cantarell, \"Open Sans\", \"Helvetica Neue\", sans-serif"
+      },
+      "captureMobile": "captures/mentions-legales-mobile.jpg",
+      "mots": 255,
+      "liensInternes": 15
+    },
+    {
+      "url": "https://ssapaysdemorlaix.fr/confidentialite",
+      "urlFinale": "https://ssapaysdemorlaix.fr/confidentialite",
+      "statut": 200,
+      "capture": "captures/confidentialite-bureau.jpg",
+      "titre": "Sécurité Sociale de l’Alimentation · Pays de Morlaix",
+      "description": "Sécurité Sociale de l’Alimentation au Pays de Morlaix : Pour un droit universel à une alimentation saine et durable.",
+      "langue": "fr",
+      "canonique": null,
+      "ogImage": null,
+      "h1": [
+        "Politique de confidentialité"
+      ],
+      "blocs": [
+        {
+          "balise": "h1",
+          "texte": "Politique de confidentialité"
+        },
+        {
+          "balise": "p",
+          "texte": "Cette politique décrit comment les données personnelles sont traitées sur ce site, conformément au Règlement général sur la protection des données (RGPD)."
+        },
+        {
+          "balise": "h2",
+          "texte": "Formulaire de contact"
+        },
+        {
+          "balise": "li",
+          "texte": "Données collectées : nom, adresse e-mail, message, et adresse IP de l'expéditeur."
+        },
+        {
+          "balise": "li",
+          "texte": "Finalité : répondre à votre demande et prévenir les abus (anti-spam)."
+        },
+        {
+          "balise": "li",
+          "texte": "Base légale : intérêt légitime (répondre à une sollicitation que vous avez initiée)."
+        },
+        {
+          "balise": "li",
+          "texte": "Destinataires : le collectif SSA Pays de Morlaix et l'hébergeur du site. Aucune donnée n'est vendue ni transmise à des tiers à des fins commerciales."
+        },
+        {
+          "balise": "li",
+          "texte": "Durée de conservation : 3 ans à compter du dernier contact, conformément à la recommandation de la CNIL, puis suppression."
+        },
+        {
+          "balise": "li",
+          "texte": "Transfert hors Union européenne : aucun."
+        },
+        {
+          "balise": "h2",
+          "texte": "Comptes d'administration"
+        },
+        {
+          "balise": "p",
+          "texte": "L'accès au tableau de bord est réservé aux membres habilités. Les comptes (nom d'utilisateur, e-mail, mot de passe chiffré) servent uniquement à l'authentification et à la gestion du contenu du site. Ils ne concernent pas les visiteurs du site public."
+        },
+        {
+          "balise": "h2",
+          "texte": "Mesure d'audience et traceurs"
+        },
+        {
+          "balise": "p",
+          "texte": "Ce site n'utilise pas de traceur publicitaire ni de cookie de suivi tiers, et n'affiche donc pas de bannière de consentement. Seuls les cookies strictement nécessaires au fonctionnement (par exemple la session d'administration) sont utilisés."
+        },
+        {
+          "balise": "h2",
+          "texte": "Vos droits"
+        },
+        {
+          "balise": "p",
+          "texte": "Vous disposez d'un droit d'accès, de rectification, d'effacement, d'opposition, de limitation et de portabilité de vos données. Pour les exercer, écrivez à ssapaysdemorlaix@mailo.com."
+        },
+        {
+          "balise": "p",
+          "texte": "Si vous estimez, après nous avoir contactés, que vos droits ne sont pas respectés, vous pouvez adresser une réclamation à la CNIL (www.cnil.fr)."
+        },
+        {
+          "balise": "p",
+          "texte": "Dernière mise à jour : 12 novembre 2026."
+        }
+      ],
+      "images": [
+        {
+          "src": "https://ssapaysdemorlaix.fr/assets/img/logo.svg",
+          "alt": "Sécurité Sociale de l’Alimentation · Pays de Morlaix",
+          "largeur": 433,
+          "hauteur": 446,
+          "affichee": 39,
+          "dansEnTete": true,
+          "lienAccueil": true,
+          "indiceLogo": true
+        },
+        {
+          "src": "https://ssapaysdemorlaix.fr/assets/icons/fr.svg",
+          "alt": "FR",
+          "largeur": 200,
+          "hauteur": 150,
+          "affichee": 24,
+          "dansEnTete": true,
+          "lienAccueil": false,
+          "indiceLogo": false
+        },
+        {
+          "src": "https://ssapaysdemorlaix.fr/assets/icons/br.svg",
+          "alt": "BR",
+          "largeur": 683,
+          "hauteur": 683,
+          "affichee": 24,
+          "dansEnTete": true,
+          "lienAccueil": false,
+          "indiceLogo": false
+        },
+        {
+          "src": "https://ssapaysdemorlaix.fr/assets/icons/login.svg",
+          "alt": "Connexion",
+          "largeur": 256,
+          "hauteur": 256,
+          "affichee": 30,
+          "dansEnTete": true,
+          "lienAccueil": false,
+          "indiceLogo": false
+        },
+        {
+          "src": "https://ssapaysdemorlaix.fr/assets/img/logo.svg",
+          "alt": "SSA logo",
+          "largeur": 433,
+          "hauteur": 446,
+          "affichee": 65,
+          "dansEnTete": true,
+          "lienAccueil": false,
+          "indiceLogo": true
+        }
+      ],
+      "icones": [
+        {
+          "rel": "icon",
+          "href": "https://ssapaysdemorlaix.fr/assets/img/logoSSA.png",
+          "tailles": ""
+        }
+      ],
+      "jsonld": [],
+      "enTete": "Accueil Qui sommes-nous ? Actualités Évènements Le projet SSA Galerie Contact •",
+      "pied": "Mentions légales Confidentialité Accessibilité Design et développement : Kouzia, Alexandre Kouziaeff EI, au sein de La Capsule · site éco-conçu",
+      "adresses": [],
+      "polices": {
+        "corps": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, Oxygen, Ubuntu, Cantarell, \"Open Sans\", \"Helvetica Neue\", sans-serif",
+        "titres": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, Oxygen, Ubuntu, Cantarell, \"Open Sans\", \"Helvetica Neue\", sans-serif",
+        "actions": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, Oxygen, Ubuntu, Cantarell, \"Open Sans\", \"Helvetica Neue\", sans-serif"
+      },
+      "captureMobile": "captures/confidentialite-mobile.jpg",
+      "mots": 287,
+      "liensInternes": 15
+    },
+    {
+      "url": "https://ssapaysdemorlaix.fr/accessibilite",
+      "urlFinale": "https://ssapaysdemorlaix.fr/accessibilite",
+      "statut": 200,
+      "capture": "captures/accessibilite-bureau.jpg",
+      "titre": "Sécurité Sociale de l’Alimentation · Pays de Morlaix",
+      "description": "Sécurité Sociale de l’Alimentation au Pays de Morlaix : Pour un droit universel à une alimentation saine et durable.",
+      "langue": "fr",
+      "canonique": null,
+      "ogImage": null,
+      "h1": [
+        "Déclaration d'accessibilité"
+      ],
+      "blocs": [
+        {
+          "balise": "h1",
+          "texte": "Déclaration d'accessibilité"
+        },
+        {
+          "balise": "p",
+          "texte": "Le collectif SSA Pays de Morlaix s'engage à rendre ce site accessible au plus grand nombre, conformément au Référentiel général d'amélioration de l'accessibilité (RGAA) et aux critères WCAG."
+        },
+        {
+          "balise": "h2",
+          "texte": "État de conformité"
+        },
+        {
+          "balise": "p",
+          "texte": "Le site est partiellement conforme au référentiel WCAG 2.2 niveau AA, en raison des non-conformités listées ci-dessous."
+        },
+        {
+          "balise": "h2",
+          "texte": "Résultats des tests"
+        },
+        {
+          "balise": "p",
+          "texte": "Une évaluation a été menée le 12 novembre 2026 à l'aide de l'outil automatisé axe-core (critères WCAG 2.0, 2.1 et 2.2, niveaux A et AA) sur les principaux gabarits (accueil, projet, galerie, article, connexion, page 404), complétée par des vérifications manuelles (navigation au clavier, lien d'évitement, affichage à 320 px, réglage « animations réduites »). Un contrôle automatisé ne couvre qu'une partie des critères : un audit RGAA complet par un tiers reste recommandé."
+        },
+        {
+          "balise": "h2",
+          "texte": "Contenus non accessibles"
+        },
+        {
+          "balise": "p",
+          "texte": "Les non-conformités connues à ce jour sont :"
+        },
+        {
+          "balise": "li",
+          "texte": "Contraste insuffisant de certains textes sur fond coloré (boutons verts, dates et titres des cartes d'événements), inférieur au seuil AA de 4,5:1."
+        },
+        {
+          "balise": "p",
+          "texte": "Ces points seront corrigés lors d'une prochaine mise à jour. Aucune dérogation pour charge disproportionnée n'est revendiquée."
+        },
+        {
+          "balise": "h2",
+          "texte": "Établissement de cette déclaration"
+        },
+        {
+          "balise": "p",
+          "texte": "Cette déclaration a été établie le 12 novembre 2026 sur la base d'une auto-évaluation (outil axe-core et vérifications manuelles)."
+        },
+        {
+          "balise": "h2",
+          "texte": "Retour d'information et contact"
+        },
+        {
+          "balise": "p",
+          "texte": "Si vous rencontrez un défaut d'accessibilité vous empêchant d'accéder à un contenu, contactez-nous à ssapaysdemorlaix@mailo.com afin que nous puissions vous orienter vers une solution adaptée."
+        },
+        {
+          "balise": "h2",
+          "texte": "Voie de recours"
+        },
+        {
+          "balise": "p",
+          "texte": "Si vous constatez un défaut d'accessibilité et que, après nous avoir signalé le problème, vous n'obtenez pas de réponse satisfaisante, vous pouvez saisir le Défenseur des droits (defenseurdesdroits.fr)."
+        }
+      ],
+      "images": [
+        {
+          "src": "https://ssapaysdemorlaix.fr/assets/img/logo.svg",
+          "alt": "Sécurité Sociale de l’Alimentation · Pays de Morlaix",
+          "largeur": 433,
+          "hauteur": 446,
+          "affichee": 39,
+          "dansEnTete": true,
+          "lienAccueil": true,
+          "indiceLogo": true
+        },
+        {
+          "src": "https://ssapaysdemorlaix.fr/assets/icons/fr.svg",
+          "alt": "FR",
+          "largeur": 200,
+          "hauteur": 150,
+          "affichee": 24,
+          "dansEnTete": true,
+          "lienAccueil": false,
+          "indiceLogo": false
+        },
+        {
+          "src": "https://ssapaysdemorlaix.fr/assets/icons/br.svg",
+          "alt": "BR",
+          "largeur": 683,
+          "hauteur": 683,
+          "affichee": 24,
+          "dansEnTete": true,
+          "lienAccueil": false,
+          "indiceLogo": false
+        },
+        {
+          "src": "https://ssapaysdemorlaix.fr/assets/icons/login.svg",
+          "alt": "Connexion",
+          "largeur": 256,
+          "hauteur": 256,
+          "affichee": 30,
+          "dansEnTete": true,
+          "lienAccueil": false,
+          "indiceLogo": false
+        },
+        {
+          "src": "https://ssapaysdemorlaix.fr/assets/img/logo.svg",
+          "alt": "SSA logo",
+          "largeur": 433,
+          "hauteur": 446,
+          "affichee": 65,
+          "dansEnTete": true,
+          "lienAccueil": false,
+          "indiceLogo": true
+        }
+      ],
+      "icones": [
+        {
+          "rel": "icon",
+          "href": "https://ssapaysdemorlaix.fr/assets/img/logoSSA.png",
+          "tailles": ""
+        }
+      ],
+      "jsonld": [],
+      "enTete": "Accueil Qui sommes-nous ? Actualités Évènements Le projet SSA Galerie Contact •",
+      "pied": "Mentions légales Confidentialité Accessibilité Design et développement : Kouzia, Alexandre Kouziaeff EI, au sein de La Capsule · site éco-conçu",
+      "adresses": [],
+      "polices": {
+        "corps": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, Oxygen, Ubuntu, Cantarell, \"Open Sans\", \"Helvetica Neue\", sans-serif",
+        "titres": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, Oxygen, Ubuntu, Cantarell, \"Open Sans\", \"Helvetica Neue\", sans-serif",
+        "actions": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, Oxygen, Ubuntu, Cantarell, \"Open Sans\", \"Helvetica Neue\", sans-serif"
+      },
+      "captureMobile": "captures/accessibilite-mobile.jpg",
+      "mots": 295,
+      "liensInternes": 15
+    },
+    {
+      "url": "https://ssapaysdemorlaix.fr/article/16",
+      "urlFinale": "https://ssapaysdemorlaix.fr/article/16",
+      "statut": 200,
+      "capture": "captures/article-16-bureau.jpg",
+      "titre": "Sécurité Sociale de l’Alimentation · Pays de Morlaix",
+      "description": "Sécurité Sociale de l’Alimentation au Pays de Morlaix : Pour un droit universel à une alimentation saine et durable.",
+      "langue": "fr",
+      "canonique": null,
+      "ogImage": null,
+      "h1": [
+        "Carte des points de vente conventionnés"
+      ],
+      "blocs": [
+        {
+          "balise": "h1",
+          "texte": "Carte des points de vente conventionnés"
+        },
+        {
+          "balise": "h3",
+          "texte": "La liste des premiers points de vente conventionnées par les expérimentateurs et expérimentatrices"
+        },
+        {
+          "balise": "p",
+          "texte": "Ces points de vente ont été choisis collectivement par le collectif des expérimentateurs et expérimentatrices au cours du parcours citoyen. D'autres points de vente pourront être ajoutés au cours des 12 mois d'expérimentation. Pour info, on peut afficher plusieurs \"calques\" avec le menu sur le côté gauche : les points de vente conventionnés \"OK\" les points de vente conventionnés \"En attente\" les points de vente conventionnés \"Refus\" les points de vente mentionnés \"Sans conventionnement\""
+        },
+        {
+          "balise": "p",
+          "texte": "Date : 2026-04-09 à 18:30"
+        },
+        {
+          "balise": "p",
+          "texte": "Liens :"
+        },
+        {
+          "balise": "li",
+          "texte": "umap.openstreetmap.fr"
+        }
+      ],
+      "images": [
+        {
+          "src": "https://ssapaysdemorlaix.fr/assets/img/logo.svg",
+          "alt": "Sécurité Sociale de l’Alimentation · Pays de Morlaix",
+          "largeur": 433,
+          "hauteur": 446,
+          "affichee": 39,
+          "dansEnTete": true,
+          "lienAccueil": true,
+          "indiceLogo": true
+        },
+        {
+          "src": "https://ssapaysdemorlaix.fr/assets/icons/fr.svg",
+          "alt": "FR",
+          "largeur": 200,
+          "hauteur": 150,
+          "affichee": 24,
+          "dansEnTete": true,
+          "lienAccueil": false,
+          "indiceLogo": false
+        },
+        {
+          "src": "https://ssapaysdemorlaix.fr/assets/icons/br.svg",
+          "alt": "BR",
+          "largeur": 683,
+          "hauteur": 683,
+          "affichee": 24,
+          "dansEnTete": true,
+          "lienAccueil": false,
+          "indiceLogo": false
+        },
+        {
+          "src": "https://ssapaysdemorlaix.fr/assets/icons/login.svg",
+          "alt": "Connexion",
+          "largeur": 256,
+          "hauteur": 256,
+          "affichee": 30,
+          "dansEnTete": true,
+          "lienAccueil": false,
+          "indiceLogo": false
+        },
+        {
+          "src": "https://ssapaysdemorlaix.fr/assets/img/articles/16/20260410-123159-1.webp",
+          "alt": "illustration",
+          "largeur": 1603,
+          "hauteur": 871,
+          "affichee": 1104,
+          "dansEnTete": false,
+          "lienAccueil": false,
+          "indiceLogo": false
+        },
+        {
+          "src": "https://ssapaysdemorlaix.fr/assets/img/logo.svg",
+          "alt": "SSA logo",
+          "largeur": 433,
+          "hauteur": 446,
+          "affichee": 65,
+          "dansEnTete": true,
+          "lienAccueil": false,
+          "indiceLogo": true
+        }
+      ],
+      "icones": [
+        {
+          "rel": "icon",
+          "href": "https://ssapaysdemorlaix.fr/assets/img/logoSSA.png",
+          "tailles": ""
+        }
+      ],
+      "jsonld": [],
+      "enTete": "Accueil Qui sommes-nous ? Actualités Évènements Le projet SSA Galerie Contact •",
+      "pied": "Mentions légales Confidentialité Accessibilité Design et développement : Kouzia, Alexandre Kouziaeff EI, au sein de La Capsule · site éco-conçu",
+      "adresses": [],
+      "polices": {
+        "corps": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, Oxygen, Ubuntu, Cantarell, \"Open Sans\", \"Helvetica Neue\", sans-serif",
+        "titres": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, Oxygen, Ubuntu, Cantarell, \"Open Sans\", \"Helvetica Neue\", sans-serif",
+        "actions": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, Oxygen, Ubuntu, Cantarell, \"Open Sans\", \"Helvetica Neue\", sans-serif"
+      },
+      "mots": 136,
+      "liensInternes": 15
+    },
+    {
+      "url": "https://ssapaysdemorlaix.fr/article/17",
+      "urlFinale": "https://ssapaysdemorlaix.fr/article/17",
+      "statut": 200,
+      "capture": "captures/article-17-bureau.jpg",
+      "titre": "Sécurité Sociale de l’Alimentation · Pays de Morlaix",
+      "description": "Sécurité Sociale de l’Alimentation au Pays de Morlaix : Pour un droit universel à une alimentation saine et durable.",
+      "langue": "fr",
+      "canonique": null,
+      "ogImage": null,
+      "h1": [
+        "Soirée de lancement de la caisse citoyenne"
+      ],
+      "blocs": [
+        {
+          "balise": "h1",
+          "texte": "Soirée de lancement de la caisse citoyenne"
+        },
+        {
+          "balise": "h3",
+          "texte": "Une belle soirée de lancement de la caisse"
+        },
+        {
+          "balise": "p",
+          "texte": "Après 2 ans 1/2 de réflexions, nous sommes ravis d'avoir lancé la caisse citoyenne de l'expérimentation d'une Sécurité Sociale de l'Alimentation"
+        },
+        {
+          "balise": "p",
+          "texte": "Date : 2026-04-09 à 18:00"
+        },
+        {
+          "balise": "p",
+          "texte": "Liens :"
+        },
+        {
+          "balise": "li",
+          "texte": "letelegramme.fr"
+        },
+        {
+          "balise": "li",
+          "texte": "letelegramme.fr"
+        },
+        {
+          "balise": "li",
+          "texte": "eco-bretons.info"
+        }
+      ],
+      "images": [
+        {
+          "src": "https://ssapaysdemorlaix.fr/assets/img/logo.svg",
+          "alt": "Sécurité Sociale de l’Alimentation · Pays de Morlaix",
+          "largeur": 433,
+          "hauteur": 446,
+          "affichee": 39,
+          "dansEnTete": true,
+          "lienAccueil": true,
+          "indiceLogo": true
+        },
+        {
+          "src": "https://ssapaysdemorlaix.fr/assets/icons/fr.svg",
+          "alt": "FR",
+          "largeur": 200,
+          "hauteur": 150,
+          "affichee": 24,
+          "dansEnTete": true,
+          "lienAccueil": false,
+          "indiceLogo": false
+        },
+        {
+          "src": "https://ssapaysdemorlaix.fr/assets/icons/br.svg",
+          "alt": "BR",
+          "largeur": 683,
+          "hauteur": 683,
+          "affichee": 24,
+          "dansEnTete": true,
+          "lienAccueil": false,
+          "indiceLogo": false
+        },
+        {
+          "src": "https://ssapaysdemorlaix.fr/assets/icons/login.svg",
+          "alt": "Connexion",
+          "largeur": 256,
+          "hauteur": 256,
+          "affichee": 30,
+          "dansEnTete": true,
+          "lienAccueil": false,
+          "indiceLogo": false
+        },
+        {
+          "src": "https://ssapaysdemorlaix.fr/assets/img/articles/17/20260504-132335-1.webp",
+          "alt": "illustration",
+          "largeur": 480,
+          "hauteur": 360,
+          "affichee": 1104,
+          "dansEnTete": false,
+          "lienAccueil": false,
+          "indiceLogo": false
+        },
+        {
+          "src": "https://ssapaysdemorlaix.fr/assets/img/logo.svg",
+          "alt": "SSA logo",
+          "largeur": 433,
+          "hauteur": 446,
+          "affichee": 65,
+          "dansEnTete": true,
+          "lienAccueil": false,
+          "indiceLogo": true
+        }
+      ],
+      "icones": [
+        {
+          "rel": "icon",
+          "href": "https://ssapaysdemorlaix.fr/assets/img/logoSSA.png",
+          "tailles": ""
+        }
+      ],
+      "jsonld": [],
+      "enTete": "Accueil Qui sommes-nous ? Actualités Évènements Le projet SSA Galerie Contact •",
+      "pied": "Mentions légales Confidentialité Accessibilité Design et développement : Kouzia, Alexandre Kouziaeff EI, au sein de La Capsule · site éco-conçu",
+      "adresses": [],
+      "polices": {
+        "corps": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, Oxygen, Ubuntu, Cantarell, \"Open Sans\", \"Helvetica Neue\", sans-serif",
+        "titres": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, Oxygen, Ubuntu, Cantarell, \"Open Sans\", \"Helvetica Neue\", sans-serif",
+        "actions": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, Oxygen, Ubuntu, Cantarell, \"Open Sans\", \"Helvetica Neue\", sans-serif"
+      },
+      "mots": 81,
+      "liensInternes": 15
+    },
+    {
+      "url": "https://ssapaysdemorlaix.fr/article/15",
+      "urlFinale": "https://ssapaysdemorlaix.fr/article/15",
+      "statut": 200,
+      "capture": "captures/article-15-bureau.jpg",
+      "titre": "Sécurité Sociale de l’Alimentation · Pays de Morlaix",
+      "description": "Sécurité Sociale de l’Alimentation au Pays de Morlaix : Pour un droit universel à une alimentation saine et durable.",
+      "langue": "fr",
+      "canonique": null,
+      "ogImage": null,
+      "h1": [
+        "Synthèse en vidéo de l'atelier du parcours citoyen du 14 mars 2026"
+      ],
+      "blocs": [
+        {
+          "balise": "h1",
+          "texte": "Synthèse en vidéo de l'atelier du parcours citoyen du 14 mars 2026"
+        },
+        {
+          "balise": "h3",
+          "texte": "Cette petite vidéo de 4 min synthétise l'atelier 5 du parcours citoyen autour des choix de lieux de conventionnement"
+        },
+        {
+          "balise": "p",
+          "texte": "Une belle après midi, riches en échanges avec plus de 30 participants représentant 28 foyers un atelier dédié aux enfants autour de l'alimentation Merci et Bravo à Allan pour cette vidéo."
+        },
+        {
+          "balise": "p",
+          "texte": "Date : 2026-03-14 à 14:00"
+        },
+        {
+          "balise": "p",
+          "texte": "Lieu : salle ti an oll - Plourin les Morlaix"
+        }
+      ],
+      "images": [
+        {
+          "src": "https://ssapaysdemorlaix.fr/assets/img/logo.svg",
+          "alt": "Sécurité Sociale de l’Alimentation · Pays de Morlaix",
+          "largeur": 433,
+          "hauteur": 446,
+          "affichee": 39,
+          "dansEnTete": true,
+          "lienAccueil": true,
+          "indiceLogo": true
+        },
+        {
+          "src": "https://ssapaysdemorlaix.fr/assets/icons/fr.svg",
+          "alt": "FR",
+          "largeur": 200,
+          "hauteur": 150,
+          "affichee": 24,
+          "dansEnTete": true,
+          "lienAccueil": false,
+          "indiceLogo": false
+        },
+        {
+          "src": "https://ssapaysdemorlaix.fr/assets/icons/br.svg",
+          "alt": "BR",
+          "largeur": 683,
+          "hauteur": 683,
+          "affichee": 24,
+          "dansEnTete": true,
+          "lienAccueil": false,
+          "indiceLogo": false
+        },
+        {
+          "src": "https://ssapaysdemorlaix.fr/assets/icons/login.svg",
+          "alt": "Connexion",
+          "largeur": 256,
+          "hauteur": 256,
+          "affichee": 30,
+          "dansEnTete": true,
+          "lienAccueil": false,
+          "indiceLogo": false
+        },
+        {
+          "src": "https://ssapaysdemorlaix.fr/assets/img/logo.svg",
+          "alt": "SSA logo",
+          "largeur": 433,
+          "hauteur": 446,
+          "affichee": 65,
+          "dansEnTete": true,
+          "lienAccueil": false,
+          "indiceLogo": true
+        }
+      ],
+      "icones": [
+        {
+          "rel": "icon",
+          "href": "https://ssapaysdemorlaix.fr/assets/img/logoSSA.png",
+          "tailles": ""
+        }
+      ],
+      "jsonld": [],
+      "enTete": "Accueil Qui sommes-nous ? Actualités Évènements Le projet SSA Galerie Contact •",
+      "pied": "Mentions légales Confidentialité Accessibilité Design et développement : Kouzia, Alexandre Kouziaeff EI, au sein de La Capsule · site éco-conçu",
+      "adresses": [],
+      "polices": {
+        "corps": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, Oxygen, Ubuntu, Cantarell, \"Open Sans\", \"Helvetica Neue\", sans-serif",
+        "titres": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, Oxygen, Ubuntu, Cantarell, \"Open Sans\", \"Helvetica Neue\", sans-serif",
+        "actions": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, Oxygen, Ubuntu, Cantarell, \"Open Sans\", \"Helvetica Neue\", sans-serif"
+      },
+      "mots": 112,
+      "liensInternes": 15
+    },
+    {
+      "url": "https://ssapaysdemorlaix.fr/article/12",
+      "urlFinale": "https://ssapaysdemorlaix.fr/article/12",
+      "statut": 200,
+      "capture": "captures/article-12-bureau.jpg",
+      "titre": "Sécurité Sociale de l’Alimentation · Pays de Morlaix",
+      "description": "Sécurité Sociale de l’Alimentation au Pays de Morlaix : Pour un droit universel à une alimentation saine et durable.",
+      "langue": "fr",
+      "canonique": null,
+      "ogImage": null,
+      "h1": [
+        "SSA dans les médias"
+      ],
+      "blocs": [
+        {
+          "balise": "h1",
+          "texte": "SSA dans les médias"
+        },
+        {
+          "balise": "h3",
+          "texte": "On parle de plus en plus de la SSA dans les médias."
+        },
+        {
+          "balise": "p",
+          "texte": "Voici quelques liens pour accéder à des courtes émissions radios."
+        },
+        {
+          "balise": "p",
+          "texte": "Date : 2026-02-12 à 10:00"
+        },
+        {
+          "balise": "p",
+          "texte": "Lieu : Emission radio"
+        },
+        {
+          "balise": "p",
+          "texte": "Liens :"
+        },
+        {
+          "balise": "li",
+          "texte": "Reportage du Mercredi 11 Février 2026 : radiofrance.fr"
+        },
+        {
+          "balise": "li",
+          "texte": "C'est la France : radiofrance.fr"
+        },
+        {
+          "balise": "li",
+          "texte": "Podcast La Série Documentaire sur France Culture : radiofrance.fr"
+        }
+      ],
+      "images": [
+        {
+          "src": "https://ssapaysdemorlaix.fr/assets/img/logo.svg",
+          "alt": "Sécurité Sociale de l’Alimentation · Pays de Morlaix",
+          "largeur": 433,
+          "hauteur": 446,
+          "affichee": 39,
+          "dansEnTete": true,
+          "lienAccueil": true,
+          "indiceLogo": true
+        },
+        {
+          "src": "https://ssapaysdemorlaix.fr/assets/icons/fr.svg",
+          "alt": "FR",
+          "largeur": 200,
+          "hauteur": 150,
+          "affichee": 24,
+          "dansEnTete": true,
+          "lienAccueil": false,
+          "indiceLogo": false
+        },
+        {
+          "src": "https://ssapaysdemorlaix.fr/assets/icons/br.svg",
+          "alt": "BR",
+          "largeur": 683,
+          "hauteur": 683,
+          "affichee": 24,
+          "dansEnTete": true,
+          "lienAccueil": false,
+          "indiceLogo": false
+        },
+        {
+          "src": "https://ssapaysdemorlaix.fr/assets/icons/login.svg",
+          "alt": "Connexion",
+          "largeur": 256,
+          "hauteur": 256,
+          "affichee": 30,
+          "dansEnTete": true,
+          "lienAccueil": false,
+          "indiceLogo": false
+        },
+        {
+          "src": "https://ssapaysdemorlaix.fr/assets/img/articles/12/20260320-085119-1.webp",
+          "alt": "illustration",
+          "largeur": 1920,
+          "hauteur": 1281,
+          "affichee": 1104,
+          "dansEnTete": false,
+          "lienAccueil": false,
+          "indiceLogo": false
+        },
+        {
+          "src": "https://ssapaysdemorlaix.fr/assets/img/logo.svg",
+          "alt": "SSA logo",
+          "largeur": 433,
+          "hauteur": 446,
+          "affichee": 65,
+          "dansEnTete": true,
+          "lienAccueil": false,
+          "indiceLogo": true
+        }
+      ],
+      "icones": [
+        {
+          "rel": "icon",
+          "href": "https://ssapaysdemorlaix.fr/assets/img/logoSSA.png",
+          "tailles": ""
+        }
+      ],
+      "jsonld": [],
+      "enTete": "Accueil Qui sommes-nous ? Actualités Évènements Le projet SSA Galerie Contact •",
+      "pied": "Mentions légales Confidentialité Accessibilité Design et développement : Kouzia, Alexandre Kouziaeff EI, au sein de La Capsule · site éco-conçu",
+      "adresses": [],
+      "polices": {
+        "corps": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, Oxygen, Ubuntu, Cantarell, \"Open Sans\", \"Helvetica Neue\", sans-serif",
+        "titres": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, Oxygen, Ubuntu, Cantarell, \"Open Sans\", \"Helvetica Neue\", sans-serif",
+        "actions": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, Oxygen, Ubuntu, Cantarell, \"Open Sans\", \"Helvetica Neue\", sans-serif"
+      },
+      "mots": 94,
+      "liensInternes": 15
+    },
+    {
+      "url": "https://ssapaysdemorlaix.fr/article/11",
+      "urlFinale": "https://ssapaysdemorlaix.fr/article/11",
+      "statut": 200,
+      "capture": "captures/article-11-bureau.jpg",
+      "titre": "Sécurité Sociale de l’Alimentation · Pays de Morlaix",
+      "description": "Sécurité Sociale de l’Alimentation au Pays de Morlaix : Pour un droit universel à une alimentation saine et durable.",
+      "langue": "fr",
+      "canonique": null,
+      "ogImage": null,
+      "h1": [
+        "Intervention Emission Radio U - Podcast"
+      ],
+      "blocs": [
+        {
+          "balise": "h1",
+          "texte": "Intervention Emission Radio U - Podcast"
+        },
+        {
+          "balise": "h3",
+          "texte": "L'expérimentation SSA du Pays de Morlaix interwiewée par Radio U dans le cadre de Ondes Durables"
+        },
+        {
+          "balise": "p",
+          "texte": "Comment garantir à toutes et tous un accès à une alimentation saine, de qualité, durable et accessible financièrement ? C’est l’objectif que poursuit la sécurité sociale de l’alimentation - - SSA. Inspiré du modèle de la santé, il est le fruit d’études et de recherches menées depuis 2019 par différents groupes et associations comme le CIVAM, la Confédération paysanne ou encore l’INRA. En Pays de Morlaix, une expérimentation sur le sujet a été lancée en 2025 par un collectif. Composé d’une centaine de citoyennes et citoyens vivant sur ce territoire, il est accompagné et porté par 4 structures associatives : l’ULAMiR-CPIE centre social et centre d’éducation à l’environnement, le Résam maison des associations, le Buzuk porteuse de la monnaie locale, l’Adess et le pôle ESS du Pays de Morlaix. Un reportage de Pierre-Louis Leseul de Radio U avec des membres du collectif de la sécurité sociale de l’alimentation en Pays de Morlaix suivi d’une interview de Jean-Claude Balbot, paysan et co-fondateur des Soulèvements de la terre et du GAB 29."
+        },
+        {
+          "balise": "p",
+          "texte": "Date : 2026-02-02 à 10:00"
+        },
+        {
+          "balise": "p",
+          "texte": "Liens :"
+        },
+        {
+          "balise": "li",
+          "texte": "pod.graffitiradio.fr"
+        }
+      ],
+      "images": [
+        {
+          "src": "https://ssapaysdemorlaix.fr/assets/img/logo.svg",
+          "alt": "Sécurité Sociale de l’Alimentation · Pays de Morlaix",
+          "largeur": 433,
+          "hauteur": 446,
+          "affichee": 39,
+          "dansEnTete": true,
+          "lienAccueil": true,
+          "indiceLogo": true
+        },
+        {
+          "src": "https://ssapaysdemorlaix.fr/assets/icons/fr.svg",
+          "alt": "FR",
+          "largeur": 200,
+          "hauteur": 150,
+          "affichee": 24,
+          "dansEnTete": true,
+          "lienAccueil": false,
+          "indiceLogo": false
+        },
+        {
+          "src": "https://ssapaysdemorlaix.fr/assets/icons/br.svg",
+          "alt": "BR",
+          "largeur": 683,
+          "hauteur": 683,
+          "affichee": 24,
+          "dansEnTete": true,
+          "lienAccueil": false,
+          "indiceLogo": false
+        },
+        {
+          "src": "https://ssapaysdemorlaix.fr/assets/icons/login.svg",
+          "alt": "Connexion",
+          "largeur": 256,
+          "hauteur": 256,
+          "affichee": 30,
+          "dansEnTete": true,
+          "lienAccueil": false,
+          "indiceLogo": false
+        },
+        {
+          "src": "https://ssapaysdemorlaix.fr/assets/img/articles/11/20260203-083350-1.webp",
+          "alt": "illustration",
+          "largeur": 1920,
+          "hauteur": 1440,
+          "affichee": 1104,
+          "dansEnTete": false,
+          "lienAccueil": false,
+          "indiceLogo": false
+        },
+        {
+          "src": "https://ssapaysdemorlaix.fr/assets/img/logo.svg",
+          "alt": "SSA logo",
+          "largeur": 433,
+          "hauteur": 446,
+          "affichee": 65,
+          "dansEnTete": true,
+          "lienAccueil": false,
+          "indiceLogo": true
+        }
+      ],
+      "icones": [
+        {
+          "rel": "icon",
+          "href": "https://ssapaysdemorlaix.fr/assets/img/logoSSA.png",
+          "tailles": ""
+        }
+      ],
+      "jsonld": [],
+      "enTete": "Accueil Qui sommes-nous ? Actualités Évènements Le projet SSA Galerie Contact •",
+      "pied": "Mentions légales Confidentialité Accessibilité Design et développement : Kouzia, Alexandre Kouziaeff EI, au sein de La Capsule · site éco-conçu",
+      "adresses": [],
+      "polices": {
+        "corps": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, Oxygen, Ubuntu, Cantarell, \"Open Sans\", \"Helvetica Neue\", sans-serif",
+        "titres": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, Oxygen, Ubuntu, Cantarell, \"Open Sans\", \"Helvetica Neue\", sans-serif",
+        "actions": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, Oxygen, Ubuntu, Cantarell, \"Open Sans\", \"Helvetica Neue\", sans-serif"
+      },
+      "mots": 235,
+      "liensInternes": 15
+    },
+    {
+      "url": "https://ssapaysdemorlaix.fr/article/10",
+      "urlFinale": "https://ssapaysdemorlaix.fr/article/10",
+      "statut": 200,
+      "capture": "captures/article-10-bureau.jpg",
+      "titre": "Sécurité Sociale de l’Alimentation · Pays de Morlaix",
+      "description": "Sécurité Sociale de l’Alimentation au Pays de Morlaix : Pour un droit universel à une alimentation saine et durable.",
+      "langue": "fr",
+      "canonique": null,
+      "ogImage": null,
+      "h1": [
+        "Colloque \"Ensemble cultivons l'avenir de notre alimentation\""
+      ],
+      "blocs": [
+        {
+          "balise": "h1",
+          "texte": "Colloque \"Ensemble cultivons l'avenir de notre alimentation\""
+        },
+        {
+          "balise": "h3",
+          "texte": "2 journées de colloque auxquels 3 membres de La Collective ont participé. Retrouvez tous les échanges en ligne"
+        },
+        {
+          "balise": "p",
+          "texte": "Inspirée du modèle de la Sécurité Sociale de la Santé de 1945, la SSA propose de garantir à chacun·e un accès à une alimentation saine, locale et durable, financée collectivement selon le principe « chacun·e selon ses moyens, chacun·e selon ses besoins ». Ce colloque vise à mettre la SSA au cœur du débat public et à inspirer les politiques publiques, en période de renouvellement électoral."
+        },
+        {
+          "balise": "p",
+          "texte": "Date : 2026-01-31 à 09:00"
+        },
+        {
+          "balise": "p",
+          "texte": "Lieu : Bourse du travail - Paris"
+        },
+        {
+          "balise": "p",
+          "texte": "Liens :"
+        },
+        {
+          "balise": "li",
+          "texte": "Retrouvez les vidéos ici : youtube.com"
+        },
+        {
+          "balise": "li",
+          "texte": "jne-asso.org"
+        }
+      ],
+      "images": [
+        {
+          "src": "https://ssapaysdemorlaix.fr/assets/img/logo.svg",
+          "alt": "Sécurité Sociale de l’Alimentation · Pays de Morlaix",
+          "largeur": 433,
+          "hauteur": 446,
+          "affichee": 39,
+          "dansEnTete": true,
+          "lienAccueil": true,
+          "indiceLogo": true
+        },
+        {
+          "src": "https://ssapaysdemorlaix.fr/assets/icons/fr.svg",
+          "alt": "FR",
+          "largeur": 200,
+          "hauteur": 150,
+          "affichee": 24,
+          "dansEnTete": true,
+          "lienAccueil": false,
+          "indiceLogo": false
+        },
+        {
+          "src": "https://ssapaysdemorlaix.fr/assets/icons/br.svg",
+          "alt": "BR",
+          "largeur": 683,
+          "hauteur": 683,
+          "affichee": 24,
+          "dansEnTete": true,
+          "lienAccueil": false,
+          "indiceLogo": false
+        },
+        {
+          "src": "https://ssapaysdemorlaix.fr/assets/icons/login.svg",
+          "alt": "Connexion",
+          "largeur": 256,
+          "hauteur": 256,
+          "affichee": 30,
+          "dansEnTete": true,
+          "lienAccueil": false,
+          "indiceLogo": false
+        },
+        {
+          "src": "https://ssapaysdemorlaix.fr/assets/img/articles/10/20260203-082126-1.webp",
+          "alt": "illustration",
+          "largeur": 1920,
+          "hauteur": 1440,
+          "affichee": 1104,
+          "dansEnTete": false,
+          "lienAccueil": false,
+          "indiceLogo": false
+        },
+        {
+          "src": "https://ssapaysdemorlaix.fr/assets/img/logo.svg",
+          "alt": "SSA logo",
+          "largeur": 433,
+          "hauteur": 446,
+          "affichee": 65,
+          "dansEnTete": true,
+          "lienAccueil": false,
+          "indiceLogo": true
+        }
+      ],
+      "icones": [
+        {
+          "rel": "icon",
+          "href": "https://ssapaysdemorlaix.fr/assets/img/logoSSA.png",
+          "tailles": ""
+        }
+      ],
+      "jsonld": [],
+      "enTete": "Accueil Qui sommes-nous ? Actualités Évènements Le projet SSA Galerie Contact •",
+      "pied": "Mentions légales Confidentialité Accessibilité Design et développement : Kouzia, Alexandre Kouziaeff EI, au sein de La Capsule · site éco-conçu",
+      "adresses": [],
+      "polices": {
+        "corps": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, Oxygen, Ubuntu, Cantarell, \"Open Sans\", \"Helvetica Neue\", sans-serif",
+        "titres": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, Oxygen, Ubuntu, Cantarell, \"Open Sans\", \"Helvetica Neue\", sans-serif",
+        "actions": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, Oxygen, Ubuntu, Cantarell, \"Open Sans\", \"Helvetica Neue\", sans-serif"
+      },
+      "mots": 147,
+      "liensInternes": 15
+    },
+    {
+      "url": "https://ssapaysdemorlaix.fr/article/9",
+      "urlFinale": "https://ssapaysdemorlaix.fr/article/9",
+      "statut": 200,
+      "capture": "captures/article-9-bureau.jpg",
+      "titre": "Sécurité Sociale de l’Alimentation · Pays de Morlaix",
+      "description": "Sécurité Sociale de l’Alimentation au Pays de Morlaix : Pour un droit universel à une alimentation saine et durable.",
+      "langue": "fr",
+      "canonique": null,
+      "ogImage": null,
+      "h1": [
+        "Parcours citoyen : Intervention de Jean Claude Balbot"
+      ],
+      "blocs": [
+        {
+          "balise": "h1",
+          "texte": "Parcours citoyen : Intervention de Jean Claude Balbot"
+        },
+        {
+          "balise": "h3",
+          "texte": "Elargir les réflexions autour du lien agriculture et alimentation"
+        },
+        {
+          "balise": "p",
+          "texte": "Producteur de viande bovine en circuits courts, ex-membre du Conseil d’administration de Réseau Civam et aujourd’hui sociétaire de l’Atelier paysan, 35 personnes étaient présentes pour cet après midi dense mais très intéressante. 23 foyers étaient représentés sur les 44 foyers engagés dans la démarche. Il s'agissait de poursuite les échanges sur le choix démocratique des lieux de conventionnement. Durant une heure, Jean Claude Balbot a pu nous exposer son point de vue sur l'évolution de l'agriculture, l'importance des expérimentations SSA pour participer à l'évolution de ce modèle et des retours concrèts d'autres expériences. Puis, une autre heure a été consacrée aux questions -réponses avec les participant.es ! Après une petite pause gouter partagé, nous avons pu en petit groupe faire atterrir nos réflexions et faire le lien avec notre projet. Une après midi très riches réflexions, échanges, partages, qui donnent envie pour la suite !"
+        },
+        {
+          "balise": "p",
+          "texte": "Date : 2026-01-17 à 14:00"
+        },
+        {
+          "balise": "p",
+          "texte": "Lieu : AFPA Morlaix"
+        }
+      ],
+      "images": [
+        {
+          "src": "https://ssapaysdemorlaix.fr/assets/img/logo.svg",
+          "alt": "Sécurité Sociale de l’Alimentation · Pays de Morlaix",
+          "largeur": 433,
+          "hauteur": 446,
+          "affichee": 39,
+          "dansEnTete": true,
+          "lienAccueil": true,
+          "indiceLogo": true
+        },
+        {
+          "src": "https://ssapaysdemorlaix.fr/assets/icons/fr.svg",
+          "alt": "FR",
+          "largeur": 200,
+          "hauteur": 150,
+          "affichee": 24,
+          "dansEnTete": true,
+          "lienAccueil": false,
+          "indiceLogo": false
+        },
+        {
+          "src": "https://ssapaysdemorlaix.fr/assets/icons/br.svg",
+          "alt": "BR",
+          "largeur": 683,
+          "hauteur": 683,
+          "affichee": 24,
+          "dansEnTete": true,
+          "lienAccueil": false,
+          "indiceLogo": false
+        },
+        {
+          "src": "https://ssapaysdemorlaix.fr/assets/icons/login.svg",
+          "alt": "Connexion",
+          "largeur": 256,
+          "hauteur": 256,
+          "affichee": 30,
+          "dansEnTete": true,
+          "lienAccueil": false,
+          "indiceLogo": false
+        },
+        {
+          "src": "https://ssapaysdemorlaix.fr/assets/img/articles/9/20260122-164641-1.webp",
+          "alt": "illustration",
+          "largeur": 1920,
+          "hauteur": 1440,
+          "affichee": 1104,
+          "dansEnTete": false,
+          "lienAccueil": false,
+          "indiceLogo": false
+        },
+        {
+          "src": "https://ssapaysdemorlaix.fr/assets/img/logo.svg",
+          "alt": "SSA logo",
+          "largeur": 433,
+          "hauteur": 446,
+          "affichee": 65,
+          "dansEnTete": true,
+          "lienAccueil": false,
+          "indiceLogo": true
+        }
+      ],
+      "icones": [
+        {
+          "rel": "icon",
+          "href": "https://ssapaysdemorlaix.fr/assets/img/logoSSA.png",
+          "tailles": ""
+        }
+      ],
+      "jsonld": [],
+      "enTete": "Accueil Qui sommes-nous ? Actualités Évènements Le projet SSA Galerie Contact •",
+      "pied": "Mentions légales Confidentialité Accessibilité Design et développement : Kouzia, Alexandre Kouziaeff EI, au sein de La Capsule · site éco-conçu",
+      "adresses": [],
+      "polices": {
+        "corps": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, Oxygen, Ubuntu, Cantarell, \"Open Sans\", \"Helvetica Neue\", sans-serif",
+        "titres": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, Oxygen, Ubuntu, Cantarell, \"Open Sans\", \"Helvetica Neue\", sans-serif",
+        "actions": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, Oxygen, Ubuntu, Cantarell, \"Open Sans\", \"Helvetica Neue\", sans-serif"
+      },
+      "mots": 206,
+      "liensInternes": 15
+    },
+    {
+      "url": "https://ssapaysdemorlaix.fr/article/14",
+      "urlFinale": "https://ssapaysdemorlaix.fr/article/14",
+      "statut": 200,
+      "capture": "captures/article-14-bureau.jpg",
+      "titre": "Sécurité Sociale de l’Alimentation · Pays de Morlaix",
+      "description": "Sécurité Sociale de l’Alimentation au Pays de Morlaix : Pour un droit universel à une alimentation saine et durable.",
+      "langue": "fr",
+      "canonique": null,
+      "ogImage": null,
+      "h1": [
+        "Vidéo fonctionnement du collectif d'animation de l'expérimentation"
+      ],
+      "blocs": [
+        {
+          "balise": "h1",
+          "texte": "Vidéo fonctionnement du collectif d'animation de l'expérimentation"
+        },
+        {
+          "balise": "h3",
+          "texte": "Cette vidéo présente le fonctionnement démocratique de cette expérimentation vers une Sécurité Sociale de l'Alimentation sur le Pays de Morlaix (Veuillez cliquer sur le carrousel pour y accéder)"
+        },
+        {
+          "balise": "p",
+          "texte": "Géraldine, accompagnatrice de la démarche et salariée de l'association ULAMiR CPIE et Elodie, chargée de mission au Résam explique la génèse du collectif et son fonctionnement au quotidien."
+        },
+        {
+          "balise": "p",
+          "texte": "Date : 2025-11-30 à 10:00"
+        }
+      ],
+      "images": [
+        {
+          "src": "https://ssapaysdemorlaix.fr/assets/img/logo.svg",
+          "alt": "Sécurité Sociale de l’Alimentation · Pays de Morlaix",
+          "largeur": 433,
+          "hauteur": 446,
+          "affichee": 39,
+          "dansEnTete": true,
+          "lienAccueil": true,
+          "indiceLogo": true
+        },
+        {
+          "src": "https://ssapaysdemorlaix.fr/assets/icons/fr.svg",
+          "alt": "FR",
+          "largeur": 200,
+          "hauteur": 150,
+          "affichee": 24,
+          "dansEnTete": true,
+          "lienAccueil": false,
+          "indiceLogo": false
+        },
+        {
+          "src": "https://ssapaysdemorlaix.fr/assets/icons/br.svg",
+          "alt": "BR",
+          "largeur": 683,
+          "hauteur": 683,
+          "affichee": 24,
+          "dansEnTete": true,
+          "lienAccueil": false,
+          "indiceLogo": false
+        },
+        {
+          "src": "https://ssapaysdemorlaix.fr/assets/icons/login.svg",
+          "alt": "Connexion",
+          "largeur": 256,
+          "hauteur": 256,
+          "affichee": 30,
+          "dansEnTete": true,
+          "lienAccueil": false,
+          "indiceLogo": false
+        },
+        {
+          "src": "https://ssapaysdemorlaix.fr/assets/img/logo.svg",
+          "alt": "SSA logo",
+          "largeur": 433,
+          "hauteur": 446,
+          "affichee": 65,
+          "dansEnTete": true,
+          "lienAccueil": false,
+          "indiceLogo": true
+        }
+      ],
+      "icones": [
+        {
+          "rel": "icon",
+          "href": "https://ssapaysdemorlaix.fr/assets/img/logoSSA.png",
+          "tailles": ""
+        }
+      ],
+      "jsonld": [],
+      "enTete": "Accueil Qui sommes-nous ? Actualités Évènements Le projet SSA Galerie Contact •",
+      "pied": "Mentions légales Confidentialité Accessibilité Design et développement : Kouzia, Alexandre Kouziaeff EI, au sein de La Capsule · site éco-conçu",
+      "adresses": [],
+      "polices": {
+        "corps": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, Oxygen, Ubuntu, Cantarell, \"Open Sans\", \"Helvetica Neue\", sans-serif",
+        "titres": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, Oxygen, Ubuntu, Cantarell, \"Open Sans\", \"Helvetica Neue\", sans-serif",
+        "actions": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, Oxygen, Ubuntu, Cantarell, \"Open Sans\", \"Helvetica Neue\", sans-serif"
+      },
+      "mots": 103,
+      "liensInternes": 15
+    },
+    {
+      "url": "https://ssapaysdemorlaix.fr/article/8",
+      "urlFinale": "https://ssapaysdemorlaix.fr/article/8",
+      "statut": 200,
+      "capture": "captures/article-8-bureau.jpg",
+      "titre": "Sécurité Sociale de l’Alimentation · Pays de Morlaix",
+      "description": "Sécurité Sociale de l’Alimentation au Pays de Morlaix : Pour un droit universel à une alimentation saine et durable.",
+      "langue": "fr",
+      "canonique": null,
+      "ogImage": null,
+      "h1": [
+        "Journée d'immersion à la ferme"
+      ],
+      "blocs": [
+        {
+          "balise": "h1",
+          "texte": "Journée d'immersion à la ferme"
+        },
+        {
+          "balise": "h3",
+          "texte": "Une belle journée d'échanges avec Victor et Charlotte."
+        },
+        {
+          "balise": "p",
+          "texte": "Des membres de l'expérimentations SSA se sont retrouvés jeudi pour une journée en immersion à la ferme du champ perché. Au programme : visite de la ferme par Charlotte et Victor puis chantiers collectifs : paillage, haie sèche, récolte de carottes, désherbage... Un repas partagé le midi a permis d'échanger des recettes."
+        },
+        {
+          "balise": "p",
+          "texte": "Date : 2025-11-27 à 09:00"
+        },
+        {
+          "balise": "p",
+          "texte": "Lieu : Plougasnou - Ferme du Champ perché"
+        }
+      ],
+      "images": [
+        {
+          "src": "https://ssapaysdemorlaix.fr/assets/img/logo.svg",
+          "alt": "Sécurité Sociale de l’Alimentation · Pays de Morlaix",
+          "largeur": 433,
+          "hauteur": 446,
+          "affichee": 39,
+          "dansEnTete": true,
+          "lienAccueil": true,
+          "indiceLogo": true
+        },
+        {
+          "src": "https://ssapaysdemorlaix.fr/assets/icons/fr.svg",
+          "alt": "FR",
+          "largeur": 200,
+          "hauteur": 150,
+          "affichee": 24,
+          "dansEnTete": true,
+          "lienAccueil": false,
+          "indiceLogo": false
+        },
+        {
+          "src": "https://ssapaysdemorlaix.fr/assets/icons/br.svg",
+          "alt": "BR",
+          "largeur": 683,
+          "hauteur": 683,
+          "affichee": 24,
+          "dansEnTete": true,
+          "lienAccueil": false,
+          "indiceLogo": false
+        },
+        {
+          "src": "https://ssapaysdemorlaix.fr/assets/icons/login.svg",
+          "alt": "Connexion",
+          "largeur": 256,
+          "hauteur": 256,
+          "affichee": 30,
+          "dansEnTete": true,
+          "lienAccueil": false,
+          "indiceLogo": false
+        },
+        {
+          "src": "https://ssapaysdemorlaix.fr/assets/img/articles/8/20251210-170342-1.webp",
+          "alt": "illustration",
+          "largeur": 1920,
+          "hauteur": 1440,
+          "affichee": 1104,
+          "dansEnTete": false,
+          "lienAccueil": false,
+          "indiceLogo": false
+        },
+        {
+          "src": "https://ssapaysdemorlaix.fr/assets/img/logo.svg",
+          "alt": "SSA logo",
+          "largeur": 433,
+          "hauteur": 446,
+          "affichee": 65,
+          "dansEnTete": true,
+          "lienAccueil": false,
+          "indiceLogo": true
+        }
+      ],
+      "icones": [
+        {
+          "rel": "icon",
+          "href": "https://ssapaysdemorlaix.fr/assets/img/logoSSA.png",
+          "tailles": ""
+        }
+      ],
+      "jsonld": [],
+      "enTete": "Accueil Qui sommes-nous ? Actualités Évènements Le projet SSA Galerie Contact •",
+      "pied": "Mentions légales Confidentialité Accessibilité Design et développement : Kouzia, Alexandre Kouziaeff EI, au sein de La Capsule · site éco-conçu",
+      "adresses": [],
+      "polices": {
+        "corps": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, Oxygen, Ubuntu, Cantarell, \"Open Sans\", \"Helvetica Neue\", sans-serif",
+        "titres": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, Oxygen, Ubuntu, Cantarell, \"Open Sans\", \"Helvetica Neue\", sans-serif",
+        "actions": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, Oxygen, Ubuntu, Cantarell, \"Open Sans\", \"Helvetica Neue\", sans-serif"
+      },
+      "mots": 113,
+      "liensInternes": 15
+    },
+    {
+      "url": "https://ssapaysdemorlaix.fr/article/13",
+      "urlFinale": "https://ssapaysdemorlaix.fr/article/13",
+      "statut": 200,
+      "capture": "captures/article-13-bureau.jpg",
+      "titre": "Sécurité Sociale de l’Alimentation · Pays de Morlaix",
+      "description": "Sécurité Sociale de l’Alimentation au Pays de Morlaix : Pour un droit universel à une alimentation saine et durable.",
+      "langue": "fr",
+      "canonique": null,
+      "ogImage": null,
+      "h1": [
+        "Vidéo de présentation du projet SSA"
+      ],
+      "blocs": [
+        {
+          "balise": "h1",
+          "texte": "Vidéo de présentation du projet SSA"
+        },
+        {
+          "balise": "h3",
+          "texte": "Cette vidéo présente le projet d'expérimentation d'une Sécurité Sociale de l'Alimentation sur le Pays de Morlaix (Veuillez cliquer sur le carrousel pour y accéder)"
+        },
+        {
+          "balise": "p",
+          "texte": "Eliane, Nicolas, Elodie et Géraldine, salariés des structures partenaires accompagnatrices de la démarche présentent le projet du Pays de Morlaix"
+        },
+        {
+          "balise": "p",
+          "texte": "Date : 2025-11-22 à 10:00"
+        }
+      ],
+      "images": [
+        {
+          "src": "https://ssapaysdemorlaix.fr/assets/img/logo.svg",
+          "alt": "Sécurité Sociale de l’Alimentation · Pays de Morlaix",
+          "largeur": 433,
+          "hauteur": 446,
+          "affichee": 39,
+          "dansEnTete": true,
+          "lienAccueil": true,
+          "indiceLogo": true
+        },
+        {
+          "src": "https://ssapaysdemorlaix.fr/assets/icons/fr.svg",
+          "alt": "FR",
+          "largeur": 200,
+          "hauteur": 150,
+          "affichee": 24,
+          "dansEnTete": true,
+          "lienAccueil": false,
+          "indiceLogo": false
+        },
+        {
+          "src": "https://ssapaysdemorlaix.fr/assets/icons/br.svg",
+          "alt": "BR",
+          "largeur": 683,
+          "hauteur": 683,
+          "affichee": 24,
+          "dansEnTete": true,
+          "lienAccueil": false,
+          "indiceLogo": false
+        },
+        {
+          "src": "https://ssapaysdemorlaix.fr/assets/icons/login.svg",
+          "alt": "Connexion",
+          "largeur": 256,
+          "hauteur": 256,
+          "affichee": 30,
+          "dansEnTete": true,
+          "lienAccueil": false,
+          "indiceLogo": false
+        },
+        {
+          "src": "https://ssapaysdemorlaix.fr/assets/img/logo.svg",
+          "alt": "SSA logo",
+          "largeur": 433,
+          "hauteur": 446,
+          "affichee": 65,
+          "dansEnTete": true,
+          "lienAccueil": false,
+          "indiceLogo": true
+        }
+      ],
+      "icones": [
+        {
+          "rel": "icon",
+          "href": "https://ssapaysdemorlaix.fr/assets/img/logoSSA.png",
+          "tailles": ""
+        }
+      ],
+      "jsonld": [],
+      "enTete": "Accueil Qui sommes-nous ? Actualités Évènements Le projet SSA Galerie Contact •",
+      "pied": "Mentions légales Confidentialité Accessibilité Design et développement : Kouzia, Alexandre Kouziaeff EI, au sein de La Capsule · site éco-conçu",
+      "adresses": [],
+      "polices": {
+        "corps": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, Oxygen, Ubuntu, Cantarell, \"Open Sans\", \"Helvetica Neue\", sans-serif",
+        "titres": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, Oxygen, Ubuntu, Cantarell, \"Open Sans\", \"Helvetica Neue\", sans-serif",
+        "actions": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, Oxygen, Ubuntu, Cantarell, \"Open Sans\", \"Helvetica Neue\", sans-serif"
+      },
+      "mots": 90,
+      "liensInternes": 15
+    },
+    {
+      "url": "https://ssapaysdemorlaix.fr/article/6",
+      "urlFinale": "https://ssapaysdemorlaix.fr/article/6",
+      "statut": 200,
+      "capture": "captures/article-6-bureau.jpg",
+      "titre": "Sécurité Sociale de l’Alimentation · Pays de Morlaix",
+      "description": "Sécurité Sociale de l’Alimentation au Pays de Morlaix : Pour un droit universel à une alimentation saine et durable.",
+      "langue": "fr",
+      "canonique": null,
+      "ogImage": null,
+      "h1": [
+        "Journée de lancement du Parcours citoyen"
+      ],
+      "blocs": [
+        {
+          "balise": "h1",
+          "texte": "Journée de lancement du Parcours citoyen"
+        },
+        {
+          "balise": "h3",
+          "texte": "Les participants à l'expérimentation SSA se sont retrouvés pour une journée conviviale."
+        },
+        {
+          "balise": "p",
+          "texte": "Nous étions 50 participants au repas ; 34 foyers représentés sur les 44 foyers participants sélectionnés. Après un temps d'inter-connaissances, un temps d'échanges autour de l'expérimentation de Morlaix Un repas partagé Un beau, bio et bon repas et 100 % local nous a été confectionné par une équipe bénévole chapotée par David, Merci beaucoup. L'après-midi, des ateliers d'échanges et de réflexions en petits groupes ont été proposés."
+        },
+        {
+          "balise": "p",
+          "texte": "Date : 2025-10-18 à 11:00"
+        },
+        {
+          "balise": "p",
+          "texte": "Lieu : Espace associatif St Martin des champs"
+        }
+      ],
+      "images": [
+        {
+          "src": "https://ssapaysdemorlaix.fr/assets/img/logo.svg",
+          "alt": "Sécurité Sociale de l’Alimentation · Pays de Morlaix",
+          "largeur": 433,
+          "hauteur": 446,
+          "affichee": 39,
+          "dansEnTete": true,
+          "lienAccueil": true,
+          "indiceLogo": true
+        },
+        {
+          "src": "https://ssapaysdemorlaix.fr/assets/icons/fr.svg",
+          "alt": "FR",
+          "largeur": 200,
+          "hauteur": 150,
+          "affichee": 24,
+          "dansEnTete": true,
+          "lienAccueil": false,
+          "indiceLogo": false
+        },
+        {
+          "src": "https://ssapaysdemorlaix.fr/assets/icons/br.svg",
+          "alt": "BR",
+          "largeur": 683,
+          "hauteur": 683,
+          "affichee": 24,
+          "dansEnTete": true,
+          "lienAccueil": false,
+          "indiceLogo": false
+        },
+        {
+          "src": "https://ssapaysdemorlaix.fr/assets/icons/login.svg",
+          "alt": "Connexion",
+          "largeur": 256,
+          "hauteur": 256,
+          "affichee": 30,
+          "dansEnTete": true,
+          "lienAccueil": false,
+          "indiceLogo": false
+        },
+        {
+          "src": "https://ssapaysdemorlaix.fr/assets/img/articles/6/20251210-170430-1.webp",
+          "alt": "illustration",
+          "largeur": 1522,
+          "hauteur": 1078,
+          "affichee": 1104,
+          "dansEnTete": false,
+          "lienAccueil": false,
+          "indiceLogo": false
+        },
+        {
+          "src": "https://ssapaysdemorlaix.fr/assets/img/logo.svg",
+          "alt": "SSA logo",
+          "largeur": 433,
+          "hauteur": 446,
+          "affichee": 65,
+          "dansEnTete": true,
+          "lienAccueil": false,
+          "indiceLogo": true
+        }
+      ],
+      "icones": [
+        {
+          "rel": "icon",
+          "href": "https://ssapaysdemorlaix.fr/assets/img/logoSSA.png",
+          "tailles": ""
+        }
+      ],
+      "jsonld": [],
+      "enTete": "Accueil Qui sommes-nous ? Actualités Évènements Le projet SSA Galerie Contact •",
+      "pied": "Mentions légales Confidentialité Accessibilité Design et développement : Kouzia, Alexandre Kouziaeff EI, au sein de La Capsule · site éco-conçu",
+      "adresses": [],
+      "polices": {
+        "corps": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, Oxygen, Ubuntu, Cantarell, \"Open Sans\", \"Helvetica Neue\", sans-serif",
+        "titres": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, Oxygen, Ubuntu, Cantarell, \"Open Sans\", \"Helvetica Neue\", sans-serif",
+        "actions": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, Oxygen, Ubuntu, Cantarell, \"Open Sans\", \"Helvetica Neue\", sans-serif"
+      },
+      "mots": 133,
+      "liensInternes": 15
+    },
+    {
+      "url": "https://ssapaysdemorlaix.fr/login",
+      "urlFinale": "https://ssapaysdemorlaix.fr/login",
+      "statut": 200,
+      "capture": "captures/login-bureau.jpg",
+      "titre": "Sécurité Sociale de l’Alimentation · Pays de Morlaix",
+      "description": "Sécurité Sociale de l’Alimentation au Pays de Morlaix : Pour un droit universel à une alimentation saine et durable.",
+      "langue": "fr",
+      "canonique": null,
+      "ogImage": null,
+      "h1": [],
+      "blocs": [
+        {
+          "balise": "h2",
+          "texte": "Connexion"
+        },
+        {
+          "balise": "p",
+          "texte": "Design et développement : Kouzia, Alexandre Kouziaeff EI, au sein de La Capsule"
+        }
+      ],
+      "images": [
+        {
+          "src": "https://ssapaysdemorlaix.fr/assets/img/logo.svg",
+          "alt": "Sécurité Sociale de l’Alimentation, Pays de Morlaix",
+          "largeur": 433,
+          "hauteur": 446,
+          "affichee": 150,
+          "dansEnTete": false,
+          "lienAccueil": true,
+          "indiceLogo": true
+        }
+      ],
+      "icones": [
+        {
+          "rel": "icon",
+          "href": "https://ssapaysdemorlaix.fr/assets/img/logoSSA.png",
+          "tailles": ""
+        }
+      ],
+      "jsonld": [],
+      "enTete": "",
+      "pied": "",
+      "adresses": [],
+      "polices": {
+        "corps": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, Oxygen, Ubuntu, Cantarell, \"Open Sans\", \"Helvetica Neue\", sans-serif",
+        "titres": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, Oxygen, Ubuntu, Cantarell, \"Open Sans\", \"Helvetica Neue\", sans-serif",
+        "actions": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, Oxygen, Ubuntu, Cantarell, \"Open Sans\", \"Helvetica Neue\", sans-serif"
+      },
+      "captureMobile": "captures/login-mobile.jpg",
+      "mots": 28,
+      "liensInternes": 4
+    }
+  ],
+  "images": [
+    {
+      "src": "https://ssapaysdemorlaix.fr/assets/img/logo.svg",
+      "alt": "Sécurité Sociale de l’Alimentation · Pays de Morlaix",
+      "largeur": 433,
+      "hauteur": 446,
+      "affichee": 39,
+      "dansEnTete": true,
+      "lienAccueil": true,
+      "indiceLogo": true,
+      "page": "https://ssapaysdemorlaix.fr/",
+      "fichier": "fichiers/logo-3fdacda0caeb.svg"
+    },
+    {
+      "src": "https://ssapaysdemorlaix.fr/assets/icons/fr.svg",
+      "alt": "FR",
+      "largeur": 200,
+      "hauteur": 150,
+      "affichee": 24,
+      "dansEnTete": true,
+      "lienAccueil": false,
+      "indiceLogo": false,
+      "page": "https://ssapaysdemorlaix.fr/",
+      "fichier": "fichiers/fr-8cdacc8d79bc.svg"
+    },
+    {
+      "src": "https://ssapaysdemorlaix.fr/assets/icons/br.svg",
+      "alt": "BR",
+      "largeur": 683,
+      "hauteur": 683,
+      "affichee": 24,
+      "dansEnTete": true,
+      "lienAccueil": false,
+      "indiceLogo": false,
+      "page": "https://ssapaysdemorlaix.fr/",
+      "fichier": "fichiers/br-21c19ed69d7b.svg"
+    },
+    {
+      "src": "https://ssapaysdemorlaix.fr/assets/icons/login.svg",
+      "alt": "Connexion",
+      "largeur": 256,
+      "hauteur": 256,
+      "affichee": 30,
+      "dansEnTete": true,
+      "lienAccueil": false,
+      "indiceLogo": false,
+      "page": "https://ssapaysdemorlaix.fr/",
+      "fichier": "fichiers/login-159ea508bdeb.svg"
+    },
+    {
+      "src": "https://ssapaysdemorlaix.fr/assets/img/banner.webp",
+      "alt": "banner",
+      "largeur": 1920,
+      "hauteur": 1281,
+      "affichee": 1440,
+      "dansEnTete": false,
+      "lienAccueil": false,
+      "indiceLogo": false,
+      "page": "https://ssapaysdemorlaix.fr/",
+      "fichier": "fichiers/banner-ad6bbaabe93c.webp"
+    },
+    {
+      "src": "https://ssapaysdemorlaix.fr/assets/img/peep-52.svg",
+      "alt": "Logo SSA",
+      "largeur": 240,
+      "hauteur": 324,
+      "affichee": 360,
+      "dansEnTete": false,
+      "lienAccueil": false,
+      "indiceLogo": true,
+      "page": "https://ssapaysdemorlaix.fr/",
+      "fichier": "fichiers/peep-52-77c62eeae8c5.svg"
+    },
+    {
+      "src": "https://ssapaysdemorlaix.fr/assets/img/articles/17/20260504-132335-1.webp",
+      "alt": "Soirée de lancement de la caisse citoyenne",
+      "largeur": 480,
+      "hauteur": 360,
+      "affichee": 288,
+      "dansEnTete": false,
+      "lienAccueil": false,
+      "indiceLogo": false,
+      "page": "https://ssapaysdemorlaix.fr/",
+      "fichier": "fichiers/20260504-132335-1-29bf49a6890a.webp"
+    },
+    {
+      "src": "https://ssapaysdemorlaix.fr/assets/img/articles/16/20260410-123159-1.webp",
+      "alt": "Carte des points de vente conventionnés",
+      "largeur": 1603,
+      "hauteur": 871,
+      "affichee": 288,
+      "dansEnTete": false,
+      "lienAccueil": false,
+      "indiceLogo": false,
+      "page": "https://ssapaysdemorlaix.fr/",
+      "fichier": "fichiers/20260410-123159-1-d0b71708fe84.webp"
+    },
+    {
+      "src": "https://ssapaysdemorlaix.fr/assets/img/articles/15/20260324-100813-1.webp",
+      "alt": "Synthèse en vidéo de l'atelier du parcours citoyen du 14 mars 2026",
+      "largeur": 1920,
+      "hauteur": 1283,
+      "affichee": 288,
+      "dansEnTete": false,
+      "lienAccueil": false,
+      "indiceLogo": false,
+      "page": "https://ssapaysdemorlaix.fr/",
+      "fichier": "fichiers/20260324-100813-1-b9ca9a2a0865.webp"
+    },
+    {
+      "src": "https://ssapaysdemorlaix.fr/assets/icons/arrow-left.svg",
+      "alt": "",
+      "largeur": 800,
+      "hauteur": 800,
+      "affichee": 0,
+      "dansEnTete": false,
+      "lienAccueil": false,
+      "indiceLogo": false,
+      "page": "https://ssapaysdemorlaix.fr/",
+      "fichier": "fichiers/arrow-left-fdc30126c6d9.svg"
+    },
+    {
+      "src": "https://ssapaysdemorlaix.fr/assets/icons/arrow-right.svg",
+      "alt": "",
+      "largeur": 800,
+      "hauteur": 800,
+      "affichee": 0,
+      "dansEnTete": false,
+      "lienAccueil": false,
+      "indiceLogo": false,
+      "page": "https://ssapaysdemorlaix.fr/",
+      "fichier": "fichiers/arrow-right-f3b0f2f083f1.svg"
+    },
+    {
+      "src": "https://ssapaysdemorlaix.fr/assets/img/logos/buzuk.webp",
+      "alt": "BUZUK",
+      "largeur": 474,
+      "hauteur": 259,
+      "affichee": 124,
+      "dansEnTete": false,
+      "lienAccueil": false,
+      "indiceLogo": true,
+      "page": "https://ssapaysdemorlaix.fr/",
+      "fichier": "fichiers/buzuk-09f5b1ac4f31.webp"
+    },
+    {
+      "src": "https://ssapaysdemorlaix.fr/assets/img/logos/ess.webp",
+      "alt": "Pôle ESS Pays de Morlaix",
+      "largeur": 647,
+      "hauteur": 828,
+      "affichee": 124,
+      "dansEnTete": false,
+      "lienAccueil": false,
+      "indiceLogo": true,
+      "page": "https://ssapaysdemorlaix.fr/",
+      "fichier": "fichiers/ess-990370411167.webp"
+    },
+    {
+      "src": "https://ssapaysdemorlaix.fr/assets/img/logos/20251211-083116-1.webp",
+      "alt": "ulamircpie",
+      "largeur": 426,
+      "hauteur": 426,
+      "affichee": 124,
+      "dansEnTete": false,
+      "lienAccueil": false,
+      "indiceLogo": true,
+      "page": "https://ssapaysdemorlaix.fr/",
+      "fichier": "fichiers/20251211-083116-1-9f9a74e8e3f7.webp"
+    },
+    {
+      "src": "https://ssapaysdemorlaix.fr/assets/img/logos/resam.webp",
+      "alt": "resam",
+      "largeur": 800,
+      "hauteur": 208,
+      "affichee": 124,
+      "dansEnTete": false,
+      "lienAccueil": false,
+      "indiceLogo": true,
+      "page": "https://ssapaysdemorlaix.fr/",
+      "fichier": "fichiers/resam-210c8521ebfe.webp"
+    },
+    {
+      "src": "https://ssapaysdemorlaix.fr/assets/img/logos/bretagne.webp",
+      "alt": "Région Bretagne",
+      "largeur": 800,
+      "hauteur": 800,
+      "affichee": 124,
+      "dansEnTete": false,
+      "lienAccueil": false,
+      "indiceLogo": true,
+      "page": "https://ssapaysdemorlaix.fr/",
+      "fichier": "fichiers/bretagne-f4a8a3051fc7.webp"
+    },
+    {
+      "src": "https://ssapaysdemorlaix.fr/assets/img/logos/feader.webp",
+      "alt": "Leader financement Européen",
+      "largeur": 800,
+      "hauteur": 476,
+      "affichee": 124,
+      "dansEnTete": false,
+      "lienAccueil": false,
+      "indiceLogo": true,
+      "page": "https://ssapaysdemorlaix.fr/",
+      "fichier": "fichiers/feader-3ce5e5a91d43.webp"
+    },
+    {
+      "src": "https://ssapaysdemorlaix.fr/assets/img/contact.svg",
+      "alt": "img_contact",
+      "largeur": 913,
+      "hauteur": 680,
+      "affichee": 576,
+      "dansEnTete": false,
+      "lienAccueil": false,
+      "indiceLogo": false,
+      "page": "https://ssapaysdemorlaix.fr/",
+      "fichier": "fichiers/contact-ae1d073b1b62.svg"
+    },
+    {
+      "src": "https://ssapaysdemorlaix.fr/assets/img/projet/projetssa.webp",
+      "alt": "banner",
+      "largeur": 1920,
+      "hauteur": 1281,
+      "affichee": 1440,
+      "dansEnTete": false,
+      "lienAccueil": false,
+      "indiceLogo": false,
+      "page": "https://ssapaysdemorlaix.fr/projet",
+      "fichier": "fichiers/projetssa-6f9dee9684a4.webp"
+    },
+    {
+      "src": "https://ssapaysdemorlaix.fr/assets/img/projet/peep-102.svg",
+      "alt": "illustration",
+      "largeur": 240,
+      "hauteur": 324,
+      "affichee": 360,
+      "dansEnTete": false,
+      "lienAccueil": false,
+      "indiceLogo": false,
+      "page": "https://ssapaysdemorlaix.fr/projet",
+      "fichier": "fichiers/peep-102-add4600d62ac.svg"
+    },
+    {
+      "src": "https://ssapaysdemorlaix.fr/assets/img/projet/illustration_projet_ssa.webp",
+      "alt": "illustration",
+      "largeur": 1920,
+      "hauteur": 1357,
+      "affichee": 576,
+      "dansEnTete": false,
+      "lienAccueil": false,
+      "indiceLogo": false,
+      "page": "https://ssapaysdemorlaix.fr/projet",
+      "fichier": "fichiers/illustration-projet-ssa-98851aae1a09.webp"
+    },
+    {
+      "src": "https://ssapaysdemorlaix.fr/assets/img/projet/recrutementBanner.webp",
+      "alt": "recrutementSSA",
+      "largeur": 1920,
+      "hauteur": 600,
+      "affichee": 1152,
+      "dansEnTete": false,
+      "lienAccueil": false,
+      "indiceLogo": false,
+      "page": "https://ssapaysdemorlaix.fr/projet",
+      "fichier": "fichiers/recrutementbanner-2a68d1c5bea6.webp"
+    },
+    {
+      "src": "https://ssapaysdemorlaix.fr/assets/img/gallery/20251124_144301_lot001.webp",
+      "alt": "20251124_144301_lot001",
+      "largeur": 1920,
+      "hauteur": 1281,
+      "affichee": 456,
+      "dansEnTete": false,
+      "lienAccueil": false,
+      "indiceLogo": false,
+      "page": "https://ssapaysdemorlaix.fr/galerie",
+      "fichier": "fichiers/20251124-144301-lot001-8fc87ed07926.webp"
+    },
+    {
+      "src": "https://ssapaysdemorlaix.fr/assets/img/gallery/20251124_144259_lot001.webp",
+      "alt": "20251124_144259_lot001",
+      "largeur": 1920,
+      "hauteur": 1281,
+      "affichee": 456,
+      "dansEnTete": false,
+      "lienAccueil": false,
+      "indiceLogo": false,
+      "page": "https://ssapaysdemorlaix.fr/galerie",
+      "fichier": "fichiers/20251124-144259-lot001-7d4dad2905df.webp"
+    },
+    {
+      "src": "https://ssapaysdemorlaix.fr/assets/img/gallery/20251124_144300_lot001.webp",
+      "alt": "20251124_144300_lot001",
+      "largeur": 1920,
+      "hauteur": 1281,
+      "affichee": 456,
+      "dansEnTete": false,
+      "lienAccueil": false,
+      "indiceLogo": false,
+      "page": "https://ssapaysdemorlaix.fr/galerie",
+      "fichier": "fichiers/20251124-144300-lot001-e80dd5f385bb.webp"
+    },
+    {
+      "src": "https://ssapaysdemorlaix.fr/assets/img/gallery/20251124_144258_lot001.webp",
+      "alt": "20251124_144258_lot001",
+      "largeur": 1920,
+      "hauteur": 1281,
+      "affichee": 456,
+      "dansEnTete": false,
+      "lienAccueil": false,
+      "indiceLogo": false,
+      "page": "https://ssapaysdemorlaix.fr/galerie",
+      "fichier": "fichiers/20251124-144258-lot001-bc19e5be091e.webp"
+    },
+    {
+      "src": "https://ssapaysdemorlaix.fr/assets/img/gallery/20251124_144258_lot002.webp",
+      "alt": "20251124_144258_lot002",
+      "largeur": 1920,
+      "hauteur": 1281,
+      "affichee": 456,
+      "dansEnTete": false,
+      "lienAccueil": false,
+      "indiceLogo": false,
+      "page": "https://ssapaysdemorlaix.fr/galerie",
+      "fichier": "fichiers/20251124-144258-lot002-12a53a514e65.webp"
+    },
+    {
+      "src": "https://ssapaysdemorlaix.fr/assets/img/gallery/20251124_144256_lot001.webp",
+      "alt": "20251124_144256_lot001",
+      "largeur": 1920,
+      "hauteur": 2877,
+      "affichee": 456,
+      "dansEnTete": false,
+      "lienAccueil": false,
+      "indiceLogo": false,
+      "page": "https://ssapaysdemorlaix.fr/galerie",
+      "fichier": "fichiers/20251124-144256-lot001-b3b4860d4fb2.webp"
+    },
+    {
+      "src": "https://ssapaysdemorlaix.fr/assets/img/gallery/20251124_144257_lot001.webp",
+      "alt": "20251124_144257_lot001",
+      "largeur": 1920,
+      "hauteur": 1281,
+      "affichee": 456,
+      "dansEnTete": false,
+      "lienAccueil": false,
+      "indiceLogo": false,
+      "page": "https://ssapaysdemorlaix.fr/galerie",
+      "fichier": "fichiers/20251124-144257-lot001-5c49e4da72fb.webp"
+    },
+    {
+      "src": "https://ssapaysdemorlaix.fr/assets/img/gallery/20251124_144248_lot001.webp",
+      "alt": "20251124_144248_lot001",
+      "largeur": 1920,
+      "hauteur": 2877,
+      "affichee": 456,
+      "dansEnTete": false,
+      "lienAccueil": false,
+      "indiceLogo": false,
+      "page": "https://ssapaysdemorlaix.fr/galerie",
+      "fichier": "fichiers/20251124-144248-lot001-55f75e377e73.webp"
+    },
+    {
+      "src": "https://ssapaysdemorlaix.fr/assets/img/gallery/20251124_144251_lot001.webp",
+      "alt": "20251124_144251_lot001",
+      "largeur": 1920,
+      "hauteur": 1281,
+      "affichee": 456,
+      "dansEnTete": false,
+      "lienAccueil": false,
+      "indiceLogo": false,
+      "page": "https://ssapaysdemorlaix.fr/galerie",
+      "fichier": "fichiers/20251124-144251-lot001-02008b980ae6.webp"
+    },
+    {
+      "src": "https://ssapaysdemorlaix.fr/assets/img/gallery/20251124_144247_lot002.webp",
+      "alt": "20251124_144247_lot002",
+      "largeur": 1920,
+      "hauteur": 1281,
+      "affichee": 456,
+      "dansEnTete": false,
+      "lienAccueil": false,
+      "indiceLogo": false,
+      "page": "https://ssapaysdemorlaix.fr/galerie",
+      "fichier": "fichiers/20251124-144247-lot002-c30f382f880b.webp"
+    },
+    {
+      "src": "https://ssapaysdemorlaix.fr/assets/img/gallery/20251124_144247_lot001.webp",
+      "alt": "20251124_144247_lot001",
+      "largeur": 1920,
+      "hauteur": 1281,
+      "affichee": 456,
+      "dansEnTete": false,
+      "lienAccueil": false,
+      "indiceLogo": false,
+      "page": "https://ssapaysdemorlaix.fr/galerie",
+      "fichier": "fichiers/20251124-144247-lot001-df313440307a.webp"
+    },
+    {
+      "src": "https://ssapaysdemorlaix.fr/assets/img/gallery/20251124_144246_lot001.webp",
+      "alt": "20251124_144246_lot001",
+      "largeur": 1920,
+      "hauteur": 1281,
+      "affichee": 456,
+      "dansEnTete": false,
+      "lienAccueil": false,
+      "indiceLogo": false,
+      "page": "https://ssapaysdemorlaix.fr/galerie",
+      "fichier": "fichiers/20251124-144246-lot001-a4188dfacc6e.webp"
+    },
+    {
+      "src": "https://ssapaysdemorlaix.fr/assets/img/gallery/20251124_144244_lot001.webp",
+      "alt": "20251124_144244_lot001",
+      "largeur": 1920,
+      "hauteur": 2877,
+      "affichee": 456,
+      "dansEnTete": false,
+      "lienAccueil": false,
+      "indiceLogo": false,
+      "page": "https://ssapaysdemorlaix.fr/galerie",
+      "fichier": "fichiers/20251124-144244-lot001-206da6699dde.webp"
+    },
+    {
+      "src": "https://ssapaysdemorlaix.fr/assets/img/gallery/20251124_144241_lot002.webp",
+      "alt": "20251124_144241_lot002",
+      "largeur": 1920,
+      "hauteur": 1281,
+      "affichee": 456,
+      "dansEnTete": false,
+      "lienAccueil": false,
+      "indiceLogo": false,
+      "page": "https://ssapaysdemorlaix.fr/galerie",
+      "fichier": "fichiers/20251124-144241-lot002-f7b604313263.webp"
+    },
+    {
+      "src": "https://ssapaysdemorlaix.fr/assets/img/gallery/20251124_144240_lot001.webp",
+      "alt": "20251124_144240_lot001",
+      "largeur": 1920,
+      "hauteur": 1281,
+      "affichee": 456,
+      "dansEnTete": false,
+      "lienAccueil": false,
+      "indiceLogo": false,
+      "page": "https://ssapaysdemorlaix.fr/galerie",
+      "fichier": "fichiers/20251124-144240-lot001-7ff85f7467a8.webp"
+    },
+    {
+      "src": "https://ssapaysdemorlaix.fr/assets/img/gallery/20251124_144239_lot001.webp",
+      "alt": "20251124_144239_lot001",
+      "largeur": 1920,
+      "hauteur": 1281,
+      "affichee": 456,
+      "dansEnTete": false,
+      "lienAccueil": false,
+      "indiceLogo": false,
+      "page": "https://ssapaysdemorlaix.fr/galerie",
+      "fichier": "fichiers/20251124-144239-lot001-ea5eaa0f1663.webp"
+    },
+    {
+      "src": "https://ssapaysdemorlaix.fr/assets/img/gallery/20251124_144239_lot002.webp",
+      "alt": "20251124_144239_lot002",
+      "largeur": 1920,
+      "hauteur": 1281,
+      "affichee": 456,
+      "dansEnTete": false,
+      "lienAccueil": false,
+      "indiceLogo": false,
+      "page": "https://ssapaysdemorlaix.fr/galerie",
+      "fichier": "fichiers/20251124-144239-lot002-447006e7316c.webp"
+    },
+    {
+      "src": "https://ssapaysdemorlaix.fr/assets/img/gallery/20251124_144237_lot001.webp",
+      "alt": "20251124_144237_lot001",
+      "largeur": 1920,
+      "hauteur": 1281,
+      "affichee": 456,
+      "dansEnTete": false,
+      "lienAccueil": false,
+      "indiceLogo": false,
+      "page": "https://ssapaysdemorlaix.fr/galerie",
+      "fichier": "fichiers/20251124-144237-lot001-188a1dc2a04e.webp"
+    },
+    {
+      "src": "https://ssapaysdemorlaix.fr/assets/img/gallery/20251124_144235_lot001.webp",
+      "alt": "20251124_144235_lot001",
+      "largeur": 1920,
+      "hauteur": 2877,
+      "affichee": 456,
+      "dansEnTete": false,
+      "lienAccueil": false,
+      "indiceLogo": false,
+      "page": "https://ssapaysdemorlaix.fr/galerie",
+      "fichier": "fichiers/20251124-144235-lot001-56c4d9136901.webp"
+    },
+    {
+      "src": "https://ssapaysdemorlaix.fr/assets/img/gallery/20251124_144234_lot001.webp",
+      "alt": "20251124_144234_lot001",
+      "largeur": 1920,
+      "hauteur": 1281,
+      "affichee": 456,
+      "dansEnTete": false,
+      "lienAccueil": false,
+      "indiceLogo": false,
+      "page": "https://ssapaysdemorlaix.fr/galerie",
+      "fichier": "fichiers/20251124-144234-lot001-93b30cec8570.webp"
+    },
+    {
+      "src": "https://ssapaysdemorlaix.fr/assets/img/gallery/20251124_144231_lot001.webp",
+      "alt": "20251124_144231_lot001",
+      "largeur": 1920,
+      "hauteur": 2877,
+      "affichee": 456,
+      "dansEnTete": false,
+      "lienAccueil": false,
+      "indiceLogo": false,
+      "page": "https://ssapaysdemorlaix.fr/galerie",
+      "fichier": "fichiers/20251124-144231-lot001-c3f03e3f20cf.webp"
+    },
+    {
+      "src": "https://ssapaysdemorlaix.fr/assets/img/gallery/20251124_144230_lot001.webp",
+      "alt": "20251124_144230_lot001",
+      "largeur": 1920,
+      "hauteur": 2877,
+      "affichee": 456,
+      "dansEnTete": false,
+      "lienAccueil": false,
+      "indiceLogo": false,
+      "page": "https://ssapaysdemorlaix.fr/galerie",
+      "fichier": "fichiers/20251124-144230-lot001-67e402f7878a.webp"
+    },
+    {
+      "src": "https://ssapaysdemorlaix.fr/assets/img/gallery/20251124_144227_lot001.webp",
+      "alt": "20251124_144227_lot001",
+      "largeur": 1920,
+      "hauteur": 2877,
+      "affichee": 456,
+      "dansEnTete": false,
+      "lienAccueil": false,
+      "indiceLogo": false,
+      "page": "https://ssapaysdemorlaix.fr/galerie",
+      "fichier": "fichiers/20251124-144227-lot001-895a8a113159.webp"
+    },
+    {
+      "src": "https://ssapaysdemorlaix.fr/assets/img/gallery/20251124_144226_lot001.webp",
+      "alt": "20251124_144226_lot001",
+      "largeur": 1920,
+      "hauteur": 2877,
+      "affichee": 456,
+      "dansEnTete": false,
+      "lienAccueil": false,
+      "indiceLogo": false,
+      "page": "https://ssapaysdemorlaix.fr/galerie",
+      "fichier": "fichiers/20251124-144226-lot001-868b2db34289.webp"
+    },
+    {
+      "src": "https://ssapaysdemorlaix.fr/assets/img/articles/12/20260320-085119-1.webp",
+      "alt": "illustration",
+      "largeur": 1920,
+      "hauteur": 1281,
+      "affichee": 1104,
+      "dansEnTete": false,
+      "lienAccueil": false,
+      "indiceLogo": false,
+      "page": "https://ssapaysdemorlaix.fr/article/12",
+      "fichier": "fichiers/20260320-085119-1-b24b3c8a7cf7.webp"
+    },
+    {
+      "src": "https://ssapaysdemorlaix.fr/assets/img/articles/11/20260203-083350-1.webp",
+      "alt": "illustration",
+      "largeur": 1920,
+      "hauteur": 1440,
+      "affichee": 1104,
+      "dansEnTete": false,
+      "lienAccueil": false,
+      "indiceLogo": false,
+      "page": "https://ssapaysdemorlaix.fr/article/11",
+      "fichier": "fichiers/20260203-083350-1-342fabc90071.webp"
+    },
+    {
+      "src": "https://ssapaysdemorlaix.fr/assets/img/articles/10/20260203-082126-1.webp",
+      "alt": "illustration",
+      "largeur": 1920,
+      "hauteur": 1440,
+      "affichee": 1104,
+      "dansEnTete": false,
+      "lienAccueil": false,
+      "indiceLogo": false,
+      "page": "https://ssapaysdemorlaix.fr/article/10",
+      "fichier": "fichiers/20260203-082126-1-763c062a5662.webp"
+    },
+    {
+      "src": "https://ssapaysdemorlaix.fr/assets/img/articles/9/20260122-164641-1.webp",
+      "alt": "illustration",
+      "largeur": 1920,
+      "hauteur": 1440,
+      "affichee": 1104,
+      "dansEnTete": false,
+      "lienAccueil": false,
+      "indiceLogo": false,
+      "page": "https://ssapaysdemorlaix.fr/article/9",
+      "fichier": "fichiers/20260122-164641-1-90693ea9bc76.webp"
+    },
+    {
+      "src": "https://ssapaysdemorlaix.fr/assets/img/articles/8/20251210-170342-1.webp",
+      "alt": "illustration",
+      "largeur": 1920,
+      "hauteur": 1440,
+      "affichee": 1104,
+      "dansEnTete": false,
+      "lienAccueil": false,
+      "indiceLogo": false,
+      "page": "https://ssapaysdemorlaix.fr/article/8",
+      "fichier": "fichiers/20251210-170342-1-53716ccdc930.webp"
+    },
+    {
+      "src": "https://ssapaysdemorlaix.fr/assets/img/articles/6/20251210-170430-1.webp",
+      "alt": "illustration",
+      "largeur": 1522,
+      "hauteur": 1078,
+      "affichee": 1104,
+      "dansEnTete": false,
+      "lienAccueil": false,
+      "indiceLogo": false,
+      "page": "https://ssapaysdemorlaix.fr/article/6",
+      "fichier": "fichiers/20251210-170430-1-df821eaca22b.webp"
+    }
+  ],
+  "fournis": [
+    {
+      "fichier": "docs/source/fournis/documents/dossier_de_candidature.pdf",
+      "type": "pdf",
+      "octets": 609569
+    },
+    {
+      "fichier": "docs/source/fournis/logo/logo.svg",
+      "type": "svg",
+      "octets": 113595,
+      "largeur": 433,
+      "hauteur": 446
+    }
+  ]
+}

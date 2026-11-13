@@ -28,28 +28,24 @@ git -C "$DIR" rev-parse --short HEAD > "$DIR/dist/.release"   # à exclure de l'
 
 Puis la recette (skill `web-audit`) sur `"$DIR/dist"`. Le manifeste de version (commit, date, auteur) reste à côté du paquet, pas forcément en ligne.
 
-## 3. Envoyer (après accord)
+## 3. Envoyer (par l'humain)
+
+L'agent remet le paquet (`$DIR/dist/`), la liste des fichiers à envoyer et à supprimer, et l'une des procédures ci-dessous, prête à lancer. L'humain fait l'envoi avec ses propres accès.
+
+- **FileZilla en mode miroir** (hébergeur mutualisé : Hostinger, OVH) : dossier local `$DIR/dist/`, dossier distant `public_html/`, comparaison, puis envoi ; relire d'abord la liste des fichiers remplacés et supprimés.
+- **Commande toute prête**, à lancer par l'humain dans son terminal (l'agent n'y met jamais d'identifiant) :
 
 ```bash
-# SFTP/rsync : miroir exact du dossier construit
-rsync -avz --delete --exclude='.release' "$DIR/dist/" user@hote:/chemin/public_html/
+# miroir à blanc d'abord (--dry-run), puis sans
+lftp "sftp://UTILISATEUR@HOTE" -e "mirror --reverse --delete --verbose --dry-run --exclude-glob .release DOSSIER_LOCAL public_html; quit"
+rsync -avz --delete --dry-run --exclude='.release' DOSSIER_LOCAL/ UTILISATEUR@HOTE:public_html/   # si l'offre donne SSH
 ```
 
-Hébergeur sans SSH (Hostinger, OVH mutualisé) : miroir `lftp`, d'abord à blanc, liste relue par l'humain, puis envoi réel après son accord :
-
-```bash
-set -a; . ~/.config/kouzia/<depot>/deploiement.env; set +a     # FTP_HOTE, FTP_UTILISATEUR, FTP_MOT_DE_PASSE, FTP_DOSSIER
-ESSAI=--dry-run   # vide après accord
-lftp -u "$FTP_UTILISATEUR","$FTP_MOT_DE_PASSE" "sftp://$FTP_HOTE" -e "set ftp:ssl-force true; mirror --reverse --delete --verbose $ESSAI --exclude-glob .release \"$DIR/dist/\" \"$FTP_DOSSIER\"; quit"
-```
-
-`sftp://` si l'offre le permet, sinon `ftp://` avec `ftp:ssl-force` (jamais de FTP en clair). Sans `lftp` : FileZilla en mode miroir, même relecture. Ne jamais envoyer `node_modules`, sources, `.env`, `.git`.
+`sftp://` si l'offre le permet, sinon `ftp://` avec `set ftp:ssl-force true` (jamais de FTP en clair). Ne jamais envoyer `node_modules`, sources, `.env`, `.git`.
 
 ### Accès
 
-- Rangés hors du dépôt : `~/.config/kouzia/<depot>/deploiement.env` (dossier 700, fichier 600) ou gestionnaire de mots de passe de l'humain. Le mode d'emploi dit où, jamais la valeur.
-- L'agent ne lit pas ce fichier (lecture refusée par `settings.json`) : il le charge dans la commande d'envoi, que l'humain valide.
-- Un accès donné dans le chat est rangé là puis signalé comme à changer (il est passé par la conversation).
+L'agent n'a jamais d'accès au serveur (FTP, SFTP, SSH) ni d'identifiant, et n'en demande pas. Il construit le paquet depuis un commit propre, écrit la liste des fichiers à envoyer et à supprimer, et la procédure exacte ; l'humain fait l'envoi, puis l'agent lance les vérifications après mise en ligne (section 4) sur l'adresse publique. Un identifiant collé dans le chat n'est pas utilisé : le signaler comme à changer.
 
 ## 4. Après l'envoi
 

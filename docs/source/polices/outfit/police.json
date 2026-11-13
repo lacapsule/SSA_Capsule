@@ -1,0 +1,15 @@
+{
+  "famille": "Outfit",
+  "fichiers": [
+    {
+      "fichier": "outfit-400-700-latin.woff2",
+      "graisses": [
+        400,
+        700
+      ]
+    }
+  ],
+  "licence": "SIL Open Font License 1.1 (Google Fonts)",
+  "source": "https://fonts.google.com/specimen/Outfit",
+  "telechargee": "2026-11-13"
+}

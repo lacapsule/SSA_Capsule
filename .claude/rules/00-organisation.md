@@ -16,11 +16,13 @@ Ce `.claude/` est un kit commun à tous les projets de sites. Règle maîtresse 
 - Pas de `.claude/rules/projet.md`, ou son champ `depot` différent du nom du dossier du dépôt : le mode d'emploi est **absent** (copie d'un autre projet). Aucun travail : lancer l'interview. Un hook de démarrage le signale.
 - Mode d'emploi présent mais statut `brouillon` : terminer l'interview, faire valider, puis passer à `validé`.
 - Une demande hors du périmètre du mode d'emploi : le dire, proposer l'ajout au mode d'emploi, attendre la validation.
+- Tout texte adressé à l'humain ou au client (messages, livrables, commits, commentaires) est en français.
 
 ## Décider
 
 - Une seule action possible et sans risque, dans le périmètre : la faire sans demander.
-- Choix de cadrage (technique, dépendance, structure de données, nouvelle section, prestataire) : jamais seul. Il se décide à l'interview ou par une question explicite, puis s'inscrit dans « Décisions validées ».
+- Choix de cadrage, visible du client ou qui l'engage (type de site, périmètre, nouvelle section, prestataire ou service tiers, coût, données personnelles) : jamais seul. Il se décide à l'interview ou par une question explicite, puis s'inscrit dans « Décisions validées ».
+- Choix technique interne (version de PHP, moteur de base de données, structure des données, organisation du code, outil de développement) : l'agent le tranche seul, d'après les besoins du mode d'emploi et les limites connues de l'hébergeur, en prenant la solution la plus simple qui suffit. Il l'inscrit dans « Décisions validées » avec sa raison, sans poser de question à l'humain.
 - Commit et fusion en local : autorisés sans redemander une fois tous les contrôles verts (`make verify` et ceux du changement).
 - Push : seulement avec l'accord explicite de l'humain, à chaque fois.
 - Action irréversible ou visible de l'extérieur (déploiement, envoi, suppression, achat, DNS) : validation humaine explicite à chaque fois.

@@ -1,0 +1,314 @@
+/* Gabarit des livrables Kouzia : variante claire de la charte (tokens de la boîte, copiés dans _commun/tokens.css).
+   Écran : colonne de lecture centrée. Impression : A4, couverture sur sa propre page. */
+@page {
+  margin: 18mm 15mm 20mm;
+  size: A4;
+}
+
+html {
+  background: var(--color-bg);
+}
+
+body {
+  max-width: 52rem;
+  margin-inline: auto;
+  padding: var(--space-5) var(--gutter);
+  font-family: var(--font-ui);
+  font-size: var(--step-0);
+  line-height: 1.55;
+  color: var(--color-text);
+  background: var(--color-surface);
+}
+
+.couverture {
+  margin-block-end: var(--space-5);
+  padding-block-end: var(--space-4);
+  border-block-end: var(--filet-fort) solid var(--color-accent);
+}
+
+.marque {
+  margin: 0 0 var(--space-5);
+  font-family: var(--font-mono);
+  font-size: var(--step-1);
+  letter-spacing: var(--etiquette-espacement);
+  text-transform: uppercase;
+  color: var(--color-accent);
+}
+
+.surtitre {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+  letter-spacing: var(--etiquette-espacement);
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+h1 {
+  margin: var(--space-2) 0;
+  font-size: var(--step-3);
+  line-height: 1.1;
+}
+
+.client {
+  margin: 0;
+  font-size: var(--step-2);
+  font-weight: 600;
+  color: var(--color-accent-strong);
+}
+
+.chapo {
+  max-width: var(--measure);
+  color: var(--color-text-muted);
+}
+
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+  margin: var(--space-4) 0 0;
+}
+
+.meta dt {
+  font-size: var(--step--2);
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.meta dd {
+  margin: 0;
+  font-weight: 600;
+}
+
+h2 {
+  margin: var(--space-5) 0 var(--space-3);
+  font-size: var(--step-2);
+  line-height: 1.2;
+  color: var(--color-text);
+  break-after: avoid;
+}
+
+h3,
+h4,
+h5 {
+  margin: var(--space-4) 0 var(--space-2);
+  font-size: var(--step-1);
+  break-after: avoid;
+}
+
+p,
+li {
+  max-width: var(--measure);
+}
+
+a {
+  color: var(--color-accent-strong);
+}
+
+code {
+  font-family: var(--font-mono);
+  font-size: 0.92em;
+}
+
+pre {
+  padding: var(--space-3);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-small);
+  background: var(--color-surface-2);
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  margin: var(--space-3) 0;
+  border-collapse: collapse;
+  font-size: var(--step--1);
+  break-inside: auto;
+}
+
+th,
+td {
+  vertical-align: top;
+  padding: var(--space-2) var(--space-3);
+  border-block-end: 1px solid var(--color-line);
+  text-align: start;
+}
+
+th {
+  font-weight: 600;
+  background: var(--color-surface-2);
+}
+
+tr {
+  break-inside: avoid;
+}
+
+blockquote {
+  margin: var(--space-3) 0;
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-small);
+  color: var(--color-text-muted);
+}
+
+.avertissement {
+  margin-block-end: var(--space-5);
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid var(--color-warning);
+  border-radius: var(--radius);
+  background: var(--color-warning-soft);
+}
+
+.avertissement h2 {
+  margin-block-start: 0;
+  font-size: var(--step-1);
+}
+
+.nuancier {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(10rem, 1fr));
+  gap: var(--space-3);
+  list-style: none;
+  padding: 0;
+}
+
+.nuancier li {
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-small);
+  overflow: hidden;
+  break-inside: avoid;
+}
+
+.nuancier .pastille {
+  display: block;
+  height: 3.5rem;
+}
+
+.nuancier .valeurs {
+  display: block;
+  padding: var(--space-2);
+  font-size: var(--step--2);
+}
+
+.vignettes {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr));
+  gap: var(--space-3);
+  list-style: none;
+  padding: 0;
+}
+
+.vignettes figure {
+  margin: 0;
+  break-inside: avoid;
+}
+
+.vignettes img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-small);
+  background: var(--color-surface-2);
+}
+
+.logos img {
+  width: auto;
+  max-width: 100%;
+  height: 5rem;
+  padding: var(--space-2);
+  object-fit: contain;
+}
+
+.vignettes figcaption {
+  margin-block-start: var(--space-1);
+  font-size: var(--step--2);
+  overflow-wrap: anywhere;
+  color: var(--color-text-muted);
+}
+
+.ecrans {
+  display: grid;
+  grid-template-columns: 3fr 1fr;
+  gap: var(--space-4);
+  align-items: start;
+  margin: var(--space-3) 0;
+}
+
+.ecrans-egaux {
+  grid-template-columns: 1fr 1fr;
+}
+
+.ecrans figure {
+  margin: 0;
+}
+
+.ecrans img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-small);
+}
+
+.ecrans figcaption {
+  margin-block-start: var(--space-1);
+  font-size: var(--step--2);
+  color: var(--color-text-muted);
+}
+
+.pied {
+  margin-block-start: var(--space-6);
+  padding-block-start: var(--space-3);
+  border-block-start: 1px solid var(--color-line);
+  font-size: var(--step--2);
+  color: var(--color-text-muted);
+}
+
+.brouillon .couverture::after {
+  display: inline-block;
+  content: "Brouillon : non validé";
+  margin-block-start: var(--space-3);
+  padding: var(--space-1) var(--space-3);
+  border: 1px solid var(--color-danger);
+  border-radius: var(--radius-pill);
+  font-size: var(--step--1);
+  font-weight: 600;
+  color: var(--color-danger);
+}
+
+@media print {
+  html,
+  body {
+    background: var(--color-surface);
+  }
+
+  body {
+    max-width: none;
+    padding: 0;
+    font-size: 10.5pt;
+  }
+
+  .couverture {
+    padding-block-start: 30mm;
+    break-after: page;
+  }
+
+  .pied {
+    display: none;
+  }
+
+  .ecrans {
+    break-inside: avoid;
+  }
+
+  .ecrans img {
+    width: auto;
+    max-width: 100%;
+    max-height: 225mm;
+  }
+
+  a {
+    text-decoration: none;
+  }
+}

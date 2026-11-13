@@ -1,0 +1,22 @@
+{
+  "famille": "Atkinson Hyperlegible",
+  "fichiers": [
+    {
+      "fichier": "atkinson-hyperlegible-400-latin.woff2",
+      "graisses": [
+        400,
+        400
+      ]
+    },
+    {
+      "fichier": "atkinson-hyperlegible-700-latin.woff2",
+      "graisses": [
+        700,
+        700
+      ]
+    }
+  ],
+  "licence": "SIL Open Font License 1.1 (Google Fonts)",
+  "source": "https://fonts.google.com/specimen/Atkinson+Hyperlegible",
+  "telechargee": "2026-11-13"
+}

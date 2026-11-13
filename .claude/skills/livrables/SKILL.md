@@ -76,6 +76,7 @@ Rien de `docs/` n'est publié en ligne (hors de `dist/` et de `public/`).
 
 - L'encadré « À compléter » est une liste de travail pour Kouzia : un livrable ne part au client qu'une fois l'encadré vide.
 - Texte pour le client : aucun terme interne (nom d'outil, de fichier du kit, de variable), pas de jargon sans explication.
+- Le générateur signale dans l'encadré tout terme interne trouvé dans le texte destiné au client (chemin de fichier, nom de fichier, commande `make`, `constaté`, `déduit`, « l'agent », « l'humain ») : la correction se fait dans le mode d'emploi, dont les sections reprises par le cahier des charges s'écrivent pour le client.
 - Aucun fait inventé : ce qui manque est écrit « à fournir » avec qui et pour quand (rule `web-legal`, « Zéro fiction »).
 - L'emplacement des accès (FTP, DNS) n'apparaît jamais dans un livrable.
 - Un nouveau livrable ou une nouvelle section : dans `scripts/generer.mjs`, depuis une source, avec la même charte.

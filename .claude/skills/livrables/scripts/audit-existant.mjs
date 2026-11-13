@@ -6,7 +6,7 @@
 // Chaque fait relevé garde l'URL de la page où il a été lu : il reste « à confirmer » tant que l'humain ne l'a pas validé.
 // Accord du client acquis quand l'humain demande l'audit (le client veut un nouveau site).
 import { createHash } from 'node:crypto';
-import { existsSync, mkdirSync, readdirSync, statSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, readdirSync, readFileSync, statSync, writeFileSync } from 'node:fs';
 import { createRequire } from 'node:module';
 import path from 'node:path';
 import { pathToFileURL } from 'node:url';
@@ -50,15 +50,24 @@ const contexte = await navigateur.newContext({ viewport: { width: 1440, height: 
 const page = await contexte.newPage();
 
 // Graines : l'adresse donnée et le sitemap s'il existe.
+// Deux files : les pages (un chemin, une page, comptées dans --max et capturées) et les variantes à paramètres
+// (?lang=, ?page=…), lues seulement pour découvrir des liens et listées à part : elles ne mangent pas la limite.
 const file = [normaliser(depart)];
+const fileVariantes = [];
 const vus = new Set(file);
+const MAX_VARIANTES = 40;
+const ajouterAFile = (u) => {
+  if (!u || vus.has(u) || EXT_FICHIER.test(new URL(u).pathname)) return;
+  vus.add(u);
+  (new URL(u).search ? fileVariantes : file).push(u);
+};
 const anciennesAdresses = new Set();
 try {
   const r = await contexte.request.get(origine + '/sitemap.xml', { timeout: 10000 });
   if (r.ok()) {
     for (const m of (await r.text()).matchAll(/<loc>\s*([^<\s]+)\s*<\/loc>/g)) {
       const u = normaliser(m[1]);
-      if (u && !EXT_FICHIER.test(new URL(u).pathname)) { anciennesAdresses.add(new URL(u).pathname); if (!vus.has(u)) { vus.add(u); file.push(u); } }
+      if (u && !EXT_FICHIER.test(new URL(u).pathname)) { anciennesAdresses.add(new URL(u).pathname); ajouterAFile(u); }
     }
   }
 } catch { /* pas de sitemap : parcours par liens seulement */ }
@@ -79,10 +88,11 @@ function lirePage() {
   const images = [...document.images].filter((i) => i.currentSrc || i.src).map((i) => ({
     src: i.currentSrc || i.src, alt: i.getAttribute('alt'), largeur: i.naturalWidth, hauteur: i.naturalHeight,
     affichee: Math.round(i.getBoundingClientRect().width), dansEnTete: !!i.closest('header, nav, [class*="header"], [class*="logo"]'),
+    lienAccueil: !!i.closest('a[href="/"], a[href="./"], a[href="' + location.origin + '/"], a[href="' + location.origin + '"]'),
     indiceLogo: /logo/i.test((i.src || '') + ' ' + (i.alt || '') + ' ' + (i.className || '') + ' ' + (i.closest('[class*="logo"], [id*="logo"]') ? 'logo' : '')),
   }));
   const svgLogos = [...document.querySelectorAll('header svg, [class*="logo"] svg, a[href="/"] svg')].slice(0, 3).map((s) => s.outerHTML.slice(0, 200000));
-  const liens = [...document.querySelectorAll('a[href]')].map((a) => ({ href: a.href, texte: texte(a).slice(0, 120), dansNav: !!a.closest('nav'), dansPied: !!a.closest('footer') }));
+  const liens = [...document.querySelectorAll('a[href]')].map((a) => ({ href: a.href, texte: texte(a).slice(0, 120), dansNav: !!a.closest('nav') && !a.closest('[class*="pagin"], [aria-label*="agination"], [aria-label*="pages"]') && !/[?&](page|p|paged)=/.test(a.search), dansPied: !!a.closest('footer') }));
   const icones = [...document.querySelectorAll('link[rel~="icon"], link[rel="apple-touch-icon"], link[rel="mask-icon"]')].map((l) => ({ rel: l.rel, href: l.href, tailles: l.sizes?.value ?? null }));
   const jsonld = [...document.querySelectorAll('script[type="application/ld+json"]')].map((s) => { try { return JSON.parse(s.textContent); } catch { return null; } }).filter(Boolean);
 
@@ -134,7 +144,23 @@ function lirePage() {
 const pages = [];
 const echecs = [];
 const pagesEnErreur = [];
-while (file.length && pages.length < MAX) {
+const variantes = [];
+const LANGUE = /^(lang|language|langue|hl|locale|lng)$/i;
+while ((file.length && pages.length < MAX) || (fileVariantes.length && variantes.length < MAX_VARIANTES)) {
+  if (!(file.length && pages.length < MAX)) {
+    // Variante : liens seulement, pas de capture.
+    const url = fileVariantes.shift();
+    try {
+      const rep = await page.goto(url, { waitUntil: 'networkidle', timeout: 30000 });
+      if (!rep || rep.status() >= 400) { pagesEnErreur.push({ url, statut: rep?.status() ?? 0 }); continue; }
+      const x = new URL(url);
+      const lu = await page.evaluate(() => ({ titre: document.title, h1: document.querySelector('h1')?.innerText?.trim() ?? null, langue: document.documentElement.lang || null, liens: [...document.querySelectorAll('a[href]')].map((a) => a.href) }));
+      const langue = [...x.searchParams].find(([k]) => LANGUE.test(k))?.[1] ?? null;
+      variantes.push({ url, chemin: x.pathname, parametres: [...x.searchParams.keys()], ...(langue ? { langue } : {}), langueDocument: lu.langue, titre: lu.titre, h1: lu.h1 });
+      for (const h of lu.liens) ajouterAFile(normaliser(h));
+    } catch (e) { echecs.push({ url, erreur: e.message.split('\n')[0] }); }
+    continue;
+  }
   const url = file.shift();
   try {
     const rep = await page.goto(url, { waitUntil: 'networkidle', timeout: 30000 });
@@ -147,10 +173,7 @@ while (file.length && pages.length < MAX) {
     await page.screenshot({ path: path.join(SORTIE, 'captures', `${s}-bureau.jpg`), type: 'jpeg', quality: 70, fullPage: true });
     pages.push({ url, urlFinale: finale, statut: rep.status(), capture: `captures/${s}-bureau.jpg`, ...donnees });
     anciennesAdresses.add(new URL(url).pathname);
-    for (const l of donnees.liens) {
-      const u = normaliser(l.href);
-      if (u && !vus.has(u) && !EXT_FICHIER.test(new URL(u).pathname)) { vus.add(u); file.push(u); }
-    }
+    for (const l of donnees.liens) ajouterAFile(normaliser(l.href));
     await new Promise((r) => setTimeout(r, 300));
   } catch (e) {
     echecs.push({ url, erreur: e.message.split('\n')[0] });
@@ -182,7 +205,8 @@ for (const p of pages) {
     if (RESEAUX.test(l.href)) { const u = l.href.split('?')[0].replace(/\/$/, ''); ajoutSource(reseaux, u, u, p.url); }
   }
   for (const m of p.texteComplet.matchAll(/(?:\+33\s?|0)[1-9](?:[\s.-]?\d{2}){4}/g)) ajoutSource(telephones, cleTelephone(m[0]), m[0], p.url);
-  for (const m of p.texteComplet.matchAll(/[\w.+-]+@[\w-]+\.[\w.-]+/g)) ajoutSource(emails, m[0].toLowerCase(), m[0].toLowerCase(), p.url);
+  // Le point qui finit une phrase n'appartient pas à l'adresse.
+  for (const m of p.texteComplet.matchAll(/[\w.+-]+@[\w-]+\.[\w.-]+/g)) { const a = m[0].toLowerCase().replace(/\.+$/, ''); ajoutSource(emails, a, a, p.url); }
   for (const m of p.texteComplet.matchAll(/(SIRE[NT]|RCS)[^0-9]{0,30}((?:\d[\s.]?){9}(?:(?:\d[\s.]?){5})?)/gi)) ajoutSource(siren, m[2].replace(/\D/g, ''), `${m[1].toUpperCase()} ${m[2].trim()}`, p.url);
   for (const m of (p.pied + ' ' + p.adresses.join(' ')).matchAll(/\b(\d{5})\s+([A-ZÀ-Ý][A-Za-zÀ-ÿ' -]{1,40})/g)) ajoutSource(codesPostaux, `${m[1]} ${m[2].trim()}`, `${m[1]} ${m[2].trim()}`, p.url);
 }
@@ -206,7 +230,11 @@ const candidats = [];
 const accueil = pages[0];
 if (accueil) {
   accueil.svgLogos.forEach((svg, i) => candidats.push({ type: 'svg-en-tete', svg, rang: 1 + i }));
-  accueil.images.filter((i) => i.indiceLogo || (i.dansEnTete && i.affichee < 400)).forEach((i) => candidats.push({ type: 'image-en-tete', src: i.src, alt: i.alt, rang: i.indiceLogo ? 2 : 3 }));
+  // Image qui renvoie à l'accueil : le logo. Nommée « logo » : probable. Autre image d'en-tête : partenaire ou décor.
+  accueil.images.filter((i) => i.lienAccueil || i.indiceLogo || (i.dansEnTete && i.affichee < 400)).forEach((i) => candidats.push({
+    type: i.lienAccueil ? 'logo (lien vers l\'accueil)' : i.indiceLogo ? 'image nommée logo' : 'image d\'en-tête (partenaire ou décor ?)',
+    src: i.src, alt: i.alt, rang: i.lienAccueil ? 1.5 : i.indiceLogo ? 2 : 3,
+  }));
   for (const j of accueil.jsonld.flatMap((x) => (Array.isArray(x) ? x : x['@graph'] ?? [x]))) {
     const l = j?.logo?.url ?? j?.logo; if (typeof l === 'string') candidats.push({ type: 'json-ld', src: l, rang: 2 });
   }
@@ -235,6 +263,15 @@ for (const c of candidats) {
   if (c.svg) { const nom = `logo-en-tete-${c.rang}.svg`; writeFileSync(path.join(SORTIE, 'fichiers', nom), c.svg.includes('xmlns') ? c.svg : c.svg.replace('<svg', '<svg xmlns="http://www.w3.org/2000/svg"')); c.fichier = `fichiers/${nom}`; delete c.svg; }
   else c.fichier = await telecharger(c.src);
 }
+// Couleurs des logos SVG : fichiers récupérés (deux premiers candidats) et logos fournis par le client.
+const couleursSvg = (texte) => [...texte.matchAll(/(?:fill|stroke|stop-color)\s*[:=]\s*["']?\s*(#[0-9a-f]{3,8}\b|rgb\([^)]*\))/gi)].map((m) => m[1]);
+const versHex6 = (c) => { if (c.startsWith('rgb')) return hex(c); const h = c.slice(1).toLowerCase(); return '#' + (h.length === 3 ? h.split('').map((x) => x + x).join('') : h.slice(0, 6)); };
+const sourcesLogo = [
+  ...candidats.filter((c) => c.fichier && /\.svg$/.test(c.fichier)).sort((a, b) => a.rang - b.rang).slice(0, 2).map((c) => path.join(SORTIE, c.fichier)),
+  ...(existsSync(path.join(FOURNIS, 'logo')) ? readdirSync(path.join(FOURNIS, 'logo')).filter((n) => /\.svg$/i.test(n)).map((n) => path.join(FOURNIS, 'logo', n)) : []),
+];
+for (const f of sourcesLogo) for (const c of couleursSvg(readFileSync(f, 'utf8'))) { const h = versHex6(c); if (h && !couleursLogo.includes(h)) couleursLogo.push(h); }
+
 const images = [];
 const vuesImages = new Set();
 for (const p of pages) for (const i of p.images) {
@@ -266,7 +303,7 @@ if (existsSync(FOURNIS)) {
 await navigateur.close();
 
 const inventaire = {
-  source: depart, date: new Date().toISOString(), pagesLues: pages.length, limite: MAX, echecs, pagesEnErreur,
+  source: depart, date: new Date().toISOString(), pagesLues: pages.length, limite: MAX, echecs, pagesEnErreur, variantes,
   identite: {
     logos: candidats.sort((a, b) => a.rang - b.rang),
     couleurs,
@@ -276,15 +313,16 @@ const inventaire = {
     reseaux: Object.values(reseaux), codesPostaux: Object.values(codesPostaux),
     donneesStructurees: accueil?.jsonld ?? [],
   },
-  menu: (accueil?.liens ?? []).filter((l) => l.dansNav && normaliser(l.href)).map((l) => ({ texte: l.texte, chemin: new URL(l.href).pathname })),
-  pied: (accueil?.liens ?? []).filter((l) => l.dansPied && normaliser(l.href)).map((l) => ({ texte: l.texte, chemin: new URL(l.href).pathname })),
+  // Menu : chemin et ancre (un site d'une page navigue par #sections), sans entrée vide (lien du logo).
+  menu: (accueil?.liens ?? []).filter((l) => l.dansNav && l.texte && normaliser(l.href)).map((l) => ({ texte: l.texte, chemin: new URL(l.href).pathname + new URL(l.href).search + new URL(l.href).hash })),
+  pied: (accueil?.liens ?? []).filter((l) => l.dansPied && l.texte && normaliser(l.href)).map((l) => ({ texte: l.texte, chemin: new URL(l.href).pathname + new URL(l.href).search + new URL(l.href).hash })),
   anciennesAdresses: [...anciennesAdresses].filter((a) => !pagesEnErreur.some((e) => new URL(e.url).pathname === a)).sort(),
   pages: pages.map(({ liens, texteComplet, couleurs: _c, couleursLogo: _l, policesChargees, sourcesPolices, svgLogos, ...p }) => ({ ...p, mots: texteComplet.split(' ').length, liensInternes: liens.filter((l) => normaliser(l.href)).length })),
   images, fournis,
 };
 writeFileSync(path.join(SORTIE, 'inventaire.json'), JSON.stringify(inventaire, null, 2) + '\n');
 
-console.log(`Audit de ${depart} : ${pages.length} page(s) lue(s)${file.length ? ` (limite ${MAX} atteinte, ${file.length} non lue(s) : --max pour en lire plus)` : ''}, ${echecs.length} échec(s).`);
+console.log(`Audit de ${depart} : ${pages.length} page(s) lue(s)${file.length ? ` (limite ${MAX} atteinte, ${file.length} non lue(s) : --max pour en lire plus)` : ''}, ${variantes.length} variante(s) à paramètres${fileVariantes.length ? ` (${fileVariantes.length} non lue(s))` : ''}, ${echecs.length} échec(s).`);
 console.log(`Logos candidats : ${candidats.filter((c) => c.fichier).length} · couleurs : ${couleurs.slice(0, 6).map((c) => c.hex).join(' ')} · polices : ${inventaire.identite.polices.chargees.slice(0, 4).join(', ') || inventaire.identite.polices.usages?.corps || 'aucune'}`);
 console.log(`Téléphones : ${inventaire.identite.telephones.map((t) => t.valeur).join(', ') || 'aucun'} · e-mails : ${inventaire.identite.emails.map((t) => t.valeur).join(', ') || 'aucun'} · SIREN/SIRET : ${inventaire.identite.siren.map((t) => t.valeur).join(', ') || 'aucun'}`);
 console.log(`Images : ${images.length} · fichiers fournis : ${fournis.length} · écrit ${path.relative(process.cwd(), path.join(SORTIE, 'inventaire.json'))}`);

@@ -54,11 +54,11 @@ Une ligne par page du nouveau site (source du cahier des charges, des wireframes
 
 - …
 
-## Hébergement et accès
+## Hébergement
 
-- Hébergeur, offre, type d'accès (FTP, SFTP, SSH) : …
+- Hébergeur et offre (s'ils sont imposés), limites connues : …
 - Domaine, DNS, e-mails : chez qui, qui les gère : …
-- Accès rangés dans : `~/.config/kouzia/<depot>/deploiement.env` (droits 600) ou gestionnaire de mots de passe : … ; jamais une valeur ici.
+- Mise en ligne : faite par l'humain, l'agent prépare le paquet et la procédure (skill `web-release`).
 
 ## Données et contenus
 
