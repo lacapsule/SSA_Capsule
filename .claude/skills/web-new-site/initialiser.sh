@@ -19,6 +19,12 @@ if [[ "$depot" == "kouzia-modele-site" ]]; then
 fi
 
 cree=()
+# Un dépôt client cloné depuis le modèle garde son adresse : un push enverrait le site du client dans le modèle.
+origine="$(git remote get-url origin 2>/dev/null || true)"
+if [[ "$origine" == *kouzia-modele-site* ]]; then
+    git remote remove origin
+    cree+=("adresse « origin » du modèle retirée ($origine) : ajouter celle du dépôt du client (git remote add origin …)")
+fi
 for d in docs/source/fournis/logo docs/source/fournis/charte docs/source/fournis/photos docs/source/fournis/textes docs/source/fournis/documents docs/maquettes docs/rapports; do
     if [[ ! -d "$d" ]]; then
         mkdir -p "$d"

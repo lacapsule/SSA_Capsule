@@ -1,0 +1,15 @@
+/* N1 : en-tête du site (composant en-tete.php) : couleurs par les rôles de zone de la charte. */
+.en-tete {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem 2rem;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem clamp(1rem, 4vw, 2rem);
+  color: var(--color-entete-texte);
+  background: var(--color-entete-fond);
+}
+
+.en-tete a {
+  color: var(--color-entete-texte);
+}

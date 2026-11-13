@@ -41,7 +41,7 @@ Contraintes : rule `web-design`. Source : convention tokens N0/N1/N2, skills `ro
 }
 ```
 
-Valeurs indicatives : partir de la charte réelle du client. Un seul accent, un seul rayon. Mode clair et sombre : redéfinir seulement les tokens de couleur dans `@media (prefers-color-scheme: dark)` ou `[data-theme]`.
+Valeurs indicatives : partir de la charte réelle du client. Dans un projet du kit, couleurs, polices et arrondis ne s'écrivent pas à la main : ils viennent de `base/charte.css`, généré (charte neutre du modèle, puis piste validée du livrable 04 posée par `make appliquer`, skill `livrables`) ; `base/tokens.css` garde le reste (espaces, durées, mesures). Rôles de zone disponibles : `--color-entete-{fond,texte,accent}`, `--color-heros-{fond,texte,accent}` ; dans une zone, liens et boutons prennent son accent. Un seul accent, un seul rayon. Mode clair et sombre : redéfinir seulement les tokens de couleur dans `@media (prefers-color-scheme: dark)` ou `[data-theme]`.
 
 ## 2. Ranger un style
 

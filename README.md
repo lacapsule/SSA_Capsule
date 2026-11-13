@@ -4,12 +4,14 @@ Point de départ de chaque nouveau site client : le kit `.claude` commun (règle
 
 ## Créer un site client
 
+Rien n'est créé avant l'information dont il dépend : l'interview définit le besoin et le type de projet, le client valide le cahier des charges, et seulement alors l'architecture est posée.
+
 1. Copier ou cloner ce dépôt sous le nom du futur site (minuscules, mots séparés par `-`), par exemple `boulangerie-martin`.
-2. `make init` : crée le squelette du projet (`docs/source/fournis/` pour les fichiers du client, rangés par logo, charte, photos, textes et documents ; `docs/maquettes/` ; `docs/rapports/` ; mode d'emploi en brouillon), sans jamais rien écraser.
-3. `make deps` : installe tout en une commande (paquets système, extensions PHP, navigateur) et clone la boîte à outils à côté du dépôt (`../kouzia-boite-a-outils`) si elle n'y est pas. `make outils` montre l'état sans rien installer.
-4. Ouvrir Claude Code dans le nouveau dossier. Le hook de démarrage voit que le mode d'emploi est absent ou en brouillon et lance l'interview (skill `interview`). Si le client a déjà un site : donner son lien (`make audit URL=https://site-actuel`) et ranger les fichiers qu'il fournit dans les sous-dossiers de `docs/source/fournis/` ; l'audit relève textes, logo, couleurs, polices, coordonnées et anciennes adresses.
-5. Après l'interview, le mode d'emploi est écrit dans `.claude/rules/projet.md`, validé par l'humain. `make livrables` produit les documents du client (audit, cahier des charges…) en HTML et PDF à la charte Kouzia dans `docs/livrables/` ; `make valider ID=… PAR="…"` enregistre chacune des 4 validations du client.
-6. Poser le socle choisi : `make statique` (vitrine) ou `make dynamique` (`gabarits/socle-php` de la boîte). Le Makefile et ce README sont remplacés par ceux du socle ; toute autre collision arrête la copie. Le travail commence ensuite étape par étape.
+2. `make deps` : installe tout en une commande (paquets système, extensions PHP, navigateur) et clone la boîte à outils à côté du dépôt (`../kouzia-boite-a-outils`) si elle n'y est pas. `make outils` montre l'état sans rien installer.
+3. Ouvrir Claude Code dans le nouveau dossier : l'interview démarre (skill `interview`). Elle lance `make init` (squelette `docs/`, mode d'emploi en brouillon, adresse Git du modèle retirée), demande le lien du site actuel et les fichiers du client (rangés dans `docs/source/fournis/`), lance l'audit (`make audit URL=…`), puis fixe en premier le type de projet et le métier.
+4. Mode d'emploi validé par l'humain, puis cahier des charges (`make livrables`) : **validation 1 du client** (`make valider ID=02-cahier-des-charges PAR="…"`), qui fige le type.
+5. `make socle` : l'architecture déduite du type (statique pour une vitrine, dynamique PHP pour un site associatif, une boutique ou un espace client). Refusé tant que la validation 1 manque ou si le type et le socle ne vont pas ensemble. Le Makefile et ce README sont remplacés par ceux du socle ; toute autre collision arrête la copie.
+6. Maquettes en texte puis wireframes : **validation 2**. Pages intégrées sur la charte neutre, puis les trois pistes de direction artistique montrées sur ces pages : **validation 3** (`PISTE=n`), posée par `make appliquer`. Finitions, recette : **validation 4**, puis mise en ligne.
 
 On peut aussi demander à Claude : « crée le site <nom> depuis le modèle ».
 
@@ -40,19 +42,19 @@ Puis dans la boîte : `node outils/indexer.mjs`, `node .claude/skills/web-audit/
 1. Cloner `kouzia-modele-site` et `kouzia-boite-a-outils` côte à côte (ou seulement le premier : `make deps` clone la boîte à côté).
 2. `make deps` dans `kouzia-modele-site`, puis `make outils` : tout doit être `ok`.
 
-### Reste à faire (état au 2026-11-12)
+### Reste à faire (état au 2026-11-13)
 
-But : un agent crée seul un site client sur mesure (branding repris du site actuel ou des fichiers fournis, métier, vrais besoins), avec tous les documents de conception et de livraison, uniformes. Décidé le 2026-11-12 : 4 validations du client (cahier des charges, wireframes, direction artistique et maquettes, recette), documents en HTML et PDF à la charte Kouzia (variante claire des tokens de la boîte, Exo 2). Pas de logo Kouzia : le nom est écrit en texte.
+But : un agent crée seul un site client sur mesure (branding repris du site actuel ou des fichiers fournis, métier, vrais besoins), avec tous les documents de conception et de livraison, uniformes. Décidé le 2026-11-12 et revu le 2026-11-13 : 4 validations du client (cahier des charges, qui fige le type et donc l'architecture ; wireframes ; choix d'une piste de direction artistique sur les vraies pages ; recette), documents en HTML et PDF à la charte Kouzia (variante claire des tokens de la boîte, Exo 2). Pas de logo Kouzia : le nom est écrit en texte.
 
-Fait (skill `livrables`) : 01 audit de l'existant, 02 cahier des charges, 03 wireframes, 04 direction artistique. Testés sur un faux site local seulement.
+Fait (skill `livrables`) : 01 audit de l'existant, 02 cahier des charges, 03 wireframes, 04 direction artistique et maquettes (pistes sur les vraies pages, `make appliquer`) ; parcours revu le 2026-11-13 (`make socle` et sa garde, interview qui lance `make init` et l'audit, domaine dans `site.json` seulement, chaîne adaptée à `outil-interne`). Testés sur un faux site local seulement.
 
-- [x] **04 Direction artistique** (2026-11-13) : 3 pistes (fidèle, modernisée, contrastée), couleurs de l'audit en tokens vérifiés clair et sombre (`lib/couleurs.mjs`), polices libres de Google Fonts en woff2 local (`lib/polices.mjs`), directions par métier (`donnees/directions.json`, champ `- metier:` du mode d'emploi). Reste : appliquer la piste validée au site (écrire `src/styles/base/tokens.css` et copier les polices dans `public/`), à faire avec le 05.
-- [ ] **05 Maquettes** : captures du vrai site en construction (1280 et 390 px, clair et sombre), à partir de `check-rendu.mjs` ; validation 3 avec le 04.
-- [ ] **06 PV de recette** : depuis `make verify`, `make a11y`, Lighthouse et la checklist du skill `livraison` ; validation 4 avant mise en ligne.
-- [ ] **07 Dossier de livraison** : guide d'utilisation pour le client, dossier technique (hébergement, emplacement des accès, sauvegardes, mise en ligne, retour arrière).
+- [x] **04 Direction artistique et maquettes** (2026-11-13) : 3 pistes (fidèle, modernisée, contrastée) en tokens vérifiés clair et sombre, rôles de zone (en-tête, haut de page) et accent par zone, polices libres de Google Fonts en woff2 local, directions par métier ; pistes montrées sur les vraies pages du site intégré ; `make valider … PISTE=n` puis `make appliquer` (écrit `base/charte.css`, copie les polices).
+- [ ] **05 PV de recette** : depuis `make verify`, `make a11y`, Lighthouse et la checklist du skill `livraison` ; validation 4 avant mise en ligne.
+- [ ] **06 Dossier de livraison** : guide d'utilisation pour le client, dossier technique (hébergement, emplacement des accès, sauvegardes, mise en ligne, retour arrière).
+- [ ] **Socle application** pour le type `outil-interne` (logiciel) : base à décider (Fastify, React ou PHP) ; `make socle` le refuse en attendant.
 - [ ] **Données de l'activité** : schéma `site.json` enrichi (adresse, horaires, coordonnées GPS, profils sociaux, SIREN, logo) et JSON-LD `LocalBusiness` généré (`Base.php` le marque encore « à compléter ») ; vérification du SIREN par l'API recherche-entreprises.api.gouv.fr.
 - [ ] **Vitrine de base** assemblée dans le modèle statique depuis la boîte : accueil, services, à propos, contact, pages légales, accessibilité, plan du site, 404, `.htaccess` durci.
-- [ ] **Reprise automatique de l'audit** : faits de l'inventaire versés au mode d'emploi en `déduit` ; anciennes adresses et colonne « Remplace » de l'arborescence converties en `src/data/redirections.json`.
+- [ ] **Reprise automatique de l'audit et de l'arborescence** : faits de l'inventaire versés au mode d'emploi en `déduit` ; arborescence du mode d'emploi convertie en `navigation.json` et en pages vides (aujourd'hui écrite trois fois) ; anciennes adresses et colonne « Remplace » converties en `src/data/redirections.json`.
 - [ ] **Mode autonome** : brief en fichier avec schéma (URL, fichiers fournis, type de site, objectifs), parcours de bout en bout avec les 4 points d'arrêt.
 - [ ] **Fichiers fournis** : lire une charte PDF (`pdftotext`) et les couleurs d'un logo fourni, pas seulement les lister.
 - [ ] **Tester `make audit` sur de vrais sites en ligne** : site lourd en JavaScript, site qui bloque les robots.

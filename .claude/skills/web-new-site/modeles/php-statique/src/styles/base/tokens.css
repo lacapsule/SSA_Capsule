@@ -1,4 +1,9 @@
-/* N0 : seul endroit des valeurs brutes (skill web-design-system). */
+/* N0 écrit à la main : espaces, durées, mesures et tout token hors charte (skill web-design-system).
+   Couleurs, rôles de zone, polices et arrondis vivent dans base/charte.css (généré : charte neutre, puis la
+   piste validée par make appliquer). */
 :root {
-  --font-ui: system-ui, sans-serif;
+  --measure: 65ch;
+  --duration-fast: 150ms;
+  --duration-base: 300ms;
+  --ease: cubic-bezier(0.2, 0, 0, 1);
 }

@@ -128,14 +128,14 @@ export async function lancerNavigateur() {
 }
 
 /** Enregistre la validation d'un livrable (acte humain, sur instruction explicite). */
-export function valider(id, par) {
+export function valider(id, par, extra = {}) {
   const r = lireRegistre();
   const e = r.livrables[id];
   if (!e) throw new Error(`Livrable inconnu : ${id} (générer d'abord : make livrables)`);
   if (e.statut === 'constat') throw new Error(`${id} est un constat : il ne se valide pas.`);
   if (e.statut === 'brouillon') throw new Error(`${id} est en brouillon (source incomplète ou mode d'emploi non validé) : compléter la source, make livrables, puis valider.`);
   e.statut = 'validé';
-  e.validation = { par, date: new Date().toISOString().slice(0, 10), version: e.version };
+  e.validation = { par, date: new Date().toISOString().slice(0, 10), version: e.version, ...extra };
   ecrireRegistre(r);
   return e;
 }

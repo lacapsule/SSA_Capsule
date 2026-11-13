@@ -4,8 +4,9 @@ LOCAL ?= bash setup-local.sh
 PORT  ?= 8000
 PREVIEW_PORT ?= 8001
 HOST  ?= localhost
-# Domaine de production du projet (canonical, sitemap, audit)
-SITE  ?= https://example.org
+# Domaine de production : lu dans src/data/site.json (une seule source). Absent : les contrôles d'indexation
+# qui en dépendent sont sautés, et le build échoue de toute façon tant que site.json manque.
+SITE  ?= $(shell php -r '$$f = "src/data/site.json"; if (is_file($$f)) { echo json_decode(file_get_contents($$f), true)["url"] ?? ""; }' 2>/dev/null)
 AUDIT := .claude/skills/web-audit/scripts
 
 -include .claude/skills/livrables/livrables.mk

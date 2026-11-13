@@ -32,7 +32,8 @@ a {
   padding: 1rem 1.25rem;
   border: 1px solid var(--color-line);
   border-radius: var(--radius);
-  background: var(--color-surface);
+  color: var(--color-entete-texte);
+  background: var(--color-entete-fond);
 }
 
 .pl-logo {
@@ -63,7 +64,8 @@ a {
   margin: 1.5rem 0;
   padding: clamp(2rem, 5vw, 4rem);
   border-radius: var(--radius);
-  background: var(--color-surface);
+  color: var(--color-heros-texte);
+  background: var(--color-heros-fond);
 }
 
 .pl-heros h1 {
@@ -76,39 +78,21 @@ a {
   max-width: 60ch;
 }
 
-.marque-en-grand .pl-entete,
-.marque-en-grand .pl-heros {
-  border-color: var(--color-marque);
-  color: var(--color-marque-texte);
-  background: var(--color-marque);
+.pl-entete .pl-bouton {
+  border-color: var(--color-entete-accent);
+  color: var(--color-entete-fond);
+  background: var(--color-entete-accent);
 }
 
-.marque-en-grand .pl-entete a:not(.pl-bouton) {
-  color: var(--color-marque-texte);
+.pl-heros .pl-bouton {
+  border-color: var(--color-heros-accent);
+  color: var(--color-heros-fond);
+  background: var(--color-heros-accent);
 }
 
-.entete-marque .pl-entete {
-  border-color: var(--color-marque);
-  color: var(--color-marque-texte);
-  background: var(--color-marque);
-}
-
-.entete-marque .pl-entete a:not(.pl-bouton) {
-  color: var(--color-marque-texte);
-}
-
-.aere .pl-entete {
-  border-color: transparent;
+.pl-heros .pl-bouton-secondaire {
+  color: var(--color-heros-accent);
   background: transparent;
-}
-
-.aere .pl-heros {
-  padding-block: clamp(3rem, 8vw, 6rem);
-  background: var(--color-accent-soft);
-}
-
-.aere .pl-carte {
-  border-color: transparent;
 }
 
 .pl-actions {

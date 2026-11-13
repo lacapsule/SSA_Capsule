@@ -14,16 +14,17 @@ Principe : un livrable ne s'écrit jamais à la main. Il est généré depuis la
 | 01 | Audit de l'existant | site actuel et `docs/source/fournis/` | `make audit URL=https://site-actuel` | non (constat) |
 | 02 | Cahier des charges | `.claude/rules/projet.md` et audit | `make livrables` | **1** |
 | 03 | Wireframes | section « Arborescence » et `docs/maquettes/<page>.md` (skill `web-contenu`) | `make livrables` | **2** |
-| 04 | Direction artistique | couleurs, logo et polices de l'audit, champ `- metier:` du mode d'emploi, `donnees/directions.json` | `make livrables` | **3** (avec 05) |
-| 05 | Maquettes | le site en construction, captures bureau et 390 px | à venir | **3** |
-| 06 | PV de recette | `make verify`, `make a11y`, Lighthouse, checklist du skill `livraison` | à venir | **4**, avant mise en ligne |
-| 07 | Dossier de livraison | mode d'emploi, réglages, procédure de mise en ligne | à venir | non |
+| 04 | Direction artistique et maquettes | couleurs, logo et polices de l'audit, champ `- metier:`, `donnees/directions.json`, puis les vraies pages du site intégré | `make livrables` | **3** : le client choisit une piste sur ses propres pages |
+| 05 | PV de recette | `make verify`, `make a11y`, Lighthouse, checklist du skill `livraison` | à venir | **4**, avant mise en ligne |
+| 06 | Dossier de livraison | mode d'emploi, réglages, procédure de mise en ligne | à venir | non |
+
+Ordre imposé (chaque étape n'utilise que ce que les précédentes ont produit) : l'interview lance `make init` et `make audit` ; le cahier des charges validé (1) fige le type, donc l'architecture (`make socle` refuse avant) ; les wireframes validés (2) figent la structure ; les pages sont intégrées sur la charte neutre ; les pistes sont montrées sur ces pages et le client en choisit une (3), posée par `make appliquer` ; la recette (4) précède la mise en ligne. Type `outil-interne` : pas d'audit SEO ni d'exigence de référencement, une seule piste (coquille d'administration de la boîte, logo et accent du client).
 
 Les livrables marqués « à venir » se produisent à la main avec le même gabarit, en attendant leur générateur.
 
 ## 2. Démarrer depuis un site existant
 
-Quand l'humain donne le lien du site actuel, l'accord du client pour reprendre ses contenus est acquis (il demande un nouveau site).
+Quand l'humain donne le lien du site actuel, l'accord du client pour reprendre ses contenus est acquis (il demande un nouveau site). Ces étapes sont lancées par l'interview (skill `interview`, étape 0), pas avant elle.
 
 1. `make init` (une fois) pose `docs/source/fournis/{logo,charte,photos,textes,documents}`, `docs/maquettes/`, `docs/rapports/` et le mode d'emploi en brouillon. Fichiers reçus du client : les ranger dans le bon sous-dossier de `docs/source/fournis/`, tels quels.
 2. `make audit URL=https://site-actuel` (`MAX=80` pour un grand site) : parcourt les pages du même domaine et le sitemap, puis écrit `docs/source/existant/inventaire.json`, les captures (bureau et mobile) et les fichiers récupérés (logos, images). Génère ensuite le livrable 01.
@@ -35,7 +36,7 @@ Quand l'humain donne le lien du site actuel, l'accord du client pour reprendre s
 - `make livrables` régénère tout ce qui a une source. Version : +1 quand le contenu change ; un livrable changé après sa validation repasse « à valider ». Registre : `docs/livrables/registre.json`.
 - Un livrable porte un encadré « À compléter avant validation » tant que sa source a des trous (mode d'emploi en brouillon, `à confirmer`, `…`, section vide, SIREN absent).
 - Le cahier des charges reste « Brouillon », et ne peut pas être validé, tant que le mode d'emploi n'est pas `validé` ou que l'encadré n'est pas vide. Un constat (audit) ne se valide jamais.
-- Validation du client (mail, réunion, signature) : `make valider ID=02-cahier-des-charges PAR="Nom, par e-mail du AAAA-MM-JJ"`, seulement sur instruction de l'humain, puis une ligne dans « Décisions validées » du mode d'emploi.
+- Validation du client (mail, réunion, signature) : `make valider ID=02-cahier-des-charges PAR="Nom, par e-mail du AAAA-MM-JJ"`, seulement sur instruction de l'humain, puis une ligne dans « Décisions validées » du mode d'emploi. Pour le 04, la piste choisie est obligatoire : `PISTE=n`.
 - Les 4 validations du client sont des points d'arrêt : l'étape suivante ne commence pas avant (rule `00-organisation`, « Décider »).
 
 ## 4. Wireframes
@@ -52,8 +53,11 @@ Quand l'humain donne le lien du site actuel, l'accord du client pour reprendre s
 - Couleurs (`lib/couleurs.mjs`) : couleurs de marque prises dans le logo puis dans le site par poids ; jeu complet clair et sombre aux noms de `base/tokens.css` de la boîte, plus `--color-marque` et `--color-marque-texte` ; une couleur trop claire pour du texte est déclinée dans OKLCH (même teinte, clarté ajustée). Paires contrôlées : texte et texte secondaire, accent, messages, sur chaque fond (4,5:1), focus et contours (3:1), texte sur bouton et sur la couleur de marque.
 - Polices (`lib/polices.mjs`) : libres (OFL), téléchargées une fois depuis Google Fonts en woff2 latin dans `docs/source/polices/` (décision du 2026-11-13) ; aucune requête vers Google une fois le site en ligne. Police du système du site actuel (Georgia, Arial…) : gardée sans fichier. Police inconnue de Google : à demander au client avec sa licence web.
 - Métier (`donnees/directions.json`) : ton, deux paires de polices, arrondis, densité, style photo, sections de la boîte conseillées, à éviter. Un métier qui manque s'ajoute là, pas dans le code.
-- Chaque piste écrit `pistes/<n>-<nom>/tokens.css` (N0 prêt à poser dans le site, clair par défaut, sombre selon le système ou `data-theme`) et une planche avec les vrais textes du client, capturée en clair et en sombre.
-- Brouillon tant que les wireframes ne sont pas validés.
+- Ce qui distingue les pistes passe uniquement par des tokens, pour que la planche et le site montrent la même chose : rôles de zone `--color-entete-fond`, `--color-entete-texte`, `--color-entete-accent`, `--color-heros-fond`, `--color-heros-texte`, `--color-heros-accent` (en-tête dans la couleur de marque, haut de page teinté, marque en grand). Dans une zone, liens et boutons prennent l'accent de la zone, décliné pour 4,5:1 sur son fond ; un bouton de zone a l'accent en fond et le fond de zone en texte.
+- Chaque piste écrit `pistes/<n>-<nom>/tokens.css` (clair par défaut, sombre selon le système ou `data-theme`) et une planche avec les vrais textes du client, capturée en clair et en sombre.
+- Maquettes (`lib/maquettes.mjs`) : une fois les pages intégrées (après la validation 2), le site est construit et servi en local (socle statique ; socle dynamique : `SITE_LOCAL=http://… make livrables`), et chaque piste est appliquée par-dessus à chaque page de l'arborescence (1280 et 390 px, accueil en sombre). Pages absentes : livrable en brouillon.
+- Après la validation 3 : `make appliquer` écrit la piste dans `src/styles/base/charte.css` (socle statique ; dynamique : `public/assets/css/charte.css`) et copie ses polices dans `public/polices/`. `charte.css` est généré : charte neutre du modèle avant, piste validée après ; les autres tokens restent dans `base/tokens.css`.
+- Brouillon tant que les wireframes ne sont pas validés ou que les pages ne sont pas intégrées.
 
 ## 6. Rangement
 

@@ -1,8 +1,12 @@
 #!/usr/bin/env bash
 # SPDX-License-Identifier: GPL-3.0-or-later
-# Pose le socle choisi à l'interview à la racine du dépôt (make statique ou make dynamique, Makefile du modèle).
-#   statique  : modèle skills/web-new-site/modeles/php-statique/ du kit
-#   dynamique : brique gabarits/socle-php de la boîte à outils (../kouzia-boite-a-outils, clonée par make deps)
+# Pose l'architecture du projet à la racine du dépôt, d'après le type de site du mode d'emploi.
+#   make socle      : socle déduit du type (rule types-de-site)
+#   make statique   : modèle skills/web-new-site/modeles/php-statique/ du kit
+#   make dynamique  : brique gabarits/socle-php de la boîte à outils (../kouzia-boite-a-outils, clonée par make deps)
+# Garde : l'architecture dépend du type, et le type n'est figé qu'à la validation 1 du client (cahier des charges).
+# Refus si le mode d'emploi n'est pas validé, si le cahier des charges n'est pas validé par le client,
+# ou si le socle demandé ne convient pas au type.
 # Collisions traitées une par une (rule web-method) : seuls le Makefile et le README.md du modèle de dépôt
 # sont remplacés (ils décrivent le modèle, pas le site) ; toute autre collision arrête tout, rien n'est copié.
 set -euo pipefail
@@ -11,10 +15,34 @@ socle="${1:-}"
 racine="$(git rev-parse --show-toplevel 2>/dev/null || pwd)"
 cd "$racine"
 
+mode=".claude/rules/projet.md"
+refuser() { echo "Socle non posé : $*" >&2; exit 1; }
+[[ -f "$mode" ]] || refuser "pas de mode d'emploi (.claude/rules/projet.md) : l'interview d'abord."
+type_site="$(grep -m1 -E '^- type:' "$mode" | sed -E 's/^- type:[[:space:]]*//; s/[[:space:]]*$//')"
+statut="$(grep -m1 -E '^- statut:' "$mode" | sed -E 's/^- statut:[[:space:]]*//')"
+[[ "$statut" == validé* ]] || refuser "mode d'emploi en statut « ${statut:-inconnu} » : le faire valider d'abord."
+registre="docs/livrables/registre.json"
+cahier="$( [[ -f "$registre" ]] && node -e 'const r=require(process.argv[1]);process.stdout.write(r.livrables?.["02-cahier-des-charges"]?.statut ?? "")' "$racine/$registre" || true)"
+[[ "$cahier" == "validé" ]] || refuser "cahier des charges pas encore validé par le client (validation 1, statut « ${cahier:-non généré} ») : le type de projet, donc l'architecture, peut encore changer."
+
+# Socles permis par type (rule types-de-site) ; le premier est celui de make socle.
+case "$type_site" in
+    vitrine) permis=(statique) ;;
+    vitrine-formulaire) permis=(statique dynamique) ;;
+    associatif|boutique|espace-client) permis=(dynamique) ;;
+    outil-interne) refuser "type outil-interne : le socle application (logiciel) n'existe pas encore dans le kit (à décider : Fastify, React ou PHP)." ;;
+    *) refuser "type de site absent ou invalide (« ${type_site:-rien} ») dans le mode d'emploi." ;;
+esac
+[[ "$socle" == "auto" ]] && socle="${permis[0]}"
+convient=0
+for p in "${permis[@]}"; do [[ "$p" == "$socle" ]] && convient=1; done
+((convient)) || refuser "le socle « $socle » ne convient pas au type « $type_site » (permis : ${permis[*]})."
+echo "Type « $type_site » : socle $socle."
+
 case "$socle" in
     statique) source_socle="$racine/.claude/skills/web-new-site/modeles/php-statique" ;;
     dynamique) source_socle="$(dirname "$racine")/kouzia-boite-a-outils/elements/gabarits/socle-php/source" ;;
-    *) echo "Usage : $0 statique|dynamique" >&2; exit 2 ;;
+    *) echo "Usage : $0 auto|statique|dynamique" >&2; exit 2 ;;
 esac
 
 if [[ ! -d "$source_socle" ]]; then

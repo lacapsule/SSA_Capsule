@@ -4,7 +4,7 @@
 KIT := .claude/skills
 
 .DEFAULT_GOAL := help
-.PHONY: help deps outils statique dynamique
+.PHONY: help deps outils socle statique dynamique
 
 -include .claude/skills/livrables/livrables.mk
 
@@ -18,8 +18,11 @@ deps: ## Installe tout en une commande : paquets système, boîte à outils (clo
 outils: ## État des outils et de la boîte à outils, sans rien installer
 	bash $(KIT)/web-audit/scripts/check-outils.sh
 
-statique: ## Pose le socle statique PHP (vitrine), choisi à l'interview
+socle: ## Pose l'architecture déduite du type de site (après la validation 1 du client)
+	bash $(KIT)/web-new-site/demarrer.sh auto
+
+statique: ## Pose le socle statique PHP (vitrine, vitrine-formulaire), même garde que make socle
 	bash $(KIT)/web-new-site/demarrer.sh statique
 
-dynamique: ## Pose le socle dynamique PHP (gabarits/socle-php de la boîte), choisi à l'interview
+dynamique: ## Pose le socle dynamique PHP (gabarits/socle-php de la boîte), même garde que make socle
 	bash $(KIT)/web-new-site/demarrer.sh dynamique

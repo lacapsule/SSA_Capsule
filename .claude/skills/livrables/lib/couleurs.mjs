@@ -118,7 +118,7 @@ export function couleursDeMarque(identite) {
  * Jeu de tokens couleur d'un thème. options : { primaire, accent, fond (clair) , sombre (bool), teinteNeutre }.
  * Tous les rôles reprennent les noms de base/tokens.css de la boîte, plus --color-marque et --color-marque-texte.
  */
-export function jeuCouleurs({ primaire, accent, fond, sombre = false }) {
+export function jeuCouleurs({ primaire, accent, fond, sombre = false, style = 'neutre' }) {
   const teinte = primaire ?? accent ?? '#6b7280';
   const neutre = (l, c = 0.012) => varier(teinte, { l, c });
   const t = {};
@@ -155,6 +155,21 @@ export function jeuCouleurs({ primaire, accent, fond, sombre = false }) {
   t['--color-success'] = statut(150);
   t['--color-warning'] = statut(70);
   t['--color-info'] = statut(260);
+  // Rôles de zone : ce qui distingue les pistes sur les vraies pages (en-tête et haut de page), en tokens.
+  const zones = {
+    neutre: ['--color-surface', '--color-text', '--color-surface', '--color-text'],
+    'entete-marque': ['--color-marque', '--color-marque-texte', '--color-surface', '--color-text'],
+    aere: ['--color-bg', '--color-text', '--color-accent-soft', '--color-text'],
+    'marque-en-grand': ['--color-marque', '--color-marque-texte', '--color-marque', '--color-marque-texte'],
+  }[style] ?? [];
+  [t['--color-entete-fond'], t['--color-entete-texte'], t['--color-heros-fond'], t['--color-heros-texte']] = zones.map((k) => t[k]);
+  // Accent propre à chaque zone (liens et boutons posés dessus) : l'accent décliné pour 4,5:1 sur le fond de la
+  // zone, sinon la couleur de texte de la zone. Un bouton de zone prend l'accent en fond et le fond de zone en texte.
+  for (const z of ['entete', 'heros']) {
+    const fondZone = t[`--color-${z}-fond`];
+    const essai = ajusterContraste(acc, fondZone, 4.6);
+    t[`--color-${z}-accent`] = contraste(essai, fondZone) >= 4.5 && contraste(essai, fondZone) > 0 && !['#000000', '#ffffff'].includes(essai) ? essai : t[`--color-${z}-texte`];
+  }
   return t;
 }
 
@@ -165,6 +180,8 @@ export function verifierJeu(t) {
     paires.push(['--color-text', fond, 4.5, 'texte'], ['--color-text-muted', fond, 4.5, 'texte secondaire'], ['--color-accent', fond, 4.5, 'lien et texte d\'accent'], ['--color-focus', fond, 3, 'contour de focus']);
     for (const s of ['--color-danger', '--color-success', '--color-warning', '--color-info']) paires.push([s, fond, 4.5, 'message']);
   }
+  paires.push(['--color-entete-texte', '--color-entete-fond', 4.5, 'texte de l\'en-tête'], ['--color-heros-texte', '--color-heros-fond', 4.5, 'texte du haut de page']);
+  paires.push(['--color-entete-accent', '--color-entete-fond', 4.5, 'lien et bouton de l\'en-tête'], ['--color-heros-accent', '--color-heros-fond', 4.5, 'lien et bouton du haut de page']);
   paires.push(['--color-text', '--color-accent-soft', 4.5, 'texte sur fond teinté'], ['--color-text-muted', '--color-accent-soft', 4.5, 'texte secondaire sur fond teinté']);
   paires.push(['--color-border', '--color-bg', 3, 'contour de champ'], ['--color-accent-text', '--color-accent', 4.5, 'texte sur bouton'], ['--color-marque-texte', '--color-marque', 4.5, 'texte sur la couleur de marque']);
   return paires.map(([a, b, cible, usage]) => ({ avant: a, fond: b, cible, usage, ratio: contraste(t[a], t[b]), ok: contraste(t[a], t[b]) >= cible }));

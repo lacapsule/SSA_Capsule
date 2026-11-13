@@ -3,19 +3,33 @@
 //   01-audit-existant      ← docs/source/existant/inventaire.json (make audit URL=…)
 //   02-cahier-des-charges  ← .claude/rules/projet.md (mode d'emploi) et l'audit
 //   03-wireframes          ← section « Arborescence » du mode d'emploi et docs/maquettes/<page>.md
-//   04-direction-artistique ← branding de l'audit, champ « metier » du mode d'emploi, donnees/directions.json
+//   04-direction-artistique ← branding de l'audit, champ « metier » du mode d'emploi, donnees/directions.json,
+//                             puis chaque piste sur les vraies pages du site intégré (maquettes)
 // Usage : node generer.mjs [id…]            génère les livrables dont la source existe
-//         node generer.mjs --valider <id> "<qui>"   enregistre la validation (sur instruction de l'humain)
-import { existsSync, readFileSync } from 'node:fs';
+//         node generer.mjs --valider <id> "<qui>" [piste]   enregistre la validation (sur instruction de l'humain) ;
+//                                                   04 : numéro de la piste choisie obligatoire
+//         node generer.mjs --appliquer               pose la piste validée dans le site (base/charte.css, polices)
+import { copyFileSync, existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 import { DOSSIER_LIVRABLES, echapper, ecrireLivrable, lancerNavigateur, lireRegistre, markdown, poserCommun, RACINE, valider } from '../lib/document.mjs';
 import { wireframes } from '../lib/wireframes.mjs';
 import { directionArtistique } from '../lib/direction.mjs';
+import { pistesSurPages } from '../lib/maquettes.mjs';
+import { DOSSIER_POLICES } from '../lib/polices.mjs';
+
+const DOSSIER_PISTES = path.join(DOSSIER_LIVRABLES, '04-direction-artistique/pistes');
+const dossierPiste = (n) => readdirSync(DOSSIER_PISTES).find((d) => d.startsWith(`${n}-`));
 
 const args = process.argv.slice(2);
 if (args[0] === '--valider') {
-  if (!args[1] || !args[2]) { console.error('Usage : node generer.mjs --valider <id> "<qui, comment>"'); process.exit(2); }
-  const e = valider(args[1], args[2]);
+  if (!args[1] || !args[2]) { console.error('Usage : node generer.mjs --valider <id> "<qui, comment>" [piste]'); process.exit(2); }
+  const extra = {};
+  if (args[1] === '04-direction-artistique') {
+    if (!args[3] || !existsSync(DOSSIER_PISTES) || !dossierPiste(args[3])) { console.error('04 : préciser la piste choisie par le client (PISTE=1, 2 ou 3).'); process.exit(2); }
+    extra.piste = Number(args[3]);
+  }
+  const e = valider(args[1], args[2], extra);
+  if (extra.piste) console.log(`Piste ${extra.piste} retenue : make appliquer la pose dans le site.`);
   console.log(`${args[1]} : version ${e.version} validée le ${e.validation.date} par ${e.validation.par}. Le noter dans « Décisions validées » du mode d'emploi.`);
   process.exit(0);
 }
@@ -218,7 +232,8 @@ function cahierDesCharges(mode, inv) {
     inv ? `## Reprise de l'existant\n\n- Site actuel audité : ${inv.source} (livrable 01, ${inv.pagesLues} pages).\n- ${inv.anciennesAdresses.length} anciennes adresses redirigées en 301 vers les nouvelles pages.\n- Logo, couleurs et polices relevés : point de départ de la direction artistique (validation 3).\n` : '',
     section('Ton et vocabulaire', 'Ton et vocabulaire', 'À définir.'),
     section('Contenus et données', 'Données et contenus', 'À définir.'),
-    `## Exigences\n\n${EXIGENCES_COMMUNES}\n${EXIGENCES_TYPE[mode.type] ?? ''}\n`,
+    // Un outil interne n'est jamais indexé : pas d'exigence de référencement.
+    `## Exigences\n\n${mode.type === 'outil-interne' ? EXIGENCES_COMMUNES.split('\n').filter((l) => !/Référencement/.test(l)).join('\n') : EXIGENCES_COMMUNES}\n${EXIGENCES_TYPE[mode.type] ?? ''}\n`,
     section('Hébergement', 'Hébergement et accès', 'À définir.'),
     section('Décisions prises', 'Décisions validées', 'Aucune décision encore notée.'),
     section('Étapes', 'Étapes', 'À définir.'),
@@ -263,21 +278,60 @@ if (veut('03-wireframes') && mode) {
     }));
   }
 }
+if (args[0] === '--appliquer') {
+  // La piste validée (validation 3) devient la charte du site : fichier généré, jamais modifié à la main.
+  const e = lireRegistre().livrables['04-direction-artistique'];
+  if (e?.statut !== 'validé' || !e.validation?.piste) { console.error('Direction artistique pas validée avec une piste (make valider ID=04-direction-artistique PAR="…" PISTE=n).'); process.exit(1); }
+  const rep = path.join(DOSSIER_PISTES, dossierPiste(e.validation.piste));
+  const statique = existsSync(path.join(RACINE, 'src/styles/ordre.json'));
+  const dynamique = existsSync(path.join(RACINE, 'app/bootstrap.php'));
+  if (!statique && !dynamique) { console.error('Aucun socle posé : make socle d\'abord.'); process.exit(1); }
+  const basePolices = statique ? '/polices' : '/assets/polices';
+  const dossierPublic = path.join(RACINE, statique ? 'public/polices' : 'public/assets/polices');
+  const css = readFileSync(path.join(rep, 'tokens.css'), 'utf8').replaceAll('../../../../source/polices', basePolices);
+  const entete = `/* Généré par make appliquer depuis la piste ${e.validation.piste} du livrable 04, validée le ${e.validation.date} (${e.validation.par}).\n   Ne pas modifier : changer la piste ou ses sources, régénérer, revalider, puis make appliquer. */\n`;
+  for (const m of css.matchAll(new RegExp(`url\\("${basePolices}/([^"]+)"\\)`, 'g'))) {
+    mkdirSync(path.dirname(path.join(dossierPublic, m[1])), { recursive: true });
+    copyFileSync(path.join(DOSSIER_POLICES, m[1]), path.join(dossierPublic, m[1]));
+  }
+  if (statique) {
+    // charte.css remplace la charte neutre du modèle (même fichier, même place dans ordre.json).
+    writeFileSync(path.join(RACINE, 'src/styles/base/charte.css'), entete + css);
+    const f = path.join(RACINE, 'src/styles/ordre.json');
+    const ordre = JSON.parse(readFileSync(f, 'utf8'));
+    if (!ordre.fichiers.includes('base/charte.css')) {
+      ordre.fichiers.splice(ordre.fichiers.indexOf('base/tokens.css') + 1, 0, 'base/charte.css');
+      writeFileSync(f, JSON.stringify(ordre, null, 2) + '\n');
+    }
+    console.log(`Piste ${e.validation.piste} posée : src/styles/base/charte.css, polices dans public/polices/.`);
+  } else {
+    mkdirSync(path.join(RACINE, 'public/assets/css'), { recursive: true });
+    writeFileSync(path.join(RACINE, 'public/assets/css/charte.css'), entete + css);
+    console.log(`Piste ${e.validation.piste} posée : public/assets/css/charte.css et public/assets/polices/. À lier dans templates/layout.php juste après la feuille des tokens.`);
+  }
+  process.exit(0);
+}
+
 if (veut('04-direction-artistique') && mode && (inv || demandes.length)) {
   poserCommun();
   const navigateur = await lancerNavigateur();
   const maquetteAccueil = existsSync(path.join(RACINE, 'docs/maquettes/accueil.md')) ? readFileSync(path.join(RACINE, 'docs/maquettes/accueil.md'), 'utf8') : '';
-  const { corps, avertissements, sourcesRendues } = await directionArtistique({
-    inventaire: inv, mode, arborescence: lireArborescence(mode), metier: mode.metier, maquetteAccueil,
+  const da = await directionArtistique({
+    inventaire: inv, mode, arborescence: lireArborescence(mode), metier: mode.metier, type: mode.type, maquetteAccueil,
     dossier: path.join(DOSSIER_LIVRABLES, '04-direction-artistique'), navigateur,
   });
+  // Maquettes : les mêmes pistes sur les vraies pages du site intégré.
+  const surPages = await pistesSurPages({ pistes: da.pistes.map((p) => ({ ...p, dossier: path.dirname(path.join(RACINE, p.tokens)) })), arborescence: lireArborescence(mode), navigateur });
+  const corps = da.corps.replace('<h2>Ce que le client valide</h2>', surPages.corps + '<h2>Ce que le client valide</h2>');
+  const avertissements = [...da.avertissements, ...surPages.avertissements];
+  const sourcesRendues = da.sourcesRendues + surPages.sourcesRendues;
   await navigateur.close();
   // Ordre de la chaîne : l'apparence se choisit sur une structure validée (validation 2).
   if (lireRegistre().livrables['03-wireframes']?.statut !== 'validé') avertissements.unshift('Wireframes pas encore validés par le client : la direction artistique attend la validation 2.');
   if (!inv) avertissements.push("Pas d'audit du site actuel : couleurs, logo et polices du client inconnus (make audit URL=…, ou fichiers dans docs/source/fournis/).");
   faits.push(await ecrireLivrable({
-    id: '04-direction-artistique', titre: 'Direction artistique', client: mode.nom,
-    sousTitre: "Trois directions possibles pour l'apparence du site, construites depuis la marque actuelle et le métier, toutes conformes en contraste.",
+    id: '04-direction-artistique', titre: 'Direction artistique et maquettes', client: mode.nom,
+    sousTitre: "Trois directions possibles pour l'apparence du site, construites depuis la marque actuelle et le métier, toutes conformes en contraste, puis montrées sur les vraies pages du nouveau site.",
     corps, sourcesRendues, brouillon: avertissements.length > 0, avertissements,
   }));
 }

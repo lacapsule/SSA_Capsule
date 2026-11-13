@@ -1,0 +1,96 @@
+/* Charte neutre, générée par .claude/skills/livrables/scripts/tokens-neutres.mjs : ne pas modifier.
+   Palette grise pour intégrer les pages avant le choix de la direction artistique, contrastes vérifiés. Dans une
+   zone (en-tête, haut de page), liens et boutons prennent --color-<zone>-accent. Après la validation 3,
+   make appliquer remplace ce fichier par la piste choisie. Les autres tokens (espaces, durées) : base/tokens.css. */
+:root {
+  --color-bg: #f8fafe;
+  --color-surface: #ffffff;
+  --color-surface-2: #edf0f7;
+  --color-text: #161b24;
+  --color-text-muted: #505561;
+  --color-line: #dadee6;
+  --color-line-strong: #b9bec8;
+  --color-border: #747a87;
+  --color-accent: #666c7a;
+  --color-accent-strong: #505563;
+  --color-accent-soft: #f3f3f4;
+  --color-accent-text: #ffffff;
+  --color-focus: #6b7280;
+  --color-marque: #6b7280;
+  --color-marque-texte: #ffffff;
+  --color-danger: #a83630;
+  --color-success: #007835;
+  --color-warning: #8a5600;
+  --color-info: #2a5fb7;
+  --color-entete-fond: #ffffff;
+  --color-entete-texte: #161b24;
+  --color-heros-fond: #ffffff;
+  --color-heros-texte: #161b24;
+  --color-entete-accent: #6b7280;
+  --color-heros-accent: #6b7280;
+  --font-titres: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-ui: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --radius: 0.5rem;
+  --radius-small: 0.25rem;
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --color-bg: #0b0f18;
+    --color-surface: #131823;
+    --color-surface-2: #1c222d;
+    --color-text: #ebeff5;
+    --color-text-muted: #a8aebb;
+    --color-line: #292e38;
+    --color-line-strong: #424853;
+    --color-border: #6c727e;
+    --color-accent: #818b99;
+    --color-accent-strong: #99a3b2;
+    --color-accent-soft: #202631;
+    --color-accent-text: #070b14;
+    --color-focus: #6b7280;
+    --color-marque: #6b7280;
+    --color-marque-texte: #ffffff;
+    --color-danger: #ff968a;
+    --color-success: #67d283;
+    --color-warning: #f4a437;
+    --color-info: #8db8ff;
+    --color-entete-fond: #131823;
+    --color-entete-texte: #ebeff5;
+    --color-heros-fond: #131823;
+    --color-heros-texte: #ebeff5;
+    --color-entete-accent: #7b8291;
+    --color-heros-accent: #7b8291;
+    color-scheme: dark;
+  }
+}
+
+:root[data-theme="dark"] {
+  --color-bg: #0b0f18;
+  --color-surface: #131823;
+  --color-surface-2: #1c222d;
+  --color-text: #ebeff5;
+  --color-text-muted: #a8aebb;
+  --color-line: #292e38;
+  --color-line-strong: #424853;
+  --color-border: #6c727e;
+  --color-accent: #818b99;
+  --color-accent-strong: #99a3b2;
+  --color-accent-soft: #202631;
+  --color-accent-text: #070b14;
+  --color-focus: #6b7280;
+  --color-marque: #6b7280;
+  --color-marque-texte: #ffffff;
+  --color-danger: #ff968a;
+  --color-success: #67d283;
+  --color-warning: #f4a437;
+  --color-info: #8db8ff;
+  --color-entete-fond: #131823;
+  --color-entete-texte: #ebeff5;
+  --color-heros-fond: #131823;
+  --color-heros-texte: #ebeff5;
+  --color-entete-accent: #7b8291;
+  --color-heros-accent: #7b8291;
+  color-scheme: dark;
+}

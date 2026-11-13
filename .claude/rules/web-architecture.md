@@ -13,7 +13,7 @@ Le socle se choisit à l'interview, jamais par défaut. Trois socles possibles :
 - Rangement Astro : `src/pages/` (une page = un fichier = une URL), `src/layouts/`, `src/components/`, `src/content/<collection>/*.md`, `src/data/*.json`, `src/styles/`, `public/` (copié tel quel). Une source de données unique alimente HTML, méta, JSON-LD et `llms.txt`.
 - Commandes par `make` : `help`, `info`, `deps`, `dev`, `build`, `preview`, `lint`, `check`, `repo`, `verify`, `clean`. `make verify` = tout ce qui doit être vert avant livraison.
 - URL avec barre finale, minuscules ASCII, mots séparés par `-`.
-- Poser le socle : `make statique` ou `make dynamique` depuis le modèle de dépôt ; installer : `make deps` (une commande, boîte à outils comprise).
+- Poser le socle : `make socle` (déduit du type de site, refusé tant que le cahier des charges n'est pas validé par le client, car le type peut encore changer), ou `make statique` / `make dynamique` sous la même garde ; installer : `make deps` (une commande, boîte à outils comprise). Type `outil-interne` : socle application à créer (base à décider).
 
 ## Couches (reprises du portail de CapsuleOS)
 
@@ -24,7 +24,7 @@ Chaque fichier appartient à une couche, qui dit ce qu'il contient et qui l'écr
 | Données (vérité) | `src/data/*.json`, chacun validé par `src/data/schemas/<nom>.schema.json` ; `src/content/` | `config/<domaine>.php`, `migrations/`, base de données | humain (interview), agent |
 | Moteur | `src/lib/`, `bin/` | `app/Core/`, `app/<Domaine>/`, `scripts/` | agent, kit, boîte |
 | Vues | `src/layouts/` (une famille par gabarit : `Base`, `Contenu`, `Isolee`), `src/components/` (un bloc par fichier) | `templates/layout.php`, `templates/<domaine>/`, `templates/partials/<domaine>/` | agent |
-| Styles | `src/styles/{base,composants,sections,pages}/`, assemblés dans l'ordre de `src/styles/ordre.json` | `public/assets/css/<domaine>.css` | agent |
+| Styles | `src/styles/{base,composants,sections,pages}/`, assemblés dans l'ordre de `src/styles/ordre.json` ; `base/charte.css` généré (charte neutre, puis piste validée par `make appliquer`) | `public/assets/css/<domaine>.css`, `public/assets/css/charte.css` (généré) | agent ; charte : `make appliquer` |
 | Entrées publiques | `src/pages/` (un fichier, une URL) | `public/index.php` et `app/<Domaine>/routes.php` | agent |
 | Généré | `dist/` (HTML, feuille au nom haché, sitemap, robots, llms) | aucun | build |
 | Exécution | aucune | `data/` (base de dev, journaux), jamais versionné | serveur |

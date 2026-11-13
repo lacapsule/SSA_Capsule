@@ -1,2 +1,24 @@
-/* Éléments HTML de base. */
-body { font-family: var(--font-ui); }
+/* Éléments HTML de base : uniquement des tokens (base/tokens.css, puis base/charte.css une fois la piste posée). */
+body {
+  margin: 0;
+  font-family: var(--font-ui);
+  line-height: 1.6;
+  color: var(--color-text);
+  background: var(--color-bg);
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-titres);
+  line-height: 1.2;
+}
+
+a {
+  color: var(--color-accent);
+}
+
+:focus-visible {
+  outline: 0.1875rem solid var(--color-focus);
+  outline-offset: 0.125rem;
+}

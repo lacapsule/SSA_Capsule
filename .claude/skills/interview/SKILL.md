@@ -14,6 +14,7 @@ But : un mode d'emploi assez complet pour que tout le travail puisse être fait 
 
 ## Déroulé
 
+0. **Poser le cadre** (projet neuf) : `make init` (squelette `docs/`, mode d'emploi en brouillon, adresse du modèle retirée du dépôt), puis demander à l'humain le lien du site actuel et les fichiers du client, rangés dans `docs/source/fournis/`. Première question de l'interview : la demande, puis le **type de projet** et le **métier** (ils décident de l'architecture et de la direction artistique). Rien d'autre n'est créé avant la validation 1 : le socle se pose ensuite par `make socle`.
 1. **Analyser sans rien modifier** (tous les cas, approfondi pour un projet existant) :
    - documentation : README, `CLAUDE.md`, `AGENTS.md`, docs, ancien mode d'emploi, commentaires d'en-tête ;
    - historique : `git log` (rythme, auteurs, dernières zones touchées), branches, tags ;

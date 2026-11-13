@@ -15,6 +15,7 @@ Rien ne se code avant un mode d'emploi validé (`.claude/rules/projet.md`). Les 
 
 Le socle (statique PHP à l'architecture Astro, Astro sur demande, dynamique PHP) se tranche à l'interview. Point de départ selon le socle, jamais une page blanche :
 
+- `make socle` choisit d'après le type (après la validation 1) ; à défaut :
 - statique PHP : `make statique` (modèle `modeles/php-statique/` de ce skill, voir son README) ;
 - dynamique PHP : `make dynamique` (brique `gabarits/socle-php` de la boîte, puis `NOTES.md`, « Intégration pas à pas »), plus `gabarits/site-public-php` pour les pages publiques ; pas de copie dans le kit (une seule source) ;
 - Astro : la brique `gabarits/page-base-seo` de la boîte.
@@ -58,11 +59,14 @@ Une demande multi-métiers se découpe : classer, charger les skills des rôles 
 
 ## 5. Ordre de livraison
 
-1. Audit du site actuel et des fichiers fournis (`make audit URL=…`, livrable 01), interview, mode d'emploi validé, données sources créées (même incomplètes, éléments manquants dans « À fournir »).
-2. Cahier des charges (`make livrables`, livrable 02) : **validation 1 du client**.
-3. Maquette en texte de chaque page (skill `web-contenu`), rendue en wireframes (livrable 03) : **validation 2**.
-4. Direction artistique depuis le branding relevé (livrable 04), tokens et composants de base (skill `web-design-system`), maquettes (livrable 05) : **validation 3**.
-5. Textes rédigés depuis les faits (skill `web-contenu`), gabarits de pages avec ce contenu réel, mobile d'abord ; image de partage et icônes (`make images`, skill `web-media`).
-6. SEO, données structurées, pages légales.
-7. Formulaires et sécurité.
-8. Recette complète (skill `web-audit`), PV de recette (livrable 06) : **validation 4**, puis livraison (skill `livraison`), mise en production (skill `web-release`) et dossier de livraison (livrable 07).
+Chaque étape n'utilise que ce que les précédentes ont produit (skill `livrables`, « Ordre imposé »).
+
+1. Humain : copier le modèle, `make deps`, ouvrir Claude.
+2. Interview (skill `interview`, étape 0) : `make init`, lien du site actuel et fichiers du client, `make audit URL=…` (livrable 01), type et métier en premier, mode d'emploi validé par l'humain.
+3. Cahier des charges (`make livrables`, livrable 02) : **validation 1 du client**, qui fige le type.
+4. `make socle` : architecture déduite du type (refusée avant la validation 1 ou si le type et le socle ne vont pas ensemble) ; `src/data/` rempli depuis le mode d'emploi (domaine dans `site.json`, une seule source).
+5. Maquette en texte de chaque page (skill `web-contenu`), rendue en wireframes (livrable 03) : **validation 2**, qui fige la structure.
+6. Intégration des pages avec leurs vrais contenus (skill `web-contenu`, briques de la boîte), sur la charte neutre du modèle, mobile d'abord.
+7. Direction artistique et maquettes (livrable 04) : trois pistes montrées sur ces pages, **validation 3** (`make valider … PISTE=n`), puis `make appliquer`.
+8. Finitions : SEO, données structurées, pages légales, formulaires et sécurité, image de partage et icônes (`make images`, skill `web-media`).
+9. Recette complète (skill `web-audit`), PV de recette (livrable 05) : **validation 4**, puis livraison (skill `livraison`), mise en production (skill `web-release`) et dossier de livraison (livrable 06).

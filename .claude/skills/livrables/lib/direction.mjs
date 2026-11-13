@@ -33,8 +33,11 @@ async function police(famille, classe, notes) {
   return { famille, classe, pile: pile(famille, classe), telechargee: p, licence: p.licence };
 }
 
-/** tokens.css d'une piste : polices, couleurs claires par défaut, sombres selon la préférence du système ou data-theme. */
-function tokensCss(piste, baseFichiers) {
+/**
+ * tokens.css d'une piste : polices, couleurs claires par défaut, sombres selon la préférence du système ou data-theme.
+ * baseFichiers : adresse du dossier des polices vu par la feuille (livrable, ou /polices une fois posée dans le site).
+ */
+export function tokensCss(piste, baseFichiers) {
   const lignes = (t) => Object.entries(t).map(([k, v]) => `  ${k}: ${v};`).join('\n');
   const faces = [piste.titres, piste.texte].filter((p) => p?.telechargee).map((p) => fontFace(p.telechargee, baseFichiers));
   return `/* Piste ${piste.numero} « ${piste.nom} » (livrable 04, direction artistique) : généré, à poser tel quel comme N0.
@@ -42,24 +45,24 @@ function tokensCss(piste, baseFichiers) {
 ${[...new Set(faces)].join('\n')}
 
 :root {
-  color-scheme: light;
 ${lignes(piste.clair)}
   --font-titres: ${piste.titres.pile};
   --font-ui: ${piste.texte.pile};
   --radius: ${piste.rayon}rem;
   --radius-small: ${Math.max(0.125, piste.rayon / 2)}rem;
+  color-scheme: light;
 }
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    color-scheme: dark;
 ${lignes(piste.sombre).replace(/^/gm, '  ')}
+    color-scheme: dark;
   }
 }
 
 :root[data-theme="dark"] {
-  color-scheme: dark;
 ${lignes(piste.sombre)}
+  color-scheme: dark;
 }
 `;
 }
@@ -71,7 +74,7 @@ function planche(piste, contenu, theme) {
 <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex">
 <title>Piste ${piste.numero} : ${echapper(piste.nom)}</title>
 <link rel="stylesheet" href="tokens.css"><link rel="stylesheet" href="../../../_commun/planche.css"></head>
-<body class="${piste.style}">
+<body>
 <header class="pl-entete">
   ${contenu.logo ? `<img class="pl-logo" src="${echapper(contenu.logo)}" alt="${echapper(contenu.nom)}">` : `<span class="pl-nom">${echapper(contenu.nom)}</span>`}
   <nav aria-label="Menu"><ul>${contenu.menu.map((m) => `<li><a href="#">${echapper(m)}</a></li>`).join('')}</ul></nav>
@@ -101,7 +104,7 @@ ${Object.entries(theme === 'light' ? piste.clair : piste.sombre).filter(([k]) =>
  * Construit les trois pistes et le corps du livrable. entrees : { inventaire, mode, arborescence, metier, dossier, navigateur, maquetteAccueil }.
  * Renvoie { corps, avertissements, sourcesRendues }.
  */
-export async function directionArtistique({ inventaire, mode, arborescence, metier, dossier, navigateur, maquetteAccueil }) {
+export async function directionArtistique({ inventaire, mode, arborescence, metier, type, dossier, navigateur, maquetteAccueil }) {
   const avert = [];
   const notes = [];
   const dir = DIRECTIONS[metier] ?? DIRECTIONS.defaut;
@@ -121,6 +124,12 @@ export async function directionArtistique({ inventaire, mode, arborescence, meti
     { numero: 2, cle: 'modernisee', nom: 'Modernisée', principe: `Les mêmes teintes, utilisées avec retenue sur un fond clair et neutre, une typographie actuelle adaptée au métier (${dir.libelle.toLowerCase()}) et plus d'espace.`, primaire: marque.primaire, accent: marque.accent, fond: null, titres: await police(...dir.modernisee.titres, notes), texte: await police(...dir.modernisee.texte, notes), rayon: dir.rayon, style: 'aere' },
     { numero: 3, cle: 'contrastee', nom: 'Contrastée', principe: "Un parti pris plus marqué : la couleur de marque en grand dans l'en-tête et le haut de page, une typographie à plus fort caractère, des angles plus nets.", primaire: marque.primaire, accent: marque.accent, fond: null, titres: await police(...dir.contrastee.titres, notes), texte: await police(...dir.contrastee.texte, notes), rayon: Math.max(0.125, dir.rayon / 2), style: 'marque-en-grand' },
   ].filter((p) => p.titres && p.texte);
+  // Outil interne : le design d'administration de référence est la coquille de la boîte (gabarits/admin-coquille) ;
+  // seule une piste, qui en reprend le logo et la couleur d'accent du client.
+  if (type === 'outil-interne') {
+    pistes.splice(1);
+    Object.assign(pistes[0], { cle: 'administration', nom: 'Administration', style: 'neutre', principe: "La coquille d'administration de référence (une seule pour tous les outils), avec le logo et la couleur d'accent du client : l'outil reste familier et lisible, sans charte à inventer." });
+  }
 
   // Contenus réels du client pour les planches (accueil du site actuel, arborescence, maquette d'accueil).
   const accueil = inventaire?.pages?.[0];
@@ -142,7 +151,8 @@ export async function directionArtistique({ inventaire, mode, arborescence, meti
 
   let sourcesRendues = '';
   const page = await navigateur.newPage({ viewport: { width: 1280, height: 900 } });
-  let corps = `<h2>Choisir une direction</h2>
+  let corps = type === 'outil-interne' ? `<h2>Apparence de l'outil</h2>
+<p>L'outil reprend la présentation d'administration de référence, avec le logo et la couleur d'accent du client, vérifiés en contraste dans les deux thèmes.</p>` : `<h2>Choisir une direction</h2>
 <p>Voici trois directions possibles pour l'apparence du nouveau site. Toutes reprennent la structure validée dans les wireframes et respectent les contrastes exigés pour l'accessibilité, en thème clair comme en thème sombre. Le client en choisit une ; elle peut être ajustée (une couleur, une police) avant la validation.</p>
 <h2>Point de départ</h2>
 <table><tbody>
@@ -155,8 +165,8 @@ export async function directionArtistique({ inventaire, mode, arborescence, meti
 </tbody></table>`;
 
   for (const p of pistes) {
-    p.clair = jeuCouleurs({ primaire: p.primaire, accent: p.accent, fond: p.fond, sombre: false });
-    p.sombre = jeuCouleurs({ primaire: p.primaire, accent: p.accent, sombre: true });
+    p.clair = jeuCouleurs({ primaire: p.primaire, accent: p.accent, fond: p.fond, sombre: false, style: p.style });
+    p.sombre = jeuCouleurs({ primaire: p.primaire, accent: p.accent, sombre: true, style: p.style });
     const verif = [...verifierJeu(p.clair), ...verifierJeu(p.sombre)];
     const echecs = verif.filter((v) => !v.ok);
     if (echecs.length) avert.push(`Piste ${p.numero} : ${echecs.length} contraste(s) insuffisant(s) (${echecs.slice(0, 3).map((e) => `${e.avant} sur ${e.fond} ${ratio(e.ratio)}:1`).join(', ')}).`);
@@ -192,7 +202,7 @@ export async function directionArtistique({ inventaire, mode, arborescence, meti
   await page.close();
   for (const n of [...new Set(notes)]) avert.push(n);
   corps += `<h2>Ce que le client valide</h2>
-<p>Le numéro de la piste retenue, et les ajustements éventuels (une couleur, une police, les arrondis). Cette validation, avec celle des maquettes, forme la validation 3 : ensuite, l'apparence du site ne change plus sans nouvel accord.</p>`;
+<p>Le numéro de la piste retenue, choisie en voyant ses propres pages, et les ajustements éventuels (une couleur, une police, les arrondis). C'est la validation 3 : ensuite, l'apparence du site ne change plus sans nouvel accord.</p>`;
   return { corps, avertissements: avert, sourcesRendues, pistes: pistes.map((p) => ({ numero: p.numero, nom: p.nom, tokens: path.relative(process.cwd(), path.join(dossier, 'pistes', `${p.numero}-${p.cle}`, 'tokens.css')) })) };
 }
 
