@@ -47,8 +47,10 @@ $email = (string) Site::get('email');
 <meta property="og:url" content="<?= e($canonical) ?>">
 <?php endif ?>
 <link rel="stylesheet" href="<?= e(Site::asset('/assets/css/tokens.css')) ?>">
+<link rel="stylesheet" href="<?= e(Site::asset('/assets/css/charte.css')) ?>">
 <link rel="stylesheet" href="<?= e(Site::asset('/assets/css/site.css')) ?>">
 <link rel="stylesheet" href="<?= e(Site::asset('/assets/css/langue.css')) ?>">
+<link rel="stylesheet" href="<?= e(Site::asset('/assets/css/navigation-fiches.css')) ?>">
 <link rel="stylesheet" href="<?= e(Site::asset('/assets/css/ssa.css')) ?>">
 <?php foreach ($styles as $href): ?>
 <link rel="stylesheet" href="<?= e(Site::asset((string) $href)) ?>">
@@ -125,10 +127,12 @@ $email = (string) Site::get('email');
     </div>
     <div class="site-footer__bottom">
       <p>© <?= date('Y') ?> <?= e($name) ?></p>
+      <?php $c = (array) Site::get('credit', []); if ($c !== []): ?>
+      <p class="site-footer__credit"><?= e($c['avant']) ?><a href="<?= e($c['lien']['url']) ?>" rel="noopener"><?= e($c['lien']['texte']) ?></a><?= e($c['apres']) ?><?php if (!empty($c['complement'])): ?><?= e($c['complement'][0]) ?><a href="<?= e($c['complement'][1]['url']) ?>" rel="noopener"><?= e($c['complement'][1]['texte']) ?></a><?php endif ?><?= e($c['fin']) ?></p>
+      <?php endif ?>
+      <a class="site-footer__haut" href="#haut"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false"><path d="M12 19V5M5 12l7-7 7 7" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"/></svg><?= e(t('site.haut')) ?></a>
     </div>
   </div>
 </footer>
-<?php /* Retour en haut sans JavaScript : piste qui commence après deux écrans, lien collé en bas de la fenêtre. */ ?>
-<div class="to-top"><a class="to-top__link" href="#haut"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false"><path d="M12 19V5M5 12l7-7 7 7" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="visually-hidden"><?= e(t('site.haut')) ?></span></a></div>
 </body>
 </html>

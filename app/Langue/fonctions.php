@@ -33,3 +33,12 @@ if (!function_exists('lurl')) {
         return Langue::url($chemin, $langue);
     }
 }
+
+if (!function_exists('langue_attr')) {
+    /** Attribut lang=" " d'un champ resté dans une autre langue que la page (repli sur le français). */
+    function langue_attr(array $ligne, string $champ): string
+    {
+        $l = \App\Langue\Contenu::langueDe($ligne, $champ);
+        return $l !== \App\Langue\Langue::actuelle() ? ' lang="' . e($l) . '"' : '';
+    }
+}

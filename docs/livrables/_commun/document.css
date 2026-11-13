@@ -364,6 +364,10 @@ blockquote {
     max-height: 165mm;
   }
 
+  .wf-page table {
+    break-inside: avoid;
+  }
+
   .cloture {
     break-before: page;
   }

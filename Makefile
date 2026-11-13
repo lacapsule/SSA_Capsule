@@ -63,4 +63,6 @@ outils: ## État des outils, sans rien installer
 verify: lint ## Lint, tests (tests/run.php s'il existe), aucun secret suivi ; marque le contrôle vert pour le kit
 	$(PHP) -r "if (is_file('tests/run.php')) { passthru(PHP_BINARY . ' tests/run.php', $$c); exit($$c); }"
 	node $(KIT)/check-repo.mjs
+	@[ ! -f .claude/skills/livrables/scripts/verifier-charte.mjs ] || node .claude/skills/livrables/scripts/verifier-charte.mjs
+	@[ ! -f .claude/skills/web-audit/scripts/check-mise-en-page.mjs ] || node .claude/skills/web-audit/scripts/check-mise-en-page.mjs
 	$(PHP) -r "is_dir('.claude/etat') || mkdir('.claude/etat', 0775, true); file_put_contents('.claude/etat/verify-ok', date('c') . PHP_EOL);"

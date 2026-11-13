@@ -1,11 +1,13 @@
 Page : Agenda  ·  URL : /agenda/  ·  public : participantes et participants  ·  intention : « événements alimentation Morlaix »
 Action principale : trouver le prochain événement, sa date et son lieu
+Existant : pas de page Agenda sur le site actuel ; bloc « Évènements » de l'accueil (capture docs/source/existant/captures/accueil-bureau.jpg) : date et heure dans un bandeau de couleur, titre en majuscules, lien « Voir le calendrier complet » vers une fenêtre en JavaScript. Ce qui marche : date très visible. Ce qui ne marche pas : pas d'adresse propre par événement, calendrier en fenêtre invisible des moteurs, couleurs de catégorie sous 4,5:1.
+Références : https://caisse-alimentaire-commune.fr/agenda/ (caisse alimentaire commune de Montpellier, ouvert le 2026-11-13) : liste chronologique sur une seule colonne de lecture, date puis titre puis texte, rien d'autre. https://securite-sociale-alimentation.org/ (collectif national pour une SSA, ouvert le 2026-11-13) : listes en cartes et un seul lien vers la suite. Retenu : une colonne, cartes courtes avec pastille de date, filtre par public en vrais liens, événements passés repliés sous les événements à venir.
 
-1. En-tête : logo, menu (Accueil, Le projet, Qui sommes-nous, Lieux conventionnés, Actualités, Agenda, Galerie, Contact), lien « Brezhoneg » vers la version bretonne ; brique sections/en-tete-menu
-2. Fil d'Ariane : Accueil, puis la page ; brique sections/haut-de-page
-3. Haut de page : titre Agenda ; filtre par public en liens (Tous, Collectif, Expérimentateurs, Pour tous, catégories du site actuel) ; brique sections/haut-de-page
-4. Événements à venir : liste par date (date, heure, titre, lieu, public) ; brique modules/agenda-inscriptions (liste, sans inscription)
-5. Événements passés : liste repliée ; brique composants/accordeon
-6. Pied de page : colonnes (Coordonnées, Pages légales, Langue) ; Le Buzuk, 39 bellevue de la Madeleine, 29600 Morlaix, 06 15 06 82 08, ssapaysdemorlaix@mailo.com ; Mentions légales, Confidentialité, Accessibilité, Plan du site ; lien Brezhoneg ; brique sections/pied-de-page
+1. En-tête : logo, menu (Accueil, Le projet, Qui sommes-nous, Lieux conventionnés, Actualités, Agenda, Galerie, Contact), lien « Brezhoneg » vers la version bretonne ; brique sections/en-tete-menu ; adaptation : fond bleu de marque, logo du collectif, menu et langue sur une seule ligne
+2. Fil d'Ariane : Accueil, puis la page ; brique sections/haut-de-page ; adaptation : liens verts, page courante en texte
+3. Haut de page : titre Agenda ; filtre par public en liens (Tous, Collectif, Expérimentateurs, Pour tous, catégories du site actuel) ; brique sections/haut-de-page ; adaptation : fond clair, titre bleu de marque avec trait vert sous le titre
+4. Événements à venir : liste par date (date, heure, titre, lieu, public) ; brique modules/agenda-inscriptions (liste, sans inscription) ; adaptation : date dans une pastille jaune --color-marque-2, cartes arrondies avec ombre, titre avec trait vert
+5. Événements passés : liste repliée ; brique composants/accordeon ; adaptation : dates en pastille jaune, titre avec trait vert
+6. Pied de page : colonnes (Coordonnées, Pages légales, Langue) ; Le Buzuk, 39 bellevue de la Madeleine, 29600 Morlaix, 06 15 06 82 08, ssapaysdemorlaix@mailo.com ; Mentions légales, Confidentialité, Accessibilité, Plan du site ; lien Brezhoneg ; brique sections/pied-de-page ; adaptation : fond jaune --color-marque-2, texte foncé
 
 Liens entrants : menu, accueil  ·  liens sortants : chaque événement, Lieux conventionnés

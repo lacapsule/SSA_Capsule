@@ -1,7 +1,23 @@
 /* N0 écrit à la main : espaces, durées, mesures et tout token hors charte (skill web-design-system).
-   Couleurs, rôles de zone, polices et arrondis vivent dans base/charte.css (généré : charte neutre, puis la
+   Couleurs, rôles de zone, polices, arrondis et échelle des tailles vivent dans base/charte.css (généré : charte neutre, puis la
    piste validée par make appliquer). */
 :root {
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 1rem;
+  --space-4: 1.5rem;
+  --space-5: 2.5rem;
+  --space-6: clamp(3rem, 2rem + 4vw, 5rem);
+  --gutter: clamp(1rem, 4vw, 2rem);
+  --wide: clamp(64rem, 40rem + 30vw, 80rem);
+  --header-h: 4rem;
+  --target: 2.75rem;
+  --filet-fort: 0.125rem;
+  --focus-largeur: 0.1875rem;
+  --focus-ecart: 0.125rem;
+  --z-collant: 10;
+  --z-menu: 20;
+  --z-dialogue: 40;
   --measure: 65ch;
   --duration-fast: 150ms;
   --duration-base: 300ms;

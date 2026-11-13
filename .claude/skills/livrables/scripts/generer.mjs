@@ -9,11 +9,12 @@
 // Usage : node generer.mjs [id…]            génère les livrables dont la source existe
 //         node generer.mjs --valider <id> "<qui>" [piste]   enregistre la validation (sur instruction de l'humain) ;
 //                                                   04 : numéro de la piste choisie obligatoire
+//         node generer.mjs --charte                  pose la piste fidèle (marque actuelle) comme charte provisoire du site
 //         node generer.mjs --appliquer               pose la piste validée dans le site (base/charte.css, polices)
 import { copyFileSync, existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 import { DOSSIER_LIVRABLES, echapper, ecrireLivrable, lancerNavigateur, lireRegistre, markdown, poserCommun, RACINE, valider } from '../lib/document.mjs';
-import { adresseSeule, wireframes } from '../lib/wireframes.mjs';
+import { adresseSeule, NOTES_AGENT, slugAdresse, wireframes } from '../lib/wireframes.mjs';
 import { directionArtistique } from '../lib/direction.mjs';
 import { pistesSurPages } from '../lib/maquettes.mjs';
 import { DOSSIER_POLICES } from '../lib/polices.mjs';
@@ -51,6 +52,9 @@ function lireModeEmploi() {
   }
   return { nom, client: champ('client'), depot: champ('depot'), type: champ('type'), metier: champ('metier'), statut: champ('statut'), maj: champ('mise à jour'), sections, texte };
 }
+
+/** Maquette sans les notes pour l'agent (existant, références, choix de brique, adaptation) : elles ne changent pas ce que le client valide. */
+const notesRetirees = (t) => t.split('\n').filter((l) => !/^\s*(existant|r[ée]f[ée]rences|retir[ée])\s*:/i.test(l)).map((l) => NOTES_AGENT.reduce((x, re) => x.replace(re, ''), l)).join('\n');
 
 /** Lignes du tableau « Arborescence » du mode d'emploi : { page, adresse, intention, remplace }. */
 function lireArborescence(mode) {
@@ -125,6 +129,13 @@ Chaque fait ci-dessous a été lu sur le site actuel, avec la page source. Il re
 | Polices chargées | ${p.chargees.join(', ') || 'aucune (polices du système)'} |
 
 Licence de chaque police à vérifier avant reprise : une police libre (Google Fonts, OFL) est servie depuis le site en woff2 ; une police commerciale demande la licence web du client.`);
+
+  // Univers visuel : ce que le client reconnaît au-delà des couleurs et des polices (rule web-design, « Univers du client »).
+  const univers = id.univers ?? [];
+  html += '<h3>Univers visuel</h3>';
+  html += univers.length
+    ? `<p>Signes visuels propres au site actuel, un exemple de chacun. Le nouveau site les reprend (direction fidèle) ou les réinterprète, mais ne les remplace jamais par l'apparence d'un modèle générique.</p><ul class="vignettes">${univers.map((u) => `<li><figure><img src="${echapper(lienFichier(u.capture))}" alt="Exemple : ${echapper(u.description)}"><figcaption>${echapper(u.description)} · ${echapper(new URL(u.page).pathname)}</figcaption></figure></li>`).join('')}</ul>`
+    : "<p>Aucun signe particulier relevé automatiquement : regarder les captures ci-dessous et noter à la main illustrations, formes, ornements et fonds.</p>";
 
   const faits = (liste, vide) => (liste.length ? liste.map((f) => `| ${f.valeur} | ${f.sources.slice(0, 3).map((s) => new URL(s).pathname).join(', ')} |`).join('\n') : `| ${vide} | |`);
   html += markdown(`## Coordonnées et identité légale relevées
@@ -284,6 +295,8 @@ function cahierDesCharges(mode, inv) {
     id: '02-cahier-des-charges', titre: 'Cahier des charges', client,
     sousTitre: 'Ce que sera le nouveau site, pour qui, et comment sa réussite se vérifie.',
     corps: `<section class="synthese">${markdown(section('Synthèse'))}</section>\n${markdown(md.join('\n'))}\n${fin}`, pagesMax: 6,
+    // Ce que le client valide : le texte rédigé, l'arborescence, le type et la reprise de l'existant.
+    sources: JSON.stringify({ source, client, type: mode.type, arborescence: mode.sections.Arborescence ?? '', existant: inv ? [inv.source, inv.pagesLues, inv.anciennesAdresses.length] : null }),
     brouillon: !/^validé/.test(mode.statut) || avert.length > 0, avertissements: avert,
   };
 }
@@ -292,6 +305,40 @@ const demandes = args.filter((a) => !a.startsWith('--'));
 const veut = (id) => !demandes.length || demandes.includes(id);
 const mode = lireModeEmploi();
 const inv = lireInventaire();
+
+if (args[0] === '--appliquer') {
+  // La piste validée (validation 3) devient la charte définitive du site.
+  const e = lireRegistre().livrables['04-direction-artistique'];
+  if (e?.statut !== 'validé' || !e.validation?.piste) { console.error('Direction artistique pas validée avec une piste (make valider ID=04-direction-artistique PAR="…" PISTE=n).'); process.exit(1); }
+  poserCharte(path.join(DOSSIER_PISTES, dossierPiste(e.validation.piste)), `piste ${e.validation.piste} du livrable 04, validée le ${e.validation.date} (${e.validation.par}), posée par make appliquer`);
+  process.exit(0);
+}
+
+if (args[0] === '--charte') {
+  // Dès l'intégration, le site porte la marque du client : piste « fidèle » (couleurs, logo et polices de l'audit
+  // ou des fichiers fournis), provisoire jusqu'au choix de la validation 3. Jamais la charte de Kouzia (base/tokens.css de la boîte).
+  const e = lireRegistre().livrables['04-direction-artistique'];
+  if (e?.statut === 'validé') { console.error('Direction artistique déjà validée : make appliquer pose la piste choisie.'); process.exit(1); }
+  if (!mode) { console.error("Pas de mode d'emploi : lancer l'interview."); process.exit(1); }
+  const fournis = path.join(RACINE, 'docs/source/fournis/logo');
+  if (!inv && !(existsSync(fournis) && readdirSync(fournis).some((f) => !f.startsWith('.')))) {
+    console.error("Ni audit du site actuel ni logo fourni : make audit URL=…, ou logo et charte dans docs/source/fournis/, puis make charte. La charte neutre reste en place d'ici là.");
+    process.exit(1);
+  }
+  poserCommun();
+  const navigateur = await lancerNavigateur();
+  const da = await directionArtistique({
+    inventaire: inv, mode, arborescence: lireArborescence(mode), metier: mode.metier, type: mode.type, maquetteAccueil: '',
+    dossier: path.join(DOSSIER_LIVRABLES, '04-direction-artistique'), navigateur,
+  });
+  await navigateur.close();
+  const fidele = da.pistes[0];
+  if (!fidele) { console.error('Aucune piste produite : ' + da.avertissements.join(' ; ')); process.exit(1); }
+  for (const a of da.avertissements) console.log(`À compléter : ${a}`);
+  poserCharte(path.dirname(path.join(RACINE, fidele.tokens)), `piste ${fidele.numero} « ${fidele.nom} » tirée de la marque actuelle, provisoire jusqu'à la validation 3, posée par make charte le ${new Date().toISOString().slice(0, 10)}`);
+  process.exit(0);
+}
+
 const faits = [];
 if (veut('01-audit-existant')) {
   if (inv) faits.push(await ecrireLivrable(auditExistant(inv, mode)));
@@ -315,27 +362,28 @@ if (veut('03-wireframes') && mode) {
       id: '03-wireframes', titre: 'Wireframes', client: nomClient(mode, inv),
       sousTitre: `Structure de chaque page du nouveau site (${arbo.length} page${arbo.length > 1 ? 's' : ''}), sur ordinateur et sur téléphone, avant tout travail graphique.`,
       corps, sourcesRendues, brouillon: avertissements.length > 0, avertissements,
+      // Ce que le client valide : l'arborescence et le texte de chaque maquette.
+      sources: JSON.stringify([mode.sections.Arborescence ?? '', ...arbo.map((p) => { const f = path.join(RACINE, 'docs/maquettes', `${slugAdresse(p.adresse)}.md`); return existsSync(f) ? notesRetirees(readFileSync(f, 'utf8')) : ''; })]),
     }));
   }
 }
-if (args[0] === '--appliquer') {
-  // La piste validée (validation 3) devient la charte du site : fichier généré, jamais modifié à la main.
-  const e = lireRegistre().livrables['04-direction-artistique'];
-  if (e?.statut !== 'validé' || !e.validation?.piste) { console.error('Direction artistique pas validée avec une piste (make valider ID=04-direction-artistique PAR="…" PISTE=n).'); process.exit(1); }
-  const rep = path.join(DOSSIER_PISTES, dossierPiste(e.validation.piste));
+/**
+ * Pose une piste comme charte du site (fichier généré, jamais modifié à la main) : socle statique dans
+ * src/styles/base/charte.css (même place dans ordre.json), socle dynamique dans public/assets/css/charte.css.
+ */
+function poserCharte(rep, origine) {
   const statique = existsSync(path.join(RACINE, 'src/styles/ordre.json'));
   const dynamique = existsSync(path.join(RACINE, 'app/bootstrap.php'));
-  if (!statique && !dynamique) { console.error('Aucun socle posé : make socle d\'abord.'); process.exit(1); }
+  if (!statique && !dynamique) { console.error("Aucun socle posé : make socle d'abord."); process.exit(1); }
   const basePolices = statique ? '/polices' : '/assets/polices';
   const dossierPublic = path.join(RACINE, statique ? 'public/polices' : 'public/assets/polices');
   const css = readFileSync(path.join(rep, 'tokens.css'), 'utf8').replaceAll('../../../../source/polices', basePolices);
-  const entete = `/* Généré par make appliquer depuis la piste ${e.validation.piste} du livrable 04, validée le ${e.validation.date} (${e.validation.par}).\n   Ne pas modifier : changer la piste ou ses sources, régénérer, revalider, puis make appliquer. */\n`;
+  const entete = `/* Charte du client, ${origine}.\n   Ne pas modifier : changer la piste ou ses sources, puis make charte (avant la validation 3) ou make appliquer (après). */\n`;
   for (const m of css.matchAll(new RegExp(`url\\("${basePolices}/([^"]+)"\\)`, 'g'))) {
     mkdirSync(path.dirname(path.join(dossierPublic, m[1])), { recursive: true });
     copyFileSync(path.join(DOSSIER_POLICES, m[1]), path.join(dossierPublic, m[1]));
   }
   if (statique) {
-    // charte.css remplace la charte neutre du modèle (même fichier, même place dans ordre.json).
     writeFileSync(path.join(RACINE, 'src/styles/base/charte.css'), entete + css);
     const f = path.join(RACINE, 'src/styles/ordre.json');
     const ordre = JSON.parse(readFileSync(f, 'utf8'));
@@ -343,13 +391,14 @@ if (args[0] === '--appliquer') {
       ordre.fichiers.splice(ordre.fichiers.indexOf('base/tokens.css') + 1, 0, 'base/charte.css');
       writeFileSync(f, JSON.stringify(ordre, null, 2) + '\n');
     }
-    console.log(`Piste ${e.validation.piste} posée : src/styles/base/charte.css, polices dans public/polices/.`);
+    console.log('Charte posée : src/styles/base/charte.css, polices dans public/polices/.');
   } else {
     mkdirSync(path.join(RACINE, 'public/assets/css'), { recursive: true });
     writeFileSync(path.join(RACINE, 'public/assets/css/charte.css'), entete + css);
-    console.log(`Piste ${e.validation.piste} posée : public/assets/css/charte.css et public/assets/polices/. À lier dans templates/layout.php juste après la feuille des tokens.`);
+    const layout = path.join(RACINE, 'templates/layout.php');
+    const lie = existsSync(layout) && /assets\/css\/charte\.css/.test(readFileSync(layout, 'utf8'));
+    console.log(`Charte posée : public/assets/css/charte.css, polices dans public/assets/polices/.${lie ? '' : ' À lier dans templates/layout.php après toutes les autres feuilles de tokens (elle les remplace), avant les feuilles de mise en page.'}`);
   }
-  process.exit(0);
 }
 
 if (veut('04-direction-artistique') && mode && (inv || demandes.length)) {
@@ -373,6 +422,8 @@ if (veut('04-direction-artistique') && mode && (inv || demandes.length)) {
     id: '04-direction-artistique', titre: 'Direction artistique et maquettes', client: nomClient(mode, inv),
     sousTitre: "Trois directions possibles pour l'apparence du site, construites depuis la marque actuelle et le métier, toutes conformes en contraste, puis montrées sur les vraies pages du nouveau site.",
     corps, sourcesRendues, brouillon: avertissements.length > 0, avertissements,
+    // Ce que le client valide : les pistes, définies par la marque relevée, le métier et le type (pas le contenu des pages, qui avance).
+    sources: JSON.stringify({ identite: inv?.identite ? { couleurs: inv.identite.couleurs, couleursLogo: inv.identite.couleursLogo, polices: inv.identite.polices, univers: (inv.identite.univers ?? []).map((u) => u.description) } : null, metier: mode.metier, type: mode.type, pistes: da.pistes.map((p) => (existsSync(path.join(RACINE, p.tokens)) ? readFileSync(path.join(RACINE, p.tokens), 'utf8') : '')) }),
   }));
 }
 for (const f of faits) console.log(`${f.titre} : version ${f.version} (${f.statut}) · ${f.html} · ${f.pdf}`);

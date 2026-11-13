@@ -24,7 +24,7 @@ Chaque fichier appartient à une couche, qui dit ce qu'il contient et qui l'écr
 | Données (vérité) | `src/data/*.json`, chacun validé par `src/data/schemas/<nom>.schema.json` ; `src/content/` | `config/<domaine>.php`, `migrations/`, base de données | humain (interview), agent |
 | Moteur | `src/lib/`, `bin/` | `app/Core/`, `app/<Domaine>/`, `scripts/` | agent, kit, boîte |
 | Vues | `src/layouts/` (une famille par gabarit : `Base`, `Contenu`, `Isolee`), `src/components/` (un bloc par fichier) | `templates/layout.php`, `templates/<domaine>/`, `templates/partials/<domaine>/` | agent |
-| Styles | `src/styles/{base,composants,sections,pages}/`, assemblés dans l'ordre de `src/styles/ordre.json` ; `base/charte.css` généré (charte neutre, puis piste validée par `make appliquer`) | `public/assets/css/<domaine>.css`, `public/assets/css/charte.css` (généré) | agent ; charte : `make appliquer` |
+| Styles | `src/styles/{base,composants,sections,pages}/`, assemblés dans l'ordre de `src/styles/ordre.json` ; `base/charte.css` généré (marque du client par `make charte`, puis piste validée par `make appliquer` ; charte neutre seulement sans audit ni logo) | `public/assets/css/<domaine>.css`, `public/assets/css/charte.css` (généré) | agent ; charte : `make charte`, puis `make appliquer` |
 | Entrées publiques | `src/pages/` (un fichier, une URL) | `public/index.php` et `app/<Domaine>/routes.php` | agent |
 | Généré | `dist/` (HTML, feuille au nom haché, sitemap, robots, llms) | aucun | build |
 | Exécution | aucune | `data/` (base de dev, journaux), jamais versionné | serveur |

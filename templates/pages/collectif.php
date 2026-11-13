@@ -3,13 +3,16 @@
 partial('site/haut', ['chemin' => $path, 'titre' => $t['titre'], 'chapo' => $t['chapo']]);
 ?>
 <section class="section" aria-labelledby="structures-titre">
-  <div class="container">
-    <div class="section__head"><h2 id="structures-titre"><?= e($t['structures_titre']) ?></h2></div>
-    <ul class="cards">
-      <?php foreach ([1, 2, 3, 4] as $n): ?>
-      <li class="card"><h3 class="card__title"><?= e($t['structure_' . $n . '_nom']) ?></h3><p><?= e($t['structure_' . $n . '_texte']) ?></p></li>
-      <?php endforeach ?>
-    </ul>
+  <div class="container duo">
+    <span class="illustration-rond"><img src="/assets/img/illustration-collectif.svg" alt="" width="240" height="324" loading="lazy" decoding="async"></span>
+    <div class="prose">
+      <h2 id="structures-titre"><?= e($t['structures_titre']) ?></h2>
+      <ul class="puces">
+        <?php foreach ([1, 2, 3, 4] as $n): ?>
+        <li><strong><?= e($t['structure_' . $n . '_nom']) ?></strong> : <?= e($t['structure_' . $n . '_texte']) ?></li>
+        <?php endforeach ?>
+      </ul>
+    </div>
   </div>
 </section>
 

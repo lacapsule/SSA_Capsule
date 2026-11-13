@@ -5,7 +5,7 @@ declare(strict_types=1);
  * Reprise des contenus du site actuel dans la base (décision du 2026-11-13) : lit docs/source/existant/contenus.json
  * (produit par scripts/extraire-site-actuel.mjs) et copie les images sous public/media/.
  * Refuse une base qui contient déjà des contenus, sauf avec --remplacer (vide d'abord les tables reprises).
- * Les vidéos ne sont pas copiées : elles sont réencodées par le module vidéo (chemins d'origine gardés dans videos).
+ * Vidéos : versions réencodées de docs/source/existant/videos/ (videos.json), copiées sous public/media/videos/.
  *   php scripts/importer-contenus.php [--remplacer]
  */
 if (PHP_SAPI !== 'cli') {
@@ -45,15 +45,25 @@ function copier(string $src, string $dossier): string
     if (!is_file($depuis)) {
         throw new RuntimeException("Média absent de la source : $src (relancer scripts/extraire-site-actuel.mjs)");
     }
-    $nom = basename($src);
+    return copierFichier($depuis, $dossier);
+}
+
+/** Copie un fichier sous public/media/<dossier>/ et renvoie son chemin public. */
+function copierFichier(string $depuis, string $dossier): string
+{
+    $nom = basename($depuis);
     is_dir(CIBLE . '/' . $dossier) || mkdir(CIBLE . '/' . $dossier, 0775, true);
-    copy($depuis, CIBLE . '/' . $dossier . '/' . $nom) || throw new RuntimeException("Copie impossible : $src");
+    copy($depuis, CIBLE . '/' . $dossier . '/' . $nom) || throw new RuntimeException("Copie impossible : $depuis");
     return '/media/' . $dossier . '/' . $nom;
 }
 
-/** Espaces en double et retours chariot : nettoyés, rien d'autre n'est réécrit. */
+/**
+ * Espaces en double et retours chariot nettoyés ; consignes propres à l'interface de l'ancien site retirées
+ * (« Veuillez cliquer sur le carrousel… » : il n'y a plus de carrousel). Rien d'autre n'est réécrit.
+ */
 function propre(string $t): string
 {
+    $t = (string) preg_replace('/\s*\(Veuillez cliquer sur le carrousel pour y accéder\)/u', '', $t);
     return trim((string) preg_replace(['/\r\n?/', '/[ \t]{2,}/'], ["\n", ' '], $t));
 }
 
@@ -72,9 +82,19 @@ $bilan = Db::transaction(static function () use ($contenus, $tables, $maintenant
         Db::run("DELETE FROM $t");
     }
 
+    $fichierVideos = SOURCE . '/videos/videos.json';
+    $reencodees = is_file($fichierVideos) ? (json_decode((string) file_get_contents($fichierVideos), true) ?: []) : [];
     $nArticles = 0;
     foreach ($contenus['articles'] as $a) {
         $slug = slugUnique('articles', slug($a['titre']), $pris);
+        // Vidéos réencodées (docs/source/existant/videos/videos.json) ; une vidéo inutilisable n'est pas reprise.
+        $videos = [];
+        foreach ($a['videos'] as $src) {
+            $v = $reencodees[$src] ?? null;
+            if ($v !== null) {
+                $videos[] = ['src' => copierFichier(SOURCE . '/videos/' . $v['video'], 'videos'), 'poster' => copierFichier(SOURCE . '/videos/' . $v['poster'], 'videos')];
+            }
+        }
         $images = array_map(static fn (array $i): string => copier($i['src'], 'actualites/' . $slug), $a['images']);
         $id = Db::insert(
             'INSERT INTO articles (titre, resume, description, date_article, image, image_alt, is_published, created_at, slug, lieu, heure, liens, videos, ancien_numero)
@@ -83,7 +103,7 @@ $bilan = Db::transaction(static function () use ($contenus, $tables, $maintenant
                 propre($a['titre']), propre($a['resume']), propre($a['description']), $a['date'],
                 $images[0] ?? null, '', $maintenant, $slug, propre($a['lieu']) ?: null, $a['heure'] ?: null,
                 $a['liens'] ? json_encode($a['liens'], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) : null,
-                $a['videos'] ? json_encode($a['videos'], JSON_UNESCAPED_SLASHES) : null,
+                $videos ? json_encode($videos, JSON_UNESCAPED_SLASHES) : null,
                 $a['ancien_numero'],
             ],
         );
@@ -105,9 +125,17 @@ $bilan = Db::transaction(static function () use ($contenus, $tables, $maintenant
         );
     }
 
+    // Logos recadrés (marges vides retirées) et hauteur pour une même surface : docs/source/existant/logos-recadres.
+    $recadres = [];
+    $fichierRecadres = SOURCE . '/logos-recadres/logos.json';
+    foreach (is_file($fichierRecadres) ? (json_decode((string) file_get_contents($fichierRecadres), true) ?: []) : [] as $r) {
+        $recadres[$r['fichier']] = $r;
+    }
     foreach (['partenaire' => $contenus['partenaires'], 'financeur' => $contenus['financeurs']] as $groupe => $logos) {
         foreach ($logos as $pos => $l) {
-            Db::run('INSERT INTO partenaires (nom, url, logo, groupe, position) VALUES (?, ?, ?, ?, ?)', [$l['nom'], $l['url'], copier($l['logo'], 'partenaires'), $groupe, $pos]);
+            $r = $recadres[basename($l['logo'])] ?? null;
+            $chemin = $r ? copierFichier(SOURCE . '/logos-recadres/' . $r['fichier'], 'partenaires') : copier($l['logo'], 'partenaires');
+            Db::run('INSERT INTO partenaires (nom, url, logo, groupe, position, hauteur_rem) VALUES (?, ?, ?, ?, ?, ?)', [$l['nom'], $l['url'], $chemin, $groupe, $pos, $r['hauteurRem'] ?? null]);
         }
     }
 

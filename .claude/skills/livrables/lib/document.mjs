@@ -137,7 +137,33 @@ export async function lancerNavigateur() {
   try { ({ chromium } = require('playwright-core')); } catch {
     throw new Error('playwright-core absent : lancer make deps (ou npm ci) à la racine du dépôt.');
   }
-  return chromium.launch(process.env.CHROME_PATH ? { executablePath: process.env.CHROME_PATH } : {});
+  // CHROME_PATH, sinon le Chrome ou Chromium du système, sinon celui de Playwright.
+  const systeme = ['/usr/bin/google-chrome', '/usr/bin/google-chrome-stable', '/usr/bin/chromium', '/usr/bin/chromium-browser', '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'];
+  const executablePath = process.env.CHROME_PATH || systeme.find((f) => existsSync(f));
+  try {
+    return await chromium.launch(executablePath ? { executablePath } : {});
+  } catch (e) {
+    throw new Error(`Navigateur introuvable ou incomplet (${String(e.message).split('\n')[0]}) : lancer make deps, ou CHROME_PATH=/chemin/vers/chrome.`);
+  }
+}
+
+/** Lignes lisibles des sources d'un livrable (texte JSON aplati) : ce que le client valide, ligne à ligne. */
+function lignesSources(sources) {
+  let valeur;
+  try { valeur = JSON.parse(sources); } catch { valeur = sources; }
+  const textes = [];
+  const parcourir = (v) => { if (typeof v === 'string') textes.push(v); else if (typeof v === 'number') textes.push(String(v)); else if (v && typeof v === 'object') Object.values(v).forEach(parcourir); };
+  parcourir(valeur);
+  return textes.flatMap((t) => t.split('\n')).map((l) => l.trim()).filter(Boolean);
+}
+
+/** Lignes retirées et ajoutées entre deux textes (comparaison par ligne, ordre ignoré). */
+function ecartLignes(avant, apres) {
+  const compter = (l) => l.reduce((m, x) => m.set(x, (m.get(x) ?? 0) + 1), new Map());
+  const a = compter(avant); const b = compter(apres);
+  const retirees = avant.filter((x, i) => avant.indexOf(x) === i && (b.get(x) ?? 0) < a.get(x));
+  const ajoutees = apres.filter((x, i) => apres.indexOf(x) === i && (a.get(x) ?? 0) < b.get(x));
+  return { retirees, ajoutees };
 }
 
 /** Enregistre la validation d'un livrable (acte humain, sur instruction explicite). */
@@ -149,6 +175,9 @@ export function valider(id, par, extra = {}) {
   if (e.statut === 'brouillon') throw new Error(`${id} est en brouillon (source incomplète ou mode d'emploi non validé) : compléter la source, make livrables, puis valider.`);
   e.statut = 'validé';
   e.validation = { par, date: new Date().toISOString().slice(0, 10), version: e.version, ...extra };
+  // Texte validé figé pour cette version : base de comparaison si les sources changent ensuite.
+  const sources = path.join(DOSSIER_LIVRABLES, id, 'sources.txt');
+  if (existsSync(sources)) copyFileSync(sources, path.join(DOSSIER_LIVRABLES, id, `sources-validees-v${e.version}.txt`));
   ecrireRegistre(r);
   return e;
 }
@@ -157,29 +186,76 @@ export function valider(id, par, extra = {}) {
  * Écrit un livrable : docs/livrables/<id>/index.html et <id>.pdf.
  * Version : +1 quand le contenu change ; un contenu changé après validation repasse « à valider ».
  * doc : { id, titre, client, sousTitre, corps (HTML), brouillon (bool), constat (bool : jamais validé), avertissements: [texte],
- *         pagesMax (nombre : au-delà, le livrable repasse en brouillon avec un avertissement) }
+ *         pagesMax (nombre : au-delà, le livrable repasse en brouillon avec un avertissement),
+ *         sources (texte : ce que le client valide, lu dans les fichiers du projet ; sans lui, le rendu fait foi) }
+ * Sources inchangées, rendu changé (gabarit ou générateur du kit) : même version, statut et validation conservés,
+ * date de mise en forme notée. Sources changées : nouvelle version, « à valider ».
  */
 export async function ecrireLivrable(doc) {
   mkdirSync(path.join(DOSSIER_LIVRABLES, doc.id), { recursive: true });
   poserCommun();
-  // Empreinte : texte du document, avertissements et sources rendues à part (pages de wireframe…).
-  const empreinte = createHash('sha256').update(doc.corps + (doc.avertissements ?? []).join('|') + (doc.sourcesRendues ?? '')).digest('hex').slice(0, 16);
   const r = lireRegistre();
   // Second rendu (trop de pages) : même version que le premier, comparée à l'entrée d'avant le premier.
   const avant = doc.recompte ? doc.avantRecompte : r.livrables[doc.id];
   const date = new Date().toISOString().slice(0, 10);
+  const dossier = path.join(DOSSIER_LIVRABLES, doc.id);
+  // Sources seules : un avertissement ajouté par une nouvelle règle du kit ne rouvre pas une validation.
+  const empreinteSource = doc.sources == null ? null : createHash('sha256').update(doc.sources).digest('hex').slice(0, 16);
+  // Registre d'avant ce calcul (empreinte absente ou d'un calcul antérieur) : la version enregistrée est prise comme
+  // celle des sources actuelles (signalé). CALCUL_SOURCE change quand le calcul de l'empreinte change.
+  const CALCUL_SOURCE = 2;
+  const reprise = avant && empreinteSource && avant.calculSource !== CALCUL_SOURCE;
+  const memesSources = avant && empreinteSource && (avant.empreinteSource === empreinteSource || reprise);
+  const historique = avant?.historique ?? [];
+  const derniereValidee = avant?.statut === 'validé' ? avant : [...historique].reverse().find((h) => h.statut === 'validé');
+  // Sources revenues à celles d'une version validée : cette version et sa validation reviennent d'elles-mêmes.
+  const retour = empreinteSource && !memesSources ? [...historique].reverse().find((h) => h.statut === 'validé' && h.empreinteSource === empreinteSource) : null;
+  const avertissements = [...(doc.avertissements ?? [])];
+  if (empreinteSource) writeFileSync(path.join(dossier, 'sources.txt'), lignesSources(doc.sources).join('\n') + '\n');
+  // Sources changées depuis la dernière validation : le dire et nommer les lignes du texte du client qui ont changé.
+  if (empreinteSource && !memesSources && !retour && derniereValidee && !doc.recompte) {
+    const f = path.join(dossier, `sources-validees-v${derniereValidee.version}.txt`);
+    const ecart = existsSync(f) ? ecartLignes(readFileSync(f, 'utf8').split('\n').filter(Boolean), lignesSources(doc.sources)) : null;
+    const quoi = ecart ? [...ecart.retirees.map((l) => `retiré « ${l.slice(0, 90)} »`), ...ecart.ajoutees.map((l) => `ajouté « ${l.slice(0, 90)} »`)].slice(0, 8) : ['texte validé non conservé (validation antérieure à cette règle)'];
+    const message = `Texte changé depuis la version ${derniereValidee.version} validée le ${dateFr(derniereValidee.validation.date)} par ${derniereValidee.validation.par} : ${quoi.join(' ; ')}. Changement voulu : nouvelle validation du client ; sinon remettre le texte, la version validée revient seule.`;
+    console.log(`${doc.id} : ${message}`);
+    avertissements.push(message);
+  }
+  // Empreinte du rendu : texte du document, avertissements et sources rendues à part (pages de wireframe…).
+  const empreinte = createHash('sha256').update(doc.corps + avertissements.join('|') + (doc.sourcesRendues ?? '')).digest('hex').slice(0, 16);
+  const instantane = (e) => { const { historique: _h, ...reste } = e; return reste; };
   let entree = avant;
-  if (!avant || avant.empreinte !== empreinte) {
-    entree = { titre: doc.titre, version: (avant?.version ?? 0) + 1, date, empreinte, statut: doc.constat ? 'constat' : doc.brouillon ? 'brouillon' : 'à valider' };
+  if (retour) {
+    entree = { ...retour, titre: doc.titre, empreinte, calculSource: CALCUL_SOURCE, miseEnForme: date, historique: historique.filter((h) => h !== retour) };
+    console.log(`${doc.id} : sources identiques à la version ${retour.version} validée le ${dateFr(retour.validation.date)} : version et validation rétablies.`);
+  } else if (memesSources && avant.empreinte !== empreinte) {
+    entree = { ...avant, empreinte, empreinteSource, calculSource: CALCUL_SOURCE, miseEnForme: date };
+    console.log(`${doc.id} : mise en forme mise à jour, contenu inchangé, version ${avant.version} et statut « ${avant.statut} » conservés.`);
+  } else if (memesSources && reprise) {
+    entree = { ...avant, empreinteSource, calculSource: CALCUL_SOURCE };
+  } else if (!avant || avant.empreinte !== empreinte || (empreinteSource && avant.empreinteSource !== empreinteSource)) {
+    // Nouvelle version : l'entrée précédente passe dans l'historique avec sa validation, jamais effacée.
+    // Une version jamais validée et remplacée n'est pas gardée (aucun accord à conserver).
+    const garde = avant && (avant.statut === 'validé' || avant.statut === 'constat') ? [...historique, instantane(avant)] : historique;
+    const version = Math.max(avant?.version ?? 0, ...historique.map((h) => h.version)) + 1;
+    entree = { titre: doc.titre, version, date, empreinte, ...(empreinteSource ? { empreinteSource, calculSource: CALCUL_SOURCE } : {}), statut: doc.constat ? 'constat' : doc.brouillon ? 'brouillon' : 'à valider', ...(garde.length ? { historique: garde } : {}) };
   } else if (doc.constat) {
     entree.statut = 'constat';
-  } else if (doc.brouillon && entree.statut !== 'brouillon') {
+  } else if (doc.brouillon && !['brouillon', 'validé'].includes(entree.statut)) {
     entree.statut = 'brouillon';
   }
   r.livrables[doc.id] = entree;
   ecrireRegistre(r);
+  doc = { ...doc, avertissements };
+  // Validation antérieure à cette règle, sources inchangées : le texte actuel est celui qui a été validé, figé ici.
+  const fige = entree.statut === 'validé' && memesSources ? path.join(dossier, `sources-validees-v${entree.version}.txt`) : null;
+  if (fige && !existsSync(fige)) copyFileSync(path.join(dossier, 'sources.txt'), fige);
 
-  const statut = entree.statut === 'validé' ? `validé le ${entree.validation.date} par ${entree.validation.par}` : entree.statut;
+  if (reprise && avant.statut === 'validé') console.log(`${doc.id} : empreinte des sources enregistrée sur la version ${avant.version} validée ; vérifier que son texte n'a pas changé depuis la validation.`);
+  const valideeAvant = entree.statut !== 'validé' ? [...(entree.historique ?? [])].reverse().find((h) => h.statut === 'validé') : null;
+  const statut = (entree.statut === 'validé' ? `validé le ${dateFr(entree.validation.date)} par ${entree.validation.par}` : entree.statut)
+    + (entree.miseEnForme ? ` ; mise en forme mise à jour le ${dateFr(entree.miseEnForme)}, validation conservée` : '')
+    + (valideeAvant ? ` ; version ${valideeAvant.version} validée le ${dateFr(valideeAvant.validation.date)} par ${valideeAvant.validation.par}` : '');
   const html = `<!DOCTYPE html>
 <html lang="fr" data-theme="light">
 <head>

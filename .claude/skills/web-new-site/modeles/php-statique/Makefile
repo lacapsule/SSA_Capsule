@@ -12,7 +12,7 @@ AUDIT := .claude/skills/web-audit/scripts
 -include .claude/skills/livrables/livrables.mk
 
 .DEFAULT_GOAL := help
-.PHONY: help info deps outils dev open build preview lint check verify repo a11y images clean
+.PHONY: help info deps outils dev open build preview lint check verify repo mise-en-page a11y images clean
 
 # ---------- Aide ----------
 help: ## Affiche cette aide
@@ -53,8 +53,12 @@ check: build ## Build + audit de dist/ (SEO, liens, titres, CSS, poids) + ordre 
 repo:    ## Aucun secret ni fichier sensible suivi par Git
 	node $(AUDIT)/check-repo.mjs
 
-verify: lint check repo ## Tout ce qui doit être vert avant de livrer
+verify: lint check repo mise-en-page ## Tout ce qui doit être vert avant de livrer (charte du client et conventions de mise en page comprises)
+	@[ ! -f .claude/skills/livrables/scripts/verifier-charte.mjs ] || node .claude/skills/livrables/scripts/verifier-charte.mjs
 	@mkdir -p .claude/etat && date -Iseconds > .claude/etat/verify-ok
+
+mise-en-page: build ## Conventions de base mesurées à 390, 800, 1280 et 1920 px (en-tête, tailles, éléments fixes), comparaison avec le site actuel
+	node $(AUDIT)/check-mise-en-page.mjs
 
 a11y: build ## Scan axe-core de chaque page du sitemap et de la 404 (serveur de prévisualisation lancé puis arrêté)
 	@php -S $(HOST):$(PREVIEW_PORT) -t dist bin/preview.php >/dev/null 2>&1 & pid=$$!; \

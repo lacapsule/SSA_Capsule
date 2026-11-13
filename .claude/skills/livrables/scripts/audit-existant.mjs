@@ -1,7 +1,8 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 // Audit du site actuel du client et des fichiers qu'il fournit : inventaire sourcé, base des livrables et du nouveau site.
 // Usage : node audit-existant.mjs <url> [--max 40] [--sortie docs/source/existant]
-// Écrit : <sortie>/inventaire.json, <sortie>/captures/*.jpg (bureau 1440 et mobile 390), <sortie>/fichiers/* (logos, images).
+// Écrit : <sortie>/inventaire.json, <sortie>/captures/*.jpg (bureau 1440 et mobile 390), <sortie>/fichiers/* (logos, images),
+//        <sortie>/univers/*.png (un exemple de chaque signe de l'univers visuel).
 // Fichiers fournis : tout ce qui est dans docs/source/fournis/ est listé (type, poids, dimensions des images).
 // Chaque fait relevé garde l'URL de la page où il a été lu : il reste « à confirmer » tant que l'humain ne l'a pas validé.
 // Accord du client acquis quand l'humain demande l'audit (le client veut un nouveau site).
@@ -10,6 +11,7 @@ import { existsSync, mkdirSync, readdirSync, readFileSync, statSync, writeFileSy
 import { createRequire } from 'node:module';
 import path from 'node:path';
 import { pathToFileURL } from 'node:url';
+import { lancerNavigateur } from '../lib/document.mjs';
 
 const require = createRequire(process.cwd() + '/');
 let chromium;
@@ -45,7 +47,7 @@ const normaliser = (u) => {
 };
 const slug = (u) => (new URL(u).pathname.replace(/^\/|\/$/g, '').replace(/[^a-z0-9]+/gi, '-').toLowerCase() || 'accueil').slice(0, 60);
 
-const navigateur = await chromium.launch(process.env.CHROME_PATH ? { executablePath: process.env.CHROME_PATH } : {});
+const navigateur = await lancerNavigateur();
 const contexte = await navigateur.newContext({ viewport: { width: 1440, height: 900 }, locale: 'fr-FR' });
 const page = await contexte.newPage();
 
@@ -141,6 +143,122 @@ function lirePage() {
   };
 }
 
+/**
+ * Univers visuel (exécuté dans la page) : signes que le client reconnaît au-delà des couleurs et des polices.
+ * Chaque signe trouvé est marqué data-univers=<n> pour être découpé en image ; un exemple par sorte et par page.
+ */
+function lireUnivers() {
+  const visible = (el) => { const r = el.getBoundingClientRect(); const c = getComputedStyle(el); return r.width > 4 && r.height > 2 && c.visibility !== 'hidden' && c.display !== 'none' && c.opacity !== '0'; };
+  const transparent = (c) => !c || c === 'transparent' || /rgba\(\d+,\s*\d+,\s*\d+,\s*0\)/.test(c);
+  const chromatique = (c) => { const m = c?.match(/(\d+),\s*(\d+),\s*(\d+)/); if (!m || transparent(c)) return false; const [r, g, b] = m.slice(1).map(Number); return Math.max(r, g, b) - Math.min(r, g, b) > 30; };
+  const rayon = (el) => parseFloat(getComputedStyle(el).borderTopLeftRadius) || 0;
+  const signes = [];
+  const pris = new Set();
+  const noter = (sorte, description, el, mesures = {}) => {
+    if (pris.has(sorte) || !el || !visible(el)) return;
+    pris.add(sorte);
+    el.dataset.univers = String(signes.length);
+    signes.push({ sorte, description, ...mesures });
+  };
+  const contenu = document.querySelector('main') ?? document.body;
+  const horsCadre = (el) => !el.closest('header, footer, nav');
+  for (const img of contenu.querySelectorAll('img')) {
+    if (!horsCadre(img) || !visible(img)) continue;
+    const r = img.getBoundingClientRect();
+    const src = (img.currentSrc || img.src || '').toLowerCase();
+    if (/\.svg(\?|$)/.test(src) && r.width >= 120 && !/logo/.test(src + img.alt.toLowerCase())) noter('illustration', 'illustration dessinée (SVG) dans le contenu', img);
+    const parent = img.parentElement;
+    // Forme derrière l'image : le parent, ou un pseudo-élément du parent, rond et coloré ; l'effet compte autant que
+    // l'élément : une image qui déborde de sa forme (« sort » du rond) se décrit comme telle.
+    const formes = parent ? [[parent, getComputedStyle(parent)], ...['::before', '::after'].map((ps) => [parent, getComputedStyle(parent, ps)])] : [];
+    const forme = formes.find(([el, c]) => chromatique(c.backgroundColor) && (parseFloat(c.borderTopLeftRadius) >= Math.min(el.offsetWidth, el.offsetHeight) * 0.4 || /50%/.test(c.borderTopLeftRadius)));
+    if (forme) {
+      const rp = parent.getBoundingClientRect();
+      const deborde = [r.top < rp.top - 4 ? 'vers le haut' : null, r.bottom > rp.bottom + 4 ? 'vers le bas' : null, r.left < rp.left - 4 || r.right > rp.right + 4 ? 'sur les côtés' : null].filter(Boolean);
+      const effet = deborde.length ? `, l'image déborde de la forme ${deborde.join(' et ')} (effet à garder : pas de overflow: hidden)` : (getComputedStyle(parent).overflow === 'hidden' ? ", l'image coupée au bord de la forme" : '');
+      noter('forme-derriere-image', `rond de couleur derrière l'image (${forme[1].backgroundColor})${effet}`, parent);
+    }
+    if (rayon(img) >= Math.min(r.width, r.height) * 0.4 && r.width >= 48) noter('image-ronde', 'image ronde', img);
+  }
+  for (const h of contenu.querySelectorAll('h2, h3')) {
+    if (!horsCadre(h) || !visible(h)) continue;
+    for (const pseudo of ['::after', '::before']) {
+      const c = getComputedStyle(h, pseudo);
+      if (c.content !== 'none' && c.content !== 'normal' && (!transparent(c.backgroundColor) || parseFloat(c.borderBottomWidth) > 0) && parseFloat(c.height) <= 10) noter('ornement-titre', `trait sous le titre (${transparent(c.backgroundColor) ? c.borderBottomColor : c.backgroundColor}, ${c.width} × ${c.height})`, h);
+    }
+    if (parseFloat(getComputedStyle(h).borderBottomWidth) >= 2) noter('ornement-titre', `titre souligné d'un filet (${getComputedStyle(h).borderBottomColor})`, h);
+  }
+  for (const li of contenu.querySelectorAll('li')) {
+    if (!horsCadre(li) || !visible(li)) continue;
+    const c = getComputedStyle(li, '::before');
+    const icone = li.firstElementChild;
+    if (icone?.matches('img, svg') && icone.getBoundingClientRect().width <= 28) noter('puce', 'puce en icône (petite image devant chaque élément de liste)', li);
+    if (c.content !== 'none' && c.content !== 'normal' && (!transparent(c.backgroundColor) || c.backgroundImage !== 'none' || /[^\s"']/.test(c.content.replace(/^["']|["']$/g, '')))) noter('puce', `puce personnalisée (${transparent(c.backgroundColor) ? c.content : c.backgroundColor}${c.transform !== 'none' ? ', pivotée' : ''})`, li);
+  }
+  // Cartes : au moins deux éléments frères de même classe, avec ombre ou arrondi sur fond.
+  for (const el of contenu.querySelectorAll('article, li, div')) {
+    if (!horsCadre(el) || !visible(el) || !el.className || typeof el.className !== 'string') continue;
+    const c = getComputedStyle(el);
+    const freres = el.parentElement ? [...el.parentElement.children].filter((x) => x.className === el.className).length : 0;
+    if (freres >= 2 && el.offsetHeight > 80 && (c.boxShadow !== 'none' || (rayon(el) >= 6 && !transparent(c.backgroundColor)))) noter('carte', `cartes${rayon(el) ? `, arrondi ${Math.round(rayon(el))} px` : ''}${c.boxShadow !== 'none' ? ', ombre portée' : ''}`, el);
+  }
+  for (const el of contenu.querySelectorAll('section, div')) {
+    if (!visible(el)) continue;
+    const r = el.getBoundingClientRect();
+    if (r.width < innerWidth * 0.95 || r.height < 120) continue;
+    const c = getComputedStyle(el);
+    if (c.backgroundImage !== 'none' && /url\(/.test(c.backgroundImage)) noter('photo-en-fond', `photo en fond de section${/gradient/.test(c.backgroundImage) ? ', avec un voile' : ''}`, el);
+    else if (chromatique(c.backgroundColor) && horsCadre(el)) noter('fond-section', `section sur fond de couleur (${c.backgroundColor})`, el);
+  }
+  for (const el of contenu.querySelectorAll('span, time, small, p, div')) {
+    if (!horsCadre(el) || !visible(el) || el.children.length > 1) continue;
+    const r = el.getBoundingClientRect();
+    const c = getComputedStyle(el);
+    if (r.height <= 36 && r.width <= 180 && el.textContent.trim().length && chromatique(c.backgroundColor)) noter('pastille', `pastille ou étiquette (${c.backgroundColor}, « ${el.textContent.trim().slice(0, 20)} »)`, el);
+  }
+  // Haut de page : photo ou vidéo qui couvre la zone du titre principal (image, vidéo ou pseudo-élément), voile éventuel.
+  const h1 = contenu.querySelector('h1');
+  let zone = h1?.parentElement;
+  while (zone && zone !== contenu && zone.getBoundingClientRect().height < 250) zone = zone.parentElement;
+  if (zone && zone !== contenu) {
+    const rz = zone.getBoundingClientRect();
+    const media = [...zone.querySelectorAll('img, video, picture')].find((m) => { const r = m.getBoundingClientRect(); return r.width >= rz.width * 0.8 && r.height >= rz.height * 0.6; });
+    const pseudo = [zone, ...zone.children].flatMap((el) => ['::before', '::after'].map((ps) => getComputedStyle(el, ps))).find((c) => /url\(/.test(c.backgroundImage));
+    const voile = [zone, ...zone.querySelectorAll('*')].flatMap((el) => [getComputedStyle(el), getComputedStyle(el, '::before'), getComputedStyle(el, '::after')])
+      .some((c) => /gradient/.test(c.backgroundImage) || /rgba\(\d+,\s*\d+,\s*\d+,\s*0?\.[2-9]/.test(c.backgroundColor));
+    const hauteur = Math.round((rz.height / innerHeight) * 100) / 100;
+    if (media || pseudo) noter('photo-en-fond', `${media?.tagName === 'VIDEO' ? 'vidéo' : 'photo'} en fond du haut de page${voile ? ', sous un voile sombre' : ''}, titre posé dessus, ${Math.round(hauteur * 100)} % de la hauteur de l'écran${hauteur >= 0.95 ? ' (premier écran entier)' : ''}`, zone, { hauteur });
+  }
+  const bouton = [...contenu.querySelectorAll('a, button')].find((b) => horsCadre(b) && visible(b) && !transparent(getComputedStyle(b).backgroundColor));
+  if (bouton) { const c = getComputedStyle(bouton); noter('bouton', `bouton : arrondi ${Math.round(rayon(bouton))} px${c.boxShadow !== 'none' ? ', ombre' : ''}${c.textTransform === 'uppercase' ? ', majuscules' : ''}, fond ${c.backgroundColor}`, bouton); }
+  const pied = document.querySelector('footer');
+  if (pied && chromatique(getComputedStyle(pied).backgroundColor)) noter('pied', `pied de page sur fond de couleur (${getComputedStyle(pied).backgroundColor})`, pied);
+  return signes;
+}
+
+const univers = [];
+const sortesVues = new Set();
+async function releverUnivers(url) {
+  if (univers.length >= 16) return;
+  const signes = await page.evaluate(lireUnivers).catch(() => []);
+  mkdirSync(path.join(SORTIE, 'univers'), { recursive: true });
+  for (const [i, sg] of signes.entries()) {
+    if (sortesVues.has(sg.sorte)) continue;
+    const fichier = `univers/${sg.sorte}.png`;
+    try {
+      const el = page.locator(`[data-univers="${i}"]`).first();
+      await el.scrollIntoViewIfNeeded({ timeout: 3000 });
+      // Marge autour de l'élément : un ornement dessiné hors de sa boîte (trait sous un titre) reste visible.
+      const b = await el.boundingBox();
+      const vue = page.viewportSize();
+      const x = Math.max(0, b.x - 16); const y = Math.max(0, b.y - 16);
+      await page.screenshot({ path: path.join(SORTIE, fichier), clip: { x, y, width: Math.min(b.width + 32, vue.width - x), height: Math.min(b.height + 32, 1600) }, timeout: 5000 });
+      sortesVues.add(sg.sorte);
+      univers.push({ ...sg, page: url, capture: fichier });
+    } catch { /* élément non capturable : essayé sur une autre page */ }
+  }
+}
+
 const pages = [];
 const echecs = [];
 const pagesEnErreur = [];
@@ -172,6 +290,7 @@ while ((file.length && pages.length < MAX) || (fileVariantes.length && variantes
     const s = slug(url);
     await page.screenshot({ path: path.join(SORTIE, 'captures', `${s}-bureau.jpg`), type: 'jpeg', quality: 70, fullPage: true });
     pages.push({ url, urlFinale: finale, statut: rep.status(), capture: `captures/${s}-bureau.jpg`, ...donnees });
+    if (pages.length <= 8) await releverUnivers(url);
     anciennesAdresses.add(new URL(url).pathname);
     for (const l of donnees.liens) ajouterAFile(normaliser(l.href));
     await new Promise((r) => setTimeout(r, 300));
@@ -312,6 +431,8 @@ const inventaire = {
     telephones: Object.values(telephones), emails: Object.values(emails), siren: Object.values(siren),
     reseaux: Object.values(reseaux), codesPostaux: Object.values(codesPostaux),
     donneesStructurees: accueil?.jsonld ?? [],
+    // Signes de l'univers visuel (illustrations, formes, ornements, cartes, fonds), un exemple découpé par sorte.
+    univers,
   },
   // Menu : chemin et ancre (un site d'une page navigue par #sections), sans entrée vide (lien du logo).
   menu: (accueil?.liens ?? []).filter((l) => l.dansNav && l.texte && normaliser(l.href)).map((l) => ({ texte: l.texte, chemin: new URL(l.href).pathname + new URL(l.href).search + new URL(l.href).hash })),

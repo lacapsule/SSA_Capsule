@@ -32,6 +32,7 @@ outils=(
     "Firefox|firefox|0|firefox|firefox|captures à 390 px (Chrome sans interface impose une largeur minimale)"
     "cwebp|cwebp|0|webp|libwebp-tools|conversion WebP"
     "avifenc|avifenc|0|libavif-bin|libavif-tools|conversion AVIF"
+    "ffmpeg|ffmpeg|0|ffmpeg|ffmpeg|réencodage des vidéos (skill web-media ; celui de Playwright ne sert qu'à filmer les tests)"
     "pyftsubset|pyftsubset|0|fonttools|fonttools|sous-ensemble de police woff2"
     "lftp|lftp|0|lftp|lftp|mise en ligne FTP ou SFTP sans SSH (skill web-release)"
     "pdftoppm|pdftoppm|0|poppler-utils|poppler-utils|contrôle visuel des PDF des livrables (skill livrables)"
@@ -46,8 +47,15 @@ trouve() {
 
 chrome() {
     [[ -n "${CHROME_PATH:-}" && -x "$CHROME_PATH" ]] && return 0
-    trouve "google-chrome chromium chromium-browser" && return 0
-    compgen -G "$HOME/.cache/ms-playwright/chromium*" >/dev/null
+    trouve "google-chrome google-chrome-stable chromium chromium-browser" && return 0
+    # Navigateur de Playwright : l'exécutable lui-même, un dossier vide ou incomplet ne compte pas.
+    [[ -n "$(find "$HOME/.cache/ms-playwright" -maxdepth 4 -type f \( -name chrome -o -name headless_shell -o -name chrome-headless-shell \) -perm -u+x 2>/dev/null | head -1)" ]]
+}
+
+# Lancement réel, comme le font les livrables et les audits (même fonction) : un navigateur présent mais cassé échoue ici.
+lance_navigateur() {
+    [[ -d node_modules/playwright-core && -f .claude/skills/livrables/lib/document.mjs ]] || return 0
+    node --input-type=module -e "import { lancerNavigateur } from './.claude/skills/livrables/lib/document.mjs'; const b = await lancerNavigateur(); await b.close();" >/dev/null 2>&1
 }
 
 manque_obligatoire=0
@@ -112,6 +120,13 @@ if command -v node >/dev/null && (( $(node -p 'process.versions.node.split(".")[
     manque_obligatoire=1
 fi
 
+navigateur_casse=0
+if chrome && [[ -d node_modules/playwright-core ]] && ! lance_navigateur; then
+    echo "Navigateur : présent mais ne se lance pas (installation incomplète) : réinstallé par make deps"
+    navigateur_casse=1
+    manque_obligatoire=1
+fi
+
 npm_a_installer=0
 if [[ -f package.json && -f package-lock.json ]]; then
     if [[ -d node_modules/playwright-core && -d node_modules/axe-core ]]; then
@@ -135,7 +150,7 @@ if ((${#paquets[@]})); then
 fi
 ((boite_a_cloner)) && commandes+=("git clone $boite_depot '$boite'")
 ((npm_a_installer)) && commandes+=("npm ci --ignore-scripts")
-chrome || commandes+=("npx --yes playwright-core@1.65.0 install chromium")
+{ ! chrome || ((navigateur_casse)); } && commandes+=("npx --yes playwright-core@1.65.0 install --force chromium")
 
 if [[ "$mode" == etat ]]; then
     if ((${#commandes[@]})); then

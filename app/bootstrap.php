@@ -54,3 +54,4 @@ if (!is_local() && PHP_SAPI !== 'cli') {
 }
 
 require __DIR__ . '/Langue/fonctions.php';
+require __DIR__ . '/Site/navigation-fiches.php';

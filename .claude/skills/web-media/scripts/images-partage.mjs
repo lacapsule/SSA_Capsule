@@ -10,6 +10,7 @@ import { copyFileSync, existsSync, mkdirSync, readFileSync } from 'node:fs';
 import { createRequire } from 'node:module';
 import path from 'node:path';
 import { pathToFileURL } from 'node:url';
+import { lancerNavigateur } from '../../livrables/lib/document.mjs';
 
 const require = createRequire(process.cwd() + '/');
 let chromium;
@@ -32,7 +33,7 @@ for (const f of [og, logo].filter(Boolean)) {
 }
 mkdirSync(sortie, { recursive: true });
 
-const browser = await chromium.launch(process.env.CHROME_PATH ? { executablePath: process.env.CHROME_PATH } : {});
+const browser = await lancerNavigateur();
 const produits = [];
 
 if (og) {

@@ -20,6 +20,8 @@ $scripts = isset($scripts) && is_array($scripts) ? $scripts : [];
 <?php if (!empty($noindex)): ?>
 <meta name="robots" content="noindex">
 <?php endif ?>
+<link rel="stylesheet" href="<?= e(asset('/assets/css/tokens.css')) ?>">
+<link rel="stylesheet" href="<?= e(asset('/assets/css/charte.css')) ?>">
 <link rel="stylesheet" href="<?= e(asset('/assets/css/site.css')) ?>">
 <?php foreach ($styles as $href): ?>
 <link rel="stylesheet" href="<?= e(asset((string) $href)) ?>">

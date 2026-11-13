@@ -20,9 +20,11 @@ Une maquette par page de l'arborescence, dans `docs/maquettes/<page>.md` (« / �
 ```
 Page : <titre>  ·  URL : /<adresse>/  ·  public : <qui>  ·  intention : « <question tapée> »
 Action principale : <ce que le visiteur doit pouvoir faire en un écran>
+Existant : <page remplacée, regardée en capture : ce qui marche, ce qui ne marche pas>
+Références : <2 ou 3 adresses de sites réels du même type et du même métier> ; <ce qu'on en retient : ordre des blocs, densité, images, appels>
 
 1. En-tête : logo, menu (<entrées>), appel à l'action « <libellé> »
-2. <Section> : rôle (une phrase) ; contenu (faits, avec leur source) ; brique (`sections/…` de la boîte ou nouvelle)
+2. <Section> : rôle (une phrase) ; contenu (faits, avec leur source) ; choix (`brique <id>`, `briques <id> + <id>` ou `nouveau bloc : <pourquoi aucune brique ne convient>`) ; ancien : <contenu du bloc remplacé> ; adaptation : <ce qui change pour l'univers du client>
 3. ...
 n. Pied de page : coordonnées, liens légaux, Accessibilité, plan du site
 
@@ -33,7 +35,14 @@ Liens entrants : <pages qui pointent ici>  ·  liens sortants : <voisines, rubri
 - Nom de zone : un nom reconnu par les wireframes (en-tête, fil d'Ariane, héros, services, réalisations, équipe, témoignages, tarifs, questions fréquentes, chiffres clés, étapes, formulaire, plan d'accès, appel à prendre contact, pied de page) ; un autre nom donne un bloc de texte. Listes entre parenthèses ; bouton : libellé entre « » juste après « bouton », « lien » ou « appel à l'action » (« bouton « Nous rejoindre » et « Agenda » ») ; tout autre texte entre « » (slogan, titre) est dessiné comme du texte ; nombre d'éléments écrit (« 3 services ») ; zone dont le contenu manque : « à fournir : <qui> » dans sa ligne, dessinée en pointillés avec la mention « À fournir ».
 - Séparateur de la ligne `Page :` : « · » entouré d'espaces ; le point médian de l'écriture inclusive (« participant·es ») reste dans son champ.
 - Ordre des sections : ce que le public cherche d'abord, pas l'ordre d'un modèle. Accueil : un extrait de chaque rubrique, pas son contenu entier (rule `web-design`).
-- Pour chaque section : une brique de la boîte si elle existe (lire `INDEX.md`, rule `boite-a-outils`), sinon le dire.
+- **Concevoir avant d'intégrer** : une page se conçoit, elle ne se monte pas à partir des briques disponibles. Avant d'écrire les zones :
+  - `Existant :` regarder la capture de la page remplacée (`docs/source/existant/captures/`) avant toute conception, pas seulement l'inventaire : ce qui marche (à garder ou à faire mieux), ce qui ne marche pas (à corriger) ;
+  - `Références :` deux ou trois sites réels du même type et du même métier (champ `metier`), cités par leur adresse et ouverts pour de vrai (jamais une adresse supposée), et ce qu'on en retient pour cette page : ordre des blocs, densité, place des images, appels à l'action. On reprend des choix, pas une copie ;
+  - pour chaque zone, le choix et sa raison tirée de ces deux notes : `brique <id>` (une brique de la boîte, `INDEX.md`, rule `boite-a-outils`), `briques <id> + <id>` (mélange) ou `nouveau bloc : <raison>` (aucune ne convient ; s'il est réutilisable, proposé ensuite à la boîte, skill `boite-a-outils`, « Ajouter »). Dans les trois cas, son `adaptation` à l'univers du client (skill `boite-a-outils`, « Adapter à l'univers »).
+  Existant, références, ancien contenu, choix et adaptation sont des notes pour l'agent : retirées du document du client et de l'empreinte du livrable. Les wireframes signalent une maquette sans `Existant` (quand l'audit existe) ou sans `Références`, et une zone sans choix.
+- **Reprendre tout le contenu** : la nouvelle page reprend tout ce que dit la page qu'elle remplace (histoire, présentation, listes, objectifs, chiffres, noms, liens), bloc par bloc. Reformuler, réorganiser et compléter sont permis, en vérifiant chaque fait contre la source ; résumer une section en deux phrases ou en quelques puces ne l'est pas. Le texte se lit d'abord comme un rédacteur : ce qui est clair et juste se garde, ce qui est confus se réécrit, ce qui est faux ou périmé se signale au client. Pour chaque zone qui remplace un bloc de l'ancien site, la maquette note `ancien : <ce que contenait le bloc>`, et le nouveau bloc en contient au moins autant. Une suppression se justifie dans la maquette (`Retiré : « extrait » (raison)`) et se fait valider. Contrôle : `check-mise-en-page.mjs` compare, mot porteur par mot porteur, chaque passage de la page remplacée (colonne « Remplace » de l'arborescence, ou même adresse) au texte de la nouvelle page, et bloque tout passage ni repris ni justifié.
+- **Existant mesuré** : la note `Existant :` reprend les signes de l'univers avec leurs mesures et leur effet (livrable 01, « Univers visuel » : hauteur du haut de page en part de l'écran, taille de l'illustration, image qui déborde de sa forme…), regardés en grand sur la capture. Le contrôle compare la hauteur du haut de page à celle de la page remplacée.
+- **Ordre de construction** : d'abord la page qui porte l'action principale du premier public, avec ses contenus vivants (événements, actualités, lieux, réalisations), puis les autres pages de contenu ; les pages fixes (légales, plan du site) en dernier. Une page ne se présente pas tant qu'un bloc prévu par sa maquette y est absent ou vide.
 - Validation : par le client, sur le livrable 03 (wireframes, validation 2), notée dans « Décisions validées » (date, page). Sans validation, rien n'est intégré.
 
 ## 3. Patrons par type de page

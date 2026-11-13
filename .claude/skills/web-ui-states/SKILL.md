@@ -43,6 +43,10 @@ Interdit : re-rendre au `focus` ou `visibilitychange` sans changement de M ; ne 
 - L'état d'ouverture vit dans l'attribut (`aria-expanded`, `hidden`, `open`) ; le CSS le lit (`[aria-expanded="true"] + .panel`). Pas de classe d'état en double de l'attribut.
 - Effets de transition : propriétés, durée et courbe en tokens ; mesurés, pas estimés.
 
+## 4 bis. Listes à tous les volumes
+
+Toute liste alimentée par des données (événements, articles, lieux, logos, photos, produits, résultats) se regarde à quatre volumes : **0** (état vide prévu : message et action, jamais un bloc blanc), **1**, **le volume courant** et **le volume maximal probable** (pagination, « voir plus », grille qui passe à la ligne sans orphelin). Les données de test viennent d'un jeu de développement seulement (par ex. `scripts/seed-volume.php` ou un fichier de données de dev), jamais versionné dans les données réelles ni chargé en production. Capture de chaque volume : obligatoire à la livraison (skill `livraison`, ligne 5).
+
 ## 5. Preuve
 
 Pour chaque transition prioritaire : capture ou instantané avant/après, et vérification automatisée si le projet a Playwright :

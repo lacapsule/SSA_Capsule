@@ -24,6 +24,8 @@ return [
     // Mode d'emploi : chaque page bretonne a la même adresse que la française, précédée de /br/.
     'chemins' => [],
     'proposition' => false,
+    // Contenus hors pages fixes annoncés dans sitemap.xml.
+    'sitemap' => [[App\Actualites\Actualites::class, 'plan'], [App\Agenda\Agenda::class, 'plan']],
     // Champ qui décide qu'un contenu existe dans une langue (sa traduction non vide) : hreflang, sitemap, sélecteur.
     'champ_requis' => 'titre',
 ];

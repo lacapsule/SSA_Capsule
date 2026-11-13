@@ -1,0 +1,146 @@
+/* Navigation entre fiches : deux cartes précédent et suivant, calées chacune de son côté (une seule si la fiche est
+   la première ou la dernière), et le retour à la rubrique. Uniquement des tokens de base/tokens.css. */
+
+.navigation-fiches {
+  max-width: var(--wide);
+  margin: var(--space-6) auto 0;
+  padding-inline: var(--gutter);
+}
+
+.navigation-fiches__liste {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr));
+  gap: var(--space-4);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* La carte suivante reste à droite, même seule. */
+.navigation-fiches__element--suivant {
+  grid-column: -2 / -1;
+}
+
+.navigation-fiches__carte {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  height: 100%;
+  min-height: var(--target);
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius);
+  text-decoration: none;
+  color: var(--color-text);
+  background: var(--color-surface);
+  transition: transform var(--duration-fast) var(--ease), box-shadow var(--duration-fast) var(--ease), border-color var(--duration-fast) var(--ease);
+}
+
+.navigation-fiches__element--suivant .navigation-fiches__carte {
+  justify-content: flex-end;
+  text-align: end;
+}
+
+.navigation-fiches__carte:hover {
+  border-color: var(--color-accent);
+  box-shadow: var(--shadow);
+  transform: translateY(-0.125rem);
+}
+
+.navigation-fiches__carte:focus-visible {
+  outline: var(--focus-largeur) solid var(--color-focus);
+  outline-offset: var(--focus-ecart);
+}
+
+.navigation-fiches__carte:active {
+  transform: translateY(0);
+}
+
+.navigation-fiches__fleche {
+  flex: none;
+  color: var(--color-accent);
+  transition: transform var(--duration-fast) var(--ease);
+}
+
+.navigation-fiches__element--precedent .navigation-fiches__carte:hover .navigation-fiches__fleche {
+  transform: translateX(-0.25rem);
+}
+
+.navigation-fiches__element--suivant .navigation-fiches__carte:hover .navigation-fiches__fleche {
+  transform: translateX(0.25rem);
+}
+
+.navigation-fiches__vignette {
+  flex: none;
+  width: 4.5rem;
+  aspect-ratio: 4 / 3;
+  border-radius: var(--radius-small);
+  background: var(--color-surface-2);
+  overflow: hidden;
+}
+
+.navigation-fiches__vignette img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.navigation-fiches__texte {
+  display: grid;
+  gap: var(--space-1);
+  min-width: 0;
+}
+
+.navigation-fiches__sens {
+  font-size: var(--step--1);
+  font-weight: 600;
+  letter-spacing: var(--etiquette-espacement);
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.navigation-fiches__titre {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  font-weight: 700;
+  line-height: 1.3;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}
+
+.navigation-fiches__retour {
+  margin: var(--space-4) 0 0;
+  text-align: center;
+}
+
+.navigation-fiches__retour a {
+  font-weight: 600;
+  color: var(--color-accent-strong);
+}
+
+/* Téléphone : vignette masquée, les deux cartes empilées gardent leur sens par la flèche et l'intitulé. */
+@media (max-width: 30em) {
+  .navigation-fiches__vignette {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .navigation-fiches__carte,
+  .navigation-fiches__fleche {
+    transition: none;
+  }
+
+  .navigation-fiches__carte:hover,
+  .navigation-fiches__carte:hover .navigation-fiches__fleche {
+    transform: none;
+  }
+}
+
+@media (forced-colors: active) {
+  .navigation-fiches__carte {
+    border-color: LinkText;
+  }
+}

@@ -1,15 +1,195 @@
-/* Mise en page propre au projet, sur les tokens de base (charte neutre jusqu'à la validation 3).
-   En-tête : logo et langue sur la première ligne, menu de 8 entrées sur la seconde dès le grand écran. */
-.site-header__inner { row-gap: 0; }
-.site-header__logo { order: 1; gap: var(--space-2); }
-.site-header__logo img { width: 2.75rem; height: auto; aspect-ratio: 433 / 446; }
-.site-header .langues { order: 2; margin-inline-start: auto; }
-.site-nav { order: 3; flex-basis: 100%; justify-content: flex-start; }
-.site-nav__list { margin-inline-start: calc(-1 * var(--space-3)); }
-@media (max-width: 56rem) {
-  .site-nav { flex-basis: auto; }
-  .site-nav__list { margin-inline-start: 0; }
-}
-.site-footer address { font-style: normal; }
+/* Mise en page propre au projet, sur la charte du client (charte.css) et les échelles (tokens.css).
+   Identité du site actuel : en-tête bleu de marque, photo de réunion sous un voile sombre en haut de l'accueil,
+   boutons verts, titres sur une colonne centrée, pied de page jaune. Aucune valeur de couleur en dur. */
+
+/* ---------- En-tête sur une seule ligne : logo, menu, langue. Menu replié en bouton sous 999rem (mesuré). ---------- */
+.site-header { border-bottom: 0; color: var(--color-entete-texte); background: var(--color-entete-fond); backdrop-filter: none; }
+.site-header__inner { flex-wrap: wrap; column-gap: var(--space-3); row-gap: 0; min-height: 0; padding-block: var(--space-2); }
+.site-header__logo { order: 1; flex: none; gap: var(--space-2); font-size: var(--step-0); font-weight: 700; color: var(--color-entete-texte); }
+.site-header__logo img { flex: none; width: 2.75rem; height: auto; aspect-ratio: 433 / 446; }
+.site-nav { order: 2; flex: 1 1 auto; justify-content: flex-end; }
+.site-nav__list { flex-wrap: nowrap; }
+.site-nav__list a { padding-inline: var(--space-2); color: var(--color-entete-texte); }
+.site-nav__list a:hover { background: color-mix(in srgb, var(--color-entete-texte) 12%, transparent); }
+.site-nav__list a[aria-current="page"] { color: var(--color-entete-texte); background: color-mix(in srgb, var(--color-entete-texte) 18%, transparent); }
+.site-nav__toggle { border-color: var(--color-entete-texte); color: var(--color-entete-texte); background: transparent; }
+.site-header .langues { order: 3; flex: none; }
+.site-header .langues .langues__lien { color: var(--color-entete-texte); }
 /* En-tête : seulement le lien vers l'autre langue (maquette) ; la liste complète reste au pied de page. */
 .site-header .langues li:has([aria-current]) { display: none; }
+/* Nom du site : masqué à l'œil (lu par les lecteurs d'écran) là où il ferait passer le menu ou la langue à la ligne.
+   Mesuré le 2026-11-13 : logo et nom 220 px, menu 933 px (breton), langue 92 px, gouttières 64 px. */
+@media (min-width: 75.01rem) and (max-width: 86rem), (max-width: 31rem) {
+  .site-header__logo > span:not(.visually-hidden) { position: absolute; width: 1px; height: 1px; white-space: nowrap; clip-path: inset(50%); overflow: hidden; }
+}
+/* Menu replié : mêmes règles que site.css sous 56rem, étendues jusqu'au seuil mesuré ; ouvert, il passe sous la ligne. */
+@media (max-width: 75rem) {
+  .js .site-nav__toggle { display: inline-flex; }
+  .js .site-nav__list { display: none; }
+  .js .site-nav[data-open] { order: 4; flex-basis: 100%; padding-bottom: var(--space-3); }
+  .js .site-nav[data-open] .site-nav__toggle { position: absolute; top: calc((var(--header-h) - var(--target)) / 2); right: var(--gutter); }
+  .js .site-nav[data-open] .site-nav__list { display: grid; gap: var(--space-1); width: 100%; }
+  .js .site-nav[data-open] .site-nav__list a { width: 100%; }
+}
+
+/* ---------- Haut de l'accueil : photo sous un voile, texte centré ---------- */
+.heros { position: relative; display: grid; place-items: center; color: var(--voile-texte); background: var(--voile); overflow: hidden; }
+.heros__photo { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.4; }
+.heros__inner { position: relative; display: grid; align-content: center; min-height: max(24rem, 90svh); padding-block: var(--space-6); text-align: center; }
+.heros h1 { max-width: 30ch; margin: 0 auto; font-size: var(--step-3); line-height: 1.1; }
+.heros__devise { max-width: var(--measure); margin: var(--space-3) auto 0; font-size: var(--step-0); }
+.heros__actions { display: flex; flex-wrap: wrap; justify-content: center; gap: var(--space-2); margin: var(--space-4) 0 0; }
+.heros .button--ghost { border-color: var(--voile-texte); color: var(--voile-texte); background: transparent; }
+.heros .button--ghost:hover { color: var(--voile); background: var(--voile-texte); }
+
+/* ---------- Sections : une colonne centrée, texte aligné à gauche dedans (rule web-design, Centrage) ---------- */
+.section { padding-block: var(--space-5); }
+.section > .container:not(.duo) { max-width: var(--measure); }
+.section > .container:has(.cards) { max-width: var(--wide); }
+.section__head { margin-inline: auto; text-align: center; }
+.section__head h2, .prose h2 { color: var(--color-marque-sur-fond); }
+.page-head { background: var(--color-surface-2); }
+.page-head__inner { max-width: 60rem; padding-block: var(--space-5); }
+.page-head h1 { max-width: none; }
+.page-head__intro { max-width: var(--measure); }
+.page-head h1 { color: var(--color-marque-sur-fond); }
+.more { margin: var(--space-4) 0 0; }
+.section .container > .more { text-align: center; }
+.section.cta > .container { max-width: 56rem; }
+
+/* Texte et illustration côte à côte, empilés sur téléphone. */
+.duo { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--space-5); align-items: center; max-width: 56rem; }
+@media (min-width: 48rem) {
+  .duo { grid-template-columns: 14rem minmax(0, 1fr); }
+}
+
+/* Appel à prendre contact : bloc centré, compact. */
+.section.cta { margin: 0; text-align: center; background: var(--color-surface-2); }
+.section.cta h2 { margin: 0 0 var(--space-3); font-size: var(--step-1); color: var(--color-marque-sur-fond); }
+.section.cta p { display: flex; flex-wrap: wrap; justify-content: center; gap: var(--space-2); margin: 0; }
+
+/* ---------- Pied de page jaune de marque ---------- */
+.site-footer { margin-top: 0; border-top: 0; color: var(--color-marque-2-texte); background: var(--color-marque-2); }
+.site-footer a, .site-footer .langues .langues__lien { color: var(--color-marque-2-texte); }
+.site-footer address { font-style: normal; line-height: 1.7; }
+.site-footer__title { color: var(--color-marque-2-texte); }
+.site-footer .langues__liste { display: flex; align-items: center; gap: var(--space-2); }
+.site-footer .langues .langues__lien { padding-inline: var(--space-2); }
+.site-footer .langues .langues__lien[aria-current="true"] { color: var(--color-marque-2-texte); background: color-mix(in srgb, var(--color-marque-2-texte) 12%, transparent); }
+.site-footer__bottom { border-top: 1px solid color-mix(in srgb, var(--color-marque-2-texte) 25%, transparent); }
+/* Retour en haut : un lien dans le pied de page, jamais posé sur un contenu. */
+.site-footer__bottom { display: flex; flex-wrap: wrap; justify-content: space-between; gap: var(--space-2); }
+.site-footer__haut { display: inline-flex; align-items: center; gap: var(--space-1); min-height: var(--target); }
+
+/* ---------- Univers du site actuel (audit, rubrique « Univers visuel » ; maquettes, notes « adaptation ») ---------- */
+/* Trait vert sous les titres de section : un filet en fond, ni pseudo-élément ni tiret devant le titre. */
+.section__head h2, .prose h2, .page-head h1 { padding-bottom: var(--space-2); background: linear-gradient(var(--color-accent), var(--color-accent)) left bottom / 2.5rem 0.1875rem no-repeat; }
+.section__head h2, .section.cta h2 { background-position: center bottom; }
+/* Boutons : arrondi léger et ombre, comme ceux du site actuel. */
+.button { border-radius: var(--radius-small); box-shadow: var(--ombre-bouton); }
+.button--ghost { box-shadow: none; }
+/* Cartes : arrondi de la charte et ombre portée. */
+.card { border-radius: var(--radius); box-shadow: var(--ombre-carte); }
+/* Illustration du site actuel dans un rond jaune de marque. */
+/* Illustration qui sort d'un rond jaune (effet du site actuel : l'image déborde en haut et en bas, jamais rognée). */
+.illustration-rond { position: relative; display: block; justify-self: center; width: 13rem; height: 13rem; margin-block: 4rem 0.5rem; border-radius: 50%; background: var(--color-marque-2); }
+.illustration-rond img { position: absolute; bottom: -0.5rem; left: 50%; width: auto; height: 140%; transform: translateX(-50%); }
+/* Puces en petit losange jaune (forme pleine). */
+.puces { list-style: none; padding-left: 0; }
+.prose ul.puces { padding-left: 0; }
+.puces li { position: relative; padding-left: var(--space-4); }
+.puces li::before { position: absolute; top: 0.55em; left: 0.25rem; content: ""; width: 0.5rem; height: 0.5rem; background: var(--color-marque-2); transform: rotate(45deg); }
+/* Pastille de date jaune (actualités, agenda). */
+.pastille { display: inline-block; padding: var(--space-1) var(--space-2); border-radius: var(--radius-small); font-size: var(--step--1); font-weight: 700; color: var(--color-marque-2-texte); background: var(--color-marque-2); }
+/* Haut de page intérieure avec photo du site actuel sous un voile (même traitement que l'accueil). */
+.page-head--photo { position: relative; color: var(--voile-texte); background: var(--voile); overflow: hidden; }
+.page-head__photo { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.4; }
+.page-head--photo .page-head__inner { position: relative; padding-block: var(--space-6); text-align: center; }
+.page-head--photo h1, .page-head--photo .page-head__intro { margin-inline: auto; color: var(--voile-texte); }
+.page-head--photo h1 { background-position: center bottom; }
+.page-head--photo .breadcrumb ol { justify-content: center; }
+.page-head--photo .breadcrumb a, .page-head--photo .breadcrumb li { color: var(--voile-texte); }
+/* Schéma du site actuel sous la frise. */
+.schema { max-width: 56rem; margin-top: var(--space-5); margin-bottom: 0; }
+.schema img { width: 100%; height: auto; border-radius: var(--radius); box-shadow: var(--ombre-carte); }
+.schema figcaption { margin-top: var(--space-3); }
+.schema summary { min-height: var(--target); font-weight: 700; color: var(--color-accent); cursor: pointer; }
+
+/* ---------- Événements : pastille de date jaune, carte arrondie avec ombre ---------- */
+.section.section--evenements > .container, .section > .container:has(.evenements) { max-width: 52rem; }
+.evenements { display: grid; gap: var(--space-3); list-style: none; margin: 0; padding: 0; }
+.evenement { position: relative; display: grid; grid-template-columns: auto minmax(0, 1fr); gap: var(--space-3); align-items: center; padding: var(--space-3); border: 1px solid var(--color-line); border-radius: var(--radius); background: var(--color-surface); box-shadow: var(--ombre-carte); }
+.evenement:hover { border-color: var(--color-accent); }
+.pastille-date { display: grid; width: 4.25rem; padding: var(--space-2) 0; border-radius: var(--radius-small); line-height: 1.1; text-align: center; color: var(--color-marque-2-texte); background: var(--color-marque-2); }
+.pastille-date__jour { font-size: var(--step-2); font-weight: 800; }
+.pastille-date__mois { font-size: var(--step--1); font-weight: 700; text-transform: uppercase; }
+.evenement__titre { margin: 0; font-size: var(--step-1); }
+.evenement__titre a { text-decoration: none; color: var(--color-marque-sur-fond); }
+.evenement__titre a::after { position: absolute; inset: 0; content: ""; }
+.evenement__titre a:focus-visible { outline: none; }
+.evenement:has(a:focus-visible) { outline: var(--focus-largeur) solid var(--color-focus); outline-offset: var(--focus-ecart); }
+.evenement__infos, .evenement__public { margin: var(--space-1) 0 0; color: var(--color-text-muted); }
+.evenement__public { font-size: var(--step--1); font-weight: 700; }
+
+/* ---------- Cartes d'article : photo en haut, date en pastille, lien étiré ---------- */
+.section > .container:has(.cartes-articles) { max-width: var(--wide); }
+.cartes-articles { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr)); gap: var(--space-4); list-style: none; margin: 0; padding: 0; }
+.carte-article { position: relative; display: flex; flex-direction: column; border: 1px solid var(--color-line); border-radius: var(--radius); background: var(--color-surface); box-shadow: var(--ombre-carte); overflow: hidden; }
+.carte-article:hover { border-color: var(--color-accent); }
+.carte-article__photo { display: block; width: 100%; height: auto; aspect-ratio: 16 / 10; object-fit: cover; }
+.carte-article__photo--vide { display: grid; place-items: center; color: var(--color-marque-2-texte); background: var(--color-marque-2); }
+.carte-article__corps { display: grid; gap: var(--space-2); justify-items: start; padding: var(--space-3) var(--space-4) var(--space-4); }
+.carte-article__titre { margin: 0; font-size: var(--step-1); }
+.carte-article__titre a { text-decoration: none; color: var(--color-marque-sur-fond); }
+.carte-article__titre a::after { position: absolute; inset: 0; content: ""; }
+.carte-article__titre a:focus-visible { outline: none; }
+.carte-article:has(a:focus-visible) { outline: var(--focus-largeur) solid var(--color-focus); outline-offset: var(--focus-ecart); }
+.carte-article p { margin: 0; color: var(--color-text-muted); }
+
+/* ---------- Logos en grille fixe sur fond blanc ---------- */
+.section.section--logos > .container { max-width: 56rem; }
+.logos-titre { margin: var(--space-4) 0 var(--space-2); font-size: var(--step-0); text-align: center; color: var(--color-text-muted); }
+.grille-logos { display: flex; flex-wrap: wrap; justify-content: center; gap: var(--space-3); list-style: none; margin: 0; padding: 0; }
+.grille-logos__lien { display: grid; place-items: center; width: 10rem; height: 6rem; padding: var(--space-3); border: 1px solid var(--color-line); border-radius: var(--radius); background: var(--voile-texte); }
+.grille-logos__lien img { max-width: 100%; height: auto; }
+
+/* ---------- Agenda : filtres, passés, fiche ---------- */
+.filtres ul { display: flex; flex-wrap: wrap; gap: var(--space-2); list-style: none; margin: 0 0 var(--space-4); padding: 0; }
+.filtres a { display: inline-flex; align-items: center; min-height: var(--target); padding: 0 var(--space-3); border: 1px solid var(--color-border); border-radius: var(--radius-pill); text-decoration: none; color: var(--color-text); }
+.filtres a[aria-current="page"] { border-color: var(--color-accent); color: var(--color-accent-text); background: var(--color-accent); }
+.passes { margin-top: var(--space-5); }
+.passes summary { min-height: var(--target); margin-bottom: var(--space-3); font-weight: 700; color: var(--color-accent); cursor: pointer; }
+.etat-vide { padding: var(--space-4); border-radius: var(--radius); text-align: center; color: var(--color-text-muted); background: var(--color-surface-2); }
+.infos-pratiques { display: grid; gap: var(--space-2); margin: 0 0 var(--space-4); padding: var(--space-4); border-radius: var(--radius); background: var(--color-surface-2); }
+.infos-pratiques div { display: grid; grid-template-columns: 6rem minmax(0, 1fr); gap: var(--space-2); }
+.infos-pratiques dt { font-weight: 700; color: var(--color-marque-sur-fond); }
+.infos-pratiques dd { margin: 0; }
+
+/* ---------- Article : méta, photo, galerie ---------- */
+.article-meta { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2); color: var(--color-text-muted); }
+.article-photo { width: 100%; height: auto; margin: var(--space-3) 0; border-radius: var(--radius); box-shadow: var(--ombre-carte); }
+.galerie-article { display: grid; grid-template-columns: repeat(auto-fill, minmax(10rem, 1fr)); gap: var(--space-2); list-style: none; padding: 0; }
+.galerie-article img { width: 100%; height: auto; aspect-ratio: 1; border-radius: var(--radius-small); object-fit: cover; }
+
+/* ---------- Pagination et fiches voisines ---------- */
+.pagination ul { display: flex; flex-wrap: wrap; justify-content: center; gap: var(--space-2); list-style: none; margin: var(--space-5) 0 0; padding: 0; }
+.pagination a { display: grid; place-items: center; min-width: var(--target); min-height: var(--target); border: 1px solid var(--color-border); border-radius: var(--radius-small); text-decoration: none; }
+.pagination a[aria-current="page"] { border-color: var(--color-accent); color: var(--color-accent-text); background: var(--color-accent); }
+.sous-titre { font-weight: 700; color: var(--color-marque-sur-fond); }
+.duo .prose h3 { margin-top: var(--space-4); font-size: var(--step-0); }
+.evenement__texte { margin-top: var(--space-2); }
+.evenement__texte p { margin: 0 0 var(--space-1); }
+.site-footer__credit { margin: 0; font-size: var(--step--1); }
+.article-video { margin: var(--space-3) 0; }
+.article-video video { display: block; width: 100%; height: auto; border-radius: var(--radius); background: var(--voile); box-shadow: var(--ombre-carte); }
+.carte-article__photo--vide path { fill: var(--color-marque-2); }
+
+/* Navigation entre fiches (brique de la boîte) adaptée : ombre et arrondi des cartes, titres bleu de marque,
+   flèche verte, vignette arrondie sur fond jaune quand la fiche n'a pas d'image. */
+.section.voisins { padding-block: 0 var(--space-5); }
+.navigation-fiches { max-width: 56rem; margin-top: var(--space-4); }
+.navigation-fiches__carte { box-shadow: var(--ombre-carte); }
+.navigation-fiches__titre { color: var(--color-marque-sur-fond); }
+.navigation-fiches__vignette { background: var(--color-marque-2); }
+.navigation-fiches__retour a { color: var(--color-accent); }
+.agenda-mois { margin: var(--space-4) 0 var(--space-2); font-size: var(--step-0); text-transform: uppercase; letter-spacing: var(--etiquette-espacement); color: var(--color-text-muted); }

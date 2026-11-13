@@ -111,14 +111,21 @@ export function couleursDeMarque(identite) {
   const accent = candidates.find((c) => primaire && ecartTeinte(c, primaire) > 35) ?? primaire;
   const fond = site.find((c) => /fond/.test(c.roleProbable) && !estChromatique(c.hex))?.hex ?? null;
   const texte = site.find((c) => c.roleProbable === 'texte')?.hex ?? null;
-  return { primaire, accent, fondActuel: fond, texteActuel: texte };
+  // Rôles relevés sur le site actuel : la couleur de fond des boutons est l'accent que le client reconnaît
+  // (fidèle) ; une autre couleur de marque reste disponible en secondaire (fonds, pastilles, pied de page).
+  const action = site.find((c) => c.roleProbable === 'fond-action' && estChromatique(c.hex))?.hex ?? null;
+  const pris = [primaire, action ?? accent];
+  const secondaire = candidates.find((c) => pris.every((x) => !x || ecartTeinte(c, x) > 35)) ?? null;
+  return { primaire, accent, action, secondaire, fondActuel: fond, texteActuel: texte };
 }
 
 /**
  * Jeu de tokens couleur d'un thème. options : { primaire, accent, fond (clair) , sombre (bool), teinteNeutre }.
- * Tous les rôles reprennent les noms de base/tokens.css de la boîte, plus --color-marque et --color-marque-texte.
+ * Tous les rôles reprennent les noms de base/tokens.css de la boîte, plus --color-marque (fond) et --color-marque-texte,
+ * --color-marque-sur-fond (marque en texte, 4,5:1 sur chaque fond du thème),
+ * et --color-marque-2 et --color-marque-2-texte quand une couleur de marque secondaire est connue (couleur telle quelle, en fond).
  */
-export function jeuCouleurs({ primaire, accent, fond, sombre = false, style = 'neutre' }) {
+export function jeuCouleurs({ primaire, accent, fond, secondaire = null, sombre = false, style = 'neutre' }) {
   const teinte = primaire ?? accent ?? '#6b7280';
   const neutre = (l, c = 0.012) => varier(teinte, { l, c });
   const t = {};
@@ -149,7 +156,16 @@ export function jeuCouleurs({ primaire, accent, fond, sombre = false, style = 'n
   t['--color-accent-text'] = contraste('#ffffff', t['--color-accent']) >= contraste(neutre(0.15, 0.02), t['--color-accent']) ? '#ffffff' : neutre(0.15, 0.02);
   t['--color-focus'] = plusExigeant(acc, 3.1);
   t['--color-marque'] = primaire ?? acc;
+  // Marque en texte (titre, chiffre, mot mis en avant) : même teinte, clarté ajustée pour 4,5:1 sur les trois fonds du thème.
+  // --color-marque reste une couleur de fond, identique dans les deux thèmes.
+  t['--color-marque-sur-fond'] = plusExigeant(primaire ?? acc, 4.6);
   t['--color-marque-texte'] = contraste('#ffffff', t['--color-marque']) >= 4.5 ? '#ffffff' : contraste(neutre(0.15, 0.02), t['--color-marque']) >= 4.5 ? neutre(0.15, 0.02) : ajusterContraste('#ffffff', t['--color-marque'], 4.5);
+  // Couleur secondaire gardée telle quelle (le client la reconnaît) : utilisée en fond, avec le texte qui y contraste.
+  if (secondaire) {
+    t['--color-marque-2'] = sombre ? varier(secondaire, { l: Math.min(versOklch(secondaire).l, 0.7) }) : secondaire;
+    const fonce = neutre(0.15, 0.02);
+    t['--color-marque-2-texte'] = contraste(fonce, t['--color-marque-2']) >= contraste('#ffffff', t['--color-marque-2']) ? ajusterContraste(fonce, t['--color-marque-2'], 4.6) : ajusterContraste('#ffffff', t['--color-marque-2'], 4.6);
+  }
   const statut = (h) => plusExigeant(depuisOklch({ l: sombre ? 0.78 : 0.5, c: 0.15, h }), 4.6);
   t['--color-danger'] = statut(27);
   t['--color-success'] = statut(150);
@@ -177,12 +193,13 @@ export function jeuCouleurs({ primaire, accent, fond, sombre = false, style = 'n
 export function verifierJeu(t) {
   const paires = [];
   for (const fond of ['--color-bg', '--color-surface', '--color-surface-2']) {
-    paires.push(['--color-text', fond, 4.5, 'texte'], ['--color-text-muted', fond, 4.5, 'texte secondaire'], ['--color-accent', fond, 4.5, 'lien et texte d\'accent'], ['--color-focus', fond, 3, 'contour de focus']);
+    paires.push(['--color-text', fond, 4.5, 'texte'], ['--color-text-muted', fond, 4.5, 'texte secondaire'], ['--color-accent', fond, 4.5, 'lien et texte d\'accent'], ['--color-marque-sur-fond', fond, 4.5, 'texte à la couleur de la marque'], ['--color-focus', fond, 3, 'contour de focus']);
     for (const s of ['--color-danger', '--color-success', '--color-warning', '--color-info']) paires.push([s, fond, 4.5, 'message']);
   }
   paires.push(['--color-entete-texte', '--color-entete-fond', 4.5, 'texte de l\'en-tête'], ['--color-heros-texte', '--color-heros-fond', 4.5, 'texte du haut de page']);
   paires.push(['--color-entete-accent', '--color-entete-fond', 4.5, 'lien et bouton de l\'en-tête'], ['--color-heros-accent', '--color-heros-fond', 4.5, 'lien et bouton du haut de page']);
   paires.push(['--color-text', '--color-accent-soft', 4.5, 'texte sur fond teinté'], ['--color-text-muted', '--color-accent-soft', 4.5, 'texte secondaire sur fond teinté']);
   paires.push(['--color-border', '--color-bg', 3, 'contour de champ'], ['--color-accent-text', '--color-accent', 4.5, 'texte sur bouton'], ['--color-marque-texte', '--color-marque', 4.5, 'texte sur la couleur de marque']);
+  if (t['--color-marque-2']) paires.push(['--color-marque-2-texte', '--color-marque-2', 4.5, 'texte sur la couleur secondaire']);
   return paires.map(([a, b, cible, usage]) => ({ avant: a, fond: b, cible, usage, ratio: contraste(t[a], t[b]), ok: contraste(t[a], t[b]) >= cible }));
 }

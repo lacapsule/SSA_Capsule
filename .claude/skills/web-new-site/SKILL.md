@@ -66,7 +66,7 @@ Chaque étape n'utilise que ce que les précédentes ont produit (skill `livrabl
 3. Cahier des charges (`make livrables`, livrable 02) : **validation 1 du client**, qui fige le type.
 4. `make socle` : architecture déduite du type (refusée avant la validation 1 ou si le type et le socle ne vont pas ensemble) ; `src/data/` rempli depuis le mode d'emploi (domaine dans `site.json`, une seule source).
 5. Maquette en texte de chaque page (skill `web-contenu`), rendue en wireframes (livrable 03) : **validation 2**, qui fige la structure.
-6. Intégration des pages avec leurs vrais contenus (skill `web-contenu`, briques de la boîte), sur la charte neutre du modèle, mobile d'abord.
+6. Intégration des pages avec leurs vrais contenus (skill `web-contenu`, briques de la boîte), dans l'ordre de construction du skill `web-contenu` (page de l'action principale et contenus vivants d'abord), sur la charte du client (`make charte`, posée aussi par `make socle`), mobile d'abord.
 7. Direction artistique et maquettes (livrable 04) : trois pistes montrées sur ces pages, **validation 3** (`make valider … PISTE=n`), puis `make appliquer`.
-8. Finitions : SEO, données structurées, pages légales, formulaires et sécurité, image de partage et icônes (`make images`, skill `web-media`).
+8. Finitions : SEO, données structurées, pages légales, formulaires et sécurité, image de partage et icônes (`make images`, skill `web-media`), animations minimales (rule `web-design`, « Mouvement »).
 9. Recette complète (skill `web-audit`), PV de recette (livrable 05) : **validation 4**, puis livraison (skill `livraison`), mise en production (skill `web-release`) et dossier de livraison (livrable 06).

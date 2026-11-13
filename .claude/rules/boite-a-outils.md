@@ -13,5 +13,6 @@ Les composants, sections, modules et gabarits déjà réalisés vivent dans un d
 ## La boîte reste générique
 
 - Jamais de contenu, de nom, de logo, de photo, de couleur de marque ni de donnée d'un client dans la boîte : textes neutres, valeurs prises dans `base/tokens.css`.
+- `base/tokens.css` de la boîte est la charte de Kouzia (nuit, ambre, Exo 2), pas une charte neutre : il ne se copie jamais dans un site client. Une brique reprise garde ses `var(--…)` ; leurs valeurs viennent de la charte du client (`make charte`, skill `livrables`). `make verify` échoue sur toute valeur de la charte de Kouzia dans le site.
 - Une brique ne s'ajoute ou ne se modifie dans la boîte qu'avec l'accord de l'humain (rule `00-organisation`, « Modifier les règles »). Depuis un projet client, on propose, on n'écrit pas seul.
 - `INDEX.md` et `catalogue.html` sont générés par `node ../kouzia-boite-a-outils/outils/indexer.mjs` : jamais modifiés à la main.

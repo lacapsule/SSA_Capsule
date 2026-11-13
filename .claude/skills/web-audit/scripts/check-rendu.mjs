@@ -12,6 +12,7 @@
 // Écrit les captures de chaque page, à regarder ensuite : un script ne juge pas une mise en page.
 import { readFileSync, mkdirSync } from 'node:fs';
 import { createRequire } from 'node:module';
+import { lancerNavigateur } from '../../livrables/lib/document.mjs';
 
 const require = createRequire(process.cwd() + '/');
 let chromium;
@@ -27,7 +28,7 @@ if (shots) mkdirSync(shots, { recursive: true });
 const errors = [];
 const err = (page, message) => errors.push(`${page} : ${message}`);
 
-const browser = await chromium.launch(process.env.CHROME_PATH ? { executablePath: process.env.CHROME_PATH } : {});
+const browser = await lancerNavigateur();
 const open = async (width, height) => {
   const page = await (await browser.newContext({ viewport: { width, height }, reducedMotion: 'reduce' })).newPage();
   if (conf.login) {

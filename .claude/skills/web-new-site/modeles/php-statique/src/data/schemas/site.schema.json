@@ -8,6 +8,7 @@
     "description": { "type": "string", "minLength": 140, "maxLength": 160, "description": "ce que fait l'activité, pour qui et où, en 140 à 160 caractères (accueil, llms.txt)" },
     "url": { "type": "string", "format": "uri", "pattern": "^https://[^/]+$", "description": "domaine de production en https, sans barre finale" },
     "zone": { "type": "string", "minLength": 2, "description": "territoire servi" },
+    "creditComplement": { "type": "string", "maxLength": 120, "description": "complément du crédit propre au projet, ex. « au sein de La Capsule » (crédit commun : .claude/kouzia.json)" },
     "image": { "type": "string", "pattern": "^/[^\\s]+\\.(jpg|png)$", "description": "chemin de l'image de partage 1200 × 630 (make images produit /og.jpg)" },
     "contentSignal": { "type": "string", "pattern": "^search=(yes|no), ai-input=(yes|no), ai-train=(yes|no)$", "description": "search=yes, ai-input=yes, ai-train=no (valeur de ai-train tranchée à l'interview)" },
     "contact": {

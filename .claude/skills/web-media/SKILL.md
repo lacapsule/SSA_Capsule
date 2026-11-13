@@ -42,7 +42,14 @@ avifenc --min 20 --max 30 photo.jpg photo.avif
 npx svgo --multipass logo.svg   # svgo verrouillé dans le package.json du projet
 pyftsubset Police.ttf --flavor=woff2 --layout-features='*' --unicodes='U+0000-00FF,U+0131,U+0152-0153,U+2018-201E,U+2026,U+20AC' --output-file=police.woff2
 ffmpeg -i video.mov -c:v libx264 -crf 26 -preset slow -an -movflags +faststart video.mp4
+ffmpeg -i video.mp4 -vf "scale=-2:720" -c:v libx264 -crf 28 -preset slow -c:a aac -b:a 96k -movflags +faststart video-720.mp4   # vidéo lourde (plusieurs centaines de Mo) ramenée à quelques Mo par minute
+ffmpeg -i video.mp4 -ss 3 -frames:v 1 -q:v 3 poster.jpg   # image d'attente
+node .claude/skills/web-media/scripts/logos-recadres.mjs <logos> <sortie>   # rangée de logos : marges vides retirées, même surface visuelle (logos.json)
 ```
+
+- ffmpeg vient de `make deps` (paquet système). Celui que fournit Playwright n'encode pas en H.264 : il ne sert qu'à filmer les tests.
+- Rangée de logos (partenaires, financeurs, labels) : toujours passée par `logos-recadres.mjs` ; chaque logo s'affiche à la hauteur de `logos.json` (un logo large est moins haut), jamais tous à la même hauteur brute. Un logo dont le fichier garde du blanc autour paraît plus petit que les autres.
+- Une vidéo ou une galerie prévue par la maquette mais pas encore prête : la page ne se présente pas (skill `web-contenu`) ; `check-mise-en-page.mjs` bloque une vidéo sans source, une image cassée ou un bloc média vide.
 
 Après conversion : mettre à jour les références (HTML, CSS, données), puis relancer le build et `check-dist.mjs` pour détecter un lien cassé ou une image sans dimensions.
 

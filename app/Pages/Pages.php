@@ -17,7 +17,8 @@ final class Pages
         return (array) ($tous[$chemin] ?? []);
     }
 
-    public static function afficher(string $chemin, string $gabarit): void
+    /** @param array<string, mixed> $donnees données en plus (listes de l'accueil) */
+    public static function afficher(string $chemin, string $gabarit, array $donnees = []): void
     {
         $source = self::textes($chemin);
         $t = Contenu::traduire('page', $chemin, $source);
@@ -26,6 +27,6 @@ final class Pages
             'path' => $chemin,
             'disponibles' => Contenu::disponibles('page', $chemin),
             't' => $t,
-        ], 'site/layout');
+        ] + $donnees, 'site/layout');
     }
 }

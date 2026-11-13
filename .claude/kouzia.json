@@ -1,0 +1,9 @@
+{
+  "_note": "Crédit du prestataire, une seule source pour tous les sites du kit (rule web-design, « Conventions de base »). Lu par le pied de page du modèle statique et par check-mise-en-page.mjs. Complément propre à un projet (ex. « au sein de La Capsule ») : champ creditComplement de src/data/site.json (statique) ou de la configuration du site (dynamique).",
+  "credit": {
+    "avant": "Design et développement : ",
+    "lien": { "texte": "Kouzia", "url": "https://kouzia.com/" },
+    "apres": ", Alexandre Kouziaeff EI",
+    "fin": " · site éco-conçu"
+  }
+}

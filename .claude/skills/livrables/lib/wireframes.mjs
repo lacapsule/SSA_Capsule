@@ -5,8 +5,9 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 import { echapper } from './document.mjs';
 
-// La brique de la boîte prévue pour une zone est une note pour l'agent, jamais pour le client.
-const pourLeClient = (t) => t.replace(/\s*;?\s*briques?\s+[a-z-]+\/[a-z0-9/-]+(\s*(et|,)\s*[a-z-]+\/[a-z0-9/-]+)*/gi, '').replace(/\s*;\s*$/, '').trim();
+// Notes pour l'agent (choix de brique ou nouveau bloc, adaptation à l'univers) : jamais dans le document du client.
+export const NOTES_AGENT = [/\s*;?\s*adaptation\s*:.*$/i, /\s*;?\s*ancien\s*:.*$/i, /\s*;?\s*nouveau bloc\s*:[^;]*/gi, /\s*;?\s*briques?\s+[a-z-]+\/[a-z0-9/-]+(\s*(et|,|\+)\s*[a-z-]+\/[a-z0-9/-]+)*/gi];
+const pourLeClient = (t) => NOTES_AGENT.reduce((x, re) => x.replace(re, ''), t).replace(/\s*;\s*$/, '').trim();
 const sansAccent = (t) => t.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
 
 /** Adresse seule, sans la note qui la suit dans l'arborescence (« /admin/ (non référencée) » → /admin/). */
@@ -23,7 +24,7 @@ export const slugAdresse = (adresse) => adresseSeule(adresse).replace(/<[^>]*>|\
  *   Liens entrants : <…> · liens sortants : <…>
  */
 export function lireMaquette(texte) {
-  const m = { entete: {}, action: '', zones: [], masque: '', liens: '' };
+  const m = { entete: {}, action: '', existant: '', references: '', zones: [], masque: '', liens: '' };
   let derniere = null;
   for (const brute of texte.replace(/\r\n?/g, '\n').split('\n')) {
     const l = brute.trim();
@@ -36,6 +37,8 @@ export function lireMaquette(texte) {
         m.entete[sansAccent(cle.trim())] = v.join(':').trim();
       }
     } else if ((r = l.match(/^action principale\s*:\s*(.*)$/i))) m.action = r[1];
+    else if ((r = l.match(/^existant\s*:\s*(.*)$/i))) m.existant = r[1];
+    else if ((r = l.match(/^r[ée]f[ée]rences\s*:\s*(.*)$/i))) m.references = r[1];
     else if ((r = l.match(/^masqu[ée]e? faute de donn[ée]es?\s*:\s*(.*)$/i))) m.masque = r[1];
     else if (/^liens entrants\s*:/i.test(l)) m.liens = l;
     else if ((r = l.match(/^(\d+)\.\s+([^:]+?)\s*:\s*(.*)$/))) { derniere = { num: Number(r[1]), nom: r[2].trim(), description: r[3].trim() }; m.zones.push(derniere); }
@@ -191,6 +194,15 @@ ${zones.map((z) => `<tr><td>${z.num}</td><td>${echapper(z.nom)}</td><td>${echapp
 </tbody></table>
 ${maquette.masque ? `<p><strong>Masqué tant que la donnée manque :</strong> ${echapper(maquette.masque)}</p>` : ''}
 </section>`;
+    // Concevoir avant d'intégrer (skill web-contenu) : existant regardé, références réelles, choix et adaptation par zone.
+    if (existsSync(path.join(process.cwd(), 'docs/source/existant/inventaire.json')) && !maquette.existant) avert.push(`docs/maquettes/${slug}.md : note « Existant : » absente (page remplacée regardée en capture avant de concevoir).`);
+    if ((maquette.references.match(/https?:\/\/[^\s;,]+/g) ?? []).length < 2) avert.push(`docs/maquettes/${slug}.md : note « Références : » avec au moins deux adresses de sites réels du même type et du même métier.`);
+    for (const z of zones) {
+      if (['entete', 'ariane', 'pied'].includes(z.genre)) continue;
+      const choix = /\bbriques?\s+[a-z-]+\//i.test(z.description) || /nouveau bloc\s*:/i.test(z.description);
+      if (!choix) avert.push(`docs/maquettes/${slug}.md, zone ${z.num} (${z.nom}) : choix absent (brique <id>, briques <id> + <id> ou nouveau bloc : <raison>).`);
+      else if (!/adaptation\s*:/i.test(z.description)) avert.push(`docs/maquettes/${slug}.md, zone ${z.num} (${z.nom}) : choix sans « adaptation : … » à l'univers du client (skill boite-a-outils).`);
+    }
     // Ancien format (tout texte entre « » était un bouton) : le signaler plutôt que perdre le bouton sans rien dire.
     for (const z of zones) {
       if (['heros', 'appel'].includes(z.genre) && !z.boutons.length && /«/.test(z.description)) avert.push(`docs/maquettes/${slug}.md, zone ${z.num} (${z.nom}) : texte entre « » sans « bouton », « lien » ou « appel à l'action » devant, dessiné comme du texte et non comme un bouton.`);

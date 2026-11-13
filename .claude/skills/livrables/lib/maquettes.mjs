@@ -54,7 +54,8 @@ export async function pistesSurPages({ pistes, arborescence, navigateur }) {
     if (!pages.length) return { corps: '', avertissements: avert, sourcesRendues: '' };
     for (const piste of pistes) {
       const tokens = readFileSync(path.join(piste.dossier, 'tokens.css'), 'utf8').replaceAll('../../../../source/polices', '/__charte/polices');
-      const contexte = await navigateur.newContext();
+      // La CSP du site (style-src 'self') refuserait la feuille injectée : ignorée pour ces captures seulement.
+      const contexte = await navigateur.newContext({ bypassCSP: true });
       // Polices de la piste servies depuis docs/source/polices, sous une adresse que le site n'utilise pas.
       await contexte.route('**/__charte/polices/**', (route) => {
         const relatif = decodeURIComponent(new URL(route.request().url()).pathname.replace('/__charte/polices/', ''));

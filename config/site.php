@@ -31,6 +31,15 @@ return [
         'telephone' => '07 86 44 77 52',
         'email' => 'contact@lacapsule.org',
     ],
+    // Crédit du prestataire : copie de .claude/kouzia.json (le paquet de mise en ligne n'emporte pas .claude),
+    // plus le complément propre au projet, repris du pied de page du site actuel avec son lien.
+    'credit' => [
+        'avant' => 'Design et développement : ',
+        'lien' => ['texte' => 'Kouzia', 'url' => 'https://kouzia.com/'],
+        'apres' => ', Alexandre Kouziaeff EI',
+        'complement' => [', au sein de ', ['texte' => 'La Capsule', 'url' => 'https://lacapsule.org/']],
+        'fin' => ' · site éco-conçu',
+    ],
     'langue' => 'fr',
     'menu' => [
         '/' => 'menu.accueil',
@@ -51,5 +60,9 @@ return [
     // N'y ajouter une page qu'une fois sa route en place : sitemap.xml ne doit annoncer aucune adresse en 404.
     'pages' => [
         '/' => ['titre' => 'Accueil', 'description' => ''],
+        '/projet/' => ['titre' => 'Le projet', 'description' => ''],
+        '/collectif/' => ['titre' => 'Qui sommes-nous', 'description' => ''],
+        '/actualites/' => ['titre' => 'Actualités', 'description' => ''],
+        '/agenda/' => ['titre' => 'Agenda', 'description' => ''],
     ],
 ];

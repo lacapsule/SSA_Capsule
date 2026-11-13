@@ -22,7 +22,7 @@ Socle décrit dans la rule `web-architecture`. PHP fabrique le HTML en dev et au
 | `src/components/` | un bloc par fichier : `en-tete.php` (menu principal), `pied-de-page.php`, `fil-ariane.php` |
 | `src/data/*.json`, `src/data/schemas/*.schema.json` | données du site, chacune validée par son schéma au chargement et au build (`site`, `navigation` dont chaque chemin doit être une page, `redirections`) |
 | `src/styles/ordre.json`, `base/`, `composants/`, `sections/`, `pages/` | styles rangés par rôle, assemblés dans l'ordre de `ordre.json` en une feuille au nom haché ; un fichier non listé arrête le build |
-| `src/styles/base/charte.css` | **généré** : couleurs, rôles de zone (en-tête, haut de page), polices et arrondis ; charte neutre (gris) pour intégrer, remplacée par la piste validée (`make appliquer`) ; `base/tokens.css` garde les autres tokens, écrits à la main |
+| `src/styles/base/charte.css` | **généré** : couleurs, rôles de zone (en-tête, haut de page), polices et arrondis ; marque du client (`make charte`, piste fidèle de l'audit et du logo) pour intégrer, puis piste validée (`make appliquer`) ; charte neutre (gris) seulement sans audit ni logo ; `base/tokens.css` garde les autres tokens, écrits à la main |
 | `src/partage/og.html`, `src/partage/logo.svg` | sources de l'image de partage et des icônes (`make images` → `public/`) |
 
 Cibles de contrôle : `make verify` (lint, build, `check-dist`, ordre CSS, dépôt ; écrit `.claude/etat/verify-ok`, lu par le hook de fin de tour), `make a11y` (scan axe-core de chaque page).

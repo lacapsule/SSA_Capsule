@@ -91,6 +91,11 @@ if [[ "$socle" == dynamique && ! -f .env && -f .env.example ]]; then
     echo "créé : .env depuis .env.example (APP_ENV=local, jamais versionné)"
 fi
 
+# Le site porte la marque du client dès sa construction (jamais la charte de Kouzia de la boîte).
+if [[ -f docs/source/existant/inventaire.json || -n "$(ls -A docs/source/fournis/logo 2>/dev/null | grep -v '^\.')" ]]; then
+    node .claude/skills/livrables/scripts/generer.mjs --charte || echo "Charte du client non posée : make charte une fois make deps fait." >&2
+fi
+
 echo
 echo "Socle $socle posé. Suite :"
 echo "  make deps     outils, outillage npm, boîte à outils"
@@ -99,5 +104,6 @@ if [[ "$socle" == statique ]]; then
     echo "  make dev      puis make verify"
 else
     echo "  régler config/app.php (NOTES.md de gabarits/socle-php, « Intégration pas à pas »)"
+    echo "  lier public/assets/css/charte.css dans templates/layout.php (charte du client, make charte)"
     echo "  make dev      puis make verify"
 fi

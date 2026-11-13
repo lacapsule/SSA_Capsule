@@ -5,6 +5,7 @@
 // node .claude/skills/livrables/scripts/tokens-neutres.mjs <chemin de charte.css>
 import { writeFileSync } from 'node:fs';
 import { jeuCouleurs, verifierJeu } from '../lib/couleurs.mjs';
+import { ECHELLE } from '../lib/direction.mjs';
 
 const cible = process.argv[2];
 if (!cible) { console.error('Usage : node tokens-neutres.mjs <chemin de charte.css>'); process.exit(2); }
@@ -17,14 +18,16 @@ const lignes = (t, r = '  ') => Object.entries(t).map(([k, v]) => `${r}${k}: ${v
 const pile = 'system-ui, -apple-system, "Segoe UI", Roboto, sans-serif';
 writeFileSync(cible, `/* Charte neutre, générée par .claude/skills/livrables/scripts/tokens-neutres.mjs : ne pas modifier.
    Palette grise pour intégrer les pages avant le choix de la direction artistique, contrastes vérifiés. Dans une
-   zone (en-tête, haut de page), liens et boutons prennent --color-<zone>-accent. Après la validation 3,
-   make appliquer remplace ce fichier par la piste choisie. Les autres tokens (espaces, durées) : base/tokens.css. */
+   zone (en-tête, haut de page), liens et boutons prennent --color-<zone>-accent. Remplacé par la marque du
+   client (make charte) dès que l'audit ou le logo existe, puis par la piste choisie (make appliquer). Les autres tokens (espaces, durées) : base/tokens.css. */
 :root {
 ${lignes(clair)}
   --font-titres: ${pile};
   --font-ui: ${pile};
   --radius: 0.5rem;
   --radius-small: 0.25rem;
+  --radius-grand: 0.75rem;
+${ECHELLE}
   color-scheme: light;
 }
 

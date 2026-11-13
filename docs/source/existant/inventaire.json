@@ -1,6 +1,6 @@
 {
-  "source": "https://ssapaysdemorlaix.fr/",
-  "date": "2026-11-13T10:30:59.176Z",
+  "source": "https://ssapaysdemorlaix.fr",
+  "date": "2026-11-13T16:17:35.979Z",
   "pagesLues": 18,
   "limite": 40,
   "echecs": [],
@@ -628,7 +628,64 @@
       }
     ],
     "codesPostaux": [],
-    "donneesStructurees": []
+    "donneesStructurees": [],
+    "univers": [
+      {
+        "sorte": "forme-derriere-image",
+        "description": "rond de couleur derrière l'image (rgb(253, 181, 68)), l'image déborde de la forme vers le haut et vers le bas (effet à garder : pas de overflow: hidden)",
+        "page": "https://ssapaysdemorlaix.fr/",
+        "capture": "univers/forme-derriere-image.png"
+      },
+      {
+        "sorte": "illustration",
+        "description": "illustration dessinée (SVG) dans le contenu",
+        "page": "https://ssapaysdemorlaix.fr/",
+        "capture": "univers/illustration.png"
+      },
+      {
+        "sorte": "ornement-titre",
+        "description": "trait sous le titre (rgb(67, 196, 102), 40px × 3px)",
+        "page": "https://ssapaysdemorlaix.fr/",
+        "capture": "univers/ornement-titre.png"
+      },
+      {
+        "sorte": "puce",
+        "description": "puce en icône (petite image devant chaque élément de liste)",
+        "page": "https://ssapaysdemorlaix.fr/",
+        "capture": "univers/puce.png"
+      },
+      {
+        "sorte": "carte",
+        "description": "cartes, arrondi 10 px, ombre portée",
+        "page": "https://ssapaysdemorlaix.fr/",
+        "capture": "univers/carte.png"
+      },
+      {
+        "sorte": "pastille",
+        "description": "pastille ou étiquette (rgb(253, 181, 68), « 2026-04-09 »)",
+        "page": "https://ssapaysdemorlaix.fr/",
+        "capture": "univers/pastille.png"
+      },
+      {
+        "sorte": "photo-en-fond",
+        "description": "photo en fond du haut de page, sous un voile sombre, titre posé dessus, 90 % de la hauteur de l'écran",
+        "hauteur": 0.9,
+        "page": "https://ssapaysdemorlaix.fr/",
+        "capture": "univers/photo-en-fond.png"
+      },
+      {
+        "sorte": "bouton",
+        "description": "bouton : arrondi 5 px, ombre, fond rgb(67, 196, 102)",
+        "page": "https://ssapaysdemorlaix.fr/",
+        "capture": "univers/bouton.png"
+      },
+      {
+        "sorte": "pied",
+        "description": "pied de page sur fond de couleur (rgb(253, 181, 68))",
+        "page": "https://ssapaysdemorlaix.fr/",
+        "capture": "univers/pied.png"
+      }
+    ]
   },
   "menu": [
     {
@@ -1024,8 +1081,8 @@
         {
           "src": "https://ssapaysdemorlaix.fr/assets/img/logos/buzuk.webp",
           "alt": "BUZUK",
-          "largeur": 474,
-          "hauteur": 259,
+          "largeur": 0,
+          "hauteur": 0,
           "affichee": 124,
           "dansEnTete": false,
           "lienAccueil": false,
@@ -1034,8 +1091,8 @@
         {
           "src": "https://ssapaysdemorlaix.fr/assets/img/logos/ess.webp",
           "alt": "Pôle ESS Pays de Morlaix",
-          "largeur": 647,
-          "hauteur": 828,
+          "largeur": 0,
+          "hauteur": 0,
           "affichee": 124,
           "dansEnTete": false,
           "lienAccueil": false,
@@ -1044,8 +1101,8 @@
         {
           "src": "https://ssapaysdemorlaix.fr/assets/img/logos/20251211-083116-1.webp",
           "alt": "ulamircpie",
-          "largeur": 426,
-          "hauteur": 426,
+          "largeur": 0,
+          "hauteur": 0,
           "affichee": 124,
           "dansEnTete": false,
           "lienAccueil": false,
@@ -1054,8 +1111,8 @@
         {
           "src": "https://ssapaysdemorlaix.fr/assets/img/logos/resam.webp",
           "alt": "resam",
-          "largeur": 800,
-          "hauteur": 208,
+          "largeur": 0,
+          "hauteur": 0,
           "affichee": 124,
           "dansEnTete": false,
           "lienAccueil": false,
@@ -1064,8 +1121,8 @@
         {
           "src": "https://ssapaysdemorlaix.fr/assets/img/logos/bretagne.webp",
           "alt": "Région Bretagne",
-          "largeur": 800,
-          "hauteur": 800,
+          "largeur": 0,
+          "hauteur": 0,
           "affichee": 124,
           "dansEnTete": false,
           "lienAccueil": false,
@@ -1074,8 +1131,8 @@
         {
           "src": "https://ssapaysdemorlaix.fr/assets/img/logos/feader.webp",
           "alt": "Leader financement Européen",
-          "largeur": 800,
-          "hauteur": 476,
+          "largeur": 0,
+          "hauteur": 0,
           "affichee": 124,
           "dansEnTete": false,
           "lienAccueil": false,
@@ -1614,8 +1671,8 @@
         {
           "src": "https://ssapaysdemorlaix.fr/assets/img/gallery/20251124_144239_lot001.webp",
           "alt": "20251124_144239_lot001",
-          "largeur": 1920,
-          "hauteur": 1281,
+          "largeur": 0,
+          "hauteur": 0,
           "affichee": 456,
           "dansEnTete": false,
           "lienAccueil": false,
@@ -1624,8 +1681,8 @@
         {
           "src": "https://ssapaysdemorlaix.fr/assets/img/gallery/20251124_144239_lot002.webp",
           "alt": "20251124_144239_lot002",
-          "largeur": 1920,
-          "hauteur": 1281,
+          "largeur": 0,
+          "hauteur": 0,
           "affichee": 456,
           "dansEnTete": false,
           "lienAccueil": false,
@@ -1634,8 +1691,8 @@
         {
           "src": "https://ssapaysdemorlaix.fr/assets/img/gallery/20251124_144237_lot001.webp",
           "alt": "20251124_144237_lot001",
-          "largeur": 1920,
-          "hauteur": 1281,
+          "largeur": 0,
+          "hauteur": 0,
           "affichee": 456,
           "dansEnTete": false,
           "lienAccueil": false,
@@ -1644,8 +1701,8 @@
         {
           "src": "https://ssapaysdemorlaix.fr/assets/img/gallery/20251124_144235_lot001.webp",
           "alt": "20251124_144235_lot001",
-          "largeur": 1920,
-          "hauteur": 2877,
+          "largeur": 0,
+          "hauteur": 0,
           "affichee": 456,
           "dansEnTete": false,
           "lienAccueil": false,
@@ -1654,8 +1711,8 @@
         {
           "src": "https://ssapaysdemorlaix.fr/assets/img/gallery/20251124_144234_lot001.webp",
           "alt": "20251124_144234_lot001",
-          "largeur": 1920,
-          "hauteur": 1281,
+          "largeur": 0,
+          "hauteur": 0,
           "affichee": 456,
           "dansEnTete": false,
           "lienAccueil": false,
@@ -1664,8 +1721,8 @@
         {
           "src": "https://ssapaysdemorlaix.fr/assets/img/gallery/20251124_144231_lot001.webp",
           "alt": "20251124_144231_lot001",
-          "largeur": 1920,
-          "hauteur": 2877,
+          "largeur": 0,
+          "hauteur": 0,
           "affichee": 456,
           "dansEnTete": false,
           "lienAccueil": false,
@@ -1674,8 +1731,8 @@
         {
           "src": "https://ssapaysdemorlaix.fr/assets/img/gallery/20251124_144230_lot001.webp",
           "alt": "20251124_144230_lot001",
-          "largeur": 1920,
-          "hauteur": 2877,
+          "largeur": 0,
+          "hauteur": 0,
           "affichee": 456,
           "dansEnTete": false,
           "lienAccueil": false,
@@ -1684,8 +1741,8 @@
         {
           "src": "https://ssapaysdemorlaix.fr/assets/img/gallery/20251124_144227_lot001.webp",
           "alt": "20251124_144227_lot001",
-          "largeur": 1920,
-          "hauteur": 2877,
+          "largeur": 0,
+          "hauteur": 0,
           "affichee": 456,
           "dansEnTete": false,
           "lienAccueil": false,
@@ -1694,8 +1751,8 @@
         {
           "src": "https://ssapaysdemorlaix.fr/assets/img/gallery/20251124_144226_lot001.webp",
           "alt": "20251124_144226_lot001",
-          "largeur": 1920,
-          "hauteur": 2877,
+          "largeur": 0,
+          "hauteur": 0,
           "affichee": 456,
           "dansEnTete": false,
           "lienAccueil": false,
@@ -3665,78 +3722,6 @@
       "fichier": "fichiers/arrow-right-f3b0f2f083f1.svg"
     },
     {
-      "src": "https://ssapaysdemorlaix.fr/assets/img/logos/buzuk.webp",
-      "alt": "BUZUK",
-      "largeur": 474,
-      "hauteur": 259,
-      "affichee": 124,
-      "dansEnTete": false,
-      "lienAccueil": false,
-      "indiceLogo": true,
-      "page": "https://ssapaysdemorlaix.fr/",
-      "fichier": "fichiers/buzuk-09f5b1ac4f31.webp"
-    },
-    {
-      "src": "https://ssapaysdemorlaix.fr/assets/img/logos/ess.webp",
-      "alt": "Pôle ESS Pays de Morlaix",
-      "largeur": 647,
-      "hauteur": 828,
-      "affichee": 124,
-      "dansEnTete": false,
-      "lienAccueil": false,
-      "indiceLogo": true,
-      "page": "https://ssapaysdemorlaix.fr/",
-      "fichier": "fichiers/ess-990370411167.webp"
-    },
-    {
-      "src": "https://ssapaysdemorlaix.fr/assets/img/logos/20251211-083116-1.webp",
-      "alt": "ulamircpie",
-      "largeur": 426,
-      "hauteur": 426,
-      "affichee": 124,
-      "dansEnTete": false,
-      "lienAccueil": false,
-      "indiceLogo": true,
-      "page": "https://ssapaysdemorlaix.fr/",
-      "fichier": "fichiers/20251211-083116-1-9f9a74e8e3f7.webp"
-    },
-    {
-      "src": "https://ssapaysdemorlaix.fr/assets/img/logos/resam.webp",
-      "alt": "resam",
-      "largeur": 800,
-      "hauteur": 208,
-      "affichee": 124,
-      "dansEnTete": false,
-      "lienAccueil": false,
-      "indiceLogo": true,
-      "page": "https://ssapaysdemorlaix.fr/",
-      "fichier": "fichiers/resam-210c8521ebfe.webp"
-    },
-    {
-      "src": "https://ssapaysdemorlaix.fr/assets/img/logos/bretagne.webp",
-      "alt": "Région Bretagne",
-      "largeur": 800,
-      "hauteur": 800,
-      "affichee": 124,
-      "dansEnTete": false,
-      "lienAccueil": false,
-      "indiceLogo": true,
-      "page": "https://ssapaysdemorlaix.fr/",
-      "fichier": "fichiers/bretagne-f4a8a3051fc7.webp"
-    },
-    {
-      "src": "https://ssapaysdemorlaix.fr/assets/img/logos/feader.webp",
-      "alt": "Leader financement Européen",
-      "largeur": 800,
-      "hauteur": 476,
-      "affichee": 124,
-      "dansEnTete": false,
-      "lienAccueil": false,
-      "indiceLogo": true,
-      "page": "https://ssapaysdemorlaix.fr/",
-      "fichier": "fichiers/feader-3ce5e5a91d43.webp"
-    },
-    {
       "src": "https://ssapaysdemorlaix.fr/assets/img/contact.svg",
       "alt": "img_contact",
       "largeur": 913,
@@ -3975,114 +3960,6 @@
       "indiceLogo": false,
       "page": "https://ssapaysdemorlaix.fr/galerie",
       "fichier": "fichiers/20251124-144240-lot001-7ff85f7467a8.webp"
-    },
-    {
-      "src": "https://ssapaysdemorlaix.fr/assets/img/gallery/20251124_144239_lot001.webp",
-      "alt": "20251124_144239_lot001",
-      "largeur": 1920,
-      "hauteur": 1281,
-      "affichee": 456,
-      "dansEnTete": false,
-      "lienAccueil": false,
-      "indiceLogo": false,
-      "page": "https://ssapaysdemorlaix.fr/galerie",
-      "fichier": "fichiers/20251124-144239-lot001-ea5eaa0f1663.webp"
-    },
-    {
-      "src": "https://ssapaysdemorlaix.fr/assets/img/gallery/20251124_144239_lot002.webp",
-      "alt": "20251124_144239_lot002",
-      "largeur": 1920,
-      "hauteur": 1281,
-      "affichee": 456,
-      "dansEnTete": false,
-      "lienAccueil": false,
-      "indiceLogo": false,
-      "page": "https://ssapaysdemorlaix.fr/galerie",
-      "fichier": "fichiers/20251124-144239-lot002-447006e7316c.webp"
-    },
-    {
-      "src": "https://ssapaysdemorlaix.fr/assets/img/gallery/20251124_144237_lot001.webp",
-      "alt": "20251124_144237_lot001",
-      "largeur": 1920,
-      "hauteur": 1281,
-      "affichee": 456,
-      "dansEnTete": false,
-      "lienAccueil": false,
-      "indiceLogo": false,
-      "page": "https://ssapaysdemorlaix.fr/galerie",
-      "fichier": "fichiers/20251124-144237-lot001-188a1dc2a04e.webp"
-    },
-    {
-      "src": "https://ssapaysdemorlaix.fr/assets/img/gallery/20251124_144235_lot001.webp",
-      "alt": "20251124_144235_lot001",
-      "largeur": 1920,
-      "hauteur": 2877,
-      "affichee": 456,
-      "dansEnTete": false,
-      "lienAccueil": false,
-      "indiceLogo": false,
-      "page": "https://ssapaysdemorlaix.fr/galerie",
-      "fichier": "fichiers/20251124-144235-lot001-56c4d9136901.webp"
-    },
-    {
-      "src": "https://ssapaysdemorlaix.fr/assets/img/gallery/20251124_144234_lot001.webp",
-      "alt": "20251124_144234_lot001",
-      "largeur": 1920,
-      "hauteur": 1281,
-      "affichee": 456,
-      "dansEnTete": false,
-      "lienAccueil": false,
-      "indiceLogo": false,
-      "page": "https://ssapaysdemorlaix.fr/galerie",
-      "fichier": "fichiers/20251124-144234-lot001-93b30cec8570.webp"
-    },
-    {
-      "src": "https://ssapaysdemorlaix.fr/assets/img/gallery/20251124_144231_lot001.webp",
-      "alt": "20251124_144231_lot001",
-      "largeur": 1920,
-      "hauteur": 2877,
-      "affichee": 456,
-      "dansEnTete": false,
-      "lienAccueil": false,
-      "indiceLogo": false,
-      "page": "https://ssapaysdemorlaix.fr/galerie",
-      "fichier": "fichiers/20251124-144231-lot001-c3f03e3f20cf.webp"
-    },
-    {
-      "src": "https://ssapaysdemorlaix.fr/assets/img/gallery/20251124_144230_lot001.webp",
-      "alt": "20251124_144230_lot001",
-      "largeur": 1920,
-      "hauteur": 2877,
-      "affichee": 456,
-      "dansEnTete": false,
-      "lienAccueil": false,
-      "indiceLogo": false,
-      "page": "https://ssapaysdemorlaix.fr/galerie",
-      "fichier": "fichiers/20251124-144230-lot001-67e402f7878a.webp"
-    },
-    {
-      "src": "https://ssapaysdemorlaix.fr/assets/img/gallery/20251124_144227_lot001.webp",
-      "alt": "20251124_144227_lot001",
-      "largeur": 1920,
-      "hauteur": 2877,
-      "affichee": 456,
-      "dansEnTete": false,
-      "lienAccueil": false,
-      "indiceLogo": false,
-      "page": "https://ssapaysdemorlaix.fr/galerie",
-      "fichier": "fichiers/20251124-144227-lot001-895a8a113159.webp"
-    },
-    {
-      "src": "https://ssapaysdemorlaix.fr/assets/img/gallery/20251124_144226_lot001.webp",
-      "alt": "20251124_144226_lot001",
-      "largeur": 1920,
-      "hauteur": 2877,
-      "affichee": 456,
-      "dansEnTete": false,
-      "lienAccueil": false,
-      "indiceLogo": false,
-      "page": "https://ssapaysdemorlaix.fr/galerie",
-      "fichier": "fichiers/20251124-144226-lot001-868b2db34289.webp"
     },
     {
       "src": "https://ssapaysdemorlaix.fr/assets/img/articles/12/20260320-085119-1.webp",

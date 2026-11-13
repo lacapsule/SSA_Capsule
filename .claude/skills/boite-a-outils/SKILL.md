@@ -16,9 +16,10 @@ Contraintes : rule `boite-a-outils`. Format exact d'une brique : `../kouzia-boit
 ## Reprendre
 
 1. Copier les fichiers de la brique dans le projet, au bon endroit du socle (statique : `src/components/`, `src/styles/composants/<nom>.css` ou `src/styles/sections/<nom>.css` ajouté à `src/styles/ordre.json` ; dynamique : `app/<Domaine>/`, `templates/…`, `public/assets/css/<domaine>.css`).
-2. Remplacer les tokens de `base/tokens.css` par ceux du projet (mêmes noms : rien à faire si le projet suit le skill `web-design-system`).
-3. Remplacer les textes neutres par le contenu réel du projet. Aucune donnée manquante inventée : la section se masque.
-4. Contrôles habituels du projet (`make verify`, skill `livraison`).
+2. Les `var(--…)` de la brique prennent les valeurs de la charte du client (`make charte`, skill `livrables`) : ne jamais copier `base/tokens.css` de la boîte, qui est la charte de Kouzia.
+3. **Adapter à l'univers** (obligatoire, rule `web-design`, « Univers du client ») : la brique donne le code, l'accessibilité et les comportements, jamais l'apparence finale. Avant de l'intégrer, écrire dans la maquette en texte de la page, sur la ligne de la zone, ce qui change pour le client : `adaptation : <forme, image ou illustration, ornement, fond, disposition>`, d'après la rubrique « Univers visuel » du livrable 01 (ex. « adaptation : illustration du site actuel dans un rond jaune, trait vert sous le titre, cartes à ombre légère »). Puis l'appliquer en N2 (`src/styles/sections/` ou feuille du domaine), en tokens.
+4. Remplacer les textes neutres par le contenu réel du projet. Aucune donnée manquante inventée : la section se masque.
+5. Contrôles habituels du projet (`make verify`, skill `livraison`) ; la comparaison avec le site actuel (`.claude/etat/comparaison/`) montre que la page est celle du client, pas la démo de la brique.
 
 ## Ajouter (avec l'accord de l'humain)
 

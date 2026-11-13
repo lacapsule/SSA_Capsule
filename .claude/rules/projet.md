@@ -147,6 +147,7 @@ Chaque page française a sa version bretonne, à la même adresse précédée de
 | Suite du site après la fin de l'expérimentation | Géraldine Gabillet | avec la validation du cahier des charges | rien |
 | Liste des lieux conventionnés (nom, adresse, horaires si connus) | Géraldine Gabillet | avant la construction (étape 6) | page Lieux conventionnés |
 | La chaîne YouTube citée dans l'article du colloque est-elle celle du collectif ? | Géraldine Gabillet | avant la construction (étape 6) | rien (non citée sinon) |
+| Vidéo de l'article « Vidéo fonctionnement du collectif d'animation de l'expérimentation » : sur le site actuel, le fichier est celui de la vidéo de présentation, coupé à 44 s (constaté le 2026-11-13) | Géraldine Gabillet | avant la recette (étape 9) | vidéo de cet article (texte seul en attendant) |
 
 ## Règles propres au projet
 

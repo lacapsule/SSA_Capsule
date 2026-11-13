@@ -7,6 +7,7 @@
 // Dépendances : playwright-core et axe-core du projet (npm ci) ; navigateur : CHROME_PATH ou celui de Playwright.
 import { readFileSync, existsSync } from 'node:fs';
 import { createRequire } from 'node:module';
+import { lancerNavigateur } from '../livrables/lib/document.mjs';
 
 const require = createRequire(process.cwd() + '/');
 let chromium;
@@ -35,7 +36,7 @@ if (!pages.length) {
   pages.push('/page-inexistante-controle-a11y/');
 }
 
-const browser = await chromium.launch(process.env.CHROME_PATH ? { executablePath: process.env.CHROME_PATH } : {});
+const browser = await lancerNavigateur();
 const context = await browser.newContext({ viewport: { width: 1280, height: 900 } });
 const page = await context.newPage();
 const bloquants = [];

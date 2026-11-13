@@ -1,0 +1,44 @@
+[
+  {
+    "fichier": "20251211-083116-1.webp",
+    "rapport": 1.0023529411764707,
+    "largeur": 426,
+    "hauteur": 425,
+    "hauteurRem": 4
+  },
+  {
+    "fichier": "bretagne.webp",
+    "rapport": 1.5052410901467506,
+    "largeur": 718,
+    "hauteur": 477,
+    "hauteurRem": 3.46
+  },
+  {
+    "fichier": "buzuk.webp",
+    "rapport": 2.252808988764045,
+    "largeur": 401,
+    "hauteur": 178,
+    "hauteurRem": 2.83
+  },
+  {
+    "fichier": "ess.webp",
+    "rapport": 1.7633333333333334,
+    "largeur": 529,
+    "hauteur": 300,
+    "hauteurRem": 3.19
+  },
+  {
+    "fichier": "feader.webp",
+    "rapport": 1.8113207547169812,
+    "largeur": 768,
+    "hauteur": 424,
+    "hauteurRem": 3.15
+  },
+  {
+    "fichier": "resam.webp",
+    "rapport": 3.8461538461538463,
+    "largeur": 800,
+    "hauteur": 208,
+    "hauteurRem": 2.16
+  }
+]

@@ -33,6 +33,17 @@ async function police(famille, classe, notes) {
   return { famille, classe, pile: pile(famille, classe), telechargee: p, licence: p.licence };
 }
 
+/** Arrondis secondaires et échelle des tailles, communs à toutes les chartes (pistes et charte neutre). */
+export const ECHELLE = `  --radius-pill: 999px;
+  /* Échelle des tailles, bornée par les conventions de base (rule web-design) : titre principal 2,75 rem au plus,
+     titres de section 2 rem au plus, texte courant 1,0625 rem, introduction 1,25 rem au plus. */
+  --step--2: 0.8125rem;
+  --step--1: 0.9375rem;
+  --step-0: 1.0625rem;
+  --step-1: clamp(1.125rem, 1.05rem + 0.3vw, 1.25rem);
+  --step-2: clamp(1.5rem, 1.25rem + 1vw, 1.875rem);
+  --step-3: clamp(1.875rem, 1.4rem + 2vw, 2.75rem);`;
+
 /**
  * tokens.css d'une piste : polices, couleurs claires par défaut, sombres selon la préférence du système ou data-theme.
  * baseFichiers : adresse du dossier des polices vu par la feuille (livrable, ou /polices une fois posée dans le site).
@@ -50,6 +61,8 @@ ${lignes(piste.clair)}
   --font-ui: ${piste.texte.pile};
   --radius: ${piste.rayon}rem;
   --radius-small: ${Math.max(0.125, piste.rayon / 2)}rem;
+  --radius-grand: ${Math.max(0.25, piste.rayon * 1.5)}rem;
+${ECHELLE}
   color-scheme: light;
 }
 
@@ -120,9 +133,9 @@ export async function directionArtistique({ inventaire, mode, arborescence, meti
   const fideleTexte = (releveTexte && await police(releveTexte, SYSTEME[releveTexte.toLowerCase()] ?? 'sans', notes)) || await police(...dir.modernisee.texte, notes);
 
   const pistes = [
-    { numero: 1, cle: 'fidele', nom: 'Fidèle', principe: "Les couleurs et les polices du site actuel, gardées et rendues conformes : en-tête dans la couleur de la marque, le client reconnaît son site, qui gagne en lisibilité.", primaire: marque.primaire, accent: marque.accent, fond: marque.fondActuel, titres: fideleTitres, texte: fideleTexte, rayon: dir.rayon, style: 'entete-marque' },
-    { numero: 2, cle: 'modernisee', nom: 'Modernisée', principe: `Les mêmes teintes, utilisées avec retenue sur un fond clair et neutre, une typographie actuelle adaptée au métier (${dir.libelle.toLowerCase()}) et plus d'espace.`, primaire: marque.primaire, accent: marque.accent, fond: null, titres: await police(...dir.modernisee.titres, notes), texte: await police(...dir.modernisee.texte, notes), rayon: dir.rayon, style: 'aere' },
-    { numero: 3, cle: 'contrastee', nom: 'Contrastée', principe: "Un parti pris plus marqué : la couleur de marque en grand dans l'en-tête et le haut de page, une typographie à plus fort caractère, des angles plus nets.", primaire: marque.primaire, accent: marque.accent, fond: null, titres: await police(...dir.contrastee.titres, notes), texte: await police(...dir.contrastee.texte, notes), rayon: Math.max(0.125, dir.rayon / 2), style: 'marque-en-grand' },
+    { numero: 1, cle: 'fidele', nom: 'Fidèle', principe: "Les couleurs et les polices du site actuel, gardées et rendues conformes : en-tête dans la couleur de la marque, le client reconnaît son site, qui gagne en lisibilité.", primaire: marque.primaire, accent: marque.action ?? marque.accent, secondaire: marque.secondaire, fond: marque.fondActuel, titres: fideleTitres, texte: fideleTexte, rayon: dir.rayon, style: 'entete-marque' },
+    { numero: 2, cle: 'modernisee', nom: 'Modernisée', principe: `Les mêmes teintes, utilisées avec retenue sur un fond clair et neutre, une typographie actuelle adaptée au métier (${dir.libelle.toLowerCase()}) et plus d'espace.`, primaire: marque.primaire, accent: marque.accent, secondaire: marque.secondaire, fond: null, titres: await police(...dir.modernisee.titres, notes), texte: await police(...dir.modernisee.texte, notes), rayon: dir.rayon, style: 'aere' },
+    { numero: 3, cle: 'contrastee', nom: 'Contrastée', principe: "Un parti pris plus marqué : la couleur de marque en grand dans l'en-tête et le haut de page, une typographie à plus fort caractère, des angles plus nets.", primaire: marque.primaire, accent: marque.accent, secondaire: marque.secondaire, fond: null, titres: await police(...dir.contrastee.titres, notes), texte: await police(...dir.contrastee.texte, notes), rayon: Math.max(0.125, dir.rayon / 2), style: 'marque-en-grand' },
   ].filter((p) => p.titres && p.texte);
   // Outil interne : le design d'administration de référence est la coquille de la boîte (gabarits/admin-coquille) ;
   // seule une piste, qui en reprend le logo et la couleur d'accent du client.
@@ -162,11 +175,14 @@ export async function directionArtistique({ inventaire, mode, arborescence, meti
 <tr><th scope="row">Polices relevées</th><td>${echapper([...new Set([releveTitres, releveTexte].filter(Boolean))].join(', ') || 'aucune')}</td></tr>
 <tr><th scope="row">Photos</th><td>${echapper(dir.photos)}</td></tr>
 <tr><th scope="row">À éviter</th><td>${echapper(dir.eviter.join(' ; '))}</td></tr>
-</tbody></table>`;
+</tbody></table>
+${(id.univers ?? []).length ? `<h2>Univers</h2>
+<p>Ce qui fait reconnaître le client, relevé sur son site actuel. La direction fidèle reprend chacun de ces signes ; les deux autres les réinterprètent (même idée, forme renouvelée). Les briques de la boîte à outils sont adaptées à cet univers, jamais montrées telles quelles.</p>
+<ul class="vignettes">${id.univers.map((u) => `<li><figure><img src="../../source/existant/${echapper(u.capture)}" alt="Exemple : ${echapper(u.description)}"><figcaption>${echapper(u.description)}</figcaption></figure></li>`).join('')}</ul>` : ''}`;
 
   for (const p of pistes) {
-    p.clair = jeuCouleurs({ primaire: p.primaire, accent: p.accent, fond: p.fond, sombre: false, style: p.style });
-    p.sombre = jeuCouleurs({ primaire: p.primaire, accent: p.accent, sombre: true, style: p.style });
+    p.clair = jeuCouleurs({ primaire: p.primaire, accent: p.accent, secondaire: p.secondaire, fond: p.fond, sombre: false, style: p.style });
+    p.sombre = jeuCouleurs({ primaire: p.primaire, accent: p.accent, secondaire: p.secondaire, sombre: true, style: p.style });
     const verif = [...verifierJeu(p.clair), ...verifierJeu(p.sombre)];
     const echecs = verif.filter((v) => !v.ok);
     if (echecs.length) avert.push(`Piste ${p.numero} : ${echecs.length} contraste(s) insuffisant(s) (${echecs.slice(0, 3).map((e) => `${e.avant} sur ${e.fond} ${ratio(e.ratio)}:1`).join(', ')}).`);

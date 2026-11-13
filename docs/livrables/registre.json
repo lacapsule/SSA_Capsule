@@ -2,40 +2,68 @@
   "livrables": {
     "01-audit-existant": {
       "titre": "Audit de l'existant",
-      "version": 3,
+      "version": 5,
       "date": "2026-11-13",
-      "empreinte": "0d1fcd699a3eaabb",
-      "statut": "constat"
+      "empreinte": "364c32221d845bfe",
+      "statut": "constat",
+      "historique": [
+        {
+          "titre": "Audit de l'existant",
+          "version": 4,
+          "date": "2026-11-13",
+          "empreinte": "1ffcd9d19c318b47",
+          "statut": "constat"
+        }
+      ]
     },
     "02-cahier-des-charges": {
       "titre": "Cahier des charges",
       "version": 12,
       "date": "2026-11-13",
-      "empreinte": "bd5da0061479ac6c",
+      "empreinte": "3e15b50b2a979c24",
       "statut": "validé",
       "validation": {
         "par": "Géraldine Gabillet, accord oral du 2026-11-13 sur la version 11, reporté (mise en forme seule)",
         "date": "2026-11-13",
         "version": 12
-      }
+      },
+      "empreinteSource": "402acfac75d51f70",
+      "calculSource": 2,
+      "miseEnForme": "2026-11-13"
     },
     "03-wireframes": {
       "titre": "Wireframes",
-      "version": 9,
+      "version": 10,
       "date": "2026-11-13",
-      "empreinte": "f07635df2784fcc2",
-      "statut": "validé",
-      "validation": {
-        "par": "Géraldine Gabillet, accord oral du 2026-11-13 sur la version 6, reporté (mise en forme seule)",
-        "date": "2026-11-13",
-        "version": 9
-      }
+      "empreinte": "93d11820d4deb3a3",
+      "empreinteSource": "2d2427cdd0a3fd3e",
+      "calculSource": 2,
+      "statut": "brouillon",
+      "historique": [
+        {
+          "titre": "Wireframes",
+          "version": 9,
+          "date": "2026-11-13",
+          "empreinte": "5e0c742b732be4b8",
+          "statut": "validé",
+          "validation": {
+            "par": "Géraldine Gabillet, accord oral du 2026-11-13 sur la version 6, reporté (mise en forme seule)",
+            "date": "2026-11-13",
+            "version": 9
+          },
+          "empreinteSource": "a4649dcc640f6fc8",
+          "calculSource": 2,
+          "miseEnForme": "2026-11-13"
+        }
+      ]
     },
     "04-direction-artistique": {
       "titre": "Direction artistique et maquettes",
-      "version": 6,
+      "version": 7,
       "date": "2026-11-13",
-      "empreinte": "94c708313c893d55",
+      "empreinte": "496fb193761145de",
+      "empreinteSource": "754f314a222e2e00",
+      "calculSource": 2,
       "statut": "brouillon"
     }
   }

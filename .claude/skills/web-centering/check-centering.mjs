@@ -2,6 +2,7 @@
 // Usage : node check-centering.mjs <url de base> <pages.json>
 import { readFileSync } from 'node:fs';
 import { createRequire } from 'node:module';
+import { lancerNavigateur } from '../livrables/lib/document.mjs';
 
 const require = createRequire(process.cwd() + '/');
 let chromium;
@@ -19,7 +20,7 @@ const login = Array.isArray(config) ? null : config.login;
 const WIDTHS = [360, 800, 1280, 1920];
 const TOLERANCE = 3;
 
-const browser = await chromium.launch(process.env.CHROME_PATH ? { executablePath: process.env.CHROME_PATH } : {});
+const browser = await lancerNavigateur();
 let total = 0;
 let failures = 0;
 try {

@@ -1,11 +1,13 @@
 Page : Article  ·  URL : /actualites/<titre>/  ·  public : partenaires, médias, participantes et participants  ·  intention : « titre de l'article »
 Action principale : lire l'article et voir ses photos ou sa vidéo
+Existant : capture docs/source/existant/captures/article-10-bureau.jpg : grande photo, panneau bleu avec titre orange, chapeau en gras, date brute « 2026-01-31 à 09:00 », liens en fin d'article. Ce qui marche : photo en grand, liens utiles. Ce qui ne marche pas : titre orange sur bleu peu contrasté, date au format machine, pas de fil d'Ariane ni d'article voisin.
+Références : https://securite-sociale-alimentation.org/ (collectif national pour une SSA, ouvert le 2026-11-13) : article avec fil d'Ariane, date lisible, retour vers la liste. https://caisse-alimentaire-commune.fr/agenda/ (caisse alimentaire commune de Montpellier, ouvert le 2026-11-13) : date puis texte, sans ornement. Retenu : fil d'Ariane, date en toutes lettres dans une pastille jaune, photo arrondie, liens en puces losange, articles précédent et suivant.
 
-1. En-tête : logo, menu (Accueil, Le projet, Qui sommes-nous, Lieux conventionnés, Actualités, Agenda, Galerie, Contact), lien « Brezhoneg » vers la version bretonne ; brique sections/en-tete-menu
-2. Fil d'Ariane : Accueil, puis la page ; brique sections/haut-de-page
-3. Haut de page : titre de l'article, date, lieu s'il existe, résumé ; brique sections/article
-4. Corps : texte de l'article, photos en galerie, vidéo chargée au clic, liens utiles ; briques sections/article, modules/galerie-visionneuse, modules/video-locale
-5. Articles voisins : article précédent et suivant, lien « Toutes les actualités » ; bloc de texte
-6. Pied de page : colonnes (Coordonnées, Pages légales, Langue) ; Le Buzuk, 39 bellevue de la Madeleine, 29600 Morlaix, 06 15 06 82 08, ssapaysdemorlaix@mailo.com ; Mentions légales, Confidentialité, Accessibilité, Plan du site ; lien Brezhoneg ; brique sections/pied-de-page
+1. En-tête : logo, menu (Accueil, Le projet, Qui sommes-nous, Lieux conventionnés, Actualités, Agenda, Galerie, Contact), lien « Brezhoneg » vers la version bretonne ; brique sections/en-tete-menu ; adaptation : fond bleu de marque, logo du collectif, menu et langue sur une seule ligne
+2. Fil d'Ariane : Accueil, puis la page ; brique sections/haut-de-page ; adaptation : liens verts, page courante en texte
+3. Haut de page : titre de l'article, date, lieu s'il existe, résumé ; brique sections/article ; adaptation : date en pastille jaune, titre bleu de marque avec trait vert, photos arrondies avec ombre
+4. Corps : texte de l'article, photos en galerie, vidéo chargée au clic, liens utiles ; briques sections/article, modules/galerie-visionneuse, modules/video-locale ; adaptation : date en pastille jaune, titre bleu de marque avec trait vert, photos arrondies avec ombre
+5. Articles voisins : article précédent et suivant, lien « Toutes les actualités » ; bloc de texte ; nouveau bloc : liens vers l'article précédent, le suivant et la rubrique, aucune brique de navigation entre fiches ; adaptation : intitulés Précédent et Suivant en petites capitales, liens verts, filet fin au-dessus
+6. Pied de page : colonnes (Coordonnées, Pages légales, Langue) ; Le Buzuk, 39 bellevue de la Madeleine, 29600 Morlaix, 06 15 06 82 08, ssapaysdemorlaix@mailo.com ; Mentions légales, Confidentialité, Accessibilité, Plan du site ; lien Brezhoneg ; brique sections/pied-de-page ; adaptation : fond jaune --color-marque-2, texte foncé
 
 Liens entrants : Actualités, accueil  ·  liens sortants : articles voisins, Actualités
