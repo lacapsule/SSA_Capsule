@@ -1,0 +1,127 @@
+/* Galerie et visionneuse. Variable locale : --galerie-min (largeur minimale d'une vignette, 18rem par défaut). */
+
+.galerie__vignettes {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, var(--galerie-min, 18rem)), 1fr));
+  gap: var(--space-4);
+  align-items: start;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* Nombre impair : la première vignette occupe toute la ligne (sur grand écran seulement). */
+@media (min-width: 48rem) {
+  .galerie__vignettes--premiere .galerie__vignette:first-child:nth-last-child(odd):not(:only-child) {
+    grid-column: 1 / -1;
+  }
+}
+
+.galerie figure {
+  margin: 0;
+}
+
+.galerie__ouvrir {
+  display: block;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  background: var(--color-surface-2);
+  overflow: hidden;
+}
+.galerie__ouvrir:focus-visible {
+  outline: var(--focus-largeur) solid var(--color-focus);
+  outline-offset: var(--focus-ecart);
+}
+.galerie__ouvrir img {
+  display: block;
+  width: 100%;
+  height: auto;
+  transition: transform var(--duration-base) var(--ease);
+}
+.galerie__ouvrir:hover img {
+  transform: scale(1.02);
+}
+
+.galerie figcaption {
+  margin-top: var(--space-2);
+  font-size: var(--step--1);
+  color: var(--color-text-muted);
+}
+
+/* Visionneuse : plein écran, image entière (jamais rognée), barre en haut, navigation en bas. */
+.visionneuse {
+  width: 100vw;
+  max-width: none;
+  height: 100dvh;
+  max-height: none;
+  margin: 0;
+  padding: var(--space-3);
+  border: 0;
+  color: var(--color-text);
+  background: var(--color-bg);
+}
+.visionneuse[open] {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  gap: var(--space-3);
+}
+.visionneuse::backdrop {
+  background: var(--color-bg);
+}
+
+.visionneuse__barre,
+.visionneuse__nav {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+  width: min(100%, 90rem);
+  margin-inline: auto;
+}
+.visionneuse__nav {
+  justify-content: center;
+}
+
+.visionneuse__position {
+  margin: 0;
+  font: var(--step--1) / 1.4 var(--font-mono);
+  color: var(--color-text-muted);
+}
+
+.visionneuse__scene {
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) auto;
+  place-items: center;
+  min-height: 0;
+  margin: 0;
+}
+.visionneuse__scene img {
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 100%;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  object-fit: contain;
+}
+.visionneuse__scene figcaption {
+  margin-top: var(--space-2);
+  text-align: center;
+  color: var(--color-text-muted);
+}
+
+/* Aussi dans gabarits/socle-css. */
+.galerie .visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  white-space: nowrap;
+  clip-path: inset(50%);
+  overflow: hidden;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .galerie__ouvrir img { transition: none; }
+  .galerie__ouvrir:hover img { transform: none; }
+}

@@ -148,6 +148,7 @@ Chaque page française a sa version bretonne, à la même adresse précédée de
 | Liste des lieux conventionnés (nom, adresse, horaires si connus) | Géraldine Gabillet | avant la construction (étape 6) | page Lieux conventionnés |
 | La chaîne YouTube citée dans l'article du colloque est-elle celle du collectif ? | Géraldine Gabillet | avant la construction (étape 6) | rien (non citée sinon) |
 | Vidéo de l'article « Vidéo fonctionnement du collectif d'animation de l'expérimentation » : sur le site actuel, le fichier est celui de la vidéo de présentation, coupé à 44 s (constaté le 2026-11-13) | Géraldine Gabillet | avant la recette (étape 9) | vidéo de cet article (texte seul en attendant) |
+| Galerie : titre et date de la série de 120 photos (le nom des fichiers indique le 24 novembre 2025, l'événement n'est pas connu), et si possible une courte description de chaque photo | Géraldine Gabillet | avant la recette (étape 9) | contexte et textes de remplacement de la galerie (texte neutre « Photo n sur 120 » en attendant) |
 
 ## Règles propres au projet
 

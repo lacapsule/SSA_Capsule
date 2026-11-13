@@ -219,3 +219,36 @@
 .site-footer__top > div:last-child { display: flex; flex-direction: column; }
 .site-footer__haut { align-self: flex-end; margin-top: auto; padding-top: var(--space-4); }
 
+/* Galerie (brique de la boîte) adaptée : vignettes arrondies avec ombre, visionneuse sur le voile sombre. */
+.galerie .galerie__vignettes { display: block; columns: 2 10rem; column-gap: var(--space-2); }
+@media (min-width: 48rem) { .galerie .galerie__vignettes { columns: 4 14rem; column-gap: var(--space-3); } }
+.galerie .galerie__vignette { margin-bottom: var(--space-2); break-inside: avoid; }
+@media (min-width: 48rem) { .galerie .galerie__vignette { margin-bottom: var(--space-3); } }
+.galerie__ouvrir { display: block; }
+.galerie__ouvrir img { display: block; width: 100%; height: auto; }
+.galerie__ouvrir { border-radius: var(--radius); box-shadow: var(--ombre-carte); overflow: hidden; }
+.visionneuse::backdrop { background: color-mix(in srgb, var(--voile) 88%, transparent); }
+
+/* Contact : coordonnées et illustration à gauche, formulaire à droite ; empilés sur téléphone. */
+.contact { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--space-6); align-items: start; }
+@media (min-width: 56rem) { .contact { grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr); } }
+.contact h2 { margin-top: 0; padding-bottom: var(--space-2); color: var(--color-marque-sur-fond); background: linear-gradient(var(--color-accent), var(--color-accent)) left bottom / 2.5rem 0.1875rem no-repeat; }
+.contact address { font-style: normal; line-height: 1.8; }
+.contact__illustration { display: block; width: min(100%, 24rem); height: auto; margin-top: var(--space-4); }
+.contact__formulaire { padding: var(--space-5); border: 1px solid var(--color-line); border-radius: var(--radius); background: var(--color-surface); box-shadow: var(--ombre-carte); }
+.contact .form { display: grid; gap: var(--space-3); }
+
+.contact .form { padding: 0; border: 0; background: none; box-shadow: none; }
+/* Lieux conventionnés : une carte par lieu (nom, adresse, horaires, itinéraire). */
+.lieux { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 18rem), 1fr)); gap: var(--space-3); list-style: none; margin: 0; padding: 0; }
+.lieu { padding: var(--space-4); border: 1px solid var(--color-line); border-radius: var(--radius); background: var(--color-surface); box-shadow: var(--ombre-carte); }
+.lieu__nom { margin: 0 0 var(--space-2); font-size: var(--step-1); color: var(--color-marque-sur-fond); }
+.lieu__adresse, .lieu__horaires p { margin: 0 0 var(--space-1); color: var(--color-text-muted); }
+
+.contact .field__hint { font-size: var(--step-0); }
+/* Aperçu de la carte en ligne (lien), à côté du mode d'emploi des calques. */
+@media (min-width: 48rem) { .duo--carte { grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); } }
+.carte-apercu { display: block; border-radius: var(--radius); box-shadow: var(--ombre-carte); overflow: hidden; }
+.carte-apercu img { display: block; width: 100%; height: auto; transition: transform var(--duration-base) var(--ease); }
+.carte-apercu:hover img { transform: scale(1.02); }
+@media (prefers-reduced-motion: reduce) { .carte-apercu img { transition: none; } }

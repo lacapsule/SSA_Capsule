@@ -29,7 +29,9 @@ if ($method === 'GET' || $method === 'HEAD') {
         : (array) App\Site\Site::get('pages', []);
     $target = Redirects::canonical($path, static fn (string $p): bool => isset($pages[$p]));
     if ($target !== null) {
-        redirect($target, 301);
+        // Paramètres gardés (ancienne adresse /galerie?page=2 vers /galerie/?page=2), sauf si la cible en porte.
+        $qs = (string) ($_SERVER['QUERY_STRING'] ?? '');
+        redirect($target . ($qs !== '' && !str_contains($target, '?') ? '?' . $qs : ''), 301);
     }
     // Slash final, dans un sens ou dans l'autre, seulement vers une route qui existe (voir socle-php).
     $query = (string) ($_SERVER['QUERY_STRING'] ?? '');

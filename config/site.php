@@ -64,5 +64,8 @@ return [
         '/collectif/' => ['titre' => 'Qui sommes-nous', 'description' => ''],
         '/actualites/' => ['titre' => 'Actualités', 'description' => ''],
         '/agenda/' => ['titre' => 'Agenda', 'description' => ''],
+        '/galerie/' => ['titre' => 'Galerie', 'description' => ''],
+        '/contact/' => ['titre' => 'Contact', 'description' => ''],
+        '/lieux-conventionnes/' => ['titre' => 'Lieux conventionnés', 'description' => ''],
     ],
 ];

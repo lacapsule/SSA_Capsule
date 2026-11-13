@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 /*
  * Jeux de données de développement pour regarder les listes à tous les volumes (skill web-ui-states,
- * « Listes à tous les volumes ») : agenda, actualités, logos. Jamais en production.
+ * « Listes à tous les volumes ») : agenda, actualités, logos, lieux. Jamais en production.
  * Écrit data/volume-<nom>.sqlite à partir de data/dev.sqlite (vide : 0 élément ; un : 1 ; max : volume maximal probable).
  * Servir un jeu : DB_DSN=sqlite:data/volume-max.sqlite php -S 127.0.0.1:8093 -t public public/router.php
  *   php scripts/donnees-volume.php
@@ -26,14 +26,14 @@ if (!is_file($source)) {
 }
 
 // Volume maximal probable : 12 événements à venir et 30 passés (un an d'expérimentation, réunions et ateliers
-// mensuels), 40 articles, 14 logos.
-$volumes = ['vide' => [0, 0, 0, 0], 'un' => [1, 0, 1, 1], 'max' => [12, 30, 40, 14]];
+// mensuels), 40 articles, 14 logos, 25 lieux conventionnés.
+$volumes = ['vide' => [0, 0, 0, 0, 0], 'un' => [1, 0, 1, 1, 1], 'max' => [12, 30, 40, 14, 25]];
 $fuseau = new DateTimeZone('Europe/Paris');
-foreach ($volumes as $nom => [$aVenir, $passes, $articles, $logos]) {
+foreach ($volumes as $nom => [$aVenir, $passes, $articles, $logos, $lieux]) {
     $cible = $racine . "/data/volume-$nom.sqlite";
     copy($source, $cible) || throw new RuntimeException("Copie impossible : $cible");
     $db = new PDO('sqlite:' . $cible, null, null, [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
-    $db->exec('DELETE FROM article_images; DELETE FROM articles; DELETE FROM events; DELETE FROM partenaires; DELETE FROM traductions');
+    $db->exec('DELETE FROM article_images; DELETE FROM articles; DELETE FROM events; DELETE FROM partenaires; DELETE FROM traductions; DELETE FROM lieux_conventionnes');
     $maintenant = new DateTimeImmutable('now', $fuseau);
     $ev = $db->prepare('INSERT INTO events (title, starts_at, ends_at, address, description, is_published, created_at, category, slug) VALUES (?, ?, ?, ?, ?, 1, ?, ?, ?)');
     $cats = ['collectif', 'experimentateurs', 'pour_tous', null];
@@ -55,5 +55,9 @@ foreach ($volumes as $nom => [$aVenir, $passes, $articles, $logos]) {
     for ($i = 1; $i <= $logos && $fichiers; $i++) {
         $lo->execute(["Partenaire de test $i", 'https://exemple.org/', '/media/partenaires/' . basename($fichiers[$i % count($fichiers)]), $i % 3 ? 'partenaire' : 'financeur', $i, 3]);
     }
-    fwrite(STDOUT, "data/volume-$nom.sqlite : $aVenir à venir, $passes passés, $articles articles, $logos logos.\n");
+    $li = $db->prepare('INSERT INTO lieux_conventionnes (nom, adresse, code_postal, ville, horaires, position, is_published, created_at) VALUES (?, ?, ?, ?, ?, ?, 1, ?)');
+    for ($i = 1; $i <= $lieux; $i++) {
+        $li->execute(["Lieu de test $i" . ($i % 4 === 0 ? ' au nom nettement plus long' : ''), "$i rue de test", '29600', 'Morlaix', $i % 3 ? "Mardi au samedi : 9 h à 18 h" : null, $i, $maintenant->format('Y-m-d H:i:s')]);
+    }
+    fwrite(STDOUT, "data/volume-$nom.sqlite : $aVenir à venir, $passes passés, $articles articles, $logos logos, $lieux lieux.\n");
 }
