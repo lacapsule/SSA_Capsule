@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 # Cibles des livrables, communes au modèle de dépôt et aux deux socles (inclus par chaque Makefile).
 LIVRABLES := .claude/skills/livrables/scripts
-.PHONY: init audit livrables valider appliquer
+.PHONY: init audit livrables apercu valider appliquer
 
 init: ## Crée le squelette du projet : docs/ (fichiers du client, maquettes, rapports) et mode d'emploi en brouillon
 	bash .claude/skills/web-new-site/initialiser.sh
@@ -13,6 +13,10 @@ audit: ## Audit du site actuel du client : make audit URL=https://site-actuel [M
 
 livrables: ## (Re)génère les documents du projet en HTML et PDF dans docs/livrables/ (charte Kouzia)
 	node $(LIVRABLES)/generer.mjs
+
+apercu: ## Rend le PDF d'un livrable en images pour le regarder page par page : make apercu ID=02-cahier-des-charges
+	@if [ -z "$(ID)" ]; then echo 'Usage : make apercu ID=<livrable>'; exit 2; fi
+	node $(LIVRABLES)/apercu.mjs $(ID)
 
 valider: ## Enregistre une validation du client : make valider ID=02-cahier-des-charges PAR="nom, moyen, date" [PISTE=n pour le 04]
 	@if [ -z "$(ID)" ] || [ -z "$(PAR)" ]; then echo 'Usage : make valider ID=<livrable> PAR="qui, comment" [PISTE=n]'; exit 2; fi

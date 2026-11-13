@@ -1,7 +1,8 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 // Génère les livrables du projet (HTML et PDF, charte Kouzia) depuis leurs sources, jamais écrits à la main :
 //   01-audit-existant      ← docs/source/existant/inventaire.json (make audit URL=…)
-//   02-cahier-des-charges  ← .claude/rules/projet.md (mode d'emploi) et l'audit
+//   02-cahier-des-charges  ← docs/livrables/sources/02-cahier-des-charges.md (texte rédigé pour le client),
+//                             arborescence et type du mode d'emploi, audit
 //   03-wireframes          ← section « Arborescence » du mode d'emploi et docs/maquettes/<page>.md
 //   04-direction-artistique ← branding de l'audit, champ « metier » du mode d'emploi, donnees/directions.json,
 //                             puis chaque piste sur les vraies pages du site intégré (maquettes)
@@ -48,7 +49,7 @@ function lireModeEmploi() {
     const [titre, ...corps] = bloc.split('\n');
     sections[titre.trim()] = corps.join('\n').trim();
   }
-  return { nom, depot: champ('depot'), type: champ('type'), metier: champ('metier'), statut: champ('statut'), maj: champ('mise à jour'), sections, texte };
+  return { nom, client: champ('client'), depot: champ('depot'), type: champ('type'), metier: champ('metier'), statut: champ('statut'), maj: champ('mise à jour'), sections, texte };
 }
 
 /** Lignes du tableau « Arborescence » du mode d'emploi : { page, adresse, intention, remplace }. */
@@ -73,7 +74,7 @@ const contraste = (a, b) => { const [x, y] = [luminance(a), luminance(b)].sort((
 const ratio = (v) => v.toFixed(2).replace('.', ',');
 
 const lienFichier = (f) => (f ? `../../source/existant/${f}` : null);
-const nomClient = (mode, inv) => mode?.nom ?? (inv ? new URL(inv.source).hostname.replace(/^www\./, '') : 'Projet');
+const nomClient = (mode, inv) => mode?.client || mode?.nom || (inv ? new URL(inv.source).hostname.replace(/^www\./, '') : 'Projet');
 
 function auditExistant(inv, mode) {
   const id = inv.identite;
@@ -207,60 +208,82 @@ const VALIDATIONS = `| # | Validation | Ce que le client valide |
 | 3 | Direction artistique et maquettes | couleurs, typographie, usage du logo, puis les pages avec leurs vrais contenus |
 | 4 | Recette | le procès-verbal des contrôles avant la mise en ligne |`;
 
+// Source rédigée du cahier des charges : le texte pour le client, écrit d'après le mode d'emploi (seule source des faits).
+const FICHIER_SOURCE_CDC = path.join(DOSSIER_LIVRABLES, 'sources/02-cahier-des-charges.md');
+const SECTIONS_CDC = ['Synthèse', 'Contexte et objectifs', 'Publics', 'Fonctionnement du site', 'Hébergement', 'Calendrier', 'Éléments à fournir'];
+const EN_PHRASES = new Set(['Synthèse', 'Contexte et objectifs', 'Publics', 'Fonctionnement du site', 'Hébergement']);
+// Un texte destiné au client ne contient aucun terme du kit : un défaut à corriger dans la source.
+const TERMES_INTERNES = [
+  [/\.\.\/|\b(?:src|docs|config|public|app|templates|data)\/[\w./-]+/, 'chemin de fichier'],
+  [/[\w-]+\.(?:md|mjs|js|json|php|sqlite|tpl|css|env)\b/, 'nom de fichier'],
+  [/`make\b|\bmake (?:audit|verify|socle|statique|dynamique|livrables|valider|appliquer|apercu)\b/, 'commande make'],
+  [/\b(?:constaté|déduit)\b/, 'balise de source (constaté, déduit)'],
+  [/\bl'agent\b|\bl'humain\b|\b(?:rule|skill|mode d'emploi)s?\b/i, 'vocabulaire du kit'],
+];
+
+function blocAccord(client) {
+  const partie = (qui) => `<div class="partie"><h4>${echapper(qui)}</h4><dl>
+<div><dt>Nom et qualité</dt><dd></dd></div><div><dt>Date</dt><dd></dd></div><div><dt>Signature</dt><dd class="signature"></dd></div>
+</dl></div>`;
+  return `<section class="accord"><h3>Bon pour accord</h3>
+<p>La signature de ce document vaut validation de la présente version du cahier des charges (validation 1). Toute modification ultérieure fera l'objet d'une nouvelle version, à valider de la même façon.</p>
+<div class="parties">${partie(`Pour ${client}`)}${partie('Pour Kouzia')}</div></section>`;
+}
+
 function cahierDesCharges(mode, inv) {
-  const s = mode.sections;
   const avert = [];
-  // L'emplacement des accès est une information interne : jamais dans un document client.
-  // Indications du modèle de mode d'emploi, reformulées pour le client.
-  const POUR_LE_CLIENT = [[/\s*\(mots de l'humain\)/g, ''], [/\s*\(critères vérifiables\)/g, ''], [/\(rule [^)]*\)/g, '']];
-  const garder = (t) => POUR_LE_CLIENT.reduce((x, [re, par]) => x.replace(re, par), t.split('\n').filter((l) => !/^\s*- Accès rangés/.test(l)).join('\n'));
-  const section = (titre, cle, texteSiVide) => {
-    const t = (s[cle] ?? '').trim();
-    if (t.replace(/^- …$/gm, '').trim() === '') { avert.push(`Section « ${cle} » du mode d'emploi vide.`); return `## ${titre}\n\n${texteSiVide}\n`; }
-    return `## ${titre}\n\n${garder(t)}\n`;
-  };
   if (!/^validé/.test(mode.statut)) avert.push(`Mode d'emploi en statut « ${mode.statut || 'inconnu'} » : terminer l'interview avant d'envoyer ce cahier des charges.`);
   const aConfirmer = mode.texte.split('\n').filter((l) => /à confirmer/i.test(l));
   if (aConfirmer.length) avert.push(`${aConfirmer.length} point(s) encore « à confirmer » dans le mode d'emploi.`);
-  if (/…/.test(mode.texte)) avert.push("Des champs du mode d'emploi contiennent encore « … ».");
+  if (!mode.client) avert.push("Champ « - client: » absent du mode d'emploi : le nom du client manque sur la page de titre.");
+  if (!EXIGENCES_TYPE[mode.type]) avert.push(`Type de site absent ou invalide (« ${mode.type || 'rien'} ») dans le mode d'emploi.`);
 
-  const md = [
-    section('Objectif', 'Objectif', 'À définir.'),
-    section('Contexte', 'Contexte', 'À définir.'),
-    section('Publics et action principale', 'Publics et action principale', 'À définir.'),
-    section('Périmètre', 'Périmètre', 'À définir.'),
-    section('Arborescence du nouveau site', 'Arborescence', "À définir à partir de l'audit et des recherches du public."),
-    inv ? `## Reprise de l'existant\n\n- Site actuel audité : ${inv.source} (livrable 01, ${inv.pagesLues} pages).\n- ${inv.anciennesAdresses.length} anciennes adresses redirigées en 301 vers les nouvelles pages.\n- Logo, couleurs et polices relevés : point de départ de la direction artistique (validation 3).\n` : '',
-    section('Ton et vocabulaire', 'Ton et vocabulaire', 'À définir.'),
-    section('Contenus et données', 'Données et contenus', 'À définir.'),
-    // Un outil interne n'est jamais indexé : pas d'exigence de référencement.
-    `## Exigences\n\n${mode.type === 'outil-interne' ? EXIGENCES_COMMUNES.split('\n').filter((l) => !/Référencement/.test(l)).join('\n') : EXIGENCES_COMMUNES}\n${EXIGENCES_TYPE[mode.type] ?? ''}\n`,
-    // « Hébergement » depuis le 2026-11-13 ; « Hébergement et accès » dans les modes d'emploi plus anciens.
-    section('Hébergement', s.Hébergement !== undefined ? 'Hébergement' : 'Hébergement et accès', 'À définir.'),
-    section('Décisions prises', 'Décisions validées', 'Aucune décision encore notée.'),
-    section('Étapes', 'Étapes', 'À définir.'),
-    `## Validations\n\n${VALIDATIONS}\n`,
-    section('Éléments à fournir', 'À fournir', 'Rien à fournir à ce jour.'),
-  ];
-  // Les sections reprises du mode d'emploi s'adressent au client : un terme interne y est un défaut à corriger dans la source.
-  const TERMES_INTERNES = [
-    [/\.\.\/|\b(?:src|docs|config|public|app|templates|data)\/[\w./-]+/, 'chemin de fichier'],
-    [/[\w-]+\.(?:md|mjs|js|json|php|sqlite|tpl|css|env)\b/, 'nom de fichier'],
-    [/`make\b|\bmake (?:audit|verify|socle|statique|dynamique|livrables|valider|appliquer)\b/, 'commande make'],
-    [/\b(?:constaté|déduit)\b/, 'balise de source (constaté, déduit)'],
-    [/\bl'agent\b|\bl'humain\b|\b(?:rule|skill)s? `/, 'vocabulaire du kit'],
-  ];
-  const texteClient = ['Objectif', 'Contexte', 'Publics et action principale', 'Périmètre', 'Arborescence', 'Ton et vocabulaire', 'Données et contenus', 'Hébergement', 'Hébergement et accès', 'Décisions validées', 'Étapes', 'À fournir']
-    .map((cle) => garder((s[cle] ?? '').trim())).join('\n').replace(/\(mots de l'humain\)/g, '');
+  if (!existsSync(FICHIER_SOURCE_CDC)) {
+    mkdirSync(path.dirname(FICHIER_SOURCE_CDC), { recursive: true });
+    copyFileSync(path.join(import.meta.dirname, '../gabarit/cahier-des-charges.md'), FICHIER_SOURCE_CDC);
+    avert.push(`Source rédigée posée (${path.relative(RACINE, FICHIER_SOURCE_CDC)}) : la rédiger en phrases d'après le mode d'emploi.`);
+  }
+  const source = readFileSync(FICHIER_SOURCE_CDC, 'utf8').replace(/<!--[\s\S]*?-->/g, '');
+  const sections = {};
+  for (const bloc of source.split(/^## /m).slice(1)) {
+    const [titre, ...corps] = bloc.split('\n');
+    sections[titre.trim()] = corps.join('\n').trim();
+  }
+  for (const t of SECTIONS_CDC) {
+    const texte = sections[t] ?? '';
+    if (!texte || /^…$/m.test(texte)) { avert.push(`Section « ${t} » de la source rédigée vide ou incomplète.`); continue; }
+    const puces = texte.split('\n').filter((l) => /^\s*([-*]|\d+\.)\s/.test(l)).length;
+    if (EN_PHRASES.has(t) && puces > 4) avert.push(`Section « ${t} » : ${puces} puces, à rédiger en phrases.`);
+  }
+  for (const t of Object.keys(sections)) if (!SECTIONS_CDC.includes(t)) avert.push(`Section « ${t} » inconnue dans la source rédigée (titres permis : ${SECTIONS_CDC.join(', ')}).`);
+  const mots = (sections['Synthèse'] ?? '').split(/\s+/).filter(Boolean).length;
+  if (mots > 220) avert.push(`Synthèse de ${mots} mots pour 220 au plus.`);
+
+  const arbo = lireArborescence(mode);
+  if (!arbo.length) avert.push("Arborescence du mode d'emploi vide : le tableau des pages manque.");
+  const texteClient = [source, ...arbo.map((p) => `${p.page} ${p.intention ?? ''}`)].join('\n');
   for (const [re, nom] of TERMES_INTERNES) {
     const trouves = [...new Set(texteClient.split('\n').filter((l) => re.test(l)).map((l) => l.match(re)[0]))];
-    if (trouves.length) avert.push(`Terme interne dans un texte destiné au client (${nom}) : ${trouves.slice(0, 5).join(', ')}. À réécrire dans le mode d'emploi.`);
+    if (trouves.length) avert.push(`Terme interne dans un texte destiné au client (${nom}) : ${trouves.slice(0, 5).join(', ')}. À réécrire dans la source.`);
   }
-  if (!EXIGENCES_TYPE[mode.type]) avert.push(`Type de site absent ou invalide (« ${mode.type || 'rien'} ») dans le mode d'emploi.`);
+
+  const client = nomClient(mode, inv);
+  const section = (t) => (sections[t] ? `## ${t}\n\n${sections[t]}\n` : '');
+  const pages = arbo.length ? `## Pages du site\n\n| Page | Adresse | Ce que cherche le visiteur |\n|------|---------|-------------------|\n${arbo.map((p) => `| ${p.page} | ${p.adresse} | ${p.intention ?? ''} |`).join('\n')}\n` : '';
+  // Un outil interne n'est jamais indexé : pas d'exigence de référencement.
+  const exigences = `## Exigences\n\n${mode.type === 'outil-interne' ? EXIGENCES_COMMUNES.split('\n').filter((l) => !/Référencement/.test(l)).join('\n') : EXIGENCES_COMMUNES}\n${EXIGENCES_TYPE[mode.type] ?? ''}\n`;
+  const reprise = inv ? `## Reprise du site actuel\n\nLe site actuel (${inv.source}) a été relu page par page : ${inv.pagesLues} pages, dont les contenus utiles sont repris. Ses ${inv.anciennesAdresses.length} anciennes adresses renverront automatiquement vers les nouvelles pages, pour ne perdre ni visiteurs ni référencement. Le logo, les couleurs et les polices relevés servent de point de départ à la direction artistique.\n` : '';
+  // À l'impression : la synthèse seule sur sa page, puis le détail, puis validations et signature sur la dernière page.
+  const md = [
+    section('Contexte et objectifs'), section('Publics'), pages, section('Fonctionnement du site'),
+    exigences, reprise, section('Hébergement'), section('Calendrier'), section('Éléments à fournir'),
+  ];
+  const fin = `<section class="cloture">${markdown(`## Validations\n\nLe projet avance par étapes ; chacune attend l'accord écrit du client avant la suivante.\n\n${VALIDATIONS}\n`)}\n${blocAccord(client)}</section>`;
   return {
-    id: '02-cahier-des-charges', titre: 'Cahier des charges', client: mode.nom,
-    sousTitre: `Ce que sera le nouveau site, pour qui, et comment sa réussite se vérifie. Généré depuis le mode d'emploi du projet (mise à jour ${mode.maj || 'inconnue'}).`,
-    corps: markdown(md.join('\n')), brouillon: !/^validé/.test(mode.statut) || avert.length > 0, avertissements: avert,
+    id: '02-cahier-des-charges', titre: 'Cahier des charges', client,
+    sousTitre: 'Ce que sera le nouveau site, pour qui, et comment sa réussite se vérifie.',
+    corps: `<section class="synthese">${markdown(section('Synthèse'))}</section>\n${markdown(md.join('\n'))}\n${fin}`, pagesMax: 6,
+    brouillon: !/^validé/.test(mode.statut) || avert.length > 0, avertissements: avert,
   };
 }
 
@@ -288,7 +311,7 @@ if (veut('03-wireframes') && mode) {
     // Ordre de la chaîne : la structure se valide après le cahier des charges (validation 1).
     if (lireRegistre().livrables['02-cahier-des-charges']?.statut !== 'validé') avertissements.unshift('Cahier des charges pas encore validé par le client : les wireframes attendent la validation 1.');
     faits.push(await ecrireLivrable({
-      id: '03-wireframes', titre: 'Wireframes', client: mode.nom,
+      id: '03-wireframes', titre: 'Wireframes', client: nomClient(mode, inv),
       sousTitre: `Structure de chaque page du nouveau site (${arbo.length} page${arbo.length > 1 ? 's' : ''}), sur ordinateur et sur téléphone, avant tout travail graphique.`,
       corps, sourcesRendues, brouillon: avertissements.length > 0, avertissements,
     }));
@@ -346,7 +369,7 @@ if (veut('04-direction-artistique') && mode && (inv || demandes.length)) {
   if (lireRegistre().livrables['03-wireframes']?.statut !== 'validé') avertissements.unshift('Wireframes pas encore validés par le client : la direction artistique attend la validation 2.');
   if (!inv) avertissements.push("Pas d'audit du site actuel : couleurs, logo et polices du client inconnus (make audit URL=…, ou fichiers dans docs/source/fournis/).");
   faits.push(await ecrireLivrable({
-    id: '04-direction-artistique', titre: 'Direction artistique et maquettes', client: mode.nom,
+    id: '04-direction-artistique', titre: 'Direction artistique et maquettes', client: nomClient(mode, inv),
     sousTitre: "Trois directions possibles pour l'apparence du site, construites depuis la marque actuelle et le métier, toutes conformes en contraste, puis montrées sur les vraies pages du nouveau site.",
     corps, sourcesRendues, brouillon: avertissements.length > 0, avertissements,
   }));

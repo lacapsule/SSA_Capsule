@@ -1,6 +1,7 @@
 # Mode d'emploi : <nom du projet>
 
 - depot: <nom exact du dossier du dépôt>
+- client: <nom du client tel qu'il figure sur ses documents (page de titre des livrables)>
 - type: vitrine | vitrine-formulaire | associatif | boutique | espace-client | outil-interne (rule types-de-site)
 - metier: artisan | sante | restaurant | association | commerce | conseil | tourisme | culture | education | defaut (skill livrables, direction artistique)
 - statut: brouillon | validé le AAAA-MM-JJ

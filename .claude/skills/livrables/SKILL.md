@@ -12,7 +12,7 @@ Principe : un livrable ne s'écrit jamais à la main. Il est généré depuis la
 | # | Livrable | Source | Commande | Validation du client |
 |---|----------|--------|----------|----------------------|
 | 01 | Audit de l'existant | site actuel et `docs/source/fournis/` | `make audit URL=https://site-actuel` | non (constat) |
-| 02 | Cahier des charges | `.claude/rules/projet.md` et audit | `make livrables` | **1** |
+| 02 | Cahier des charges | texte rédigé `docs/livrables/sources/02-cahier-des-charges.md`, plus arborescence, type et champ `- client:` du mode d'emploi, et audit | `make livrables` | **1** |
 | 03 | Wireframes | section « Arborescence » et `docs/maquettes/<page>.md` (skill `web-contenu`) | `make livrables` | **2** |
 | 04 | Direction artistique et maquettes | couleurs, logo et polices de l'audit, champ `- metier:`, `donnees/directions.json`, puis les vraies pages du site intégré | `make livrables` | **3** : le client choisit une piste sur ses propres pages |
 | 05 | PV de recette | `make verify`, `make a11y`, Lighthouse, checklist du skill `livraison` | à venir | **4**, avant mise en ligne |
@@ -34,10 +34,21 @@ Quand l'humain donne le lien du site actuel, l'accord du client pour reprendre s
 ## 3. Générer et valider
 
 - `make livrables` régénère tout ce qui a une source. Version : +1 quand le contenu change ; un livrable changé après sa validation repasse « à valider ». Registre : `docs/livrables/registre.json`.
-- Un livrable porte un encadré « À compléter avant validation » tant que sa source a des trous (mode d'emploi en brouillon, `à confirmer`, `…`, section vide, SIREN absent).
+- Un livrable porte un encadré « À compléter avant validation » tant que sa source a des trous (mode d'emploi en brouillon, `à confirmer`, `…`, section vide, SIREN absent). Dates en toutes lettres (« 13 novembre 2026 »).
 - Le cahier des charges reste « Brouillon », et ne peut pas être validé, tant que le mode d'emploi n'est pas `validé` ou que l'encadré n'est pas vide. Un constat (audit) ne se valide jamais.
 - Validation du client (mail, réunion, signature) : `make valider ID=02-cahier-des-charges PAR="Nom, par e-mail du AAAA-MM-JJ"`, seulement sur instruction de l'humain, puis une ligne dans « Décisions validées » du mode d'emploi. Pour le 04, la piste choisie est obligatoire : `PISTE=n`.
 - Les 4 validations du client sont des points d'arrêt : l'étape suivante ne commence pas avant (rule `00-organisation`, « Décider »).
+
+## 3 bis. Cahier des charges : un document pour le client
+
+Le lecteur est le client, pas l'agent : le mode d'emploi reste la source des faits, le cahier des charges en est la rédaction pour le client.
+
+- **Page de titre** au nom du client (champ `- client:` du mode d'emploi), jamais le nom du dépôt ni « généré depuis ».
+- **Texte rédigé** dans `docs/livrables/sources/02-cahier-des-charges.md`, posé depuis `gabarit/cahier-des-charges.md` au premier `make livrables` : titres imposés et dans cet ordre (Synthèse, Contexte et objectifs, Publics, Fonctionnement du site, Hébergement, Calendrier, Éléments à fournir), écrits en phrases d'après le mode d'emploi. Section manquante, vide, inconnue, en puces (plus de 4 dans une section en phrases) ou synthèse de plus de 220 mots : signalé dans l'encadré.
+- **Ajouté par le générateur**, jamais écrit à la main : tableau des pages (arborescence), exigences selon le type, reprise du site actuel (audit), tableau des validations, bloc « Bon pour accord » avec signature du client et de Kouzia.
+- **Absents** : journal des décisions datées, état interne des étapes, emplacement des accès.
+- **Mise en page** : synthèse seule sur sa page, validations et signature sur la dernière ; ligne de tableau jamais coupée, en-tête de tableau répété, date écrite en toutes lettres et jamais coupée ; 6 pages au plus, sinon brouillon avec le nombre de pages.
+- Avant de le présenter : `make apercu ID=02-cahier-des-charges`, puis chaque page regardée (skill `livraison`, ligne 5).
 
 ## 4. Wireframes
 
@@ -76,7 +87,8 @@ Rien de `docs/` n'est publié en ligne (hors de `dist/` et de `public/`).
 
 - L'encadré « À compléter » est une liste de travail pour Kouzia : un livrable ne part au client qu'une fois l'encadré vide.
 - Texte pour le client : aucun terme interne (nom d'outil, de fichier du kit, de variable), pas de jargon sans explication.
-- Le générateur signale dans l'encadré tout terme interne trouvé dans le texte destiné au client (chemin de fichier, nom de fichier, commande `make`, `constaté`, `déduit`, « l'agent », « l'humain ») : la correction se fait dans le mode d'emploi, dont les sections reprises par le cahier des charges s'écrivent pour le client.
+- Le générateur signale dans l'encadré tout terme interne trouvé dans le texte destiné au client (chemin de fichier, nom de fichier, commande `make`, `constaté`, `déduit`, « l'agent », « l'humain », « mode d'emploi ») : la correction se fait dans la source rédigée.
+- Un livrable se regarde avant d'être présenté : `make apercu ID=<livrable>` rend son PDF en images (`.claude/etat/apercu/<id>/`, une planche et une image par page), regardées page par page.
 - Aucun fait inventé : ce qui manque est écrit « à fournir » avec qui et pour quand (rule `web-legal`, « Zéro fiction »).
 - L'emplacement des accès (FTP, DNS) n'apparaît jamais dans un livrable.
 - Un nouveau livrable ou une nouvelle section : dans `scripts/generer.mjs`, depuis une source, avec la même charte.

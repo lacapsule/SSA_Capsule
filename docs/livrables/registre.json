@@ -2,17 +2,22 @@
   "livrables": {
     "01-audit-existant": {
       "titre": "Audit de l'existant",
-      "version": 2,
+      "version": 3,
       "date": "2026-11-13",
-      "empreinte": "47bf9e874fc802a6",
+      "empreinte": "0d1fcd699a3eaabb",
       "statut": "constat"
     },
     "02-cahier-des-charges": {
       "titre": "Cahier des charges",
-      "version": 4,
+      "version": 11,
       "date": "2026-11-13",
-      "empreinte": "b0f55ddfdb353501",
-      "statut": "à valider"
+      "empreinte": "c79442b7de642749",
+      "statut": "validé",
+      "validation": {
+        "par": "Géraldine Gabillet, accord oral transmis par Kouzia le 2026-11-13",
+        "date": "2026-11-13",
+        "version": 11
+      }
     },
     "03-wireframes": {
       "titre": "Wireframes",

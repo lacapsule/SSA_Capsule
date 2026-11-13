@@ -139,8 +139,16 @@ th {
   background: var(--color-surface-2);
 }
 
+thead {
+  display: table-header-group;
+}
+
 tr {
   break-inside: avoid;
+}
+
+.date {
+  white-space: nowrap;
 }
 
 blockquote {
@@ -277,6 +285,48 @@ blockquote {
   color: var(--color-danger);
 }
 
+.accord,
+.cloture {
+  break-inside: avoid;
+}
+
+.parties {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+  gap: var(--space-4);
+}
+
+.partie {
+  padding: var(--space-3);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-small);
+}
+
+.partie h4 {
+  margin-block-start: 0;
+  font-size: var(--step-0);
+}
+
+.partie dl {
+  margin: 0;
+}
+
+.partie dt {
+  font-size: var(--step--2);
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.partie dd {
+  min-height: var(--space-5);
+  margin: 0 0 var(--space-2);
+  border-block-end: 1px solid var(--color-line);
+}
+
+.partie .signature {
+  min-height: var(--space-6);
+}
+
 @media print {
   html,
   body {
@@ -300,6 +350,14 @@ blockquote {
 
   .ecrans {
     break-inside: avoid;
+  }
+
+  .synthese {
+    break-after: page;
+  }
+
+  .cloture {
+    break-before: page;
   }
 
   .ecrans img {

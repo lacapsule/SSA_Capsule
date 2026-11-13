@@ -20,7 +20,8 @@ function enLigne(t) {
   s = s.replace(/`([^`]+)`/g, '<code>$1</code>');
   s = s.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
   s = s.replace(/\[([^\]]+)\]\(((?:https?:\/\/|\/|\.\.?\/|#)[^)\s]*)\)/g, '<a href="$2">$1</a>');
-  return s;
+  // Date écrite en toutes lettres et jamais coupée en fin de ligne (« 2026- / 11-13 ») ; hors des balises (adresses des liens).
+  return s.split(/(<[^>]+>)/).map((bout) => (bout.startsWith('<') ? bout : bout.replace(/\b\d{4}-\d{2}-\d{2}\b/g, (d) => `<time class="date" datetime="${d}">${dateFr(d)}</time>`))).join('');
 }
 
 /** Liste Markdown (lignes d'un même bloc) vers HTML, sous-listes comprises. */
@@ -88,6 +89,18 @@ export function markdown(source) {
 }
 
 /** Dossier de la boîte à outils, à côté du dépôt. */
+const MOIS = ['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'];
+/** 2026-11-13 → 13 novembre 2026 (texte destiné au client). */
+export function dateFr(iso) {
+  const [a, m, j] = String(iso).split('-').map(Number);
+  return a && m && j ? `${j === 1 ? '1er' : j} ${MOIS[m - 1]} ${a}` : String(iso ?? '');
+}
+
+/** Nombre de pages d'un PDF produit par Chrome (objets /Type /Page). */
+function pagesPdf(fichier) {
+  return (readFileSync(fichier, 'latin1').match(/\/Type\s*\/Page(?![s\w])/g) ?? []).length;
+}
+
 export function boite() {
   const d = path.join(path.dirname(RACINE), 'kouzia-boite-a-outils');
   if (!existsSync(path.join(d, 'base/tokens.css'))) {
@@ -143,7 +156,8 @@ export function valider(id, par, extra = {}) {
 /**
  * Écrit un livrable : docs/livrables/<id>/index.html et <id>.pdf.
  * Version : +1 quand le contenu change ; un contenu changé après validation repasse « à valider ».
- * doc : { id, titre, client, sousTitre, corps (HTML), brouillon (bool), constat (bool : jamais validé), avertissements: [texte] }
+ * doc : { id, titre, client, sousTitre, corps (HTML), brouillon (bool), constat (bool : jamais validé), avertissements: [texte],
+ *         pagesMax (nombre : au-delà, le livrable repasse en brouillon avec un avertissement) }
  */
 export async function ecrireLivrable(doc) {
   mkdirSync(path.join(DOSSIER_LIVRABLES, doc.id), { recursive: true });
@@ -151,7 +165,8 @@ export async function ecrireLivrable(doc) {
   // Empreinte : texte du document, avertissements et sources rendues à part (pages de wireframe…).
   const empreinte = createHash('sha256').update(doc.corps + (doc.avertissements ?? []).join('|') + (doc.sourcesRendues ?? '')).digest('hex').slice(0, 16);
   const r = lireRegistre();
-  const avant = r.livrables[doc.id];
+  // Second rendu (trop de pages) : même version que le premier, comparée à l'entrée d'avant le premier.
+  const avant = doc.recompte ? doc.avantRecompte : r.livrables[doc.id];
   const date = new Date().toISOString().slice(0, 10);
   let entree = avant;
   if (!avant || avant.empreinte !== empreinte) {
@@ -184,7 +199,7 @@ export async function ecrireLivrable(doc) {
   ${doc.sousTitre ? `<p class="chapo">${echapper(doc.sousTitre)}</p>` : ''}
   <dl class="meta">
     <div><dt>Version</dt><dd>${entree.version}</dd></div>
-    <div><dt>Date</dt><dd>${entree.date}</dd></div>
+    <div><dt>Date</dt><dd>${dateFr(entree.date)}</dd></div>
     <div><dt>Statut</dt><dd>${echapper(statut)}</dd></div>
   </dl>
 </header>
@@ -192,7 +207,7 @@ ${(doc.avertissements ?? []).length ? `<aside class="avertissement" role="note">
 <main>
 ${doc.corps}
 </main>
-<footer class="pied">Kouzia · ${echapper(doc.titre)} · ${echapper(doc.client)} · version ${entree.version} du ${entree.date}</footer>
+<footer class="pied">Kouzia · ${echapper(doc.titre)} · ${echapper(doc.client)} · version ${entree.version} du ${dateFr(entree.date)}</footer>
 </body>
 </html>
 `;
@@ -210,5 +225,10 @@ ${doc.corps}
     footerTemplate: `<div style="width:100%;font:8px sans-serif;color:#4a5270;padding:0 15mm;display:flex;justify-content:space-between"><span>Kouzia · ${echapper(doc.titre)} · v${entree.version}</span><span><span class="pageNumber"></span> / <span class="totalPages"></span></span></div>`,
   });
   await navigateur.close();
-  return { ...entree, html: path.relative(RACINE, fichierHtml), pdf: path.relative(RACINE, fichierPdf) };
+  const pages = pagesPdf(fichierPdf);
+  if (doc.pagesMax && pages > doc.pagesMax && !doc.recompte) {
+    const avertissement = `${pages} pages en PDF pour ${doc.pagesMax} au plus : raccourcir la source.`;
+    return ecrireLivrable({ ...doc, recompte: true, avantRecompte: avant, brouillon: true, avertissements: [...(doc.avertissements ?? []), avertissement] });
+  }
+  return { ...entree, pages, html: path.relative(RACINE, fichierHtml), pdf: path.relative(RACINE, fichierPdf) };
 }
