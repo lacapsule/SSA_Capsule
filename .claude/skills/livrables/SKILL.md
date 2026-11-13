@@ -25,7 +25,7 @@ Les livrables marqués « à venir » se produisent à la main avec le même gab
 
 Quand l'humain donne le lien du site actuel, l'accord du client pour reprendre ses contenus est acquis (il demande un nouveau site).
 
-1. Fichiers reçus du client (logo, charte, photos, textes) : les ranger dans `docs/source/fournis/`, tels quels.
+1. `make init` (une fois) pose `docs/source/fournis/{logo,charte,photos,textes,documents}`, `docs/maquettes/`, `docs/rapports/` et le mode d'emploi en brouillon. Fichiers reçus du client : les ranger dans le bon sous-dossier de `docs/source/fournis/`, tels quels.
 2. `make audit URL=https://site-actuel` (`MAX=80` pour un grand site) : parcourt les pages du même domaine et le sitemap, puis écrit `docs/source/existant/inventaire.json`, les captures (bureau et mobile) et les fichiers récupérés (logos, images). Génère ensuite le livrable 01.
 3. Lire l'inventaire et le livrable 01 : chaque fait a sa page source et reste `à confirmer` tant que le client ne l'a pas validé. Il entre dans le mode d'emploi en `déduit` (skill `interview`), jamais directement dans le site.
 4. Les anciennes adresses de l'inventaire deviennent `src/data/redirections.json` (301 vers la nouvelle page), une fois l'arborescence décidée.

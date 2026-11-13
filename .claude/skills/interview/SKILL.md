@@ -25,7 +25,7 @@ But : un mode d'emploi assez complet pour que tout le travail puisse être fait 
    - `constaté` : lu dans un fichier ou une sortie de commande (citer le chemin) ;
    - `déduit` : probable mais non écrit (dire de quoi c'est déduit) ;
    - `inconnu`.
-3. **Créer le mode d'emploi en `brouillon`** depuis `modele-mode-emploi.md`, champ `depot` = nom du dossier du dépôt, rempli avec le `constaté` et le `déduit` (ce dernier marqué `à confirmer`). Projet existant : le socle en place est un fait (« Décisions validées » : `constaté AAAA-MM-JJ`), pas un choix à refaire ; les écarts relevés vont dans « Règles propres au projet » classés P0/P1/P2.
+3. **Créer le mode d'emploi en `brouillon`** depuis `modele-mode-emploi.md` (`make init` le pose s'il manque, avec le squelette `docs/`), champ `depot` = nom du dossier du dépôt, rempli avec le `constaté` et le `déduit` (ce dernier marqué `à confirmer`). Projet existant : le socle en place est un fait (« Décisions validées » : `constaté AAAA-MM-JJ`), pas un choix à refaire ; les écarts relevés vont dans « Règles propres au projet » classés P0/P1/P2.
 4. **Présenter ce qui a été compris**, par thème, en peu de lignes : « J'ai compris que… (source) ». Demander une confirmation groupée du `constaté`, puis poser une question par point `déduit` (« Est-ce bien… ? ») et par point `inconnu`.
 5. **Questionner par thème** pour le reste, dans l'ordre ci-dessous, 3 à 5 questions par message, chacune avec une proposition par défaut quand il en existe une raisonnable. Ne jamais demander ce qui est `constaté` sans doute.
 6. **Relancer** toute réponse floue (« on verra », « comme d'habitude », « normal ») par une question fermée ou un exemple concret.

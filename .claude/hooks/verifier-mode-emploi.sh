@@ -10,7 +10,7 @@ depot="$(basename "$racine")"
 fichier="$racine/.claude/rules/projet.md"
 
 if [[ ! -f "$fichier" ]]; then
-    echo "MODE D'EMPLOI ABSENT pour le dépôt « $depot » : aucun travail avant l'interview (skill interview, rule 00-organisation)."
+    echo "MODE D'EMPLOI ABSENT pour le dépôt « $depot » : aucun travail avant l'interview (skill interview, rule 00-organisation). Nouveau projet : make init pose le squelette (docs/, mode d'emploi en brouillon)."
     exit 0
 fi
 
