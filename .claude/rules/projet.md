@@ -1,6 +1,6 @@
 # Mode d'emploi : SSA_Refonte
 
-- depot: SSA_Refonte
+- depot: SSA_Capsule
 - client: Collectif SSA Pays de Morlaix
 - type: associatif
 - metier: association
@@ -200,3 +200,4 @@ Chaque page française a sa version bretonne, à la même adresse précédée de
 | Date | Erreur | Cause | Règle ajoutée (où) |
 |------|--------|-------|--------------------|
 | 2026-11-13 | Cahier des charges version 1 rempli de termes internes (chemins, commandes, balises de source) | sections du mode d'emploi écrites pour l'agent, reprises telles quelles, sans contrôle | phrase d'en-tête de ce fichier ; contrôle des termes internes dans `skills/livrables` (section 7) |
+| 2026-11-16 | Champ `depot: SSA_Refonte` alors que le dépôt (GitHub `lacapsule/SSA_Capsule`, branche `refonte`) s'appelle `SSA_Capsule` : le hook de démarrage traitait le mode d'emploi comme celui d'un autre projet | nom de travail du projet utilisé à la place du nom du dossier | champ corrigé en `SSA_Capsule` (validé par l'humain le 2026-11-16) |
