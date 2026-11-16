@@ -3,7 +3,7 @@
  * Haut de page intérieure : fil d'Ariane visible et BreadcrumbList (rule web-seo), titre h1, chapeau.
  * @var string $chemin chemin interne @var string $titre @var string $chapo
  * Facultatif : array{chemin: string, libelle: string}|null $parent (rubrique d'une fiche) ;
- * string $photo (photo du site actuel en fond, sous un voile, chargée en priorité : élément LCP).
+ * string $photo (photo du site actuel à droite du titre, piste 2, chargée en priorité : élément LCP).
  */
 use App\Langue\Langue;
 
@@ -20,8 +20,8 @@ foreach ($niveaux as $i => $n) {
 ?>
 <?php $photo = isset($photo) && is_string($photo) ? $photo : ''; ?>
 <div class="page-head<?= $photo !== '' ? ' page-head--photo' : '' ?>">
-  <?php if ($photo !== ''): ?><img class="page-head__photo" src="<?= e($photo) ?>" alt="" width="1920" height="1281" fetchpriority="high" decoding="async"><?php endif ?>
   <div class="page-head__inner container">
+    <div class="page-head__texte">
     <nav class="breadcrumb" aria-label="<?= e(t('site.fil_ariane')) ?>">
       <ol>
         <?php foreach ($niveaux as $i => $n): ?>
@@ -35,6 +35,8 @@ foreach ($niveaux as $i => $n) {
     </nav>
     <h1><?= e($titre) ?></h1>
     <?php if (($chapo ?? '') !== ''): ?><p class="page-head__intro"><?= e($chapo) ?></p><?php endif ?>
+    </div>
+    <?php if ($photo !== ''): ?><img class="page-head__photo" src="<?= e($photo) ?>" alt="" width="1920" height="1281" fetchpriority="high" decoding="async"><?php endif ?>
   </div>
 </div>
 <script type="application/ld+json"><?= json_encode(['@context' => 'https://schema.org', '@type' => 'BreadcrumbList', 'itemListElement' => $liste], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG) ?></script>

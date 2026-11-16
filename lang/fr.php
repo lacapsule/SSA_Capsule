@@ -25,6 +25,8 @@ return [
     'accueil.tout_agenda' => 'Tout l\'agenda',
     'accueil.dernieres_actualites' => 'Dernières actualités',
     'accueil.toutes_actualites' => 'Toutes les actualités',
+    'accueil.pause_photos' => 'du défilement des photos',
+    'site.pause' => 'Pause',
     'agenda.filtrer' => 'Filtrer par public',
     'agenda.tous' => 'Tous',
     'agenda.cat_collectif' => 'Collectif',

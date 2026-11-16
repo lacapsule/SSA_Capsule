@@ -47,7 +47,8 @@ Premier geste dans le dépôt : `make outils` (ou `bash .claude/skills/web-audit
 | Rôle | Responsabilité | Skills |
 |------|----------------|--------|
 | Chef de projet | périmètre, priorités P0/P1/P2, recette | `web-audit`, `web-release` |
-| Designer UX / contenu | parcours, hiérarchie, textes réels, états vides | `web-ui-states` |
+| Designer UX / contenu | parcours, hiérarchie, textes réels, états vides | `web-contenu`, `web-ui-states` |
+| Directeur artistique | concept, maquettes composées, revue visuelle | `web-direction` |
 | Web designer | tokens, grilles, typo, responsive, mouvement | `web-design-system` |
 | Graphiste | logo, icônes, photos, formats | `web-media` |
 | Développeur | HTML/CSS/JS, build, données, formulaires | rules `web-code`, `web-forms-security` |
@@ -66,7 +67,7 @@ Chaque étape n'utilise que ce que les précédentes ont produit (skill `livrabl
 3. Cahier des charges (`make livrables`, livrable 02) : **validation 1 du client**, qui fige le type.
 4. `make socle` : architecture déduite du type (refusée avant la validation 1 ou si le type et le socle ne vont pas ensemble) ; `src/data/` rempli depuis le mode d'emploi (domaine dans `site.json`, une seule source).
 5. Maquette en texte de chaque page (skill `web-contenu`), rendue en wireframes (livrable 03) : **validation 2**, qui fige la structure.
-6. Intégration des pages avec leurs vrais contenus (skill `web-contenu`, briques de la boîte), dans l'ordre de construction du skill `web-contenu` (page de l'action principale et contenus vivants d'abord), sur la charte du client (`make charte`, posée aussi par `make socle`), mobile d'abord.
-7. Direction artistique et maquettes (livrable 04) : trois pistes montrées sur ces pages, **validation 3** (`make valider … PISTE=n`), puis `make appliquer`.
+6. Direction artistique (skill `web-direction`, livrable 04) : concept, puis trois maquettes composées de l'accueil et d'une page intérieure (compositions différentes, pas seulement des couleurs), revue visuelle de chacune, **validation 3** (`make valider … PISTE=n`), puis `make appliquer`.
+7. Intégration des pages d'après la maquette retenue, avec leurs vrais contenus (skill `web-contenu`), dans l'ordre de construction du skill `web-contenu` (page de l'action principale et contenus vivants d'abord), mobile d'abord ; briques de la boîte quand elles servent la composition, sinon nouveau bloc proposé ensuite à la boîte ; revue visuelle de chaque page avant de la présenter (skill `web-direction`).
 8. Finitions : SEO, données structurées, pages légales, formulaires et sécurité, image de partage et icônes (`make images`, skill `web-media`), animations minimales (rule `web-design`, « Mouvement »).
 9. Recette complète (skill `web-audit`), PV de recette (livrable 05) : **validation 4**, puis livraison (skill `livraison`), mise en production (skill `web-release`) et dossier de livraison (livrable 06).

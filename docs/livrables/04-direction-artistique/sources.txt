@@ -178,11 +178,11 @@ src: url("../../../../source/polices/source-sans-3/source-sans-3-400-700-latin.w
 --color-line: #d9dee6;
 --color-line-strong: #b8bec8;
 --color-border: #747b87;
---color-accent: #936200;
---color-accent-strong: #764d00;
---color-accent-soft: #f6f2eb;
+--color-accent: #007d34;
+--color-accent-strong: #006327;
+--color-accent-soft: #ebf5ef;
 --color-accent-text: #ffffff;
---color-focus: #b87c00;
+--color-focus: #009d43;
 --color-marque: #364a6b;
 --color-marque-sur-fond: #364a6b;
 --color-marque-texte: #ffffff;
@@ -194,10 +194,10 @@ src: url("../../../../source/polices/source-sans-3/source-sans-3-400-700-latin.w
 --color-info: #2a5fb7;
 --color-entete-fond: #f8fafe;
 --color-entete-texte: #151b24;
---color-heros-fond: #f6f2eb;
+--color-heros-fond: #ebf5ef;
 --color-heros-texte: #151b24;
---color-entete-accent: #9b6700;
---color-heros-accent: #966300;
+--color-entete-accent: #008437;
+--color-heros-accent: #007f34;
 --font-titres: "Outfit", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
 --font-ui: "Source Sans 3", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
 --radius: 0.75rem;
@@ -224,11 +224,11 @@ color-scheme: light;
 --color-line: #282e38;
 --color-line-strong: #414853;
 --color-border: #6b727e;
---color-accent: #fdb544;
---color-accent-strong: #ffd8a3;
---color-accent-soft: #2e2c27;
+--color-accent: #43c466;
+--color-accent-strong: #61de7f;
+--color-accent-soft: #182e2b;
 --color-accent-text: #070b14;
---color-focus: #fdb544;
+--color-focus: #43c466;
 --color-marque: #364a6b;
 --color-marque-sur-fond: #738bb0;
 --color-marque-texte: #ffffff;
@@ -240,10 +240,10 @@ color-scheme: light;
 --color-info: #8db8ff;
 --color-entete-fond: #0a1018;
 --color-entete-texte: #ebeff5;
---color-heros-fond: #2e2c27;
+--color-heros-fond: #182e2b;
 --color-heros-texte: #ebeff5;
---color-entete-accent: #fdb544;
---color-heros-accent: #fdb544;
+--color-entete-accent: #43c466;
+--color-heros-accent: #43c466;
 color-scheme: dark;
 }
 }
@@ -256,11 +256,11 @@ color-scheme: dark;
 --color-line: #282e38;
 --color-line-strong: #414853;
 --color-border: #6b727e;
---color-accent: #fdb544;
---color-accent-strong: #ffd8a3;
---color-accent-soft: #2e2c27;
+--color-accent: #43c466;
+--color-accent-strong: #61de7f;
+--color-accent-soft: #182e2b;
 --color-accent-text: #070b14;
---color-focus: #fdb544;
+--color-focus: #43c466;
 --color-marque: #364a6b;
 --color-marque-sur-fond: #738bb0;
 --color-marque-texte: #ffffff;
@@ -272,10 +272,10 @@ color-scheme: dark;
 --color-info: #8db8ff;
 --color-entete-fond: #0a1018;
 --color-entete-texte: #ebeff5;
---color-heros-fond: #2e2c27;
+--color-heros-fond: #182e2b;
 --color-heros-texte: #ebeff5;
---color-entete-accent: #fdb544;
---color-heros-accent: #fdb544;
+--color-entete-accent: #43c466;
+--color-heros-accent: #43c466;
 color-scheme: dark;
 }
 /* Piste 3 « Contrastée » (livrable 04, direction artistique) : généré, à poser tel quel comme N0.
@@ -310,11 +310,11 @@ src: url("../../../../source/polices/atkinson-hyperlegible/atkinson-hyperlegible
 --color-line: #d9dee6;
 --color-line-strong: #b8bec8;
 --color-border: #747b87;
---color-accent: #936200;
---color-accent-strong: #764d00;
---color-accent-soft: #f6f2eb;
+--color-accent: #007d34;
+--color-accent-strong: #006327;
+--color-accent-soft: #ebf5ef;
 --color-accent-text: #ffffff;
---color-focus: #b87c00;
+--color-focus: #009d43;
 --color-marque: #364a6b;
 --color-marque-sur-fond: #364a6b;
 --color-marque-texte: #ffffff;
@@ -328,8 +328,8 @@ src: url("../../../../source/polices/atkinson-hyperlegible/atkinson-hyperlegible
 --color-entete-texte: #ffffff;
 --color-heros-fond: #364a6b;
 --color-heros-texte: #ffffff;
---color-entete-accent: #fdb544;
---color-heros-accent: #fdb544;
+--color-entete-accent: #53d273;
+--color-heros-accent: #53d273;
 --font-titres: "Bitter", Georgia, "Times New Roman", serif;
 --font-ui: "Atkinson Hyperlegible", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
 --radius: 0.375rem;
@@ -356,11 +356,11 @@ color-scheme: light;
 --color-line: #282e38;
 --color-line-strong: #414853;
 --color-border: #6b727e;
---color-accent: #fdb544;
---color-accent-strong: #ffd8a3;
---color-accent-soft: #2e2c27;
+--color-accent: #43c466;
+--color-accent-strong: #61de7f;
+--color-accent-soft: #182e2b;
 --color-accent-text: #070b14;
---color-focus: #fdb544;
+--color-focus: #43c466;
 --color-marque: #364a6b;
 --color-marque-sur-fond: #738bb0;
 --color-marque-texte: #ffffff;
@@ -374,8 +374,8 @@ color-scheme: light;
 --color-entete-texte: #ffffff;
 --color-heros-fond: #364a6b;
 --color-heros-texte: #ffffff;
---color-entete-accent: #fdb544;
---color-heros-accent: #fdb544;
+--color-entete-accent: #53d273;
+--color-heros-accent: #53d273;
 color-scheme: dark;
 }
 }
@@ -388,11 +388,11 @@ color-scheme: dark;
 --color-line: #282e38;
 --color-line-strong: #414853;
 --color-border: #6b727e;
---color-accent: #fdb544;
---color-accent-strong: #ffd8a3;
---color-accent-soft: #2e2c27;
+--color-accent: #43c466;
+--color-accent-strong: #61de7f;
+--color-accent-soft: #182e2b;
 --color-accent-text: #070b14;
---color-focus: #fdb544;
+--color-focus: #43c466;
 --color-marque: #364a6b;
 --color-marque-sur-fond: #738bb0;
 --color-marque-texte: #ffffff;
@@ -406,7 +406,1325 @@ color-scheme: dark;
 --color-entete-texte: #ffffff;
 --color-heros-fond: #364a6b;
 --color-heros-texte: #ffffff;
---color-entete-accent: #fdb544;
---color-heros-accent: #fdb544;
+--color-entete-accent: #53d273;
+--color-heros-accent: #53d273;
+color-scheme: dark;
+}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Maquette piste 1 : accueil</title>
+<link rel="stylesheet" href="../../../livrables/04-direction-artistique/pistes/1-fidele/tokens.css">
+<link rel="stylesheet" href="composition.css">
+</head>
+<body>
+<header class="entete">
+<div class="contenu">
+<a href="#"><img src="../../../../public/assets/img/logo.svg" alt="Sécurité Sociale de l'Alimentation, Pays de Morlaix : accueil"></a>
+<nav aria-label="Menu principal"><a href="#">Le projet</a><a href="#">Qui sommes-nous</a><a href="#">Lieux conventionnés</a><a href="#">Actualités</a><a href="#">Agenda</a><a href="#">Galerie</a><a href="#">Contact</a></nav>
+<a class="langue" href="#" lang="br">Brezhoneg</a>
+<button class="menu" type="button" aria-expanded="false">Menu</button>
+</div>
+</header>
+<main>
+<div class="heros">
+<div>
+<h1>Sécurité Sociale de l'Alimentation, Pays de Morlaix</h1>
+<p>Pour un droit fondamental et universel à une alimentation saine et durable.</p>
+<div class="actions"><a class="bouton" href="#">Voir l'agenda</a><a class="bouton bouton--clair" href="#">Trouver un lieu conventionné</a></div>
+</div>
+</div>
+<section class="rdv" aria-labelledby="rdv-titre">
+<div class="contenu">
+<p class="date"><strong>7</strong><span>déc.</span></p>
+<div>
+<p class="sur-titre">Prochain rendez-vous</p>
+<h2 id="rdv-titre">Réunion mensuelle La Collective d'Animation</h2>
+<p>Lundi 7 décembre 2026, 18 h 00 · locaux de l'AFPA, bellevue de la Madeleine, Morlaix</p>
+</div>
+<a class="bouton" href="#">Tout l'agenda</a>
+</div>
+</section>
+<section class="qui" aria-labelledby="qui-titre">
+<div class="contenu">
+<div class="rond"><img src="../../../../public/assets/img/illustration-collectif.svg" alt=""></div>
+<div>
+<h2 class="titre" id="qui-titre">Qui sommes-nous ?</h2>
+<p><strong>Le groupe « Sécurité Sociale de l'Alimentation » (SSA)</strong></p>
+<p>Le collectif pour une Sécurité Sociale de l'Alimentation en Pays de Morlaix est composé d'une trentaine de citoyennes et citoyens vivant sur le Pays de Morlaix. Il est accompagné par 4 structures associatives du Pays de Morlaix.</p>
+<ul class="structures">
+<li><span><strong>L'ULAMIR-CPIE</strong> : centre social et centre d'éducation à l'environnement.</span></li>
+<li><span><strong>Le Résam</strong> : maison des associations du Pays de Morlaix.</span></li>
+<li><span><strong>Le Buzuk</strong> : porteuse de la monnaie locale.</span></li>
+<li><span><strong>L'Adess du Pays de Morlaix</strong> : pôle ESS du Pays de Morlaix.</span></li>
+</ul>
+<a class="bouton" href="#">Découvrir le collectif</a>
+</div>
+</div>
+</section>
+<section class="etapes" aria-labelledby="etapes-titre">
+<div class="contenu">
+<div>
+<h2 class="titre" id="etapes-titre">Comment ça marche</h2>
+<ol>
+<li>Chaque participant·e choisit librement le montant de sa cotisation mensuelle.</li>
+<li>Chaque mois, il ou elle reçoit une allocation en monnaie locale alimentaire, le « Buzuk SSA ».</li>
+<li>L'allocation se dépense dans des lieux validés démocratiquement par le groupe.</li>
+</ol>
+<a href="#">Comprendre le projet</a>
+</div>
+<figure><img src="../../../../public/assets/img/schema-caisse-locale.webp" alt="Schéma « Sécurité sociale de l'alimentation, Kezako ? »"></figure>
+</div>
+</section>
+<section class="actus" aria-labelledby="actus-titre">
+<div class="contenu">
+<div class="tete"><h2 class="titre" id="actus-titre">Dernières actualités</h2><a href="#">Toutes les actualités</a></div>
+<div class="cartes">
+<article class="carte"><img src="../../../../public/media/actualites/soiree-de-lancement-de-la-caisse-citoyenne/20260504-132335-1.webp" alt=""><div><span class="pastille">9 avril 2026</span><h3>Soirée de lancement de la caisse citoyenne</h3><p>Une belle soirée de lancement de la caisse.</p></div></article>
+<article class="carte"><img src="../../../../public/media/actualites/carte-des-points-de-vente-conventionnes/20260410-123159-1.webp" alt=""><div><span class="pastille">9 avril 2026</span><h3>Carte des points de vente conventionnés</h3><p>La liste des premiers points de vente conventionnés par les expérimentateurs et expérimentatrices.</p></div></article>
+<article class="carte"><img src="../../../source/existant/videos/synthese-atelier-parcours-citoyen-14-mars-2026.jpg" alt=""><div><span class="pastille">14 mars 2026</span><h3>Synthèse en vidéo de l'atelier du parcours citoyen</h3><p>Cette petite vidéo de 4 min synthétise l'atelier 5 du parcours citoyen.</p></div></article>
+</div>
+</div>
+</section>
+<section class="logos" aria-labelledby="logos-titre">
+<div class="contenu">
+<h2 class="titre" id="logos-titre">Ils nous accompagnent</h2>
+<h3>Partenaires</h3>
+<ul>
+<li><img src="../../../source/existant/logos-recadres/buzuk.webp" alt="Buzuk"></li>
+<li><img src="../../../source/existant/logos-recadres/ess.webp" alt="Pôle ESS Pays de Morlaix"></li>
+<li><img src="../../../source/existant/logos-recadres/20251211-083116-1.webp" alt="ULAMIR-CPIE"></li>
+<li><img src="../../../source/existant/logos-recadres/resam.webp" alt="Résam"></li>
+</ul>
+<h3>Financeurs</h3>
+<ul>
+<li><img src="../../../source/existant/logos-recadres/bretagne.webp" alt="Région Bretagne"></li>
+<li><img src="../../../source/existant/logos-recadres/feader.webp" alt="Europe, FEADER, programme Leader"></li>
+</ul>
+</div>
+</section>
+<section class="contact" aria-labelledby="contact-titre">
+<div class="contenu">
+<img src="../../../../public/assets/img/illustration-contact.svg" alt="">
+<div>
+<h2 id="contact-titre">Une question sur la Sécurité Sociale de l'Alimentation au Pays de Morlaix ?</h2>
+<p>Contactez l'association ULAMIR-CPIE.</p>
+<a class="bouton" href="#">Nous contacter</a>
+</div>
+</div>
+</section>
+</main>
+<footer class="pied">
+<div class="contenu">
+<div class="colonnes">
+<img class="logo-pied" src="../../../../public/assets/img/logo.svg" alt="">
+<div><h2>Coordonnées</h2><p>Contactez l'association ULAMIR-CPIE<br>Le Buzuk, 39 bellevue de la Madeleine<br>29600 Morlaix<br>06 15 06 82 08<br>ssapaysdemorlaix@mailo.com</p></div>
+<div><h2>Informations légales</h2><ul><li>Mentions légales</li><li>Confidentialité</li><li>Accessibilité</li><li>Plan du site</li></ul></div>
+<div><h2>Langue</h2><ul><li>Français</li><li lang="br">Brezhoneg</li></ul></div>
+</div>
+<p class="credit">© 2026 Sécurité Sociale de l'Alimentation du Pays de Morlaix · Design et développement : Kouzia, Alexandre Kouziaeff EI, au sein de La Capsule</p>
+</div>
+</footer>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Maquette piste 1 : le projet</title>
+<link rel="stylesheet" href="../../../livrables/04-direction-artistique/pistes/1-fidele/tokens.css">
+<link rel="stylesheet" href="composition.css">
+</head>
+<body>
+<header class="entete">
+<div class="contenu">
+<a href="#"><img src="../../../../public/assets/img/logo.svg" alt="Sécurité Sociale de l'Alimentation, Pays de Morlaix : accueil"></a>
+<nav aria-label="Menu principal"><a href="#">Le projet</a><a href="#">Qui sommes-nous</a><a href="#">Lieux conventionnés</a><a href="#">Actualités</a><a href="#">Agenda</a><a href="#">Galerie</a><a href="#">Contact</a></nav>
+<a class="langue" href="#" lang="br">Brezhoneg</a>
+<button class="menu" type="button" aria-expanded="false">Menu</button>
+</div>
+</header>
+<main>
+<div class="bandeau">
+<div>
+<h1>Expérimentation d'une caisse de l'alimentation sur le Pays de Morlaix</h1>
+<p>Une base de connaissances collaborative sur la Sécurité Sociale de l'Alimentation.</p>
+</div>
+</div>
+<section class="pourquoi" aria-labelledby="pourquoi-titre">
+<div class="contenu">
+<div class="rond"><img src="../../../../public/assets/img/illustration-projet.svg" alt=""></div>
+<div>
+<h2 class="titre" id="pourquoi-titre">Un premier pas vers une Sécurité Sociale de l'Alimentation</h2>
+<p>La Sécurité Sociale de l'Alimentation en Pays de Morlaix est une expérimentation portée par un collectif d'associations et de citoyen·nes pour :</p>
+<ul class="structures">
+<li><span>aller vers un droit à l'alimentation pour toutes et tous et soutenir les paysan·nes ;</span></li>
+<li><span>contribuer à construire un système alimentaire plus juste et plus durable ;</span></li>
+<li><span>recréer du lien et reprendre du pouvoir d'agir collectivement sur notre territoire.</span></li>
+</ul>
+<p><strong>Objectif :</strong> c'est une initiative locale qui s'inspire d'un projet de société : celui de mettre en place une sécurité sociale de l'alimentation.</p>
+</div>
+</div>
+</section>
+<section class="concret" aria-labelledby="concret-titre">
+<div class="contenu">
+<div>
+<h2 class="titre" id="concret-titre">Plus concrètement</h2>
+<ul class="structures">
+<li><span>Un parcours citoyen, qui a débuté à l'automne 2025.</span></li>
+<li><span>Un budget collectif constitué par les cotisations des membres.</span></li>
+<li><span>Une allocation à dépenser chaque mois dans des lieux de distribution alimentaire.</span></li>
+</ul>
+</div>
+<figure><img src="../../../../public/assets/img/schema-caisse-locale.webp" alt="Schéma « Sécurité sociale de l'alimentation, Kezako ? »"></figure>
+</div>
+</section>
+<section class="engagement" aria-labelledby="engagement-titre">
+<div class="contenu">
+<h2 class="titre" id="engagement-titre">L'engagement des participant·es</h2>
+<p>Chaque participant·e choisit librement le montant de sa cotisation mensuelle, puis reçoit une allocation en monnaie locale alimentaire, le « Buzuk SSA », à dépenser dans des lieux validés démocratiquement par le groupe. Chaque participant·e s'engage à participer à une réunion et à un atelier collectif par mois.</p>
+</div>
+</section>
+<section class="contact" aria-labelledby="contact-titre">
+<div class="contenu">
+<img src="../../../../public/assets/img/illustration-contact.svg" alt="">
+<div>
+<h2 id="contact-titre">Besoin d'information ?</h2>
+<p>Contactez le collectif à ssapaysdemorlaix@mailo.com.</p>
+<a class="bouton" href="#">Nous contacter</a>
+</div>
+</div>
+</section>
+</main>
+<footer class="pied">
+<div class="contenu">
+<div class="colonnes">
+<img class="logo-pied" src="../../../../public/assets/img/logo.svg" alt="">
+<div><h2>Coordonnées</h2><p>Contactez l'association ULAMIR-CPIE<br>Le Buzuk, 39 bellevue de la Madeleine<br>29600 Morlaix<br>06 15 06 82 08<br>ssapaysdemorlaix@mailo.com</p></div>
+<div><h2>Informations légales</h2><ul><li>Mentions légales</li><li>Confidentialité</li><li>Accessibilité</li><li>Plan du site</li></ul></div>
+<div><h2>Langue</h2><ul><li>Français</li><li lang="br">Brezhoneg</li></ul></div>
+</div>
+<p class="credit">© 2026 Sécurité Sociale de l'Alimentation du Pays de Morlaix · Design et développement : Kouzia, Alexandre Kouziaeff EI, au sein de La Capsule</p>
+</div>
+</footer>
+</body>
+</html>
+/* Maquette composée, piste 1 « fidèle » : composition de l'ancien site, défauts corrigés. Couleurs, polices et arrondis : tokens de la piste. */
+:root {
+--blanc: var(--color-marque-texte);
+--voile: color-mix(in oklab, var(--color-text) 55%, transparent);
+--voile-leger: color-mix(in oklab, var(--color-text) 15%, transparent);
+--ombre: 0 0.4rem 1.25rem color-mix(in oklab, var(--color-text) 10%, transparent);
+--teinte: color-mix(in oklab, var(--color-marque-2) 22%, var(--color-bg));
+--teinte-legere: color-mix(in oklab, var(--color-marque-2) 12%, var(--color-bg));
+}
+*, *::before, *::after { box-sizing: border-box; }
+body { margin: 0; font: 400 1.0625rem/1.6 var(--font-ui); color: var(--color-text); background: var(--color-bg); }
+img { display: block; max-width: 100%; }
+h1, h2, h3 { margin: 0; font-family: var(--font-titres); line-height: 1.15; }
+p { margin: 0; }
+a { color: inherit; }
+.contenu { width: min(72rem, 100% - 2.5rem); margin-inline: auto; }
+.entete { color: var(--color-entete-texte); background: var(--color-entete-fond); }
+.entete .contenu { display: flex; align-items: center; gap: 1.5rem; min-height: 4.25rem; }
+.entete img { width: 2.75rem; height: auto; }
+.entete nav { display: flex; flex-wrap: wrap; gap: 1.25rem; margin-inline-start: auto; font-weight: 600; font-size: 0.95rem; }
+.entete nav a { text-decoration: none; }
+.entete .langue { padding: 0.3rem 0.75rem; border: 1px solid currentColor; border-radius: var(--radius-pill); font-size: 0.875rem; text-decoration: none; }
+.bouton { display: inline-block; padding: 0.8rem 1.4rem; border-radius: var(--radius); font-weight: 700; text-decoration: none; color: var(--color-accent-text); background: var(--color-accent); box-shadow: var(--ombre); }
+.bouton--clair { color: var(--color-text); background: var(--color-surface); }
+.heros { position: relative; display: grid; place-items: center; min-height: 78vh; padding: 4rem 1.25rem; text-align: center; color: var(--blanc); background: center 35% / cover url("../../../../public/assets/img/bandeau-projet.webp"); }
+.heros::before { position: absolute; inset: 0; content: ""; background: radial-gradient(ellipse at center, var(--voile), var(--voile-leger) 70%); }
+.heros > div { position: relative; max-width: 60rem; }
+.heros h1 { font-size: clamp(2.2rem, 4.5vw, 3.6rem); text-shadow: 0 0.15rem 0.6rem var(--voile); }
+.heros p { margin-block: 1rem 2rem; font-size: 1.25rem; text-shadow: 0 0.1rem 0.4rem var(--voile); }
+.heros .actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.75rem; }
+.titre { margin-bottom: 2rem; font-size: clamp(1.6rem, 2.6vw, 2rem); }
+.titre::after { display: block; width: 2.5rem; height: 0.2rem; margin-top: 0.6rem; content: ""; background: var(--color-accent); }
+.rdv { padding-block: 3rem; background: var(--teinte); }
+.rdv .contenu { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 2rem; }
+.rdv .date { display: grid; place-items: center; align-content: center; width: 8rem; aspect-ratio: 1; border-radius: var(--radius-grand); font-family: var(--font-titres); font-weight: 800; line-height: 1; color: var(--color-marque-2-texte); background: var(--color-marque-2); }
+.rdv .date strong { font-size: 3.5rem; }
+.rdv .date span { font-size: 1.1rem; text-transform: uppercase; }
+.sur-titre { font-weight: 700; color: var(--color-text-muted); text-transform: uppercase; font-size: 0.85rem; letter-spacing: 0.06em; }
+.rdv h2 { margin-block: 0.3rem; font-size: 1.75rem; }
+.qui { padding-block: 5rem; }
+.qui .contenu { display: grid; grid-template-columns: 1fr 1.2fr; align-items: center; gap: 4rem; }
+.rond { position: relative; width: min(24rem, 100%); aspect-ratio: 1; margin-inline: auto; border-radius: 50%; background: var(--color-marque-2); }
+.rond img { position: absolute; bottom: -4%; left: 50%; width: 70%; translate: -50% 0; }
+.structures { display: grid; gap: 0.6rem; margin: 1.25rem 0 1.5rem; padding: 0; list-style: none; }
+.structures li { display: flex; gap: 0.75rem; }
+.structures li::before { flex: none; width: 0.7rem; height: 0.7rem; margin-top: 0.5rem; content: ""; background: var(--color-marque-2); rotate: 45deg; }
+.etapes { padding-block: 5rem; color: var(--color-accent-text); background: var(--color-accent); }
+.etapes .contenu { display: grid; grid-template-columns: 1fr 1.1fr; align-items: center; gap: 3.5rem; }
+.etapes figure { margin: 0; padding: 0.75rem; border-radius: var(--radius-grand); background: var(--color-surface); box-shadow: var(--ombre); }
+.etapes .titre::after { background: var(--color-marque-2); }
+.etapes ol { display: grid; gap: 1.75rem; margin: 0 0 2rem; padding: 0; list-style: none; counter-reset: e; }
+.etapes li { display: grid; grid-template-columns: 3.5rem 1fr; align-items: center; gap: 1.25rem; counter-increment: e; font-size: 1.15rem; }
+.etapes li::before { display: grid; place-items: center; width: 3.5rem; height: 3.5rem; border-radius: 50%; content: counter(e); font: 800 1.6rem var(--font-titres); color: var(--color-marque-2-texte); background: var(--color-marque-2); }
+.etapes a { font-weight: 700; }
+.actus { padding-block: 5rem; background: var(--teinte-legere); }
+.tete { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 1rem; }
+.cartes { display: grid; grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr)); gap: 1.75rem; }
+.carte { overflow: hidden; border-radius: var(--radius-grand); background: var(--color-surface); box-shadow: var(--ombre); }
+.carte img { width: 100%; aspect-ratio: 3 / 2; object-fit: cover; }
+.carte div { padding: 1.25rem 1.4rem 1.6rem; }
+.pastille { display: inline-block; margin-bottom: 0.6rem; padding: 0.2rem 0.65rem; border-radius: var(--radius-pill); font-size: 0.85rem; font-weight: 700; color: var(--color-marque-2-texte); background: var(--color-marque-2); }
+.carte h3 { margin-bottom: 0.5rem; font-size: 1.25rem; }
+.logos { padding-block: 4.5rem; }
+.logos h3 { margin: 2rem 0 1rem; text-align: center; font-size: 1.1rem; color: var(--color-text-muted); }
+.logos .titre { text-align: center; }
+.logos .titre::after { margin-inline: auto; }
+.logos ul { display: flex; flex-wrap: wrap; justify-content: center; gap: 1.25rem; margin: 0; padding: 0; list-style: none; }
+.logos li { display: grid; place-items: center; width: 13rem; height: 7rem; padding: 1rem; border: 1px solid var(--color-border); border-radius: var(--radius); background: var(--color-surface); }
+.logos img { max-height: 4.5rem; object-fit: contain; }
+.contact { padding-block: 4rem; background: var(--color-accent-soft); }
+.contact .contenu { display: grid; grid-template-columns: 14rem 1fr; align-items: center; gap: 3rem; }
+.contact h2 { margin-bottom: 1rem; font-size: 1.75rem; }
+.contact p { margin-bottom: 1.5rem; }
+.pied { padding-block: 3rem 1.5rem; border-top: 0.35rem solid var(--color-marque-2); font-size: 0.95rem; color: var(--color-marque-texte); background: var(--color-marque); }
+.pied .colonnes { display: grid; grid-template-columns: 6rem repeat(3, 1fr); gap: 2rem; }
+.pied .logo-pied { width: 5rem; padding: 0.5rem; border-radius: 50%; background: var(--color-bg); }
+.pied h2 { margin-bottom: 0.75rem; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--color-marque-2); }
+.pied ul { margin: 0; padding: 0; list-style: none; line-height: 1.9; }
+.pied .credit { margin-top: 2.5rem; padding-top: 1rem; border-top: 1px solid var(--voile-leger); font-size: 0.85rem; }
+/* Page Projet */
+.bandeau { display: grid; align-items: end; min-height: 62vh; padding: 3rem 1.25rem; color: var(--blanc); background: linear-gradient(to top, var(--voile), transparent 55%), center 20% / cover url("../../../source/existant/fichiers/recrutementbanner-2a68d1c5bea6.webp"); }
+.bandeau > div { width: min(72rem, 100%); margin-inline: auto; }
+.bandeau h1 { max-width: 46rem; font-size: clamp(2rem, 3.6vw, 2.75rem); text-shadow: 0 0.15rem 0.6rem var(--voile); }
+.bandeau p { margin-top: 0.75rem; font-size: 1.25rem; text-shadow: 0 0.1rem 0.4rem var(--voile); }
+.pourquoi { padding-block: 5rem; }
+.pourquoi .contenu { display: grid; grid-template-columns: 1fr 1.3fr; align-items: center; gap: 4rem; }
+.concret { padding-block: 5rem; background: var(--teinte-legere); }
+.concret .contenu { display: grid; grid-template-columns: 1fr 1.4fr; align-items: center; gap: 3rem; }
+.concret figure { margin: 0; padding: 1rem; border-radius: var(--radius-grand); background: var(--color-surface); box-shadow: var(--ombre); }
+.engagement { padding-block: 5rem; color: var(--color-marque-texte); background: var(--color-marque); }
+.engagement .contenu { max-width: 46rem; }
+.engagement .titre::after { background: var(--color-marque-2); }
+.engagement p { font-size: 1.15rem; }
+@media (max-width: 50rem) {
+.entete nav { display: none; }
+.pied .colonnes { grid-template-columns: 1fr; }
+.rdv .contenu, .etapes .contenu, .qui .contenu, .contact .contenu, .pourquoi .contenu, .concret .contenu { grid-template-columns: 1fr; gap: 2rem; }
+.rdv .date { width: 6rem; }
+.rdv .date strong { font-size: 2.5rem; }
+.contact img { width: 10rem; margin-inline: auto; }
+}
+.menu { display: none; padding: 0.5rem 1rem; border: 2px solid currentColor; border-radius: var(--radius-pill); font: 700 0.95rem var(--font-ui); color: inherit; background: transparent; }
+@media (max-width: 52rem) { .menu { display: inline-block; } .entete .langue { margin-inline-start: auto; } }
+Votre site actuel, gardé reconnaissable et corrigé : la grande photo de La Collective en haut de page, plus lumineuse, le personnage dans son rond jaune, et des sections qui alternent les fonds (jaune clair, bleu, blanc) au lieu de tout poser sur du blanc.
+Pour l'agent : même ordre de lecture et mêmes signes que l'ancien site (photo plein écran et titre centré, rond jaune, pastilles de date, cartes à ombre, trait vert sous les titres). Corrections : photo plus claire (`bandeau-projet`, voile radial léger), prochain rendez-vous en bandeau jaune clair juste sous la photo, étapes sur fond bleu marine avec numéros jaunes, actualités sur jaune très clair, logos lisibles en cases, pied de page bleu marine calme (filet jaune), page Projet ouverte sur la photo de groupe ensoleillée. Diffère de la 2 (haut de page en deux colonnes, mosaïque de photos) et de la 3 (aplats de couleur pleine largeur, haut de page jaune).
+/* Piste 1 « Fidèle » (livrable 04, direction artistique) : généré, à poser tel quel comme N0.
+Contrastes vérifiés (texte 4,5:1, contrôles 3:1) dans les deux thèmes. Polices : Segoe UI (police du système, aucun fichier), Segoe UI (police du système, aucun fichier). */
+:root {
+--color-bg: #ffffff;
+--color-surface: #ffffff;
+--color-surface-2: #ecf0f7;
+--color-text: #151b24;
+--color-text-muted: #4f5661;
+--color-line: #d9dee6;
+--color-line-strong: #b8bec8;
+--color-border: #747b87;
+--color-accent: #007d33;
+--color-accent-strong: #006327;
+--color-accent-soft: #ebf5ef;
+--color-accent-text: #ffffff;
+--color-focus: #009d43;
+--color-marque: #364a6b;
+--color-marque-sur-fond: #364a6b;
+--color-marque-texte: #ffffff;
+--color-marque-2: #fdb544;
+--color-marque-2-texte: #070b14;
+--color-danger: #a83630;
+--color-success: #007835;
+--color-warning: #8a5600;
+--color-info: #2a5fb7;
+--color-entete-fond: #364a6b;
+--color-entete-texte: #ffffff;
+--color-heros-fond: #ffffff;
+--color-heros-texte: #151b24;
+--color-entete-accent: #53d273;
+--color-heros-accent: #008738;
+--font-titres: "Segoe UI", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+--font-ui: "Segoe UI", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+--radius: 0.75rem;
+--radius-small: 0.375rem;
+--radius-grand: 1.125rem;
+--radius-pill: 999px;
+/* Échelle des tailles, bornée par les conventions de base (rule web-design) : titre principal 2,75 rem au plus,
+titres de section 2 rem au plus, texte courant 1,0625 rem, introduction 1,25 rem au plus. */
+--step--2: 0.8125rem;
+--step--1: 0.9375rem;
+--step-0: 1.0625rem;
+--step-1: clamp(1.125rem, 1.05rem + 0.3vw, 1.25rem);
+--step-2: clamp(1.5rem, 1.25rem + 1vw, 1.875rem);
+--step-3: clamp(1.875rem, 1.4rem + 2vw, 2.75rem);
+color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+:root:not([data-theme="light"]) {
+--color-bg: #0a1018;
+--color-surface: #121923;
+--color-surface-2: #1b222d;
+--color-text: #ebeff5;
+--color-text-muted: #a7aebb;
+--color-line: #282e38;
+--color-line-strong: #414853;
+--color-border: #6b727e;
+--color-accent: #43c466;
+--color-accent-strong: #61de7f;
+--color-accent-soft: #182e2b;
+--color-accent-text: #070b14;
+--color-focus: #43c466;
+--color-marque: #364a6b;
+--color-marque-sur-fond: #738bb0;
+--color-marque-texte: #ffffff;
+--color-marque-2: #d38e00;
+--color-marque-2-texte: #070b14;
+--color-danger: #ff968a;
+--color-success: #67d283;
+--color-warning: #f4a437;
+--color-info: #8db8ff;
+--color-entete-fond: #364a6b;
+--color-entete-texte: #ffffff;
+--color-heros-fond: #121923;
+--color-heros-texte: #ebeff5;
+--color-entete-accent: #53d273;
+--color-heros-accent: #43c466;
+color-scheme: dark;
+}
+}
+:root[data-theme="dark"] {
+--color-bg: #0a1018;
+--color-surface: #121923;
+--color-surface-2: #1b222d;
+--color-text: #ebeff5;
+--color-text-muted: #a7aebb;
+--color-line: #282e38;
+--color-line-strong: #414853;
+--color-border: #6b727e;
+--color-accent: #43c466;
+--color-accent-strong: #61de7f;
+--color-accent-soft: #182e2b;
+--color-accent-text: #070b14;
+--color-focus: #43c466;
+--color-marque: #364a6b;
+--color-marque-sur-fond: #738bb0;
+--color-marque-texte: #ffffff;
+--color-marque-2: #d38e00;
+--color-marque-2-texte: #070b14;
+--color-danger: #ff968a;
+--color-success: #67d283;
+--color-warning: #f4a437;
+--color-info: #8db8ff;
+--color-entete-fond: #364a6b;
+--color-entete-texte: #ffffff;
+--color-heros-fond: #121923;
+--color-heros-texte: #ebeff5;
+--color-entete-accent: #53d273;
+--color-heros-accent: #43c466;
+color-scheme: dark;
+}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Maquette piste 2 : accueil</title>
+<link rel="stylesheet" href="../../../livrables/04-direction-artistique/pistes/2-modernisee/tokens.css">
+<link rel="stylesheet" href="composition.css">
+</head>
+<body>
+<header class="entete">
+<div class="contenu">
+<a href="#"><img src="../../../../public/assets/img/logo.svg" alt="Sécurité Sociale de l'Alimentation, Pays de Morlaix : accueil"></a>
+<nav aria-label="Menu principal"><a href="#">Le projet</a><a href="#">Qui sommes-nous</a><a href="#">Lieux conventionnés</a><a href="#">Actualités</a><a href="#">Agenda</a><a href="#">Galerie</a><a href="#">Contact</a></nav>
+<a class="langue" href="#" lang="br">Brezhoneg</a>
+<button class="menu" type="button" aria-expanded="false">Menu</button>
+</div>
+</header>
+<main>
+<section class="ouverture" aria-labelledby="titre-page">
+<div class="contenu">
+<div>
+<h1 id="titre-page">Sécurité Sociale de l'Alimentation, <em>Pays de Morlaix</em></h1>
+<p>Pour un droit fondamental et universel à une alimentation saine et durable.</p>
+<div class="actions"><a class="bouton" href="#">Voir l'agenda</a><a class="bouton bouton--contour" href="#">Trouver un lieu conventionné</a></div>
+</div>
+<div class="mosaique">
+<img src="../../../source/existant/medias/assets/img/gallery/20251124_144033_lot001.webp" alt="Une participante tient le logo de la SSA dessiné à la main">
+<img src="../../../source/existant/medias/assets/img/gallery/20251124_144057_lot002.webp" alt="Une participante écoute pendant une réunion de La Collective">
+<img src="../../../source/existant/medias/assets/img/gallery/20251124_144106_lot002.webp" alt="Des participant·es en réunion">
+<div class="perso"><img src="../../../../public/assets/img/illustration-collectif.svg" alt=""></div>
+</div>
+</div>
+</section>
+<section class="rdv" aria-labelledby="rdv-titre">
+<div class="contenu">
+<p class="sur-titre" id="rdv-titre">Les prochains événements</p>
+<div class="ligne">
+<p class="date"><strong>7</strong><span>déc. 2026</span></p>
+<div><h3>Réunion mensuelle La Collective d'Animation</h3><p class="infos">Lundi, 18 h 00 · locaux de l'AFPA, bellevue de la Madeleine, Morlaix</p></div>
+<a class="lien" href="#">Tout l'agenda</a>
+</div>
+</div>
+</section>
+<section class="etapes" aria-labelledby="etapes-titre">
+<div class="contenu">
+<h2 id="etapes-titre">Comment ça marche</h2>
+<ol>
+<li>Chaque participant·e choisit librement le montant de sa cotisation mensuelle.</li>
+<li>Chaque mois, il ou elle reçoit une allocation en monnaie locale alimentaire, le « Buzuk SSA ».</li>
+<li>L'allocation se dépense dans des lieux validés démocratiquement par le groupe.</li>
+</ol>
+<a class="lien" href="#">Comprendre le projet</a>
+</div>
+</section>
+<section aria-labelledby="galerie-titre">
+<div class="contenu bande-legende"><p class="sur-titre" id="galerie-titre">Galerie de la SSA</p><a class="lien" href="#">Voir la galerie</a></div>
+<div class="bande">
+<img src="../../../source/existant/medias/assets/img/gallery/20251124_144121_lot001.webp" alt="">
+<img src="../../../source/existant/medias/assets/img/gallery/20251124_144100_lot001.webp" alt="">
+<img src="../../../source/existant/medias/assets/img/gallery/20251124_144030_lot001.webp" alt="">
+<img src="../../../source/existant/medias/assets/img/gallery/20251124_144109_lot001.webp" alt="">
+<img src="../../../source/existant/medias/assets/img/gallery/20251124_144248_lot001.webp" alt="">
+</div>
+</section>
+<section class="actus" aria-labelledby="actus-titre">
+<div class="contenu">
+<div class="tete"><h2 id="actus-titre">Dernières actualités</h2><a class="lien" href="#">Toutes les actualités</a></div>
+<div class="grille">
+<article class="une"><img src="../../../../public/media/actualites/soiree-de-lancement-de-la-caisse-citoyenne/20260504-132335-1.webp" alt=""><p class="date-actu">9 avril 2026</p><h3>Soirée de lancement de la caisse citoyenne</h3><p>Une belle soirée de lancement de la caisse.</p></article>
+<div class="autres">
+<article><img src="../../../../public/media/actualites/carte-des-points-de-vente-conventionnes/20260410-123159-1.webp" alt=""><div><p class="date-actu">9 avril 2026</p><h3>Carte des points de vente conventionnés</h3></div></article>
+<article><img src="../../../source/existant/videos/synthese-atelier-parcours-citoyen-14-mars-2026.jpg" alt=""><div><p class="date-actu">14 mars 2026</p><h3>Synthèse en vidéo de l'atelier du parcours citoyen du 14 mars 2026</h3></div></article>
+<article><img src="../../../../public/media/actualites/ssa-dans-les-medias/20260320-085119-1.webp" alt=""><div><p class="date-actu">12 février 2026</p><h3>SSA dans les médias</h3></div></article>
+</div>
+</div>
+</div>
+</section>
+<section class="qui" aria-labelledby="qui-titre">
+<div class="contenu">
+<div>
+<p class="sur-titre">Le groupe « Sécurité Sociale de l'Alimentation » (SSA)</p>
+<h2 id="qui-titre">Qui sommes-nous ?</h2>
+<p>Le collectif pour une Sécurité Sociale de l'Alimentation en Pays de Morlaix est composé d'une trentaine de citoyennes et citoyens vivant sur le Pays de Morlaix. Il est accompagné par 4 structures associatives du Pays de Morlaix.</p>
+<a class="lien" href="#">Découvrir le collectif</a>
+</div>
+<ul class="structures">
+<li><img src="../../../source/existant/logos-recadres/20251211-083116-1.webp" alt=""><span><strong>L'ULAMIR-CPIE</strong>Centre social et centre d'éducation à l'environnement.</span></li>
+<li><img src="../../../source/existant/logos-recadres/resam.webp" alt=""><span><strong>Le Résam</strong>Maison des associations du Pays de Morlaix.</span></li>
+<li><img src="../../../source/existant/logos-recadres/buzuk.webp" alt=""><span><strong>Le Buzuk</strong>Porteuse de la monnaie locale.</span></li>
+<li><img src="../../../source/existant/logos-recadres/ess.webp" alt=""><span><strong>L'Adess du Pays de Morlaix</strong>Pôle ESS du Pays de Morlaix.</span></li>
+</ul>
+</div>
+</section>
+<section class="financeurs" aria-labelledby="fin-titre">
+<div class="contenu">
+<p class="sur-titre" id="fin-titre">Financeurs</p>
+<img src="../../../source/existant/logos-recadres/bretagne.webp" alt="Région Bretagne">
+<img src="../../../source/existant/logos-recadres/feader.webp" alt="Europe, FEADER, programme Leader">
+</div>
+</section>
+<section class="appel" aria-labelledby="appel-titre">
+<div class="contenu">
+<div class="perso"><img src="../../../../public/assets/img/illustration-contact.svg" alt=""></div>
+<h2 id="appel-titre">Une question sur la Sécurité Sociale de l'Alimentation au Pays de Morlaix ?</h2>
+<a class="bouton" href="#">Nous contacter</a>
+</div>
+</section>
+</main>
+<footer class="pied">
+<div class="contenu">
+<div class="colonnes">
+<div><h2>Coordonnées</h2><p>Contactez l'association ULAMIR-CPIE<br>Le Buzuk, 39 bellevue de la Madeleine, 29600 Morlaix<br>06 15 06 82 08 · ssapaysdemorlaix@mailo.com</p></div>
+<div><h2>Informations légales</h2><ul><li>Mentions légales</li><li>Confidentialité</li><li>Accessibilité</li><li>Plan du site</li></ul></div>
+<div><h2>Langue</h2><ul><li>Français</li><li lang="br">Brezhoneg</li></ul></div>
+</div>
+<p class="credit">© 2026 Sécurité Sociale de l'Alimentation du Pays de Morlaix · Design et développement : Kouzia, Alexandre Kouziaeff EI, au sein de La Capsule</p>
+</div>
+</footer>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Maquette piste 2 : le projet</title>
+<link rel="stylesheet" href="../../../livrables/04-direction-artistique/pistes/2-modernisee/tokens.css">
+<link rel="stylesheet" href="composition.css">
+</head>
+<body>
+<header class="entete">
+<div class="contenu">
+<a href="#"><img src="../../../../public/assets/img/logo.svg" alt="Sécurité Sociale de l'Alimentation, Pays de Morlaix : accueil"></a>
+<nav aria-label="Menu principal"><a href="#">Le projet</a><a href="#">Qui sommes-nous</a><a href="#">Lieux conventionnés</a><a href="#">Actualités</a><a href="#">Agenda</a><a href="#">Galerie</a><a href="#">Contact</a></nav>
+<a class="langue" href="#" lang="br">Brezhoneg</a>
+<button class="menu" type="button" aria-expanded="false">Menu</button>
+</div>
+</header>
+<main>
+<section class="intro" aria-labelledby="titre-page">
+<div class="contenu">
+<div>
+<p class="sur-titre">Le projet</p>
+<h1 id="titre-page">Expérimentation d'une caisse de l'alimentation sur le Pays de Morlaix</h1>
+<p>Une base de connaissances collaborative sur la Sécurité Sociale de l'Alimentation.</p>
+</div>
+<img src="../../../../public/assets/img/bandeau-projet.webp" alt="Deux participantes regardent une feuille pendant un atelier">
+</div>
+</section>
+<section class="buts" aria-labelledby="buts-titre">
+<div class="contenu">
+<div class="perso"><img src="../../../../public/assets/img/illustration-projet.svg" alt=""></div>
+<div>
+<h2 id="buts-titre">Un premier pas vers une Sécurité Sociale de l'Alimentation</h2>
+<p>La Sécurité Sociale de l'Alimentation en Pays de Morlaix est une expérimentation portée par un collectif d'associations et de citoyen·nes pour :</p>
+<ul>
+<li>aller vers un droit à l'alimentation pour toutes et tous et soutenir les paysan·nes ;</li>
+<li>contribuer à construire un système alimentaire plus juste et plus durable ;</li>
+<li>recréer du lien et reprendre du pouvoir d'agir collectivement sur notre territoire.</li>
+</ul>
+<p><strong>Objectif :</strong> c'est une initiative locale qui s'inspire d'un projet de société : celui de mettre en place une sécurité sociale de l'alimentation.</p>
+</div>
+</div>
+</section>
+<section class="schema" aria-labelledby="schema-titre">
+<div class="contenu">
+<h2 id="schema-titre">Plus concrètement</h2>
+<figure><img src="../../../../public/assets/img/schema-caisse-locale.webp" alt="Schéma « Sécurité sociale de l'alimentation, Kezako ? »"></figure>
+<ol>
+<li>Un parcours citoyen, qui a débuté à l'automne 2025.</li>
+<li>Un budget collectif constitué par les cotisations des membres.</li>
+<li>Une allocation à dépenser chaque mois dans des lieux de distribution alimentaire.</li>
+</ol>
+</div>
+</section>
+<section class="engage" aria-labelledby="engage-titre">
+<div class="contenu">
+<img src="../../../source/existant/fichiers/recrutementbanner-2a68d1c5bea6.webp" alt="Des membres de La Collective réunis devant un bâtiment">
+<div>
+<h2 id="engage-titre">L'engagement des participant·es</h2>
+<p>Chaque participant·e choisit librement le montant de sa cotisation mensuelle, puis reçoit une allocation en monnaie locale alimentaire, le « Buzuk SSA », à dépenser dans des lieux validés démocratiquement par le groupe. Chaque participant·e s'engage à participer à une réunion et à un atelier collectif par mois.</p>
+</div>
+</div>
+</section>
+<section class="appel" aria-labelledby="appel-titre">
+<div class="contenu">
+<div class="perso"><img src="../../../../public/assets/img/illustration-contact.svg" alt=""></div>
+<h2 id="appel-titre">Besoin d'information ?</h2>
+<a class="bouton" href="#">Nous contacter</a>
+</div>
+</section>
+</main>
+<footer class="pied">
+<div class="contenu">
+<div class="colonnes">
+<div><h2>Coordonnées</h2><p>Contactez l'association ULAMIR-CPIE<br>Le Buzuk, 39 bellevue de la Madeleine, 29600 Morlaix<br>06 15 06 82 08 · ssapaysdemorlaix@mailo.com</p></div>
+<div><h2>Informations légales</h2><ul><li>Mentions légales</li><li>Confidentialité</li><li>Accessibilité</li><li>Plan du site</li></ul></div>
+<div><h2>Langue</h2><ul><li>Français</li><li lang="br">Brezhoneg</li></ul></div>
+</div>
+<p class="credit">© 2026 Sécurité Sociale de l'Alimentation du Pays de Morlaix · Design et développement : Kouzia, Alexandre Kouziaeff EI, au sein de La Capsule</p>
+</div>
+</footer>
+</body>
+</html>
+/* Maquette composée, piste 2 « modernisée » : composition éditoriale, les photos de La Collective au premier plan. Couleurs, polices et arrondis : tokens de la piste. */
+:root {
+--creme: color-mix(in oklab, var(--color-marque-2) 10%, var(--color-bg));
+--ombre: 0 0.75rem 2rem color-mix(in oklab, var(--color-text) 12%, transparent);
+--filet: color-mix(in oklab, var(--color-text) 14%, transparent);
+}
+*, *::before, *::after { box-sizing: border-box; }
+body { margin: 0; font: 400 1.125rem/1.65 var(--font-ui); color: var(--color-text); background: var(--color-bg); }
+img { display: block; max-width: 100%; }
+h1, h2, h3 { margin: 0; font-family: var(--font-titres); font-weight: 700; line-height: 1.1; letter-spacing: -0.01em; }
+p { margin: 0; }
+a { color: inherit; }
+.contenu { width: min(76rem, 100% - 2.5rem); margin-inline: auto; }
+.sur-titre { margin-bottom: 0.75rem; font-size: 1rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-accent); }
+.lien { font-weight: 700; color: var(--color-accent); text-underline-offset: 0.25em; }
+.entete { border-bottom: 1px solid var(--filet); background: var(--color-bg); }
+.entete .contenu { display: flex; align-items: center; gap: 2rem; min-height: 4.5rem; }
+.entete img { width: 4.25rem; height: auto; }
+.entete nav { display: flex; flex-wrap: wrap; gap: 1.5rem; margin-inline-start: auto; font-size: 1rem; }
+.entete nav a { text-decoration: none; }
+.entete .langue { font-size: 0.9rem; color: var(--color-text-muted); }
+.bouton { display: inline-block; padding: 0.95rem 1.6rem; border-radius: var(--radius-pill); font-weight: 700; text-decoration: none; color: var(--color-accent-text); background: var(--color-accent); }
+.bouton--contour { color: var(--color-text); background: transparent; box-shadow: inset 0 0 0 2px var(--color-text); }
+.ouverture { padding-block: 4rem 5rem; background: var(--creme); }
+.ouverture .contenu { display: grid; grid-template-columns: 1fr 1.05fr; align-items: center; gap: 4rem; }
+.ouverture h1 { font-size: clamp(2.4rem, 4.6vw, 3.9rem); }
+.ouverture h1 em { font-style: normal; color: var(--color-accent); }
+.ouverture p { max-width: 30rem; margin-block: 1.5rem 2.25rem; font-size: 1.25rem; color: var(--color-text-muted); }
+.actions { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+.mosaique { position: relative; display: grid; grid-template-columns: 1.2fr 1fr; grid-template-rows: 1fr 1fr; gap: 0.9rem; height: 32rem; }
+.mosaique img { width: 100%; height: 100%; border-radius: var(--radius-grand); object-fit: cover; }
+.mosaique img:first-child { grid-row: span 2; }
+.mosaique .perso { position: absolute; bottom: -3rem; left: -3.5rem; width: 13rem; aspect-ratio: 1; border-radius: 50%; background: var(--color-marque-2); }
+.mosaique .perso img { position: absolute; bottom: -0.5rem; left: 50%; width: 72%; height: auto; border-radius: 0; translate: -50% 0; }
+.rdv { padding-block: 4.5rem; }
+.rdv .contenu { display: grid; grid-template-columns: 15rem 1fr; align-items: center; gap: 3rem; }
+.rdv .sur-titre { margin: 0; font: 700 1.75rem/1.15 var(--font-titres); letter-spacing: 0; text-transform: none; color: var(--color-text); }
+.rdv .ligne { display: grid; grid-template-columns: auto auto 1fr; justify-items: start; align-items: center; gap: 2.5rem; padding: 2rem 2.5rem; border-radius: var(--radius-grand); background: var(--color-surface-2); }
+.rdv .date { font-family: var(--font-titres); line-height: 0.9; }
+.rdv .date strong { display: block; font-size: 5rem; color: var(--color-accent); }
+.rdv .date span { font-size: 1.25rem; font-weight: 700; text-transform: uppercase; }
+.rdv h3 { margin-bottom: 0.4rem; font-size: 1.6rem; }
+.rdv .infos { color: var(--color-text-muted); }
+.etapes { padding-block: 4rem; background: var(--color-surface-2); }
+.etapes h2, .actus h2, .qui h2 { font-size: clamp(1.9rem, 3vw, 2.5rem); }
+.etapes ol { display: grid; grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); gap: 3rem; margin: 2rem 0 1.5rem; padding: 0; list-style: none; counter-reset: e; }
+.etapes li { counter-increment: e; font-size: 1.25rem; }
+.etapes li::before { display: block; margin-bottom: 0.5rem; content: "0" counter(e); font: 800 4.5rem/1 var(--font-titres); color: var(--color-accent); }
+.bande { display: grid; grid-template-columns: repeat(5, 1fr); gap: 0.5rem; }
+.bande img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; }
+.bande-legende { display: flex; justify-content: space-between; align-items: baseline; padding-block: 3.5rem 1rem; }
+.actus { padding-block: 5.5rem; }
+.actus .tete { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: end; gap: 0.75rem 2rem; margin-bottom: 2.5rem; }
+.actus .grille { display: grid; grid-template-columns: 1.4fr 1fr; gap: 2.5rem; }
+.une img { width: 100%; aspect-ratio: 16 / 10; margin-bottom: 1.25rem; border-radius: var(--radius-grand); object-fit: cover; }
+.une h3 { margin-block: 0.4rem; font-size: 1.9rem; }
+.date-actu { font-size: 1.0625rem; font-weight: 700; color: var(--color-text-muted); }
+.autres { display: grid; align-content: start; gap: 1.75rem; }
+.autres article { display: grid; grid-template-columns: 9rem 1fr; gap: 1.25rem; padding-bottom: 1.75rem; border-bottom: 1px solid var(--filet); }
+.autres img { width: 100%; aspect-ratio: 1; border-radius: var(--radius); object-fit: cover; }
+.autres h3 { margin-top: 0.3rem; font-size: 1.25rem; }
+.qui { padding-block: 5.5rem; color: var(--color-marque-texte); background: var(--color-marque); }
+.qui .contenu { display: grid; grid-template-columns: 1fr 1.15fr; gap: 4rem; }
+.qui .sur-titre { color: var(--color-marque-2); }
+.qui p { margin-block: 1.5rem; font-size: 1.2rem; }
+.qui .lien { color: var(--color-marque-2); }
+.structures { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 0; padding: 0; list-style: none; }
+.structures li { display: grid; grid-template-rows: 5rem auto; gap: 0.75rem; padding: 1.5rem; border-radius: var(--radius-grand); color: var(--color-text); background: var(--color-surface); }
+.structures img { max-height: 4rem; max-width: 70%; object-fit: contain; }
+.structures strong { display: block; font-family: var(--font-titres); }
+.financeurs { padding-block: 3rem; }
+.financeurs .contenu { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 3rem; }
+.financeurs img { height: 6.5rem; width: auto; }
+.financeurs .sur-titre { margin: 0; }
+.appel { padding-block: 4rem 5rem; text-align: center; background: var(--creme); }
+.appel .perso { position: relative; width: 12rem; aspect-ratio: 1; margin: 0 auto 2rem; border-radius: 50%; background: var(--color-marque-2); }
+.appel .perso img { position: absolute; bottom: 0; left: 50%; width: 100%; translate: -50% 0; }
+.appel h2 { max-width: 44rem; margin: 0 auto 2rem; font-size: clamp(1.8rem, 3vw, 2.4rem); }
+.pied { padding-block: 3.5rem 1.5rem; font-size: 0.95rem; color: var(--color-marque-texte); background: var(--color-marque); }
+.pied .colonnes { display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 2rem; }
+.pied h2 { margin-bottom: 0.75rem; font-size: 1rem; }
+.pied ul { margin: 0; padding: 0; list-style: none; line-height: 1.9; }
+.pied .credit { margin-top: 2.5rem; padding-top: 1rem; border-top: 1px solid var(--filet); font-size: 0.85rem; opacity: 0.85; }
+/* Page Projet */
+.intro { padding-block: 4rem; background: var(--creme); }
+.intro .contenu { display: grid; grid-template-columns: 1.1fr 1fr; align-items: center; gap: 4rem; }
+.intro h1 { font-size: clamp(2.2rem, 4vw, 3.4rem); }
+.intro p { margin-top: 1.5rem; font-size: 1.25rem; color: var(--color-text-muted); }
+.intro img { width: 100%; aspect-ratio: 4 / 3; border-radius: var(--radius-grand); object-fit: cover; }
+.buts { padding-block: 5rem; }
+.buts .contenu { display: grid; grid-template-columns: 16rem 1fr; gap: 4rem; align-items: center; }
+.buts .perso { position: relative; width: 16rem; aspect-ratio: 1; border-radius: 50%; background: var(--color-marque-2); }
+.buts .perso img { position: absolute; bottom: -1rem; left: 50%; width: 74%; translate: -50% 0; }
+.buts h2 { margin-bottom: 1.25rem; font-size: clamp(1.8rem, 3vw, 2.4rem); }
+.buts ul { display: grid; gap: 0.75rem; margin: 1.25rem 0; padding-left: 1.25rem; }
+.schema { padding-block: 5rem; background: var(--color-surface-2); }
+.schema h2 { margin-bottom: 2.5rem; font-size: clamp(1.8rem, 3vw, 2.4rem); }
+.schema figure { max-width: 58rem; margin: 0 auto 3rem; }
+.schema figure img { width: 100%; border-radius: var(--radius-grand); box-shadow: var(--ombre); }
+.schema ol { display: grid; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); gap: 2.5rem; margin: 0; padding: 0; list-style: none; counter-reset: e; }
+.schema li { counter-increment: e; }
+.schema li::before { display: block; content: "0" counter(e); font: 800 3rem/1 var(--font-titres); color: var(--color-accent); }
+.engage { padding-block: 5.5rem; }
+.engage .contenu { display: grid; grid-template-columns: 1.1fr 1fr; align-items: center; gap: 4rem; }
+.engage img { width: 100%; aspect-ratio: 3 / 2; border-radius: var(--radius-grand); object-fit: cover; }
+.engage p { font-size: 1.3rem; }
+.engage h2 { margin-bottom: 1.25rem; font-size: clamp(1.8rem, 3vw, 2.4rem); }
+@media (max-width: 52rem) {
+.entete nav { display: none; }
+.ouverture .contenu, .actus .grille, .qui .contenu, .intro .contenu, .buts .contenu, .engage .contenu { grid-template-columns: 1fr; gap: 2.5rem; }
+.ouverture { padding-block: 2.5rem 3.5rem; }
+.ouverture p { margin-block: 1rem 1.5rem; }
+.actions .bouton { width: 100%; text-align: center; }
+.mosaique { display: block; height: auto; }
+.mosaique > img:first-child { height: 15rem; object-position: 50% 15%; }
+.mosaique > img:not(:first-child) { display: none; }
+.mosaique .perso { display: block; right: 0.75rem; bottom: -2rem; left: auto; width: 7.5rem; }
+.rdv { padding-block: 3rem; }
+.rdv .contenu { grid-template-columns: 1fr; gap: 1.25rem; }
+.rdv .ligne { padding: 1.5rem; }
+.financeurs img { height: 5rem; }
+.rdv .ligne { grid-template-columns: 1fr; gap: 1rem; }
+.bande { grid-template-columns: repeat(3, 1fr); }
+.bande img:nth-child(n + 4) { display: none; }
+.structures { grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+.structures li { grid-template-rows: 3.5rem auto; padding: 1rem; font-size: 1rem; }
+.structures img { max-height: 3rem; max-width: 90%; }
+.financeurs .contenu { flex-direction: column; gap: 1.5rem; }
+.pied .colonnes { grid-template-columns: 1fr; }
+.buts .perso { width: 12rem; margin-inline: auto; }
+}
+.menu { display: none; padding: 0.5rem 1rem; border: 2px solid currentColor; border-radius: var(--radius-pill); font: 700 0.95rem var(--font-ui); color: inherit; background: transparent; }
+@media (max-width: 52rem) { .menu { display: inline-block; } .entete .langue { margin-inline-start: auto; } }
+.rdv .ligne .lien { justify-self: end; }
+Une mise en page de magazine, centrée sur les gens : les visages de La Collective dès le premier écran, une bande de photos de la galerie, l'actualité la plus récente en grand, et les quatre structures porteuses présentées avec leur logo.
+Pour l'agent : haut de page en deux colonnes sur fond crème (titre, devise et actions à gauche, mosaïque de trois photos de la galerie à droite avec le personnage dans un petit rond jaune en débord), prochain événement en ligne typographique avec la date en très grand, étapes numérotées « 01 02 03 » en grand, bande de cinq photos pleine largeur, actualités asymétriques (une grande, trois en liste avec vignette), « Qui sommes-nous » sur bleu marine avec les structures en cartes à logo, financeurs en ligne, appel au contact sur crème, boutons arrondis en pilule. Diffère de la 1 (photo plein écran sous voile, cartes égales) et de la 3 (aplats de couleur pleine largeur, haut de page jaune, typographie militante).
+/* Piste 2 « Modernisée » (livrable 04, direction artistique) : généré, à poser tel quel comme N0.
+Contrastes vérifiés (texte 4,5:1, contrôles 3:1) dans les deux thèmes. Polices : Outfit (SIL Open Font License 1.1 (Google Fonts)), Source Sans 3 (SIL Open Font License 1.1 (Google Fonts)). */
+@font-face {
+font-family: "Outfit";
+font-style: normal;
+font-weight: 400 700;
+font-display: swap;
+src: url("/__polices/outfit/outfit-400-700-latin.woff2") format("woff2");
+}
+@font-face {
+font-family: "Source Sans 3";
+font-style: normal;
+font-weight: 400 700;
+font-display: swap;
+src: url("/__polices/source-sans-3/source-sans-3-400-700-latin.woff2") format("woff2");
+}
+:root {
+--color-bg: #f8fafe;
+--color-surface: #ffffff;
+--color-surface-2: #ecf0f7;
+--color-text: #151b24;
+--color-text-muted: #4f5661;
+--color-line: #d9dee6;
+--color-line-strong: #b8bec8;
+--color-border: #747b87;
+--color-accent: #007d34;
+--color-accent-strong: #006327;
+--color-accent-soft: #ebf5ef;
+--color-accent-text: #ffffff;
+--color-focus: #009d43;
+--color-marque: #364a6b;
+--color-marque-sur-fond: #364a6b;
+--color-marque-texte: #ffffff;
+--color-marque-2: #fdb544;
+--color-marque-2-texte: #070b14;
+--color-danger: #a83630;
+--color-success: #007835;
+--color-warning: #8a5600;
+--color-info: #2a5fb7;
+--color-entete-fond: #f8fafe;
+--color-entete-texte: #151b24;
+--color-heros-fond: #ebf5ef;
+--color-heros-texte: #151b24;
+--color-entete-accent: #008437;
+--color-heros-accent: #007f34;
+--font-titres: "Outfit", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+--font-ui: "Source Sans 3", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+--radius: 0.75rem;
+--radius-small: 0.375rem;
+--radius-grand: 1.125rem;
+--radius-pill: 999px;
+/* Échelle des tailles, bornée par les conventions de base (rule web-design) : titre principal 2,75 rem au plus,
+titres de section 2 rem au plus, texte courant 1,0625 rem, introduction 1,25 rem au plus. */
+--step--2: 0.8125rem;
+--step--1: 0.9375rem;
+--step-0: 1.0625rem;
+--step-1: clamp(1.125rem, 1.05rem + 0.3vw, 1.25rem);
+--step-2: clamp(1.5rem, 1.25rem + 1vw, 1.875rem);
+--step-3: clamp(1.875rem, 1.4rem + 2vw, 2.75rem);
+color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+:root:not([data-theme="light"]) {
+--color-bg: #0a1018;
+--color-surface: #121923;
+--color-surface-2: #1b222d;
+--color-text: #ebeff5;
+--color-text-muted: #a7aebb;
+--color-line: #282e38;
+--color-line-strong: #414853;
+--color-border: #6b727e;
+--color-accent: #43c466;
+--color-accent-strong: #61de7f;
+--color-accent-soft: #182e2b;
+--color-accent-text: #070b14;
+--color-focus: #43c466;
+--color-marque: #364a6b;
+--color-marque-sur-fond: #738bb0;
+--color-marque-texte: #ffffff;
+--color-marque-2: #d38e00;
+--color-marque-2-texte: #070b14;
+--color-danger: #ff968a;
+--color-success: #67d283;
+--color-warning: #f4a437;
+--color-info: #8db8ff;
+--color-entete-fond: #0a1018;
+--color-entete-texte: #ebeff5;
+--color-heros-fond: #182e2b;
+--color-heros-texte: #ebeff5;
+--color-entete-accent: #43c466;
+--color-heros-accent: #43c466;
+color-scheme: dark;
+}
+}
+:root[data-theme="dark"] {
+--color-bg: #0a1018;
+--color-surface: #121923;
+--color-surface-2: #1b222d;
+--color-text: #ebeff5;
+--color-text-muted: #a7aebb;
+--color-line: #282e38;
+--color-line-strong: #414853;
+--color-border: #6b727e;
+--color-accent: #43c466;
+--color-accent-strong: #61de7f;
+--color-accent-soft: #182e2b;
+--color-accent-text: #070b14;
+--color-focus: #43c466;
+--color-marque: #364a6b;
+--color-marque-sur-fond: #738bb0;
+--color-marque-texte: #ffffff;
+--color-marque-2: #d38e00;
+--color-marque-2-texte: #070b14;
+--color-danger: #ff968a;
+--color-success: #67d283;
+--color-warning: #f4a437;
+--color-info: #8db8ff;
+--color-entete-fond: #0a1018;
+--color-entete-texte: #ebeff5;
+--color-heros-fond: #182e2b;
+--color-heros-texte: #ebeff5;
+--color-entete-accent: #43c466;
+--color-heros-accent: #43c466;
+color-scheme: dark;
+}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Maquette piste 3 : accueil</title>
+<link rel="stylesheet" href="../../../livrables/04-direction-artistique/pistes/3-contrastee/tokens.css">
+<link rel="stylesheet" href="composition.css">
+</head>
+<body>
+<header class="entete">
+<div class="contenu">
+<a href="#"><img src="../../../../public/assets/img/logo.svg" alt="Sécurité Sociale de l'Alimentation, Pays de Morlaix : accueil"></a>
+<nav aria-label="Menu principal"><a href="#">Le projet</a><a href="#">Qui sommes-nous</a><a href="#">Lieux conventionnés</a><a href="#">Actualités</a><a href="#">Agenda</a><a href="#">Galerie</a><a href="#">Contact</a></nav>
+<a class="langue" href="#" lang="br">Brezhoneg</a>
+<button class="menu" type="button" aria-expanded="false">Menu</button>
+</div>
+</header>
+<main>
+<section class="ouverture" aria-labelledby="titre-page">
+<div class="contenu">
+<div>
+<h1 id="titre-page">Sécurité Sociale de l'Alimentation, Pays de Morlaix</h1>
+<p>Pour un droit fondamental et universel à une alimentation saine et durable.</p>
+<div class="actions"><a class="bouton" href="#">Voir l'agenda</a><a class="bouton bouton--vert" href="#">Trouver un lieu conventionné</a></div>
+</div>
+<div class="visuel">
+<img src="../../../source/existant/medias/assets/img/gallery/20251124_144033_lot001.webp" alt="Une participante tient le logo de la SSA dessiné à la main">
+<div class="rond"><img src="../../../../public/assets/img/illustration-collectif.svg" alt=""></div>
+</div>
+</div>
+</section>
+<section class="agenda bloc" aria-labelledby="agenda-titre">
+<div class="contenu">
+<div class="tete"><h2 class="grand-titre" id="agenda-titre">Les prochains événements</h2><a class="lien" href="#">Tout l'agenda</a></div>
+<article class="billet">
+<p class="date"><strong>7</strong>déc.</p>
+<div><h3>Réunion mensuelle La Collective d'Animation</h3><p>Lundi 7 décembre 2026, 18 h 00 · locaux de l'AFPA, bellevue de la Madeleine, Morlaix</p></div>
+<a class="bouton bouton--jaune" href="#">Voir l'événement</a>
+</article>
+</div>
+</section>
+<section class="etapes bloc" aria-labelledby="etapes-titre">
+<div class="contenu">
+<h2 class="grand-titre" id="etapes-titre">Comment ça marche</h2>
+<ol>
+<li>Chaque participant·e choisit librement le montant de sa cotisation mensuelle.</li>
+<li>Chaque mois, il ou elle reçoit une allocation en monnaie locale alimentaire, le « Buzuk SSA ».</li>
+<li>L'allocation se dépense dans des lieux validés démocratiquement par le groupe.</li>
+</ol>
+<a class="lien" href="#">Comprendre le projet</a>
+</div>
+</section>
+<section class="photo-groupe" aria-labelledby="qui-titre">
+<img src="../../../source/existant/fichiers/recrutementbanner-2a68d1c5bea6.webp" alt="Des membres de La Collective réunis devant un bâtiment, avec une grande carte « Vitale » de l'alimentation">
+<div class="encart">
+<h2 id="qui-titre">Qui sommes-nous ?</h2>
+<p><strong>Le groupe « Sécurité Sociale de l'Alimentation » (SSA)</strong>. Le collectif pour une Sécurité Sociale de l'Alimentation en Pays de Morlaix est composé d'une trentaine de citoyennes et citoyens vivant sur le Pays de Morlaix. Il est accompagné par 4 structures associatives :</p>
+<ul>
+<li><strong>L'ULAMIR-CPIE</strong> : centre social et centre d'éducation à l'environnement.</li>
+<li><strong>Le Résam</strong> : maison des associations du Pays de Morlaix.</li>
+<li><strong>Le Buzuk</strong> : porteuse de la monnaie locale.</li>
+<li><strong>L'Adess du Pays de Morlaix</strong> : pôle ESS du Pays de Morlaix.</li>
+</ul>
+<a class="bouton bouton--jaune" href="#">Découvrir le collectif</a>
+</div>
+</section>
+<section class="actus bloc" aria-labelledby="actus-titre">
+<div class="contenu">
+<div class="tete"><h2 class="grand-titre" id="actus-titre">Dernières actualités</h2><a class="lien" href="#">Toutes les actualités</a></div>
+<ol>
+<li><img src="../../../../public/media/actualites/soiree-de-lancement-de-la-caisse-citoyenne/20260504-132335-1.webp" alt=""><div><time>9 avril 2026</time><h3>Soirée de lancement de la caisse citoyenne</h3></div></li>
+<li><img src="../../../../public/media/actualites/carte-des-points-de-vente-conventionnes/20260410-123159-1.webp" alt=""><div><time>9 avril 2026</time><h3>Carte des points de vente conventionnés</h3></div></li>
+<li><img src="../../../source/existant/videos/synthese-atelier-parcours-citoyen-14-mars-2026.jpg" alt=""><div><time>14 mars 2026</time><h3>Synthèse en vidéo de l'atelier du parcours citoyen du 14 mars 2026</h3></div></li>
+</ol>
+</div>
+</section>
+<section class="logos bloc" aria-labelledby="logos-titre">
+<div class="contenu">
+<h2 class="grand-titre" id="logos-titre">Ils nous accompagnent</h2>
+<ul>
+<li><img src="../../../source/existant/logos-recadres/buzuk.webp" alt="Buzuk"></li>
+<li><img src="../../../source/existant/logos-recadres/ess.webp" alt="Pôle ESS Pays de Morlaix"></li>
+<li><img src="../../../source/existant/logos-recadres/20251211-083116-1.webp" alt="ULAMIR-CPIE"></li>
+<li><img src="../../../source/existant/logos-recadres/resam.webp" alt="Résam"></li>
+<li><img src="../../../source/existant/logos-recadres/bretagne.webp" alt="Région Bretagne, financeur"></li>
+<li><img src="../../../source/existant/logos-recadres/feader.webp" alt="Europe, FEADER, programme Leader, financeur"></li>
+</ul>
+</div>
+</section>
+<section class="appel bloc" aria-labelledby="appel-titre">
+<div class="contenu">
+<h2 id="appel-titre">Une question sur la Sécurité Sociale de l'Alimentation au Pays de Morlaix ?</h2>
+<a class="bouton bouton--jaune" href="#">Nous contacter</a>
+</div>
+</section>
+</main>
+<footer class="pied">
+<div class="contenu">
+<div class="colonnes">
+<div><h2>Coordonnées</h2><p>Contactez l'association ULAMIR-CPIE<br>Le Buzuk, 39 bellevue de la Madeleine<br>29600 Morlaix<br>06 15 06 82 08<br>ssapaysdemorlaix@mailo.com</p></div>
+<div><h2>Informations légales</h2><ul><li>Mentions légales</li><li>Confidentialité</li><li>Accessibilité</li><li>Plan du site</li></ul></div>
+<div><h2>Langue</h2><ul><li>Français</li><li lang="br">Brezhoneg</li></ul></div>
+</div>
+<p class="credit">© 2026 Sécurité Sociale de l'Alimentation du Pays de Morlaix · Design et développement : Kouzia, Alexandre Kouziaeff EI, au sein de La Capsule</p>
+</div>
+</footer>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Maquette piste 3 : le projet</title>
+<link rel="stylesheet" href="../../../livrables/04-direction-artistique/pistes/3-contrastee/tokens.css">
+<link rel="stylesheet" href="composition.css">
+</head>
+<body>
+<header class="entete">
+<div class="contenu">
+<a href="#"><img src="../../../../public/assets/img/logo.svg" alt="Sécurité Sociale de l'Alimentation, Pays de Morlaix : accueil"></a>
+<nav aria-label="Menu principal"><a href="#">Le projet</a><a href="#">Qui sommes-nous</a><a href="#">Lieux conventionnés</a><a href="#">Actualités</a><a href="#">Agenda</a><a href="#">Galerie</a><a href="#">Contact</a></nav>
+<a class="langue" href="#" lang="br">Brezhoneg</a>
+<button class="menu" type="button" aria-expanded="false">Menu</button>
+</div>
+</header>
+<main>
+<section class="ouverture ouverture--projet" aria-labelledby="titre-page">
+<div class="contenu">
+<div>
+<h1 id="titre-page">Expérimentation d'une caisse de l'alimentation sur le Pays de Morlaix</h1>
+<p>Une base de connaissances collaborative sur la Sécurité Sociale de l'Alimentation.</p>
+</div>
+<div class="visuel">
+<img src="../../../../public/assets/img/bandeau-projet.webp" alt="Deux participantes regardent une feuille pendant un atelier">
+<div class="rond"><img src="../../../../public/assets/img/illustration-projet.svg" alt=""></div>
+</div>
+</div>
+</section>
+<section class="buts bloc" aria-labelledby="buts-titre">
+<div class="contenu">
+<h2 class="grand-titre" id="buts-titre">Un premier pas vers une Sécurité Sociale de l'Alimentation</h2>
+<p>La Sécurité Sociale de l'Alimentation en Pays de Morlaix est une expérimentation portée par un collectif d'associations et de citoyen·nes pour :</p>
+<ul>
+<li>aller vers un droit à l'alimentation pour toutes et tous et soutenir les paysan·nes ;</li>
+<li>contribuer à construire un système alimentaire plus juste et plus durable ;</li>
+<li>recréer du lien et reprendre du pouvoir d'agir collectivement sur notre territoire.</li>
+</ul>
+<p><strong>Objectif :</strong> c'est une initiative locale qui s'inspire d'un projet de société : celui de mettre en place une sécurité sociale de l'alimentation.</p>
+</div>
+</section>
+<section class="schema bloc" aria-labelledby="schema-titre">
+<div class="contenu">
+<h2 class="grand-titre" id="schema-titre">Plus concrètement</h2>
+<figure><img src="../../../../public/assets/img/schema-caisse-locale.webp" alt="Schéma « Sécurité sociale de l'alimentation, Kezako ? »"></figure>
+<ul>
+<li>Un parcours citoyen, qui a débuté à l'automne 2025.</li>
+<li>Un budget collectif constitué par les cotisations des membres.</li>
+<li>Une allocation à dépenser chaque mois dans des lieux de distribution alimentaire.</li>
+</ul>
+</div>
+</section>
+<section class="engage bloc" aria-labelledby="engage-titre">
+<div class="contenu">
+<img src="../../../source/existant/medias/assets/img/gallery/20251124_144033_lot001.webp" alt="Une participante tient le logo de la SSA dessiné à la main">
+<div>
+<h2 class="grand-titre" id="engage-titre">L'engagement des participant·es</h2>
+<p>Chaque participant·e choisit librement le montant de sa cotisation mensuelle, puis reçoit une allocation en monnaie locale alimentaire, le « Buzuk SSA », à dépenser dans des lieux validés démocratiquement par le groupe. Chaque participant·e s'engage à participer à une réunion et à un atelier collectif par mois.</p>
+</div>
+</div>
+</section>
+<section class="appel bloc" aria-labelledby="appel-titre">
+<div class="contenu">
+<h2 id="appel-titre">Besoin d'information ?</h2>
+<a class="bouton bouton--jaune" href="#">Nous contacter</a>
+</div>
+</section>
+</main>
+<footer class="pied">
+<div class="contenu">
+<div class="colonnes">
+<div><h2>Coordonnées</h2><p>Contactez l'association ULAMIR-CPIE<br>Le Buzuk, 39 bellevue de la Madeleine<br>29600 Morlaix<br>06 15 06 82 08<br>ssapaysdemorlaix@mailo.com</p></div>
+<div><h2>Informations légales</h2><ul><li>Mentions légales</li><li>Confidentialité</li><li>Accessibilité</li><li>Plan du site</li></ul></div>
+<div><h2>Langue</h2><ul><li>Français</li><li lang="br">Brezhoneg</li></ul></div>
+</div>
+<p class="credit">© 2026 Sécurité Sociale de l'Alimentation du Pays de Morlaix · Design et développement : Kouzia, Alexandre Kouziaeff EI, au sein de La Capsule</p>
+</div>
+</footer>
+</body>
+</html>
+/* Maquette composée, piste 3 « contrastée » : aplats de couleur pleine largeur, typographie militante. Couleurs, polices et arrondis : tokens de la piste. */
+:root {
+--blanc: var(--color-marque-texte);
+--ombre: 0 1rem 2.5rem color-mix(in oklab, var(--color-text) 25%, transparent);
+--filet: color-mix(in oklab, var(--color-text) 18%, transparent);
+--jaune-clair: color-mix(in oklab, var(--color-marque-2) 25%, var(--color-bg));
+}
+*, *::before, *::after { box-sizing: border-box; }
+body { margin: 0; font: 400 1.125rem/1.6 var(--font-ui); color: var(--color-text); background: var(--color-bg); }
+img { display: block; max-width: 100%; }
+h1, h2, h3 { margin: 0; font-family: var(--font-titres); font-weight: 800; line-height: 1.1; text-wrap: balance; }
+p { margin: 0; }
+a { color: inherit; }
+.contenu { width: min(76rem, 100% - 2.5rem); margin-inline: auto; }
+.bloc { padding-block: 5.5rem; }
+.grand-titre { margin-bottom: 2.5rem; font-size: clamp(2rem, 4vw, 3rem); }
+.lien { font-weight: 700; text-underline-offset: 0.3em; text-decoration-thickness: 2px; }
+.entete { color: var(--color-entete-texte); background: var(--color-entete-fond); }
+.entete .contenu { display: flex; align-items: center; gap: 2rem; min-height: 4.5rem; }
+.entete img { width: 3rem; height: auto; }
+.entete nav { display: flex; flex-wrap: wrap; gap: 1.4rem; margin-inline-start: auto; font-weight: 700; font-size: 0.95rem; text-transform: uppercase; letter-spacing: 0.03em; }
+.entete nav a { text-decoration: none; }
+.entete .langue { font-weight: 700; color: var(--color-marque-2); }
+.bouton { display: inline-block; padding: 1rem 1.6rem; border-radius: var(--radius); font-weight: 800; text-decoration: none; text-transform: uppercase; letter-spacing: 0.03em; color: var(--color-marque-texte); background: var(--color-marque); }
+.bouton--vert { color: var(--color-accent-text); background: var(--color-accent); }
+.bouton--jaune { color: var(--color-marque-2-texte); background: var(--color-marque-2); }
+.ouverture { overflow: hidden; color: var(--color-marque-2-texte); background: var(--color-marque-2); }
+.ouverture .contenu { display: grid; grid-template-columns: 1.15fr 1fr; align-items: center; gap: 3.5rem; min-height: 36rem; padding-block: 3.5rem; }
+.ouverture h1 { font-size: clamp(2.6rem, 5.4vw, 4.25rem); text-transform: uppercase; }
+.ouverture p { max-width: 32rem; margin-block: 1.75rem 2.25rem; font-size: 1.3rem; }
+.actions { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+.visuel { position: relative; }
+.visuel > img { width: 100%; aspect-ratio: 4 / 5; border-radius: var(--radius-grand); object-fit: cover; box-shadow: var(--ombre); }
+.visuel .rond { position: absolute; bottom: -1.5rem; left: -3rem; width: 11rem; aspect-ratio: 1; border-radius: 50%; background: var(--color-bg); box-shadow: var(--ombre); }
+.visuel .rond img { position: absolute; bottom: 0; left: 50%; width: 70%; translate: -50% 0; }
+.etapes { color: var(--color-marque-texte); background: var(--color-marque); }
+.etapes .grand-titre { color: var(--color-marque-2); }
+.etapes ol { display: grid; grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); gap: 3rem; margin: 0 0 2.5rem; padding: 0; list-style: none; counter-reset: e; }
+.etapes li { counter-increment: e; font-size: 1.25rem; }
+.etapes li::before { display: block; margin-bottom: 0.75rem; content: counter(e); font: 800 6rem/0.9 var(--font-titres); color: var(--color-marque-2); }
+.tete { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 1rem; margin-bottom: 2.5rem; }
+.tete .grand-titre { margin: 0; }
+.agenda { background: var(--color-bg); }
+.billet { display: grid; grid-template-columns: 14rem 1fr auto; align-items: center; overflow: hidden; border-radius: var(--radius-grand); color: var(--color-accent-text); background: var(--color-accent); }
+.billet .date { display: grid; place-items: center; align-content: center; height: 100%; padding: 2rem; font-family: var(--font-titres); font-size: 1.5rem; line-height: 1; text-transform: uppercase; color: var(--color-marque-2-texte); background: var(--color-marque-2); }
+.billet .date strong { font-size: 6rem; }
+.billet > div { padding: 2.25rem; }
+.billet h3 { margin-bottom: 0.75rem; font-size: clamp(1.6rem, 2.6vw, 2.2rem); }
+.billet p { font-size: 1.2rem; }
+.billet .bouton { margin-right: 2.25rem; }
+.photo-groupe { display: grid; grid-template-columns: 1.4fr 1fr; color: var(--color-accent-text); background: var(--color-accent); }
+.photo-groupe > img { width: 100%; height: 100%; min-height: 34rem; object-fit: cover; object-position: center 40%; }
+.encart { align-self: center; max-width: 34rem; padding: 3.5rem 3rem; }
+.encart h2 { margin-bottom: 1rem; font-size: clamp(1.8rem, 3vw, 2.4rem); }
+.encart p { margin-bottom: 1rem; }
+.encart ul { display: grid; gap: 0.4rem; margin: 0 0 1.5rem; padding: 0; list-style: none; }
+.encart li::before { display: inline-block; width: 0.6rem; height: 0.6rem; margin-right: 0.6rem; border-radius: 50%; content: ""; background: var(--color-marque-2); }
+.actus ol { margin: 0; padding: 0; list-style: none; }
+.actus li { display: grid; grid-template-columns: 16rem 1fr; gap: 2.5rem; align-items: center; padding-block: 1.75rem; border-bottom: 2px solid var(--color-text); }
+.actus li:first-child { border-top: 2px solid var(--color-text); }
+.actus time { font-weight: 800; text-decoration: underline; text-decoration-color: var(--color-marque-2); text-decoration-thickness: 0.3rem; text-underline-offset: 0.2rem; }
+.actus h3 { margin-top: 0.5rem; font-size: 1.75rem; }
+.actus li img { width: 100%; aspect-ratio: 16 / 10; border-radius: var(--radius); object-fit: cover; }
+.logos { background: var(--jaune-clair); }
+.logos .grand-titre { font-size: clamp(1.6rem, 3vw, 2.2rem); }
+.logos ul { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; margin: 0; padding: 0; list-style: none; }
+.logos li { display: grid; place-items: center; height: 8rem; padding: 1.25rem; border-radius: var(--radius); background: var(--color-bg); }
+.logos img { max-height: 5rem; object-fit: contain; }
+.appel { text-align: center; color: var(--color-marque-texte); background: var(--color-marque); }
+.appel h2 { max-width: 50rem; margin: 0 auto 2.5rem; font-size: clamp(1.9rem, 3.6vw, 2.8rem); }
+.pied { padding-block: 3.5rem 1.5rem; font-size: 0.95rem; color: var(--blanc); background: var(--color-text); }
+.pied .colonnes { display: grid; grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr)); gap: 2rem; }
+.pied h2 { margin-bottom: 0.75rem; font-size: 0.95rem; text-transform: uppercase; color: var(--color-marque-2); }
+.pied ul { margin: 0; padding: 0; list-style: none; line-height: 1.9; }
+.pied .credit { margin-top: 2.5rem; padding-top: 1rem; border-top: 1px solid color-mix(in oklab, var(--blanc) 20%, transparent); font-size: 0.85rem; }
+/* Page Projet */
+.ouverture--projet .contenu { min-height: 28rem; }
+.ouverture--projet h1 { font-size: clamp(2.2rem, 4.4vw, 3.4rem); }
+.buts { color: var(--color-marque-texte); background: var(--color-marque); }
+.buts .grand-titre { color: var(--color-marque-2); }
+.buts > .contenu > p { max-width: 46rem; margin-bottom: 2.5rem; font-size: 1.25rem; }
+.buts ul { display: grid; grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); gap: 1.5rem; margin: 0 0 2rem; padding: 0; list-style: none; }
+.buts li { padding: 1.75rem; border: 2px solid var(--color-marque-2); border-radius: var(--radius-grand); font-size: 1.2rem; }
+.schema figure { margin: 0 0 3rem; padding: 1.25rem; border-radius: var(--radius-grand); background: var(--color-marque-2); }
+.schema figure img { width: 100%; border-radius: var(--radius); }
+.schema ul { display: grid; grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); gap: 2rem; margin: 0; padding: 0; list-style: none; font-size: 1.2rem; }
+.schema li { padding-top: 1rem; border-top: 0.35rem solid var(--color-accent); }
+.engage { background: var(--jaune-clair); }
+.engage .contenu { display: grid; grid-template-columns: 1fr 1.3fr; align-items: center; gap: 4rem; }
+.engage img { width: 100%; aspect-ratio: 1; border-radius: 50%; object-fit: cover; box-shadow: var(--ombre); }
+.engage p { font-size: 1.2rem; }
+@media (max-width: 52rem) {
+.entete nav { display: none; }
+.ouverture .contenu, .engage .contenu, .photo-groupe { grid-template-columns: 1fr; gap: 2rem; }
+.visuel > img { aspect-ratio: 4 / 3; }
+.visuel .rond { left: auto; right: -0.5rem; width: 7rem; }
+.billet { grid-template-columns: 6.5rem 1fr; }
+.billet .date { font-size: 1rem; }
+.billet .date strong { font-size: 3rem; }
+.billet > div { padding: 1.25rem; }
+.billet .bouton { grid-column: 1 / -1; margin: 0 1.25rem 1.25rem; }
+.photo-groupe > img { min-height: 16rem; }
+.encart { padding: 2.5rem 1.25rem; }
+.actus li { grid-template-columns: 6rem 1fr; gap: 1rem; }
+.actus h3 { font-size: 1.25rem; }
+.logos ul { grid-template-columns: repeat(2, 1fr); }
+}
+.menu { display: none; padding: 0.5rem 1rem; border: 2px solid currentColor; border-radius: var(--radius-pill); font: 700 0.95rem var(--font-ui); color: inherit; background: transparent; }
+@media (max-width: 52rem) { .menu { display: inline-block; } .entete .langue { margin-inline-start: auto; } }
+Un site engagé et impossible à confondre : de grands aplats de couleur (jaune, bleu, vert) qui se succèdent, des titres en capitales, le personnage en grand dès l'ouverture et une grande photo de La Collective avec la présentation du groupe posée dessus.
+Pour l'agent : haut de page en aplat jaune pleine largeur (titre en capitales très grand, personnage dans un grand rond blanc qui sort du bloc), étapes sur bleu marine avec chiffres jaunes géants, prochain événement sur vert en billet (date jaune en grand), photo de groupe pleine largeur avec l'encart « Qui sommes-nous » posé dessus (inspiration CIVAM), actualités en liste typographique à filets noirs et dates soulignées de jaune (inspiration caisse alimentaire commune de Montpellier), logos sur jaune clair, appel au contact sur bleu, pied de page sombre. Diffère de la 1 (photo plein écran sous voile en ouverture, cartes) et de la 2 (deux colonnes sur crème, mosaïque, ton éditorial).
+/* Piste 3 « Contrastée » (livrable 04, direction artistique) : généré, à poser tel quel comme N0.
+Contrastes vérifiés (texte 4,5:1, contrôles 3:1) dans les deux thèmes. Polices : Bitter (SIL Open Font License 1.1 (Google Fonts)), Atkinson Hyperlegible (SIL Open Font License 1.1 (Google Fonts)). */
+@font-face {
+font-family: "Bitter";
+font-style: normal;
+font-weight: 400 700;
+font-display: swap;
+src: url("/__polices/bitter/bitter-400-700-latin.woff2") format("woff2");
+}
+@font-face {
+font-family: "Atkinson Hyperlegible";
+font-style: normal;
+font-weight: 400;
+font-display: swap;
+src: url("/__polices/atkinson-hyperlegible/atkinson-hyperlegible-400-latin.woff2") format("woff2");
+}
+@font-face {
+font-family: "Atkinson Hyperlegible";
+font-style: normal;
+font-weight: 700;
+font-display: swap;
+src: url("/__polices/atkinson-hyperlegible/atkinson-hyperlegible-700-latin.woff2") format("woff2");
+}
+:root {
+--color-bg: #f8fafe;
+--color-surface: #ffffff;
+--color-surface-2: #ecf0f7;
+--color-text: #151b24;
+--color-text-muted: #4f5661;
+--color-line: #d9dee6;
+--color-line-strong: #b8bec8;
+--color-border: #747b87;
+--color-accent: #007d34;
+--color-accent-strong: #006327;
+--color-accent-soft: #ebf5ef;
+--color-accent-text: #ffffff;
+--color-focus: #009d43;
+--color-marque: #364a6b;
+--color-marque-sur-fond: #364a6b;
+--color-marque-texte: #ffffff;
+--color-marque-2: #fdb544;
+--color-marque-2-texte: #070b14;
+--color-danger: #a83630;
+--color-success: #007835;
+--color-warning: #8a5600;
+--color-info: #2a5fb7;
+--color-entete-fond: #364a6b;
+--color-entete-texte: #ffffff;
+--color-heros-fond: #364a6b;
+--color-heros-texte: #ffffff;
+--color-entete-accent: #53d273;
+--color-heros-accent: #53d273;
+--font-titres: "Bitter", Georgia, "Times New Roman", serif;
+--font-ui: "Atkinson Hyperlegible", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+--radius: 0.375rem;
+--radius-small: 0.1875rem;
+--radius-grand: 0.5625rem;
+--radius-pill: 999px;
+/* Échelle des tailles, bornée par les conventions de base (rule web-design) : titre principal 2,75 rem au plus,
+titres de section 2 rem au plus, texte courant 1,0625 rem, introduction 1,25 rem au plus. */
+--step--2: 0.8125rem;
+--step--1: 0.9375rem;
+--step-0: 1.0625rem;
+--step-1: clamp(1.125rem, 1.05rem + 0.3vw, 1.25rem);
+--step-2: clamp(1.5rem, 1.25rem + 1vw, 1.875rem);
+--step-3: clamp(1.875rem, 1.4rem + 2vw, 2.75rem);
+color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+:root:not([data-theme="light"]) {
+--color-bg: #0a1018;
+--color-surface: #121923;
+--color-surface-2: #1b222d;
+--color-text: #ebeff5;
+--color-text-muted: #a7aebb;
+--color-line: #282e38;
+--color-line-strong: #414853;
+--color-border: #6b727e;
+--color-accent: #43c466;
+--color-accent-strong: #61de7f;
+--color-accent-soft: #182e2b;
+--color-accent-text: #070b14;
+--color-focus: #43c466;
+--color-marque: #364a6b;
+--color-marque-sur-fond: #738bb0;
+--color-marque-texte: #ffffff;
+--color-marque-2: #d38e00;
+--color-marque-2-texte: #070b14;
+--color-danger: #ff968a;
+--color-success: #67d283;
+--color-warning: #f4a437;
+--color-info: #8db8ff;
+--color-entete-fond: #364a6b;
+--color-entete-texte: #ffffff;
+--color-heros-fond: #364a6b;
+--color-heros-texte: #ffffff;
+--color-entete-accent: #53d273;
+--color-heros-accent: #53d273;
+color-scheme: dark;
+}
+}
+:root[data-theme="dark"] {
+--color-bg: #0a1018;
+--color-surface: #121923;
+--color-surface-2: #1b222d;
+--color-text: #ebeff5;
+--color-text-muted: #a7aebb;
+--color-line: #282e38;
+--color-line-strong: #414853;
+--color-border: #6b727e;
+--color-accent: #43c466;
+--color-accent-strong: #61de7f;
+--color-accent-soft: #182e2b;
+--color-accent-text: #070b14;
+--color-focus: #43c466;
+--color-marque: #364a6b;
+--color-marque-sur-fond: #738bb0;
+--color-marque-texte: #ffffff;
+--color-marque-2: #d38e00;
+--color-marque-2-texte: #070b14;
+--color-danger: #ff968a;
+--color-success: #67d283;
+--color-warning: #f4a437;
+--color-info: #8db8ff;
+--color-entete-fond: #364a6b;
+--color-entete-texte: #ffffff;
+--color-heros-fond: #364a6b;
+--color-heros-texte: #ffffff;
+--color-entete-accent: #53d273;
+--color-heros-accent: #53d273;
 color-scheme: dark;
 }

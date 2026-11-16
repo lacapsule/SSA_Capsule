@@ -1,5 +1,5 @@
 {
-  "description": "Directions artistiques par métier : point de départ des pistes 2 (modernisée) et 3 (contrastée) ; la piste 1 (fidèle) part du site actuel. Polices : familles libres de Google Fonts (OFL), téléchargées en woff2 local. Rayon en rem, densité : aéré, équilibré ou dense. Sections : briques de la boîte (elements/sections). Une valeur se discute avec le client : ce fichier propose, il ne décide pas.",
+  "description": "Directions artistiques par métier : point de départ des pistes 2 (modernisée) et 3 (contrastée) ; la piste 1 (fidèle) part du site actuel. Polices : familles libres de Google Fonts (OFL), téléchargées en woff2 local. Rayon en rem, densité : aéré, équilibré ou dense. Composition : vocabulaire de mise en page du métier, point de départ des maquettes composées (skill web-direction). Sections : briques de la boîte (elements/sections) souvent utiles, jamais une liste à suivre. Une valeur se discute avec le client : ce fichier propose, il ne décide pas.",
   "metiers": {
     "artisan": {
       "libelle": "Artisan, bâtiment, fabrication",
@@ -9,8 +9,9 @@
       "rayon": 0.375,
       "densite": "équilibré",
       "photos": "chantiers et pièces réelles, mains au travail, matière en gros plan, lumière naturelle",
+      "composition": "photo de réalisation pleine largeur en haut de page ; réalisations en grande grille d'images qui alterne grands et petits formats ; étapes du travail numérotées en grand ; fonds alternés clair et teinte de la matière ; titres francs, peu d'ornements",
       "sections": ["heros", "services", "realisations", "etapes", "faq", "appel-contact", "contact-complet"],
-      "eviter": ["photos de banque d'images", "effets métalliques ou textures bois imprimées", "avis sans source"]
+      "eviter": ["photos de banque d'images", "effets métalliques ou textures bois imprimées", "avis sans source", "gabarit générique : sections toutes au même traitement (même fond, même titre, même disposition)"]
     },
     "sante": {
       "libelle": "Santé, soin, bien-être",
@@ -20,8 +21,9 @@
       "rayon": 0.75,
       "densite": "aéré",
       "photos": "cabinet réel, praticien avec accord, pas de patient identifiable",
+      "composition": "haut de page calme, texte et portrait réel côte à côte ; beaucoup d'air, sections séparées par des fonds très doux plutôt que des filets ; informations pratiques (horaires, accès, rendez-vous) en bloc distinct et visible ; formes arrondies, aucun contraste agressif",
       "sections": ["heros", "services", "etapes", "faq", "coordonnees", "appel-contact"],
-      "eviter": ["avant et après", "vocabulaire de guérison", "rouge vif hors alerte"]
+      "eviter": ["avant et après", "vocabulaire de guérison", "rouge vif hors alerte", "gabarit générique : sections toutes au même traitement (même fond, même titre, même disposition)"]
     },
     "restaurant": {
       "libelle": "Restaurant, café, métiers de bouche",
@@ -31,8 +33,9 @@
       "rayon": 0.5,
       "densite": "équilibré",
       "photos": "plats et lieu réels, lumière chaude, pas de photo de stock",
+      "composition": "photo de plat ou de salle en très grand, cadrage serré ; carte en colonnes typographiques, pas en cartes ; horaires et réservation en bandeau contrasté ; fonds chauds alternés ; titres expressifs",
       "sections": ["heros", "services", "realisations", "coordonnees", "contact-complet"],
-      "eviter": ["menu en image ou en PDF seul", "carrousel automatique en héros"]
+      "eviter": ["menu en image ou en PDF seul", "carrousel automatique en héros", "gabarit générique : sections toutes au même traitement (même fond, même titre, même disposition)"]
     },
     "association": {
       "libelle": "Association, collectif, action sociale",
@@ -42,8 +45,9 @@
       "rayon": 0.75,
       "densite": "aéré",
       "photos": "membres et actions réels avec droit à l'image, pas de visage d'enfant sans accord",
+      "composition": "photo d'action collective lumineuse en haut de page, voile léger ; illustrations ou personnages du client réutilisés comme fil conducteur d'une section à l'autre ; fonds de section alternés (blanc, teinte claire de la marque, aplat de couleur pour l'appel) ; étapes ou chiffres en grand, illustrés ; agenda et actualités en éléments vivants mis en avant ; logos des partenaires en bandeau régulier, assez grands pour être lus",
       "sections": ["heros", "chiffres-cles", "services", "etapes", "equipe", "logos-defilants", "newsletter-inscription", "appel-contact"],
-      "eviter": ["chiffres non sourcés", "jargon institutionnel"]
+      "eviter": ["chiffres non sourcés", "jargon institutionnel", "gabarit générique : sections toutes au même traitement (même fond, même titre, même disposition)"]
     },
     "commerce": {
       "libelle": "Commerce de proximité, boutique",
@@ -53,8 +57,9 @@
       "rayon": 0.5,
       "densite": "dense",
       "photos": "vitrine, rayons et produits réels",
+      "composition": "vitrine ou rayon en photo d'ouverture ; horaires, adresse et accès dans le premier écran ; produits ou rayons en grille dense ; bandeau de couleur pour l'information du moment ; peu de texte long",
       "sections": ["heros", "services", "realisations", "coordonnees", "contact-complet"],
-      "eviter": ["promotions périmées laissées en ligne", "prix sans TTC"]
+      "eviter": ["promotions périmées laissées en ligne", "prix sans TTC", "gabarit générique : sections toutes au même traitement (même fond, même titre, même disposition)"]
     },
     "conseil": {
       "libelle": "Conseil, profession libérale, services aux entreprises",
@@ -64,8 +69,9 @@
       "rayon": 0.375,
       "densite": "équilibré",
       "photos": "portraits réels de l'équipe, lieux de travail, pas de poignée de main de stock",
+      "composition": "titre fort et sobre, beaucoup de blanc ; preuves (cas, méthode) en blocs éditoriaux larges plutôt qu'en petites cartes ; portraits réels en grand ; une couleur d'accent rare et réservée à l'action ; typographie qui porte la hiérarchie",
       "sections": ["heros", "services", "etapes", "equipe", "tarifs", "faq", "appel-contact"],
-      "eviter": ["logos de clients sans accord", "promesses chiffrées sans preuve"]
+      "eviter": ["logos de clients sans accord", "promesses chiffrées sans preuve", "gabarit générique : sections toutes au même traitement (même fond, même titre, même disposition)"]
     },
     "tourisme": {
       "libelle": "Tourisme, hébergement, loisirs",
@@ -75,8 +81,9 @@
       "rayon": 0.75,
       "densite": "aéré",
       "photos": "lieux réels en grand format, saisons variées",
+      "composition": "photo de lieu en très grand format, plusieurs fois dans la page ; blocs image et texte qui alternent gauche et droite ; informations pratiques (dates, tarifs, accès) en encart lisible ; fonds teintés par la saison ou le lieu",
       "sections": ["heros", "realisations", "tarifs", "faq", "coordonnees", "contact-complet"],
-      "eviter": ["photos retouchées trompeuses", "carte interactive chargée d'office"]
+      "eviter": ["photos retouchées trompeuses", "carte interactive chargée d'office", "gabarit générique : sections toutes au même traitement (même fond, même titre, même disposition)"]
     },
     "culture": {
       "libelle": "Culture, spectacle, patrimoine",
@@ -86,8 +93,9 @@
       "rayon": 0.25,
       "densite": "équilibré",
       "photos": "œuvres, lieux et spectacles réels avec crédits",
+      "composition": "composition éditoriale : grands titres, images d'œuvres ou de spectacles pleine largeur, grilles asymétriques ; programme en liste typographique datée ; contrastes francs entre sections",
       "sections": ["heros", "blog-liste", "realisations", "carrousel", "newsletter-inscription", "appel-contact"],
-      "eviter": ["texte en image", "animations décoratives"]
+      "eviter": ["texte en image", "animations décoratives", "gabarit générique : sections toutes au même traitement (même fond, même titre, même disposition)"]
     },
     "education": {
       "libelle": "Formation, éducation, accompagnement",
@@ -97,8 +105,9 @@
       "rayon": 0.75,
       "densite": "aéré",
       "photos": "séances réelles avec droit à l'image, supports de cours",
+      "composition": "parcours ou étapes illustrés et numérotés en grand ; photos de séances réelles ; blocs de questions et réponses lisibles ; fonds alternés doux ; ton visuel encourageant, formes arrondies",
       "sections": ["heros", "services", "etapes", "tarifs", "faq", "appel-contact"],
-      "eviter": ["taux de réussite non sourcés"]
+      "eviter": ["taux de réussite non sourcés", "gabarit générique : sections toutes au même traitement (même fond, même titre, même disposition)"]
     },
     "defaut": {
       "libelle": "Activité non classée",
@@ -108,8 +117,9 @@
       "rayon": 0.5,
       "densite": "équilibré",
       "photos": "réelles, fournies par le client",
+      "composition": "un point focal par écran ; fonds de section alternés ; images du client en grand là où elles existent ; hiérarchie portée par la taille et la graisse des titres",
       "sections": ["heros", "services", "faq", "appel-contact"],
-      "eviter": ["contenu inventé"]
+      "eviter": ["contenu inventé", "gabarit générique : sections toutes au même traitement (même fond, même titre, même disposition)"]
     }
   }
 }

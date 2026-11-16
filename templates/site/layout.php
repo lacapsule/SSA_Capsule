@@ -92,7 +92,7 @@ $email = (string) Site::get('email');
         <?php endforeach ?>
       </ul>
     </nav>
-    <?php partial('langue/selecteur', ['chemin' => $path, 'disponibles' => $disponibles, 'variante' => 'liste', 'id' => 'langues-entete']) ?>
+    <?php partial('langue/selecteur', ['chemin' => $path, 'disponibles' => $disponibles, 'variante' => 'menu', 'id' => 'langues-entete']) ?>
   </div>
 </header>
 

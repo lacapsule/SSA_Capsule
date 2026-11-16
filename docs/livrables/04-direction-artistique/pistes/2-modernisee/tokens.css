@@ -24,11 +24,11 @@
   --color-line: #d9dee6;
   --color-line-strong: #b8bec8;
   --color-border: #747b87;
-  --color-accent: #936200;
-  --color-accent-strong: #764d00;
-  --color-accent-soft: #f6f2eb;
+  --color-accent: #007d34;
+  --color-accent-strong: #006327;
+  --color-accent-soft: #ebf5ef;
   --color-accent-text: #ffffff;
-  --color-focus: #b87c00;
+  --color-focus: #009d43;
   --color-marque: #364a6b;
   --color-marque-sur-fond: #364a6b;
   --color-marque-texte: #ffffff;
@@ -40,10 +40,10 @@
   --color-info: #2a5fb7;
   --color-entete-fond: #f8fafe;
   --color-entete-texte: #151b24;
-  --color-heros-fond: #f6f2eb;
+  --color-heros-fond: #ebf5ef;
   --color-heros-texte: #151b24;
-  --color-entete-accent: #9b6700;
-  --color-heros-accent: #966300;
+  --color-entete-accent: #008437;
+  --color-heros-accent: #007f34;
   --font-titres: "Outfit", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   --font-ui: "Source Sans 3", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   --radius: 0.75rem;
@@ -71,11 +71,11 @@
     --color-line: #282e38;
     --color-line-strong: #414853;
     --color-border: #6b727e;
-    --color-accent: #fdb544;
-    --color-accent-strong: #ffd8a3;
-    --color-accent-soft: #2e2c27;
+    --color-accent: #43c466;
+    --color-accent-strong: #61de7f;
+    --color-accent-soft: #182e2b;
     --color-accent-text: #070b14;
-    --color-focus: #fdb544;
+    --color-focus: #43c466;
     --color-marque: #364a6b;
     --color-marque-sur-fond: #738bb0;
     --color-marque-texte: #ffffff;
@@ -87,10 +87,10 @@
     --color-info: #8db8ff;
     --color-entete-fond: #0a1018;
     --color-entete-texte: #ebeff5;
-    --color-heros-fond: #2e2c27;
+    --color-heros-fond: #182e2b;
     --color-heros-texte: #ebeff5;
-    --color-entete-accent: #fdb544;
-    --color-heros-accent: #fdb544;
+    --color-entete-accent: #43c466;
+    --color-heros-accent: #43c466;
     color-scheme: dark;
   }
 }
@@ -104,11 +104,11 @@
   --color-line: #282e38;
   --color-line-strong: #414853;
   --color-border: #6b727e;
-  --color-accent: #fdb544;
-  --color-accent-strong: #ffd8a3;
-  --color-accent-soft: #2e2c27;
+  --color-accent: #43c466;
+  --color-accent-strong: #61de7f;
+  --color-accent-soft: #182e2b;
   --color-accent-text: #070b14;
-  --color-focus: #fdb544;
+  --color-focus: #43c466;
   --color-marque: #364a6b;
   --color-marque-sur-fond: #738bb0;
   --color-marque-texte: #ffffff;
@@ -120,9 +120,9 @@
   --color-info: #8db8ff;
   --color-entete-fond: #0a1018;
   --color-entete-texte: #ebeff5;
-  --color-heros-fond: #2e2c27;
+  --color-heros-fond: #182e2b;
   --color-heros-texte: #ebeff5;
-  --color-entete-accent: #fdb544;
-  --color-heros-accent: #fdb544;
+  --color-entete-accent: #43c466;
+  --color-heros-accent: #43c466;
   color-scheme: dark;
 }

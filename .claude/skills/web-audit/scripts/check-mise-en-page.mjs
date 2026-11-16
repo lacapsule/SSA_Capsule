@@ -3,7 +3,8 @@
 // à 390, 800, 1280 et 1920 px :
 //   en-tête sur une seule ligne et de 5 rem au plus ; titre principal 2,75 rem au plus, titres de section 2 rem au plus ;
 //   texte courant de 1,0625 à 1,25 rem ; aucun titre sur plus de 3 lignes à 1280 px ; aucun élément fixe posé sur
-//   un contenu ; aucun défilement horizontal.
+//   un contenu ; aucun défilement horizontal ; titre du haut de page 4 rem au plus ; pas plus de 3 grandes sections
+//   de suite au même traitement (fond et style de titre), 3 en avertissement ; revue visuelle de chaque page.
 // Puis, si l'audit du site actuel existe : chaque page à côté de la page qu'elle remplace (.claude/etat/comparaison/),
 // à regarder pour la ligne 5 de la checklist livraison.
 // Une page de l'arborescence du mode d'emploi pas encore construite (404) est un avertissement pendant la construction,
@@ -17,11 +18,12 @@ import path from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { lancerNavigateur } from '../../livrables/lib/document.mjs';
 import { comparerContenu } from './contenu-repris.mjs';
+import { slugAdresse } from '../../livrables/lib/wireframes.mjs';
 
 const RACINE = process.cwd();
 const LARGEURS = [390, 800, 1280, 1920];
 const REM = 16;
-const LIMITES = { entete: 5 * REM, h1: 2.75 * REM, h2: 2 * REM, texteMin: 1.0625 * REM, texteMax: 1.25 * REM, lignes: 3 };
+const LIMITES = { entete: 5 * REM, h1: 2.75 * REM, h1Haut: 4 * REM, h2: 2 * REM, texteMin: 1.0625 * REM, texteMax: 1.25 * REM, lignes: 3, airMin: 3 * REM };
 const attendre = (ms) => new Promise((r) => setTimeout(r, ms));
 
 async function demarrer() {
@@ -70,6 +72,8 @@ function mesurer(limites) {
   const visible = (el) => {
     const r = el.getBoundingClientRect();
     const s = getComputedStyle(el);
+    // Contenu d'un details fermé (menu de langue, volet) : non affiché, mais Chromium lui garde une position.
+    if (el.closest('details:not([open])') && !el.closest('summary')) return false;
     return r.width > 1 && r.height > 1 && s.visibility !== 'hidden' && s.opacity !== '0' && r.bottom > 0 && !(s.clip === 'rect(0px, 0px, 0px, 0px)' || s.clipPath === 'inset(50%)');
   };
   const ecarts = [];
@@ -85,9 +89,22 @@ function mesurer(limites) {
       const hors = elements.filter((el) => { const r = el.getBoundingClientRect(); const c = (r.top + r.bottom) / 2; return Math.abs(c - centre) > Math.max(12, rl.height / 2); });
       if (hors.length) ecarts.push(`en-tête sur plusieurs lignes : ${hors.slice(0, 3).map((el) => `« ${(el.textContent || el.getAttribute('aria-label') || el.tagName).trim().slice(0, 30)} »`).join(', ')} hors de la ligne du logo`);
     }
+    // Menu : la page courante se marque par un soulignement ou la couleur, jamais par un fond (pastille).
+    const courant = [...entete.querySelectorAll('nav a[aria-current="page"]')].find(visible);
+    if (courant) {
+      const f = getComputedStyle(courant).backgroundColor;
+      if (f !== 'rgba(0, 0, 0, 0)' && f !== 'transparent') ecarts.push(`menu : page courante « ${courant.textContent.trim().slice(0, 30)} » marquée par un fond ; la souligner ou la mettre en couleur`);
+    }
+    // Langue : un nom de langue seul dans l'en-tête (« Brezhoneg ») ne se comprend pas ; bouton de langue explicite.
+    const langueSeule = [...entete.querySelectorAll('a[hreflang]')].filter(visible).find((el) => !el.closest('details'));
+    if (langueSeule) ecarts.push(`en-tête : lien de langue « ${langueSeule.textContent.trim().slice(0, 30)} » seul ; bouton de langue explicite (icône, langue affichée, liste des autres)`);
   }
   const taille = (el) => parseFloat(getComputedStyle(el).fontSize);
-  for (const h of [...document.querySelectorAll('main h1')].filter(visible)) if (taille(h) > limites.h1 + 0.5) ecarts.push(`h1 de ${taille(h).toFixed(1)} px (2,75 rem au plus)`);
+  // Le titre du haut de page (premier écran) peut être plus grand : c'est souvent le point focal de la page.
+  for (const h of [...document.querySelectorAll('main h1')].filter(visible)) {
+    const haut = h.getBoundingClientRect().top + scrollY < innerHeight;
+    if (taille(h) > (haut ? limites.h1Haut : limites.h1) + 0.5) ecarts.push(`h1 de ${taille(h).toFixed(1)} px (${haut ? '4 rem au plus dans le haut de page' : '2,75 rem au plus'})`);
+  }
   for (const h of [...document.querySelectorAll('main h2')].filter(visible)) if (taille(h) > limites.h2 + 0.5) { ecarts.push(`h2 « ${h.textContent.trim().slice(0, 40)} » de ${taille(h).toFixed(1)} px (2 rem au plus)`); break; }
   const paragraphes = [...document.querySelectorAll('main p')].filter(visible).filter((p) => p.textContent.trim().length > 40);
   const petits = paragraphes.filter((p) => taille(p) < limites.texteMin - 0.3);
@@ -99,6 +116,16 @@ function mesurer(limites) {
       const lh = parseFloat(getComputedStyle(h).lineHeight) || taille(h) * 1.2;
       const lignes = Math.round(h.getBoundingClientRect().height / lh);
       if (lignes > limites.lignes) { ecarts.push(`titre « ${h.textContent.trim().slice(0, 40)} » sur ${lignes} lignes`); break; }
+    }
+  }
+  // Air : sur grand écran, le contenu d'une grande section commence à 3 rem au moins de son bord haut.
+  if (innerWidth >= 1280) {
+    for (const sec of [...(document.querySelector('main')?.children ?? [])].filter((el) => visible(el) && el.getBoundingClientRect().height > 200)) {
+      const haut = sec.getBoundingClientRect().top;
+      const premiers = [...sec.querySelectorAll('h1, h2, h3, p, img, ul, ol')].filter(visible).map((el) => el.getBoundingClientRect().top - haut);
+      if (!premiers.length) continue;
+      const ecart = Math.min(...premiers);
+      if (ecart >= 0 && ecart < limites.airMin) { ecarts.push(`section « ${(sec.querySelector('h1, h2, h3')?.textContent ?? sec.className).trim().slice(0, 40)} » serrée : contenu à ${Math.round(ecart)} px du haut (3 rem au moins)`); break; }
     }
   }
   if (document.documentElement.scrollWidth > innerWidth + 1) ecarts.push(`défilement horizontal (${document.documentElement.scrollWidth} px pour ${innerWidth})`);
@@ -137,6 +164,39 @@ function lireContenu() {
   const hauteurHaut = haut && haut !== zone ? haut.getBoundingClientRect().height / innerHeight : null;
   const pied = [...document.querySelectorAll('footer a[href]')].map((a) => a.href);
   return { blocs, medias, hauteurHaut, pied };
+}
+
+/**
+ * Rythme (rule web-design, « Qualité visuelle ») : traitement de chaque grande section du contenu (fond et style du
+ * titre). Renvoie les suites de sections au même traitement, avec leur longueur.
+ */
+function rythme() {
+  const zone = document.querySelector('main') ?? document.body;
+  const sections = [...zone.children].filter((el) => el.getBoundingClientRect().height > 120 && getComputedStyle(el).display !== 'none');
+  // Fond réellement vu : une section transparente prend celui de son parent (blanc explicite et blanc hérité sont le même fond).
+  const fond = (el) => {
+    for (let n = el; n; n = n.parentElement) {
+      const s = getComputedStyle(n);
+      if (s.backgroundImage !== 'none') return n === el ? 'image' : 'image du parent';
+      if (s.backgroundColor !== 'rgba(0, 0, 0, 0)' && s.backgroundColor !== 'transparent') return s.backgroundColor;
+    }
+    return 'rgb(255, 255, 255)';
+  };
+  const titre = (el) => {
+    const h = el.querySelector('h2, h3');
+    if (!h) return 'sans titre';
+    const s = getComputedStyle(h);
+    const apres = getComputedStyle(h, '::after');
+    return [s.fontSize, s.color, s.textAlign, apres.content !== 'none' ? apres.backgroundColor : ''].join(' ');
+  };
+  const suites = [];
+  let suite = [];
+  for (const el of sections) {
+    const t = `${fond(el)} | ${titre(el)}`;
+    if (suite.length && suite[0].t === t) suite.push({ t, el }); else { if (suite.length > 1) suites.push(suite); suite = [{ t, el }]; }
+  }
+  if (suite.length > 1) suites.push(suite);
+  return suites.map((x) => ({ longueur: x.length, premier: (x[0].el.querySelector('h2, h3')?.textContent ?? '').trim().slice(0, 40), fond: x[0].t.split(' | ')[0] }));
 }
 
 /** Éléments fixes (hors en-tête) posés sur un contenu, en haut, au milieu et en bas de la page. */
@@ -184,7 +244,8 @@ try {
   const liste = await chemins(site.base);
   for (const chemin of liste) {
     for (const largeur of LARGEURS) {
-      const page = await navigateur.newPage({ viewport: { width: largeur, height: 900 } });
+      // Mouvement réduit : mesures et captures sur l'état final (apparitions au défilement, bandes défilantes figées).
+      const page = await navigateur.newPage({ viewport: { width: largeur, height: 900 }, reducedMotion: 'reduce' });
       const rep = await page.goto(site.base + chemin, { waitUntil: 'load' });
       if (!rep || rep.status() >= 400) {
         const prevue = rep?.status() === 404 && arborescence.some((p) => p.adresse === chemin);
@@ -209,6 +270,10 @@ try {
         const c = await page.evaluate(lireContenu);
         contenus[chemin] = c;
         for (const m of c.medias) ecarts.push(`${chemin} : ${m} (une page ne se présente pas avec un bloc prévu vide, skill web-contenu)`);
+        for (const r of await page.evaluate(rythme)) {
+          const texte = `${chemin} : ${r.longueur} sections de suite au même traitement (fond ${r.fond}, même style de titre), à partir de « ${r.premier} » ; varier le fond, la disposition ou le point focal (rule web-design, « Qualité visuelle »)`;
+          if (r.longueur >= 4) ecarts.push(texte); else if (r.longueur === 3) avertissements.push(texte);
+        }
         if (credit?.lien?.url && !c.pied.some((h) => h.replace(/\/$/, '') === credit.lien.url.replace(/\/$/, ''))) ecarts.push(`${chemin} : pied de page sans le lien de crédit vers ${credit.lien.url} (.claude/kouzia.json)`);
       }
       if (largeur === 1280) captures[chemin] = await page.screenshot({ fullPage: true, type: 'jpeg', quality: 70 });
@@ -263,7 +328,7 @@ if (existsSync(inventaire)) {
     const html = path.join(dossier, `${nom}.html`);
     writeFileSync(html, `<!DOCTYPE html><html lang="fr"><meta charset="utf-8"><style>body{margin:0;display:grid;grid-template-columns:1fr 1fr;gap:16px;padding:16px;background:#777;font:16px sans-serif;color:#fff}img{width:100%;display:block;background:#fff}</style>
 <div><p>Site actuel : ${ancien}</p><img src="${pathToFileURL(path.join(path.dirname(inventaire), p.capture)).href}" alt=""></div><div><p>Nouveau site : ${chemin}</p><img src="${nom}-nouveau.jpg" alt=""></div></html>`);
-    const page = await navigateur2.newPage({ viewport: { width: 1500, height: 900 } });
+    const page = await navigateur2.newPage({ viewport: { width: 1500, height: 900 }, reducedMotion: 'reduce' });
     await page.goto(pathToFileURL(html).href, { waitUntil: 'load' });
     const hauteur = Math.min(await page.evaluate(() => document.documentElement.scrollHeight), 4000);
     await page.screenshot({ path: path.join(dossier, `${nom}.png`), clip: { x: 0, y: 0, width: 1500, height: hauteur } });
@@ -274,6 +339,18 @@ if (existsSync(inventaire)) {
   if (faites.length) console.log(`Comparaison avec le site actuel, à regarder (univers du client repris ?) :\n  ${faites.join('\n  ')}`);
 }
 await navigateur.close();
+
+// Revue visuelle (skill web-direction, « Revue visuelle ») : chaque page construite de l'arborescence a un avis écrit par un
+// relecteur indépendant, face à la page remplacée et aux références. « à reprendre » bloque ; absente : à faire, exigée en recette.
+const sansRevue = [];
+for (const p of arborescence) {
+  if (!captures[p.adresse] || /\/admin/.test(p.adresse)) continue;
+  const fichier = path.join(RACINE, 'docs/maquettes/revues', `${slugAdresse(p.adresse)}.md`);
+  if (!existsSync(fichier)) { sansRevue.push(p.adresse); continue; }
+  const verdict = (readFileSync(fichier, 'utf8').match(/^Verdict\s*:\s*(.+)$/im)?.[1] ?? '').trim();
+  if (!/^meilleure/i.test(verdict)) ecarts.push(`${p.adresse} : revue visuelle « ${verdict || 'sans verdict'} » (docs/maquettes/revues/${slugAdresse(p.adresse)}.md) ; reprendre la page puis refaire la revue`);
+}
+if (sansRevue.length) (recette ? ecarts : avertissements).push(`revue visuelle absente : ${sansRevue.join(', ')} (skill web-direction, « Revue visuelle »)`);
 
 for (const a of avertissements) console.log(`Avertissement : ${a}`);
 if (aConstruire.length) console.log(`À construire (pages de l'arborescence encore en 404, exigées en recette, RECETTE=1) : ${aConstruire.join(', ')}`);

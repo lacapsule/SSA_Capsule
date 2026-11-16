@@ -5,7 +5,7 @@
 //                             arborescence et type du mode d'emploi, audit
 //   03-wireframes          ← section « Arborescence » du mode d'emploi et docs/maquettes/<page>.md
 //   04-direction-artistique ← branding de l'audit, champ « metier » du mode d'emploi, donnees/directions.json,
-//                             puis chaque piste sur les vraies pages du site intégré (maquettes)
+//                             puis la maquette composée de chaque piste (docs/maquettes/pistes/, skill web-direction)
 // Usage : node generer.mjs [id…]            génère les livrables dont la source existe
 //         node generer.mjs --valider <id> "<qui>" [piste]   enregistre la validation (sur instruction de l'humain) ;
 //                                                   04 : numéro de la piste choisie obligatoire
@@ -16,7 +16,7 @@ import path from 'node:path';
 import { DOSSIER_LIVRABLES, echapper, ecrireLivrable, lancerNavigateur, lireRegistre, markdown, poserCommun, RACINE, valider } from '../lib/document.mjs';
 import { adresseSeule, NOTES_AGENT, slugAdresse, wireframes } from '../lib/wireframes.mjs';
 import { directionArtistique } from '../lib/direction.mjs';
-import { pistesSurPages } from '../lib/maquettes.mjs';
+import { maquettesComposees } from '../lib/maquettes.mjs';
 import { DOSSIER_POLICES } from '../lib/polices.mjs';
 
 const DOSSIER_PISTES = path.join(DOSSIER_LIVRABLES, '04-direction-artistique/pistes');
@@ -31,7 +31,7 @@ if (args[0] === '--valider') {
     extra.piste = Number(args[3]);
   }
   const e = valider(args[1], args[2], extra);
-  if (extra.piste) console.log(`Piste ${extra.piste} retenue : make appliquer la pose dans le site.`);
+  if (extra.piste) console.log(`Piste ${extra.piste} retenue : make appliquer pose ses tokens ; l'intégration reproduit sa maquette composée (docs/maquettes/pistes/${dossierPiste(extra.piste)}/).`);
   console.log(`${args[1]} : version ${e.version} validée le ${e.validation.date} par ${e.validation.par}. Le noter dans « Décisions validées » du mode d'emploi.`);
   process.exit(0);
 }
@@ -409,8 +409,8 @@ if (veut('04-direction-artistique') && mode && (inv || demandes.length)) {
     inventaire: inv, mode, arborescence: lireArborescence(mode), metier: mode.metier, type: mode.type, maquetteAccueil,
     dossier: path.join(DOSSIER_LIVRABLES, '04-direction-artistique'), navigateur,
   });
-  // Maquettes : les mêmes pistes sur les vraies pages du site intégré.
-  const surPages = await pistesSurPages({ pistes: da.pistes.map((p) => ({ ...p, dossier: path.dirname(path.join(RACINE, p.tokens)) })), arborescence: lireArborescence(mode), navigateur });
+  // Maquettes composées : chaque piste est une composition des pages, conçue avant l'intégration (skill web-direction).
+  const surPages = await maquettesComposees({ pistes: da.pistes.map((p) => ({ ...p, dossier: path.dirname(path.join(RACINE, p.tokens)) })), navigateur });
   const corps = da.corps.replace('<h2>Ce que le client valide</h2>', surPages.corps + '<h2>Ce que le client valide</h2>');
   const avertissements = [...da.avertissements, ...surPages.avertissements];
   const sourcesRendues = da.sourcesRendues + surPages.sourcesRendues;
@@ -420,10 +420,10 @@ if (veut('04-direction-artistique') && mode && (inv || demandes.length)) {
   if (!inv) avertissements.push("Pas d'audit du site actuel : couleurs, logo et polices du client inconnus (make audit URL=…, ou fichiers dans docs/source/fournis/).");
   faits.push(await ecrireLivrable({
     id: '04-direction-artistique', titre: 'Direction artistique et maquettes', client: nomClient(mode, inv),
-    sousTitre: "Trois directions possibles pour l'apparence du site, construites depuis la marque actuelle et le métier, toutes conformes en contraste, puis montrées sur les vraies pages du nouveau site.",
+    sousTitre: "Trois directions possibles pour l'apparence du site, construites depuis la marque actuelle et le métier, toutes conformes en contraste : chacune compose vos pages à sa façon, avec vos vrais contenus.",
     corps, sourcesRendues, brouillon: avertissements.length > 0, avertissements,
     // Ce que le client valide : les pistes, définies par la marque relevée, le métier et le type (pas le contenu des pages, qui avance).
-    sources: JSON.stringify({ identite: inv?.identite ? { couleurs: inv.identite.couleurs, couleursLogo: inv.identite.couleursLogo, polices: inv.identite.polices, univers: (inv.identite.univers ?? []).map((u) => u.description) } : null, metier: mode.metier, type: mode.type, pistes: da.pistes.map((p) => (existsSync(path.join(RACINE, p.tokens)) ? readFileSync(path.join(RACINE, p.tokens), 'utf8') : '')) }),
+    sources: JSON.stringify({ identite: inv?.identite ? { couleurs: inv.identite.couleurs, couleursLogo: inv.identite.couleursLogo, polices: inv.identite.polices, univers: (inv.identite.univers ?? []).map((u) => u.description) } : null, metier: mode.metier, type: mode.type, pistes: da.pistes.map((p) => (existsSync(path.join(RACINE, p.tokens)) ? readFileSync(path.join(RACINE, p.tokens), 'utf8') : '')), maquettes: surPages.sourcesRendues }),
   }));
 }
 for (const f of faits) console.log(`${f.titre} : version ${f.version} (${f.statut}) · ${f.html} · ${f.pdf}`);

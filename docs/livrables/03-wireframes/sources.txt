@@ -121,8 +121,8 @@ Action principale : savoir qui édite et héberge le site
 2. Fil d'Ariane : Accueil, puis la page
 3. Haut de page : titre Mentions légales, centré
 4. Éditeur : ULAMIR-CPIE (nom légal, SIRET et siège à confirmer par Géraldine Gabillet), directrice de la publication Géraldine Gabillet
-5. Hébergeur : La Capsule, centre AFPA de Morlaix, 39 Bellevue de la Madeleine, 29600 Morlaix, 07 86 44 77 52 ; bloc de texte
-6. Crédits et propriété : contenus, photos et logos ; bloc de texte
+5. Hébergeur : La Capsule, centre AFPA de Morlaix, 39 Bellevue de la Madeleine, 29600 Morlaix, 07 86 44 77 52 (rubrique Hébergeur)
+6. Crédits et propriété : contenus, photos et logos (rubrique Crédits)
 7. Pied de page : colonnes (Coordonnées, Pages légales, Langue) ; Le Buzuk, 39 bellevue de la Madeleine, 29600 Morlaix, 06 15 06 82 08, ssapaysdemorlaix@mailo.com ; Mentions légales, Confidentialité, Accessibilité, Plan du site ; lien Brezhoneg
 Liens entrants : pied de page  ·  liens sortants : Confidentialité, Accessibilité
 Page : Confidentialité  ·  URL : /confidentialite/  ·  public : tous  ·  intention : sans objet
@@ -131,7 +131,7 @@ Action principale : savoir ce que devient un message envoyé par le formulaire
 2. Fil d'Ariane : Accueil, puis la page
 3. Haut de page : titre Politique de confidentialité, centré
 4. Données collectées : formulaire de contact seulement, message envoyé par e-mail et non conservé sur le site ; finalité, base légale, destinataire, durée, droits et contact
-5. Traceurs : aucun traceur ni mesure d'audience tierce ; bloc de texte
+5. Traceurs : aucun traceur ni mesure d'audience tierce (rubrique Traceurs)
 6. Pied de page : colonnes (Coordonnées, Pages légales, Langue) ; Le Buzuk, 39 bellevue de la Madeleine, 29600 Morlaix, 06 15 06 82 08, ssapaysdemorlaix@mailo.com ; Mentions légales, Confidentialité, Accessibilité, Plan du site ; lien Brezhoneg
 Liens entrants : pied de page, formulaire de contact  ·  liens sortants : Contact, Mentions légales
 Page : Accessibilité  ·  URL : /accessibilite/  ·  public : tous  ·  intention : sans objet
@@ -140,7 +140,7 @@ Action principale : connaître le niveau d'accessibilité prouvé et signaler un
 2. Fil d'Ariane : Accueil, puis la page
 3. Haut de page : titre Accessibilité, centré
 4. Niveau atteint : référentiel WCAG 2.2, niveau prouvé par le dernier audit, date et méthode de l'audit, limites connues (dont le breton traduit automatiquement)
-5. Signaler un problème : lien vers le formulaire de contact et ssapaysdemorlaix@mailo.com ; bloc de texte
+5. Signaler un problème : lien vers le formulaire de contact et ssapaysdemorlaix@mailo.com (rubrique Retour d'information et recours)
 6. Pied de page : colonnes (Coordonnées, Pages légales, Langue) ; Le Buzuk, 39 bellevue de la Madeleine, 29600 Morlaix, 06 15 06 82 08, ssapaysdemorlaix@mailo.com ; Mentions légales, Confidentialité, Accessibilité, Plan du site ; lien Brezhoneg
 Liens entrants : pied de page  ·  liens sortants : Contact
 Page : Plan du site  ·  URL : /plan-du-site/  ·  public : tous  ·  intention : sans objet
@@ -148,7 +148,7 @@ Action principale : trouver une page
 1. En-tête : logo, menu (Accueil, Le projet, Qui sommes-nous, Lieux conventionnés, Actualités, Agenda, Galerie, Contact), lien « Brezhoneg » vers la version bretonne
 2. Fil d'Ariane : Accueil, puis la page
 3. Haut de page : titre Plan du site, centré
-4. Liste des pages : toutes les pages publiques, avec les articles et les événements sous leur rubrique ; bloc de texte
+4. Liste des pages : toutes les pages publiques, avec les articles et les événements sous leur rubrique
 5. Pied de page : colonnes (Coordonnées, Pages légales, Langue) ; Le Buzuk, 39 bellevue de la Madeleine, 29600 Morlaix, 06 15 06 82 08, ssapaysdemorlaix@mailo.com ; Mentions légales, Confidentialité, Accessibilité, Plan du site ; lien Brezhoneg
 Liens entrants : pied de page, page d'erreur  ·  liens sortants : toutes les pages
 Page : Administration  ·  URL : /admin/  ·  public : Géraldine Gabillet  ·  intention : sans objet

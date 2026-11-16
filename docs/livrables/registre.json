@@ -33,12 +33,12 @@
     },
     "03-wireframes": {
       "titre": "Wireframes",
-      "version": 10,
-      "date": "2026-11-13",
-      "empreinte": "93d11820d4deb3a3",
-      "empreinteSource": "2d2427cdd0a3fd3e",
+      "version": 12,
+      "date": "2026-11-16",
+      "empreinte": "34106a0b96ea39c9",
+      "empreinteSource": "6e381ea7886fe73f",
       "calculSource": 2,
-      "statut": "brouillon",
+      "statut": "validé",
       "historique": [
         {
           "titre": "Wireframes",
@@ -55,16 +55,29 @@
           "calculSource": 2,
           "miseEnForme": "2026-11-13"
         }
-      ]
+      ],
+      "validation": {
+        "par": "Géraldine Gabillet, accord oral transmis par Kouzia le 2026-11-16",
+        "date": "2026-11-16",
+        "version": 12
+      },
+      "miseEnForme": "2026-11-16"
     },
     "04-direction-artistique": {
       "titre": "Direction artistique et maquettes",
-      "version": 7,
-      "date": "2026-11-13",
-      "empreinte": "496fb193761145de",
-      "empreinteSource": "754f314a222e2e00",
+      "version": 14,
+      "date": "2026-11-16",
+      "empreinte": "91a276676ab05e49",
+      "empreinteSource": "105fb986573f3e82",
       "calculSource": 2,
-      "statut": "brouillon"
+      "statut": "validé",
+      "miseEnForme": "2026-11-16",
+      "validation": {
+        "par": "Géraldine Gabillet, accord oral transmis par Kouzia le 2026-11-16",
+        "date": "2026-11-16",
+        "version": 14,
+        "piste": 2
+      }
     }
   }
 }

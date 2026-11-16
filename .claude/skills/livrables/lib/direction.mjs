@@ -134,8 +134,8 @@ export async function directionArtistique({ inventaire, mode, arborescence, meti
 
   const pistes = [
     { numero: 1, cle: 'fidele', nom: 'Fidèle', principe: "Les couleurs et les polices du site actuel, gardées et rendues conformes : en-tête dans la couleur de la marque, le client reconnaît son site, qui gagne en lisibilité.", primaire: marque.primaire, accent: marque.action ?? marque.accent, secondaire: marque.secondaire, fond: marque.fondActuel, titres: fideleTitres, texte: fideleTexte, rayon: dir.rayon, style: 'entete-marque' },
-    { numero: 2, cle: 'modernisee', nom: 'Modernisée', principe: `Les mêmes teintes, utilisées avec retenue sur un fond clair et neutre, une typographie actuelle adaptée au métier (${dir.libelle.toLowerCase()}) et plus d'espace.`, primaire: marque.primaire, accent: marque.accent, secondaire: marque.secondaire, fond: null, titres: await police(...dir.modernisee.titres, notes), texte: await police(...dir.modernisee.texte, notes), rayon: dir.rayon, style: 'aere' },
-    { numero: 3, cle: 'contrastee', nom: 'Contrastée', principe: "Un parti pris plus marqué : la couleur de marque en grand dans l'en-tête et le haut de page, une typographie à plus fort caractère, des angles plus nets.", primaire: marque.primaire, accent: marque.accent, secondaire: marque.secondaire, fond: null, titres: await police(...dir.contrastee.titres, notes), texte: await police(...dir.contrastee.texte, notes), rayon: Math.max(0.125, dir.rayon / 2), style: 'marque-en-grand' },
+    { numero: 2, cle: 'modernisee', nom: 'Modernisée', principe: `Les mêmes teintes, utilisées avec retenue sur un fond clair et neutre, une typographie actuelle adaptée au métier (${dir.libelle.toLowerCase()}) et plus d'espace.`, primaire: marque.primaire, accent: marque.action ?? marque.accent, secondaire: marque.secondaire, fond: null, titres: await police(...dir.modernisee.titres, notes), texte: await police(...dir.modernisee.texte, notes), rayon: dir.rayon, style: 'aere' },
+    { numero: 3, cle: 'contrastee', nom: 'Contrastée', principe: "Un parti pris plus marqué : la couleur de marque en grand dans l'en-tête et le haut de page, une typographie à plus fort caractère, des angles plus nets.", primaire: marque.primaire, accent: marque.action ?? marque.accent, secondaire: marque.secondaire, fond: null, titres: await police(...dir.contrastee.titres, notes), texte: await police(...dir.contrastee.texte, notes), rayon: Math.max(0.125, dir.rayon / 2), style: 'marque-en-grand' },
   ].filter((p) => p.titres && p.texte);
   // Outil interne : le design d'administration de référence est la coquille de la boîte (gabarits/admin-coquille) ;
   // seule une piste, qui en reprend le logo et la couleur d'accent du client.
@@ -166,7 +166,7 @@ export async function directionArtistique({ inventaire, mode, arborescence, meti
   const page = await navigateur.newPage({ viewport: { width: 1280, height: 900 } });
   let corps = type === 'outil-interne' ? `<h2>Apparence de l'outil</h2>
 <p>L'outil reprend la présentation d'administration de référence, avec le logo et la couleur d'accent du client, vérifiés en contraste dans les deux thèmes.</p>` : `<h2>Choisir une direction</h2>
-<p>Voici trois directions possibles pour l'apparence du nouveau site. Toutes reprennent la structure validée dans les wireframes et respectent les contrastes exigés pour l'accessibilité, en thème clair comme en thème sombre. Le client en choisit une ; elle peut être ajustée (une couleur, une police) avant la validation.</p>
+<p>Voici trois directions possibles pour l'apparence du nouveau site. Toutes reprennent le contenu et l'ordre des pages validés dans les wireframes, mais chacune les compose à sa façon (photos, illustrations, rythme des sections, titres) et respecte les contrastes exigés pour l'accessibilité, en thème clair comme en thème sombre. Le client en choisit une ; elle peut être ajustée (une couleur, une police, une section) avant la validation.</p>
 <h2>Point de départ</h2>
 <table><tbody>
 <tr><th scope="row">Métier</th><td>${echapper(dir.libelle)}</td></tr>
@@ -174,7 +174,8 @@ export async function directionArtistique({ inventaire, mode, arborescence, meti
 <tr><th scope="row">Couleur de marque relevée</th><td>${marque.primaire ? `<code>${marque.primaire}</code>` : 'aucune'}${marque.accent && marque.accent !== marque.primaire ? `, accent <code>${marque.accent}</code> (contraste sur blanc ${ratio(contraste(marque.accent, '#ffffff'))}:1${contraste(marque.accent, '#ffffff') < 4.5 ? ', insuffisant pour du texte : décliné plus foncé dans les pistes' : ''})` : ''}</td></tr>
 <tr><th scope="row">Polices relevées</th><td>${echapper([...new Set([releveTitres, releveTexte].filter(Boolean))].join(', ') || 'aucune')}</td></tr>
 <tr><th scope="row">Photos</th><td>${echapper(dir.photos)}</td></tr>
-<tr><th scope="row">À éviter</th><td>${echapper(dir.eviter.join(' ; '))}</td></tr>
+${dir.composition ? `<tr><th scope="row">Composition</th><td>${echapper(dir.composition)}</td></tr>
+` : ''}<tr><th scope="row">À éviter</th><td>${echapper(dir.eviter.join(' ; '))}</td></tr>
 </tbody></table>
 ${(id.univers ?? []).length ? `<h2>Univers</h2>
 <p>Ce qui fait reconnaître le client, relevé sur son site actuel. La direction fidèle reprend chacun de ces signes ; les deux autres les réinterprètent (même idée, forme renouvelée). Les briques de la boîte à outils sont adaptées à cet univers, jamais montrées telles quelles.</p>
@@ -218,7 +219,7 @@ ${(id.univers ?? []).length ? `<h2>Univers</h2>
   await page.close();
   for (const n of [...new Set(notes)]) avert.push(n);
   corps += `<h2>Ce que le client valide</h2>
-<p>Le numéro de la piste retenue, choisie en voyant ses propres pages, et les ajustements éventuels (une couleur, une police, les arrondis). C'est la validation 3 : ensuite, l'apparence du site ne change plus sans nouvel accord.</p>`;
+<p>Le numéro de la direction retenue, choisie sur les maquettes de ses propres pages, et les ajustements éventuels (une couleur, une police, une section). C'est la validation 3 : le site est ensuite construit d'après cette maquette, et son apparence ne change plus sans nouvel accord.</p>`;
   return { corps, avertissements: avert, sourcesRendues, pistes: pistes.map((p) => ({ numero: p.numero, nom: p.nom, tokens: path.relative(process.cwd(), path.join(dossier, 'pistes', `${p.numero}-${p.cle}`, 'tokens.css')) })) };
 }
 

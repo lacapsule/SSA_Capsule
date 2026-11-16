@@ -244,6 +244,8 @@ export async function ecrireLivrable(doc) {
   } else if (doc.brouillon && !['brouillon', 'validé'].includes(entree.statut)) {
     entree.statut = 'brouillon';
   }
+  // Brouillon levé sans changement de contenu (ex. validation 2 arrivée après le 04) : le livrable devient validable.
+  if (entree.statut === 'brouillon' && !doc.brouillon && !doc.constat) entree.statut = 'à valider';
   r.livrables[doc.id] = entree;
   ecrireRegistre(r);
   doc = { ...doc, avertissements };

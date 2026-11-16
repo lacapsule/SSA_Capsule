@@ -34,6 +34,7 @@
   cursor: pointer;
 }
 .langues__bouton::-webkit-details-marker { display: none; }
+.langues__code { font-weight: 700; letter-spacing: var(--etiquette-espacement); }
 .langues__bouton:hover { border-color: var(--color-text-muted); }
 .langues__bouton:focus-visible { outline: var(--focus-largeur) solid var(--color-focus); outline-offset: var(--focus-ecart); }
 .langues__chevron { flex: none; width: 1em; height: 1em; transition: transform var(--duration-fast) var(--ease); }

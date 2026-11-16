@@ -1,11 +1,24 @@
-/* Charte du client, piste 1 « Fidèle » tirée de la marque actuelle, provisoire jusqu'à la validation 3, posée par make charte le 2026-11-13.
+/* Charte du client, piste 2 du livrable 04, validée le 2026-11-16 (Géraldine Gabillet, accord oral transmis par Kouzia le 2026-11-16), posée par make appliquer.
    Ne pas modifier : changer la piste ou ses sources, puis make charte (avant la validation 3) ou make appliquer (après). */
-/* Piste 1 « Fidèle » (livrable 04, direction artistique) : généré, à poser tel quel comme N0.
-   Contrastes vérifiés (texte 4,5:1, contrôles 3:1) dans les deux thèmes. Polices : Segoe UI (police du système, aucun fichier), Segoe UI (police du système, aucun fichier). */
-
+/* Piste 2 « Modernisée » (livrable 04, direction artistique) : généré, à poser tel quel comme N0.
+   Contrastes vérifiés (texte 4,5:1, contrôles 3:1) dans les deux thèmes. Polices : Outfit (SIL Open Font License 1.1 (Google Fonts)), Source Sans 3 (SIL Open Font License 1.1 (Google Fonts)). */
+@font-face {
+  font-family: "Outfit";
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url("/assets/polices/outfit/outfit-400-700-latin.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Source Sans 3";
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url("/assets/polices/source-sans-3/source-sans-3-400-700-latin.woff2") format("woff2");
+}
 
 :root {
-  --color-bg: #ffffff;
+  --color-bg: #f8fafe;
   --color-surface: #ffffff;
   --color-surface-2: #ecf0f7;
   --color-text: #151b24;
@@ -13,7 +26,7 @@
   --color-line: #d9dee6;
   --color-line-strong: #b8bec8;
   --color-border: #747b87;
-  --color-accent: #007d33;
+  --color-accent: #007d34;
   --color-accent-strong: #006327;
   --color-accent-soft: #ebf5ef;
   --color-accent-text: #ffffff;
@@ -27,14 +40,14 @@
   --color-success: #007835;
   --color-warning: #8a5600;
   --color-info: #2a5fb7;
-  --color-entete-fond: #364a6b;
-  --color-entete-texte: #ffffff;
-  --color-heros-fond: #ffffff;
+  --color-entete-fond: #f8fafe;
+  --color-entete-texte: #151b24;
+  --color-heros-fond: #ebf5ef;
   --color-heros-texte: #151b24;
-  --color-entete-accent: #53d273;
-  --color-heros-accent: #008738;
-  --font-titres: "Segoe UI", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-  --font-ui: "Segoe UI", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --color-entete-accent: #008437;
+  --color-heros-accent: #007f34;
+  --font-titres: "Outfit", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-ui: "Source Sans 3", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   --radius: 0.75rem;
   --radius-small: 0.375rem;
   --radius-grand: 1.125rem;
@@ -74,11 +87,11 @@
     --color-success: #67d283;
     --color-warning: #f4a437;
     --color-info: #8db8ff;
-    --color-entete-fond: #364a6b;
-    --color-entete-texte: #ffffff;
-    --color-heros-fond: #121923;
+    --color-entete-fond: #0a1018;
+    --color-entete-texte: #ebeff5;
+    --color-heros-fond: #182e2b;
     --color-heros-texte: #ebeff5;
-    --color-entete-accent: #53d273;
+    --color-entete-accent: #43c466;
     --color-heros-accent: #43c466;
     color-scheme: dark;
   }
@@ -107,11 +120,11 @@
   --color-success: #67d283;
   --color-warning: #f4a437;
   --color-info: #8db8ff;
-  --color-entete-fond: #364a6b;
-  --color-entete-texte: #ffffff;
-  --color-heros-fond: #121923;
+  --color-entete-fond: #0a1018;
+  --color-entete-texte: #ebeff5;
+  --color-heros-fond: #182e2b;
   --color-heros-texte: #ebeff5;
-  --color-entete-accent: #53d273;
+  --color-entete-accent: #43c466;
   --color-heros-accent: #43c466;
   color-scheme: dark;
 }

@@ -171,7 +171,7 @@ export function jeuCouleurs({ primaire, accent, fond, secondaire = null, sombre 
   t['--color-success'] = statut(150);
   t['--color-warning'] = statut(70);
   t['--color-info'] = statut(260);
-  // Rôles de zone : ce qui distingue les pistes sur les vraies pages (en-tête et haut de page), en tokens.
+  // Rôles de zone : couleurs propres à l'en-tête et au haut de page de chaque piste, en tokens (la composition est dans les maquettes).
   const zones = {
     neutre: ['--color-surface', '--color-text', '--color-surface', '--color-text'],
     'entete-marque': ['--color-marque', '--color-marque-texte', '--color-surface', '--color-text'],

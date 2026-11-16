@@ -57,6 +57,14 @@ return [
         '/accessibilite/' => 'pied.accessibilite',
         '/plan-du-site/' => 'pied.plan_du_site',
     ],
+    // Photos de la galerie choisies pour l'accueil (maquette de la piste 2, livrable 04) et logos des structures
+    // porteuses, dans l'ordre des structures de config/contenus.php. Un fichier absent est sauté.
+    'accueil' => [
+        'mosaique' => ['/media/galerie/20251124_144033_lot001.webp', '/media/galerie/20251124_144057_lot002.webp', '/media/galerie/20251124_144106_lot002.webp'],
+        // Bande défilante : vignettes 400 × 500 tirées de la galerie (public/assets/img/bande/, 13 Ko en moyenne).
+        'bande' => ['/assets/img/bande/photo-65.webp', '/assets/img/bande/photo-87.webp', '/assets/img/bande/photo-117.webp', '/assets/img/bande/photo-81.webp', '/assets/img/bande/photo-66.webp', '/assets/img/bande/photo-8.webp', '/assets/img/bande/photo-83.webp', '/assets/img/bande/photo-82.webp', '/assets/img/bande/photo-107.webp', '/assets/img/bande/photo-84.webp', '/assets/img/bande/photo-119.webp', '/assets/img/bande/photo-74.webp', '/assets/img/bande/photo-58.webp', '/assets/img/bande/photo-20.webp'],
+        'logos_structures' => ['/media/partenaires/20251211-083116-1.webp', '/media/partenaires/resam.webp', '/media/partenaires/buzuk.webp', '/media/partenaires/ess.webp'],
+    ],
     // N'y ajouter une page qu'une fois sa route en place : sitemap.xml ne doit annoncer aucune adresse en 404.
     'pages' => [
         '/' => ['titre' => 'Accueil', 'description' => ''],

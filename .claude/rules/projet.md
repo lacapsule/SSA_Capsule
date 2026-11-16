@@ -99,6 +99,9 @@ Chaque page française a sa version bretonne, à la même adresse précédée de
 | 2026-11-13 | Wireframes version 6 validés par Géraldine Gabillet (validation 2, accord oral transmis par Kouzia) : structure des 15 pages figée | validation 2 du cycle |
 | 2026-11-13 | Accords reportés sur le cahier des charges version 12 et les wireframes version 9, régénérés après une correction du kit : mise en forme seule, contenu inchangé | décision de Kouzia |
 | 2026-11-13 | Contenus importés depuis les pages publiques du site actuel (articles, événements affichés, galerie, logos) ; les événements passés qui ne sont plus affichés ne sont pas repris | la base locale de l'ancien site n'est pas celle de production (données de test, 4 articles manquants) ; aucune donnée personnelle manipulée |
+| 2026-11-16 | Wireframes version 12 validés par Géraldine Gabillet (validation 2, accord oral transmis par Kouzia) | structure inchangée depuis la version 9 ; fiches de conception complétées (existant, références, choix par zone) |
+| 2026-11-16 | Direction artistique version 14 validée par Géraldine Gabillet et Kouzia (validation 3) : piste 2 « modernisée », composition éditoriale centrée sur les photos de La Collective ; charte posée dans le site | maquettes composées jugées meilleures que le site actuel en revue indépendante |
+| 2026-11-16 | Animations : apparition des éléments au défilement (CSS et un court script, coupée en mouvement réduit) ; bande de photos de la galerie qui défile en continu sur l'accueil, avec bouton Pause, arrêt au survol et bande fixe en mouvement réduit | demande de Kouzia ; exception écrite à la règle du kit sur les boucles décoratives, conditions d'accessibilité (WCAG 2.2.2) respectées |
 
 ## Modèle à respecter
 
@@ -133,8 +136,8 @@ Chaque page française a sa version bretonne, à la même adresse précédée de
 | 3 | Cahier des charges | livrable 02 | validation 1 par Géraldine Gabillet | validé |
 | 4 | Mise en place technique | base du site | contrôles techniques au vert | fait |
 | 5 | Structure des pages | wireframes, livrable 03 | validation 2 | validé |
-| 6 | Construction : pages, import des contenus, administration, traduction bretonne | site complet en test | contrôles techniques au vert | en cours |
-| 7 | Direction artistique : 3 pistes montrées sur les vraies pages | livrable 04 | validation 3 : choix d'une piste | à faire |
+| 6 | Construction : pages, import des contenus, administration, traduction bretonne | site complet en test | contrôles techniques au vert | en cours : fonctions serveur gardées ; mise en page des pages publiques reprise d'après la maquette de la piste 2 (`docs/maquettes/pistes/2-modernisee/`) |
+| 7 | Direction artistique (skill `web-direction`) : concept, 3 maquettes composées de l'accueil et d'une page intérieure, revue visuelle | livrable 04 | validation 3 : choix d'une piste | validé le 2026-11-16 (piste 2) |
 | 8 | Finitions et audits (référencement, accessibilité, sécurité, poids des pages) | rapports d'audit | contrôles au vert | à faire |
 | 9 | Recette | procès-verbal de recette | validation 4 signée | à faire |
 | 10 | Livraison | paquet d'installation, consignes, dossier de livraison | site en ligne contrôlé | à faire |

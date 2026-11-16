@@ -1,0 +1,116 @@
+/* Maquette composée, piste 1 « fidèle » : composition de l'ancien site, défauts corrigés. Couleurs, polices et arrondis : tokens de la piste. */
+:root {
+  --blanc: var(--color-marque-texte);
+  --voile: color-mix(in oklab, var(--color-text) 55%, transparent);
+  --voile-leger: color-mix(in oklab, var(--color-text) 15%, transparent);
+  --ombre: 0 0.4rem 1.25rem color-mix(in oklab, var(--color-text) 10%, transparent);
+  --teinte: color-mix(in oklab, var(--color-marque-2) 22%, var(--color-bg));
+  --teinte-legere: color-mix(in oklab, var(--color-marque-2) 12%, var(--color-bg));
+}
+*, *::before, *::after { box-sizing: border-box; }
+body { margin: 0; font: 400 1.0625rem/1.6 var(--font-ui); color: var(--color-text); background: var(--color-bg); }
+img { display: block; max-width: 100%; }
+h1, h2, h3 { margin: 0; font-family: var(--font-titres); line-height: 1.15; }
+p { margin: 0; }
+a { color: inherit; }
+.contenu { width: min(72rem, 100% - 2.5rem); margin-inline: auto; }
+
+.entete { color: var(--color-entete-texte); background: var(--color-entete-fond); }
+.entete .contenu { display: flex; align-items: center; gap: 1.5rem; min-height: 4.25rem; }
+.entete img { width: 2.75rem; height: auto; }
+.entete nav { display: flex; flex-wrap: wrap; gap: 1.25rem; margin-inline-start: auto; font-weight: 600; font-size: 0.95rem; }
+.entete nav a { text-decoration: none; }
+.entete .langue { padding: 0.3rem 0.75rem; border: 1px solid currentColor; border-radius: var(--radius-pill); font-size: 0.875rem; text-decoration: none; }
+
+.bouton { display: inline-block; padding: 0.8rem 1.4rem; border-radius: var(--radius); font-weight: 700; text-decoration: none; color: var(--color-accent-text); background: var(--color-accent); box-shadow: var(--ombre); }
+.bouton--clair { color: var(--color-text); background: var(--color-surface); }
+
+.heros { position: relative; display: grid; place-items: center; min-height: 78vh; padding: 4rem 1.25rem; text-align: center; color: var(--blanc); background: center 35% / cover url("../../../../public/assets/img/bandeau-projet.webp"); }
+.heros::before { position: absolute; inset: 0; content: ""; background: radial-gradient(ellipse at center, var(--voile), var(--voile-leger) 70%); }
+.heros > div { position: relative; max-width: 60rem; }
+.heros h1 { font-size: clamp(2.2rem, 4.5vw, 3.6rem); text-shadow: 0 0.15rem 0.6rem var(--voile); }
+.heros p { margin-block: 1rem 2rem; font-size: 1.25rem; text-shadow: 0 0.1rem 0.4rem var(--voile); }
+.heros .actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.75rem; }
+
+.titre { margin-bottom: 2rem; font-size: clamp(1.6rem, 2.6vw, 2rem); }
+.titre::after { display: block; width: 2.5rem; height: 0.2rem; margin-top: 0.6rem; content: ""; background: var(--color-accent); }
+
+.rdv { padding-block: 3rem; background: var(--teinte); }
+.rdv .contenu { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 2rem; }
+.rdv .date { display: grid; place-items: center; align-content: center; width: 8rem; aspect-ratio: 1; border-radius: var(--radius-grand); font-family: var(--font-titres); font-weight: 800; line-height: 1; color: var(--color-marque-2-texte); background: var(--color-marque-2); }
+.rdv .date strong { font-size: 3.5rem; }
+.rdv .date span { font-size: 1.1rem; text-transform: uppercase; }
+.sur-titre { font-weight: 700; color: var(--color-text-muted); text-transform: uppercase; font-size: 0.85rem; letter-spacing: 0.06em; }
+.rdv h2 { margin-block: 0.3rem; font-size: 1.75rem; }
+
+.qui { padding-block: 5rem; }
+.qui .contenu { display: grid; grid-template-columns: 1fr 1.2fr; align-items: center; gap: 4rem; }
+.rond { position: relative; width: min(24rem, 100%); aspect-ratio: 1; margin-inline: auto; border-radius: 50%; background: var(--color-marque-2); }
+.rond img { position: absolute; bottom: -4%; left: 50%; width: 70%; translate: -50% 0; }
+.structures { display: grid; gap: 0.6rem; margin: 1.25rem 0 1.5rem; padding: 0; list-style: none; }
+.structures li { display: flex; gap: 0.75rem; }
+.structures li::before { flex: none; width: 0.7rem; height: 0.7rem; margin-top: 0.5rem; content: ""; background: var(--color-marque-2); rotate: 45deg; }
+
+.etapes { padding-block: 5rem; color: var(--color-accent-text); background: var(--color-accent); }
+.etapes .contenu { display: grid; grid-template-columns: 1fr 1.1fr; align-items: center; gap: 3.5rem; }
+.etapes figure { margin: 0; padding: 0.75rem; border-radius: var(--radius-grand); background: var(--color-surface); box-shadow: var(--ombre); }
+.etapes .titre::after { background: var(--color-marque-2); }
+.etapes ol { display: grid; gap: 1.75rem; margin: 0 0 2rem; padding: 0; list-style: none; counter-reset: e; }
+.etapes li { display: grid; grid-template-columns: 3.5rem 1fr; align-items: center; gap: 1.25rem; counter-increment: e; font-size: 1.15rem; }
+.etapes li::before { display: grid; place-items: center; width: 3.5rem; height: 3.5rem; border-radius: 50%; content: counter(e); font: 800 1.6rem var(--font-titres); color: var(--color-marque-2-texte); background: var(--color-marque-2); }
+.etapes a { font-weight: 700; }
+
+.actus { padding-block: 5rem; background: var(--teinte-legere); }
+.tete { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 1rem; }
+.cartes { display: grid; grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr)); gap: 1.75rem; }
+.carte { overflow: hidden; border-radius: var(--radius-grand); background: var(--color-surface); box-shadow: var(--ombre); }
+.carte img { width: 100%; aspect-ratio: 3 / 2; object-fit: cover; }
+.carte div { padding: 1.25rem 1.4rem 1.6rem; }
+.pastille { display: inline-block; margin-bottom: 0.6rem; padding: 0.2rem 0.65rem; border-radius: var(--radius-pill); font-size: 0.85rem; font-weight: 700; color: var(--color-marque-2-texte); background: var(--color-marque-2); }
+.carte h3 { margin-bottom: 0.5rem; font-size: 1.25rem; }
+
+.logos { padding-block: 4.5rem; }
+.logos h3 { margin: 2rem 0 1rem; text-align: center; font-size: 1.1rem; color: var(--color-text-muted); }
+.logos .titre { text-align: center; }
+.logos .titre::after { margin-inline: auto; }
+.logos ul { display: flex; flex-wrap: wrap; justify-content: center; gap: 1.25rem; margin: 0; padding: 0; list-style: none; }
+.logos li { display: grid; place-items: center; width: 13rem; height: 7rem; padding: 1rem; border: 1px solid var(--color-border); border-radius: var(--radius); background: var(--color-surface); }
+.logos img { max-height: 4.5rem; object-fit: contain; }
+
+.contact { padding-block: 4rem; background: var(--color-accent-soft); }
+.contact .contenu { display: grid; grid-template-columns: 14rem 1fr; align-items: center; gap: 3rem; }
+.contact h2 { margin-bottom: 1rem; font-size: 1.75rem; }
+.contact p { margin-bottom: 1.5rem; }
+
+.pied { padding-block: 3rem 1.5rem; border-top: 0.35rem solid var(--color-marque-2); font-size: 0.95rem; color: var(--color-marque-texte); background: var(--color-marque); }
+.pied .colonnes { display: grid; grid-template-columns: 6rem repeat(3, 1fr); gap: 2rem; }
+.pied .logo-pied { width: 5rem; padding: 0.5rem; border-radius: 50%; background: var(--color-bg); }
+.pied h2 { margin-bottom: 0.75rem; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--color-marque-2); }
+.pied ul { margin: 0; padding: 0; list-style: none; line-height: 1.9; }
+.pied .credit { margin-top: 2.5rem; padding-top: 1rem; border-top: 1px solid var(--voile-leger); font-size: 0.85rem; }
+
+/* Page Projet */
+.bandeau { display: grid; align-items: end; min-height: 62vh; padding: 3rem 1.25rem; color: var(--blanc); background: linear-gradient(to top, var(--voile), transparent 55%), center 20% / cover url("../../../source/existant/fichiers/recrutementbanner-2a68d1c5bea6.webp"); }
+.bandeau > div { width: min(72rem, 100%); margin-inline: auto; }
+.bandeau h1 { max-width: 46rem; font-size: clamp(2rem, 3.6vw, 2.75rem); text-shadow: 0 0.15rem 0.6rem var(--voile); }
+.bandeau p { margin-top: 0.75rem; font-size: 1.25rem; text-shadow: 0 0.1rem 0.4rem var(--voile); }
+.pourquoi { padding-block: 5rem; }
+.pourquoi .contenu { display: grid; grid-template-columns: 1fr 1.3fr; align-items: center; gap: 4rem; }
+.concret { padding-block: 5rem; background: var(--teinte-legere); }
+.concret .contenu { display: grid; grid-template-columns: 1fr 1.4fr; align-items: center; gap: 3rem; }
+.concret figure { margin: 0; padding: 1rem; border-radius: var(--radius-grand); background: var(--color-surface); box-shadow: var(--ombre); }
+.engagement { padding-block: 5rem; color: var(--color-marque-texte); background: var(--color-marque); }
+.engagement .contenu { max-width: 46rem; }
+.engagement .titre::after { background: var(--color-marque-2); }
+.engagement p { font-size: 1.15rem; }
+
+@media (max-width: 50rem) {
+  .entete nav { display: none; }
+  .pied .colonnes { grid-template-columns: 1fr; }
+  .rdv .contenu, .etapes .contenu, .qui .contenu, .contact .contenu, .pourquoi .contenu, .concret .contenu { grid-template-columns: 1fr; gap: 2rem; }
+  .rdv .date { width: 6rem; }
+  .rdv .date strong { font-size: 2.5rem; }
+  .contact img { width: 10rem; margin-inline: auto; }
+}
+.menu { display: none; padding: 0.5rem 1rem; border: 2px solid currentColor; border-radius: var(--radius-pill); font: 700 0.95rem var(--font-ui); color: inherit; background: transparent; }
+@media (max-width: 52rem) { .menu { display: inline-block; } .entete .langue { margin-inline-start: auto; } }
