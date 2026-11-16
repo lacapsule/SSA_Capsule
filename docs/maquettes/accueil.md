@@ -14,3 +14,5 @@ Références : https://caisse-alimentaire-commune.fr/ (caisse alimentaire commun
 9. Pied de page : colonnes (Coordonnées, Pages légales, Langue) ; Le Buzuk, 39 bellevue de la Madeleine, 29600 Morlaix, 06 15 06 82 08, ssapaysdemorlaix@mailo.com ; Mentions légales, Confidentialité, Accessibilité, Plan du site ; lien Brezhoneg ; brique sections/pied-de-page ; adaptation : fond jaune --color-marque-2, texte foncé
 
 Liens entrants : toutes les pages (logo, menu)  ·  liens sortants : Agenda, Lieux conventionnés, Le projet, Actualités, Qui sommes-nous, Contact
+
+Retiré : « Femmes des terres est un documentaire réalisé par 6 étudiant.es en agronomie qui partagent les récits de vie de paysannes, agricultrices et leurs traditions ancestrales, entre la France, le Togo et la Bolivie. LA Dérive pont menou Plouégat Guerrand - Prix libre Organisé par le Collectif Sécurité Sociale de l'Alimentation dans le cadre du Festival Alimentaire et du Festisol » (description du ciné-rencontre du 13 novembre 2026 : événement passé, l'accueil ne montre que les prochains événements ; texte complet sur sa fiche /agenda/cine-rencontre-femmes-des-terres/, reliée depuis l'agenda)
