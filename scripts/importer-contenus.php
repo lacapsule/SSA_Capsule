@@ -92,7 +92,9 @@ $bilan = Db::transaction(static function () use ($contenus, $tables, $maintenant
         foreach ($a['videos'] as $src) {
             $v = $reencodees[$src] ?? null;
             if ($v !== null) {
-                $videos[] = ['src' => copierFichier(SOURCE . '/videos/' . $v['video'], 'videos'), 'poster' => copierFichier(SOURCE . '/videos/' . $v['poster'], 'videos')];
+                // Durée lue dans le fichier (ffprobe, poste de l'agence) pour le bouton de lecture ; absente si l'outil manque.
+                $sortieFfprobe = trim((string) shell_exec('ffprobe -v error -show_entries format=duration -of csv=p=0 ' . escapeshellarg(SOURCE . '/videos/' . $v['video']) . ' 2>/dev/null'));
+                $videos[] = ['src' => copierFichier(SOURCE . '/videos/' . $v['video'], 'videos'), 'poster' => copierFichier(SOURCE . '/videos/' . $v['poster'], 'videos')] + (is_numeric($sortieFfprobe) ? ['duree' => (int) round((float) $sortieFfprobe)] : []);
             }
         }
         $images = array_map(static fn (array $i): string => copier($i['src'], 'actualites/' . $slug), $a['images']);

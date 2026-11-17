@@ -12,7 +12,7 @@ use App\Site\Vignette;
 
 $accueil = Contenu::traduire('page', '/', Pages::textes('/'));
 $video = isset($video) && is_array($video) ? $video : null;
-partial('site/haut', ['chemin' => $path, 'titre' => $t['titre'], 'chapo' => $t['chapo'], 'photo' => '/assets/img/bandeau-projet.webp']);
+partial('site/haut', ['chemin' => $path, 'titre' => $t['titre'], 'chapo' => $t['chapo'], 'photo' => '/assets/img/bandeau-projet.webp', 'filTitre' => t('menu.projet')]);
 ?>
 <section class="section buts" aria-labelledby="pourquoi-titre">
   <div class="buts__inner container">
@@ -43,7 +43,7 @@ partial('site/haut', ['chemin' => $path, 'titre' => $t['titre'], 'chapo' => $t['
 
 <section class="section engage" aria-labelledby="engagement-titre">
   <div class="engage__inner container">
-    <img class="engage__photo" <?= Vignette::attributs('/assets/img/groupe.webp', '(max-width: 80rem) 100vw, 75rem', 1280) ?> alt="" width="1280" height="400" loading="lazy" decoding="async">
+    <img class="engage__photo" <?= Vignette::attributs('/assets/img/groupe.webp', '(max-width: 80rem) 100vw, 75rem', 1280) ?> alt="" width="1920" height="600" loading="lazy" decoding="async">
     <div>
       <h2 id="engagement-titre"><?= e($t['engagement_titre']) ?></h2>
       <p><?= e($t['engagement_texte']) ?></p>
@@ -57,16 +57,19 @@ partial('site/haut', ['chemin' => $path, 'titre' => $t['titre'], 'chapo' => $t['
     <div>
       <h2 id="video-titre"><?= e($t['video_titre']) ?></h2>
       <?php if ($video['resume'] !== ''): ?><p class="projet-video__texte"><?= e($video['resume']) ?></p><?php endif ?>
-      <p><a class="lien-fleche" href="<?= e(lurl('/actualites/' . $video['slug'] . '/')) ?>"><?= e($video['titre']) ?><svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" focusable="false"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a></p>
+      <p><a class="lien-fleche" href="<?= e(lurl('/actualites/' . $video['slug'] . '/')) ?>"><?= e(t('actualites.article_video')) ?><svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" focusable="false"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a></p>
     </div>
-    <figure class="article-video"><video controls preload="none" playsinline<?= $video['poster'] !== '' ? ' poster="' . e(Vignette::chemin($video['poster'], 960)) . '"' : '' ?> width="1280" height="720"><source src="<?= e($video['src']) ?>" type="video/mp4"></video></figure>
+    <figure class="article-media article-media--video projet-video__media" data-video>
+      <video controls preload="none" playsinline<?= $video['poster'] !== '' ? ' poster="' . e(Vignette::chemin($video['poster'], 960)) . '"' : '' ?> width="1280" height="720"><source src="<?= e($video['src']) ?>" type="video/mp4"></video>
+      <button type="button" class="video-lecture" hidden data-video-lecture><svg viewBox="0 0 24 24" width="28" height="28" aria-hidden="true" focusable="false"><path d="M8 5v14l11-7z" fill="currentColor"/></svg><span><?= e(t('actualites.lire_video')) ?><?php if ($video['duree'] > 0): ?> <small><?= e(\App\Site\Dates::duree($video['duree'])) ?></small><?php endif ?></span></button>
+    </figure>
   </div>
 </section>
 <?php endif ?>
 
-<section class="section buts collectif-groupe" id="collectif" aria-labelledby="groupe-titre">
+<section class="section buts buts--inverse collectif-groupe" id="collectif" aria-labelledby="groupe-titre">
   <div class="buts__inner container">
-    <span class="portail portail--buts portail--buste" aria-hidden="true"><span class="portail__calque"><img src="/assets/img/personnages/groupe.svg" alt="" width="223" height="313" loading="lazy" decoding="async"></span></span>
+    <span class="portail portail--buts portail--buste" aria-hidden="true"><span class="portail__calque"><img src="/assets/img/personnages/groupe.svg" alt="" width="217" height="313" loading="lazy" decoding="async"></span></span>
     <div class="prose">
       <p class="sur-titre"><?= e($accueil['collectif_titre']) ?></p>
       <h2 id="groupe-titre"><?= e($accueil['collectif_soustitre']) ?></h2>
@@ -90,4 +93,4 @@ partial('site/haut', ['chemin' => $path, 'titre' => $t['titre'], 'chapo' => $t['
   </div>
 </section>
 
-<?php partial('site/appel', ['titre' => $t['contact_titre'], 'actions' => [['href' => '/contact/', 'libelle' => t('contact.nous_contacter')], ['href' => '/lieux-conventionnes/', 'libelle' => t('accueil.voir_lieux'), 'secondaire' => true]], 'personnage' => false]) ?>
+<?php partial('site/appel', ['titre' => $t['contact_titre'], 'actions' => [['href' => '/contact/', 'libelle' => t('contact.nous_contacter')], ['href' => '/lieux-conventionnes/', 'libelle' => t('accueil.voir_lieux'), 'secondaire' => true]], 'image' => '/assets/img/personnages/projet-appel.svg', 'compact' => true, 'coordonnees' => true]) ?>

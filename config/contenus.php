@@ -105,6 +105,8 @@ return [
         'carte_page_titre' => 'Carte des lieux conventionnés',
         'retour_page_lieux' => 'Page des lieux conventionnés',
         'fermer_liste' => 'Fermer la liste',
+        'fiche_titre' => 'Fiche du lieu',
+        'fermer_fiche' => 'Fermer la fiche',
         'zoom_plus' => 'Zoomer',
         'zoom_moins' => 'Dézoomer',
         'zoom_depart' => 'Revenir à la vue de départ',

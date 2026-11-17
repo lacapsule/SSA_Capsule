@@ -37,7 +37,7 @@ $ligne = static function (array $l, string $cle) use ($t, $icone): void {
 <?php };
 $parDefaut = ['ok' => true, 'attente' => true, 'refus' => false, 'sans' => false];
 ?>
-<div class="lieux-explorer<?= $pageCarte ? ' lieux-explorer--page' : '' ?>" data-lieux data-un="<?= e($t['lieu_singulier']) ?>" data-plusieurs="<?= e($t['lieux_pluriel']) ?>" data-trouves="<?= e($t['resultat_recherche']) ?>">
+<div class="lieux-explorer<?= $pageCarte ? ' lieux-explorer--page' : '' ?>" data-lieux data-un="<?= e($t['lieu_singulier']) ?>" data-plusieurs="<?= e($t['lieux_pluriel']) ?>" data-trouves="<?= e($t['resultat_recherche']) ?>" data-fiche-titre="<?= e($t['fiche_titre']) ?>" data-fermer="<?= e($t['fermer_fiche']) ?>">
   <form class="lieux-outils" hidden data-outils role="search" aria-label="<?= e($t['outils_titre']) ?>">
     <p class="lieux-outils__champ">
       <label for="commune-lieu"><?= e($t['commune_label']) ?></label>

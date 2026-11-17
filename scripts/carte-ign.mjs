@@ -57,6 +57,20 @@ function chemin(features, projeter, tol, chiffres) {
   return morceaux.join('');
 }
 
+// Même chose, rangé en tuiles carrées (un tracé par tuile) : au zoom fort, le navigateur ne peint que les tuiles
+// visibles. Un seul tracé pour tout le territoire faisait tomber la carte à 5 images par seconde (mesuré le 2026-11-17).
+function tuiles(features, projeter, tol, chiffres, taille) {
+  const parTuile = new Map();
+  for (const f of features) for (const l of lignes(f.geometry)) {
+    const p = simplifier(l.map(projeter), tol);
+    if (p.length < 2) continue;
+    const cle = `${Math.floor(p[0][0] / taille)}:${Math.floor(p[0][1] / taille)}`;
+    if (!parTuile.has(cle)) parTuile.set(cle, []);
+    parTuile.get(cle).push('M' + p.map(([x, y]) => `${x.toFixed(chiffres)} ${y.toFixed(chiffres)}`).join('L'));
+  }
+  return [...parTuile.values()].map((m) => m.join(''));
+}
+
 // 1. Carte des lieux : grandes routes et cours d'eau principaux.
 const communes = JSON.parse(lire('config/carte-communes.json'));
 const pr = communes.projection;
@@ -69,8 +83,8 @@ const carte = {
   _note: 'Généré par scripts/carte-ign.mjs : ne pas modifier à la main.',
   source: 'IGN, BD TOPO (Géoplateforme), Licence Ouverte',
   date: new Date().toISOString().slice(0, 10),
-  routes: { grandes: chemin(parImportance(routes, ['1', '2']), projeterCarte, 0.8, 1), moyennes: chemin(parImportance(routes, ['3']), projeterCarte, 1.2, 1) },
-  eau: chemin(eaux, projeterCarte, 1.2, 1),
+  routes: { grandes: tuiles(parImportance(routes, ['1', '2']), projeterCarte, 0.8, 1, 60), moyennes: tuiles(parImportance(routes, ['3']), projeterCarte, 1.2, 1, 60) },
+  eau: tuiles(eaux, projeterCarte, 1.2, 1, 60),
 };
 writeFileSync(path.join(RACINE, 'config/carte-routes.json'), JSON.stringify(carte) + '\n');
 console.log(`carte-routes.json : ${routes.length} tronçons, ${eaux.length} cours d'eau, ${(JSON.stringify(carte).length / 1024).toFixed(0)} Ko`);

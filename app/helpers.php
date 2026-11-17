@@ -8,6 +8,16 @@ function e(?string $value): string
 }
 
 /**
+ * Typographie française d'un texte saisi (titres, chapeaux, résumés) : espace insécable avant « : ; ? ! » et à
+ * l'intérieur des guillemets, pour qu'aucun signe ne commence une ligne. Le texte reste à échapper ensuite (e()).
+ */
+function typo(?string $texte): string
+{
+    $t = (string) preg_replace('/\h+([:;?!»])/u', "\u{00A0}$1", (string) $texte);
+    return (string) preg_replace('/«\h+/u', "«\u{00A0}", $t);
+}
+
+/**
  * Redirection vers une adresse du site (303 par défaut, après un POST).
  * Chemins locaux seulement : « //autre-site » ou « /\autre-site » deviendraient une redirection ouverte, ils sont ramenés à « / ».
  */

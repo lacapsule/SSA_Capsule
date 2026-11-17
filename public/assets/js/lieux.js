@@ -60,7 +60,14 @@ function initLieux() {
     carte.setAttribute('viewBox', vue.map((v) => v.toFixed(1)).join(' '));
     // --z : pixels d'écran par unité de la carte ; points, ronds et noms gardent ainsi leur taille à l'écran.
     carte.style.setProperty('--z', String(1 / unite()));
-    regrouper();
+    // Vue d'ensemble : les routes moyennes (carte en grand) ne sont dessinées qu'une fois zoomé (moins de tracés à peindre).
+    carte.classList.toggle('est-loin', vue[2] > depart[2] / 2.5);
+    fermerFiche();
+    // Pendant un zoom ou un déplacement continu, les regroupements ne sont recalculés qu'à l'arrêt du mouvement
+    // (ralentissement constaté sur la vue d'ensemble, 2026-11-17) ; tracés peints en mode rapide pendant ce temps.
+    carte.classList.add('est-en-mouvement');
+    clearTimeout(appliquer.minuterie);
+    appliquer.minuterie = setTimeout(() => { carte.classList.remove('est-en-mouvement'); regrouper(); }, 120);
   }
   function zoomer(facteur, cx = vue[0] + vue[2] / 2, cy = vue[1] + vue[3] / 2) {
     // Largeur plafonnée avant de placer la vue : au zoom maximal, un cran de plus ne déplace plus la carte.
@@ -219,6 +226,90 @@ function initLieux() {
       if (!place) n.classList.add('est-cache');
     }
     noms.forEach((n) => { if (choisi && choisi.textContent && n.textContent === choisi.textContent) n.classList.add('est-cache'); });
+  }
+
+  // --- Infobulle (survol d'un point : nom du lieu) et petite fiche (clic : infos et itinéraire, copie de la fiche de la
+  // liste, sans rien inventer). Échap ou un clic ailleurs la ferme. ---
+  const ficheDe = (p) => zone.querySelector(`[data-zoom-lieu="${p.dataset.lieuId}"]`)?.closest('[data-lieu]') ?? null;
+  const bulle = document.createElement('p');
+  bulle.className = 'carte-infobulle';
+  bulle.hidden = true;
+  bulle.setAttribute('aria-hidden', 'true');
+  const fiche = document.createElement('div');
+  fiche.className = 'carte-fiche';
+  fiche.hidden = true;
+  fiche.setAttribute('role', 'dialog');
+  fiche.setAttribute('aria-label', zone.dataset.ficheTitre || 'Lieu');
+  dessin?.append(bulle, fiche);
+  let ficheSource = null;
+  function placer(el, cx, cy) {
+    const r = dessin.getBoundingClientRect();
+    const s = carte.getBoundingClientRect();
+    const x = s.left - r.left + (cx - vue[0]) / unite();
+    const y = s.top - r.top + (cy - vue[1]) / unite();
+    const l = Math.min(Math.max(8, x - el.offsetWidth / 2), r.width - el.offsetWidth - 8);
+    const h = y - el.offsetHeight - 14 < 8 ? y + 14 : y - el.offsetHeight - 14;
+    el.style.setProperty('left', `${l}px`);
+    el.style.setProperty('top', `${Math.min(Math.max(8, h), r.height - el.offsetHeight - 8)}px`);
+  }
+  function fermerFiche() {
+    if (!fiche || fiche.hidden) return;
+    fiche.hidden = true;
+    fiche.replaceChildren();
+    ficheSource?.focus?.();
+    ficheSource = null;
+  }
+  function ouvrirFiche(p) {
+    const li = ficheDe(p);
+    if (!li) return;
+    const copie = li.cloneNode(true);
+    copie.removeAttribute('hidden');
+    copie.querySelector('[data-zoom-lieu]')?.remove();
+    const fermer = document.createElement('button');
+    fermer.type = 'button';
+    fermer.className = 'carte-fiche__fermer';
+    fermer.setAttribute('aria-label', zone.dataset.fermer || 'Fermer');
+    const ns = 'http://www.w3.org/2000/svg';
+    const icone = document.createElementNS(ns, 'svg');
+    icone.setAttribute('viewBox', '0 0 24 24');
+    icone.setAttribute('width', '18');
+    icone.setAttribute('height', '18');
+    icone.setAttribute('aria-hidden', 'true');
+    const trait = document.createElementNS(ns, 'path');
+    trait.setAttribute('d', 'M6 6l12 12M18 6 6 18');
+    trait.setAttribute('fill', 'none');
+    trait.setAttribute('stroke', 'currentColor');
+    trait.setAttribute('stroke-width', '2');
+    trait.setAttribute('stroke-linecap', 'round');
+    icone.append(trait);
+    fermer.append(icone);
+    fermer.addEventListener('click', fermerFiche);
+    fiche.replaceChildren(fermer, ...copie.childNodes);
+    fiche.hidden = false;
+    bulle.hidden = true;
+    placer(fiche, +p.getAttribute('cx'), +p.getAttribute('cy'));
+    fermer.focus();
+  }
+  if (carte) {
+    carte.addEventListener('pointerover', (ev) => {
+      const p = ev.target.closest?.('.carte-lieux__points circle');
+      if (!p || !fiche.hidden) return;
+      const li = ficheDe(p);
+      bulle.textContent = li ? li.querySelector('.lieu__nom').textContent : '';
+      bulle.hidden = !li;
+      placer(bulle, +p.getAttribute('cx'), +p.getAttribute('cy'));
+    });
+    carte.addEventListener('pointerout', (ev) => { if (ev.target.closest?.('.carte-lieux__points circle')) bulle.hidden = true; });
+    carte.addEventListener('click', (ev) => {
+      const p = ev.target.closest?.('.carte-lieux__points circle');
+      if (!p || zone.dataset.glisse) return;
+      ev.preventDefault();
+      ev.stopPropagation();
+      ficheSource = dessin;
+      ouvrirFiche(p);
+    });
+    document.addEventListener('keydown', (ev) => { if (ev.key === 'Escape' && !fiche.hidden) { ev.stopPropagation(); fermerFiche(); } }, true);
+    document.addEventListener('pointerdown', (ev) => { if (!fiche.hidden && !fiche.contains(ev.target)) fermerFiche(); });
   }
 
   // --- Filtres, calques et liste ---
@@ -383,6 +474,7 @@ function initLieux() {
   appliquer();
   afficher();
   cadrer();
+  regrouper();
   suivreAncre();
 }
 if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initLieux);

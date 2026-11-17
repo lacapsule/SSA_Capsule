@@ -21,7 +21,8 @@ $niveaux = [['chemin' => '/', 'libelle' => t('menu.accueil')]];
 if ($parent !== null) {
     $niveaux[] = $parent;
 }
-$niveaux[] = ['chemin' => $chemin, 'libelle' => $titre];
+// Dernier niveau du fil d'Ariane : nom court de la page (celui du menu) quand le titre est long.
+$niveaux[] = ['chemin' => $chemin, 'libelle' => !empty($filTitre) && is_string($filTitre) ? $filTitre : $titre];
 $liste = [];
 foreach ($niveaux as $i => $n) {
     $liste[] = ['@type' => 'ListItem', 'position' => $i + 1, 'name' => $n['libelle'], 'item' => Langue::absolue($n['chemin'])];
@@ -48,13 +49,13 @@ foreach ($niveaux as $i => $n) {
       <time class="page-head__date" datetime="<?= e(\App\Site\Dates::iso($date)) ?>"><strong><?= e($pd['jour']) ?></strong><span><?= e($pd['mois']) ?> <?= e(substr($date, 0, 4)) ?></span></time>
       <div>
         <?php if (!empty($surTitre) && is_string($surTitre)): ?><p class="sur-titre"><?= e($surTitre) ?></p><?php endif ?>
-        <h1><?= e($titre) ?></h1>
+        <h1><?= e(typo($titre)) ?></h1>
       </div>
     </div>
     <?php else: ?>
-    <h1><?= e($titre) ?></h1>
+    <h1><?= e(typo($titre)) ?></h1>
     <?php endif ?>
-    <?php if (($chapo ?? '') !== ''): ?><p class="page-head__intro"><?= e($chapo) ?></p><?php endif ?>
+    <?php if (($chapo ?? '') !== ''): ?><p class="page-head__intro"><?= e(typo($chapo)) ?></p><?php endif ?>
     <?php if (!empty($infos) && is_array($infos)): ?>
     <ul class="page-head__infos">
       <?php foreach ($infos as $info): ?><li><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><path d="<?= e((string) $info['icone']) ?>" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><?= $info['html'] ?? e((string) $info['texte']) ?></li><?php endforeach ?>

@@ -24,7 +24,10 @@ if (!empty($a['lieu'])) {
 ob_start();
 if ($videos !== []):
     $v = $videos[0]; ?>
-    <figure class="article-media article-media--video"><video controls preload="none" playsinline poster="<?= e(Vignette::chemin((string) $v['poster'], 960)) ?>" width="1280" height="720"><source src="<?= e((string) $v['src']) ?>" type="video/mp4"></video></figure>
+    <figure class="article-media article-media--video" data-video>
+      <video controls preload="none" playsinline poster="<?= e(Vignette::chemin((string) $v['poster'], 960)) ?>" width="1280" height="720"><source src="<?= e((string) $v['src']) ?>" type="video/mp4"></video>
+      <button type="button" class="video-lecture" hidden data-video-lecture><svg viewBox="0 0 24 24" width="28" height="28" aria-hidden="true" focusable="false"><path d="M8 5v14l11-7z" fill="currentColor"/></svg><span><?= e(t('actualites.lire_video')) ?><?php if (!empty($v['duree'])): ?> <small><?= e(Dates::duree((int) $v['duree'])) ?></small><?php endif ?></span></button>
+    </figure>
 <?php elseif (!empty($a['image'])):
     [$pl, $ph] = Vignette::taille((string) $a['image']) ?? [1600, 1200]; ?>
     <figure class="article-media"><img <?= Vignette::attributs((string) $a['image'], '(max-width: 52rem) 100vw, 42rem', 960) ?> alt="<?= e((string) ($a['image_alt'] ?? '')) ?>" width="<?= $pl ?>" height="<?= $ph ?>" fetchpriority="high" decoding="async"></figure>
@@ -36,11 +39,15 @@ partial('site/haut', ['chemin' => $path, 'titre' => (string) $a['titre'], 'chapo
   <div class="container">
     <div class="article__corps">
       <div class="article__texte prose"<?= langue_attr($a, 'description') ?>><?= Texte::article((string) $a['description']) ?></div>
-      <?php if ($liens !== []): $sites = (array) \App\Site\Site::get('noms_sites', []); // nom lisible du site de chaque lien ?>
+      <?php if ($liens !== []): $sites = (array) \App\Site\Site::get('noms_sites', []); // nom lisible du site de chaque lien
+          // Plusieurs liens sans libellé vers un même site : numérotés pour les distinguer (revue du 2026-11-17).
+          $parHote = [];
+          foreach ($liens as $l) { $h = (string) parse_url((string) $l['url'], PHP_URL_HOST); $parHote[$h] = ($parHote[$h] ?? 0) + (($l['texte'] ?? '') === '' ? 1 : 0); }
+          $rangHote = []; ?>
       <section class="article__liens" aria-labelledby="liens-titre">
         <h2 id="liens-titre"><?= e(t('actualites.liens')) ?></h2>
         <ul class="article__liens-liste">
-          <?php foreach ($liens as $l): $hote = (string) preg_replace('/^www\./', '', (string) parse_url((string) $l['url'], PHP_URL_HOST)); $site = (string) ($sites[$hote] ?? ($l['libelle'] ?: $hote)); ?><li><?php $interne = str_starts_with((string) $l['url'], '/'); // lien vers une page du site (carte des lieux) ?><a class="article__lien" href="<?= e($interne ? lurl((string) $l['url']) : (string) $l['url']) ?>"<?= $interne ? '' : ' rel="noopener"' ?>><span class="article__lien-site"><?= e($site) ?></span><span class="article__lien-texte"><?= e($l['texte'] !== '' ? (string) $l['texte'] : t('actualites.lien_ouvrir')) ?></span><svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" focusable="false"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li><?php endforeach ?>
+          <?php foreach ($liens as $l): $hote = (string) preg_replace('/^www\./', '', (string) parse_url((string) $l['url'], PHP_URL_HOST)); $site = (string) ($sites[$hote] ?? ($l['libelle'] ?: $hote)); ?><li><?php $interne = str_starts_with((string) $l['url'], '/'); // lien vers une page du site (carte des lieux) ?><a class="article__lien" href="<?= e($interne ? lurl((string) $l['url']) : (string) $l['url']) ?>"<?= $interne ? '' : ' rel="noopener"' ?>><span class="article__lien-site"><?= e($site) ?></span><?php $h = (string) parse_url((string) $l['url'], PHP_URL_HOST); $n = $l['texte'] === '' && ($parHote[$h] ?? 0) > 1 ? ($rangHote[$h] = ($rangHote[$h] ?? 0) + 1) : 0; ?><span class="article__lien-texte"><?= e($l['texte'] !== '' ? (string) $l['texte'] : ($n > 0 ? t('actualites.lien_ouvrir_n', ['n' => (string) $n]) : t('actualites.lien_ouvrir'))) ?><?php if (!$interne): ?> · <?= e(t('actualites.site_exterieur')) ?><?php endif ?></span><svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" focusable="false"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li><?php endforeach ?>
         </ul>
       </section>
       <?php endif ?>

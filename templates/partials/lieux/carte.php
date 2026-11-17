@@ -50,16 +50,17 @@ $vue = implode(' ', array_map(static fn (float $v): string => (string) round($v,
   <path class="carte-lieux__commune" d="<?= e((string) $c['d']) ?>"/>
   <?php endif ?>
   <?php endforeach ?>
-  <?php // Contours de la commune survolée et de la commune choisie, redessinés par-dessus leurs voisines (lieux.js). ?>
-  <path class="carte-lieux__contour carte-lieux__contour--choisi" d="" aria-hidden="true" data-contour-choisi/>
-  <path class="carte-lieux__contour" d="" aria-hidden="true" data-contour/>
   <?php $f = ROOT . '/config/carte-routes.json'; $ign = is_file($f) ? json_decode((string) file_get_contents($f), true) : null; if (is_array($ign)): // IGN, BD TOPO : grandes routes et cours d'eau (routes moyennes sur la carte en grand) ?>
   <g class="carte-lieux__reseau" aria-hidden="true">
-    <path class="carte-lieux__eau" d="<?= e((string) $ign['eau']) ?>"/>
-    <?php if (!empty($details)): ?><path class="carte-lieux__route carte-lieux__route--moyenne" d="<?= e((string) $ign['routes']['moyennes']) ?>"/><?php endif ?>
-    <path class="carte-lieux__route carte-lieux__route--grande" d="<?= e((string) $ign['routes']['grandes']) ?>"/>
+    <?php $traces = static fn ($t): array => is_array($t) ? $t : [(string) $t]; // tracés rangés en tuiles (scripts/carte-ign.mjs) ?>
+    <?php foreach ($traces($ign['eau']) as $d): ?><path class="carte-lieux__eau" d="<?= e((string) $d) ?>"/><?php endforeach ?>
+    <?php if (!empty($details)): foreach ($traces($ign['routes']['moyennes']) as $d): ?><path class="carte-lieux__route carte-lieux__route--moyenne" d="<?= e((string) $d) ?>"/><?php endforeach; endif ?>
+    <?php foreach ($traces($ign['routes']['grandes']) as $d): ?><path class="carte-lieux__route carte-lieux__route--grande" d="<?= e((string) $d) ?>"/><?php endforeach ?>
   </g>
   <?php endif ?>
+  <?php // Contours de la commune survolée et de la commune choisie, redessinés par-dessus leurs voisines, les routes et l'eau (lieux.js). ?>
+  <path class="carte-lieux__contour carte-lieux__contour--choisi" d="" aria-hidden="true" data-contour-choisi/>
+  <path class="carte-lieux__contour" d="" aria-hidden="true" data-contour/>
   <g class="carte-lieux__points" aria-hidden="true">
     <?php foreach ($groupes as $g): foreach ($g['lieux'] as $l): if ($l['latitude'] === null || $l['longitude'] === null) continue; [$x, $y] = $point((float) $l['latitude'], (float) $l['longitude']); ?><circle cx="<?= $x ?>" cy="<?= $y ?>" r="7" class="carte-lieux__point--<?= e((string) $l['statut']) ?>" data-calque="<?= e((string) $l['statut']) ?>" data-groupe-point="<?= e($g['cle']) ?>" data-lieu-id="<?= (int) $l['id'] ?>"/><?php endforeach; endforeach ?>
   </g>

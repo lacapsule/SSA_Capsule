@@ -5,6 +5,7 @@
  * @var string $titre @var string $texte (facultatif) @var list<array{href: string, libelle: string, secondaire?: bool}> $actions
  * @var bool $personnage (facultatif, vrai par défaut) @var string $image personnage à montrer (un par page : rule web-design,
  * « Un personnage, une place ») @var bool $mainDroite le bras sort du rond à droite @var bool $compact bande moins haute
+ * @var bool $coordonnees téléphone et e-mail du collectif sous le titre
  */
 $texte = isset($texte) && is_string($texte) ? $texte : '';
 $personnage = !isset($personnage) || $personnage !== false;
@@ -22,6 +23,9 @@ $mainDroite = !empty($mainDroite);
     <div>
       <h2 id="appel-titre"><?= e($titre) ?></h2>
       <?php if ($texte !== ''): ?><p class="appel__texte"><?= e($texte) ?></p><?php endif ?>
+      <?php if (!empty($coordonnees)): $tel = (string) \App\Site\Site::get('telephone'); $mail = (string) \App\Site\Site::get('email'); // revue du 2026-11-17 : le contact direct, sans passer par le formulaire ?>
+      <p class="appel__coordonnees"><a href="tel:+33<?= e(substr((string) preg_replace('/\D/', '', $tel), 1)) ?>"><?= e($tel) ?></a><a href="mailto:<?= e($mail) ?>"><?= e($mail) ?></a></p>
+      <?php endif ?>
       <p class="appel__actions">
         <?php foreach ($actions as $a): ?><a class="button<?= !empty($a['secondaire']) ? ' button--ghost' : '' ?>" href="<?= e(lurl($a['href'])) ?>"><?= e($a['libelle']) ?></a><?php endforeach ?>
       </p>

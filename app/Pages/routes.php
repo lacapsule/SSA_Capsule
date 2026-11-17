@@ -17,7 +17,7 @@ return static function (Router $router): void {
     $router->get('/galerie/', [App\Galerie\Galerie::class, 'liste']);
     $router->get('/actualites/', [App\Actualites\Actualites::class, 'liste']);
     $router->get('/actualites/{slug}/', [App\Actualites\Actualites::class, 'fiche']);
-    $router->get('/projet/', static fn () => Pages::afficher('/projet/', 'projet', ['video' => App\Actualites\Actualites::video((string) App\Site\Site::get('projet_video', ''))]));
+    $router->get('/projet/', static fn () => Pages::afficher('/projet/', 'projet', ['scripts' => ['/assets/js/video-lecture.js'], 'video' => App\Actualites\Actualites::video((string) App\Site\Site::get('projet_video', ''))]));
     $router->get('/mentions-legales/', static fn () => Pages::afficher('/mentions-legales/', 'mentions-legales'));
     $router->get('/confidentialite/', static fn () => Pages::afficher('/confidentialite/', 'confidentialite'));
     $router->get('/accessibilite/', static fn () => Pages::afficher('/accessibilite/', 'accessibilite'));

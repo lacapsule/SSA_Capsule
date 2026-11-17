@@ -21,24 +21,33 @@ $une = $page === 1 && $articles !== [] ? array_shift($articles) : null;
       <?php if ($vignette !== ''): [$ul, $uh] = Vignette::taille($vignette) ?? [1280, 960]; // même cadre que la photo d'un article, taille réelle ?><figure class="article-media actu-une__media"><img class="actu-une__photo" <?= Vignette::attributs($vignette, '(max-width: 52rem) 100vw, 44rem', 960) ?> alt="" width="<?= $ul ?>" height="<?= $uh ?>" fetchpriority="high" decoding="async"><?php if ($poster !== null && empty($une['image'])): ?><span class="pastille-video"><svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true" focusable="false"><path d="M4 2.5v11l9-5.5z" fill="currentColor"/></svg><?= e(t('actualites.video')) ?></span><?php endif ?></figure><?php endif ?>
       <div class="actu-une__corps">
         <p class="sur-titre"><?= e(t('actualites.a_la_une')) ?></p>
-        <h2 class="actu-une__titre"><a href="<?= e(lurl('/actualites/' . $une['slug'] . '/')) ?>"<?= langue_attr($une, 'titre') ?>><?= e((string) $une['titre']) ?></a></h2>
+        <h2 class="actu-une__titre"><a href="<?= e(lurl('/actualites/' . $une['slug'] . '/')) ?>"<?= langue_attr($une, 'titre') ?>><?= e(typo((string) $une['titre'])) ?></a></h2>
         <time class="actu-une__date" datetime="<?= e(Dates::iso((string) $une['date_article'])) ?>"><?= e(Dates::longue((string) $une['date_article'])) ?></time>
-        <?php if (!empty($une['resume'])): ?><p<?= langue_attr($une, 'resume') ?>><?= e(Texte::couper((string) $une['resume'], 240)) ?></p><?php endif ?>
-        <span class="lien-fleche" aria-hidden="true"><?= e(t('actualites.lire')) ?><svg viewBox="0 0 16 16" width="16" height="16" focusable="false"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        <?php if (!empty($une['resume'])): ?><p<?= langue_attr($une, 'resume') ?>><?= e(typo(Texte::couper((string) $une['resume'], 240))) ?></p><?php endif ?>
+        <span class="button button--ghost actu-une__lire" aria-hidden="true"><?= e(t('actualites.lire')) ?><svg viewBox="0 0 16 16" width="16" height="16" focusable="false"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
       </div>
     </article>
     <?php endif ?>
     <?php if ($articles !== []): ?>
-    <?php // Articles rangés par année, l'année en intertitre (revue visuelle du 2026-11-17 : casser la longue grille).
+    <?php // Articles rangés par année, l'année en intertitre (revues du 2026-11-17).
     $parAnnee = [];
     foreach ($articles as $a) {
         $parAnnee[substr((string) $a['date_article'], 0, 4)][] = $a;
     }
-    foreach ($parAnnee as $annee => $liste): ?>
+    $rang = 0; ?>
+  </div>
+</section>
+<?php foreach ($parAnnee as $annee => $liste): ?>
+<?php $rang++ ?><section class="section actualites-annee" aria-labelledby="annee-<?= e((string) $annee) ?>">
+  <div class="container">
     <h2 class="actualites__annee" id="annee-<?= e((string) $annee) ?>"><?= e((string) $annee) ?></h2>
-    <ul class="cartes-articles" aria-labelledby="annee-<?= e((string) $annee) ?>"><?php foreach ($liste as $a) partial('actualites/carte', ['a' => $a]) ?></ul>
-    <?php endforeach ?>
-    <?php endif ?>
+    <ul class="cartes-articles"><?php foreach ($liste as $a) partial('actualites/carte', ['a' => $a]) ?></ul>
+    <?php if ($rang === count($parAnnee)) partial('site/pagination', ['base' => '/actualites/', 'page' => $page, 'pages' => $pages]) ?>
+  </div>
+</section>
+<?php endforeach ?>
+    <?php else: ?>
     <?php partial('site/pagination', ['base' => '/actualites/', 'page' => $page, 'pages' => $pages]) ?>
   </div>
 </section>
+    <?php endif ?>

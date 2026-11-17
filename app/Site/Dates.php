@@ -40,6 +40,14 @@ final class Dates
         return $d->format('G') . ' h' . ($d->format('i') !== '00' ? ' ' . $d->format('i') : '');
     }
 
+    /** Durée d'une vidéo : « 4 min 19 s », « 44 s ». */
+    public static function duree(int $secondes): string
+    {
+        $m = intdiv($secondes, 60);
+        $s = $secondes % 60;
+        return $m > 0 ? $m . ' min' . ($s > 0 ? ' ' . $s . ' s' : '') : $s . ' s';
+    }
+
     /** Valeur de l'attribut datetime. */
     public static function iso(string $date): string
     {

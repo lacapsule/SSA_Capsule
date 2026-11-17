@@ -62,9 +62,9 @@ final class Texte
             if (str_ends_with($l, ':') && $i + 1 < $n) {
                 $items = [];
                 while ($i + 1 < $n && mb_strlen($recollees[$i + 1]) <= 140 && !str_ends_with($recollees[$i + 1], ':')) {
-                    $items[] = '<li>' . e(rtrim($recollees[++$i], ' ;,.')) . '</li>';
+                    $items[] = '<li>' . e(typo(rtrim($recollees[++$i], ' ;,.'))) . '</li>';
                 }
-                $html[] = '<p' . ($premier ? $attaque($l) : '') . '>' . e($l) . '</p>';
+                $html[] = '<p' . ($premier ? $attaque($l) : '') . '>' . e(typo($l)) . '</p>';
                 if ($items !== []) {
                     $html[] = '<ul class="article__liste">' . implode('', $items) . '</ul>';
                 }
@@ -72,10 +72,10 @@ final class Texte
                 continue;
             }
             if (!$premier && !$finie($l) && mb_strlen($l) <= 50 && $i + 1 < $n) {
-                $html[] = '<h2 class="article__intertitre">' . e($l) . '</h2>';
+                $html[] = '<h2 class="article__intertitre">' . e(typo($l)) . '</h2>';
                 continue;
             }
-            $html[] = '<p' . ($premier ? $attaque($l) : '') . '>' . e($l) . '</p>';
+            $html[] = '<p' . ($premier ? $attaque($l) : '') . '>' . e(typo($l)) . '</p>';
             $premier = false;
         }
         return implode("\n", $html);

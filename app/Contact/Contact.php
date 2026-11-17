@@ -38,7 +38,6 @@ final class Contact
             'alert' => is_string($old['_error'] ?? null) ? $old['_error'] : null,
             'sent' => isset($_GET['envoye']),
             'noindex' => isset($_GET['envoye']),
-            'scripts' => ['/assets/js/carte-zoom.js'],
         ], 'site/layout');
     }
 

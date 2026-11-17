@@ -21,7 +21,7 @@ $carte = static function (?array $f, string $sens) use ($nature, $fleche): void 
       <?php elseif ($p !== null): ?><span class="voisin__visuel voisin__date" aria-hidden="true"><strong><?= e($p['jour']) ?></strong><span><?= e($p['mois']) ?> <?= e(substr($date, 0, 4)) ?></span></span><?php endif ?>
       <div class="voisin__texte">
         <p class="voisin__sens"><?= $sens === 'precedent' ? $fleche('M10 3.5 5.5 8l4.5 4.5') : '' ?><?= e(t('site.' . $sens . '_' . $nature)) ?><?= $sens === 'suivant' ? $fleche('M6 3.5 10.5 8 6 12.5') : '' ?></p>
-        <a class="voisin__titre" href="<?= e(lurl($f['chemin'])) ?>" rel="<?= $sens === 'precedent' ? 'prev' : 'next' ?>"><?= e($f['titre']) ?></a>
+        <a class="voisin__titre" href="<?= e(lurl($f['chemin'])) ?>" rel="<?= $sens === 'precedent' ? 'prev' : 'next' ?>"><?= e(typo($f['titre'])) ?></a>
         <?php if ($date !== ''): ?><time class="voisin__quand" datetime="<?= e(Dates::iso($date)) ?>"><?= e(Dates::longue($date)) ?></time><?php endif ?>
       </div>
     </li>

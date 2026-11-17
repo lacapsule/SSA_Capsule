@@ -43,7 +43,7 @@ final class Actualites
         }
         $a = Contenu::traduireListe('article', [$a])[0];
         $v = json_decode((string) ($a['videos'] ?? ''), true)[0] ?? null;
-        return is_array($v) && !empty($v['src']) ? ['src' => (string) $v['src'], 'poster' => (string) ($v['poster'] ?? ''), 'titre' => (string) $a['titre'], 'slug' => (string) $a['slug'], 'resume' => (string) ($a['resume'] ?? '')] : null;
+        return is_array($v) && !empty($v['src']) ? ['src' => (string) $v['src'], 'poster' => (string) ($v['poster'] ?? ''), 'titre' => (string) $a['titre'], 'slug' => (string) $a['slug'], 'resume' => (string) ($a['resume'] ?? ''), 'duree' => (int) ($v['duree'] ?? 0)] : null;
     }
 
     public static function liste(): void
@@ -86,6 +86,7 @@ final class Actualites
             'videos' => json_decode((string) ($a['videos'] ?? ''), true) ?: [],
             'precedent' => $voisin('<', 'DESC'),
             'suivant' => $voisin('>', 'ASC'),
+            'scripts' => !empty($a['videos']) ? ['/assets/js/video-lecture.js'] : [],
         ], 'site/layout');
     }
 
