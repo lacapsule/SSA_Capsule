@@ -11,4 +11,8 @@ node_modules/
 # Vidéos brutes du site actuel (670 Mo) : réencodées pour le site, jamais versionnées telles quelles.
 docs/source/existant/medias/**/*.mp4
 docs/source/existant/medias/**/*.webm
+# Vidéos relevées sur le site actuel par l'audit (jusqu'à 528 Mo, au-delà de la limite de GitHub) : gardées sur le poste, jamais versionnées.
+docs/source/existant/fichiers/**/*.mp4
+docs/source/existant/fichiers/**/*.webm
+docs/source/existant/fichiers/**/*.mov
 /public/media/
