@@ -1,6 +1,15 @@
 {
-  "_note": "Vidéos du site actuel réencodées (skill web-media : 720p, H.264, AAC 96k, faststart ; image d'attente à 20 s). Clé : chemin de la vidéo d'origine. null : vidéo inutilisable, à fournir.",
-  "/assets/img/articles/13/20260227-174026-1-webm.mp4": { "video": "video-de-presentation-du-projet-ssa.mp4", "poster": "video-de-presentation-du-projet-ssa.jpg" },
-  "/assets/img/articles/15/20260324-141638-1.webm": { "video": "synthese-atelier-parcours-citoyen-14-mars-2026.mp4", "poster": "synthese-atelier-parcours-citoyen-14-mars-2026.jpg" },
-  "/assets/img/articles/14/20260226-171838-1.webm": null
+  "_note": "Vidéos du site actuel réencodées (skill web-media : 720p, H.264, AAC 96k, faststart ; image d'attente : une image parlante de la vidéo, 20 s pour la synthèse de l'atelier, 2 min 16 s (carte « Vitale ») pour la présentation, 35 s (réunion) pour le fonctionnement du collectif). Clé : chemin de la vidéo d'origine. null : vidéo inutilisable, à fournir. La vidéo de l'article 14 est, sur le site actuel, les 44 premières secondes de la vidéo de présentation (fichier tronqué à la source, vérifié le 2026-11-16) : reprise telle quelle, bon fichier à fournir.",
+  "/assets/img/articles/13/20260227-174026-1-webm.mp4": {
+    "video": "video-de-presentation-du-projet-ssa.mp4",
+    "poster": "video-de-presentation-du-projet-ssa.jpg"
+  },
+  "/assets/img/articles/15/20260324-141638-1.webm": {
+    "video": "synthese-atelier-parcours-citoyen-14-mars-2026.mp4",
+    "poster": "synthese-atelier-parcours-citoyen-14-mars-2026.jpg"
+  },
+  "/assets/img/articles/14/20260226-171838-1.webm": {
+    "video": "fonctionnement-collectif-d-animation.mp4",
+    "poster": "fonctionnement-collectif-d-animation.jpg"
+  }
 }

@@ -35,7 +35,9 @@ final class Dates
 
     public static function heure(string $date): string
     {
-        return self::format($date, 'HH:mm');
+        // Usage typographique français : « 18 h », « 18 h 30 ».
+        $d = new \DateTimeImmutable($date, new \DateTimeZone('Europe/Paris'));
+        return $d->format('G') . ' h' . ($d->format('i') !== '00' ? ' ' . $d->format('i') : '');
     }
 
     /** Valeur de l'attribut datetime. */

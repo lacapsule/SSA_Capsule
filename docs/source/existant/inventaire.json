@@ -1,6 +1,6 @@
 {
   "source": "https://ssapaysdemorlaix.fr",
-  "date": "2026-11-13T16:17:35.979Z",
+  "date": "2026-11-16T16:20:26.373Z",
   "pagesLues": 18,
   "limite": 40,
   "echecs": [],
@@ -860,22 +860,6 @@
         },
         {
           "balise": "p",
-          "texte": "13/11/2026"
-        },
-        {
-          "balise": "p",
-          "texte": "20:00"
-        },
-        {
-          "balise": "h4",
-          "texte": "CINÉ-RENCONTRE \"FEMMES DES TERRES\""
-        },
-        {
-          "balise": "p",
-          "texte": "Femmes des terres est un documentaire réalisé par 6 étudiant.es en agronomie qui partagent les récits de vie de paysannes, agricultrices et leurs traditions ancestrales, entre la France, le Togo et la Bolivie. LA Dérive pont menou Plouégat Guerrand - Prix libre Organisé par le Collectif Sécurité Sociale de l'Alimentation dans le cadre du Festival Alimentaire et du Festisol"
-        },
-        {
-          "balise": "p",
           "texte": "07/12/2026"
         },
         {
@@ -1176,7 +1160,7 @@
         "actions": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, Oxygen, Ubuntu, Cantarell, \"Open Sans\", \"Helvetica Neue\", sans-serif"
       },
       "captureMobile": "captures/accueil-mobile.jpg",
-      "mots": 398,
+      "mots": 333,
       "liensInternes": 28
     },
     {
@@ -4046,6 +4030,72 @@
       "octets": 113595,
       "largeur": 433,
       "hauteur": 446
+    }
+  ],
+  "donnees": [
+    {
+      "adresse": "/api/events?start=2026-11-16&end=2026-11-23",
+      "fichier": "donnees/api-events-start-2026-11-16-end-2026-11-23.json",
+      "elements": 0
+    },
+    {
+      "adresse": "/api/events?start=2000-01-01&end=2035-12-31",
+      "fichier": "donnees/api-events-start-2000-01-01-end-2035-12-31.json",
+      "elements": 44
+    }
+  ],
+  "cartes": [
+    {
+      "lien": "https://umap.openstreetmap.fr/fr/map/ssa-pays-de-morlaix-cartographie-des-points-de-ven_1359970#18/48.667293/-3.912434",
+      "calques": [
+        {
+          "nom": "Conventionnés - OK",
+          "id": "21a317b6-0185-4096-abf5-2168193eac3d",
+          "fichier": "donnees/umap-1359970-21a317b6.json",
+          "points": 84
+        },
+        {
+          "nom": "Conventionnés - Refus",
+          "id": "21eabac0-b610-4b7a-a564-851badecc8f1",
+          "fichier": "donnees/umap-1359970-21eabac0.json",
+          "points": 20
+        },
+        {
+          "nom": "Conventionnés - En attente",
+          "id": "185b8e95-6d68-435e-851c-0a1a942e808f",
+          "fichier": "donnees/umap-1359970-185b8e95.json",
+          "points": 13
+        },
+        {
+          "nom": "Mentionnés - Sans conventionnement",
+          "id": "aff50ab4-1c6b-4949-abae-bcd49a456959",
+          "fichier": "donnees/umap-1359970-aff50ab4.json",
+          "points": 23
+        }
+      ]
+    }
+  ],
+  "medias": [
+    {
+      "src": "https://ssapaysdemorlaix.fr/assets/img/articles/15/20260324-141638-1.webm",
+      "statut": "complet",
+      "octets": 56911049,
+      "fichier": "fichiers/media-9899f0f18e62.webm",
+      "dureeAnnoncee": 215
+    },
+    {
+      "src": "https://ssapaysdemorlaix.fr/assets/img/articles/14/20260226-171838-1.webm",
+      "statut": "tronqué à la source",
+      "octets": 91570983,
+      "fichier": "fichiers/media-15f9b4638723.webm",
+      "dureeAnnoncee": 259
+    },
+    {
+      "src": "https://ssapaysdemorlaix.fr/assets/img/articles/13/20260227-174026-1-webm.mp4",
+      "statut": "complet",
+      "octets": 553870933,
+      "fichier": "fichiers/media-167ec4d34570.mp4",
+      "dureeAnnoncee": 259
     }
   ]
 }

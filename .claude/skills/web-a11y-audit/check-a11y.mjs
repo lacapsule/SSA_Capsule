@@ -37,7 +37,9 @@ if (!pages.length) {
 }
 
 const browser = await lancerNavigateur();
-const context = await browser.newContext({ viewport: { width: 1280, height: 900 } });
+// bypassCSP : le script axe injecté dans la page serait refusé par une CSP stricte (script-src 'self') ; le site testé ne change pas.
+// Mouvement réduit : contrastes mesurés sur l'état final (un élément en cours d'apparition a une opacité réduite).
+const context = await browser.newContext({ viewport: { width: 1280, height: 900 }, bypassCSP: true, reducedMotion: 'reduce' });
 const page = await context.newPage();
 const bloquants = [];
 const autres = [];

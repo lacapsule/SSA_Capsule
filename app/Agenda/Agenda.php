@@ -43,9 +43,10 @@ final class Agenda
     }
 
     /** @return list<array<string, mixed>> */
-    public static function passes(): array
+    public static function passes(?string $categorie = null): array
     {
-        $lignes = Db::run('SELECT ' . self::CHAMPS . ' FROM events WHERE is_published = 1 AND ends_at < ? ORDER BY starts_at DESC', [self::maintenant()])->fetchAll();
+        $sql = 'SELECT ' . self::CHAMPS . ' FROM events WHERE is_published = 1 AND ends_at < ?' . ($categorie ? ' AND category = ?' : '') . ' ORDER BY starts_at DESC';
+        $lignes = Db::run($sql, array_values(array_filter([self::maintenant(), $categorie])))->fetchAll();
         return Contenu::traduireListe('evenement', $lignes);
     }
 
@@ -61,7 +62,7 @@ final class Agenda
             't' => $t,
             'categorie' => $categorie,
             'evenements' => self::aVenir(null, $categorie),
-            'passes' => $categorie ? [] : self::passes(),
+            'passes' => self::passes($categorie),
         ], 'site/layout');
     }
 
@@ -72,7 +73,7 @@ final class Agenda
             abort(404);
         }
         $t = Contenu::traduire('evenement', (string) $e['id'], $e);
-        $voisin = static fn (string $op, string $ordre) => Db::run("SELECT title, slug FROM events WHERE is_published = 1 AND starts_at $op ? ORDER BY starts_at $ordre LIMIT 1", [$e['starts_at']])->fetch() ?: null;
+        $voisin = static fn (string $op, string $ordre) => Db::run("SELECT title, slug, starts_at FROM events WHERE is_published = 1 AND starts_at $op ? ORDER BY starts_at $ordre LIMIT 1", [$e['starts_at']])->fetch() ?: null;
         View::render('agenda/fiche', [
             'meta' => ['title' => $t['title'], 'description' => self::resume($t), 'h1' => $t['title']],
             'path' => '/agenda/' . $slug . '/',
@@ -80,6 +81,9 @@ final class Agenda
             'e' => $t,
             'precedent' => $voisin('<', 'DESC'),
             'suivant' => $voisin('>', 'ASC'),
+            // Événement passé : le prochain rendez-vous à venir est proposé dans le haut de page.
+            'prochain' => Db::run('SELECT title, slug, starts_at, ends_at FROM events WHERE is_published = 1 AND ends_at >= ? ORDER BY starts_at LIMIT 1', [(new \DateTimeImmutable('now', new \DateTimeZone('Europe/Paris')))->format('Y-m-d H:i')])->fetch() ?: null,
+            'scripts' => ['/assets/js/carte-zoom.js'],
         ], 'site/layout');
     }
 

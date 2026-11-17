@@ -188,6 +188,24 @@ Toutes les anciennes adresses recevront une redirection permanente (301) vers le
   if (captures.length) {
     html += `<h2>Captures du site actuel</h2><ul class="vignettes">${captures.map((pg) => `<li><figure><img src="${echapper(lienFichier(pg.capture))}" alt="Capture de ${echapper(new URL(pg.url).pathname)} sur ordinateur"><figcaption>${echapper(new URL(pg.url).pathname)}</figcaption></figure></li>`).join('')}</ul>`;
   }
+  // Contenu chargé hors des pages (calendrier, carte reliée, vidéos) : relevé aussi, pour que rien ne se perde.
+  const donnees = (inv.donnees ?? []).filter((d) => d.elements);
+  const cartes = (inv.cartes ?? []).filter((c) => c.calques.length);
+  const medias = inv.medias ?? [];
+  if (donnees.length || cartes.length || medias.length) {
+    const lignes = [
+      ...donnees.map((d) => `| Données chargées par le site (${echapper(d.adresse.split('?')[0])}) | ${d.elements} élément(s) repris |`),
+      ...cartes.flatMap((c) => c.calques.map((k) => `| Carte reliée, calque « ${echapper(k.nom)} » | ${k.points ?? 0} lieu(x) repris |`)),
+      ...medias.map((m) => `| Vidéo ${echapper(new URL(m.src).pathname.split('/').pop())} | ${m.statut === 'tronqué à la source' ? `**incomplète sur le site actuel** (durée annoncée ${m.dureeAnnoncee ?? '?'} s, fichier coupé) : fichier complet à fournir` : m.statut} |`),
+    ];
+    html += markdown(`## Contenu hors des pages
+
+Ce que le site actuel affiche par un calendrier, une carte ou un lecteur vidéo : relevé à part, repris comme le reste.
+
+| Contenu | Relevé |
+|---------|--------|
+${lignes.join('\n')}`);
+  }
   if (inv.fournis.length) {
     html += markdown(`## Fichiers fournis par le client
 

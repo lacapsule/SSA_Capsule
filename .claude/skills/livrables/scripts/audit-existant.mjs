@@ -10,6 +10,7 @@ import { createHash } from 'node:crypto';
 import { existsSync, mkdirSync, readdirSync, readFileSync, statSync, writeFileSync } from 'node:fs';
 import { createRequire } from 'node:module';
 import path from 'node:path';
+import { spawnSync } from 'node:child_process';
 import { pathToFileURL } from 'node:url';
 import { lancerNavigateur } from '../lib/document.mjs';
 
@@ -50,6 +51,21 @@ const slug = (u) => (new URL(u).pathname.replace(/^\/|\/$/g, '').replace(/[^a-z0
 const navigateur = await lancerNavigateur();
 const contexte = await navigateur.newContext({ viewport: { width: 1440, height: 900 }, locale: 'fr-FR' });
 const page = await contexte.newPage();
+// Contenu chargé en JavaScript (calendrier, liste en fenêtre, carte) : chaque réponse JSON du même domaine est gardée,
+// et chaque script du site est relu pour y trouver ses adresses d'API (constaté sur la SSA : 44 événements chargés par
+// /api/events, invisibles dans le HTML). Tout le contenu du site actuel doit arriver dans docs/source/existant/.
+mkdirSync(path.join(SORTIE, 'donnees'), { recursive: true });
+const donneesJson = new Map();
+const scriptsVus = new Set();
+page.on('response', async (r) => {
+  try {
+    const u = new URL(r.url());
+    if (u.hostname.replace(/^www\./, '') !== new URL(depart).hostname.replace(/^www\./, '')) return;
+    const type = r.headers()['content-type'] ?? '';
+    if (/javascript/.test(type)) scriptsVus.add(u.href);
+    if (/json/.test(type) && r.ok() && !donneesJson.has(u.pathname + u.search)) donneesJson.set(u.pathname + u.search, await r.text());
+  } catch { /* réponse illisible */ }
+});
 
 // Graines : l'adresse donnée et le sitemap s'il existe.
 // Deux files : les pages (un chemin, une page, comptées dans --max et capturées) et les variantes à paramètres
@@ -135,6 +151,9 @@ function lirePage() {
     titre: document.title, description: meta('description'), langue: document.documentElement.lang || null,
     canonique: document.querySelector('link[rel="canonical"]')?.href ?? null, ogImage: meta('og:image'),
     h1: [...document.querySelectorAll('h1')].map(texte), blocs, images, svgLogos, liens, icones, jsonld,
+    // Liens vers d'autres sites (carte uMap, documents) et vidéos ou sons de la page, vérifiés après le parcours.
+    liensExternes: [...new Set(liens.map((l) => l.href).filter((h) => /^https?:/.test(h) && new URL(h).hostname !== location.hostname))],
+    medias: [...new Set([...document.querySelectorAll('video[src], audio[src], video source[src], audio source[src]')].map((m) => new URL(m.getAttribute('src'), location.href).href))],
     enTete: texte(document.querySelector('header')).slice(0, 1500), pied: texte(document.querySelector('footer')).slice(0, 3000),
     adresses: [...document.querySelectorAll('address')].map(texte),
     texteComplet: texte(document.body).slice(0, 60000),
@@ -419,6 +438,77 @@ if (existsSync(FOURNIS)) {
   };
   await parcourir(FOURNIS);
 }
+// Adresses d'API citées par les scripts du site (« /api/… ») : lues en GET, avec une large période pour un calendrier.
+const scriptsLus = new Set();
+for (let i = 0; i < 3; i++) {
+  for (const src of [...scriptsVus].filter((x) => !scriptsLus.has(x))) {
+    scriptsLus.add(src);
+    try {
+      const code = await (await contexte.request.get(src, { timeout: 15000 })).text();
+      for (const m of code.matchAll(/(?:import\(|from\s+)['"](\.{0,2}\/[^'"]+\.js)['"]/g)) scriptsVus.add(new URL(m[1], src).href);
+      for (const m of code.matchAll(/['"`](\/api\/[a-z0-9_\/-]+)['"`]/gi)) {
+        for (const q of ['', '?start=2000-01-01&end=2035-12-31']) {
+          const cle = m[1] + q;
+          if (donneesJson.has(cle)) continue;
+          const r = await contexte.request.get(origine + cle, { timeout: 15000 }).catch(() => null);
+          if (r?.ok() && /json/.test(r.headers()['content-type'] ?? '')) donneesJson.set(cle, await r.text());
+        }
+      }
+    } catch { /* script illisible */ }
+  }
+}
+const donnees = [...donneesJson].map(([cle, texte]) => {
+  const nom = `${cle.replace(/^\//, '').replace(/[^a-z0-9]+/gi, '-').toLowerCase().slice(0, 60) || 'racine'}.json`;
+  writeFileSync(path.join(SORTIE, 'donnees', nom), texte);
+  let elements = null;
+  try { const d = JSON.parse(texte); elements = Array.isArray(d) ? d.length : Array.isArray(d?.data) ? d.data.length : null; } catch { /* pas du JSON */ }
+  return { adresse: cle, fichier: `donnees/${nom}`, elements };
+});
+
+// Cartes uMap reliées depuis le site (liste de lieux tenue par le client) : calques et points gardés.
+const cartes = [];
+const liensUmap = [...new Set(pages.flatMap((p) => (p.liensExternes ?? [])).filter((h) => /umap\.openstreetmap\.fr\/.+\/map\//.test(h)))];
+for (const lien of liensUmap) {
+  try {
+    const html = await (await contexte.request.get(lien, { timeout: 20000 })).text();
+    const id = html.match(/"id":\s*(\d+),\s*"[a-z_]*"/)?.[1] ?? lien.match(/_(\d+)(?:[#?]|$)/)?.[1];
+    const calques = [...html.replace(/&quot;/g, '"').matchAll(/\{"properties":\s*\{"name":\s*"([^"]+)"[^]*?"id":\s*"([0-9a-f-]{36})"/g)].map((m) => ({ nom: JSON.parse(`"${m[1]}"`), id: m[2] }));
+    for (const c of calques) {
+      const r = await contexte.request.get(`https://umap.openstreetmap.fr/fr/datalayer/${id}/${c.id}/`, { timeout: 20000 }).catch(() => null);
+      if (!r?.ok()) continue;
+      const nom = `umap-${id}-${c.id.slice(0, 8)}.json`;
+      const texte = await r.text();
+      writeFileSync(path.join(SORTIE, 'donnees', nom), texte);
+      c.fichier = `donnees/${nom}`;
+      try { c.points = JSON.parse(texte).features?.length ?? null; } catch { c.points = null; }
+    }
+    cartes.push({ lien, calques });
+  } catch { cartes.push({ lien, calques: [], erreur: 'illisible' }); }
+}
+
+// Vidéos et sons : chaque fichier est décodé jusqu'au bout (ffmpeg) ; un fichier tronqué à la source se lit en partie
+// sans erreur visible (constaté sur la SSA : en-tête de 4 min 18, données jusqu'à 44 s).
+const medias = [];
+const ffmpeg = spawnSync('ffmpeg', ['-version']).status === 0;
+for (const src of [...new Set(pages.flatMap((p) => p.medias ?? []))]) {
+  const e = { src, statut: 'non vérifié' };
+  try {
+    const r = await contexte.request.get(src, { timeout: 300000 });
+    if (!r.ok()) { e.statut = `HTTP ${r.status()}`; medias.push(e); continue; }
+    const corps = await r.body();
+    e.octets = corps.length;
+    if (ffmpeg) {
+      const f = path.join(SORTIE, 'fichiers', `media-${createHash('sha256').update(corps).digest('hex').slice(0, 12)}${path.extname(new URL(src).pathname)}`);
+      writeFileSync(f, corps);
+      e.fichier = path.relative(SORTIE, f);
+      const essai = spawnSync('ffmpeg', ['-v', 'error', '-i', f, '-f', 'null', '-'], { encoding: 'utf8', maxBuffer: 16 * 1024 * 1024 });
+      const duree = spawnSync('ffprobe', ['-v', 'error', '-show_entries', 'format=duration', '-of', 'csv=p=0', f], { encoding: 'utf8' }).stdout.trim();
+      e.dureeAnnoncee = duree ? Math.round(Number(duree)) : null;
+      e.statut = /ended prematurely|Invalid data|corrupt|truncat/i.test(essai.stderr) ? 'tronqué à la source' : 'complet';
+    }
+  } catch (err) { e.statut = `illisible (${String(err.message).split('\n')[0]})`; }
+  medias.push(e);
+}
 await navigateur.close();
 
 const inventaire = {
@@ -438,8 +528,10 @@ const inventaire = {
   menu: (accueil?.liens ?? []).filter((l) => l.dansNav && l.texte && normaliser(l.href)).map((l) => ({ texte: l.texte, chemin: new URL(l.href).pathname + new URL(l.href).search + new URL(l.href).hash })),
   pied: (accueil?.liens ?? []).filter((l) => l.dansPied && l.texte && normaliser(l.href)).map((l) => ({ texte: l.texte, chemin: new URL(l.href).pathname + new URL(l.href).search + new URL(l.href).hash })),
   anciennesAdresses: [...anciennesAdresses].filter((a) => !pagesEnErreur.some((e) => new URL(e.url).pathname === a)).sort(),
-  pages: pages.map(({ liens, texteComplet, couleurs: _c, couleursLogo: _l, policesChargees, sourcesPolices, svgLogos, ...p }) => ({ ...p, mots: texteComplet.split(' ').length, liensInternes: liens.filter((l) => normaliser(l.href)).length })),
+  pages: pages.map(({ liens, texteComplet, couleurs: _c, couleursLogo: _l, policesChargees, sourcesPolices, svgLogos, liensExternes: _e, medias: _m, ...p }) => ({ ...p, mots: texteComplet.split(' ').length, liensInternes: liens.filter((l) => normaliser(l.href)).length })),
   images, fournis,
+  // Contenu hors du HTML : réponses JSON et API du site, cartes reliées, vidéos vérifiées jusqu'au bout.
+  donnees, cartes, medias,
 };
 writeFileSync(path.join(SORTIE, 'inventaire.json'), JSON.stringify(inventaire, null, 2) + '\n');
 

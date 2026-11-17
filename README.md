@@ -62,6 +62,8 @@ Les contenus viennent des pages publiques du site actuel, pas de sa base (décis
 1. `node scripts/extraire-site-actuel.mjs` : écrit `docs/source/existant/contenus.json` et télécharge les médias.
 2. `php scripts/importer-contenus.php [--remplacer]` : les verse dans la base et copie les images sous `public/media/`.
 
+Les copies réduites des photos (400 à 1280 px, WebP) se créent au premier affichage dans `public/media/vignettes/` (`app/Site/Vignette.php`) ; ce dossier doit rester inscriptible par PHP sur le serveur, comme `public/media/`. Il se supprime sans risque : les copies se recréent.
+
 `php scripts/donnees-volume.php` prépare des bases de test (vide, un élément, volume maximal) pour regarder les listes à tous les volumes. Jamais en production.
 
 ## Configuration

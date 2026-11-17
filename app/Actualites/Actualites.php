@@ -14,7 +14,7 @@ use App\Site\Texte;
 final class Actualites
 {
     private const CHAMPS = 'id, titre, resume, description, date_article, image, image_alt, slug, lieu, heure, liens, videos';
-    private const PAR_PAGE = 9;
+    private const PAR_PAGE = 12;
 
     private static function aujourdhui(): string
     {
@@ -28,6 +28,24 @@ final class Actualites
         return Contenu::traduireListe('article', $lignes);
     }
 
+    /**
+     * Première vidéo d'un article publié (page « Le projet ») : fichier, image d'attente, titre et adresse de l'article.
+     * @return array{src: string, poster: string, titre: string, slug: string, resume: string}|null
+     */
+    public static function video(string $slug): ?array
+    {
+        if ($slug === '') {
+            return null;
+        }
+        $a = Db::run('SELECT ' . self::CHAMPS . ' FROM articles WHERE is_published = 1 AND date_article <= ? AND slug = ?', [self::aujourdhui(), $slug])->fetch();
+        if ($a === false) {
+            return null;
+        }
+        $a = Contenu::traduireListe('article', [$a])[0];
+        $v = json_decode((string) ($a['videos'] ?? ''), true)[0] ?? null;
+        return is_array($v) && !empty($v['src']) ? ['src' => (string) $v['src'], 'poster' => (string) ($v['poster'] ?? ''), 'titre' => (string) $a['titre'], 'slug' => (string) $a['slug'], 'resume' => (string) ($a['resume'] ?? '')] : null;
+    }
+
     public static function liste(): void
     {
         $total = (int) Db::run('SELECT COUNT(*) FROM articles WHERE is_published = 1 AND date_article <= ?', [self::aujourdhui()])->fetchColumn();
@@ -39,7 +57,7 @@ final class Actualites
         $lignes = Db::run('SELECT ' . self::CHAMPS . ' FROM articles WHERE is_published = 1 AND date_article <= ? ORDER BY date_article DESC, id DESC LIMIT ' . self::PAR_PAGE . ' OFFSET ' . (($page - 1) * self::PAR_PAGE), [self::aujourdhui()])->fetchAll();
         $t = Contenu::traduire('page', '/actualites/', Pages::textes('/actualites/'));
         View::render('actualites/liste', [
-            'meta' => ['title' => $t['titre'], 'description' => $t['description'], 'h1' => $t['titre']],
+            'meta' => ['title' => $t['titre'] . ($page > 1 ? ' (page ' . $page . ')' : ''), 'description' => $t['description'], 'h1' => $t['titre']],
             'path' => '/actualites/',
             'disponibles' => Contenu::disponibles('page', '/actualites/'),
             't' => $t,
@@ -57,7 +75,7 @@ final class Actualites
         }
         $t = Contenu::traduire('article', (string) $a['id'], $a);
         $images = Db::run('SELECT path, alt FROM article_images WHERE article_id = ? ORDER BY position', [$a['id']])->fetchAll();
-        $voisin = static fn (string $op, string $ordre) => Db::run("SELECT titre, slug, image, videos FROM articles WHERE is_published = 1 AND date_article <= ? AND (date_article $op ? OR (date_article = ? AND id $op ?)) ORDER BY date_article $ordre, id $ordre LIMIT 1", [self::aujourdhui(), $a['date_article'], $a['date_article'], $a['id']])->fetch() ?: null;
+        $voisin = static fn (string $op, string $ordre) => Db::run("SELECT titre, slug, image, videos, date_article FROM articles WHERE is_published = 1 AND date_article <= ? AND (date_article $op ? OR (date_article = ? AND id $op ?)) ORDER BY date_article $ordre, id $ordre LIMIT 1", [self::aujourdhui(), $a['date_article'], $a['date_article'], $a['id']])->fetch() ?: null;
         View::render('actualites/fiche', [
             'meta' => ['title' => $t['titre'], 'description' => Texte::couper((string) ($t['resume'] ?: $t['description']), 158), 'h1' => $t['titre']],
             'path' => '/actualites/' . $slug . '/',

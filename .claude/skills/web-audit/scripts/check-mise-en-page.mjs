@@ -4,7 +4,8 @@
 //   en-tête sur une seule ligne et de 5 rem au plus ; titre principal 2,75 rem au plus, titres de section 2 rem au plus ;
 //   texte courant de 1,0625 à 1,25 rem ; aucun titre sur plus de 3 lignes à 1280 px ; aucun élément fixe posé sur
 //   un contenu ; aucun défilement horizontal ; titre du haut de page 4 rem au plus ; pas plus de 3 grandes sections
-//   de suite au même traitement (fond et style de titre), 3 en avertissement ; revue visuelle de chaque page.
+//   de suite au même traitement (fond et style de titre), 3 en avertissement ; revue visuelle de chaque page ;
+//   poids au chargement à 1280 px sous POIDS_MAX_KO (500 Ko par défaut, textes comptés compressés).
 // Puis, si l'audit du site actuel existe : chaque page à côté de la page qu'elle remplace (.claude/etat/comparaison/),
 // à regarder pour la ligne 5 de la checklist livraison.
 // Une page de l'arborescence du mode d'emploi pas encore construite (404) est un avertissement pendant la construction,
@@ -13,6 +14,7 @@
 //   sans adresse : sert dist/ (socle statique, après le build) ou lance scripts/dev.php (socle dynamique),
 //   puis l'arrête par son PID.
 import { execFileSync, spawn } from 'node:child_process';
+import { gzipSync } from 'node:zlib';
 import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 import { pathToFileURL } from 'node:url';
@@ -228,6 +230,7 @@ if (existsSync(modeEmploi)) {
   }
 }
 const recette = process.env.RECETTE === '1';
+const POIDS_MAX_KO = Number(process.env.POIDS_MAX_KO) || 500;
 const aConstruire = [];
 
 // Crédit du prestataire (rule web-design, « Conventions de base ») : lien vers son site dans le pied de page.
@@ -246,6 +249,10 @@ try {
     for (const largeur of LARGEURS) {
       // Mouvement réduit : mesures et captures sur l'état final (apparitions au défilement, bandes défilantes figées).
       const page = await navigateur.newPage({ viewport: { width: largeur, height: 900 }, reducedMotion: 'reduce' });
+      // Poids de la première vue (rule web-perf-eco, < 500 Ko) : corps reçus au chargement, textes comptés compressés
+      // (gzip, comme le serveur de production) ; le serveur de développement ne compresse pas.
+      const corps = [];
+      if (largeur === 1280) page.on('response', (r) => corps.push(r.body().then((b) => (/^(text\/|application\/(javascript|json|xml)|image\/svg)/.test(r.headers()['content-type'] ?? '') ? gzipSync(b).length : b.length)).catch(() => 0)));
       const rep = await page.goto(site.base + chemin, { waitUntil: 'load' });
       if (!rep || rep.status() >= 400) {
         const prevue = rep?.status() === 404 && arborescence.some((p) => p.adresse === chemin);
@@ -267,6 +274,9 @@ try {
       // de la capture seulement (style posé par le DOM, accepté par une CSP style-src 'self').
       if (largeur === 1280) await page.evaluate(() => { for (const el of document.querySelectorAll('body *')) if (['sticky', 'fixed'].includes(getComputedStyle(el).position)) el.style.setProperty('position', 'static', 'important'); });
       if (largeur === 1280) {
+        await page.waitForLoadState('networkidle').catch(() => {});
+        const ko = Math.round((await Promise.all(corps)).reduce((a, b) => a + b, 0) / 1024);
+        if (ko > POIDS_MAX_KO) ecarts.push(`${chemin} : ${ko} Ko au chargement, pour ${POIDS_MAX_KO} Ko au plus (rule web-perf-eco) : images à la taille affichée (copies réduites, srcset), rien de lourd hors de la première vue`);
         const c = await page.evaluate(lireContenu);
         contenus[chemin] = c;
         for (const m of c.medias) ecarts.push(`${chemin} : ${m} (une page ne se présente pas avec un bloc prévu vide, skill web-contenu)`);
@@ -342,9 +352,16 @@ await navigateur.close();
 
 // Revue visuelle (skill web-direction, « Revue visuelle ») : chaque page construite de l'arborescence a un avis écrit par un
 // relecteur indépendant, face à la page remplacée et aux références. « à reprendre » bloque ; absente : à faire, exigée en recette.
+// Une adresse modèle de l'arborescence (/actualites/<titre>/) vaut pour toutes ses fiches : elle compte comme construite dès
+// qu'une page capturée lui correspond, et sa revue est celle du modèle (actualites-fiche.md).
 const sansRevue = [];
+const construite = (adresse) => {
+  if (!/</.test(adresse)) return Boolean(captures[adresse]);
+  const motif = new RegExp(`^${adresse.split(/<[^>]+>/).map((x) => x.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('[^/]+')}$`);
+  return Object.keys(captures).some((c) => motif.test(c));
+};
 for (const p of arborescence) {
-  if (!captures[p.adresse] || /\/admin/.test(p.adresse)) continue;
+  if (!construite(p.adresse) || /\/admin/.test(p.adresse)) continue;
   const fichier = path.join(RACINE, 'docs/maquettes/revues', `${slugAdresse(p.adresse)}.md`);
   if (!existsSync(fichier)) { sansRevue.push(p.adresse); continue; }
   const verdict = (readFileSync(fichier, 'utf8').match(/^Verdict\s*:\s*(.+)$/im)?.[1] ?? '').trim();

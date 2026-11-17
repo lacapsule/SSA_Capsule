@@ -46,11 +46,12 @@ $email = (string) Site::get('email');
 <meta property="og:description" content="<?= e($meta['description'] ?? '') ?>">
 <meta property="og:url" content="<?= e($canonical) ?>">
 <?php endif ?>
+<link rel="icon" href="/favicon.ico" sizes="48x48">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="stylesheet" href="<?= e(Site::asset('/assets/css/tokens.css')) ?>">
 <link rel="stylesheet" href="<?= e(Site::asset('/assets/css/charte.css')) ?>">
 <link rel="stylesheet" href="<?= e(Site::asset('/assets/css/site.css')) ?>">
 <link rel="stylesheet" href="<?= e(Site::asset('/assets/css/langue.css')) ?>">
-<link rel="stylesheet" href="<?= e(Site::asset('/assets/css/navigation-fiches.css')) ?>">
 <link rel="stylesheet" href="<?= e(Site::asset('/assets/css/ssa.css')) ?>">
 <?php foreach ($styles as $href): ?>
 <link rel="stylesheet" href="<?= e(Site::asset((string) $href)) ?>">
@@ -83,7 +84,7 @@ $email = (string) Site::get('email');
 <a class="skip-link" href="#contenu"><?= e(t('site.aller_au_contenu')) ?></a>
 <header class="site-header">
   <div class="site-header__inner container">
-    <a class="site-header__logo" href="<?= e(lurl('/')) ?>"<?= $path === '/' ? ' aria-current="page"' : '' ?>><img src="/assets/img/logo.svg" alt="" width="433" height="446"><span><?= e($short) ?></span><span class="visually-hidden">, <?= e(t('site.accueil')) ?></span></a>
+    <a class="site-header__logo" href="<?= e(lurl('/')) ?>"<?= $path === '/' ? ' aria-current="page"' : '' ?>><img src="/assets/img/logo-entete-112.webp" srcset="/assets/img/logo-entete-112.webp 2x, /assets/img/logo-entete-168.webp 3x" alt="" width="56" height="58"><span><?= e($short) ?></span><span class="visually-hidden">, <?= e(t('site.accueil')) ?></span></a>
     <nav class="site-nav" aria-label="<?= e(t('menu.principal')) ?>" data-nav>
       <button class="site-nav__toggle" type="button" aria-expanded="false" aria-controls="menu-principal" hidden><span class="site-nav__bars" aria-hidden="true"></span><?= e(t('menu.ouvrir')) ?></button>
       <ul class="site-nav__list" id="menu-principal">

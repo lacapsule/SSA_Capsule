@@ -10,7 +10,7 @@ Contraintes : rule `boite-a-outils`. Format exact d'une brique : `../kouzia-boit
 ## Chercher
 
 1. Lire `../kouzia-boite-a-outils/INDEX.md` en entier (court par construction).
-2. Retenir au plus trois candidates (catégorie, socle, mots-clés). Ouvrir leur `fiche.json` et `NOTES.md` seulement.
+2. Retenir au plus trois candidates (espace, famille, nature, socle, mots-clés : l'index est rangé par espace puis par famille). Ouvrir leur `fiche.json` et `NOTES.md` seulement.
 3. Dire à l'humain ce qui est repris, d'où (`elements/<categorie>/<id>`), et ce qui reste à faire.
 
 ## Reprendre
@@ -25,7 +25,7 @@ Contraintes : rule `boite-a-outils`. Format exact d'une brique : `../kouzia-boit
 
 Une brique mérite la boîte si elle a servi, fonctionne et peut servir à un autre site. Tout nouveau bloc créé pour un projet (zone `nouveau bloc` d'une maquette) est proposé à l'humain à la fin de l'intégration de la page, sans attendre qu'il le demande.
 
-1. Proposer : nom, catégorie (`composants`, `sections`, `modules`, `gabarits`), socles, ce qui la rend réutilisable, licence du projet d'origine. Attendre l'accord. Licence GPL ou inconnue : réécrire entièrement, ne rien copier ; provenance dans `fiche.json` (`origine`).
+1. Proposer : nom, catégorie (`composants`, `sections`, `modules`, `gabarits`), classement (`nature`, `espace`, `famille`, valeurs dans `../kouzia-boite-a-outils/README.md`, « Classement »), socles, ce qui la rend réutilisable, licence du projet d'origine. Attendre l'accord. Licence GPL ou inconnue : réécrire entièrement, ne rien copier ; provenance dans `fiche.json` (`origine`).
 2. Créer `../kouzia-boite-a-outils/elements/<categorie>/<id>/` avec `fiche.json`, `apercu.html`, `style.css`, `script.js` si besoin, `source/` (fichiers d'origine du socle) et `NOTES.md` (intégration, variantes, pièges).
 3. Rendre la brique générique : textes neutres, tokens de `base/tokens.css`, aucune marque ni donnée du client.
 4. Lancer `node ../kouzia-boite-a-outils/outils/indexer.mjs` : il vérifie les fiches, refuse les tirets interdits et regénère `INDEX.md` et `catalogue.html`.

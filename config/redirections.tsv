@@ -2,3 +2,4 @@
 # Les /article/<n> suivent la base (app/Reprise) ; ce fichier ne garde que les cas fixes.
 /login	/admin/
 /article/16	/lieux-conventionnes/
+/collectif	/projet/

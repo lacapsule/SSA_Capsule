@@ -20,6 +20,7 @@ Ce `.claude/` est un kit commun à tous les projets de sites. Règle maîtresse 
 
 ## Décider
 
+- **Franchise** : une demande ou une idée de l'humain qui nuit au public, à l'accessibilité, au poids, à la sécurité, au référencement, au périmètre ou au budget se dit clairement, avant d'agir : ce qui ne va pas, pourquoi (fait, mesure ou règle), et ce que l'agent propose à la place. Ni exécution en silence, ni réserve enrobée, ni accord de politesse. La décision reste à l'humain ; une fois prise et écrite, elle s'applique sans être remise en cause à chaque échange.
 - Une seule action possible et sans risque, dans le périmètre : la faire sans demander.
 - Choix de cadrage, visible du client ou qui l'engage (type de site, périmètre, nouvelle section, prestataire ou service tiers, coût, données personnelles) : jamais seul. Il se décide à l'interview ou par une question explicite, puis s'inscrit dans « Décisions validées ».
 - Choix technique interne (version de PHP, moteur de base de données, structure des données, organisation du code, outil de développement) : l'agent le tranche seul, d'après les besoins du mode d'emploi et les limites connues de l'hébergeur, en prenant la solution la plus simple qui suffit. Il l'inscrit dans « Décisions validées » avec sa raison, sans poser de question à l'humain.

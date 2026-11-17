@@ -2,9 +2,9 @@
   "livrables": {
     "01-audit-existant": {
       "titre": "Audit de l'existant",
-      "version": 5,
-      "date": "2026-11-13",
-      "empreinte": "364c32221d845bfe",
+      "version": 7,
+      "date": "2026-11-17",
+      "empreinte": "5ae5e5d3c7673639",
       "statut": "constat",
       "historique": [
         {
@@ -13,32 +13,57 @@
           "date": "2026-11-13",
           "empreinte": "1ffcd9d19c318b47",
           "statut": "constat"
+        },
+        {
+          "titre": "Audit de l'existant",
+          "version": 5,
+          "date": "2026-11-13",
+          "empreinte": "364c32221d845bfe",
+          "statut": "constat"
+        },
+        {
+          "titre": "Audit de l'existant",
+          "version": 6,
+          "date": "2026-11-16",
+          "empreinte": "a633fb20d3f9208a",
+          "statut": "constat"
         }
       ]
     },
     "02-cahier-des-charges": {
       "titre": "Cahier des charges",
-      "version": 12,
-      "date": "2026-11-13",
-      "empreinte": "3e15b50b2a979c24",
-      "statut": "validé",
-      "validation": {
-        "par": "Géraldine Gabillet, accord oral du 2026-11-13 sur la version 11, reporté (mise en forme seule)",
-        "date": "2026-11-13",
-        "version": 12
-      },
-      "empreinteSource": "402acfac75d51f70",
+      "version": 15,
+      "date": "2026-11-17",
+      "empreinte": "8f8cbf9f722ece5f",
+      "empreinteSource": "d956c816f5559724",
       "calculSource": 2,
-      "miseEnForme": "2026-11-13"
+      "statut": "à valider",
+      "historique": [
+        {
+          "titre": "Cahier des charges",
+          "version": 12,
+          "date": "2026-11-13",
+          "empreinte": "3e15b50b2a979c24",
+          "statut": "validé",
+          "validation": {
+            "par": "Géraldine Gabillet, accord oral du 2026-11-13 sur la version 11, reporté (mise en forme seule)",
+            "date": "2026-11-13",
+            "version": 12
+          },
+          "empreinteSource": "402acfac75d51f70",
+          "calculSource": 2,
+          "miseEnForme": "2026-11-13"
+        }
+      ]
     },
     "03-wireframes": {
       "titre": "Wireframes",
-      "version": 12,
-      "date": "2026-11-16",
-      "empreinte": "34106a0b96ea39c9",
-      "empreinteSource": "6e381ea7886fe73f",
+      "version": 13,
+      "date": "2026-11-17",
+      "empreinte": "53e827947763e635",
+      "empreinteSource": "6856c985ad2c410a",
       "calculSource": 2,
-      "statut": "validé",
+      "statut": "brouillon",
       "historique": [
         {
           "titre": "Wireframes",
@@ -54,30 +79,41 @@
           "empreinteSource": "a4649dcc640f6fc8",
           "calculSource": 2,
           "miseEnForme": "2026-11-13"
+        },
+        {
+          "titre": "Wireframes",
+          "version": 12,
+          "date": "2026-11-16",
+          "empreinte": "7bcef85c1c164e7f",
+          "empreinteSource": "6e381ea7886fe73f",
+          "calculSource": 2,
+          "statut": "validé",
+          "validation": {
+            "par": "Géraldine Gabillet, accord oral transmis par Kouzia le 2026-11-16",
+            "date": "2026-11-16",
+            "version": 12
+          },
+          "miseEnForme": "2026-11-16"
         }
       ],
-      "validation": {
-        "par": "Géraldine Gabillet, accord oral transmis par Kouzia le 2026-11-16",
-        "date": "2026-11-16",
-        "version": 12
-      },
-      "miseEnForme": "2026-11-16"
+      "miseEnForme": "2026-11-17"
     },
     "04-direction-artistique": {
       "titre": "Direction artistique et maquettes",
       "version": 14,
       "date": "2026-11-16",
-      "empreinte": "91a276676ab05e49",
+      "empreinte": "e67ccce506fa14cd",
       "empreinteSource": "105fb986573f3e82",
       "calculSource": 2,
       "statut": "validé",
-      "miseEnForme": "2026-11-16",
+      "miseEnForme": "2026-11-17",
       "validation": {
         "par": "Géraldine Gabillet, accord oral transmis par Kouzia le 2026-11-16",
         "date": "2026-11-16",
         "version": 14,
         "piste": 2
-      }
+      },
+      "historique": []
     }
   }
 }

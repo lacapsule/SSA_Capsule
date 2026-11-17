@@ -3,7 +3,7 @@ Action principale : savoir qui édite et héberge le site
 Existant : capture docs/source/existant/captures/mentions-legales-bureau.jpg : colonne centrée, intertitres verts (Éditeur, Directeur de la publication, Contact, Hébergement, Propriété intellectuelle et crédits), pied jaune. Ce qui marche : colonne de lecture centrée, rubriques claires. Ce qui ne marche pas : intertitres verts sous 4,5:1, hébergeur Hostinger périmé, police Outfit citée mais non servie, éditeur sans SIRET.
 Références : https://terredeliens.org/national/mentions-legales/ (Terre de Liens, ouvert le 2026-11-16) : rubriques Éditeur, Conception, Hébergement, Photos et illustrations, Propriété intellectuelle, Contact. https://www.resam.net/mentions-legales.html (Résam, ouvert le 2026-11-16) : association éditrice, hébergeur et contact sur une page courte. Retenu : mêmes rubriques dans cet ordre, colonne de lecture centrée, crédits photos et illustrations à part.
 
-1. En-tête : logo, menu (Accueil, Le projet, Qui sommes-nous, Lieux conventionnés, Actualités, Agenda, Galerie, Contact), lien « Brezhoneg » vers la version bretonne ; brique sections/en-tete-menu ; adaptation : fond bleu de marque, logo du collectif, menu et langue sur une seule ligne
+1. En-tête : logo, menu (Accueil, Le projet, Lieux conventionnés, Actualités, Agenda, Galerie, Contact), lien « Brezhoneg » vers la version bretonne ; brique sections/en-tete-menu ; adaptation : fond bleu de marque, logo du collectif, menu et langue sur une seule ligne
 2. Fil d'Ariane : Accueil, puis la page ; brique sections/haut-de-page ; adaptation : liens verts, page courante en texte
 3. Haut de page : titre Mentions légales, centré ; brique sections/haut-de-page ; adaptation : fond clair, titre bleu de marque avec trait vert sous le titre
 4. Éditeur : ULAMIR-CPIE (nom légal, SIRET et siège à confirmer par Géraldine Gabillet), directrice de la publication Géraldine Gabillet ; brique gabarits/pages-legales-php ; adaptation : titres bleu de marque avec trait vert, colonne de lecture centrée
@@ -12,3 +12,4 @@ Références : https://terredeliens.org/national/mentions-legales/ (Terre de Lie
 7. Pied de page : colonnes (Coordonnées, Pages légales, Langue) ; Le Buzuk, 39 bellevue de la Madeleine, 29600 Morlaix, 06 15 06 82 08, ssapaysdemorlaix@mailo.com ; Mentions légales, Confidentialité, Accessibilité, Plan du site ; lien Brezhoneg ; brique sections/pied-de-page ; adaptation : fond jaune --color-marque-2, texte foncé
 
 Liens entrants : pied de page  ·  liens sortants : Confidentialité, Accessibilité
+Retiré : « Le site est hébergé par Hostinger International Ltd, 61 Lordou Vironos Street, 6023 Larnaca, Chypre. » (hébergeur changé : La Capsule, décision du 2026-11-13 ; nouvel hébergeur dans la rubrique Hébergement)

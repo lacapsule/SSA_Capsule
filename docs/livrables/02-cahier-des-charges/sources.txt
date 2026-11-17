@@ -31,8 +31,7 @@ Chaque page française a sa version bretonne, à la même adresse précédée de
 | Page | Adresse | Intention du public (question tapée) | Remplace (ancienne adresse) |
 |------|---------|--------------------------------------|-----------------------------|
 | Accueil | `/` | sécurité sociale de l'alimentation Morlaix | `/`, `/?lang=fr`, `/?page=n` |
-| Le projet | `/projet/` | comment fonctionne la caisse alimentaire de Morlaix | `/projet` |
-| Qui sommes-nous | `/collectif/` | qui porte la SSA au Pays de Morlaix | bloc de l'accueil |
+| Le projet | `/projet/` | comment fonctionne la caisse alimentaire de Morlaix, qui porte la SSA au Pays de Morlaix | `/projet`, bloc « Qui sommes-nous » de l'accueil |
 | Lieux conventionnés | `/lieux-conventionnes/` | où dépenser ses Buzuk SSA | `/article/16` |
 | Actualités | `/actualites/` | actualités SSA Morlaix | bloc de l'accueil |
 | Article | `/actualites/<titre>/` | titre de l'article | `/article/<numéro>` |

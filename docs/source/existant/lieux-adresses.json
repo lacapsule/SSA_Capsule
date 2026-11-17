@@ -1,0 +1,841 @@
+{
+ "_note": "Généré par scripts/adresses-lieux.mjs : ne pas modifier à la main.",
+ "source": "IGN, géocodage inverse (Géoplateforme), Licence Ouverte",
+ "date": "2026-11-17",
+ "adresses": {
+  "48.439223,-3.886819": {
+   "adresse": "115 ZA de l'Espace Plassart",
+   "code_postal": "29410",
+   "ville": "Plounéour-Ménez",
+   "distance": 11
+  },
+  "48.695887,-3.792359": {
+   "adresse": "",
+   "code_postal": "29630",
+   "ville": "Plougasnou",
+   "distance": 10
+  },
+  "48.56681,-3.855139": {
+   "adresse": "3 Rue Marcellin Berthelot",
+   "code_postal": "29600",
+   "ville": "Saint-Martin-des-Champs",
+   "distance": 13
+  },
+  "48.68239,-3.996105": {
+   "adresse": "Avenue des Carmes",
+   "code_postal": "29250",
+   "ville": "Saint-Pol-de-Léon",
+   "distance": 35
+  },
+  "48.507336,-4.070735": {
+   "adresse": "53 Rue Saint Guénal",
+   "code_postal": "29400",
+   "ville": "Landivisiau",
+   "distance": 16
+  },
+  "48.576078,-3.825932": {
+   "adresse": "6 Venelle au Beurre",
+   "code_postal": "29600",
+   "ville": "Morlaix",
+   "distance": 18
+  },
+  "48.496325,-3.94612": {
+   "adresse": "Zone de la Gare",
+   "code_postal": "29410",
+   "ville": "Saint-Thégonnec Loc-Eguiner",
+   "distance": 42
+  },
+  "48.668632,-3.914309": {
+   "adresse": "",
+   "code_postal": "29660",
+   "ville": "Carantec",
+   "distance": 8
+  },
+  "48.665202,-3.710182": {
+   "adresse": "Route de Lanmeur",
+   "code_postal": "29620",
+   "ville": "Guimaëc",
+   "distance": 35
+  },
+  "48.695935,-3.792375": {
+   "adresse": "",
+   "code_postal": "29630",
+   "ville": "Plougasnou",
+   "distance": 13
+  },
+  "48.575541,-3.843965": {
+   "adresse": "5 Place de la Barrière",
+   "code_postal": "29600",
+   "ville": "Saint-Martin-des-Champs",
+   "distance": 14
+  },
+  "48.631831,-3.663576": {
+   "adresse": "",
+   "code_postal": "29620",
+   "ville": "Plouégat-Guérand",
+   "distance": 50
+  },
+  "48.643128,-3.845637": {
+   "adresse": "160 Route de Kerfénéface",
+   "code_postal": "29252",
+   "ville": "Plouezoc'h",
+   "distance": 19
+  },
+  "48.566754,-3.700494": {
+   "adresse": "2 Place des Frères Boulch",
+   "code_postal": "29610",
+   "ville": "Plouigneau",
+   "distance": 2
+  },
+  "48.578176,-3.82925": {
+   "adresse": "27 Place des Otages",
+   "code_postal": "29600",
+   "ville": "Morlaix",
+   "distance": 3
+  },
+  "48.517368,-3.587937": {
+   "adresse": "5 Rue du Général de Gaulle",
+   "code_postal": "29650",
+   "ville": "Guerlesquin",
+   "distance": 26
+  },
+  "48.646595,-3.716549": {
+   "adresse": "",
+   "code_postal": "29620",
+   "ville": "Lanmeur",
+   "distance": 7
+  },
+  "48.576398,-3.82663": {
+   "adresse": "4p Place Allende",
+   "code_postal": "29600",
+   "ville": "Morlaix",
+   "distance": 6
+  },
+  "48.567299,-3.701507": {
+   "adresse": "Rue du 9 Août",
+   "code_postal": "29610",
+   "ville": "Plouigneau",
+   "distance": 36
+  },
+  "48.469052,-3.887615": {
+   "adresse": "Garsplegent",
+   "code_postal": "29410",
+   "ville": "Plounéour-Ménez",
+   "distance": 57
+  },
+  "48.668699,-3.914464": {
+   "adresse": "",
+   "code_postal": "29660",
+   "ville": "Carantec",
+   "distance": 14
+  },
+  "48.43946,-3.886931": {
+   "adresse": "63 ZA de l'Espace Plassart",
+   "code_postal": "29410",
+   "ville": "Plounéour-Ménez",
+   "distance": 19
+  },
+  "48.685259,-3.987238": {
+   "adresse": "5 Rue du Colombier",
+   "code_postal": "29250",
+   "ville": "Saint-Pol-de-Léon",
+   "distance": 26
+  },
+  "48.703735,-4.010353": {
+   "adresse": "",
+   "code_postal": "29250",
+   "ville": "Santec",
+   "distance": 28
+  },
+  "48.648675,-4.136009": {
+   "adresse": "Lieu Dit Kerantosfal",
+   "code_postal": "29233",
+   "ville": "Cléder",
+   "distance": 35
+  },
+  "48.65793,-4.174182": {
+   "adresse": "",
+   "code_postal": "29430",
+   "ville": "Plouescat",
+   "distance": 13
+  },
+  "48.576394,-3.826088": {
+   "adresse": "27 Place Allende",
+   "code_postal": "29600",
+   "ville": "Morlaix",
+   "distance": 7
+  },
+  "48.439334,-3.886781": {
+   "adresse": "115 ZA de l'Espace Plassart",
+   "code_postal": "29410",
+   "ville": "Plounéour-Ménez",
+   "distance": 21
+  },
+  "48.724309,-3.982488": {
+   "adresse": "17 Quai Charles de Gaulle",
+   "code_postal": "29680",
+   "ville": "Roscoff",
+   "distance": 8
+  },
+  "48.57523,-3.844429": {
+   "adresse": "3 Place de la Barrière",
+   "code_postal": "29600",
+   "ville": "Saint-Martin-des-Champs",
+   "distance": 8
+  },
+  "48.696286,-3.999109": {
+   "adresse": "Route de Rucat",
+   "code_postal": "29680",
+   "ville": "Roscoff",
+   "distance": 60
+  },
+  "48.643185,-3.84569": {
+   "adresse": "160 Route de Kerfénéface",
+   "code_postal": "29252",
+   "ville": "Plouezoc'h",
+   "distance": 14
+  },
+  "48.576398,-3.825975": {
+   "adresse": "27 Place Allende",
+   "code_postal": "29600",
+   "ville": "Morlaix",
+   "distance": 3
+  },
+  "48.439501,-3.887047": {
+   "adresse": "63 ZA de l'Espace Plassart",
+   "code_postal": "29410",
+   "ville": "Plounéour-Ménez",
+   "distance": 10
+  },
+  "48.576229,-3.825895": {
+   "adresse": "",
+   "code_postal": "29600",
+   "ville": "Morlaix",
+   "distance": 8
+  },
+  "48.632185,-3.664058": {
+   "adresse": "300 Poder an Ty Nevez",
+   "code_postal": "29620",
+   "ville": "Plouégat-Guérand",
+   "distance": 25
+  },
+  "48.576172,-3.825833": {
+   "adresse": "21 Place des Halles",
+   "code_postal": "29600",
+   "ville": "Morlaix",
+   "distance": 8
+  },
+  "48.643128,-3.845757": {
+   "adresse": "160 Route de Kerfénéface",
+   "code_postal": "29252",
+   "ville": "Plouezoc'h",
+   "distance": 21
+  },
+  "48.649724,-3.921422": {
+   "adresse": "Chemin de Kermen Bras",
+   "code_postal": "29660",
+   "ville": "Carantec",
+   "distance": 59
+  },
+  "48.723974,-3.98263": {
+   "adresse": "46 Rue Gambetta",
+   "code_postal": "29680",
+   "ville": "Roscoff",
+   "distance": 10
+  },
+  "48.632143,-3.663479": {
+   "adresse": "Poder an Ty Nevez",
+   "code_postal": "29620",
+   "ville": "Plouégat-Guérand",
+   "distance": 65
+  },
+  "48.605546,-3.609159": {
+   "adresse": "31 Chemin de Kerniet",
+   "code_postal": "22310",
+   "ville": "Trémel",
+   "distance": 4
+  },
+  "48.505044,-3.876497": {
+   "adresse": "1 Rue Jules Ferry",
+   "code_postal": "29410",
+   "ville": "Pleyber-Christ",
+   "distance": 13
+  },
+  "48.691127,-3.64686": {
+   "adresse": "5 Place du Port",
+   "code_postal": "29241",
+   "ville": "Locquirec",
+   "distance": 20
+  },
+  "48.646474,-3.716447": {
+   "adresse": "",
+   "code_postal": "29620",
+   "ville": "Lanmeur",
+   "distance": 10
+  },
+  "48.576132,-3.825163": {
+   "adresse": "9 Place du Dossen",
+   "code_postal": "29600",
+   "ville": "Morlaix",
+   "distance": 15
+  },
+  "48.647711,-3.855343": {
+   "adresse": "669 Route de la Palud de Kerarmel",
+   "code_postal": "29252",
+   "ville": "Plouezoc'h",
+   "distance": 21
+  },
+  "48.57506,-3.754342": {
+   "adresse": "4 Route de Keruler",
+   "code_postal": "29610",
+   "ville": "Plouigneau",
+   "distance": 6
+  },
+  "48.576241,-3.825985": {
+   "adresse": "",
+   "code_postal": "29600",
+   "ville": "Morlaix",
+   "distance": 4
+  },
+  "48.695951,-3.79231": {
+   "adresse": "",
+   "code_postal": "29630",
+   "ville": "Plougasnou",
+   "distance": 10
+  },
+  "48.724291,-3.982316": {
+   "adresse": "17 Quai Charles de Gaulle",
+   "code_postal": "29680",
+   "ville": "Roscoff",
+   "distance": 21
+  },
+  "48.57642,-3.82509": {
+   "adresse": "30 Rue d'Aiguillon",
+   "code_postal": "29600",
+   "ville": "Morlaix",
+   "distance": 1
+  },
+  "48.513364,-3.713937": {
+   "adresse": "Ponthonars",
+   "code_postal": "29640",
+   "ville": "Plougonven",
+   "distance": 52
+  },
+  "48.632455,-3.663511": {
+   "adresse": "Poder an Ty Nevez",
+   "code_postal": "29620",
+   "ville": "Plouégat-Guérand",
+   "distance": 75
+  },
+  "48.605007,-3.834271": {
+   "adresse": "5 Rue du Pont Coz",
+   "code_postal": "29600",
+   "ville": "Morlaix",
+   "distance": 6
+  },
+  "48.413436,-3.956698": {
+   "adresse": "",
+   "code_postal": "29450",
+   "ville": "Commana",
+   "distance": 10
+  },
+  "48.439618,-3.887181": {
+   "adresse": "63 ZA de l'Espace Plassart",
+   "code_postal": "29410",
+   "ville": "Plounéour-Ménez",
+   "distance": 7
+  },
+  "48.576247,-3.826124": {
+   "adresse": "",
+   "code_postal": "29600",
+   "ville": "Morlaix",
+   "distance": 11
+  },
+  "48.643105,-3.845695": {
+   "adresse": "160 Route de Kerfénéface",
+   "code_postal": "29252",
+   "ville": "Plouezoc'h",
+   "distance": 22
+  },
+  "48.576085,-3.825733": {
+   "adresse": "4 Venelle au Beurre",
+   "code_postal": "29600",
+   "ville": "Morlaix",
+   "distance": 11
+  },
+  "48.724378,-3.982383": {
+   "adresse": "17 Quai Charles de Gaulle",
+   "code_postal": "29680",
+   "ville": "Roscoff",
+   "distance": 16
+  },
+  "48.68533,-3.987053": {
+   "adresse": "2 Place de l’Evéché",
+   "code_postal": "29250",
+   "ville": "Saint-Pol-de-Léon",
+   "distance": 27
+  },
+  "48.63193,-4.044557": {
+   "adresse": "2 Lez Plougoulm",
+   "code_postal": "29250",
+   "ville": "Plougoulm",
+   "distance": 18
+  },
+  "48.506039,-3.875964": {
+   "adresse": "5 Place Guevel",
+   "code_postal": "29410",
+   "ville": "Pleyber-Christ",
+   "distance": 3
+  },
+  "48.576167,-3.825243": {
+   "adresse": "11 Place du Dossen",
+   "code_postal": "29600",
+   "ville": "Morlaix",
+   "distance": 19
+  },
+  "48.685259,-3.98698": {
+   "adresse": "Place de l’Evéché",
+   "code_postal": "29250",
+   "ville": "Saint-Pol-de-Léon",
+   "distance": 35
+  },
+  "48.439705,-3.887108": {
+   "adresse": "63 ZA de l'Espace Plassart",
+   "code_postal": "29410",
+   "ville": "Plounéour-Ménez",
+   "distance": 15
+  },
+  "48.57624,-3.826244": {
+   "adresse": "",
+   "code_postal": "29600",
+   "ville": "Morlaix",
+   "distance": 20
+  },
+  "48.69592,-3.792304": {
+   "adresse": "",
+   "code_postal": "29630",
+   "ville": "Plougasnou",
+   "distance": 7
+  },
+  "48.672267,-3.803662": {
+   "adresse": "1235 Route de Kersaint",
+   "code_postal": "29630",
+   "ville": "Plougasnou",
+   "distance": 15
+  },
+  "48.58739,-3.838174": {
+   "adresse": "14 Allée Saint François",
+   "code_postal": "29600",
+   "ville": "Saint-Martin-des-Champs",
+   "distance": 9
+  },
+  "48.577684,-3.826936": {
+   "adresse": "9 Place de Viarmes",
+   "code_postal": "29600",
+   "ville": "Morlaix",
+   "distance": 1
+  },
+  "48.576179,-3.825698": {
+   "adresse": "20 Place des Halles",
+   "code_postal": "29600",
+   "ville": "Morlaix",
+   "distance": 3
+  },
+  "48.681724,-4.003229": {
+   "adresse": "750 Rue des Forces Francaises Libres",
+   "code_postal": "29250",
+   "ville": "Saint-Pol-de-Léon",
+   "distance": 20
+  },
+  "48.439348,-3.886904": {
+   "adresse": "115 ZA de l'Espace Plassart",
+   "code_postal": "29410",
+   "ville": "Plounéour-Ménez",
+   "distance": 26
+  },
+  "48.479415,-3.794886": {
+   "adresse": "12bis Rue de la Libération",
+   "code_postal": "29410",
+   "ville": "Le Cloître-Saint-Thégonnec",
+   "distance": 15
+  },
+  "48.665543,-3.710718": {
+   "adresse": "Route de Lanmeur",
+   "code_postal": "29620",
+   "ville": "Guimaëc",
+   "distance": 31
+  },
+  "48.6321,-3.663061": {
+   "adresse": "",
+   "code_postal": "29620",
+   "ville": "Plouégat-Guérand",
+   "distance": 96
+  },
+  "48.576029,-3.825621": {
+   "adresse": "4 Venelle au Beurre",
+   "code_postal": "29600",
+   "ville": "Morlaix",
+   "distance": 7
+  },
+  "48.724463,-3.98248": {
+   "adresse": "17 Quai Charles de Gaulle",
+   "code_postal": "29680",
+   "ville": "Roscoff",
+   "distance": 16
+  },
+  "48.576272,-3.826064": {
+   "adresse": "",
+   "code_postal": "29600",
+   "ville": "Morlaix",
+   "distance": 7
+  },
+  "48.4396,-3.887036": {
+   "adresse": "63 ZA de l'Espace Plassart",
+   "code_postal": "29410",
+   "ville": "Plounéour-Ménez",
+   "distance": 8
+  },
+  "48.506122,-3.875797": {
+   "adresse": "4 Place Guevel",
+   "code_postal": "29410",
+   "ville": "Pleyber-Christ",
+   "distance": 4
+  },
+  "48.747049,-4.011555": {
+   "adresse": "15 Creac'h Bras",
+   "code_postal": "29253",
+   "ville": "Île-de-Batz",
+   "distance": 4
+  },
+  "48.662595,-3.625531": {
+   "adresse": "5 Zone de Poullou Du",
+   "code_postal": "22310",
+   "ville": "Plestin-les-Grèves",
+   "distance": 26
+  },
+  "48.669199,-3.992028": {
+   "adresse": "755 Kerdalar",
+   "code_postal": "29250",
+   "ville": "Saint-Pol-de-Léon",
+   "distance": 5
+  },
+  "48.576286,-3.82619": {
+   "adresse": "",
+   "code_postal": "29600",
+   "ville": "Morlaix",
+   "distance": 16
+  },
+  "48.618584,-3.841524": {
+   "adresse": "Kervellec",
+   "code_postal": "29600",
+   "ville": "Morlaix",
+   "distance": 86
+  },
+  "48.74555,-4.016705": {
+   "adresse": "15 Kenecaou",
+   "code_postal": "29253",
+   "ville": "Île-de-Batz",
+   "distance": 2
+  },
+  "48.660327,-3.983617": {
+   "adresse": "",
+   "code_postal": "29250",
+   "ville": "Saint-Pol-de-Léon",
+   "distance": 14
+  },
+  "48.640155,-3.822459": {
+   "adresse": "20 Place du Bourg",
+   "code_postal": "29252",
+   "ville": "Plouezoc'h",
+   "distance": 16
+  },
+  "48.627888,-3.98838": {
+   "adresse": "7 Place Francois Prigent",
+   "code_postal": "29420",
+   "ville": "Plouénan",
+   "distance": 29
+  },
+  "48.577168,-3.827134": {
+   "adresse": "6 Grand Rue",
+   "code_postal": "29600",
+   "ville": "Morlaix",
+   "distance": 3
+  },
+  "48.604936,-3.834915": {
+   "adresse": "9bis Rue du Pont Coz",
+   "code_postal": "29600",
+   "ville": "Morlaix",
+   "distance": 23
+  },
+  "48.566605,-3.853487": {
+   "adresse": "2 Rue Marcellin Berthelot",
+   "code_postal": "29600",
+   "ville": "Saint-Martin-des-Champs",
+   "distance": 22
+  },
+  "48.742493,-4.005375": {
+   "adresse": "11 La Croix du Rhu",
+   "code_postal": "29253",
+   "ville": "Île-de-Batz",
+   "distance": 13
+  },
+  "48.576468,-3.826178": {
+   "adresse": "28 Place Allende",
+   "code_postal": "29600",
+   "ville": "Morlaix",
+   "distance": 12
+  },
+  "48.668207,-3.914142": {
+   "adresse": "2 Rue Albert Louppe",
+   "code_postal": "29660",
+   "ville": "Carantec",
+   "distance": 10
+  },
+  "48.649072,-4.151373": {
+   "adresse": "Kergoal",
+   "code_postal": "29233",
+   "ville": "Cléder",
+   "distance": 72
+  },
+  "48.585437,-4.153047": {
+   "adresse": "",
+   "code_postal": "29440",
+   "ville": "Saint-Vougay",
+   "distance": 3
+  },
+  "48.588488,-3.83764": {
+   "adresse": "4 Route du Bas de la Riviere",
+   "code_postal": "29600",
+   "ville": "Morlaix",
+   "distance": 25
+  },
+  "48.724714,-3.983182": {
+   "adresse": "",
+   "code_postal": "29680",
+   "ville": "Roscoff",
+   "distance": 4
+  },
+  "48.577997,-3.828526": {
+   "adresse": "9 Place des Otages",
+   "code_postal": "29600",
+   "ville": "Morlaix",
+   "distance": 22
+  },
+  "48.555307,-3.366065": {
+   "adresse": "Impasse Kerbolo",
+   "code_postal": "22540",
+   "ville": "Louargat",
+   "distance": 60
+  },
+  "48.683502,-3.98698": {
+   "adresse": "22 Rue du General Leclerc",
+   "code_postal": "29250",
+   "ville": "Saint-Pol-de-Léon",
+   "distance": 7
+  },
+  "48.608001,-3.538456": {
+   "adresse": "Kervérot",
+   "code_postal": "22420",
+   "ville": "Lanvellec",
+   "distance": 76
+  },
+  "48.59314,-3.830516": {
+   "adresse": "6 Rue du Cosquer",
+   "code_postal": "29600",
+   "ville": "Morlaix",
+   "distance": 18
+  },
+  "48.639949,-3.822201": {
+   "adresse": "18 Place du Bourg",
+   "code_postal": "29252",
+   "ville": "Plouezoc'h",
+   "distance": 11
+  },
+  "48.639747,-3.722021": {
+   "adresse": "2 Zone Artisanale de Kerangoff",
+   "code_postal": "29620",
+   "ville": "Lanmeur",
+   "distance": 10
+  },
+  "48.575961,-3.82597": {
+   "adresse": "8 Venelle au Beurre",
+   "code_postal": "29600",
+   "ville": "Morlaix",
+   "distance": 11
+  },
+  "48.572383,-3.820222": {
+   "adresse": "",
+   "code_postal": "29600",
+   "ville": "Plourin-lès-Morlaix",
+   "distance": 4
+  },
+  "48.576206,-3.825864": {
+   "adresse": "22 Place des Halles",
+   "code_postal": "29600",
+   "ville": "Morlaix",
+   "distance": 9
+  },
+  "48.608682,-3.536739": {
+   "adresse": "Kervérot",
+   "code_postal": "22420",
+   "ville": "Lanvellec",
+   "distance": 35
+  },
+  "48.695978,-3.792252": {
+   "adresse": "",
+   "code_postal": "29630",
+   "ville": "Plougasnou",
+   "distance": 11
+  },
+  "48.666605,-3.913767": {
+   "adresse": "21 Rue Albert Louppe",
+   "code_postal": "29660",
+   "ville": "Carantec",
+   "distance": 5
+  },
+  "48.724491,-3.983316": {
+   "adresse": "26 Rue Gambetta",
+   "code_postal": "29680",
+   "ville": "Roscoff",
+   "distance": 7
+  },
+  "48.576776,-3.832493": {
+   "adresse": "11 Place Saint-martin",
+   "code_postal": "29600",
+   "ville": "Morlaix",
+   "distance": 3
+  },
+  "48.580987,-3.831723": {
+   "adresse": "27 Place du General de Gaulle",
+   "code_postal": "29600",
+   "ville": "Morlaix",
+   "distance": 3
+  },
+  "48.566768,-3.854388": {
+   "adresse": "1b Rue Marcellin Berthelot",
+   "code_postal": "29600",
+   "ville": "Saint-Martin-des-Champs",
+   "distance": 4
+  },
+  "48.439878,-3.889203": {
+   "adresse": "Rue Jules Ferry",
+   "code_postal": "29410",
+   "ville": "Plounéour-Ménez",
+   "distance": 41
+  },
+  "48.625761,-3.863025": {
+   "adresse": "Impasse de Kergroades",
+   "code_postal": "29670",
+   "ville": "Locquénolé",
+   "distance": 31
+  },
+  "48.568827,-3.852607": {
+   "adresse": "5 Rue Didier Daurat",
+   "code_postal": "29600",
+   "ville": "Saint-Martin-des-Champs",
+   "distance": 20
+  },
+  "48.573739,-3.857682": {
+   "adresse": "7 Rue Vern Creis",
+   "code_postal": "29600",
+   "ville": "Saint-Martin-des-Champs",
+   "distance": 13
+  },
+  "48.574918,-3.829486": {
+   "adresse": "Rue de Brest",
+   "code_postal": "29600",
+   "ville": "Morlaix",
+   "distance": 45
+  },
+  "48.561102,-3.824143": {
+   "adresse": "146 Plateau Saint Fiacre",
+   "code_postal": "29600",
+   "ville": "Plourin-lès-Morlaix",
+   "distance": 29
+  },
+  "48.57661,-3.825353": {
+   "adresse": "24 Rue d'Aiguillon",
+   "code_postal": "29600",
+   "ville": "Morlaix",
+   "distance": 3
+  },
+  "48.580362,-3.830876": {
+   "adresse": "38 Place du General de Gaulle",
+   "code_postal": "29600",
+   "ville": "Morlaix",
+   "distance": 5
+  },
+  "48.538386,-3.790305": {
+   "adresse": "2 Rue de la Résistance",
+   "code_postal": "29600",
+   "ville": "Plourin-lès-Morlaix",
+   "distance": 24
+  },
+  "48.503938,-4.074104": {
+   "adresse": "Boulevard de la République",
+   "code_postal": "29400",
+   "ville": "Landivisiau",
+   "distance": 92
+  },
+  "48.589383,-3.81556": {
+   "adresse": "Place de la Commune de Paris",
+   "code_postal": "29600",
+   "ville": "Morlaix",
+   "distance": 69
+  },
+  "48.670588,-3.98808": {
+   "adresse": "Route de Plouenan",
+   "code_postal": "29250",
+   "ville": "Saint-Pol-de-Léon",
+   "distance": 74
+  },
+  "48.592961,-3.830817": {
+   "adresse": "8 Rue du Cosquer",
+   "code_postal": "29600",
+   "ville": "Morlaix",
+   "distance": 5
+  },
+  "48.631278,-3.989646": {
+   "adresse": "1 Zone d’Activite de Bel Air",
+   "code_postal": "29420",
+   "ville": "Plouénan",
+   "distance": 25
+  },
+  "48.593238,-3.830924": {
+   "adresse": "2 Rue du Cosquer",
+   "code_postal": "29600",
+   "ville": "Morlaix",
+   "distance": 6
+  },
+  "48.576329,-3.824868": {
+   "adresse": "2 Rue de Paris",
+   "code_postal": "29600",
+   "ville": "Morlaix",
+   "distance": 4
+  },
+  "48.72534,-3.983552": {
+   "adresse": "6 Rue des Johnies",
+   "code_postal": "29680",
+   "ville": "Roscoff",
+   "distance": 7
+  },
+  "48.641445,-3.72046": {
+   "adresse": "5 Rue de Beausejour",
+   "code_postal": "29620",
+   "ville": "Lanmeur",
+   "distance": 28
+  },
+  "48.517031,-3.866801": {
+   "adresse": "La Justice",
+   "code_postal": "29410",
+   "ville": "Pleyber-Christ",
+   "distance": 43
+  },
+  "48.69198,-3.984089": {
+   "adresse": "Route de Kerrom",
+   "code_postal": "29250",
+   "ville": "Saint-Pol-de-Léon",
+   "distance": 36
+  }
+ }
+}

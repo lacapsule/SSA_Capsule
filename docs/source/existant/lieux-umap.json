@@ -1,0 +1,986 @@
+{
+  "_note": "Lieux de la carte uMap du collectif (« SSA Pays de Morlaix - Cartographie des points de vente », reliée depuis l'article 16 du site actuel), calques Conventionnés OK, En attente, Refus et Mentionnés sans conventionnement, relevés le 2026-11-16.",
+  "source": "https://umap.openstreetmap.fr/fr/map/ssa-pays-de-morlaix-cartographie-des-points-de-ven_1359970",
+  "lieux": [
+    {
+      "statut": "ok",
+      "nom": "Art-Tisanerie - Marché de Plounéour-Ménez",
+      "description": "Tisanes, Herbes aromatiques, épices",
+      "latitude": 48.439223,
+      "longitude": -3.886819
+    },
+    {
+      "statut": "ok",
+      "nom": "Avel Zo - Marché de Plougasnou",
+      "description": "Légumes bio",
+      "latitude": 48.695887,
+      "longitude": -3.792359
+    },
+    {
+      "statut": "ok",
+      "nom": "Biocoop Coccinelle - Saint-Martin-des-champs",
+      "description": "",
+      "latitude": 48.56681,
+      "longitude": -3.855139
+    },
+    {
+      "statut": "ok",
+      "nom": "Biocoop Kastell Bio - Saint-Pol-de-Léon",
+      "description": "",
+      "latitude": 48.68239,
+      "longitude": -3.996105
+    },
+    {
+      "statut": "ok",
+      "nom": "Biocoop La Clef des champs - Landivisiau",
+      "description": "",
+      "latitude": 48.507336,
+      "longitude": -4.070735
+    },
+    {
+      "statut": "ok",
+      "nom": "Boulangerie Canevet - Marché de Morlaix",
+      "description": "Pains et viennoiseries",
+      "latitude": 48.576078,
+      "longitude": -3.825932
+    },
+    {
+      "statut": "ok",
+      "nom": "Boulangerie Canevet - Saint-Thégonnec",
+      "description": "",
+      "latitude": 48.496325,
+      "longitude": -3.94612
+    },
+    {
+      "statut": "ok",
+      "nom": "C'est L'Heure - Marché de Carantec",
+      "description": "Condiments et huiles",
+      "latitude": 48.668632,
+      "longitude": -3.914309
+    },
+    {
+      "statut": "ok",
+      "nom": "C'est L'Heure - Marché de Guimaëc",
+      "description": "Condiments et huiles",
+      "latitude": 48.665202,
+      "longitude": -3.710182
+    },
+    {
+      "statut": "ok",
+      "nom": "C'est L'Heure - Marché de Plougasnou",
+      "description": "Condiments et huiles",
+      "latitude": 48.695935,
+      "longitude": -3.792375
+    },
+    {
+      "statut": "ok",
+      "nom": "C'est L'Heure - Marché de Saint-Martin-des-champs",
+      "description": "Condiments et huiles",
+      "latitude": 48.575541,
+      "longitude": -3.843965
+    },
+    {
+      "statut": "ok",
+      "nom": "C'est L'Heure - Marché du Poder",
+      "description": "Condiments et huiles",
+      "latitude": 48.631831,
+      "longitude": -3.663576
+    },
+    {
+      "statut": "ok",
+      "nom": "C'est L'Heure - Marché du Troglo",
+      "description": "Condiments et huiles",
+      "latitude": 48.643128,
+      "longitude": -3.845637
+    },
+    {
+      "statut": "ok",
+      "nom": "C'est pas mes oignons - Plouigneau",
+      "description": "",
+      "latitude": 48.566754,
+      "longitude": -3.700494
+    },
+    {
+      "statut": "ok",
+      "nom": "de l'éPYcerie au vrac - Morlaix",
+      "description": "",
+      "latitude": 48.578176,
+      "longitude": -3.82925
+    },
+    {
+      "statut": "ok",
+      "nom": "Encor - Marché de Guerlesquin",
+      "description": "Pains et viennoiseries",
+      "latitude": 48.517368,
+      "longitude": -3.587937
+    },
+    {
+      "statut": "ok",
+      "nom": "Encor - Marché de Lanmeur",
+      "description": "Pains et viennoiseries",
+      "latitude": 48.646595,
+      "longitude": -3.716549
+    },
+    {
+      "statut": "ok",
+      "nom": "Encor - Marché de Morlaix",
+      "description": "Pains et viennoiseries",
+      "latitude": 48.576398,
+      "longitude": -3.82663
+    },
+    {
+      "statut": "ok",
+      "nom": "Encor - Marché de Plouigneau",
+      "description": "Pains et viennoiseries",
+      "latitude": 48.567299,
+      "longitude": -3.701507
+    },
+    {
+      "statut": "ok",
+      "nom": "Ferme Auberge de Garsplegent Plouneour-Menez",
+      "description": "Paniers de légumes",
+      "latitude": 48.469052,
+      "longitude": -3.887615
+    },
+    {
+      "statut": "ok",
+      "nom": "Ferme de Franck - Marché de Carantec",
+      "description": "",
+      "latitude": 48.668699,
+      "longitude": -3.914464
+    },
+    {
+      "statut": "ok",
+      "nom": "Ferme de Franck - Marché de Plounéour-Ménez",
+      "description": "",
+      "latitude": 48.43946,
+      "longitude": -3.886931
+    },
+    {
+      "statut": "ok",
+      "nom": "Ferme de Franck - Marché de Saint-Pol-de-Léon",
+      "description": "",
+      "latitude": 48.685259,
+      "longitude": -3.987238
+    },
+    {
+      "statut": "ok",
+      "nom": "Ferme de Franck - Santec",
+      "description": "",
+      "latitude": 48.703735,
+      "longitude": -4.010353
+    },
+    {
+      "statut": "ok",
+      "nom": "Ferme de Kerantosfal - Cléder",
+      "description": "",
+      "latitude": 48.648675,
+      "longitude": -4.136009
+    },
+    {
+      "statut": "ok",
+      "nom": "Ferme de Kerantosfal - Marché de Plouescat",
+      "description": "",
+      "latitude": 48.65793,
+      "longitude": -4.174182
+    },
+    {
+      "statut": "ok",
+      "nom": "Ferme de Pen Ar Prajou (Kerné Gildas) - Marché de Morlaix",
+      "description": "Fromages de chèvre",
+      "latitude": 48.576394,
+      "longitude": -3.826088
+    },
+    {
+      "statut": "ok",
+      "nom": "Ferme de Pen Ar Prajou (Kerné Gildas) - Marché de Plounéour-Ménez",
+      "description": "Fromages de chèvre",
+      "latitude": 48.439334,
+      "longitude": -3.886781
+    },
+    {
+      "statut": "ok",
+      "nom": "Ferme de Porz An Park - Marché de Roscoff",
+      "description": "",
+      "latitude": 48.724309,
+      "longitude": -3.982488
+    },
+    {
+      "statut": "ok",
+      "nom": "Ferme de Porz An Park - Marché de Saint-Martin-des-champs",
+      "description": "Légumes",
+      "latitude": 48.57523,
+      "longitude": -3.844429
+    },
+    {
+      "statut": "ok",
+      "nom": "Ferme de Porz An Park Roscoff",
+      "description": "",
+      "latitude": 48.696286,
+      "longitude": -3.999109
+    },
+    {
+      "statut": "ok",
+      "nom": "Ferme du champ perché - Marché du Troglo",
+      "description": "Légumes",
+      "latitude": 48.643185,
+      "longitude": -3.84569
+    },
+    {
+      "statut": "ok",
+      "nom": "Ferme du Favet - Marché de Morlaix",
+      "description": "Viande",
+      "latitude": 48.576398,
+      "longitude": -3.825975
+    },
+    {
+      "statut": "ok",
+      "nom": "Ferme du Favet - Marché de Plounéour-Ménez",
+      "description": "Viande",
+      "latitude": 48.439501,
+      "longitude": -3.887047
+    },
+    {
+      "statut": "ok",
+      "nom": "Ferme du Grand Huguen - Marché de Morlaix",
+      "description": "Pains",
+      "latitude": 48.576229,
+      "longitude": -3.825895
+    },
+    {
+      "statut": "ok",
+      "nom": "Ferme du Poder Plouégat-Guérand",
+      "description": "Viande, produits laitiers",
+      "latitude": 48.632185,
+      "longitude": -3.664058
+    },
+    {
+      "statut": "ok",
+      "nom": "Ferme du Troglo - Marché de Morlaix",
+      "description": "Viande",
+      "latitude": 48.576172,
+      "longitude": -3.825833
+    },
+    {
+      "statut": "ok",
+      "nom": "Ferme du Troglo - Marché du Troglo",
+      "description": "Viande",
+      "latitude": 48.643128,
+      "longitude": -3.845757
+    },
+    {
+      "statut": "ok",
+      "nom": "Ferme Kermen - Carantec",
+      "description": "",
+      "latitude": 48.649724,
+      "longitude": -3.921422
+    },
+    {
+      "statut": "ok",
+      "nom": "Ferme Kermen - Marché de Roscoff",
+      "description": "",
+      "latitude": 48.723974,
+      "longitude": -3.98263
+    },
+    {
+      "statut": "ok",
+      "nom": "Ferme Tyguidou - Marché du Poder",
+      "description": "Légumes",
+      "latitude": 48.632143,
+      "longitude": -3.663479
+    },
+    {
+      "statut": "ok",
+      "nom": "Ferme Tyguidou - Trémel",
+      "description": "Commandes de paniers à récupérer le vendredi entre 16h et 19h\n\nhttps://boutique.ouvretaferme.org/ferme-tyguidou",
+      "latitude": 48.605546,
+      "longitude": -3.609159
+    },
+    {
+      "statut": "ok",
+      "nom": "Flore d'Arrée - Pleyber-Christ",
+      "description": "Tisanes, bouillons",
+      "latitude": 48.505044,
+      "longitude": -3.876497
+    },
+    {
+      "statut": "ok",
+      "nom": "Huîtres Galenn - Marché d'été de Locquirec",
+      "description": "Huîtres",
+      "latitude": 48.691127,
+      "longitude": -3.64686
+    },
+    {
+      "statut": "ok",
+      "nom": "Huîtres Galenn - Marché de Lanmeur",
+      "description": "Huîtres",
+      "latitude": 48.646474,
+      "longitude": -3.716447
+    },
+    {
+      "statut": "ok",
+      "nom": "Huîtres Galenn - Marché de Morlaix",
+      "description": "Huîtres",
+      "latitude": 48.576132,
+      "longitude": -3.825163
+    },
+    {
+      "statut": "ok",
+      "nom": "Huîtres Galenn - Plouezoc'h",
+      "description": "Huîtres",
+      "latitude": 48.647711,
+      "longitude": -3.855343
+    },
+    {
+      "statut": "ok",
+      "nom": "L'Herberaie - Plouigneau",
+      "description": "Plantes médicinales",
+      "latitude": 48.57506,
+      "longitude": -3.754342
+    },
+    {
+      "statut": "ok",
+      "nom": "L's Food - Marché de Morlaix",
+      "description": "Food-truck, plats cuisinés",
+      "latitude": 48.576241,
+      "longitude": -3.825985
+    },
+    {
+      "statut": "ok",
+      "nom": "L's Food - Marché de Plougasnou",
+      "description": "Food-truck, plats cuisinés",
+      "latitude": 48.695951,
+      "longitude": -3.79231
+    },
+    {
+      "statut": "ok",
+      "nom": "L's Food - Marché de Roscoff",
+      "description": "Food-truck, plats cuisinés",
+      "latitude": 48.724291,
+      "longitude": -3.982316
+    },
+    {
+      "statut": "ok",
+      "nom": "La Super Épicerie - Morlaix",
+      "description": "",
+      "latitude": 48.57642,
+      "longitude": -3.82509
+    },
+    {
+      "statut": "ok",
+      "nom": "Le Chant de la terre - Plougonven",
+      "description": "Magasin à la ferme ouvert chaque vendredi de 14h à 19h",
+      "latitude": 48.513364,
+      "longitude": -3.713937
+    },
+    {
+      "statut": "ok",
+      "nom": "Le Fournil du Poder - Marché du Poder",
+      "description": "Pains",
+      "latitude": 48.632455,
+      "longitude": -3.663511
+    },
+    {
+      "statut": "ok",
+      "nom": "Le Lok'all - Ploujean",
+      "description": "Épicerie associative ouverte le mercredi (16h30-19h), vendredi (16h30-19h) et samedi (10h30-12h30)",
+      "latitude": 48.605007,
+      "longitude": -3.834271
+    },
+    {
+      "statut": "ok",
+      "nom": "Le potager des brumes - Marché de Commana",
+      "description": "",
+      "latitude": 48.413436,
+      "longitude": -3.956698
+    },
+    {
+      "statut": "ok",
+      "nom": "Le potager des brumes - Marché de Plounéour-Ménez",
+      "description": "",
+      "latitude": 48.439618,
+      "longitude": -3.887181
+    },
+    {
+      "statut": "ok",
+      "nom": "Les Jardins de Kermadeza - Marché de Morlaix",
+      "description": "Légumes",
+      "latitude": 48.576247,
+      "longitude": -3.826124
+    },
+    {
+      "statut": "ok",
+      "nom": "Les Jardins de Kermadeza - Marché du Troglo",
+      "description": "Légumes",
+      "latitude": 48.643105,
+      "longitude": -3.845695
+    },
+    {
+      "statut": "ok",
+      "nom": "Les Jardins de Kerouat - Marché de Morlaix",
+      "description": "Légumes",
+      "latitude": 48.576085,
+      "longitude": -3.825733
+    },
+    {
+      "statut": "ok",
+      "nom": "Lez traits gourmands (ex La Ferme Pays'âne) - Marché de Roscoff",
+      "description": "",
+      "latitude": 48.724378,
+      "longitude": -3.982383
+    },
+    {
+      "statut": "ok",
+      "nom": "Lez traits gourmands (ex La Ferme Pays'âne) - Marché de Saint-Pol-de-Léon",
+      "description": "",
+      "latitude": 48.68533,
+      "longitude": -3.987053
+    },
+    {
+      "statut": "ok",
+      "nom": "Lez traits gourmands (ex La Ferme Pays'âne) - Plougoulm",
+      "description": "",
+      "latitude": 48.63193,
+      "longitude": -4.044557
+    },
+    {
+      "statut": "ok",
+      "nom": "Ma P'tite Épicerie - Pleyber-Christ",
+      "description": "",
+      "latitude": 48.506039,
+      "longitude": -3.875964
+    },
+    {
+      "statut": "ok",
+      "nom": "Maraîchage Canova - Marché de Morlaix",
+      "description": "Légumes",
+      "latitude": 48.576167,
+      "longitude": -3.825243
+    },
+    {
+      "statut": "ok",
+      "nom": "Maraîchage Canova - Marché de Saint-Pol-de-Léon",
+      "description": "Légumes",
+      "latitude": 48.685259,
+      "longitude": -3.98698
+    },
+    {
+      "statut": "ok",
+      "nom": "Mel Menez Are - Marché de Plounéour-Ménez",
+      "description": "Miel",
+      "latitude": 48.439705,
+      "longitude": -3.887108
+    },
+    {
+      "statut": "ok",
+      "nom": "Miellerie du Queffleuth",
+      "description": "Vente de miel",
+      "latitude": 48.507777,
+      "longitude": -3.826246
+    },
+    {
+      "statut": "ok",
+      "nom": "Miellerie du Queffleuth - Marché de Morlaix",
+      "description": "Vente de miel",
+      "latitude": 48.57624,
+      "longitude": -3.826244
+    },
+    {
+      "statut": "ok",
+      "nom": "Mime et ses machines - Marché de Plougasnou",
+      "description": "Crêpes",
+      "latitude": 48.69592,
+      "longitude": -3.792304
+    },
+    {
+      "statut": "ok",
+      "nom": "Paniers de la Ferme du champ perché - Plougasnou",
+      "description": "Commandes de paniers à retirer le mercredi entre 16h et 19h\n\nhttps://app.ciboulette.net/signup/nfD3yatYAF3ckNarW/12712",
+      "latitude": 48.672267,
+      "longitude": -3.803662
+    },
+    {
+      "statut": "ok",
+      "nom": "Paniers de la Ferme du champ perché (Da Bep Lec'h) - Morlaix",
+      "description": "Commandes de paniers à retirer le mercredi entre 16h30 et 18h30\n\nhttps://app.ciboulette.net/signup/nfD3yatYAF3ckNarW/12712",
+      "latitude": 48.58739,
+      "longitude": -3.838174
+    },
+    {
+      "statut": "ok",
+      "nom": "Paniers de la Ferme du champ perché (Les Déferlantes) - Morlaix",
+      "description": "Commandes de paniers à retirer le mercredi entre 16h et 18h\n\nhttps://app.ciboulette.net/signup/nfD3yatYAF3ckNarW/12712",
+      "latitude": 48.577684,
+      "longitude": -3.826936
+    },
+    {
+      "statut": "ok",
+      "nom": "Savez-vous planter les choux - Marché de Morlaix",
+      "description": "Légumes",
+      "latitude": 48.576179,
+      "longitude": -3.825698
+    },
+    {
+      "statut": "ok",
+      "nom": "Savez-vous planter les choux - Saint-Pol-de-Léon",
+      "description": "Légumes",
+      "latitude": 48.681724,
+      "longitude": -4.003229
+    },
+    {
+      "statut": "ok",
+      "nom": "Ti-Bara Bihan - Marché de Plounéour-Ménez",
+      "description": "Pain",
+      "latitude": 48.439348,
+      "longitude": -3.886904
+    },
+    {
+      "statut": "ok",
+      "nom": "Ti-Bara Bihan - Marché du Cloître-St-Thegonnec",
+      "description": "Pain",
+      "latitude": 48.479415,
+      "longitude": -3.794886
+    },
+    {
+      "statut": "ok",
+      "nom": "Tommig Gwenn - Marché de Guimaëc",
+      "description": "Fromages",
+      "latitude": 48.665543,
+      "longitude": -3.710718
+    },
+    {
+      "statut": "ok",
+      "nom": "Tommig Gwenn - Marché du Poder",
+      "description": "Fromages",
+      "latitude": 48.6321,
+      "longitude": -3.663061
+    },
+    {
+      "statut": "ok",
+      "nom": "Ty An Holen - Marché de Morlaix",
+      "description": "Vente de sel",
+      "latitude": 48.576029,
+      "longitude": -3.825621
+    },
+    {
+      "statut": "ok",
+      "nom": "Ty An Holen - Marché de Roscoff",
+      "description": "Vente de sel",
+      "latitude": 48.724463,
+      "longitude": -3.98248
+    },
+    {
+      "statut": "ok",
+      "nom": "Yannick Carmes - Marché de Morlaix",
+      "description": "Fromages de vache et produits laitiers",
+      "latitude": 48.576272,
+      "longitude": -3.826064
+    },
+    {
+      "statut": "ok",
+      "nom": "Yannick Carmes - Marché de Plounéour-Ménez",
+      "description": "Fromages de vache et produits laitiers",
+      "latitude": 48.4396,
+      "longitude": -3.887036
+    },
+    {
+      "statut": "ok",
+      "nom": "Kig Salaun Pleyber-Christ",
+      "description": "Boucherie",
+      "latitude": 48.506122,
+      "longitude": -3.875797
+    },
+    {
+      "statut": "attente",
+      "nom": "8 à Huit - Île de Batz",
+      "description": "",
+      "latitude": 48.747049,
+      "longitude": -4.011555
+    },
+    {
+      "statut": "attente",
+      "nom": "Biocoop - Plestin-les-Grèves",
+      "description": "",
+      "latitude": 48.662595,
+      "longitude": -3.625531
+    },
+    {
+      "statut": "attente",
+      "nom": "Ferme de Kerdalar Saint-Pol-de-Léon",
+      "description": "",
+      "latitude": 48.669199,
+      "longitude": -3.992028
+    },
+    {
+      "statut": "attente",
+      "nom": "Ferme de Quefforc'h - Marché de Morlaix",
+      "description": "Légumes",
+      "latitude": 48.576286,
+      "longitude": -3.82619
+    },
+    {
+      "statut": "attente",
+      "nom": "Ferme de Suscinio - Ploujean",
+      "description": "",
+      "latitude": 48.618584,
+      "longitude": -3.841524
+    },
+    {
+      "statut": "attente",
+      "nom": "Ferme Menon Île de Batz",
+      "description": "",
+      "latitude": 48.74555,
+      "longitude": -4.016705
+    },
+    {
+      "statut": "attente",
+      "nom": "Ferme Ty Coz - Saint-Pol-de-Léon",
+      "description": "",
+      "latitude": 48.660327,
+      "longitude": -3.983617
+    },
+    {
+      "statut": "attente",
+      "nom": "Huîtres de Sterec - Plouezoc'h",
+      "description": "Vente directe d'huitres le dimanche matin",
+      "latitude": 48.640155,
+      "longitude": -3.822459
+    },
+    {
+      "statut": "attente",
+      "nom": "L'Atelier du pain Plouénan",
+      "description": "",
+      "latitude": 48.627888,
+      "longitude": -3.98838
+    },
+    {
+      "statut": "attente",
+      "nom": "Les Gasièr.es de la Baie - Morlaix",
+      "description": "GASE (Groupement d'Achats Service Épicerie)\nAdhésion et bénévolat nécessaire\nOuvert le mardi (18h-19h30), samedi (10h30-12h) et un jeudi sur deux (18h-19h30)",
+      "latitude": 48.577168,
+      "longitude": -3.827134
+    },
+    {
+      "statut": "attente",
+      "nom": "Les Voisins bio (Le Lok'all) - Ploujean",
+      "description": "Commandes de paniers à récupérer le vendredi (16-19h) ou samedi (10h-13h)\n\nhttps://www.voisinsbio.fr/accueil/",
+      "latitude": 48.604936,
+      "longitude": -3.834915
+    },
+    {
+      "statut": "attente",
+      "nom": "Les Voisins bio (Vins du Launay) - Saint-Martin-des-champs",
+      "description": "Commandes de paniers à récupérer le vendredi (9h30-12h30)\n\nhttps://www.voisinsbio.fr/accueil/",
+      "latitude": 48.566605,
+      "longitude": -3.853487
+    },
+    {
+      "statut": "attente",
+      "nom": "Pêcheurs Leroux Île de Batz",
+      "description": "",
+      "latitude": 48.742493,
+      "longitude": -4.005375
+    },
+    {
+      "statut": "refus",
+      "nom": "1001 Pâtes - Marché de Morlaix",
+      "description": "Pâtes fraiches",
+      "latitude": 48.576468,
+      "longitude": -3.826178
+    },
+    {
+      "statut": "refus",
+      "nom": "Cocci Market \"Chez Mathieu\" Carantec",
+      "description": "",
+      "latitude": 48.668207,
+      "longitude": -3.914142
+    },
+    {
+      "statut": "refus",
+      "nom": "Ferme Ar Beskellou - Plouescat",
+      "description": "",
+      "latitude": 48.649072,
+      "longitude": -4.151373
+    },
+    {
+      "statut": "refus",
+      "nom": "Fromagerie de Brengoulou - Saint-Vougay",
+      "description": "Vente de fromages à la ferme le mercredi",
+      "latitude": 48.585437,
+      "longitude": -4.153047
+    },
+    {
+      "statut": "refus",
+      "nom": "Grain de Sail - Morlaix",
+      "description": "Vente directe de chocolat et café",
+      "latitude": 48.588488,
+      "longitude": -3.83764
+    },
+    {
+      "statut": "refus",
+      "nom": "La petite épicerie - Roscoff",
+      "description": "",
+      "latitude": 48.724714,
+      "longitude": -3.983182
+    },
+    {
+      "statut": "refus",
+      "nom": "Le Signor - Marché de Morlaix",
+      "description": "Pains",
+      "latitude": 48.577997,
+      "longitude": -3.828526
+    },
+    {
+      "statut": "refus",
+      "nom": "Le Signor Louargat",
+      "description": "",
+      "latitude": 48.555307,
+      "longitude": -3.366065
+    },
+    {
+      "statut": "refus",
+      "nom": "Les Fromages d'Agnès - Saint-Pol-de-Léon",
+      "description": "",
+      "latitude": 48.683502,
+      "longitude": -3.98698
+    },
+    {
+      "statut": "refus",
+      "nom": "Les Paniers du Bocage (Ferme de la Bergeronnette) - Lanvellec",
+      "description": "Commandes de paniers à récupérer le vendredi de 17h à 19h\n\nhttps://www.lespaniersdubocage.com/",
+      "latitude": 48.608001,
+      "longitude": -3.538456
+    },
+    {
+      "statut": "refus",
+      "nom": "Les Tontons flingueurs Morlaix",
+      "description": "Vente directe de poissons et fruits de mer le mercredi matin",
+      "latitude": 48.59314,
+      "longitude": -3.830516
+    },
+    {
+      "statut": "refus",
+      "nom": "Les Tontons flingueurs Plouezoc'h",
+      "description": "Vente directe de poissons et fruits de mer le vendredi matin",
+      "latitude": 48.639949,
+      "longitude": -3.822201
+    },
+    {
+      "statut": "refus",
+      "nom": "Ô Panier des saveurs - Lanmeur",
+      "description": "",
+      "latitude": 48.639747,
+      "longitude": -3.722021
+    },
+    {
+      "statut": "refus",
+      "nom": "Poissonnier Cabioch - Marché de Morlaix",
+      "description": "Poissons et fruits de mer",
+      "latitude": 48.575961,
+      "longitude": -3.82597
+    },
+    {
+      "statut": "refus",
+      "nom": "Sunshine - Morlaix",
+      "description": "",
+      "latitude": 48.572383,
+      "longitude": -3.820222
+    },
+    {
+      "statut": "refus",
+      "nom": "Ty Mout - Marché de Morlaix",
+      "description": "Fromages de brebis",
+      "latitude": 48.576206,
+      "longitude": -3.825864
+    },
+    {
+      "statut": "refus",
+      "nom": "Ferme de la Bergeronnette - Lanvellec",
+      "description": "Vente à la ferme de glaces paysannes, viande, lait et beurre le vendredi de 17h à 19h",
+      "latitude": 48.608682,
+      "longitude": -3.536739
+    },
+    {
+      "statut": "refus",
+      "nom": "Ferme de la Bergeronnette - Marché de Plougasnou",
+      "description": "Glaces paysannes",
+      "latitude": 48.695978,
+      "longitude": -3.792252
+    },
+    {
+      "statut": "refus",
+      "nom": "Maison Nochez - Carantec",
+      "description": "",
+      "latitude": 48.666605,
+      "longitude": -3.913767
+    },
+    {
+      "statut": "refus",
+      "nom": "Maison Nochez - Roscoff",
+      "description": "",
+      "latitude": 48.724491,
+      "longitude": -3.983316
+    },
+    {
+      "statut": "sans",
+      "nom": "Boulangerie Le Scanff Morlaix",
+      "description": "",
+      "latitude": 48.576776,
+      "longitude": -3.832493
+    },
+    {
+      "statut": "sans",
+      "nom": "Boulangerie Vignard Morlaix",
+      "description": "",
+      "latitude": 48.580987,
+      "longitude": -3.831723
+    },
+    {
+      "statut": "sans",
+      "nom": "Calidel Saint-Martin-des-champs",
+      "description": "",
+      "latitude": 48.566768,
+      "longitude": -3.854388
+    },
+    {
+      "statut": "sans",
+      "nom": "Cocci Market Plouneour-Menez",
+      "description": "",
+      "latitude": 48.439878,
+      "longitude": -3.889203
+    },
+    {
+      "statut": "sans",
+      "nom": "Épicerie Ti Guénolé Locquénolé",
+      "description": "",
+      "latitude": 48.625761,
+      "longitude": -3.863025
+    },
+    {
+      "statut": "sans",
+      "nom": "Grand Frais Saint-Martin-des-champs",
+      "description": "",
+      "latitude": 48.568827,
+      "longitude": -3.852607
+    },
+    {
+      "statut": "sans",
+      "nom": "Gueguen Fruits Saint-Martin-des-champs",
+      "description": "",
+      "latitude": 48.573739,
+      "longitude": -3.857682
+    },
+    {
+      "statut": "sans",
+      "nom": "Intermarché Morlaix",
+      "description": "",
+      "latitude": 48.574918,
+      "longitude": -3.829486
+    },
+    {
+      "statut": "sans",
+      "nom": "Intermarché Plourin-les-Morlaix",
+      "description": "",
+      "latitude": 48.561102,
+      "longitude": -3.824143
+    },
+    {
+      "statut": "sans",
+      "nom": "Kashgar Morlaix",
+      "description": "",
+      "latitude": 48.57661,
+      "longitude": -3.825353
+    },
+    {
+      "statut": "sans",
+      "nom": "Le Comptoir de Samuel Morlaix",
+      "description": "",
+      "latitude": 48.580362,
+      "longitude": -3.830876
+    },
+    {
+      "statut": "sans",
+      "nom": "Le Fournil Plourin-les-Morlaix",
+      "description": "",
+      "latitude": 48.538386,
+      "longitude": -3.790305
+    },
+    {
+      "statut": "sans",
+      "nom": "Leclerc Landivisiau",
+      "description": "",
+      "latitude": 48.503938,
+      "longitude": -4.074104
+    },
+    {
+      "statut": "sans",
+      "nom": "Leclerc Morlaix",
+      "description": "",
+      "latitude": 48.589383,
+      "longitude": -3.81556
+    },
+    {
+      "statut": "sans",
+      "nom": "Lidl Saint-Pol-de-Léon",
+      "description": "",
+      "latitude": 48.670588,
+      "longitude": -3.98808
+    },
+    {
+      "statut": "sans",
+      "nom": "Maison Quemener Morlaix",
+      "description": "",
+      "latitude": 48.592961,
+      "longitude": -3.830817
+    },
+    {
+      "statut": "sans",
+      "nom": "Marché U Plouénan",
+      "description": "",
+      "latitude": 48.631278,
+      "longitude": -3.989646
+    },
+    {
+      "statut": "sans",
+      "nom": "Moulin d'Élise Morlaix",
+      "description": "",
+      "latitude": 48.593238,
+      "longitude": -3.830924
+    },
+    {
+      "statut": "sans",
+      "nom": "Poissonnerie Troadec Morlaix",
+      "description": "",
+      "latitude": 48.576329,
+      "longitude": -3.824868
+    },
+    {
+      "statut": "sans",
+      "nom": "Stéphane Giraud Roscoff",
+      "description": "",
+      "latitude": 48.72534,
+      "longitude": -3.983552
+    },
+    {
+      "statut": "sans",
+      "nom": "Super U Lanmeur",
+      "description": "",
+      "latitude": 48.641445,
+      "longitude": -3.72046
+    },
+    {
+      "statut": "sans",
+      "nom": "Super U Pleyber-Christ",
+      "description": "",
+      "latitude": 48.517031,
+      "longitude": -3.866801
+    },
+    {
+      "statut": "sans",
+      "nom": "Super U Saint-Pol-de-Léon",
+      "description": "",
+      "latitude": 48.69198,
+      "longitude": -3.984089
+    }
+  ]
+}

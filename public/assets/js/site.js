@@ -73,7 +73,8 @@ function initApparition() {
   }, { rootMargin: '0px 0px -8% 0px' });
   cibles.forEach((el) => {
     // Contenu d'un volet fermé (details) : jamais vu par l'observateur, il resterait masqué à l'ouverture.
-    if (el.closest('details:not([open])') || el.getBoundingClientRect().top < window.innerHeight) return;
+    // Contenu affiché à la demande (filtre des lieux, [data-sans-apparition]) : jamais animé, il doit paraître aussitôt.
+    if (el.closest('details:not([open]), [data-sans-apparition]') || el.getBoundingClientRect().top < window.innerHeight) return;
     // Décalage en cascade entre voisins (cartes d'une grille), plafonné : la dernière carte n'attend jamais.
     el.style.setProperty('--rang', String(Math.min([...el.parentElement.children].indexOf(el), 4)));
     el.classList.add('apparition');

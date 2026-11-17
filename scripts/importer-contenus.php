@@ -68,7 +68,7 @@ function propre(string $t): string
 }
 
 $contenus = json_decode((string) file_get_contents(SOURCE . '/contenus.json'), true, 512, JSON_THROW_ON_ERROR);
-$tables = ['article_images', 'articles', 'events', 'partenaires', 'galerie_photos'];
+$tables = ['article_images', 'articles', 'events', 'partenaires', 'galerie_photos', 'lieux_conventionnes'];
 $deja = array_sum(array_map(static fn (string $t): int => (int) Db::run("SELECT COUNT(*) FROM $t")->fetchColumn(), $tables));
 if ($deja > 0 && !in_array('--remplacer', $argv, true)) {
     fwrite(STDERR, "La base contient déjà $deja contenu(s) : rien n'est importé (--remplacer pour tout reprendre).\n");
@@ -96,12 +96,26 @@ $bilan = Db::transaction(static function () use ($contenus, $tables, $maintenant
             }
         }
         $images = array_map(static fn (array $i): string => copier($i['src'], 'actualites/' . $slug), $a['images']);
+        $alt = null;
+        // Article de la carte des points de vente (décision de Kouzia, 2026-11-17) : le lien vers la carte uMap du collectif
+        // mène à la carte du site, et la phrase sur « le menu sur le côté gauche » de uMap décrit la légende de cette carte.
+        foreach ($a['liens'] as $k => $l) {
+            if (str_contains((string) $l['url'], 'umap.openstreetmap.fr')) {
+                $a['liens'][$k] = ['texte' => 'Zoomer, filtrer par commune et trouver un lieu', 'url' => '/lieux-conventionnes/carte/', 'libelle' => 'Carte des lieux conventionnés'];
+            }
+        }
+        $a['description'] = str_replace('Pour info, on peut afficher plusieurs "calques" avec le menu sur le côté gauche :', 'La carte affiche plusieurs « calques », à cocher dans sa légende :', (string) $a['description']);
+        // Même article : la capture de la carte uMap est remplacée par une capture de la carte du site (docs/source/site/).
+        if ($slug === 'carte-des-points-de-vente-conventionnes' && is_file(dirname(SOURCE) . '/site/carte-des-lieux-conventionnes.webp')) {
+            $images = [copierFichier(dirname(SOURCE) . '/site/carte-des-lieux-conventionnes.webp', 'actualites/' . $slug)];
+            $alt = 'Carte des lieux conventionnés du Pays de Morlaix : communes ayant des lieux en jaune, points des lieux, ronds numérotés pour les lieux proches';
+        }
         $id = Db::insert(
             'INSERT INTO articles (titre, resume, description, date_article, image, image_alt, is_published, created_at, slug, lieu, heure, liens, videos, ancien_numero)
              VALUES (?, ?, ?, ?, ?, ?, 1, ?, ?, ?, ?, ?, ?, ?)',
             [
                 propre($a['titre']), propre($a['resume']), propre($a['description']), $a['date'],
-                $images[0] ?? null, '', $maintenant, $slug, propre($a['lieu']) ?: null, $a['heure'] ?: null,
+                $images[0] ?? null, $alt ?? '', $maintenant, $slug, propre($a['lieu']) ?: null, $a['heure'] ?: null,
                 $a['liens'] ? json_encode($a['liens'], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) : null,
                 $videos ? json_encode($videos, JSON_UNESCAPED_SLASHES) : null,
                 $a['ancien_numero'],
@@ -131,12 +145,36 @@ $bilan = Db::transaction(static function () use ($contenus, $tables, $maintenant
     foreach (is_file($fichierRecadres) ? (json_decode((string) file_get_contents($fichierRecadres), true) ?: []) : [] as $r) {
         $recadres[$r['fichier']] = $r;
     }
+    // Adresses corrigées depuis l'extraction du site actuel (source datée, jamais modifiée) : fournies par Kouzia.
+    $sitesCorriges = [
+        'Pôle ESS Pays de Morlaix' => 'https://ess29.org/', // 2026-11-16 : l'Adess 29 est devenue ESS Finistère
+    ];
     foreach (['partenaire' => $contenus['partenaires'], 'financeur' => $contenus['financeurs']] as $groupe => $logos) {
         foreach ($logos as $pos => $l) {
+            $l['url'] = $sitesCorriges[$l['nom']] ?? $l['url'];
             $r = $recadres[basename($l['logo'])] ?? null;
             $chemin = $r ? copierFichier(SOURCE . '/logos-recadres/' . $r['fichier'], 'partenaires') : copier($l['logo'], 'partenaires');
             Db::run('INSERT INTO partenaires (nom, url, logo, groupe, position, hauteur_rem) VALUES (?, ?, ?, ?, ?, ?)', [$l['nom'], $l['url'], $chemin, $groupe, $pos, $r['hauteurRem'] ?? null]);
         }
+    }
+
+    // Lieux de la carte uMap du collectif (docs/source/existant/lieux-umap.json, 2026-11-16) : les quatre calques
+    // (ok, attente, refus, sans), comme sur la carte du collectif (décision du 2026-11-17).
+    $fichierLieux = SOURCE . '/lieux-umap.json';
+    $lieux = is_file($fichierLieux) ? (json_decode((string) file_get_contents($fichierLieux), true)['lieux'] ?? []) : [];
+    // Adresses déduites des positions par l'IGN (docs/source/existant/lieux-adresses.json, scripts/adresses-lieux.mjs).
+    $fichierAdresses = SOURCE . '/lieux-adresses.json';
+    $adresses = is_file($fichierAdresses) ? (json_decode((string) file_get_contents($fichierAdresses), true)['adresses'] ?? []) : [];
+    $rang = 0;
+    foreach ($lieux as $l) {
+        $a = $adresses[$l['latitude'] . ',' . $l['longitude']] ?? ['adresse' => '', 'code_postal' => '', 'ville' => ''];
+        if (!in_array($l['statut'], ['ok', 'attente', 'refus', 'sans'], true)) {
+            continue;
+        }
+        Db::run(
+            'INSERT INTO lieux_conventionnes (nom, adresse, code_postal, ville, position, is_published, created_at, statut, description, latitude, longitude) VALUES (?, ?, ?, ?, ?, 1, ?, ?, ?, ?, ?)',
+            [propre($l['nom']), $a['adresse'], $a['code_postal'], $a['ville'], $rang++, $maintenant, $l['statut'], propre($l['description']) ?: null, $l['latitude'], $l['longitude']],
+        );
     }
 
     foreach ($contenus['galerie'] as $pos => $src) {

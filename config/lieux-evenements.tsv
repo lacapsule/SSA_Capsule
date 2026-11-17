@@ -1,0 +1,19 @@
+# Position des lieux d'événements (et du contact), relevée auprès de l'IGN (Géoplateforme, géocodage) le 2026-11-17 ;
+# adresse cherchée en ligne quand le nom du lieu ne suffit pas (source indiquée dans la dernière colonne).
+# Seuls les lieux reconnus sans ambiguïté sont ici ; une adresse absente garde la carte de sa commune, sans point.
+# Colonnes : adresse saisie (telle qu'en base), latitude, longitude, précision (adresse, lieu, lieu-dit, quartier), clé du quartier, résultat IGN.
+# AFPA : adresse du centre AFPA de Morlaix donnée par le mode d'emploi (39 Bellevue de la Madeleine), géocodée au numéro.
+locaux de l'AFPA - bellevue de la madelaine - Morlaix	48.580135	-3.815183	adresse	afpa-morlaix	39 Bellevue de la Madeleine 29600 Morlaix
+locaux AFPA - Morlaix	48.580135	-3.815183	adresse	afpa-morlaix	39 Bellevue de la Madeleine 29600 Morlaix
+AFPA - Morlaix	48.580135	-3.815183	adresse	afpa-morlaix	39 Bellevue de la Madeleine 29600 Morlaix
+foyer AFPA - Morlaix	48.580135	-3.815183	adresse	afpa-morlaix	39 Bellevue de la Madeleine 29600 Morlaix
+centre de formation AFPA - Morlaix	48.580135	-3.815183	adresse	afpa-morlaix	39 Bellevue de la Madeleine 29600 Morlaix
+La Virgule 9 route de Paris 29600 Morlaix	48.57441	-3.81534	adresse	la-virgule-morlaix	9 Route de Paris 29600 Morlaix
+La Virgule - Morlaix	48.57441	-3.81534	adresse	la-virgule-morlaix	9 Route de Paris 29600 Morlaix (adresse de La Virgule saisie sur un autre événement)
+Espace du roudour à St Martin des Champs	48.57232	-3.84738	lieu	roudour-saint-martin	Espace du Roudour, Saint-Martin-des-Champs
+La Dérive - pont menou - Plouégat Guerrand	48.64769	-3.66762	lieu-dit	pont-menou-plouegat	lieu-dit Pont Menou, Plouégat-Guérand
+Ploujean - Morlaix	48.60588	-3.83336	quartier	ploujean-morlaix	Ploujean, Morlaix
+Carré d'As Morlaix	48.591026	-3.830204	adresse	carre-das-morlaix	29bis Rue Camille Langevin 29600 Morlaix (adresse : acceslibre.beta.gouv.fr, centre social Carré d'As)
+centre social Carré d'As Morlaix	48.591026	-3.830204	adresse	carre-das-morlaix	29bis Rue Camille Langevin 29600 Morlaix (adresse : acceslibre.beta.gouv.fr, centre social Carré d'As)
+cinéma la Salamandre - SEW - Manufacture de tabacs - Morlaix	48.583379	-3.834319	adresse	salamandre-morlaix	39ter Quai du Léon 29600 Morlaix (adresse : acceslibre.beta.gouv.fr, SEW La Salamandre)
+musée rural - Plouigneau	48.566962	-3.701841	lieu	ecomusee-plouigneau	4 Rue du 9 Août 29610 Plouigneau (adresse : tourismebretagne.com, écomusée de Plouigneau ; autre adresse publiée à 70 m, 5 rue de la Gare)

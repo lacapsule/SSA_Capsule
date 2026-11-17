@@ -2,8 +2,7 @@ Chaque page française a sa version bretonne, à la même adresse précédée de
 | Page | Adresse | Intention du public (question tapée) | Remplace (ancienne adresse) |
 |------|---------|--------------------------------------|-----------------------------|
 | Accueil | `/` | sécurité sociale de l'alimentation Morlaix | `/`, `/?lang=fr`, `/?page=n` |
-| Le projet | `/projet/` | comment fonctionne la caisse alimentaire de Morlaix | `/projet` |
-| Qui sommes-nous | `/collectif/` | qui porte la SSA au Pays de Morlaix | bloc de l'accueil |
+| Le projet | `/projet/` | comment fonctionne la caisse alimentaire de Morlaix, qui porte la SSA au Pays de Morlaix | `/projet`, bloc « Qui sommes-nous » de l'accueil |
 | Lieux conventionnés | `/lieux-conventionnes/` | où dépenser ses Buzuk SSA | `/article/16` |
 | Actualités | `/actualites/` | actualités SSA Morlaix | bloc de l'accueil |
 | Article | `/actualites/<titre>/` | titre de l'article | `/article/<numéro>` |
@@ -18,7 +17,7 @@ Chaque page française a sa version bretonne, à la même adresse précédée de
 | Administration | `/admin/` (non référencée) | sans objet | `/login` |
 Page : Accueil  ·  URL : /  ·  public : participantes et participants, habitantes et habitants curieux, partenaires  ·  intention : « sécurité sociale de l'alimentation Morlaix »
 Action principale : voir les prochains événements et trouver les lieux où dépenser ses Buzuk SSA
-1. En-tête : logo, menu (Accueil, Le projet, Qui sommes-nous, Lieux conventionnés, Actualités, Agenda, Galerie, Contact), lien « Brezhoneg » vers la version bretonne
+1. En-tête : logo, menu (Accueil, Le projet, Lieux conventionnés, Actualités, Agenda, Galerie, Contact), lien « Brezhoneg » vers la version bretonne
 2. Héros : dire en une phrase qui, quoi, où ; contenu : titre Sécurité Sociale de l'Alimentation, Pays de Morlaix, et devise Pour un droit fondamental et universel à une alimentation saine et durable (site actuel) ; boutons « Voir l'agenda » et « Trouver un lieu conventionné »
 3. Prochains événements : les 3 prochains événements (date, heure, titre, lieu, description) ; lien « Tout l'agenda » (liste seule, sans inscription)
 4. Étapes : comment fonctionne l'expérimentation en 3 étapes (cotisation choisie librement, allocation en Buzuk SSA, dépense dans les lieux conventionnés) ; lien « Comprendre le projet »
@@ -27,44 +26,37 @@ Action principale : voir les prochains événements et trouver les lieux où dé
 7. Partenaires et financeurs : logos des partenaires puis des financeurs (Région Bretagne, Europe FEADER Leader), sans défilement (variante fixe)
 8. Appel à prendre contact : une question sur la SSA au Pays de Morlaix ; bouton « Nous contacter »
 9. Pied de page : colonnes (Coordonnées, Pages légales, Langue) ; Le Buzuk, 39 bellevue de la Madeleine, 29600 Morlaix, 06 15 06 82 08, ssapaysdemorlaix@mailo.com ; Mentions légales, Confidentialité, Accessibilité, Plan du site ; lien Brezhoneg
-Liens entrants : toutes les pages (logo, menu)  ·  liens sortants : Agenda, Lieux conventionnés, Le projet, Actualités, Qui sommes-nous, Contact
-Page : Le projet  ·  URL : /projet/  ·  public : habitantes et habitants curieux  ·  intention : « comment fonctionne la caisse alimentaire de Morlaix »
-Action principale : comprendre le fonctionnement et savoir à qui s'adresser pour rejoindre le projet
-1. En-tête : logo, menu (Accueil, Le projet, Qui sommes-nous, Lieux conventionnés, Actualités, Agenda, Galerie, Contact), lien « Brezhoneg » vers la version bretonne
+Liens entrants : toutes les pages (logo, menu)  ·  liens sortants : Agenda, Lieux conventionnés, Le projet (et sa partie Qui sommes-nous), Actualités, Contact
+Page : Le projet  ·  URL : /projet/  ·  public : habitantes et habitants curieux, partenaires  ·  intention : « comment fonctionne la caisse alimentaire de Morlaix », « qui porte la SSA au Pays de Morlaix »
+Action principale : comprendre le fonctionnement, savoir qui porte le projet et à qui s'adresser
+1. En-tête : logo, menu (Accueil, Le projet, Lieux conventionnés, Actualités, Agenda, Galerie, Contact), lien « Brezhoneg » vers la version bretonne
 2. Fil d'Ariane : Accueil, puis la page
 3. Haut de page : titre Expérimentation d'une caisse de l'alimentation sur le Pays de Morlaix, chapô (site actuel)
 4. Pourquoi : les 3 buts de l'expérimentation (droit à l'alimentation pour toutes et tous, système alimentaire plus juste et plus durable, pouvoir d'agir collectivement) ; bloc de texte
 5. Étapes : 3 étapes du fonctionnement (parcours citoyen, budget collectif fait des cotisations, allocation mensuelle en Buzuk SSA à dépenser dans les lieux conventionnés)
 6. L'engagement des participant·es : une réunion et un atelier collectif par mois ; durée d'un an à partir de début 2026 ; bloc de texte
-7. Vidéo de présentation : la vidéo du projet (fichier du site, chargée au clic)
-8. Appel à prendre contact : besoin d'information, écrire à ssapaysdemorlaix@mailo.com ; boutons « Nous contacter » et « Voir les lieux conventionnés »
-9. Pied de page : colonnes (Coordonnées, Pages légales, Langue) ; Le Buzuk, 39 bellevue de la Madeleine, 29600 Morlaix, 06 15 06 82 08, ssapaysdemorlaix@mailo.com ; Mentions légales, Confidentialité, Accessibilité, Plan du site ; lien Brezhoneg
+7. Vidéo de présentation : la vidéo du projet (fichier du site, chargée au clic) et le lien vers son article
+8. Qui sommes-nous : le groupe « Sécurité Sociale de l'Alimentation » (La Collective, une trentaine de citoyennes et citoyens, accompagnée par 4 structures associatives) ; bloc de texte
+9. Services : 4 structures porteuses (ULAMIR-CPIE, centre social et centre d'éducation à l'environnement ; Résam, maison des associations du Pays de Morlaix ; Le Buzuk, porteuse de la monnaie locale ; Adess du Pays de Morlaix, pôle ESS), logos menant à leur site, puis les financeurs
+10. Objectif : connecter les initiatives locales autour de l'alimentation et renforcer les coopérations entre acteurs (site actuel) ; bloc de texte
+11. Appel à prendre contact : besoin d'information, écrire à ssapaysdemorlaix@mailo.com ; boutons « Nous contacter » et « Voir les lieux conventionnés »
+12. Pied de page : colonnes (Coordonnées, Pages légales, Langue) ; Le Buzuk, 39 bellevue de la Madeleine, 29600 Morlaix, 06 15 06 82 08, ssapaysdemorlaix@mailo.com ; Mentions légales, Confidentialité, Accessibilité, Plan du site ; lien Brezhoneg
 Masqué : le bloc « On recrute ! » (candidatures closes le 20 septembre 2025)
-Liens entrants : menu, accueil  ·  liens sortants : Lieux conventionnés, Contact, Qui sommes-nous
-Page : Qui sommes-nous  ·  URL : /collectif/  ·  public : partenaires, habitantes et habitants curieux  ·  intention : « qui porte la SSA au Pays de Morlaix »
-Action principale : savoir qui porte le projet et le contacter
-1. En-tête : logo, menu (Accueil, Le projet, Qui sommes-nous, Lieux conventionnés, Actualités, Agenda, Galerie, Contact), lien « Brezhoneg » vers la version bretonne
-2. Fil d'Ariane : Accueil, puis la page
-3. Haut de page : titre Qui sommes-nous ?, chapô : La Collective, une trentaine de citoyennes et citoyens du Pays de Morlaix (site actuel)
-4. Services : 4 structures porteuses (ULAMIR-CPIE, centre social et centre d'éducation à l'environnement ; Résam, maison des associations du Pays de Morlaix ; Le Buzuk, porteuse de la monnaie locale ; Adess du Pays de Morlaix, pôle ESS)
-5. Objectif : connecter les initiatives locales autour de l'alimentation et renforcer les coopérations entre acteurs (site actuel) ; bloc de texte
-6. Partenaires et financeurs : logos avec lien vers chaque structure (variante fixe)
-7. Appel à prendre contact : bouton « Nous contacter »
-8. Pied de page : colonnes (Coordonnées, Pages légales, Langue) ; Le Buzuk, 39 bellevue de la Madeleine, 29600 Morlaix, 06 15 06 82 08, ssapaysdemorlaix@mailo.com ; Mentions légales, Confidentialité, Accessibilité, Plan du site ; lien Brezhoneg
-Liens entrants : menu, accueil, Le projet  ·  liens sortants : Le projet, Contact
+Liens entrants : menu, accueil (Qui sommes-nous)  ·  liens sortants : Lieux conventionnés, Contact, article de la vidéo, sites des structures porteuses
 Page : Lieux conventionnés  ·  URL : /lieux-conventionnes/  ·  public : participantes et participants  ·  intention : « où dépenser ses Buzuk SSA »
 Action principale : trouver un lieu proche et s'y rendre
-1. En-tête : logo, menu (Accueil, Le projet, Qui sommes-nous, Lieux conventionnés, Actualités, Agenda, Galerie, Contact), lien « Brezhoneg » vers la version bretonne
+1. En-tête : logo, menu (Accueil, Le projet, Lieux conventionnés, Actualités, Agenda, Galerie, Contact), lien « Brezhoneg » vers la version bretonne
 2. Fil d'Ariane : Accueil, puis la page
 3. Haut de page : titre Où dépenser ses Buzuk SSA, chapô : lieux choisis collectivement au cours du parcours citoyen, d'autres pourront s'ajouter pendant les 12 mois (site actuel)
-4. Liste des lieux : une carte par lieu (nom, adresse, horaires si connus, lien « Itinéraire ») ; à fournir : Géraldine Gabillet
-5. Appel à prendre contact : un lieu à proposer ; bouton « Nous contacter »
-6. Pied de page : colonnes (Coordonnées, Pages légales, Langue) ; Le Buzuk, 39 bellevue de la Madeleine, 29600 Morlaix, 06 15 06 82 08, ssapaysdemorlaix@mailo.com ; Mentions légales, Confidentialité, Accessibilité, Plan du site ; lien Brezhoneg
+4. Trouver un lieu : liste déroulante des communes et marchés (plus de 7 choix, rule web-design « Choix nombreux »), recherche par nom ou produit, bouton « Tout afficher » ; au départ, une phrase de synthèse (84 lieux dans 28 communes et marchés) et rien de listé ; résultats par commune, une ligne par lieu (nom, « au marché », produits, liens « Itinéraire », « Carte » et « Commander » quand la carte du collectif en donne une adresse) ; à fournir : Géraldine Gabillet (site et logo des lieux)
+5. Carte : communes du territoire dessinées par Kouzia (contours officiels), une commune en couleur a des lieux et se choisit d'un clic, un point par lieu, à côté des résultats
+6. Appel à prendre contact : un lieu à proposer ; bouton « Nous contacter »
+7. Pied de page : colonnes (Coordonnées, Pages légales, Langue) ; Le Buzuk, 39 bellevue de la Madeleine, 29600 Morlaix, 06 15 06 82 08, ssapaysdemorlaix@mailo.com ; Mentions légales, Confidentialité, Accessibilité, Plan du site ; lien Brezhoneg
 Masqué faute de donnée : la liste des lieux (à fournir : Géraldine Gabillet, avant la construction)
 Liens entrants : menu, accueil, Le projet  ·  liens sortants : Agenda, Contact
 Page : Actualités  ·  URL : /actualites/  ·  public : partenaires, financeurs, médias  ·  intention : « actualités SSA Morlaix »
 Action principale : lire les dernières nouvelles du collectif
-1. En-tête : logo, menu (Accueil, Le projet, Qui sommes-nous, Lieux conventionnés, Actualités, Agenda, Galerie, Contact), lien « Brezhoneg » vers la version bretonne
+1. En-tête : logo, menu (Accueil, Le projet, Lieux conventionnés, Actualités, Agenda, Galerie, Contact), lien « Brezhoneg » vers la version bretonne
 2. Fil d'Ariane : Accueil, puis la page
 3. Haut de page : titre Actualités
 4. Liste des articles : articles du plus récent au plus ancien (photo, titre, résumé, date), pages suivantes en liens
@@ -72,7 +64,7 @@ Action principale : lire les dernières nouvelles du collectif
 Liens entrants : menu, accueil, chaque article  ·  liens sortants : chaque article
 Page : Article  ·  URL : /actualites/<titre>/  ·  public : partenaires, médias, participantes et participants  ·  intention : « titre de l'article »
 Action principale : lire l'article et voir ses photos ou sa vidéo
-1. En-tête : logo, menu (Accueil, Le projet, Qui sommes-nous, Lieux conventionnés, Actualités, Agenda, Galerie, Contact), lien « Brezhoneg » vers la version bretonne
+1. En-tête : logo, menu (Accueil, Le projet, Lieux conventionnés, Actualités, Agenda, Galerie, Contact), lien « Brezhoneg » vers la version bretonne
 2. Fil d'Ariane : Accueil, puis la page
 3. Haut de page : titre de l'article, date, lieu s'il existe, résumé
 4. Corps : texte de l'article, photos en galerie, vidéo chargée au clic, liens utiles
@@ -81,16 +73,18 @@ Action principale : lire l'article et voir ses photos ou sa vidéo
 Liens entrants : Actualités, accueil  ·  liens sortants : articles voisins, Actualités
 Page : Agenda  ·  URL : /agenda/  ·  public : participantes et participants  ·  intention : « événements alimentation Morlaix »
 Action principale : trouver le prochain événement, sa date et son lieu
-1. En-tête : logo, menu (Accueil, Le projet, Qui sommes-nous, Lieux conventionnés, Actualités, Agenda, Galerie, Contact), lien « Brezhoneg » vers la version bretonne
+1. En-tête : logo, menu (Accueil, Le projet, Lieux conventionnés, Actualités, Agenda, Galerie, Contact), lien « Brezhoneg » vers la version bretonne
 2. Fil d'Ariane : Accueil, puis la page
 3. Haut de page : titre Agenda ; filtre par public en liens (Tous, Collectif, Expérimentateurs, Pour tous, catégories du site actuel)
 4. Événements à venir : liste par date (date, heure, titre, lieu, public) (liste, sans inscription)
-5. Événements passés : liste repliée
-6. Pied de page : colonnes (Coordonnées, Pages légales, Langue) ; Le Buzuk, 39 bellevue de la Madeleine, 29600 Morlaix, 06 15 06 82 08, ssapaysdemorlaix@mailo.com ; Mentions légales, Confidentialité, Accessibilité, Plan du site ; lien Brezhoneg
+5. Événements passés : les cinq plus récents, puis les autres par année dans des volets repliés
+6. Recevoir les rendez-vous dans son agenda : abonnement au calendrier et fichier de tout l'agenda (format iCalendar), « Ajouter à mon agenda » sur chaque événement à venir
+7. Appel à prendre contact : une question sur un événement ; bouton « Nous contacter »
+8. Pied de page : colonnes (Coordonnées, Pages légales, Langue) ; Le Buzuk, 39 bellevue de la Madeleine, 29600 Morlaix, 06 15 06 82 08, ssapaysdemorlaix@mailo.com ; Mentions légales, Confidentialité, Accessibilité, Plan du site ; lien Brezhoneg
 Liens entrants : menu, accueil  ·  liens sortants : chaque événement, Lieux conventionnés
 Page : Événement  ·  URL : /agenda/<titre>/  ·  public : participantes et participants  ·  intention : « titre de l'événement »
 Action principale : connaître la date, l'heure et le lieu, et s'y rendre
-1. En-tête : logo, menu (Accueil, Le projet, Qui sommes-nous, Lieux conventionnés, Actualités, Agenda, Galerie, Contact), lien « Brezhoneg » vers la version bretonne
+1. En-tête : logo, menu (Accueil, Le projet, Lieux conventionnés, Actualités, Agenda, Galerie, Contact), lien « Brezhoneg » vers la version bretonne
 2. Fil d'Ariane : Accueil, puis la page
 3. Haut de page : titre de l'événement, date, heure, durée, lieu, public
 4. Description : texte de l'événement, informations pratiques et liens ; bloc de texte
@@ -100,7 +94,7 @@ Action principale : connaître la date, l'heure et le lieu, et s'y rendre
 Liens entrants : Agenda, accueil  ·  liens sortants : événements voisins, Agenda
 Page : Galerie  ·  URL : /galerie/  ·  public : partenaires, participantes et participants  ·  intention : « photos du collectif »
 Action principale : parcourir les photos
-1. En-tête : logo, menu (Accueil, Le projet, Qui sommes-nous, Lieux conventionnés, Actualités, Agenda, Galerie, Contact), lien « Brezhoneg » vers la version bretonne
+1. En-tête : logo, menu (Accueil, Le projet, Lieux conventionnés, Actualités, Agenda, Galerie, Contact), lien « Brezhoneg » vers la version bretonne
 2. Fil d'Ariane : Accueil, puis la page
 3. Haut de page : titre Galerie de la SSA (site actuel)
 4. Galerie : vignettes à leur format réel, grande image au clic, pages suivantes en liens
@@ -108,7 +102,7 @@ Action principale : parcourir les photos
 Liens entrants : menu  ·  liens sortants : Actualités
 Page : Contact  ·  URL : /contact/  ·  public : partenaires, médias, habitantes et habitants  ·  intention : « contacter la SSA Pays de Morlaix »
 Action principale : écrire au collectif
-1. En-tête : logo, menu (Accueil, Le projet, Qui sommes-nous, Lieux conventionnés, Actualités, Agenda, Galerie, Contact), lien « Brezhoneg » vers la version bretonne
+1. En-tête : logo, menu (Accueil, Le projet, Lieux conventionnés, Actualités, Agenda, Galerie, Contact), lien « Brezhoneg » vers la version bretonne
 2. Fil d'Ariane : Accueil, puis la page
 3. Haut de page : titre Contactez-nous, chapô : pour toute question sur la Sécurité Sociale de l'Alimentation au Pays de Morlaix, contactez l'association ULAMIR-CPIE (site actuel)
 4. Coordonnées : adresse (Le Buzuk, 39 bellevue de la Madeleine, 29600 Morlaix) avec lien « Itinéraire », téléphone 06 15 06 82 08, ssapaysdemorlaix@mailo.com, candidatures : candidature@mailo.com
@@ -117,7 +111,7 @@ Action principale : écrire au collectif
 Liens entrants : menu, toutes les pages (appel à prendre contact)  ·  liens sortants : Confidentialité
 Page : Mentions légales  ·  URL : /mentions-legales/  ·  public : tous  ·  intention : sans objet
 Action principale : savoir qui édite et héberge le site
-1. En-tête : logo, menu (Accueil, Le projet, Qui sommes-nous, Lieux conventionnés, Actualités, Agenda, Galerie, Contact), lien « Brezhoneg » vers la version bretonne
+1. En-tête : logo, menu (Accueil, Le projet, Lieux conventionnés, Actualités, Agenda, Galerie, Contact), lien « Brezhoneg » vers la version bretonne
 2. Fil d'Ariane : Accueil, puis la page
 3. Haut de page : titre Mentions légales, centré
 4. Éditeur : ULAMIR-CPIE (nom légal, SIRET et siège à confirmer par Géraldine Gabillet), directrice de la publication Géraldine Gabillet
@@ -127,7 +121,7 @@ Action principale : savoir qui édite et héberge le site
 Liens entrants : pied de page  ·  liens sortants : Confidentialité, Accessibilité
 Page : Confidentialité  ·  URL : /confidentialite/  ·  public : tous  ·  intention : sans objet
 Action principale : savoir ce que devient un message envoyé par le formulaire
-1. En-tête : logo, menu (Accueil, Le projet, Qui sommes-nous, Lieux conventionnés, Actualités, Agenda, Galerie, Contact), lien « Brezhoneg » vers la version bretonne
+1. En-tête : logo, menu (Accueil, Le projet, Lieux conventionnés, Actualités, Agenda, Galerie, Contact), lien « Brezhoneg » vers la version bretonne
 2. Fil d'Ariane : Accueil, puis la page
 3. Haut de page : titre Politique de confidentialité, centré
 4. Données collectées : formulaire de contact seulement, message envoyé par e-mail et non conservé sur le site ; finalité, base légale, destinataire, durée, droits et contact
@@ -136,7 +130,7 @@ Action principale : savoir ce que devient un message envoyé par le formulaire
 Liens entrants : pied de page, formulaire de contact  ·  liens sortants : Contact, Mentions légales
 Page : Accessibilité  ·  URL : /accessibilite/  ·  public : tous  ·  intention : sans objet
 Action principale : connaître le niveau d'accessibilité prouvé et signaler un problème
-1. En-tête : logo, menu (Accueil, Le projet, Qui sommes-nous, Lieux conventionnés, Actualités, Agenda, Galerie, Contact), lien « Brezhoneg » vers la version bretonne
+1. En-tête : logo, menu (Accueil, Le projet, Lieux conventionnés, Actualités, Agenda, Galerie, Contact), lien « Brezhoneg » vers la version bretonne
 2. Fil d'Ariane : Accueil, puis la page
 3. Haut de page : titre Accessibilité, centré
 4. Niveau atteint : référentiel WCAG 2.2, niveau prouvé par le dernier audit, date et méthode de l'audit, limites connues (dont le breton traduit automatiquement)
@@ -145,7 +139,7 @@ Action principale : connaître le niveau d'accessibilité prouvé et signaler un
 Liens entrants : pied de page  ·  liens sortants : Contact
 Page : Plan du site  ·  URL : /plan-du-site/  ·  public : tous  ·  intention : sans objet
 Action principale : trouver une page
-1. En-tête : logo, menu (Accueil, Le projet, Qui sommes-nous, Lieux conventionnés, Actualités, Agenda, Galerie, Contact), lien « Brezhoneg » vers la version bretonne
+1. En-tête : logo, menu (Accueil, Le projet, Lieux conventionnés, Actualités, Agenda, Galerie, Contact), lien « Brezhoneg » vers la version bretonne
 2. Fil d'Ariane : Accueil, puis la page
 3. Haut de page : titre Plan du site, centré
 4. Liste des pages : toutes les pages publiques, avec les articles et les événements sous leur rubrique
