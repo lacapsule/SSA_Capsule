@@ -112,6 +112,7 @@ return [
     'contact.erreur_envoi' => 'Le message n\'a pas pu partir. Écrivez-nous directement à {email}.',
     'menu.principal' => 'Navigation principale',
     'menu.ouvrir' => 'Menu',
+    'menu.fermer' => 'Fermer',
     'menu.accueil' => 'Accueil',
     'menu.projet' => 'Le projet',
     'menu.collectif' => 'Qui sommes-nous',

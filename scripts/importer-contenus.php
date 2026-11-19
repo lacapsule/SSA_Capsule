@@ -129,6 +129,17 @@ $bilan = Db::transaction(static function () use ($contenus, $tables, $maintenant
         $nArticles++;
     }
 
+    // Même titre à la même heure : un doublon du calendrier de l'ancien site ; seule la version la plus complète (avec un
+    // lieu) est reprise (réunion du 7 septembre 2026 en double, décision de Kouzia du 2026-11-19).
+    $cle = static fn (array $e): string => mb_strtolower(propre($e['titre'])) . '|' . substr($e['debut'], 0, 16);
+    $garde = [];
+    foreach ($contenus['evenements'] as $i => $e) {
+        $k = $cle($e);
+        if (!isset($garde[$k]) || (propre($contenus['evenements'][$garde[$k]]['lieu']) === '' && propre($e['lieu']) !== '')) {
+            $garde[$k] = $i;
+        }
+    }
+    $contenus['evenements'] = array_values(array_intersect_key($contenus['evenements'], array_flip($garde)));
     foreach ($contenus['evenements'] as $e) {
         Db::run(
             'INSERT INTO events (title, starts_at, ends_at, address, description, is_published, created_at, category, slug, links)

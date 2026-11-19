@@ -8,6 +8,8 @@
   /* Voile sur photo (haut de l'accueil) et texte posé dessus : même valeur dans les deux thèmes. */
   --voile: #0b1220;
   --voile-texte: #ffffff;
+  /* Fond des logos (site, structures, financeurs), dessinés pour un fond clair : blanc dans les deux thèmes. */
+  --fond-logo: #ffffff;
   --ombre-bouton: 0 0.125rem 0.375rem color-mix(in srgb, var(--color-text) 22%, transparent);
   --ombre-carte: 0 0.25rem 1rem color-mix(in srgb, var(--color-text) 14%, transparent);
   --shadow: 0 1.25rem 2.5rem -1.25rem color-mix(in srgb, var(--color-text) 25%, transparent);

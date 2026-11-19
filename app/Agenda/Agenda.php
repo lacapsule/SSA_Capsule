@@ -70,7 +70,7 @@ final class Agenda
     {
         $e = Db::run('SELECT ' . self::CHAMPS . ' FROM events WHERE is_published = 1 AND slug = ?', [$slug])->fetch();
         if ($e === false) {
-            abort(404);
+            throw \App\Core\HttpException::notFound();
         }
         $t = Contenu::traduire('evenement', (string) $e['id'], $e);
         $voisin = static fn (string $op, string $ordre) => Db::run("SELECT title, slug, starts_at FROM events WHERE is_published = 1 AND starts_at $op ? ORDER BY starts_at $ordre LIMIT 1", [$e['starts_at']])->fetch() ?: null;

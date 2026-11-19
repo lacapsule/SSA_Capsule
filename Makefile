@@ -30,7 +30,7 @@ endif
 .PHONY: help dev contenus db migrate open info lint deps outils verify
 
 help: ## Affiche cette aide
-	@$(PHP) -r "foreach (file('Makefile') as $$l) if (preg_match('/^([a-z-]+):.*## (.*)$$/', $$l, $$m)) printf(\"  %%-10s %%s\n\", $$m[1], $$m[2]);"
+	@$(DEV) help $(MAKEFILE_LIST)
 
 dev: ## Lance le site en local (base de dev et contenus créés si absents)
 	$(DEV) serve --host=$(HOST) --port=$(PORT)

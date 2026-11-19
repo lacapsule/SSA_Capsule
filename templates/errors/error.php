@@ -19,13 +19,26 @@ $title = $titles[$status] ?? 'Erreur';
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex">
 <title><?= e($title) ?> | <?= e((string) config('app.name', 'Site')) ?></title>
-<link rel="stylesheet" href="<?= e(asset('/assets/css/site.css')) ?>">
+<?php foreach (['tokens', 'charte', 'site', 'ssa'] as $feuille): // styles du site (fichiers statiques), sans requête ni partiel ?>
+<link rel="stylesheet" href="<?= e(asset('/assets/css/' . $feuille . '.css')) ?>">
+<?php endforeach ?>
 </head>
 <body>
-<main id="contenu" class="wrap" tabindex="-1">
-  <h1><?= e($title) ?></h1>
-  <p><?= e($message ?? ($texts[$status] ?? 'Une erreur est survenue.')) ?></p>
-  <p><a href="/">Retour à l'accueil</a></p>
+<header class="site-header">
+  <div class="site-header__inner container">
+    <a class="site-header__logo" href="/"><img src="/assets/img/logo-entete-112.webp" alt="" width="56" height="58"><span><?= e((string) config('app.name', 'Site')) ?></span></a>
+  </div>
+</header>
+<main id="contenu" tabindex="-1">
+  <section class="section introuvable" aria-labelledby="erreur-titre">
+    <div class="container introuvable__inner">
+      <p class="introuvable__code" aria-hidden="true"><?= (int) $status ?></p>
+      <p class="sur-titre">Erreur <?= (int) $status ?></p>
+      <h1 id="erreur-titre"><?= e($title) ?></h1>
+      <p class="introuvable__texte"><?= e($message ?? ($texts[$status] ?? 'Une erreur est survenue.')) ?></p>
+      <p class="introuvable__actions"><a class="button" href="/">Retour à l'accueil</a></p>
+    </div>
+  </section>
 </main>
 </body>
 </html>

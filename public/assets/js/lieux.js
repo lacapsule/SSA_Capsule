@@ -456,6 +456,17 @@ function initLieux() {
     carte.addEventListener('pointerleave', () => contour.setAttribute('d', ''));
     carte.addEventListener('focusout', () => { contour.setAttribute('d', ''); contour.classList.remove('est-focus'); });
   }
+  // Focus clavier sur une commune hors de la vue (carte rognée sur téléphone, carte zoomée) : la vue se recentre sur
+  // elle, à l'échelle courante ; une commune jamais focusable sans être visible (WCAG 2.4.11).
+  carte?.addEventListener('focusin', (ev) => {
+    const a = ev.target.closest?.('.carte-lieux__lien');
+    if (!a) return;
+    const b = a.querySelector('path').getBBox();
+    if (b.x >= vue[0] && b.y >= vue[1] && b.x + b.width <= vue[0] + vue[2] && b.y + b.height <= vue[1] + vue[3]) return;
+    vue = [b.x + b.width / 2 - vue[2] / 2, b.y + b.height / 2 - vue[3] / 2, vue[2], vue[3]];
+    borner();
+    appliquer();
+  });
   if (carte && 'ResizeObserver' in window) {
     let largeur = 0;
     new ResizeObserver(() => {

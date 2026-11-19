@@ -32,7 +32,7 @@ partial('site/haut', ['chemin' => $path, 'titre' => $t['titre'], 'chapo' => $t['
   <div class="container">
     <h2 id="concret-titre"><?= e($t['concret_titre']) ?></h2>
     <figure>
-      <img <?= Vignette::attributs('/assets/img/schema-caisse-locale.webp', '(max-width: 80rem) 100vw, 75rem', 1280) ?> alt="<?= e($t['schema_alt']) ?>" width="1920" height="1357" loading="lazy" decoding="async">
+      <img <?= Vignette::attributs('/assets/img/schema-caisse-locale.webp', '(max-width: 60rem) calc(100vw - 2rem), 58rem', 1280) ?> alt="<?= e($t['schema_alt']) ?>" width="1920" height="1357" loading="lazy" decoding="async">
       <figcaption><details><summary><?= e($t['schema_lire']) ?></summary><p><?= e($t['schema_texte']) ?></p></details></figcaption>
     </figure>
     <ol class="etapes-chiffrees__liste">
@@ -67,20 +67,18 @@ partial('site/haut', ['chemin' => $path, 'titre' => $t['titre'], 'chapo' => $t['
 </section>
 <?php endif ?>
 
-<section class="section buts buts--inverse collectif-groupe" id="collectif" aria-labelledby="groupe-titre">
-  <div class="buts__inner container">
-    <span class="portail portail--buts portail--buste portail--miroir" aria-hidden="true"><span class="portail__calque"><img src="/assets/img/personnages/groupe.svg" alt="" width="217" height="313" loading="lazy" decoding="async"></span></span>
-    <div class="prose">
-      <p class="sur-titre"><?= e($accueil['collectif_titre']) ?></p>
-      <h2 id="groupe-titre"><?= e($accueil['collectif_soustitre']) ?></h2>
-      <p class="qui__texte"><?= e($accueil['collectif_texte']) ?></p>
-    </div>
-  </div>
-</section>
-
-<section class="section qui qui--clair" aria-labelledby="structures-titre">
+<?php // Qui sommes-nous (demande de Kouzia, 2026-11-19) : le groupe, puis ses structures porteuses et ses financeurs, dans
+// une seule section, sans personnage. ?>
+<section class="section qui qui--clair collectif" id="collectif" aria-labelledby="groupe-titre">
   <div class="container">
-    <h2 id="structures-titre"><?= e($t['structures_titre']) ?></h2>
+    <div class="collectif__tete">
+      <div class="prose">
+        <p class="sur-titre"><?= e($accueil['collectif_titre']) ?></p>
+        <h2 id="groupe-titre"><?= e($accueil['collectif_soustitre']) ?></h2>
+        <p class="qui__texte"><?= e($accueil['collectif_texte']) ?></p>
+      </div>
+    </div>
+    <h3 class="collectif__titre"><?= e($t['structures_titre']) ?></h3>
     <?php partial('site/structures', ['textes' => $t, 'variante' => 'large']) ?>
     <?php partial('site/financeurs') ?>
   </div>

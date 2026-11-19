@@ -19,7 +19,7 @@ final class Galerie
         $pages = max(1, (int) ceil($total / self::PAR_PAGE));
         $page = filter_var($_GET['page'] ?? 1, FILTER_VALIDATE_INT, ['options' => ['min_range' => 1]]) ?: 1;
         if ($page > $pages) {
-            abort(404);
+            throw \App\Core\HttpException::notFound();
         }
         $debut = ($page - 1) * self::PAR_PAGE;
         $photos = [];

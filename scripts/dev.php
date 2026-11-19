@@ -6,6 +6,7 @@ declare(strict_types=1);
  *   php scripts/dev.php serve [--host=127.0.0.1] [--port=8080]   site sur http://127.0.0.1:8080 (base créée si absente)
  *   php scripts/dev.php db      recrée data/dev.sqlite : migrations, database/seed.php s'il existe, contenus du site actuel
  *   php scripts/dev.php init    même chose, seulement si la base ou public/media/ manque (clone neuf)
+ *   php scripts/dev.php help Makefile [autres.mk]   liste les cibles commentées « ## » (make help)
  *   php scripts/dev.php info    vérifie PHP et les extensions
  *   php scripts/dev.php lint    vérifie la syntaxe de tous les fichiers PHP
  */
@@ -43,8 +44,9 @@ exit(match ($command) {
     'db' => database($root),
     'init' => init($root),
     'info' => info(),
+    'help' => aide(array_slice($argv, 2)),
     'lint' => lint($root),
-    default => fail("Commande inconnue : $command (serve, db, init, info ou lint)"),
+    default => fail("Commande inconnue : $command (serve, db, init, help, info ou lint)"),
 });
 
 /** Options -d extension=... pour les extensions disponibles mais non activées. @param list<string> $wanted */
@@ -127,6 +129,21 @@ function init(string $root): int
     }
     fwrite(STDOUT, 'Base de dev ou médias absents : création avec les contenus du site actuel...' . PHP_EOL);
     return database($root);
+}
+
+/** Cibles « nom: ## description » des fichiers make donnés (Makefile et fichiers inclus), dans l'ordre. @param list<string> $fichiers */
+function aide(array $fichiers): int
+{
+    $vues = [];
+    foreach ($fichiers ?: ['Makefile'] as $f) {
+        foreach (is_file($f) ? (file($f, FILE_IGNORE_NEW_LINES) ?: []) : [] as $l) {
+            if (preg_match('/^([a-z][a-z0-9-]*):.*## (.*)$/', $l, $m) === 1 && !isset($vues[$m[1]])) {
+                $vues[$m[1]] = true;
+                fwrite(STDOUT, sprintf("  %-11s %s\n", $m[1], $m[2]));
+            }
+        }
+    }
+    return 0;
 }
 
 function info(): int

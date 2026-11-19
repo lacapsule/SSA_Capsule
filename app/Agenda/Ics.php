@@ -20,7 +20,7 @@ final class Ics
     {
         $e = Db::run('SELECT ' . self::CHAMPS . ' FROM events WHERE is_published = 1 AND slug = ?', [$slug])->fetch();
         if ($e === false) {
-            abort(404);
+            throw \App\Core\HttpException::notFound();
         }
         // Affiché (inline) et non téléchargé : l'iPhone et le Mac ouvrent alors directement « Ajouter au calendrier ».
         self::envoyer([$e], $slug . '.ics', false);

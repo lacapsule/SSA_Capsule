@@ -52,7 +52,7 @@ final class Actualites
         $pages = max(1, (int) ceil($total / self::PAR_PAGE));
         $page = filter_var($_GET['page'] ?? 1, FILTER_VALIDATE_INT, ['options' => ['min_range' => 1]]) ?: 1;
         if ($page > $pages) {
-            abort(404);
+            throw \App\Core\HttpException::notFound();
         }
         $lignes = Db::run('SELECT ' . self::CHAMPS . ' FROM articles WHERE is_published = 1 AND date_article <= ? ORDER BY date_article DESC, id DESC LIMIT ' . self::PAR_PAGE . ' OFFSET ' . (($page - 1) * self::PAR_PAGE), [self::aujourdhui()])->fetchAll();
         $t = Contenu::traduire('page', '/actualites/', Pages::textes('/actualites/'));
@@ -71,7 +71,7 @@ final class Actualites
     {
         $a = Db::run('SELECT ' . self::CHAMPS . ' FROM articles WHERE is_published = 1 AND date_article <= ? AND slug = ?', [self::aujourdhui(), $slug])->fetch();
         if ($a === false) {
-            abort(404);
+            throw \App\Core\HttpException::notFound();
         }
         $t = Contenu::traduire('article', (string) $a['id'], $a);
         $images = Db::run('SELECT path, alt FROM article_images WHERE article_id = ? ORDER BY position', [$a['id']])->fetchAll();

@@ -17,7 +17,7 @@ $position = !empty($adresse['position']) ? \App\Lieux\Positions::parCle((string)
 $ligneAdresse = trim(($adresse['rue'] ?? '') . ', ' . ($adresse['code_postal'] ?? '') . "\u{00A0}" . ($adresse['ville'] ?? ''), ' ,'); // code postal et commune jamais séparés
 // Au téléphone, le formulaire arrive après les coordonnées et la carte : un lien y mène dès le haut de page (revue du 2026-11-17).
 $aller = '<p class="contact__aller"><a class="lien-fleche" href="#formulaire-titre">' . e($t['formulaire_titre']) . '<svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" focusable="false"><path d="M8 3v10M4 9l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a></p>';
-partial('site/haut', ['chemin' => $path, 'titre' => $t['titre'], 'chapo' => $t['chapo'], 'apres' => $aller, 'personnage' => '/assets/img/personnages/contact.svg', 'miroir' => true]); // personnage de la boîte à la place de l'illustration de banque d'images (2026-11-17)
+partial('site/haut', ['chemin' => $path, 'titre' => $t['titre'], 'chapo' => $t['chapo'], 'apres' => $aller]); // personnage de la boîte à la place de l'illustration de banque d'images (2026-11-17)
 $icone = static fn (string $d): string => '<svg class="coordonnees__icone" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false"><path d="' . $d . '" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 ?>
 <section class="section" aria-labelledby="coordonnees-titre">
@@ -35,6 +35,8 @@ $icone = static fn (string $d): string => '<svg class="coordonnees__icone" viewB
         <li><?= $icone('M10 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM3 21a7 7 0 0 1 14 0M19 8v6M16 11h6') ?>
           <span class="coordonnees__libelle"><?= e($t['candidatures']) ?></span><a href="mailto:<?= e((string) Site::get('email_candidatures')) ?>"><?= e((string) Site::get('email_candidatures')) ?></a></li>
       </ul>
+      <?php // Personnage sous les coordonnées, tourné vers le formulaire (demande de Kouzia, 2026-11-19 : plus dans le haut de page). ?>
+      <span class="portail portail--buste contact__personnage" aria-hidden="true"><span class="portail__calque"><img src="/assets/img/personnages/contact.svg" alt="" width="212" height="313" loading="lazy" decoding="async"></span></span>
     </div>
 
     <div class="contact__formulaire">

@@ -4,8 +4,24 @@
    pilule, titres en police de titre, personnages dans un rond jaune. Aucune valeur de couleur en dur. */
 :root {
   --filet: color-mix(in oklab, var(--color-text) 14%, transparent);
-  --pied-fond: color-mix(in oklab, var(--color-marque) 78%, var(--color-text));
+  /* Pied de page : bleu de marque assombri, identique dans les deux thèmes (mêlé au texte, il s'éclaircissait en sombre). */
+  --pied-fond: color-mix(in oklab, var(--color-marque) 78%, var(--voile));
+  /* Cartes des structures (logos dessinés sur fond blanc) : blanches dans les deux thèmes, texte foncé. */
+  --structure-fond: var(--color-surface);
+  --structure-texte: var(--color-text);
 }
+/* Fonds : en clair, sections blanches et cartes gris-bleu ; en sombre, un seul bleu pour toute la page (celui de
+   « Comment ça marche », demande de Kouzia du 2026-11-19) et des cartes un cran plus claires, jamais du même bleu. */
+:root { --fond-section: var(--color-surface); --fond-carte: var(--color-surface-2); }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --structure-fond: var(--fond-logo); --structure-texte: var(--voile); --fond-section: var(--color-bg); --fond-carte: var(--color-surface); } }
+:root[data-theme="dark"] { --structure-fond: var(--fond-logo); --structure-texte: var(--voile); --fond-section: var(--color-bg); --fond-carte: var(--color-surface); }
+/* Couleurs de la page, figées à la racine (thème courant) : le panneau du menu les reprend sous l'en-tête clair. */
+:root { --page-fond: var(--color-entete-fond); --page-texte: var(--color-entete-texte); --page-accent: var(--color-entete-accent); --page-filet: var(--filet); --page-action: var(--color-accent); --page-focus: var(--color-focus); }
+/* Thème sombre : en-tête clair. Le logo du client ne se modifie pas (rule web-design, « Logo intouchable ») ; il reste
+   sur le fond pour lequel il a été dessiné (décision de Kouzia, 2026-11-19). Couleurs dérivées des tokens : blanc des
+   logos, encre du voile, action en vert du site assombri (5,7:1 sur blanc). */
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .site-header { --color-entete-fond: var(--fond-logo); --color-entete-texte: var(--voile); --color-entete-accent: color-mix(in srgb, var(--page-action) 45%, var(--voile)); --color-text: var(--voile); --color-surface: var(--fond-logo); --color-surface-2: color-mix(in oklab, var(--color-marque) 8%, var(--fond-logo)); --color-border: color-mix(in oklab, var(--voile) 55%, var(--fond-logo)); --color-accent: color-mix(in srgb, var(--page-action) 45%, var(--voile)); --color-accent-soft: color-mix(in oklab, var(--page-action) 10%, var(--fond-logo)); --color-focus: color-mix(in srgb, var(--page-focus) 45%, var(--voile)); --filet: color-mix(in oklab, var(--voile) 14%, transparent); color-scheme: light; } }
+:root[data-theme="dark"] .site-header { --color-entete-fond: var(--fond-logo); --color-entete-texte: var(--voile); --color-entete-accent: color-mix(in srgb, var(--page-action) 45%, var(--voile)); --color-text: var(--voile); --color-surface: var(--fond-logo); --color-surface-2: color-mix(in oklab, var(--color-marque) 8%, var(--fond-logo)); --color-border: color-mix(in oklab, var(--voile) 55%, var(--fond-logo)); --color-accent: color-mix(in srgb, var(--page-action) 45%, var(--voile)); --color-accent-soft: color-mix(in oklab, var(--page-action) 10%, var(--fond-logo)); --color-focus: color-mix(in srgb, var(--page-focus) 45%, var(--voile)); --filet: color-mix(in oklab, var(--voile) 14%, transparent); color-scheme: light; }
 h1, h2, h3 { font-family: var(--font-titres); letter-spacing: -0.01em; }
 
 /* ---------- En-tête sur une seule ligne : logo, menu, langue. Menu replié en bouton sous 999rem (mesuré). ---------- */
@@ -30,14 +46,20 @@ h1, h2, h3 { font-family: var(--font-titres); letter-spacing: -0.01em; }
 @media (min-width: 75.01rem) and (max-width: 86rem), (max-width: 31rem) {
   .site-header__logo > span:not(.visually-hidden) { position: absolute; width: 1px; height: 1px; white-space: nowrap; clip-path: inset(50%); overflow: hidden; }
 }
-/* Menu replié : mêmes règles que site.css sous 56rem, étendues jusqu'au seuil mesuré ; ouvert, il passe sous la ligne. */
+/* Menu replié jusqu'au seuil mesuré. Ouvert : panneau plein écran sous l'en-tête (bouton et langue restent à leur
+   place sur la ligne, rien ne se chevauche), page derrière figée et inerte (site.js), grands liens faciles à toucher. */
 @media (max-width: 75rem) {
+  .site-header__inner { min-height: var(--header-h); }
   .js .site-nav__toggle { display: inline-flex; }
   .js .site-nav__list { display: none; }
-  .js .site-nav[data-open] { order: 4; flex-basis: 100%; padding-bottom: var(--space-3); }
-  .js .site-nav[data-open] .site-nav__toggle { position: absolute; top: calc((var(--header-h) - var(--target)) / 2); right: var(--gutter); }
-  .js .site-nav[data-open] .site-nav__list { display: grid; gap: var(--space-1); width: 100%; }
-  .js .site-nav[data-open] .site-nav__list a { width: 100%; }
+  .js .site-nav[data-open] { flex-basis: auto; padding-bottom: 0; }
+  .js .site-nav[data-open] .site-nav__toggle { position: static; }
+  /* Panneau sous la barre d'en-tête (il commence à sa hauteur), aux couleurs de la page : en thème sombre, l'en-tête
+     reste clair et le panneau sombre. */
+  .js .site-nav[data-open] .site-nav__list { --color-entete-texte: var(--page-texte); --color-entete-accent: var(--page-accent); --filet: var(--page-filet); position: fixed; inset: calc(var(--header-h) + 1px) 0 0; display: flex; flex-direction: column; align-items: flex-start; gap: 0; width: auto; padding: var(--space-4) var(--gutter) var(--space-5); color: var(--page-texte); background: var(--page-fond); overflow-y: auto; overscroll-behavior: contain; z-index: -1; }
+  .js .site-nav[data-open] .site-nav__list li { width: 100%; max-width: 40rem; border-bottom: 1px solid var(--filet); }
+  .js .site-nav[data-open] .site-nav__list a { justify-content: flex-start; width: 100%; min-height: 3.5rem; padding-inline: 0; font: 700 var(--step-2) / 1.2 var(--font-titres); text-underline-offset: 0.3em; }
+  html:has(.site-nav[data-open]) { overflow: hidden; }
 }
 
 /* ---------- Haut de l'accueil : photo sous un voile, texte centré ---------- */
@@ -64,7 +86,7 @@ h1, h2, h3 { font-family: var(--font-titres); letter-spacing: -0.01em; }
 @media (prefers-reduced-motion: reduce) { .lien-fleche svg { transition: none; } }
 .section__head h2, .prose h2, .section h2 { color: var(--color-marque-sur-fond); }
 .qui h2, .objectif h2, .qui h3 { color: inherit; }
-.page-head { background: var(--color-surface); }
+.page-head { background: var(--fond-section); }
 .page-head__inner { padding-block: calc(var(--space-5) + var(--space-2)) var(--space-5); }
 .page-head h1 { max-width: none; }
 .page-head__intro { max-width: var(--measure); }
@@ -214,8 +236,8 @@ h1, h2, h3 { font-family: var(--font-titres); letter-spacing: -0.01em; }
 .filtres a[aria-current="page"] { border-color: var(--color-accent); color: var(--color-accent-text); background: var(--color-accent); }
 .passes { margin-top: var(--space-5); }
 .passes summary { min-height: var(--target); margin-bottom: var(--space-3); font-weight: 700; color: var(--color-accent); cursor: pointer; }
-.etat-vide { padding: var(--space-4); border-radius: var(--radius); text-align: center; color: var(--color-text-muted); background: var(--color-surface-2); }
-.infos-pratiques { display: grid; gap: var(--space-2); margin: 0 0 var(--space-4); padding: var(--space-4); border-radius: var(--radius); background: var(--color-surface-2); }
+.etat-vide { padding: var(--space-4); border-radius: var(--radius); text-align: center; color: var(--color-text-muted); background: var(--fond-carte); }
+.infos-pratiques { display: grid; gap: var(--space-2); margin: 0 0 var(--space-4); padding: var(--space-4); border-radius: var(--radius); background: var(--fond-carte); }
 .infos-pratiques div { display: grid; grid-template-columns: 6rem minmax(0, 1fr); gap: var(--space-2); }
 .infos-pratiques dt { font-weight: 700; color: var(--color-marque-sur-fond); }
 .infos-pratiques dd { margin: 0; }
@@ -285,6 +307,10 @@ h1, h2, h3 { font-family: var(--font-titres); letter-spacing: -0.01em; }
 .contact h2 { margin-top: 0; font-size: var(--step-2); color: var(--color-marque-sur-fond); }
 /* Coordonnées en encadré bleu marine, comme la section Qui sommes-nous : une icône par ligne, liens en jaune de marque. */
 .contact__infos { padding: var(--space-5) 0; color: var(--color-text); }
+/* Personnage sous les coordonnées, tourné vers le formulaire : il occupe la colonne, plus courte que le formulaire. */
+.contact__personnage { --d: 12rem; justify-self: start; margin: calc(var(--d) * 0.55) 0 0 calc(var(--d) * 0.35); }
+/* Téléphone et tablette : colonnes empilées, plus de vide à occuper ; le personnage couperait les coordonnées du formulaire. */
+@media (max-width: 56rem) { .contact__personnage { display: none; } }
 .contact__infos h2 { margin-bottom: var(--space-4); color: var(--color-marque-sur-fond); }
 .coordonnees { display: grid; gap: var(--space-4); list-style: none; margin: 0; padding: 0; }
 .coordonnees li { display: grid; grid-template-columns: 2.75rem minmax(0, 1fr); column-gap: var(--space-3); row-gap: var(--space-1); align-items: start; }
@@ -319,7 +345,7 @@ h1, h2, h3 { font-family: var(--font-titres); letter-spacing: -0.01em; }
 .sur-titre { margin: 0 0 var(--space-2); font: 700 var(--step-0) / 1.4 var(--font-ui); letter-spacing: var(--etiquette-espacement); text-transform: uppercase; color: var(--color-accent); }
 
 /* Haut de l'accueil : titre et actions à gauche, mosaïque de trois photos à droite. */
-.ouverture { padding-block: var(--space-6); background: var(--color-surface); overflow-x: clip; }
+.ouverture { padding-block: var(--space-6); background: var(--fond-section); overflow-x: clip; }
 .ouverture__inner { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); align-items: center; gap: var(--space-6); }
 .ouverture h1 { margin: 0; font-size: clamp(2.4rem, 1.4rem + 3vw, 3.9rem); line-height: 1.08; }
 .ouverture__devise { max-width: 30rem; margin: var(--space-4) 0 var(--space-5); font-size: var(--step-1); color: var(--color-text-muted); }
@@ -342,7 +368,7 @@ h1, h2, h3 { font-family: var(--font-titres); letter-spacing: -0.01em; }
 .rendez-vous__inner { display: grid; grid-template-columns: 15rem minmax(0, 1fr); align-items: center; gap: var(--space-5); }
 .rendez-vous__tete h2 { margin: 0 0 var(--space-2); font-size: var(--step-2); }
 .rendez-vous__liste { display: grid; gap: var(--space-3); list-style: none; margin: 0; padding: 0; }
-.rendez-vous__item { position: relative; display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: center; gap: var(--space-5); padding: var(--space-4) var(--space-5); border-radius: var(--radius-grand); background: var(--color-surface-2); transition: transform var(--duration-fast) var(--ease); }
+.rendez-vous__item { position: relative; display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: center; gap: var(--space-5); padding: var(--space-4) var(--space-5); border-radius: var(--radius-grand); background: var(--fond-carte); transition: transform var(--duration-fast) var(--ease); }
 .rendez-vous__item:hover { transform: translateY(-0.125rem); }
 .rendez-vous__item:has(a:focus-visible) { outline: var(--focus-largeur) solid var(--color-focus); outline-offset: var(--focus-ecart); }
 .rendez-vous__date { font-family: var(--font-titres); line-height: 0.9; }
@@ -357,7 +383,7 @@ h1, h2, h3 { font-family: var(--font-titres); letter-spacing: -0.01em; }
 .rendez-vous__item:hover .rendez-vous__voir { text-decoration: underline; text-underline-offset: 0.2em; }
 
 /* Étapes : grands numéros 01 02 03. */
-.etapes-chiffrees { background: var(--color-accent-soft); }
+.etapes-chiffrees { background: var(--color-surface-2); }
 .etapes-chiffrees h2 { font-size: var(--step-2); }
 .etapes-chiffrees__liste { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr)); gap: var(--space-6); list-style: none; counter-reset: etape; margin: var(--space-5) 0; padding: 0; }
 .etapes-chiffrees__liste li { counter-increment: etape; font-size: var(--step-1); }
@@ -413,15 +439,11 @@ h1, h2, h3 { font-family: var(--font-titres); letter-spacing: -0.01em; }
 /* Qui sommes-nous : aplat bleu de marque, structures en cartes à logo. */
 .qui { color: var(--color-marque-texte); background: var(--color-marque); }
 .qui__inner { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr); gap: var(--space-5) var(--space-6); }
-.qui .sur-titre, .qui .lien-fleche { color: var(--qui-accent, var(--color-marque-2)); }
-/* Thème sombre : le jaune de la charte y est assombri (fonds sombres) ; sur le bleu de marque il passe sous 4,5:1,
-   d'où un jaune éclairci pour cette section (5:1). */
-@media (prefers-color-scheme: dark) { .qui { --qui-accent: color-mix(in oklab, var(--color-marque-2) 60%, var(--color-marque-texte)); } }
-:root[data-theme="dark"] .qui { --qui-accent: color-mix(in oklab, var(--color-marque-2) 60%, var(--color-marque-texte)); }
+.qui .sur-titre, .qui .lien-fleche { color: var(--color-marque-2); }
 .qui__texte { margin: var(--space-4) 0; font-size: var(--step-1); }
 .qui__objectif { margin: 0 0 var(--space-4); }
 .structures { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-3); list-style: none; margin: 0; padding: 0; }
-.structure { display: grid; grid-template-rows: 4.5rem auto; gap: var(--space-3); padding: var(--space-4); border-radius: var(--radius-grand); color: var(--color-text); background: var(--color-surface); }
+.structure { display: grid; grid-template-rows: 4.5rem auto; gap: var(--space-3); padding: var(--space-4); border: 1px solid var(--filet); border-radius: var(--radius-grand); color: var(--structure-texte); background: var(--structure-fond); }
 .structure img { width: auto; max-width: 70%; height: auto; max-height: 4rem; object-fit: contain; }
 .structure img.structure__logo--carre { max-height: 5.5rem; }
 /* Logo presque carré (ULAMIR-CPIE) plus haut que les logos en longueur, pour le même poids à l'œil. */
@@ -444,13 +466,13 @@ h1, h2, h3 { font-family: var(--font-titres); letter-spacing: -0.01em; }
 .qui__financeurs { display: flex; flex-wrap: wrap; grid-column: 1 / -1; justify-content: flex-start; align-items: center; gap: var(--space-3) var(--space-5); padding-top: var(--space-4); border-top: 1px solid color-mix(in oklab, var(--color-marque-texte) 25%, transparent); }
 .qui__financeurs h3 { margin: 0; }
 .qui__financeurs ul { display: flex; flex-wrap: wrap; gap: var(--space-3); list-style: none; margin: 0; padding: 0; }
-.qui__financeurs li > * { display: block; padding: var(--space-3) var(--space-4); border-radius: var(--radius-grand); background: var(--color-surface); }
+.qui__financeurs li > * { display: block; padding: var(--space-3) var(--space-4); border-radius: var(--radius-grand); background: var(--fond-logo); }
 .qui__financeurs a { transition: transform var(--duration-fast) var(--ease); }
 .qui__financeurs a:hover { transform: translateY(-0.125rem); }
 .qui__financeurs img { display: block; width: auto; height: 4.5rem; }
 
 /* Appel au contact : grande illustration du site actuel sur un disque jaune, titre et actions à côté. */
-.appel { background: var(--color-surface); }
+.appel { background: var(--fond-section); }
 .appel__inner { display: grid; grid-template-columns: auto minmax(0, 40rem); justify-content: center; align-items: center; gap: var(--space-6); }
 .appel__illustration { display: grid; place-items: center; aspect-ratio: 4 / 3; background: radial-gradient(circle at 50% 52%, var(--color-marque-2) 0 36%, transparent calc(36% + 1px)); }
 .appel__illustration img { width: 100%; max-width: 32rem; height: auto; }
@@ -476,14 +498,15 @@ h1, h2, h3 { font-family: var(--font-titres); letter-spacing: -0.01em; }
 /* Personnage à droite (Qui sommes-nous) : le motif personnage à gauche ne revient pas trois fois de suite. */
 .buts--inverse .buts__inner { grid-template-columns: minmax(0, 1fr) auto; }
 .buts--inverse .portail { order: 2; margin-right: calc(var(--d) * 0.25); }
-.buts--inverse { overflow-x: clip; }
+/* Calque du personnage plus large que son rond (zone masquée) : coupé au bord de la section, jamais de défilement horizontal à 320 px. */
+.buts, .appel, .page-head--personnage { overflow-x: clip; }
 .portail--buts { --d: 17.5rem; }
 .buts h2, .schema-projet h2, .engage h2 { font-size: var(--step-2); }
 .buts ul { display: grid; gap: var(--space-2); margin: var(--space-3) 0; }
 .schema-projet { background: var(--color-surface-2); }
 .schema-projet h2 { text-align: center; }
 .schema-projet .etapes-chiffrees__liste { max-width: 68rem; margin-inline: auto; }
-@media (min-width: 52rem) { .schema-projet .etapes-chiffrees__liste { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (min-width: 40rem) { .etapes-chiffrees__liste, .schema-projet .etapes-chiffrees__liste { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-5); } }
 .schema-projet figure { max-width: 58rem; margin: var(--space-5) auto; }
 .schema-projet .etapes-chiffrees__liste li::before { font-size: 3rem; }
 .schema-projet figure img { width: 100%; height: auto; border-radius: var(--radius-grand); box-shadow: var(--ombre-carte); }
@@ -510,30 +533,37 @@ h1, h2, h3 { font-family: var(--font-titres); letter-spacing: -0.01em; }
 @media (prefers-reduced-motion: reduce) { .rendez-vous__item { transition: none; } }
 @media (max-width: 52rem) {
   .ouverture { padding-block: var(--space-5); }
-  .ouverture__inner, .actus__grille, .qui__inner, .buts__inner, .engage__inner, .rendez-vous__inner { grid-template-columns: minmax(0, 1fr); gap: var(--space-5); }
+  .ouverture__inner, .actus__grille, .qui__inner, .engage__inner, .rendez-vous__inner { grid-template-columns: minmax(0, 1fr); gap: var(--space-5); }
+  .buts__inner, .appel__inner { gap: var(--space-5); }
   .ouverture__devise { margin-block: var(--space-3) var(--space-4); }
   .ouverture__actions .button { width: 100%; }
   .mosaique { display: block; height: auto; }
   .mosaique > img:first-child { height: 15rem; object-position: 50% 15%; }
   .mosaique > img:not(:first-child) { display: none; }
-  .portail--mosaique { --d: 7.5rem; right: 2.5rem; bottom: -1.5rem; left: auto; }
+  /* Personnage en bas à gauche de la photo : il la montre du doigt (bras tendu vers la droite), jamais le vide. */
+  .portail--mosaique { --d: 7.5rem; right: auto; bottom: -1.5rem; left: var(--space-2); }
   .rendez-vous__item { grid-template-columns: minmax(0, 1fr); gap: var(--space-2); padding: var(--space-4); }
   .structures { gap: var(--space-2); }
   .structure { grid-template-rows: 4.25rem auto; padding: var(--space-3); }
   .structure img { max-width: 90%; max-height: 3rem; }
   .structure img.structure__logo--carre { max-height: 4.25rem; }
   .qui__financeurs img { height: 3.5rem; }
-  .portail--buts, .portail--appel { --d: 11rem; }
-  .appel__inner { grid-template-columns: minmax(0, 1fr); gap: var(--space-3); justify-items: center; text-align: center; }
-  .appel__coordonnees, .appel__actions { justify-content: center; }
-  .appel__actions { display: grid; grid-template-columns: minmax(0, 1fr); width: min(100%, 22rem); }
-  .buts--inverse .buts__inner { grid-template-columns: minmax(0, 1fr); }
-  .buts--inverse .portail { order: 0; margin-right: 0; }
+  .portail--buts, .portail--appel, .appel--compact .portail--appel { --d: 11rem; }
   .appel__illustration { max-width: 22rem; margin-inline: auto; }
   .etapes-chiffrees__liste { gap: var(--space-4); }
   .etapes-chiffrees__liste li::before, .schema-projet .etapes-chiffrees__liste li::before { font-size: 2.75rem; }
   .engage__inner > div { grid-template-columns: minmax(0, 1fr); }
   .actus__autres .actu { grid-template-columns: 6rem minmax(0, 1fr); }
+}
+/* Téléphone : personnage au-dessus du texte. Section de texte (buts) : sur la marge du texte, même axe ; bande d'appel
+   (titre et boutons centrés) : centré, boutons centrés de la même largeur. */
+@media (max-width: 40rem) {
+  .buts__inner, .buts--inverse .buts__inner { grid-template-columns: minmax(0, 1fr); gap: var(--space-4); }
+  .buts .portail, .buts--inverse .portail { --d: 9rem; order: 0; justify-self: start; margin-right: 0; margin-left: calc(var(--d) * 0.3); }
+  .appel__inner { grid-template-columns: minmax(0, 1fr); gap: var(--space-3); justify-items: center; text-align: center; }
+  .appel__inner > div { display: grid; justify-items: center; width: 100%; }
+  .appel__coordonnees, .appel__actions { justify-content: center; }
+  .appel__actions { display: grid; grid-template-columns: minmax(0, 1fr); width: min(100%, 22rem); }
 }
 
 /* Apparition au défilement (site.js) : classe posée par le script seulement, jamais sur ce qui est déjà à l'écran. */
@@ -556,9 +586,15 @@ h1, h2, h3 { font-family: var(--font-titres); letter-spacing: -0.01em; }
 .page-head--centre .page-head__inner { max-width: 64rem; text-align: center; }
 .page-head--centre .breadcrumb ol { justify-content: center; }
 .page-head--centre .page-head__intro { margin-inline: auto; }
-/* Page introuvable : actions centrées sous le titre, un seul bouton principal. */
+/* Page introuvable : « 404 » en grand, le personnage dans le zéro, titre, adresse demandée et actions, tout centré. */
 .introuvable { text-align: center; }
-.introuvable__titre { margin: 0 0 var(--space-4); font-size: var(--step-1); }
+.introuvable__inner { display: grid; justify-items: center; max-width: 46rem; }
+.introuvable__code { display: flex; align-items: flex-end; gap: var(--space-2); margin: 0 0 var(--space-4); font: 800 clamp(6rem, 3rem + 10vw, 10rem) / 0.8 var(--font-titres); color: var(--color-marque-sur-fond); }
+.portail--introuvable { --d: clamp(6.5rem, 3.5rem + 10vw, 10.5rem); margin: calc(var(--d) * 0.5) 0 0; }
+.introuvable h1 { margin: var(--space-1) 0 var(--space-3); }
+.introuvable .sur-titre { margin: 0; }
+.introuvable__texte { max-width: var(--measure); margin: 0 0 var(--space-5); font-size: var(--step-1); color: var(--color-text-muted); }
+.introuvable__texte code { overflow-wrap: anywhere; font: 700 1em var(--font-ui); color: var(--color-text); }
 .introuvable__actions { display: flex; flex-wrap: wrap; justify-content: center; gap: var(--space-3); margin: 0; }
 .plan__colonne--evenements { grid-column: 1 / -1; padding-top: var(--space-5); border-top: 1px solid var(--filet); }
 .plan .plan__liste--evenements { display: block; columns: 2 20rem; column-gap: var(--space-6); }
@@ -587,14 +623,28 @@ h1, h2, h3 { font-family: var(--font-titres); letter-spacing: -0.01em; }
 
 /* Qui sommes-nous : structures sur quatre colonnes, objectif en grand sur fond crème. */
 .qui > .container > h2 { margin-bottom: var(--space-5); }
-.qui--clair { color: var(--color-text); background: var(--color-accent-soft); }
+.qui--clair { color: var(--color-text); background: var(--color-surface-2); }
+/* Projet, Qui sommes-nous : le groupe, puis ses structures et ses financeurs, sans personnage (demande de Kouzia,
+   2026-11-19) ; fond de page, entre la vidéo (gris-bleu) et l'objectif (jaune). */
+.collectif { background: var(--color-bg); }
+.collectif__tete { max-width: 46rem; }
+.collectif .collectif__titre { margin: var(--space-6) 0 var(--space-4); font-size: var(--step-2); color: var(--color-marque-sur-fond); }
+@media (max-width: 40rem) {
+  .collectif .collectif__titre { margin-top: var(--space-5); }
+}
 .qui--clair .qui__financeurs { border-color: var(--filet); }
 .qui--clair h2 { color: var(--color-marque-sur-fond); }
 .qui--clair .sur-titre, .qui--clair .lien-fleche, .qui--clair .qui__financeurs h3 { color: var(--color-accent-strong); }
 .qui .structures--large { grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr)); }
+/* Tablette : quatre structures en deux rangées de deux (jamais trois plus une seule sur sa ligne). */
+@media (min-width: 30rem) and (max-width: 64rem) { .qui .structures--large { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 .qui .structures + .qui__financeurs { margin-top: var(--space-5); }
 .objectif { color: var(--color-marque-2-texte); background: var(--color-marque-2); }
 .objectif .sur-titre { color: inherit; }
+/* Thème sombre : pas de grand aplat jaune éblouissant ; bleu de marque, sur-titre en jaune (5,1:1), texte blanc (8,9:1). */
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .objectif { color: var(--color-marque-texte); background: var(--color-marque); } :root:not([data-theme="light"]) .objectif .sur-titre { color: var(--color-marque-2); } }
+:root[data-theme="dark"] .objectif { color: var(--color-marque-texte); background: var(--color-marque); }
+:root[data-theme="dark"] .objectif .sur-titre { color: var(--color-marque-2); }
 .objectif__inner { text-align: center; }
 .objectif__texte { max-width: 44ch; margin: 0 auto; font: 700 clamp(1.5rem, 1.1rem + 1.2vw, 2rem) / 1.3 var(--font-titres); text-wrap: balance; }
 
@@ -614,7 +664,7 @@ h1, h2, h3 { font-family: var(--font-titres); letter-spacing: -0.01em; }
 .agenda__abonnement .ajout-agenda { max-width: none; margin: 0; padding: 0; border: 0; background: none; }
 .agenda__abonnement .ajout-agenda__liste { grid-template-columns: minmax(0, 1fr); }
 .agenda-passes__liste--recents { margin-bottom: var(--space-4); }
-@media (max-width: 52rem) { .agenda__a-venir--abonnement { grid-template-columns: minmax(0, 1fr); } }
+@media (max-width: 52rem) { .agenda__a-venir--abonnement { grid-template-columns: minmax(0, 1fr); } .agenda__abonnement { padding: var(--space-4) var(--space-3); } }
 @media (max-width: 40rem) {
   .agenda__tete .filtres ul { flex-wrap: wrap; }
 }
@@ -657,7 +707,8 @@ h1, h2, h3 { font-family: var(--font-titres); letter-spacing: -0.01em; }
 .page-head__infos li { display: inline-flex; align-items: center; gap: var(--space-2); }
 .page-head__infos svg { flex: none; color: var(--color-accent); }
 /* Événement passé : date et sur-titre en neutre atténué. */
-.page-head--passe .page-head__date { background: var(--color-text-muted); }
+/* Événement passé : pastille éteinte (fond neutre, texte du thème), lisible dans les deux thèmes. */
+.page-head--passe .page-head__date { border: 1px solid var(--color-line-strong); color: var(--color-text); background: var(--fond-carte); }
 .page-head--passe .sur-titre { color: var(--color-text-muted); }
 /* Article : vidéo en pleine colonne, puis texte en colonne de lecture et liens dans un encadré à côté. */
 .article .container { display: grid; gap: var(--space-5); }
@@ -696,7 +747,7 @@ h1, h2, h3 { font-family: var(--font-titres); letter-spacing: -0.01em; }
 .video-lecture { position: absolute; inset: 0; display: grid; place-content: center; justify-items: center; gap: var(--space-2); width: 100%; padding: 0; border: 0; border-radius: var(--radius-grand); font-weight: 700; color: var(--color-marque-texte); background: color-mix(in oklab, var(--color-text) 25%, transparent); cursor: pointer; }
 .video-lecture[hidden] { display: none; }
 .video-lecture svg { box-sizing: content-box; padding: var(--space-3); border-radius: 50%; color: var(--color-marque-2-texte); background: var(--color-marque-2); transition: transform var(--duration-fast) var(--ease); }
-.video-lecture span { padding: var(--space-1) var(--space-3); border-radius: 999px; background: color-mix(in oklab, var(--color-text) 70%, transparent); }
+.video-lecture span { padding: var(--space-1) var(--space-3); border-radius: 999px; color: var(--voile-texte); background: color-mix(in oklab, var(--voile) 80%, transparent); } /* voile identique dans les deux thèmes : texte blanc lisible sur la photo */
 .video-lecture small { font-weight: 400; }
 .video-lecture:hover svg { transform: scale(1.08); }
 .video-lecture:focus-visible { outline: var(--focus-largeur) solid var(--color-focus); outline-offset: var(--focus-ecart); }
@@ -794,12 +845,18 @@ h1, h2, h3 { font-family: var(--font-titres); letter-spacing: -0.01em; }
 .carte-lieux.est-deplacee { cursor: grabbing; }
 .carte-lieux__mer { fill: color-mix(in oklab, var(--color-marque) 28%, var(--color-surface)); }
 .carte-lieux__commune { fill: var(--color-surface); stroke: color-mix(in oklab, var(--color-marque) 25%, var(--color-surface)); stroke-width: 1.2px; vector-effect: non-scaling-stroke; }
-.carte-lieux__commune--lieux { fill: color-mix(in oklab, var(--color-marque-2) 40%, var(--color-surface)); transition: fill var(--duration-fast) var(--ease); cursor: pointer; }
-.carte-lieux__lien:hover .carte-lieux__commune, .carte-lieux__lien:focus-visible .carte-lieux__commune, .carte-lieux__lien.est-choisie .carte-lieux__commune { fill: color-mix(in oklab, var(--color-marque-2) 75%, var(--color-surface)); }
+/* Communes qui ont des lieux : jaune de marque éclairci en clair ; en sombre, le jaune mêlé au fond tourne au marron,
+   d'où le bleu de marque (commune choisie en bleu clair). */
+.carte-lieux { --commune-lieux: color-mix(in oklab, var(--color-marque-2) 40%, var(--color-surface)); --commune-choisie: color-mix(in oklab, var(--color-marque-2) 75%, var(--color-surface)); }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .carte-lieux { --commune-lieux: color-mix(in oklab, var(--color-marque) 80%, var(--color-surface)); --commune-choisie: color-mix(in oklab, var(--color-marque-sur-fond) 70%, var(--color-surface)); } }
+:root[data-theme="dark"] .carte-lieux { --commune-lieux: color-mix(in oklab, var(--color-marque) 80%, var(--color-surface)); --commune-choisie: color-mix(in oklab, var(--color-marque-sur-fond) 70%, var(--color-surface)); }
+.carte-lieux__commune--lieux { fill: var(--commune-lieux); transition: fill var(--duration-fast) var(--ease); cursor: pointer; }
+.carte-lieux__lien:hover .carte-lieux__commune, .carte-lieux__lien:focus-visible .carte-lieux__commune, .carte-lieux__lien.est-choisie .carte-lieux__commune { fill: var(--commune-choisie); }
+/* Focus clavier d'une commune : contour de focus du site en plus de la couleur (le changement de teinte seul ne suffit pas). */
+.carte-lieux__lien:focus-visible .carte-lieux__commune { stroke: var(--color-focus); stroke-width: 3px; }
 /* Contour de la commune survolée ou choisie, redessiné au-dessus de toutes les communes (sinon caché par ses voisines). */
 .carte-lieux__contour { fill: none; stroke: var(--color-marque-2-texte); stroke-width: 2px; stroke-linejoin: round; pointer-events: none; vector-effect: non-scaling-stroke; }
 .carte-lieux__contour.est-focus { stroke: var(--color-focus); stroke-width: 3px; }
-html:not(.js) .carte-lieux__lien:focus-visible .carte-lieux__commune { stroke: var(--color-focus); stroke-width: 3px; }
 /* Focus rendu sur la commune elle-même : contour épais de la couleur de focus (règle suivante). */
 .carte-lieux__lien:focus-visible { outline: none; }
 /* Tailles en unités du dessin, divisées par le zoom. */
@@ -842,7 +899,7 @@ html:not(.js) .carte-lieux__lien:focus-visible .carte-lieux__commune { stroke: v
 .lieux-explorer--page .lieux-calques legend { float: left; width: 100%; margin: 0 0 var(--space-1); }
 .lieux-explorer--page .lieux-carte__controles { top: calc(var(--space-4) + 8rem); }
 .lieux-explorer--page .lieux-outils { position: absolute; top: var(--space-3); left: var(--space-3); grid-template-columns: minmax(12rem, 16rem) minmax(14rem, 20rem) auto; max-width: calc(100% - 2 * var(--space-3)); padding: var(--space-3); box-shadow: var(--ombre-carte); z-index: 2; }
-.lieux-explorer--page .lieux-panneau { display: none; grid-column: 2; grid-row: 1; height: 100%; padding: var(--space-4); border-left: 1px solid var(--filet); background: var(--color-surface-2); overflow-y: auto; overscroll-behavior: contain; }
+.lieux-explorer--page .lieux-panneau { display: none; grid-column: 2; grid-row: 1; height: 100%; padding: var(--space-4); border-left: 1px solid var(--filet); background: var(--fond-carte); overflow-y: auto; overscroll-behavior: contain; }
 .lieux-explorer--page.a-un-panneau .lieux-panneau { display: grid; }
 /* Sans script : la liste entière reste lisible à côté de la carte. */
 html:not(.js) .lieux-explorer--page .lieux-explorer__corps { grid-template-columns: minmax(0, 1fr) minmax(18rem, 26rem); }
@@ -867,6 +924,10 @@ html:not(.js) .lieux-explorer--page .lieux-panneau { display: grid; }
 @media (max-width: 40rem) {
   .lieux-outils { grid-template-columns: minmax(0, 1fr); padding: var(--space-3); }
   .lieux-outils__actions .button { width: 100%; }
+  /* Légende dans le flux, sous le dessin : elle précède la carte dans le HTML (atteinte au clavier avant les communes),
+     l'ordre d'affichage la remet dessous, sans recouvrir les commandes de zoom. */
+  .lieux-explorer:not(.lieux-explorer--page) .lieux-carte__dessin { display: flex; flex-direction: column; }
+  .lieux-explorer:not(.lieux-explorer--page) .lieux-calques { order: 2; }
   .lieux-calques { position: static; border-radius: 0; box-shadow: none; }
   /* Page : carte plus haute que large, légende dessous. Carte en grand : légende en bandeau posé sur la carte. */
   .lieux-explorer:not(.lieux-explorer--page) .lieux-carte__dessin .carte-lieux { aspect-ratio: 4 / 5; }
@@ -901,7 +962,9 @@ html:not(.js) .lieux-explorer--page .lieux-panneau { display: grid; }
 .page-head__personnage { display: block; align-self: center; padding-inline: var(--space-5); }
 .portail--tete { --d: 12rem; }
 @media (min-width: 52.01rem) {
-  .page-head--personnage:not(:has(.page-head__date)) .page-head__inner { grid-template-columns: minmax(0, 46rem) minmax(0, 1fr); }
+  /* Texte borné par sa mesure, personnage à sa taille : avec le texte agrandi à 200 %, aucune colonne ne déborde. */
+  .page-head--personnage:not(:has(.page-head__date)) .page-head__inner { grid-template-columns: minmax(0, 46rem) minmax(auto, 1fr); column-gap: var(--space-5); }
+  .page-head--personnage:not(:has(.page-head__date)) .page-head__texte { max-width: 46rem; }
   /* Personnage posé sur le bas du haut de page (le rond touche la section suivante) : le haut de page ne grandit pas. */
   .page-head--personnage:not(:has(.page-head__date)) .page-head__personnage { align-self: end; justify-self: center; padding-block: 0; }
   .page-head--personnage:not(:has(.page-head__date)) .portail--tete { --d: 13rem; margin-block: calc(var(--d) * 0.45) calc(var(--space-5) * -1); }
@@ -929,7 +992,7 @@ html:not(.js) .lieux-explorer--page .lieux-panneau { display: grid; }
     }
 @media (max-width: 52rem) {
   /* Page sans date (contact) : le personnage centré sous le texte. */
-  .page-head--personnage:not(:has(.page-head__date)) .page-head__personnage { grid-row: auto; grid-column: 1 / -1; justify-self: center; }
+  .page-head--personnage:not(:has(.page-head__date)) .page-head__personnage { grid-row: auto; grid-column: 1 / -1; justify-self: start; margin-left: var(--space-5); padding-inline: 0; }
   /* Téléphone : le personnage à droite de la date, le titre dessous sur toute la largeur. */
   .page-head--personnage .page-head__inner { grid-template-columns: minmax(0, 1fr) auto; column-gap: var(--space-3); row-gap: 0; }
   .page-head--personnage .page-head__texte, .page-head--personnage .page-head__date-titre { display: contents; }
@@ -967,6 +1030,9 @@ html:not(.js) .lieux-explorer--page .lieux-panneau { display: grid; }
 .carte-quartier__route--petite { stroke-width: 2.5px; }
 .carte-quartier__route--moyenne { stroke-width: 4px; }
 .carte-quartier__route--grande { stroke: color-mix(in oklab, var(--color-marque-2) 55%, var(--color-surface)); stroke-width: 6px; }
+/* Thème sombre : jaune mêlé au fond sombre = marron ; mêlé au gris clair, il reste jaune pâle et lisible. */
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .carte-quartier__route--grande { stroke: color-mix(in oklab, var(--color-marque-2) 60%, var(--color-text-muted)); } }
+:root[data-theme="dark"] .carte-quartier__route--grande { stroke: color-mix(in oklab, var(--color-marque-2) 60%, var(--color-text-muted)); }
 .carte-quartier__repere { transform: scale(calc(1 / var(--z))); }
 .carte-quartier__repere path { fill: var(--color-accent); stroke: var(--color-surface); stroke-width: 2px; }
 .carte-quartier__repere circle { fill: var(--color-surface); }

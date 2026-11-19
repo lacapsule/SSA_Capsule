@@ -82,7 +82,7 @@ $parDefaut = ['ok' => true, 'attente' => true, 'refus' => false, 'sans' => false
     </div>
     <figure class="lieux-carte">
       <div class="lieux-carte__dessin" tabindex="0" aria-label="<?= e($t['carte_clavier']) ?>" data-dessin>
-        <?php partial('lieux/carte', ['groupes' => $groupes, 't' => $t, 'details' => $pageCarte]) ?>
+        <?php // Commandes, carte en grand et légende avant le dessin : atteintes au clavier avant les communes (posées en absolu, l'affichage ne change pas). ?>
         <div class="lieux-carte__controles" hidden data-controles>
           <button type="button" data-zoom="plus"><?= $icone('M12 5v14M5 12h14', 18) ?><span class="visually-hidden"><?= e($t['zoom_plus']) ?></span></button>
           <button type="button" data-zoom="moins"><?= $icone('M5 12h14', 18) ?><span class="visually-hidden"><?= e($t['zoom_moins']) ?></span></button>
@@ -97,6 +97,7 @@ $parDefaut = ['ok' => true, 'attente' => true, 'refus' => false, 'sans' => false
           <label class="lieux-calques__choix"><input type="checkbox" value="<?= e($c) ?>"<?= $parDefaut[$c] ? ' checked' : '' ?> data-calque-choix><span class="pastille-calque pastille-calque--<?= e($c) ?>" aria-hidden="true"></span><span><?= e($t['calque_court_' . $c]) ?> <span class="lieux-liste__nombre">(<?= $n ?>)</span></span></label>
           <?php endforeach ?>
         </fieldset>
+        <?php partial('lieux/carte', ['groupes' => $groupes, 't' => $t, 'details' => $pageCarte]) ?>
       </div>
       <figcaption class="lieux-carte__pied">
         <span class="lieux-carte__credit"><?= e($t['carte_credit']) ?></span>

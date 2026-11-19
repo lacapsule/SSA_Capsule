@@ -17,14 +17,14 @@ final class Reprise
     public static function article(string $numero): void
     {
         if (!ctype_digit($numero)) {
-            abort(404);
+            throw \App\Core\HttpException::notFound();
         }
         $fixe = Redirects::find('/article/' . $numero);
         if ($fixe !== null) {
             redirect(Langue::url($fixe), 301);
         }
         $slug = Db::run('SELECT slug FROM articles WHERE ancien_numero = ? AND is_published = 1', [(int) $numero])->fetchColumn();
-        $slug === false ? abort(404) : redirect(Langue::url('/actualites/' . $slug . '/'), 301);
+        $slug === false ? throw \App\Core\HttpException::notFound() : redirect(Langue::url('/actualites/' . $slug . '/'), 301);
     }
 
     /**

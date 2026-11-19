@@ -92,7 +92,7 @@ $email = (string) Site::get('email');
   <div class="site-header__inner container">
     <a class="site-header__logo" href="<?= e(lurl('/')) ?>"<?= $path === '/' ? ' aria-current="page"' : '' ?>><img src="/assets/img/logo-entete-112.webp" srcset="/assets/img/logo-entete-112.webp 2x, /assets/img/logo-entete-168.webp 3x" alt="" width="56" height="58"><span><?= e($short) ?></span><span class="visually-hidden">, <?= e(t('site.accueil')) ?></span></a>
     <nav class="site-nav" aria-label="<?= e(t('menu.principal')) ?>" data-nav>
-      <button class="site-nav__toggle" type="button" aria-expanded="false" aria-controls="menu-principal" hidden><span class="site-nav__bars" aria-hidden="true"></span><?= e(t('menu.ouvrir')) ?></button>
+      <button class="site-nav__toggle" type="button" aria-expanded="false" aria-controls="menu-principal" hidden><span class="site-nav__bars" aria-hidden="true"></span><span data-libelle-ouvrir="<?= e(t('menu.ouvrir')) ?>" data-libelle-fermer="<?= e(t('menu.fermer')) ?>"><?= e(t('menu.ouvrir')) ?></span></button>
       <ul class="site-nav__list" id="menu-principal">
         <?php foreach ($menu as $href => $cle): $actif = $href === '/' ? $path === '/' : str_starts_with($path, (string) $href); ?>
         <li><a href="<?= e(lurl((string) $href)) ?>"<?= $actif ? ' aria-current="page"' : '' ?>><?= e(t((string) $cle)) ?></a></li>
