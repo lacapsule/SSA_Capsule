@@ -498,8 +498,9 @@ h1, h2, h3 { font-family: var(--font-titres); letter-spacing: -0.01em; }
 .projet-video .article-video { margin: 0; }
 @media (max-width: 52rem) { .projet-video__inner { grid-template-columns: minmax(0, 1fr); gap: var(--space-4); } }
 .appel__actions { display: flex; flex-wrap: wrap; gap: var(--space-3); }
-.appel__coordonnees { display: flex; flex-wrap: wrap; gap: var(--space-1) var(--space-4); margin: 0 0 var(--space-4); font-weight: 700; }
-.appel__coordonnees a { color: var(--color-marque-sur-fond); }
+.appel__coordonnees { display: flex; flex-wrap: wrap; gap: var(--space-2) var(--space-5); list-style: none; margin: var(--space-3) 0 var(--space-5); padding: 0; font-weight: 700; }
+.appel__coordonnees a { display: inline-flex; align-items: center; gap: var(--space-2); min-height: var(--target); overflow-wrap: anywhere; color: var(--color-marque-sur-fond); }
+.appel__icone { display: grid; flex: none; place-items: center; width: 2.5rem; height: 2.5rem; border-radius: 50%; color: var(--color-marque-2-texte); background: var(--color-marque-2); }
 
 @media (prefers-reduced-motion: reduce) { .rendez-vous__item { transition: none; } }
 @media (max-width: 52rem) {

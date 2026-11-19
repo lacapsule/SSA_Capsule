@@ -26,7 +26,11 @@ $serre = !empty($serre);
       <h2 id="appel-titre"><?= e($titre) ?></h2>
       <?php if ($texte !== ''): ?><p class="appel__texte"><?= e($texte) ?></p><?php endif ?>
       <?php if (!empty($coordonnees)): $tel = (string) \App\Site\Site::get('telephone'); $mail = (string) \App\Site\Site::get('email'); // revue du 2026-11-17 : le contact direct, sans passer par le formulaire ?>
-      <p class="appel__coordonnees"><a href="tel:+33<?= e(substr((string) preg_replace('/\D/', '', $tel), 1)) ?>"><?= e($tel) ?></a><a href="mailto:<?= e($mail) ?>"><?= e($mail) ?></a></p>
+      <?php $icone = static fn (string $d): string => '<span class="appel__icone" aria-hidden="true"><svg viewBox="0 0 24 24" width="20" height="20" focusable="false"><path d="' . $d . '" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>'; ?>
+      <ul class="appel__coordonnees">
+        <li><a href="tel:+33<?= e(substr((string) preg_replace('/\D/', '', $tel), 1)) ?>"><?= $icone('M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z') ?><?= e($tel) ?></a></li>
+        <li><a href="mailto:<?= e($mail) ?>"><?= $icone('M3 6h18v12H3zM3 7l9 6 9-6') ?><?= e($mail) ?></a></li>
+      </ul>
       <?php endif ?>
       <p class="appel__actions">
         <?php foreach ($actions as $a): ?><a class="button<?= !empty($a['secondaire']) ? ' button--ghost' : '' ?>" href="<?= e(lurl($a['href'])) ?>"><?= e($a['libelle']) ?></a><?php endforeach ?>
