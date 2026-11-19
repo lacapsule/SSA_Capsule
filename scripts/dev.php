@@ -4,7 +4,8 @@ declare(strict_types=1);
 /*
  * Outils de développement local, sans dépendance (Linux, macOS, Windows). Appelé par le Makefile, utilisable seul.
  *   php scripts/dev.php serve [--host=127.0.0.1] [--port=8080]   site sur http://127.0.0.1:8080 (base créée si absente)
- *   php scripts/dev.php db      recrée data/dev.sqlite : migrations, puis database/seed.php s'il existe
+ *   php scripts/dev.php db      recrée data/dev.sqlite : migrations, database/seed.php s'il existe, contenus du site actuel
+ *   php scripts/dev.php init    même chose, seulement si la base ou public/media/ manque (clone neuf)
  *   php scripts/dev.php info    vérifie PHP et les extensions
  *   php scripts/dev.php lint    vérifie la syntaxe de tous les fichiers PHP
  */
@@ -33,16 +34,17 @@ foreach (array_slice($argv, 2) as $arg) {
     }
 }
 
-if ($command === 'db') {
+if ($command === 'db' || $command === 'init') {
     relaunchWithExtensions(['pdo_sqlite', 'sodium']);
 }
 
 exit(match ($command) {
     'serve' => serve($root, $options),
     'db' => database($root),
+    'init' => init($root),
     'info' => info(),
     'lint' => lint($root),
-    default => fail("Commande inconnue : $command (serve, db, info ou lint)"),
+    default => fail("Commande inconnue : $command (serve, db, init, info ou lint)"),
 });
 
 /** Options -d extension=... pour les extensions disponibles mais non activées. @param list<string> $wanted */
@@ -81,12 +83,9 @@ function serve(string $root, array $options): int
     if (!ctype_digit($port) || (int) $port < 1024 || (int) $port > 65535) {
         return fail("Port invalide : $port (1024 à 65535)");
     }
-    if (!is_file("$root/data/dev.sqlite")) {
-        fwrite(STDOUT, 'Base de dev absente : création (make db)...' . PHP_EOL);
-        passthru(escapeshellarg(PHP_BINARY) . ' ' . escapeshellarg(__FILE__) . ' db', $code);
-        if ($code !== 0) {
-            return $code;
-        }
+    passthru(escapeshellarg(PHP_BINARY) . ' ' . escapeshellarg(__FILE__) . ' init', $code);
+    if ($code !== 0) {
+        return $code;
     }
     $url = "http://$host:$port/";
     fwrite(STDOUT, PHP_EOL . '  Serveur de développement' . PHP_EOL . "  Adresse : $url" . PHP_EOL);
@@ -113,7 +112,21 @@ function database(string $root): int
         require $root . '/database/seed.php';
     }
     fwrite(STDOUT, 'Base de dev recréée (' . (implode(', ', $applied) ?: 'aucune migration') . ') : data/dev.sqlite' . PHP_EOL);
-    return 0;
+    // DB_DSN du processus prime sur le .env (App\Core\Env) : l'import vise toujours la base de dev.
+    putenv('DB_DSN=sqlite:' . $root . '/data/dev.sqlite');
+    passthru(escapeshellarg(PHP_BINARY) . extensionFlags(LOADABLE) . ' ' . escapeshellarg($root . '/scripts/importer-contenus.php'), $code);
+    return $code;
+}
+
+/** Clone neuf : data/ et public/media/ ne sont pas versionnés, la base se crée avec les contenus. Une base existante reste. */
+function init(string $root): int
+{
+    if (is_file("$root/data/dev.sqlite") && is_dir("$root/public/media")) {
+        fwrite(STDOUT, 'Base de dev et médias présents : rien à faire (make db pour tout recréer).' . PHP_EOL);
+        return 0;
+    }
+    fwrite(STDOUT, 'Base de dev ou médias absents : création avec les contenus du site actuel...' . PHP_EOL);
+    return database($root);
 }
 
 function info(): int
