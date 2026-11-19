@@ -1,6 +1,6 @@
 # Développement local, sous Linux, macOS ou Windows (GNU make et PHP 8.2+ dans le PATH).
 #   make dev        site sur http://127.0.0.1:8080 (crée la base de dev au premier lancement)
-#   make init       crée la base de dev avec les contenus et les médias, si absents (clone neuf ; make dev le fait seul)
+#   make contenus   crée la base de dev avec les contenus et les médias, si absents (clone neuf ; make dev le fait seul)
 #   make db         recrée la base de dev (data/dev.sqlite) avec les contenus du site actuel
 #   make migrate    applique les migrations sur la base du .env (production, préproduction)
 #   make open       ouvre l'adresse locale dans le navigateur
@@ -27,7 +27,7 @@ OPEN := xdg-open
 endif
 
 .DEFAULT_GOAL := help
-.PHONY: help dev init db migrate open info lint deps outils verify
+.PHONY: help dev contenus db migrate open info lint deps outils verify
 
 help: ## Affiche cette aide
 	@$(PHP) -r "foreach (file('Makefile') as $$l) if (preg_match('/^([a-z-]+):.*## (.*)$$/', $$l, $$m)) printf(\"  %%-10s %%s\n\", $$m[1], $$m[2]);"
@@ -35,7 +35,7 @@ help: ## Affiche cette aide
 dev: ## Lance le site en local (base de dev et contenus créés si absents)
 	$(DEV) serve --host=$(HOST) --port=$(PORT)
 
-init: ## Crée la base de dev et les médias s'ils manquent (clone neuf)
+contenus: ## Crée la base de dev et les médias s'ils manquent (clone neuf)
 	$(DEV) init
 
 db: ## Recrée la base de dev avec les contenus

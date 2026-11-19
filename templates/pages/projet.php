@@ -69,7 +69,7 @@ partial('site/haut', ['chemin' => $path, 'titre' => $t['titre'], 'chapo' => $t['
 
 <section class="section buts buts--inverse collectif-groupe" id="collectif" aria-labelledby="groupe-titre">
   <div class="buts__inner container">
-    <span class="portail portail--buts portail--buste" aria-hidden="true"><span class="portail__calque"><img src="/assets/img/personnages/groupe.svg" alt="" width="217" height="313" loading="lazy" decoding="async"></span></span>
+    <span class="portail portail--buts portail--buste portail--miroir" aria-hidden="true"><span class="portail__calque"><img src="/assets/img/personnages/groupe.svg" alt="" width="217" height="313" loading="lazy" decoding="async"></span></span>
     <div class="prose">
       <p class="sur-titre"><?= e($accueil['collectif_titre']) ?></p>
       <h2 id="groupe-titre"><?= e($accueil['collectif_soustitre']) ?></h2>

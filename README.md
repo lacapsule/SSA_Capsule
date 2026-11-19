@@ -20,7 +20,7 @@ make dev     # http://127.0.0.1:8080 ; au premier lancement, crée data/dev.sqli
 ```
 
 - `make dev PORT=8090` pour un autre port, `HOST=0.0.0.0` pour tester depuis un téléphone du réseau local.
-- `make init` fait la même préparation sans lancer le serveur ; il ne touche pas une base déjà là. `data/` et `public/media/` ne sont pas versionnés : un clone neuf sans eux affiche des pages sans photos ni contenus.
+- `make contenus` fait la même préparation sans lancer le serveur ; il ne touche pas une base déjà là. `data/` et `public/media/` ne sont pas versionnés : un clone neuf sans eux affiche des pages sans photos ni contenus.
 - `make db` recrée la base de dev (migrations, données de départ, puis contenus du site actuel par `scripts/importer-contenus.php`, voir « Contenus »).
 
 ## Commandes
@@ -28,7 +28,7 @@ make dev     # http://127.0.0.1:8080 ; au premier lancement, crée data/dev.sqli
 | Commande | Rôle |
 |----------|------|
 | `make dev` | site en local |
-| `make init` | crée la base de dev et les médias s'ils manquent |
+| `make contenus` | crée la base de dev et les médias s'ils manquent |
 | `make db` | recrée `data/dev.sqlite` avec les contenus |
 | `make migrate` | applique les migrations sur la base du `.env` (production, préproduction), sans rien effacer |
 | `make open` | ouvre l'adresse locale |

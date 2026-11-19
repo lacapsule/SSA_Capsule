@@ -119,6 +119,9 @@ Chaque page française a sa version bretonne, à la même adresse précédée de
 | 2026-11-17 | Lieux conventionnés : adresse de chaque lieu déduite de sa position sur la carte du collectif (géocodage inverse de l'IGN : numéro à 30 m au plus, sinon rue, sinon commune), avec la mention « Adresses déduites de la position… vérifiez sur place » | demande de Kouzia ; la carte du collectif ne donne pas d'adresse |
 | 2026-11-17 | Ajout à l'agenda et abonnement au calendrier : trois boutons à égalité avec l'icône de l'application (Apple, Google Agenda, Outlook), sur la fiche d'un événement et sur la page Agenda | demande de Kouzia |
 | 2026-11-17 | Contact : un seul encadré (coordonnées et formulaire), sans carte ; personnage de la boîte à la place de l'illustration de banque d'images ; pas de fond crème sur le site (hors charte), fonds blancs, bleu pâle de la charte pour la section vidéo de la page Projet | demande de Kouzia |
+| 2026-11-19 | Contact : fond et encadré sur le formulaire seul, coordonnées posées sur le fond de la section (remplace « un seul encadré » du 2026-11-17) ; personnages tournés vers le texte qu'ils accompagnent | demande de Kouzia |
+| 2026-11-19 | Agenda : abonnement au calendrier à côté des rendez-vous à venir, phrase sur le rythme des rencontres dans le haut de page | demande de Kouzia |
+| 2026-11-19 | Sélecteur de langue : « Breton » au lieu de « Brezhoneg », sans drapeau (globe gardé dans l'en-tête) ; pied de page : liens légaux avec une flèche, soulignés au survol | demande de Kouzia, après l'avis de l'agent (un drapeau désigne un pays, pas une langue) |
 
 ## Modèle à respecter
 

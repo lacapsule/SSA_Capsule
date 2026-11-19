@@ -89,6 +89,11 @@ h1, h2, h3 { font-family: var(--font-titres); letter-spacing: -0.01em; }
 .site-footer .langues__liste { display: flex; align-items: center; gap: var(--space-2); }
 .site-footer .langues .langues__lien { padding-inline: var(--space-2); }
 .site-footer .langues .langues__lien[aria-current="true"] { color: var(--color-marque-texte); background: color-mix(in srgb, var(--color-marque-texte) 14%, transparent); }
+.site-footer__liens a { gap: var(--space-1); text-decoration: none; }
+.site-footer__liens a:hover { text-decoration: underline; text-underline-offset: 0.2em; }
+.site-footer__liens svg { flex: none; transition: transform var(--duration-fast) var(--ease); }
+.site-footer__liens a:hover svg { transform: translateX(0.25rem); }
+@media (prefers-reduced-motion: reduce) { .site-footer__liens svg { transition: none; } }
 .site-footer__bottom { border-top: 1px solid color-mix(in srgb, var(--color-marque-texte) 25%, transparent); }
 /* Retour en haut : un lien dans le pied de page, jamais posé sur un contenu. */
 .site-footer__bottom { display: flex; flex-wrap: wrap; justify-content: space-between; gap: var(--space-2); }
@@ -110,6 +115,8 @@ h1, h2, h3 { font-family: var(--font-titres); letter-spacing: -0.01em; }
    illustration pour qu'un bras tendu sorte en entier ; masque d'un pixel plus large que le rond (aucun fil jaune). */
 .portail__calque { --seuil: 80%; position: absolute; inset: calc(var(--d) * -0.6) calc(var(--d) * -0.35) 0; mask: linear-gradient(#000, #000) top / 100% var(--seuil) no-repeat, radial-gradient(circle calc(var(--d) / 2 + 1px) at 50% 68.75%, #000 calc(var(--d) / 2), transparent calc(var(--d) / 2 + 1px)); }
 .portail__calque img { position: absolute; bottom: calc(var(--d) * -0.3); left: 50%; width: auto; height: calc(var(--d) * 1.7); transform: translateX(-50%); }
+/* Personnage retourné pour regarder vers le texte qu'il accompagne (masque du buste symétrique : seul le dessin tourne). */
+.portail--miroir .portail__calque img { transform: translateX(-50%) scaleX(-1); }
 /* Puces en petit losange jaune (forme pleine). */
 .puces { list-style: none; padding-left: 0; }
 .prose ul.puces { padding-left: 0; }
@@ -267,14 +274,13 @@ h1, h2, h3 { font-family: var(--font-titres); letter-spacing: -0.01em; }
 .visionneuse::backdrop { background: color-mix(in srgb, var(--voile) 88%, transparent); }
 
 /* Contact : coordonnées et illustration à gauche, formulaire à droite ; empilés sur téléphone. */
-.contact { display: grid; grid-template-columns: minmax(0, 1fr); align-items: stretch; border: 1px solid var(--filet); border-radius: var(--radius-grand); background: var(--color-surface); }
-/* Un seul encadré (demande de Kouzia, 2026-11-17) : coordonnées et formulaire séparés par un filet. */
-.contact__formulaire { border-top: 1px solid var(--filet); }
-@media (min-width: 56rem) { .contact__formulaire { border-top: 0; border-left: 1px solid var(--filet); } }
-@media (min-width: 56rem) { .contact { grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr); } }
+.contact { display: grid; grid-template-columns: minmax(0, 1fr); align-items: start; gap: var(--space-5); }
+/* Fond seulement sur le formulaire (demande de Kouzia, 2026-11-19) : les coordonnées restent sur le fond de la section. */
+.contact__formulaire { border: 1px solid var(--filet); border-radius: var(--radius-grand); background: var(--color-surface); box-shadow: var(--ombre-carte); }
+@media (min-width: 56rem) { .contact { grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr); gap: var(--space-6); } }
 .contact h2 { margin-top: 0; font-size: var(--step-2); color: var(--color-marque-sur-fond); }
 /* Coordonnées en encadré bleu marine, comme la section Qui sommes-nous : une icône par ligne, liens en jaune de marque. */
-.contact__infos { padding: var(--space-5); color: var(--color-text); }
+.contact__infos { padding: var(--space-5) 0; color: var(--color-text); }
 .contact__infos h2 { margin-bottom: var(--space-4); color: var(--color-marque-sur-fond); }
 .coordonnees { display: grid; gap: var(--space-4); list-style: none; margin: 0; padding: 0; }
 .coordonnees li { display: grid; grid-template-columns: 2.75rem minmax(0, 1fr); column-gap: var(--space-3); row-gap: var(--space-1); align-items: start; }
@@ -288,7 +294,7 @@ h1, h2, h3 { font-family: var(--font-titres); letter-spacing: -0.01em; }
 .page-head__illustration { display: block; justify-self: center; width: auto; max-width: min(100%, 30rem); height: auto; max-height: 15rem; }
 /* Contact : haut de page plus court, pour que le formulaire apparaisse plus tôt (revue du 2026-11-17). */
 .page-head--illustration .page-head__inner { padding-block: 3rem var(--space-5); }
-@media (max-width: 52rem) { .page-head__illustration { width: min(70%, 18rem); } .contact__infos { position: static; } .contact__aller { display: block; } .contact__infos, .contact__formulaire { padding: var(--space-4) var(--space-3); } }
+@media (max-width: 52rem) { .page-head__illustration { width: min(70%, 18rem); } .contact__infos { position: static; } .contact__aller { display: block; } .contact__formulaire { padding: var(--space-4) var(--space-3); } .contact__infos { padding: 0; } }
 .contact__formulaire { padding: var(--space-5); }
 .contact .form { display: grid; gap: var(--space-3); }
 
@@ -435,7 +441,7 @@ h1, h2, h3 { font-family: var(--font-titres); letter-spacing: -0.01em; }
 
 /* Appel au contact : grande illustration du site actuel sur un disque jaune, titre et actions à côté. */
 .appel { background: var(--color-surface); }
-.appel__inner { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); align-items: center; gap: var(--space-6); }
+.appel__inner { display: grid; grid-template-columns: auto minmax(0, 40rem); justify-content: center; align-items: center; gap: var(--space-6); }
 .appel__illustration { display: grid; place-items: center; aspect-ratio: 4 / 3; background: radial-gradient(circle at 50% 52%, var(--color-marque-2) 0 36%, transparent calc(36% + 1px)); }
 .appel__illustration img { width: 100%; max-width: 32rem; height: auto; }
 .appel h2 { max-width: 30ch; margin: 0 0 var(--space-4); font-size: var(--step-2); }
@@ -445,7 +451,7 @@ h1, h2, h3 { font-family: var(--font-titres); letter-spacing: -0.01em; }
 .portail--appel { --d: 16rem; }
 /* Bande d'appel compacte (page des lieux) : rond plus petit, moins d'espace autour. */
 .appel--compact.section { padding-block: 3rem; }
-.appel--compact .portail--appel { --d: 10rem; }
+.appel--compact .portail--appel { --d: 14rem; margin-bottom: 0; }
 .appel--compact h2 { margin-bottom: var(--space-2); }
 .appel--compact .appel__texte { margin-bottom: var(--space-3); }
 /* Buste large (personnages de la boîte, épaules plus larges que le rond) : dessin réduit pour que le buste tienne dans
@@ -577,20 +583,20 @@ h1, h2, h3 { font-family: var(--font-titres); letter-spacing: -0.01em; }
 /* Agenda : étiquette du public, événements passés groupés par mois en lignes à filet. */
 .etiquette { display: inline-block; margin: var(--space-2) 0 0; padding: 0.125rem var(--space-2); border-radius: var(--radius-pill); font-size: var(--step--1); font-weight: 700; color: var(--color-text); background: var(--color-surface); }
 .agenda h2, .agenda-passes h2 { margin-bottom: var(--space-4); font-size: var(--step-2); }
-/* En-tête « À venir » : titre et filtres sur une ligne ; un seul événement : encadré et rythme des rencontres côte à côte. */
+/* En-tête « À venir » : titre et filtres sur une ligne ; rendez-vous à venir et abonnement au calendrier côte à côte. */
 .agenda__tete { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: var(--space-3) var(--space-5); margin-bottom: var(--space-4); }
 .agenda__tete h2 { margin: 0; }
 .agenda__tete .filtres ul { margin: 0; }
-.agenda__a-venir--seul { display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr); align-items: stretch; gap: var(--space-5); }
-.agenda__rythme { display: flex; align-items: center; margin: 0; padding: var(--space-4) var(--space-5); border-radius: var(--radius-grand); font-size: var(--step-1); color: var(--color-marque-2-texte); background: var(--color-marque-2); }
+.agenda__a-venir--abonnement { display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr); align-items: start; gap: var(--space-5); }
 .agenda-passes__recents { margin: 0 0 var(--space-2); }
 .fiche-actions { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-3); }
-.agenda__abonnement { max-width: 46rem; margin-top: var(--space-5); padding: var(--space-4) var(--space-5); border: 1px solid var(--filet); border-radius: var(--radius-grand); }
+.agenda__abonnement { padding: var(--space-4) var(--space-5); border: 1px solid var(--filet); border-radius: var(--radius-grand); }
 .agenda__abonnement h3 { margin: 0 0 var(--space-2); font-size: var(--step-1); }
 .agenda__abonnement p { margin: 0 0 var(--space-3); }
 .agenda__abonnement .ajout-agenda { max-width: none; margin: 0; padding: 0; border: 0; background: none; }
+.agenda__abonnement .ajout-agenda__liste { grid-template-columns: minmax(0, 1fr); }
 .agenda-passes__liste--recents { margin-bottom: var(--space-4); }
-@media (max-width: 52rem) { .agenda__a-venir--seul { grid-template-columns: minmax(0, 1fr); } }
+@media (max-width: 52rem) { .agenda__a-venir--abonnement { grid-template-columns: minmax(0, 1fr); } }
 @media (max-width: 40rem) {
   .agenda__tete .filtres ul { flex-wrap: wrap; }
 }
@@ -875,6 +881,11 @@ html:not(.js) .lieux-explorer--page .lieux-panneau { display: grid; }
 .page-head--personnage .page-head__inner { grid-template-columns: fit-content(46rem) auto; justify-content: start; align-items: start; column-gap: calc(var(--space-6) * 1.5); }
 .page-head__personnage { display: block; align-self: center; padding-inline: var(--space-5); }
 .portail--tete { --d: 12rem; }
+@media (min-width: 52.01rem) {
+  .page-head--personnage:not(:has(.page-head__date)) .page-head__inner { grid-template-columns: minmax(0, 46rem) minmax(0, 1fr); }
+  .page-head--personnage:not(:has(.page-head__date)) .page-head__personnage { justify-self: center; }
+  .page-head--personnage:not(:has(.page-head__date)) .portail--tete { --d: 14rem; margin-bottom: 0; }
+}
 .page-head__date-titre { display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: center; gap: var(--space-4); }
 .page-head__date-titre h1 { margin: 0; text-wrap: balance; }
 .page-head--personnage .page-head__inner { padding-block: 3rem var(--space-5); }

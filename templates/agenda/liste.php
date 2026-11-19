@@ -10,7 +10,7 @@ use App\Agenda\Agenda;
 use App\Site\Dates;
 use App\Site\Site;
 
-partial('site/haut', ['chemin' => $path, 'titre' => $t['titre'], 'chapo' => $t['chapo']]);
+partial('site/haut', ['chemin' => $path, 'titre' => $t['titre'], 'chapo' => $t['rythme_texte'] . ' ' . $t['chapo']]); // rythme dans le haut de page (demande de Kouzia, 2026-11-19)
 $fleche = '<svg class="agenda-passe__fleche" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" focusable="false"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 $ligne = static function (array $e) use ($fleche): void {
     $p = Dates::pastille((string) $e['starts_at']); ?>
@@ -38,21 +38,21 @@ foreach ($passes as $e) {
         </ul>
       </nav>
     </div>
-    <?php if ($evenements === []): ?>
-    <p class="etat-vide"><?= e(t('agenda.aucun')) ?></p>
-    <?php else: ?>
-    <div class="agenda__a-venir<?= count($evenements) === 1 ? ' agenda__a-venir--seul' : '' ?>">
+    <?php $abonnements = App\Agenda\Ics::abonnements(); $abonner = array_filter($abonnements) !== []; ?>
+    <div class="agenda__a-venir<?= $abonner ? ' agenda__a-venir--abonnement' : '' ?>">
+      <?php if ($evenements === []): ?>
+      <p class="etat-vide"><?= e(t('agenda.aucun')) ?></p>
+      <?php else: ?>
       <ul class="rendez-vous__liste"><?php foreach ($evenements as $e) partial('agenda/rendez-vous', ['e' => $e]) ?></ul>
-      <?php if (count($evenements) === 1): ?><p class="agenda__rythme"><?= e($t['rythme_texte']) ?></p><?php endif ?>
+      <?php endif ?>
+      <?php if ($abonner): // à côté des rendez-vous à venir, à la place de la phrase sur le rythme (demande de Kouzia, 2026-11-19) ?>
+      <div class="agenda__abonnement">
+        <h3><?= e($t['abonnement_titre']) ?></h3>
+        <p><?= e($t['abonnement_texte']) ?></p>
+        <?php partial('agenda/boutons-agendas', ['id' => 'abonnement-titre', 'titre' => $t['abonnement_choix'], 'aide' => $t['abonnement_aide'], 'liens' => $abonnements]) ?>
+      </div>
+      <?php endif ?>
     </div>
-    <?php endif ?>
-    <?php $abonnements = App\Agenda\Ics::abonnements(); if (array_filter($abonnements) !== []): ?>
-    <div class="agenda__abonnement">
-      <h3><?= e($t['abonnement_titre']) ?></h3>
-      <p><?= e($t['abonnement_texte']) ?></p>
-      <?php partial('agenda/boutons-agendas', ['id' => 'abonnement-titre', 'titre' => $t['abonnement_choix'], 'aide' => $t['abonnement_aide'], 'liens' => $abonnements]) ?>
-    </div>
-    <?php endif ?>
   </div>
 </section>
 

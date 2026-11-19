@@ -19,7 +19,8 @@ return [
     'defaut' => 'fr',
     'langues' => [
         'fr' => ['nom' => 'Français', 'locale' => 'fr_FR', 'dir' => 'ltr'],
-        'br' => ['nom' => 'Brezhoneg', 'locale' => 'br_FR', 'dir' => 'ltr'],
+        // Nom écrit en français, compris de tous (demande de Kouzia, 2026-11-19) : nom_lang le fait lire en français.
+        'br' => ['nom' => 'Breton', 'nom_lang' => 'fr', 'locale' => 'br_FR', 'dir' => 'ltr'],
     ],
     // Mode d'emploi : chaque page bretonne a la même adresse que la française, précédée de /br/.
     'chemins' => [],

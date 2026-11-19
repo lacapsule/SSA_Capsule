@@ -19,7 +19,7 @@ if (count($entrees) < 2) {
 }
 $liens = static function (array $entrees): void {
     foreach ($entrees as $l): ?>
-      <li><a class="langues__lien" href="<?= e($l['href']) ?>" hreflang="<?= e($l['hreflang']) ?>" lang="<?= e($l['hreflang']) ?>"<?= $l['actuelle'] ? ' aria-current="true"' : '' ?>><?= e($l['nom']) ?></a></li>
+      <li><a class="langues__lien" href="<?= e($l['href']) ?>" hreflang="<?= e($l['hreflang']) ?>" lang="<?= e($l['nom_lang']) ?>"<?= $l['actuelle'] ? ' aria-current="true"' : '' ?>><?= e($l['nom']) ?></a></li>
     <?php endforeach;
 };
 ?>
@@ -29,7 +29,7 @@ $liens = static function (array $entrees): void {
     <summary class="langues__bouton">
       <svg class="langues__icone" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false"><g fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.6 3.75 5.6 3.75 9S14.5 18.4 12 21M12 3C9.5 5.6 8.25 8.6 8.25 12S9.5 18.4 12 21"/></g></svg>
       <?php // Bouton fermé : code court de la langue affichée (FR, BR) ; nom entier lu par les lecteurs d'écran et écrit dans la liste. ?>
-      <span class="visually-hidden"><?= e(T::t('langue.choisir')) ?> : <span lang="<?= e(Langue::hreflang()) ?>"><?= e(Langue::nom()) ?></span></span><span class="langues__code" aria-hidden="true"><?= e(strtoupper(explode('-', Langue::hreflang())[0])) ?></span>
+      <span class="visually-hidden"><?= e(T::t('langue.choisir')) ?> : <span lang="<?= e(Langue::nomLang()) ?>"><?= e(Langue::nom()) ?></span></span><span class="langues__code" aria-hidden="true"><?= e(strtoupper(explode('-', Langue::hreflang())[0])) ?></span>
       <svg class="langues__chevron" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false"><path d="m6 9 6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
     </summary>
     <ul class="langues__liste" id="<?= e($id) ?>">

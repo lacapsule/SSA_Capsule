@@ -33,12 +33,13 @@ final class Langue
                 'nom' => (string) ($l['nom'] ?? $code),
                 'locale' => (string) ($l['locale'] ?? $code),
                 'hreflang' => (string) ($l['hreflang'] ?? $code),
+                'nom_lang' => (string) ($l['nom_lang'] ?? $l['hreflang'] ?? $code),
                 'dir' => ($l['dir'] ?? 'ltr') === 'rtl' ? 'rtl' : 'ltr',
             ];
         }
         $defaut = strtolower((string) ($config['defaut'] ?? array_key_first($langues) ?? 'fr'));
         if (!isset($langues[$defaut])) {
-            $langues = [$defaut => ['nom' => $defaut, 'locale' => $defaut, 'hreflang' => $defaut, 'dir' => 'ltr']] + $langues;
+            $langues = [$defaut => ['nom' => $defaut, 'locale' => $defaut, 'hreflang' => $defaut, 'nom_lang' => $defaut, 'dir' => 'ltr']] + $langues;
         }
         $chemins = [];
         foreach ((array) ($config['chemins'] ?? []) as $source => $traductions) {
@@ -110,6 +111,12 @@ final class Langue
     public static function nom(?string $code = null): string
     {
         return self::langues()[$code ?? self::actuelle()]['nom'] ?? (string) $code;
+    }
+
+    /** Langue dans laquelle le nom de la langue est écrit (attribut lang du nom). */
+    public static function nomLang(?string $code = null): string
+    {
+        return self::langues()[$code ?? self::actuelle()]['nom_lang'] ?? self::hreflang($code);
     }
 
     public static function dir(?string $code = null): string
@@ -267,6 +274,7 @@ final class Langue
             $out[] = [
                 'code' => $code,
                 'nom' => $l['nom'],
+                'nom_lang' => $l['nom_lang'],
                 'href' => self::url($equivalente ? $chemin : '/', $code),
                 'hreflang' => $l['hreflang'],
                 'dir' => $l['dir'],

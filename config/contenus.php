@@ -66,9 +66,9 @@ return [
         'derniers_passes' => 'Les plus récents',
         'rythme_texte' => 'Chaque mois, La Collective se réunit et un atelier du parcours citoyen a lieu.',
         'abonnement_titre' => 'Tous les rendez-vous dans votre agenda',
-        'abonnement_texte' => 'Ajoutez l\'agenda du collectif à celui de votre téléphone ou de votre ordinateur : ses rendez-vous s\'y affichent, et ceux que le collectif ajoute ensuite apparaissent quand votre application relit l\'agenda, d\'elle-même, en général plusieurs fois par jour.',
+        'abonnement_texte' => 'Ajoutez l\'agenda du collectif à votre téléphone ou à votre ordinateur : les nouveaux rendez-vous y apparaîtront d\'eux-mêmes.',
         'abonnement_choix' => 'Votre application :',
-        'abonnement_aide' => 'Aucune inscription ni adresse e-mail : votre application lit simplement l\'agenda public du site. Vous pouvez le retirer à tout moment dans ses réglages.',
+        'abonnement_aide' => 'Sans inscription ni adresse e-mail, et vous pouvez le retirer à tout moment.',
     ],
     '/actualites/' => [
         'titre' => 'Actualités',

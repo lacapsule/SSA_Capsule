@@ -65,7 +65,7 @@ foreach ($niveaux as $i => $n) {
     </div>
     <?php if ($photo !== ''): [$pl, $ph] = \App\Site\Vignette::taille($photo) ?? [1600, 1200]; // proportion réelle : jamais recadrée ni agrandie au-delà de sa taille ?><img class="page-head__photo" <?= \App\Site\Vignette::attributs($photo, '(max-width: 52rem) 100vw, ' . (!empty($photoTaille) && is_string($photoTaille) ? $photoTaille : '40rem'), 960) ?> alt="<?= e(isset($photoAlt) && is_string($photoAlt) ? $photoAlt : '') ?>" width="<?= $pl ?>" height="<?= $ph ?>" fetchpriority="high" decoding="async"><?php endif ?>
     <?php if ($cote !== ''): ?><div class="page-head__cote"><?= $cote // HTML déjà échappé par la page appelante ?></div><?php endif ?>
-    <?php if ($personnage !== ''): ?><span class="page-head__personnage" aria-hidden="true"><span class="portail portail--tete portail--buste"><span class="portail__calque"><img src="<?= e($personnage) ?>" alt="" width="212" height="313" decoding="async"></span></span></span><?php endif ?>
+    <?php if ($personnage !== ''): ?><span class="page-head__personnage" aria-hidden="true"><span class="portail portail--tete portail--buste<?= !empty($miroir) ? ' portail--miroir' : '' ?>"><span class="portail__calque"><img src="<?= e($personnage) ?>" alt="" width="212" height="313" decoding="async"></span></span></span><?php endif ?>
     <?php if ($illustration !== []): ?><img class="page-head__illustration" src="<?= e((string) $illustration['src']) ?>" alt="" width="<?= (int) $illustration['largeur'] ?>" height="<?= (int) $illustration['hauteur'] ?>" decoding="async"><?php endif ?>
   </div>
 </div>

@@ -117,8 +117,8 @@ $email = (string) Site::get('email');
       </div>
       <nav aria-labelledby="pied-legal">
         <h2 class="site-footer__title" id="pied-legal"><?= e(t('pied.informations_legales')) ?></h2>
-        <ul>
-          <?php foreach ($legal as $href => $cle): ?><li><a href="<?= e(lurl((string) $href)) ?>"><?= e(t((string) $cle)) ?></a></li><?php endforeach ?>
+        <ul class="site-footer__liens">
+          <?php foreach ($legal as $href => $cle): ?><li><a href="<?= e(lurl((string) $href)) ?>"><?= e(t((string) $cle)) ?><svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" focusable="false"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li><?php endforeach ?>
         </ul>
       </nav>
       <div>
