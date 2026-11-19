@@ -1,0 +1,15 @@
+#!/usr/bin/env php
+<?php
+declare(strict_types=1);
+
+// Efface les lignes du journal plus anciennes que JOURNAL_DAYS jours (.env, 365 par défaut, 30 au moins).
+// Par la tâche planifiée du socle (scripts/cron.php) ou une fois par jour :
+// 15 3 * * * cd /chemin/du/site && php bin/journal-purge >> data/journal.log 2>&1
+if (PHP_SAPI !== 'cli') {
+    exit(1);
+}
+require __DIR__ . '/../app/bootstrap.php';
+
+$days = max(30, (int) ($_ENV['JOURNAL_DAYS'] ?? 365));
+$n = App\Core\Auth::purgeLog($days);
+printf("%s journal : %d ligne(s) de plus de %d jours effacée(s)\n", date('c'), $n, $days);

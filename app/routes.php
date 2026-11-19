@@ -13,5 +13,7 @@ $router->get('/sitemap.xml', [App\Langue\Sitemap::class, 'afficher']);
 // Administration (modules/authentification-admin, gabarits/tableau-de-bord-php).
 require __DIR__ . '/Admin/routes-auth.php';
 (require __DIR__ . '/Admin/routes-tableau-de-bord.php')($router);
+(require __DIR__ . '/Admin/routes-comptes.php')($router);
+(require __DIR__ . '/Admin/routes-journal.php')($router);
 
 return $router;

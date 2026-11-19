@@ -109,7 +109,17 @@ $apresContenu = (string) ob_get_clean();
 
 // La coquille de référence rend la page ; le contenu des modules est posé dans .adm-page (espacement commun).
 $titre = (string) $title;
-$contenu = '<div class="adm-page">' . $content . '</div>';
+// Compte repris de l'ancien site sans double authentification (décision du 2026-11-19) : rappel sur chaque page jusqu'à
+// l'activation, avec l'échéance après laquelle elle sera demandée à la connexion.
+$rappel2fa = '';
+$echeance2fa = ($user['totp_enabled_at'] ?? null) === null ? App\Admin\AdminAuth::delaiReprise($user) : null;
+if ($echeance2fa !== null) {
+    $rappel2fa = '<div class="adm-alerte adm-alerte--attention" role="status"><p class="adm-alerte__texte">'
+        . '<strong>Activez la double authentification</strong> : elle protège le site même si votre mot de passe est volé. '
+        . 'Elle sera demandée à la connexion à partir du ' . e(App\Site\Dates::courte($echeance2fa)) . '. '
+        . '<a href="' . e(Admin::url('securite/')) . '">L\'activer maintenant</a></p></div>';
+}
+$contenu = '<div class="adm-page">' . $rappel2fa . $content . '</div>';
 $fil = isset($fil) && is_array($fil) ? $fil : array_values(array_filter([
     ['libelle' => 'Tableau de bord', 'url' => $home],
     $titre !== 'Tableau de bord' ? ['libelle' => $titre] : null,

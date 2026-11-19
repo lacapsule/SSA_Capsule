@@ -1,10 +1,16 @@
 <?php
-/** Étape 1 : e-mail et mot de passe. @var string|null $error @var string $email */
+/**
+ * Étape 1 : e-mail et mot de passe. « Mot de passe oublié ? » bascule sur place vers le formulaire de demande de lien
+ * (admin-auth.js, demande de Kouzia du 2026-11-19) ; sans script, le lien mène à sa page.
+ * @var string|null $error @var string $email
+ */
+use App\Admin\AdminAuth;
 use App\Admin\AdminController as A;
 use App\Core\Csrf;
 ?>
+<div data-volet="connexion">
 <p class="cnx-carte__etape">Étape 1 sur 2</p>
-<h1 class="cnx-carte__titre">Connexion</h1>
+<h1 class="cnx-carte__titre" tabindex="-1">Connexion</h1>
 <p class="cnx-carte__intro">Espace de gestion réservé aux administrateurs.</p>
 <form class="cnx-form" method="post" action="<?= e(A::url('connexion/')) ?>" novalidate>
   <?= Csrf::field('admin-login') ?>
@@ -17,6 +23,22 @@ use App\Core\Csrf;
   <button class="btn btn--plein" type="submit">Continuer</button>
 </form>
 <nav class="cnx-carte__bas" aria-label="Autres actions">
-  <a class="adm-lien cnx-lien" href="<?= e(A::url('mot-de-passe-oublie/')) ?>">Mot de passe oublié</a>
+  <a class="adm-lien cnx-lien" href="<?= e(A::url('mot-de-passe-oublie/')) ?>" data-bascule="oubli">Mot de passe oublié ?</a>
   <a class="adm-lien cnx-lien" href="/">Retour au site</a>
 </nav>
+</div>
+<div data-volet="oubli" hidden>
+  <h1 class="cnx-carte__titre" tabindex="-1">Mot de passe oublié ?</h1>
+  <p class="cnx-carte__intro">Indiquez l'adresse e-mail de votre compte : vous recevrez un lien pour choisir un nouveau mot de passe, valable <?= AdminAuth::RESET_MINUTES ?> minutes.</p>
+  <form class="cnx-form" method="post" action="<?= e(A::url('mot-de-passe-oublie/')) ?>" novalidate>
+    <?= Csrf::field('admin-forgot') ?>
+    <div class="adm-champ">
+      <label for="o-email">Adresse e-mail</label>
+      <input class="adm-saisie" id="o-email" name="email" type="email" autocomplete="username" required>
+    </div>
+    <button class="btn btn--plein" type="submit">Recevoir le lien</button>
+  </form>
+  <nav class="cnx-carte__bas" aria-label="Autres actions">
+    <a class="adm-lien cnx-lien" href="<?= e(A::url('connexion/')) ?>" data-bascule="connexion">Retour à la connexion</a>
+  </nav>
+</div>

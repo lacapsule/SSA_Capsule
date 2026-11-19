@@ -28,6 +28,7 @@ $tasks = [
     'e-mails différés' => static fn (): string => App\Core\Outbox::flush() . ' envoyé(s)',
     'liens expirés' => static fn (): string => App\Admin\AdminAuth::purgeResetTokens() . ' purgé(s)',
     'limites de débit' => static fn (): string => App\Core\FormGuard::purge() . ' trace(s) purgée(s)',
+    'journal' => static fn (): string => App\Core\Auth::purgeLog(max(30, (int) ($_ENV['JOURNAL_DAYS'] ?? 365))) . ' ligne(s) purgée(s)',
     'journal PHP' => static function (): string {
         // Journal d'erreurs gardé sous 5 Mo : l'ancien est renommé (une seule génération conservée).
         $log = ROOT . '/data/php-errors.log';

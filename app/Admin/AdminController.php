@@ -84,6 +84,9 @@ final class AdminController
         Csrf::check();
         $email = (string) ($_POST['email'] ?? '');
         $result = AdminAuth::password($email, (string) ($_POST['password'] ?? ''));
+        if ($result === 'ok') {
+            redirect(self::afterLogin());
+        }
         if ($result === 'verify') {
             redirect(self::url('verification/'));
         }
@@ -177,7 +180,7 @@ final class AdminController
 
     public static function forgot(): void
     {
-        self::renderAuth('forgot', ['sent' => isset($_GET['envoye'])], 'Mot de passe oublié');
+        self::renderAuth('forgot', ['sent' => isset($_GET['envoye'])], 'Mot de passe oublié ?');
     }
 
     /**

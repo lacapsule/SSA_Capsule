@@ -98,11 +98,50 @@ final class AdminAuth
         Session::start();
         Session::regenerate();
         $_SESSION['admin_pending'] = ['id' => (int) $admin['id'], 'at' => time(), 'tries' => 0, 'pw' => self::fingerprint((string) $admin['password_hash'])];
+        if (self::developpementLocal()) {
+            self::complete((int) $admin['id'], 'connexion (développement, sans double authentification)');
+            return 'ok';
+        }
         if ($admin['totp_enabled_at'] === null) {
+            if (self::delaiReprise($admin) !== null) {
+                self::complete((int) $admin['id'], 'connexion sans double authentification (compte repris, délai en cours)');
+                return 'ok';
+            }
             $_SESSION['admin_enroll_secret'] ??= Totp::secret();
             return 'enroll';
         }
         return 'verify';
+    }
+
+    /** Délai accordé aux comptes repris de l'ancien site sans double authentification (décision du 2026-11-19). */
+    public const DELAI_REPRISE_JOURS = 30;
+
+    /**
+     * Échéance de la double authentification d'un compte repris qui ne l'a pas encore activée, posée à sa première
+     * connexion ; null si le compte n'a pas (ou plus) de délai : l'activation est alors exigée.
+     * @param array<string, mixed> $admin
+     */
+    public static function delaiReprise(array $admin): ?string
+    {
+        if ((int) ($admin['reprise_2fa'] ?? 0) !== 1 || ($admin['totp_enabled_at'] ?? null) !== null) {
+            return null;
+        }
+        $avant = $admin['deux_facteurs_avant'] ?? null;
+        if ($avant === null) {
+            $avant = (new \DateTimeImmutable(now()))->modify('+' . self::DELAI_REPRISE_JOURS . ' days')->format('Y-m-d H:i:s');
+            Db::run('UPDATE admins SET deux_facteurs_avant = ? WHERE id = ? AND deux_facteurs_avant IS NULL', [$avant, (int) $admin['id']]);
+        }
+        return (string) $avant > now() ? (string) $avant : null;
+    }
+
+    /**
+     * Poste de développement : APP_ENV=local, serveur intégré de PHP (php -S, jamais PHP-FPM ni LiteSpeed en
+     * production) et requête venue du poste lui-même. Les trois à la fois, sinon double authentification normale.
+     */
+    private static function developpementLocal(): bool
+    {
+        return is_local() && PHP_SAPI === 'cli-server'
+            && in_array((string) ($_SERVER['REMOTE_ADDR'] ?? ''), ['127.0.0.1', '::1'], true);
     }
 
     /** @return array<string, mixed>|null administrateur en attente du second facteur */

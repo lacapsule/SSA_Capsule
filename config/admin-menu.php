@@ -14,5 +14,7 @@ return [
     ]],
     ['groupe' => 'Réglages', 'entrees' => [
         ['url' => '/admin/securite/', 'libelle' => 'Sécurité du compte', 'court' => 'Sécurité', 'icone' => 'cle', 'bas' => true],
+        ['url' => '/admin/comptes/', 'libelle' => 'Comptes', 'icone' => 'comptes', 'role' => 'admin'],
+        ['url' => '/admin/journal/', 'libelle' => 'Journal', 'icone' => 'journal', 'role' => 'admin'],
     ]],
 ];

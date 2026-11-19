@@ -89,6 +89,13 @@ function serve(string $root, array $options): int
     if ($code !== 0) {
         return $code;
     }
+    // Poste de développement : APP_ENV=local (e-mails écrits dans data/mail.log, erreurs affichées, connexion au
+    // back-office sans double authentification) si ni l'environnement ni le .env ne le règlent déjà.
+    $envFile = "$root/.env";
+    $dejaRegle = getenv('APP_ENV') !== false || (is_file($envFile) && preg_match('/^\s*APP_ENV\s*=/m', (string) file_get_contents($envFile)) === 1);
+    if (!$dejaRegle) {
+        putenv('APP_ENV=local');
+    }
     $url = "http://$host:$port/";
     fwrite(STDOUT, PHP_EOL . '  Serveur de développement' . PHP_EOL . "  Adresse : $url" . PHP_EOL);
     fwrite(STDOUT, '  E-mails : data/mail.log (sans serveur d\'envoi réglé)' . PHP_EOL . '  Arrêt   : Ctrl+C' . PHP_EOL . PHP_EOL);

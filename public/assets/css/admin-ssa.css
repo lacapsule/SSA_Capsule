@@ -7,3 +7,11 @@
    lequel il a été dessiné, dans les deux thèmes ; sans aplat de couleur ni ombre autour. */
 .adm-marque__logo, .cnx-marque__logo { padding: 0.125rem; color: inherit; background: var(--fond-logo); box-shadow: none; }
 .adm-marque__logo img, .cnx-marque__logo img { display: block; width: 100%; height: auto; }
+
+/* Connexion et mot de passe oublié dans la même carte (admin-auth.js) : chaque volet garde l'espacement de la carte. */
+.cnx-carte > [data-volet] { display: grid; gap: var(--space-4); }
+.cnx-carte > [data-volet][hidden] { display: none; }
+/* Titre qui reçoit le focus à la bascule : pas de contour au clic, contour du site au clavier. */
+.cnx-carte__titre:focus:not(:focus-visible) { outline: none; }
+/* Lien dans un message (rappel de la double authentification) : couleur du texte du message, souligné, en gras. */
+.adm-alerte__texte a { font-weight: 700; text-decoration: underline; text-underline-offset: 0.2em; color: inherit; }

@@ -41,4 +41,26 @@
       if (propre !== champ.value) champ.value = propre;
     });
   });
+
+  // Connexion et mot de passe oublié dans la même carte : le lien bascule sur place (sans script, il mène à la page
+  // du formulaire). L'adresse déjà tapée est reprise, le focus va au titre du volet affiché.
+  const volets = [...document.querySelectorAll('[data-volet]')];
+  if (volets.length > 1) {
+    const montrer = (nom) => {
+      const vise = volets.find((v) => v.dataset.volet === nom);
+      if (!vise) return false;
+      const depuis = volets.find((v) => !v.hidden);
+      const email = depuis && depuis.querySelector('input[type=email]');
+      volets.forEach((v) => { v.hidden = v !== vise; });
+      const cible = vise.querySelector('input[type=email]');
+      if (email && cible && email.value && !cible.value) cible.value = email.value;
+      const titre = vise.querySelector('h1');
+      if (titre) titre.focus();
+      return true;
+    };
+    document.addEventListener('click', (ev) => {
+      const lien = ev.target.closest('[data-bascule]');
+      if (lien && montrer(lien.dataset.bascule)) ev.preventDefault();
+    });
+  }
 })();
