@@ -1,0 +1,84 @@
+/* Tableau de bord des modules PHP : couche propre au gabarit, posée APRÈS la coquille de référence
+   (gabarits/admin-coquille/style.css, primitives .adm-*) et les composants (bouton, pastille-statut,
+   etat-vide-chargement, champ-mot-de-passe). Tout le reste du design (barre latérale, barre du haut, cartes, champs,
+   tableaux, alertes, boutons) vient de la coquille : un seul style à maintenir, ne rien y recopier ici.
+   Ici seulement ce que pilote admin.js : fenêtre de modification, confirmation, aperçu ordinateur ou mobile,
+   onglets dynamiques, champ de destination d'un lien, flèches d'ordre, grille de cartes. */
+
+/* Fenêtre (dialog natif) : fragment d'une page de modification chargé par admin.js. */
+.adm-fenetre {
+  width: min(100% - 2 * var(--space-3), 50rem);
+  max-height: calc(100dvh - 2 * var(--space-5));
+  padding: 0;
+  border: 1px solid var(--color-line-strong);
+  border-radius: var(--radius);
+  color: var(--color-text);
+  background: var(--color-surface);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+.adm-fenetre[open] { display: flex; flex-direction: column; }
+.adm-fenetre::backdrop, .adm-confirmation::backdrop { background: var(--color-backdrop); }
+.adm-fenetre__entete { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-3); flex: none; padding: var(--space-2) var(--space-2) var(--space-2) var(--space-4); border-bottom: 1px solid var(--color-line); }
+.adm-fenetre__titre { flex: 1; min-width: 0; font-size: var(--step-1); font-weight: 700; line-height: 1.3; overflow-wrap: anywhere; }
+.adm-fenetre__corps { flex: 1; min-height: 0; padding: var(--space-4); overflow-y: auto; overscroll-behavior: contain; }
+/* lint-ok : corps de fenêtre focalisé par programme ; les champs gardent leur contour. */
+.adm-fenetre__corps:focus { outline: none; }
+/* Dans la fenêtre, le contenu de la page perd son cadre de carte et sa colonne latérale. */
+.adm-fenetre__corps > .adm-carte, .adm-fenetre__corps .adm-colonnes .adm-carte { padding: 0; border: 0; background: none; }
+.adm-fenetre__corps .adm-colonnes { grid-template-columns: minmax(0, 1fr); }
+.adm-fenetre__corps .adm-colonnes__cote { position: static; }
+.adm-fenetre__corps > * + * { margin-top: var(--space-4); }
+.adm-fenetre__pied { flex: none; padding: var(--space-3) var(--space-4); border-top: 1px solid var(--color-line); background: var(--color-bg); }
+.adm-fenetre__pied .adm-pied-form { margin: 0; padding: 0; border: 0; }
+@media (prefers-reduced-motion: no-preference) {
+  .adm-fenetre[open], .adm-confirmation[open] { animation: adm-fenetre-entree var(--duration-base) var(--ease); }
+}
+@keyframes adm-fenetre-entree { from { opacity: 0; transform: translateY(var(--space-3)); } }
+@media (max-width: 39.99em) {
+  .adm-fenetre { width: 100%; max-width: none; height: 100dvh; max-height: 100dvh; border: 0; border-radius: 0; }
+}
+
+/* Aperçu d'une page à la largeur d'un ordinateur ou d'un téléphone. */
+.adm-fenetre--apercu { width: min(100% - 2 * var(--space-3), 60rem); height: calc(100dvh - 2 * var(--space-5)); }
+.adm-apercu-scene { display: flex; justify-content: center; background: var(--color-bg); }
+.adm-apercu-cadre { width: 100%; max-width: 45rem; height: 100%; min-height: 30rem; border: 1px solid var(--color-line); border-radius: var(--radius-small); background: var(--color-surface); transition: max-width var(--duration-base) var(--ease); }
+.adm-apercu-cadre--mobile { max-width: 23.5rem; }
+
+/* Choix exclusif à boutons (largeur de l'aperçu) : aria-pressed, fond de surface et coche de graisse. */
+.adm-bascule { display: inline-flex; gap: 1px; padding: 1px; border: 1px solid var(--color-line-strong); border-radius: var(--radius-small); background: var(--color-surface-2); }
+.adm-bascule__option { display: inline-flex; align-items: center; gap: var(--space-2); min-height: calc(var(--target) - 0.125rem); padding: 0 var(--space-3); border: 0; border-radius: calc(var(--radius-small) - 0.0625rem); font: inherit; font-size: var(--step--1); font-weight: 500; color: var(--color-text-muted); background: transparent; cursor: pointer; }
+.adm-bascule__option:hover { color: var(--color-text); }
+.adm-bascule__option[aria-pressed="true"] { font-weight: 700; color: var(--color-text); background: var(--color-surface); }
+
+/* Confirmation (remplace window.confirm) */
+.adm-confirmation { width: min(100% - 2 * var(--space-3), 26rem); padding: var(--space-4); border: 1px solid var(--color-line-strong); border-radius: var(--radius); color: var(--color-text); background: var(--color-surface); box-shadow: var(--shadow); }
+.adm-confirmation p { margin: 0 0 var(--space-4); font-weight: 600; }
+
+/* Onglets dynamiques (motif ARIA tabs) : sans script, tous les panneaux s'affichent l'un sous l'autre. */
+.adm-onglets-js__liste { display: flex; flex-wrap: wrap; gap: var(--space-1); margin: 0 0 var(--space-4); padding: var(--space-1); border: 1px solid var(--color-line); border-radius: var(--radius); background: var(--color-surface-2); }
+.adm-onglets-js__onglet { display: inline-flex; flex: 1 1 auto; align-items: center; justify-content: center; gap: var(--space-2); min-height: var(--target); padding: 0 var(--space-3); border: 0; border-radius: var(--radius-small); font: inherit; font-size: var(--step--1); font-weight: 600; color: var(--color-text-muted); background: transparent; cursor: pointer; }
+.adm-onglets-js__onglet:hover { color: var(--color-text); }
+.adm-onglets-js__onglet[aria-selected="true"] { color: var(--color-text); background: var(--color-accent-soft); }
+.adm-onglets-js__titre { margin: 0 0 var(--space-3); font-size: var(--step-1); }
+.js .adm-onglets-js__liste:not([hidden]) ~ .adm-onglets-js__panneau .adm-onglets-js__titre { position: absolute; width: 1px; height: 1px; white-space: nowrap; clip-path: inset(50%); overflow: hidden; }
+.adm-onglets-js__panneau + .adm-onglets-js__panneau { margin-top: var(--space-5); }
+.js .adm-onglets-js__liste:not([hidden]) ~ .adm-onglets-js__panneau + .adm-onglets-js__panneau { margin-top: 0; }
+
+/* Grille de cartes (accueil d'un module, rubriques) */
+.adm-grille { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr)); gap: var(--space-4); align-items: start; }
+
+/* Flèches d'ordre (monter, descendre) : la flèche inutile garde sa place. */
+.adm-deplacer { display: flex; gap: var(--space-1); }
+.adm-deplacer form { margin: 0; }
+.adm-deplacer .btn[disabled] { visibility: hidden; }
+
+.adm-progression { flex: none; width: 6rem; height: var(--space-2); accent-color: var(--color-accent); }
+
+/* Destination d'un lien (partials/link.php) : saisie libre seulement pour un autre site ou un e-mail. */
+.adm-lien-champ { min-width: 0; }
+.js .adm-lien-champ__libre[data-off] { display: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  .adm-apercu-cadre { transition: none; }
+}

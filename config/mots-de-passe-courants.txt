@@ -1,0 +1,45 @@
+# Mots de passe trop courants, refusés (comparés en minuscules, chiffres et symboles de début et de fin retirés).
+# Même liste dans script.js (COURANTS) : le test tests/PasswordPolicyTest.php vérifie qu'elles sont identiques.
+# Une entrée par ligne, en minuscules. À compléter (prénoms fréquents, nom du site, de la structure, de la ville).
+123456789
+1234567890
+azerty
+azertyuiop
+qwerty
+qwertyuiop
+motdepasse
+password
+passw0rd
+admin
+administrateur
+bonjour
+bienvenue
+soleil
+doudou
+loulou
+chouchou
+chocolat
+france
+football
+iloveyou
+jetaime
+princesse
+dragon
+monkey
+sunshine
+superman
+batman
+starwars
+pokemon
+utilisateur
+changeme
+secret
+test
+abcdef
+abcdefgh
+coucou
+salut
+liberte
+vacances
+famille
+toto

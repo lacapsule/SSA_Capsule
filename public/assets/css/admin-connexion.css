@@ -1,0 +1,232 @@
+/* Écran de connexion du back-office : marque, carte centrée (≈ 26 rem), pied discret.
+   Posé dans un conteneur .adm (primitives de gabarits/admin-coquille : .adm-carte, .adm-champ, .adm-saisie,
+   .adm-case, .adm-alerte, .adm-ico, .adm-lien, .adm-meta, .adm-masque). Boutons : composants/bouton.
+   Champs : composants/champ-mot-de-passe et composants/saisie-code, réaccordés ici au style de l'administration.
+   Variante .cnx--panneau : deux colonnes dès 64 em, panneau d'information sobre à gauche. */
+
+.cnx {
+  /* Variables locales, calculées depuis les tokens. */
+  --cnx-hauteur: 100dvh;
+  --cnx-carte-l: 26rem;
+  --cnx-saisie-h: calc(var(--target) + var(--space-1));
+  --cnx-halo: color-mix(in srgb, var(--color-accent) 9%, transparent);
+  --cnx-halo-pos: 50% 0%;
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  min-height: var(--cnx-hauteur);
+  /* Halo très discret de l'accent en haut : identité, sans motif décoratif. */
+  background:
+    radial-gradient(ellipse 60% 42% at var(--cnx-halo-pos), var(--cnx-halo), transparent 72%),
+    var(--color-bg);
+}
+:root[data-theme="light"] .cnx { --cnx-halo: color-mix(in srgb, var(--color-accent) 7%, transparent); }
+
+/* Colonne : marque, carte et pied groupés, centrés dans la hauteur et la largeur. */
+.cnx__colonne {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+  padding: var(--space-5) var(--gutter);
+}
+.cnx__entete,
+.cnx__principal,
+.cnx__pied { width: min(100%, var(--cnx-carte-l)); }
+.cnx__entete { display: flex; justify-content: center; padding-bottom: var(--space-4); }
+.cnx__principal { display: grid; }
+.cnx__pied {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0 var(--space-4);
+  padding-top: var(--space-3);
+  font-size: var(--step--2);
+  color: var(--color-text-muted);
+}
+.cnx__pied > * { margin: 0; }
+.cnx__pied a {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  min-height: var(--target);
+  border-radius: var(--radius-small);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+  color: inherit;
+  transition: color var(--duration-fast) var(--ease);
+}
+.cnx__pied a:hover { color: var(--color-text); }
+.cnx__securite { display: inline-flex; align-items: center; gap: var(--space-1); min-height: var(--target); }
+
+/* Marque (même dessin que .adm-marque de la coquille, en plus grand). */
+.cnx-marque {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-width: 0;
+  min-height: var(--target);
+  color: var(--color-text);
+}
+.cnx-marque__logo {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: calc(var(--target) + var(--space-1));
+  height: calc(var(--target) + var(--space-1));
+  border-radius: var(--radius-small);
+  color: var(--color-accent-text);
+  background: var(--color-accent);
+  box-shadow: var(--shadow-accent);
+}
+.cnx-marque__logo .adm-ico { width: 1.5rem; height: 1.5rem; stroke-width: 2.25; }
+.cnx-marque__texte { display: grid; min-width: 0; line-height: 1.25; }
+.cnx-marque__nom { font-size: var(--step-0); font-weight: 700; text-overflow: ellipsis; white-space: nowrap; overflow: hidden; }
+.cnx-marque__sous { font-size: var(--step--2); color: var(--color-text-muted); }
+
+/* Carte */
+.cnx-carte {
+  display: grid;
+  gap: var(--space-4);
+  padding: var(--space-4);
+  box-shadow: var(--shadow);
+}
+.cnx-carte__tete { display: grid; justify-items: start; gap: var(--space-2); }
+.cnx-carte__etape { font-size: var(--step--2); font-weight: 600; letter-spacing: var(--etiquette-espacement); color: var(--color-text-muted); }
+.cnx-carte__titre { font-size: calc(var(--step-1) * 1.3); font-weight: 700; line-height: 1.2; letter-spacing: -0.01em; text-wrap: balance; }
+.cnx-carte__intro { font-size: var(--step--1); line-height: 1.5; text-wrap: pretty; color: var(--color-text-muted); }
+.cnx-carte__bas {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0 var(--space-3);
+  margin-top: calc(var(--space-2) * -1);
+  padding-top: var(--space-2);
+  border-top: 1px solid var(--color-line);
+}
+
+/* Pictogramme d'étape (un seul par écran : double authentification, e-mail envoyé). */
+.cnx-picto {
+  display: grid;
+  place-items: center;
+  width: calc(var(--target) + var(--space-1));
+  height: calc(var(--target) + var(--space-1));
+  margin-bottom: var(--space-1);
+  border: 1px solid var(--color-accent-line);
+  border-radius: var(--radius-pill);
+  color: var(--color-accent);
+  background: var(--color-accent-soft);
+}
+.cnx-picto .adm-ico { width: 1.375rem; height: 1.375rem; }
+.cnx-picto--succes {
+  border-color: color-mix(in srgb, var(--color-success) 40%, transparent);
+  color: var(--color-success);
+  background: var(--color-success-soft);
+}
+
+/* Formulaire */
+.cnx-form { display: grid; gap: var(--space-4); margin: 0; }
+.cnx-form .adm-champ { gap: var(--space-2); }
+.cnx .adm-saisie { min-height: var(--cnx-saisie-h); }
+.cnx .adm-saisie[aria-invalid="true"] { box-shadow: 0 0 0 1px var(--color-danger); }
+/* Alerte dans la carte étroite : icône et texte sur une ligne, titre à la taille du texte. */
+.cnx .adm-alerte { flex-wrap: nowrap; padding: var(--space-3); }
+.cnx .adm-alerte__titre { margin-bottom: var(--space-1); font-size: var(--step--1); line-height: 1.4; }
+.cnx-form__ligne {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0 var(--space-3);
+  margin-block: calc(var(--space-2) * -1);
+}
+.cnx .cnx-carte .btn { min-height: var(--cnx-saisie-h); font-size: var(--step-0); }
+.cnx .cnx-carte .btn[aria-busy="true"] { opacity: 0.85; }
+
+/* Lien d'action en ligne seule : cible de 44 px. */
+.cnx-lien {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  min-height: var(--target);
+  border-radius: var(--radius-small);
+  font-size: var(--step--1);
+}
+.cnx-lien--discret {
+  font-weight: 500;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+  color: var(--color-text-muted);
+}
+.cnx-lien--discret:hover { color: var(--color-text); }
+.cnx-lien .adm-ico { width: 1.1em; height: 1.1em; }
+
+/* composants/champ-mot-de-passe, accordé aux champs de l'administration. */
+.cnx .champ-mdp { gap: var(--space-2); }
+.cnx .champ-mdp label { font-size: var(--step--1); line-height: 1.4; }
+.cnx .mdp input {
+  min-height: var(--cnx-saisie-h);
+  border-radius: var(--radius-small);
+  font-size: var(--adm-texte-saisie);
+  background: var(--adm-fond-saisie);
+}
+.cnx .mdp input:focus-visible { border-color: var(--color-focus); }
+.cnx .mdp-bascule { right: calc((var(--cnx-saisie-h) - var(--target)) / 2); border-radius: var(--radius-small); }
+
+/* composants/saisie-code, à la largeur de la carte. */
+.cnx .champ-code { max-width: none; }
+.cnx .champ-code > label { font-size: var(--step--1); line-height: 1.4; }
+.cnx .case-code:not(.choisie) { background: var(--adm-fond-saisie); }
+.cnx .code-cases > input { min-height: var(--cnx-saisie-h); background: var(--adm-fond-saisie); }
+
+/* Saisie du code de secours : caractères espacés, lisibles. */
+.cnx-saisie-secours { font-family: var(--font-mono); letter-spacing: 0.12em; text-transform: uppercase; }
+
+/* Panneau d'information (variante deux colonnes, dès 64 em). */
+.cnx-panneau { display: none; }
+
+@media (min-width: 30em) {
+  .cnx-carte { padding: var(--space-5); }
+}
+
+@media (min-width: 64em) {
+  .cnx--panneau {
+    --cnx-halo-pos: 72% 0%;
+    /* Panneau plafonné : sur très grand écran, la place va à la colonne du formulaire. */
+    grid-template-columns: minmax(0, min(46%, 48rem)) minmax(0, 1fr);
+  }
+  .cnx--panneau .cnx__entete { display: none; }
+  .cnx-panneau {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: var(--space-5);
+    min-width: 0;
+    padding: var(--space-5) clamp(var(--space-5), 5vw, var(--space-6));
+    border-right: 1px solid var(--color-line);
+    background: color-mix(in srgb, var(--color-surface) 55%, var(--color-bg));
+  }
+  .cnx-panneau > * { margin: 0; }
+  .cnx-panneau__corps { display: grid; gap: var(--space-3); max-width: 30rem; }
+  .cnx-panneau__titre { font-size: var(--step-3); font-weight: 700; line-height: 1.1; letter-spacing: -0.02em; text-wrap: balance; }
+  .cnx-panneau__texte { font-size: var(--step-0); line-height: 1.55; text-wrap: pretty; color: var(--color-text-muted); }
+  .cnx-panneau__pied { display: flex; align-items: center; gap: var(--space-2); font-size: var(--step--1); color: var(--color-text-muted); }
+  .cnx-panneau__pied .adm-ico { color: var(--color-accent); }
+}
+
+/* Très grand écran : carte et textes un peu plus grands, toujours au centre. */
+@media (min-width: 120em) {
+  .cnx { --cnx-carte-l: 28rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cnx__pied a { transition: none; }
+}
+@media (forced-colors: active) {
+  .cnx-carte { border-color: CanvasText; }
+}

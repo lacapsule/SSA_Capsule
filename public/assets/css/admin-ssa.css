@@ -1,0 +1,9 @@
+/* Boîtes à leur taille réelle (bordure et marge intérieure comprises) : la coquille de la boîte n'a pas cette règle de
+   base (elle n'est que dans les aperçus de la boîte) ; sans elle, les champs débordent de leur carte. */
+*, *::before, *::after { box-sizing: border-box; }
+
+/* Administration, univers SSA : seule couche propre au projet par-dessus la coquille de la boîte (jamais modifiée ici).
+   Logo du client tel qu'il est fourni (rule web-design, « Logo intouchable »), posé sur une zone blanche, le fond pour
+   lequel il a été dessiné, dans les deux thèmes ; sans aplat de couleur ni ombre autour. */
+.adm-marque__logo, .cnx-marque__logo { padding: 0.125rem; color: inherit; background: var(--fond-logo); box-shadow: none; }
+.adm-marque__logo img, .cnx-marque__logo img { display: block; width: 100%; height: auto; }

@@ -5,6 +5,14 @@
 :root {
   /* Dérivées de la charte */
   --color-info-soft: color-mix(in srgb, var(--color-info) 10%, transparent);
+  /* Back-office (coquille de la boîte) : mêmes rôles que base/tokens.css de la boîte, dérivés de la charte SSA. */
+  --color-accent-line: color-mix(in srgb, var(--color-accent) 45%, transparent);
+  --color-danger-soft: color-mix(in srgb, var(--color-danger) 8%, transparent);
+  --color-success-soft: color-mix(in srgb, var(--color-success) 8%, transparent);
+  --color-warning-soft: color-mix(in srgb, var(--color-warning) 10%, transparent);
+  --color-indigo: var(--color-marque-sur-fond);
+  --color-backdrop: color-mix(in srgb, var(--voile) 60%, transparent);
+  --shadow-accent: 0 1rem 2rem -1rem color-mix(in srgb, var(--color-accent) 35%, transparent);
   /* Voile sur photo (haut de l'accueil) et texte posé dessus : même valeur dans les deux thèmes. */
   --voile: #0b1220;
   --voile-texte: #ffffff;
@@ -14,7 +22,8 @@
   --ombre-carte: 0 0.25rem 1rem color-mix(in srgb, var(--color-text) 14%, transparent);
   --shadow: 0 1.25rem 2.5rem -1.25rem color-mix(in srgb, var(--color-text) 25%, transparent);
 
-  /* Typographie : tailles dans charte.css (make charte) */
+  /* Typographie : tailles et polices de la charte dans charte.css (make charte) ; chasse fixe (codes, clés) : pile système. */
+  --font-mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
   --etiquette-espacement: 0.08em;
 
   /* Espaces et mise en page */

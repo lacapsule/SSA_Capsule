@@ -48,10 +48,10 @@ return [
         'max_age' => 7200,
     ],
     // Back-office (contrat des modules, NOTES.md). guard : classe qui implémente App\Admin\AdminGuard,
-    // fournie par modules/authentification-admin (App\Admin\TwoFactorGuard). Vide tant qu'aucun module d'administration n'est installé.
+    // fournie par modules/authentification-admin (App\Admin\TwoFactorGuard).
     'admin' => [
         'base' => '/admin',
-        'guard' => '',
+        'guard' => App\Admin\TwoFactorGuard::class,
         'layout' => 'admin/layout',
     ],
 

@@ -1,0 +1,58 @@
+/* Authentification administrateur : seulement ce qui est propre au module (à copier en public/assets/css/admin-auth.css).
+   Le reste de l'écran (marque, carte, champs, boutons, alertes, liens) vient de sections/admin-connexion et des
+   primitives .adm-* de gabarits/admin-coquille : un seul style pour tout le back-office. */
+
+/* Carte élargie (enrôlement de la double authentification). */
+.cnx-carte.auth-carte--large { max-width: calc(var(--measure) * 0.9); }
+
+/* Code à 6 chiffres ou code de secours : grands caractères à chasse fixe, espacés. */
+.adm-saisie.auth-code { font: 600 var(--step-1) / 1.2 var(--font-mono); letter-spacing: 0.3em; text-align: center; }
+
+/* Enrôlement : étapes numérotées, QR code (toujours sombre sur clair : les lecteurs lisent mal un QR inversé), clé. */
+.auth-pas { display: grid; gap: var(--space-4); margin: 0; padding-left: var(--space-4); }
+.auth-pas > li { display: grid; gap: var(--space-2); }
+.auth-pas > li::marker { font-weight: 700; color: var(--color-accent); }
+.auth-pas h2 { margin: 0; font-size: var(--step-0); font-weight: 700; }
+.auth-qr { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-3); }
+.auth-qr-image {
+  display: grid;
+  place-items: center;
+  width: calc(var(--space-6) * 2.5);
+  max-width: 100%;
+  aspect-ratio: 1;
+  border-radius: var(--radius-small);
+  /* lint-ok : QR code toujours noir sur blanc, quel que soit le thème (les lecteurs lisent mal un QR inversé). */
+  --qr-fond: #ffffff; /* lint-ok : QR code noir sur blanc */
+  --qr-encre: #000000; /* lint-ok : QR code noir sur blanc */
+  background: var(--qr-fond);
+}
+.auth-qr-image svg { width: 100%; height: 100%; fill: var(--qr-encre); }
+.auth-qr-image--echec { padding: var(--space-3); font-size: var(--step--1); color: var(--qr-encre); }
+.auth-cle { margin: var(--space-1) 0 0; font: 600 var(--step-0) / 1.4 var(--font-mono); letter-spacing: 0.05em; overflow-wrap: anywhere; user-select: all; }
+
+/* Codes de secours, montrés une seule fois. */
+.auth-codes {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 9rem), 1fr));
+  gap: var(--space-2);
+  list-style: none;
+  margin: 0;
+  padding: var(--space-3);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-small);
+  font: 600 var(--step-0) / 1.4 var(--font-mono);
+  text-align: center;
+  background: var(--color-surface-2);
+}
+
+/* Réglages de sécurité (écran du tableau de bord) : une ligne d'état, son action à droite ; activité récente. */
+.securite-ligne { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--space-2) var(--space-3); }
+.securite-ligne + .securite-ligne { margin-top: var(--space-3); padding-top: var(--space-3); border-top: 1px solid var(--color-line); }
+.securite-ligne > p { flex: 1 1 18rem; margin: 0; font-size: var(--step--1); }
+.securite-ligne .pastille { margin-right: var(--space-1); }
+.securite-form { max-width: calc(var(--measure) * 0.75); margin-bottom: var(--space-4); }
+.securite-form > .btn { justify-self: start; }
+.securite-journal { display: grid; gap: 0; list-style: none; margin: 0; padding: 0; font-size: var(--step--1); }
+.securite-journal li { display: flex; flex-wrap: wrap; gap: var(--space-1) var(--space-3); padding: var(--space-2) 0; }
+.securite-journal li + li { border-top: 1px solid var(--color-line); }
+.securite-journal time, .securite-ip { font-family: var(--font-mono); color: var(--color-text-muted); }

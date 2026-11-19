@@ -25,9 +25,9 @@ if ($lock === false || !flock($lock, LOCK_EX | LOCK_NB)) {
 /** @var array<string, callable(): string> $tasks nom => tâche, qui renvoie un compte rendu court */
 $tasks = [
     // Exemples, selon les modules installés :
-    // 'e-mails différés' => static fn (): string => App\Core\Outbox::flush() . ' envoyé(s)',
-    // 'liens expirés' => static fn (): string => App\Admin\AdminAuth::purgeResetTokens() . ' purgé(s)',
-    // 'limites de débit' => static fn (): string => App\Core\FormGuard::purge() . ' trace(s) purgée(s)',
+    'e-mails différés' => static fn (): string => App\Core\Outbox::flush() . ' envoyé(s)',
+    'liens expirés' => static fn (): string => App\Admin\AdminAuth::purgeResetTokens() . ' purgé(s)',
+    'limites de débit' => static fn (): string => App\Core\FormGuard::purge() . ' trace(s) purgée(s)',
     'journal PHP' => static function (): string {
         // Journal d'erreurs gardé sous 5 Mo : l'ancien est renommé (une seule génération conservée).
         $log = ROOT . '/data/php-errors.log';

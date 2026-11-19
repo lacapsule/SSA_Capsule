@@ -1,0 +1,485 @@
+/* Composants du back-office (boîte à outils) : bouton, pastille-statut, etat-vide-chargement, champ-mot-de-passe. */
+/* ---------- composants/bouton ---------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  /* Sur une ligne tant qu'il tient ; plus large que son conteneur (320 px), il passe à la ligne au lieu d'être coupé. */
+  max-width: 100%;
+  min-height: var(--target);
+  padding: var(--space-2) var(--space-4);
+  border: 1px solid var(--color-accent);
+  border-radius: var(--radius);
+  font: 600 var(--step-0) / 1.2 var(--font-ui);
+  text-align: center;
+  text-wrap: balance;
+  color: var(--color-accent-text);
+  background: var(--color-accent);
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform var(--duration-fast) var(--ease), opacity var(--duration-fast) var(--ease);
+}
+.btn:hover { opacity: 0.9; }
+.btn:active { transform: translateY(1px); }
+.btn:focus-visible { outline: var(--focus-largeur) solid var(--color-focus); outline-offset: var(--focus-ecart); }
+
+/* Rôles */
+.btn--secondaire { color: var(--color-accent); background: transparent; }
+.btn--discret { border-color: transparent; text-decoration: underline; text-underline-offset: 0.2em; color: var(--color-text); background: transparent; }
+/* Action destructrice (supprimer, résilier) : dans une confirmation, jamais en action principale d'une page. */
+.btn--danger { border-color: var(--color-danger); color: var(--color-accent-text); background: var(--color-danger); }
+.btn--danger.btn--secondaire { color: var(--color-danger); background: transparent; }
+
+/* Icône (composants/icone-svg) : petit glissement au survol, coupé en mouvement réduit. */
+.btn svg { flex: none; width: 1.15em; height: 1.15em; transition: transform var(--duration-fast) var(--ease); }
+.btn:hover svg { transform: translateX(0.1875rem); }
+
+/* Tailles : la hauteur ne descend jamais sous --target (44 px). */
+.btn--petit { padding: var(--space-1) var(--space-3); font-size: var(--step--1); }
+.btn--grand { min-height: calc(var(--target) + var(--space-3)); padding: var(--space-3) var(--space-5); font-size: var(--step-1); }
+
+/* Icône seule : carré de la hauteur du bouton ; nom accessible obligatoire (aria-label). */
+.btn--icone { width: var(--target); padding: 0; }
+.btn--icone.btn--grand { width: calc(var(--target) + var(--space-3)); }
+.btn--icone:hover svg { transform: none; }
+
+/* Pleine largeur : formulaire étroit, pied de carte, mobile. */
+.btn--plein { display: flex; width: 100%; }
+
+.btn:disabled,
+.btn[aria-disabled="true"] { opacity: 0.55; cursor: not-allowed; }
+.btn:disabled:active,
+.btn:disabled:hover svg { transform: none; }
+
+.btn[aria-busy="true"] { cursor: progress; }
+.btn[aria-busy="true"]::after {
+  flex: none;
+  content: "";
+  width: 1em;
+  height: 1em;
+  border: var(--filet-fort) solid currentColor;
+  border-right-color: transparent;
+  border-radius: 50%;
+  animation: btn-rotation 0.8s linear infinite;
+}
+@keyframes btn-rotation { to { transform: rotate(1turn); } }
+
+@media (prefers-reduced-motion: reduce) {
+  .btn, .btn svg { transition: none; }
+  .btn:hover svg { transform: none; }
+  /* Rotation lente plutôt qu'absente : l'indicateur d'attente reste perceptible. */
+  .btn[aria-busy="true"]::after { animation-duration: 2.4s; }
+}
+
+/* ---------- composants/pastille-statut ---------- */
+/* Pastille de statut : icône (ou point) et libellé écrit, fond teinté de la couleur du statut.
+   Contraste du texte vérifié à 4,5:1 sur --color-bg et --color-surface dans les deux thèmes. */
+.pastille {
+  --pastille-couleur: var(--color-text-muted);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4em;
+  padding: 0.15em 0.65em;
+  border: 1px solid color-mix(in srgb, var(--pastille-couleur) 55%, transparent);
+  border-radius: var(--radius-pill);
+  font-size: var(--step--1);
+  font-weight: 600;
+  line-height: 1.4;
+  white-space: nowrap;
+  color: var(--pastille-couleur);
+  background: color-mix(in srgb, var(--pastille-couleur) 10%, transparent);
+}
+.pastille > svg { flex: none; }
+.pastille--succes { --pastille-couleur: var(--color-success); }
+.pastille--erreur { --pastille-couleur: var(--color-danger); }
+.pastille--attention { --pastille-couleur: var(--color-warning); }
+.pastille--info { --pastille-couleur: var(--color-info); }
+.pastille--neutre { --pastille-couleur: var(--color-text-muted); }
+
+/* Point à la place de l'icône : plus discret, dans un tableau dense. Le libellé porte le sens. */
+.pastille--point::before {
+  flex: none;
+  content: "";
+  width: 0.5em;
+  height: 0.5em;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+/* Aussi dans gabarits/socle-css. */
+.pastille .visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  white-space: nowrap;
+  clip-path: inset(50%);
+  overflow: hidden;
+}
+
+/* Jauge (décorative : valeur écrite à côté) */
+.jauge {
+  position: relative;
+  height: 0.75rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-pill);
+  background: var(--color-surface);
+  overflow: hidden;
+}
+.jauge__plein {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: var(--valeur, 0%);
+  background: var(--color-accent);
+}
+.jauge__repere {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: var(--cible);
+  width: var(--filet-fort);
+  background: var(--color-text);
+}
+@media (forced-colors: active) {
+  .jauge__plein { background: CanvasText; }
+  .jauge__repere { background: Highlight; }
+}
+
+/* Aperçu du catalogue seulement. */
+.pastille-demo__titre { margin: var(--space-5) 0 var(--space-3); font-size: var(--step-0); font-weight: 600; color: var(--color-text-muted); }
+.pastille-demo__titre:first-child { margin-top: 0; }
+.pastille-demo { display: flex; flex-wrap: wrap; gap: var(--space-2); list-style: none; margin: 0; padding: 0; }
+.pastille-demo__jauge { max-width: 24rem; }
+.pastille-demo__jauge p { margin: 0 0 var(--space-2); }
+
+/* ---------- composants/etat-vide-chargement ---------- */
+/* États d'une zone de contenu admin : vide, chargement (squelettes), erreur, succès.
+   À poser dans un conteneur .adm (gabarits/admin-coquille) : boutons de composants/bouton (.btn), primitives .adm-*.
+   Deux tailles : en page (.adm-etat) et compacte (.adm-etat--compact, dans une carte ou une cellule de tableau). */
+
+.adm-etat {
+  --adm-etat-ill: calc(var(--target) * 2.2);
+  --adm-etat-teinte: var(--color-accent);
+  display: grid;
+  justify-items: center;
+  gap: var(--space-2);
+  width: 100%;
+  margin-inline: auto;
+  padding: var(--space-5) var(--space-4);
+  text-align: center;
+}
+@media (min-width: 48em) { .adm-etat { padding-block: calc(var(--space-5) * 1.4); } }
+
+/* Illustration en trait : disque de fond léger, trait en texte atténué, un détail à la teinte de l'état. */
+.adm-etat__illustration {
+  display: grid;
+  place-items: center;
+  width: calc(var(--adm-etat-ill) * 1.45);
+  height: calc(var(--adm-etat-ill) * 1.45);
+  margin-bottom: var(--space-2);
+  border-radius: var(--radius-pill);
+  color: var(--color-text-muted);
+  background: color-mix(in srgb, var(--color-surface-2) 70%, transparent);
+}
+.adm-etat__illustration svg {
+  width: var(--adm-etat-ill);
+  height: var(--adm-etat-ill);
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.adm-etat__illustration .adm-etat__trait-teinte { stroke: var(--adm-etat-teinte); }
+.adm-etat__illustration .adm-etat__fond-teinte { fill: color-mix(in srgb, var(--adm-etat-teinte) 14%, transparent); stroke: none; }
+
+.adm-etat__titre { font-size: var(--step-1); font-weight: 700; line-height: 1.3; text-wrap: balance; }
+.adm-etat__texte {
+  max-width: 28rem;
+  font-size: var(--step--1);
+  line-height: 1.55;
+  text-wrap: pretty;
+  color: var(--color-text-muted);
+}
+.adm-etat__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-2);
+  margin-top: var(--space-3);
+}
+
+/* Détail technique (erreur) : replié, lisible, copiable. */
+.adm-etat__detail { max-width: 28rem; margin-top: var(--space-1); font-size: var(--step--2); color: var(--color-text-muted); }
+.adm-etat__detail > summary {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  min-height: var(--target);
+  padding-inline: var(--space-2);
+  border-radius: var(--radius-small);
+  font-weight: 600;
+  cursor: pointer;
+}
+.adm-etat__detail > summary:hover { color: var(--color-text); }
+.adm-etat__detail > summary .adm-ico { transition: transform var(--duration-fast) var(--ease); }
+.adm-etat__detail[open] > summary .adm-ico { transform: rotate(90deg); }
+.adm-etat__detail code {
+  display: block;
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-small);
+  font-family: var(--font-mono);
+  text-align: left;
+  overflow-wrap: anywhere;
+  color: var(--color-text);
+  background: var(--color-bg);
+}
+
+/* Types : la teinte ne porte jamais le sens seule (titre, forme de l'illustration, rôle ARIA). */
+.adm-etat--erreur { --adm-etat-teinte: var(--color-danger); }
+.adm-etat--succes { --adm-etat-teinte: var(--color-success); }
+
+/* Compacte : dans une carte, une colonne latérale ou une cellule de tableau. */
+.adm-etat--compact {
+  --adm-etat-ill: calc(var(--target) * 0.9);
+  gap: var(--space-1);
+  padding: var(--space-4) var(--space-3);
+}
+.adm-etat--compact .adm-etat__illustration { margin-bottom: var(--space-1); }
+.adm-etat--compact .adm-etat__illustration svg { stroke-width: 1.75; }
+.adm-etat--compact .adm-etat__titre { font-size: var(--step-0); }
+.adm-etat--compact .adm-etat__actions { margin-top: var(--space-2); }
+@media (min-width: 48em) { .adm-etat--compact { padding-block: var(--space-4); } }
+
+/* Cellule de tableau qui porte un état (colspan sur toute la largeur). */
+.adm-etat-cellule { padding: 0; }
+.adm-etat-cellule:hover { background: transparent; }
+
+/* == Chargement == */
+/* Région en cours : aria-busy="true" ; un role="status" annonce « Chargement… » (texte .adm-masque). */
+.adm-chargement { display: grid; gap: var(--space-3); }
+
+.adm-squelette {
+  position: relative;
+  display: block;
+  height: 0.75rem;
+  border-radius: var(--radius-small);
+  background: color-mix(in srgb, var(--color-text) 9%, var(--color-surface));
+  overflow: hidden;
+}
+:root[data-theme="light"] .adm-squelette { background: color-mix(in srgb, var(--color-text) 7%, var(--color-surface)); }
+.adm-squelette::after {
+  position: absolute;
+  inset: 0;
+  content: "";
+  background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--color-text) 7%, transparent), transparent);
+  transform: translateX(-100%);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .adm-squelette::after { animation: adm-lueur 1.6s var(--ease) infinite; }
+}
+@keyframes adm-lueur { to { transform: translateX(100%); } }
+
+.adm-squelette--titre { width: 40%; height: 1rem; }
+.adm-squelette--texte { width: 70%; }
+.adm-squelette--court { width: 35%; }
+.adm-squelette--valeur { width: 4.5rem; height: 0.875rem; }
+.adm-squelette--chiffre { width: 55%; height: 1.75rem; }
+.adm-squelette--avatar { flex: none; width: 2rem; height: 2rem; border-radius: var(--radius-pill); }
+.adm-squelette--pastille { flex: none; width: 5rem; height: 1.5rem; border-radius: var(--radius-pill); }
+.adm-squelette--bloc { height: calc(var(--target) * 3); border-radius: var(--radius); }
+
+/* Lignes fantômes, alignées sur .adm-lignes (même hauteur que les vraies lignes : pas de saut à l'arrivée). */
+.adm-squelette-lignes { list-style: none; margin: 0; padding: 0; }
+.adm-squelette-lignes > li {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-height: var(--adm-ligne-h, calc(var(--target) + var(--space-3)));
+  padding: var(--space-2) var(--space-4);
+}
+.adm-squelette-lignes > li + li { border-top: 1px solid var(--color-line); }
+.adm-squelette-lignes__textes { display: grid; flex: 1; gap: var(--space-2); min-width: 0; }
+/* Longueurs variées d'une ligne à l'autre : la liste fantôme ne paraît pas mécanique. */
+.adm-squelette-lignes > li:nth-child(3n + 2) .adm-squelette--texte { width: 55%; }
+.adm-squelette-lignes > li:nth-child(3n) .adm-squelette--texte { width: 82%; }
+.adm-squelette-lignes > li:nth-child(2n) .adm-squelette--court { width: 25%; }
+
+/* Cartes fantômes : grille fluide. */
+.adm-squelette-cartes {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 15rem), 1fr));
+  gap: var(--space-3);
+}
+.adm-squelette-carte {
+  display: grid;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius);
+  background: var(--color-surface);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .adm-squelette::after { animation: none; }
+  .adm-etat__detail > summary .adm-ico { transition: none; }
+}
+@media (forced-colors: active) {
+  .adm-squelette { background: GrayText; }
+  .adm-squelette::after { display: none; }
+}
+
+/* Aperçu du catalogue seulement. */
+.adm-etat-demo { display: grid; gap: var(--space-5); }
+.adm-etat-demo__titre { margin-bottom: var(--space-3); font-size: var(--step--1); font-weight: 600; letter-spacing: var(--etiquette-espacement); color: var(--color-text-muted); }
+.adm-etat-demo__grille { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr)); gap: var(--space-3); align-items: start; }
+.adm-etat-demo .tableau-cadre { border-color: var(--color-line); }
+
+/* ---------- composants/champ-mot-de-passe ---------- */
+/* Champ mot de passe : mêmes conventions que composants/champs-formulaire (hauteur --target, contour 1 px
+   --color-border, erreur doublée d'un halo de 1 px, désactivé sur --color-surface-2). */
+.champ-mdp { display: grid; gap: var(--space-2); }
+.champ-mdp > * { margin: 0; }
+.champ-mdp label { font: 600 var(--step-0) / 1.3 var(--font-ui); color: var(--color-text); }
+
+/* Ligne d'étiquette avec un lien à droite (« Mot de passe oublié ? ») : variante connexion. */
+.champ-mdp__entete {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1) var(--space-3);
+  align-items: baseline;
+  justify-content: space-between;
+}
+.champ-mdp__entete a {
+  font-size: var(--step--1);
+  text-underline-offset: 0.2em;
+  color: var(--color-accent);
+}
+.champ-mdp__entete a:focus-visible { outline: var(--focus-largeur) solid var(--color-focus); outline-offset: var(--focus-ecart); }
+
+.mdp { position: relative; }
+.mdp input {
+  width: 100%;
+  min-height: var(--target);
+  padding: var(--space-2) calc(var(--target) + var(--space-2)) var(--space-2) var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  font: 400 var(--step-0) / 1.4 var(--font-ui);
+  color: var(--color-text);
+  background: var(--color-surface);
+  transition: border-color var(--duration-fast) var(--ease), box-shadow var(--duration-fast) var(--ease);
+}
+.mdp input:hover { border-color: var(--color-text-muted); }
+.mdp input:focus-visible { outline: var(--focus-largeur) solid var(--color-focus); outline-offset: var(--focus-ecart); }
+.mdp input[aria-invalid="true"] { border-color: var(--color-danger); box-shadow: 0 0 0 1px var(--color-danger); }
+.mdp input:disabled {
+  border-color: var(--color-line-strong);
+  color: var(--color-text-muted);
+  background: var(--color-surface-2);
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+/* Bouton carré de 44 px dans le champ, à droite. */
+.mdp-bascule {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  display: grid;
+  place-items: center;
+  width: var(--target);
+  height: var(--target);
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius);
+  color: var(--color-text-muted);
+  background: none;
+  transform: translateY(-50%);
+  cursor: pointer;
+}
+.mdp-bascule:hover { color: var(--color-text); }
+/* Contour posé à l'intérieur du bouton : il reste dans le champ au lieu de chevaucher son bord. */
+.mdp-bascule:focus-visible { outline: var(--focus-largeur) solid var(--color-focus); outline-offset: calc(var(--focus-largeur) * -1); }
+.mdp-bascule:disabled { opacity: 0.5; cursor: not-allowed; }
+.mdp-bascule[hidden] { display: none; }
+.mdp-icone { width: var(--step-1); height: var(--step-1); fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.mdp-icone--visible,
+.mdp-bascule[aria-pressed="true"] .mdp-icone--masque { display: none; }
+.mdp-bascule[aria-pressed="true"] .mdp-icone--visible { display: block; }
+/* Nom accessible du bouton : texte réel, masqué à l'écran (traduisible, lu par tous les lecteurs d'écran). */
+.mdp-libelle {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  white-space: nowrap;
+  clip-path: inset(50%);
+  overflow: hidden;
+}
+
+.champ-mdp .champ-aide { font-size: var(--step--1); line-height: 1.45; color: var(--color-text-muted); }
+.champ-mdp .champ-erreur {
+  display: flex;
+  gap: var(--space-2);
+  align-items: flex-start;
+  font-size: var(--step--1);
+  font-weight: 600;
+  line-height: 1.45;
+  color: var(--color-danger);
+}
+.champ-mdp .champ-erreur svg { flex: none; width: 1.25em; height: 1.45em; }
+
+@media (prefers-reduced-motion: reduce) {
+  .mdp input { transition: none; }
+}
+
+/* Variante .champ-mdp--force : niveau écrit (la jauge double le texte, jamais seule) et critères cochés en direct. */
+.mdp-force {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-1) var(--space-3);
+}
+.mdp-force[hidden] { display: none; }
+.mdp-force__jauge {
+  --mdp-ton: var(--color-line-strong);
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  flex: 1 1 8rem;
+  gap: var(--space-1);
+  max-width: 14rem;
+}
+.mdp-force__jauge span { height: var(--space-2); border-radius: var(--radius-pill); background: var(--color-line-strong); }
+.mdp-force[data-niveau="1"] .mdp-force__jauge { --mdp-ton: var(--color-danger); }
+.mdp-force[data-niveau="2"] .mdp-force__jauge { --mdp-ton: var(--color-warning); }
+.mdp-force[data-niveau="3"] .mdp-force__jauge,
+.mdp-force[data-niveau="4"] .mdp-force__jauge { --mdp-ton: var(--color-success); }
+.mdp-force[data-niveau="1"] .mdp-force__jauge span:nth-child(-n + 1),
+.mdp-force[data-niveau="2"] .mdp-force__jauge span:nth-child(-n + 2),
+.mdp-force[data-niveau="3"] .mdp-force__jauge span:nth-child(-n + 3),
+.mdp-force[data-niveau="4"] .mdp-force__jauge span { background: var(--mdp-ton); }
+.mdp-force__niveau { margin: 0; font-size: var(--step--1); color: var(--color-text-muted); }
+.mdp-force__niveau strong { color: var(--color-text); }
+
+.mdp-criteres { display: grid; gap: var(--space-1); list-style: none; margin: 0; padding: 0; font-size: var(--step--1); line-height: 1.45; }
+.mdp-criteres li { display: flex; gap: var(--space-2); align-items: flex-start; }
+.mdp-critere-icone {
+  flex: none;
+  width: 1.25em;
+  height: 1.45em;
+  fill: none;
+  stroke: var(--color-text-muted);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.mdp-critere-icone--ok,
+.mdp-criteres li[data-ok="true"] .mdp-critere-icone--ko { display: none; }
+.mdp-criteres li[data-ok="true"] .mdp-critere-icone--ok { display: block; stroke: var(--color-success); }
+.mdp-criteres li[data-ok="true"] { color: var(--color-text); }
+.mdp-criteres li[data-ok="false"] { color: var(--color-text-muted); }
+
+@media (prefers-reduced-motion: no-preference) {
+  .mdp-force__jauge span { transition: background-color var(--duration-fast) var(--ease); }
+}
+

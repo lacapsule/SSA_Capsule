@@ -10,5 +10,8 @@ $router = new Router();
 $router->get('/sitemap.xml', [App\Langue\Sitemap::class, 'afficher']);
 (require __DIR__ . '/Pages/routes.php')($router);
 (require __DIR__ . '/Reprise/routes.php')($router);
+// Administration (modules/authentification-admin, gabarits/tableau-de-bord-php).
+require __DIR__ . '/Admin/routes-auth.php';
+(require __DIR__ . '/Admin/routes-tableau-de-bord.php')($router);
 
 return $router;
