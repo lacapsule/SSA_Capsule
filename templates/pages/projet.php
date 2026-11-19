@@ -93,4 +93,4 @@ partial('site/haut', ['chemin' => $path, 'titre' => $t['titre'], 'chapo' => $t['
   </div>
 </section>
 
-<?php partial('site/appel', ['titre' => $t['contact_titre'], 'actions' => [['href' => '/contact/', 'libelle' => t('contact.nous_contacter')], ['href' => '/lieux-conventionnes/', 'libelle' => t('accueil.voir_lieux'), 'secondaire' => true]], 'image' => '/assets/img/personnages/projet-appel.svg', 'compact' => true, 'coordonnees' => true]) ?>
+<?php partial('site/appel', ['titre' => $t['contact_titre'], 'actions' => [['href' => '/contact/', 'libelle' => t('contact.nous_contacter')], ['href' => '/lieux-conventionnes/', 'libelle' => t('accueil.voir_lieux'), 'secondaire' => true]], 'image' => '/assets/img/personnages/projet-appel.svg', 'serre' => true, 'compact' => true, 'coordonnees' => true]) ?>

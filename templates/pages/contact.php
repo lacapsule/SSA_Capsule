@@ -47,12 +47,12 @@ $icone = static fn (string $d): string => '<svg class="coordonnees__icone" viewB
         <p class="field__hint"><?= e(t('contact.champs_requis')) ?></p>
         <?php if ($alert !== null): ?><p class="alert alert--error" role="alert"><?= e($alert) ?></p><?php endif ?>
         <?php if ($errors !== []): ?><p class="alert alert--error" role="alert"><?= e(t('contact.erreurs')) ?></p><?php endif ?>
-        <div class="field">
+        <div class="field field--demi">
           <label for="c-name"><?= e(t('contact.nom')) ?> <span aria-hidden="true">*</span></label>
           <?php if (isset($errors['name'])): ?><p class="field__error" id="c-name-err"><?= e($errors['name']) ?></p><?php endif ?>
           <input id="c-name" name="name" autocomplete="name" maxlength="120" value="<?= e($v('name')) ?>" required<?= isset($errors['name']) ? ' aria-invalid="true" aria-describedby="c-name-err"' : '' ?>>
         </div>
-        <div class="field">
+        <div class="field field--demi">
           <label for="c-email"><?= e(t('contact.email')) ?> <span aria-hidden="true">*</span></label>
           <?php if (isset($errors['email'])): ?><p class="field__error" id="c-email-err"><?= e($errors['email']) ?></p><?php endif ?>
           <input id="c-email" name="email" type="email" autocomplete="email" maxlength="190" value="<?= e($v('email')) ?>" required<?= isset($errors['email']) ? ' aria-invalid="true" aria-describedby="c-email-err"' : '' ?>>
@@ -66,7 +66,7 @@ $icone = static fn (string $d): string => '<svg class="coordonnees__icone" viewB
           <label for="c-message"><?= e(t('contact.message')) ?> <span aria-hidden="true">*</span></label>
           <p class="field__hint" id="c-message-aide"><?= e(t('contact.message_aide')) ?></p>
           <?php if (isset($errors['message'])): ?><p class="field__error" id="c-message-err"><?= e($errors['message']) ?></p><?php endif ?>
-          <textarea id="c-message" name="message" rows="7" maxlength="5000" required aria-describedby="<?= e($decrit('message', 'c-message-aide')) ?>"<?= isset($errors['message']) ? ' aria-invalid="true"' : '' ?>><?= e($v('message')) ?></textarea>
+          <textarea id="c-message" name="message" rows="5" maxlength="5000" required aria-describedby="<?= e($decrit('message', 'c-message-aide')) ?>"<?= isset($errors['message']) ? ' aria-invalid="true"' : '' ?>><?= e($v('message')) ?></textarea>
         </div>
         <p class="field__hint"><?= e(t('contact.confidentialite_avant')) ?> <a href="<?= e(lurl('/confidentialite/')) ?>"><?= e(t('contact.confidentialite_lien')) ?></a>.</p>
         <button class="button" type="submit"><?= e(t('contact.envoyer')) ?></button>

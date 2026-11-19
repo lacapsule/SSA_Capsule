@@ -58,6 +58,9 @@ h1, h2, h3 { font-family: var(--font-titres); letter-spacing: -0.01em; }
 .lien-fleche { display: inline-flex; align-items: center; gap: var(--space-1); min-height: var(--target); font-weight: 700; color: var(--color-accent); }
 .lien-fleche svg { flex: none; transition: transform var(--duration-fast) var(--ease); }
 .lien-fleche:hover svg { transform: translateX(0.25rem); }
+/* Lien vers un autre site : flèche inclinée vers le coin haut droit ; lien du site : flèche horizontale. */
+.lien-fleche[href^="http"] svg, .article__lien[href^="http"] svg { transform: rotate(-45deg); }
+.lien-fleche[href^="http"]:hover svg { transform: rotate(-45deg) translateX(0.25rem); }
 @media (prefers-reduced-motion: reduce) { .lien-fleche svg { transition: none; } }
 .section__head h2, .prose h2, .section h2 { color: var(--color-marque-sur-fond); }
 .qui h2, .objectif h2, .qui h3 { color: inherit; }
@@ -299,6 +302,8 @@ h1, h2, h3 { font-family: var(--font-titres); letter-spacing: -0.01em; }
 .contact .form { display: grid; gap: var(--space-3); }
 
 .contact .form { padding: 0; border: 0; background: none; box-shadow: none; }
+/* Formulaire plus court : nom et e-mail côte à côte quand la colonne le permet. */
+@media (min-width: 64rem) { .contact .form { grid-template-columns: repeat(2, minmax(0, 1fr)); } .contact .form > :not(.field--demi) { grid-column: 1 / -1; } }
 /* Lieux conventionnés : une carte par lieu (nom, adresse, horaires, itinéraire). */
 
 .contact .field__hint { font-size: var(--step-0); }
@@ -457,6 +462,9 @@ h1, h2, h3 { font-family: var(--font-titres); letter-spacing: -0.01em; }
 /* Buste large (personnages de la boîte, épaules plus larges que le rond) : dessin réduit pour que le buste tienne dans
    le rond, la tête toujours en débord ; sinon le masque coupe les épaules à l'horizontale. */
 .portail--buste .portail__calque img { bottom: calc(var(--d) * -0.04); height: calc(var(--d) * 1.32); }
+/* Bras qui descend jusqu'en bas du buste (aucune variante de masque ne le sort entier) : dessin réduit et décalé vers
+   le bras, pour que le coude reste dans le rond au lieu d'être coupé par son bord ; la tête dépasse toujours. */
+.portail--buste.portail--serre .portail__calque img { left: 54%; height: calc(var(--d) * 1.2); }
 
 /* Page Projet */
 .buts__inner { display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: center; gap: var(--space-6); }
@@ -601,6 +609,7 @@ h1, h2, h3 { font-family: var(--font-titres); letter-spacing: -0.01em; }
   .agenda__tete .filtres ul { flex-wrap: wrap; }
 }
 .agenda .filtres { margin-bottom: var(--space-5); }
+.agenda .agenda__tete .filtres { margin: 0; }
 .agenda-passes { background: var(--color-surface-2); }
 .agenda-passes .container { display: grid; gap: var(--space-5); }
 .agenda-passes h2 { margin-bottom: 0; }
@@ -883,8 +892,9 @@ html:not(.js) .lieux-explorer--page .lieux-panneau { display: grid; }
 .portail--tete { --d: 12rem; }
 @media (min-width: 52.01rem) {
   .page-head--personnage:not(:has(.page-head__date)) .page-head__inner { grid-template-columns: minmax(0, 46rem) minmax(0, 1fr); }
-  .page-head--personnage:not(:has(.page-head__date)) .page-head__personnage { justify-self: center; }
-  .page-head--personnage:not(:has(.page-head__date)) .portail--tete { --d: 14rem; margin-bottom: 0; }
+  /* Personnage posé sur le bas du haut de page (le rond touche la section suivante) : le haut de page ne grandit pas. */
+  .page-head--personnage:not(:has(.page-head__date)) .page-head__personnage { align-self: end; justify-self: center; padding-block: 0; }
+  .page-head--personnage:not(:has(.page-head__date)) .portail--tete { --d: 13rem; margin-block: calc(var(--d) * 0.45) calc(var(--space-5) * -1); }
 }
 .page-head__date-titre { display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: center; gap: var(--space-4); }
 .page-head__date-titre h1 { margin: 0; text-wrap: balance; }
