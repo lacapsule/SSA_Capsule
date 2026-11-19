@@ -20,6 +20,12 @@ final class Dates
         return self::format($date, 'EEEE d MMMM y');
     }
 
+    /** Date sans le jour de la semaine (« 7 décembre 2026 »). */
+    public static function courte(string $date): string
+    {
+        return self::format($date, 'd MMMM y');
+    }
+
     /** Pastille : jour en chiffres, mois abrégé. @return array{jour: string, mois: string} */
     public static function pastille(string $date): array
     {

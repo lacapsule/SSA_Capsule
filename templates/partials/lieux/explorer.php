@@ -10,8 +10,10 @@
 use App\Site\Texte;
 
 $pageCarte = !empty($pageCarte);
+$hn = $pageCarte ? 'h2' : 'h3'; // carte en grand : titres juste sous le h1 de la page (aucun saut de niveau)
+$hn2 = $pageCarte ? 'h3' : 'h4'; // nom d'un lieu, sous le titre de sa commune
 $icone = static fn (string $d, int $taille = 16): string => '<svg viewBox="0 0 24 24" width="' . $taille . '" height="' . $taille . '" aria-hidden="true" focusable="false"><path d="' . $d . '" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
-$ligne = static function (array $l, string $cle) use ($t, $icone): void {
+$ligne = static function (array $l, string $cle) use ($t, $icone, $hn2): void {
     // Adresse web d'une description (page de commande) : sortie du texte, en lien nommé.
     $description = trim((string) ($l['description'] ?? ''));
     $site = preg_match('#https?://\S+#', $description, $m) === 1 ? $m[0] : '';
@@ -20,7 +22,7 @@ $ligne = static function (array $l, string $cle) use ($t, $icone): void {
     ?>
           <li class="lieu" data-lieu data-calque="<?= e($statut) ?>">
             <div class="lieu__tete">
-              <h4 class="lieu__nom"<?= langue_attr($l, 'nom') ?>><?= e((string) $l['producteur']) ?></h4>
+              <<?= $hn2 ?> class="lieu__nom"<?= langue_attr($l, 'nom') ?>><?= e((string) $l['producteur']) ?></<?= $hn2 ?>>
               <p class="lieu__etat"><span class="pastille-calque pastille-calque--<?= e($statut) ?>" aria-hidden="true"></span><?= e($t['calque_court_' . $statut]) ?></p>
             </div>
             <p class="lieu__ou"><?= e($l['vente'] !== '' ? (string) $l['vente'] : $t['sur_place']) ?></p>
@@ -62,7 +64,7 @@ $parDefaut = ['ok' => true, 'attente' => true, 'refus' => false, 'sans' => false
         <p class="lieux-intro__date"><?= e($t['publie']) ?> <?= e($t['adresses_note']) ?></p>
         <p class="lieux-intro__indication" hidden data-synthese><?= e($t['indication']) ?></p>
         <div class="lieux-intro__calques">
-          <h3><?= e($t['carte_calques_titre']) ?></h3>
+          <<?= $hn ?>><?= e($t['carte_calques_titre']) ?></<?= $hn ?>>
           <p><?= e($t['carte_texte']) ?></p>
           <ul><?php foreach (['ok', 'attente', 'refus', 'sans'] as $c): ?><li><span class="pastille-calque pastille-calque--<?= e($c) ?>" aria-hidden="true"></span><?= e($t['calque_court_' . $c]) ?></li><?php endforeach ?></ul>
           <p class="lieux-intro__note"><?= e($t['carte_depart']) ?></p>
@@ -72,7 +74,7 @@ $parDefaut = ['ok' => true, 'attente' => true, 'refus' => false, 'sans' => false
       <p class="visually-hidden" aria-live="polite" data-resume></p>
       <?php foreach ($groupes as $g): ?>
       <section class="lieux-groupe" id="<?= e($g['cle']) ?>" aria-labelledby="<?= e($g['cle']) ?>-titre" data-groupe>
-        <h3 class="lieux-groupe__titre" id="<?= e($g['cle']) ?>-titre"><?= e($g['commune']) ?> <span class="lieux-liste__nombre" data-groupe-nombre></span></h3>
+        <<?= $hn ?> class="lieux-groupe__titre" id="<?= e($g['cle']) ?>-titre"><?= e($g['commune']) ?> <span class="lieux-liste__nombre" data-groupe-nombre></span></<?= $hn ?>>
         <ul class="lieux"><?php foreach ($g['lieux'] as $l) $ligne($l, $g['cle']) ?></ul>
       </section>
       <?php endforeach ?>

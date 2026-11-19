@@ -32,6 +32,7 @@ return [
     'accueil.pause_photos' => 'du défilement des photos',
     'site.pause' => 'Pause',
     'agenda.filtrer' => 'Filtrer par public',
+    'agenda.meta_suite' => 'Rendez-vous de la Sécurité Sociale de l\'Alimentation du Pays de Morlaix.',
     'agenda.tous' => 'Tous',
     'agenda.cat_collectif' => 'Collectif',
     'agenda.cat_experimentateurs' => 'Expérimentateur·ices',

@@ -75,7 +75,7 @@ final class Agenda
         $t = Contenu::traduire('evenement', (string) $e['id'], $e);
         $voisin = static fn (string $op, string $ordre) => Db::run("SELECT title, slug, starts_at FROM events WHERE is_published = 1 AND starts_at $op ? ORDER BY starts_at $ordre LIMIT 1", [$e['starts_at']])->fetch() ?: null;
         View::render('agenda/fiche', [
-            'meta' => ['title' => $t['title'], 'description' => self::resume($t), 'h1' => $t['title']],
+            'meta' => ['title' => self::titre($t), 'description' => self::resume($t), 'h1' => $t['title']],
             'path' => '/agenda/' . $slug . '/',
             'disponibles' => Contenu::disponibles('evenement', (string) $e['id'], 'title'),
             'e' => $t,
@@ -87,11 +87,27 @@ final class Agenda
         ], 'site/layout');
     }
 
-    /** Description courte pour la balise meta : date, lieu, début du texte. */
+    /**
+     * Titre de la page : titre et date, car un même rendez-vous revient chaque mois (titres uniques sur tout le site,
+     * rule web-seo) ; titre raccourci si l'ensemble dépasse 60 caractères.
+     */
+    private static function titre(array $e): string
+    {
+        $date = ', ' . \App\Site\Dates::courte((string) $e['starts_at']);
+        $titre = (string) $e['title'];
+        return text_length($titre . $date) <= 60 ? $titre . $date : Texte::couper($titre, 60 - text_length($date)) . $date;
+    }
+
+    /** Description courte pour la balise meta : date, lieu, début du texte ; complétée si elle reste sous 140 caractères. */
     private static function resume(array $e): string
     {
         $debut = \App\Site\Dates::longue($e['starts_at']) . ', ' . \App\Site\Dates::heure($e['starts_at']) . ($e['address'] ? ', ' . $e['address'] : '') . '. ';
-        $texte = $debut . preg_replace('/\s+/', ' ', (string) $e['description']);
+        $texte = trim($debut . preg_replace('/\s+/', ' ', (string) $e['description']));
+        if (text_length($texte) < 140) {
+            $texte = $e['title'] . ' : ' . lcfirst($texte);
+            $suite = $texte . ' ' . t('agenda.meta_suite');
+            $texte = text_length($suite) <= 160 ? $suite : $texte;
+        }
         return Texte::couper($texte, 158);
     }
 

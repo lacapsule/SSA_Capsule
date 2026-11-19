@@ -85,7 +85,8 @@
 
 .visionneuse__position {
   margin: 0;
-  font: var(--step--1) / 1.4 var(--font-mono);
+  font: var(--step--1) / 1.4 var(--font-ui);
+  font-variant-numeric: tabular-nums;
   color: var(--color-text-muted);
 }
 

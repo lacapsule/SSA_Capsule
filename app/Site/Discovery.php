@@ -14,7 +14,8 @@ final class Discovery
             echo "User-agent: *\nDisallow: /\n";
             return;
         }
-        echo "User-agent: *\nDisallow: /admin/\nDisallow: /newsletter/\nAllow: /\n\nSitemap: " . Site::url() . "/sitemap.xml\n";
+        // Contenus non cédés à l'entraînement des IA (décision du 2026-11-13, mode d'emploi).
+        echo "User-agent: *\nContent-Signal: search=yes, ai-input=yes, ai-train=no\nDisallow: /admin/\nAllow: /\n\nSitemap: " . Site::url() . "/sitemap.xml\n";
     }
 
     public static function sitemap(): void

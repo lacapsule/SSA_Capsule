@@ -31,7 +31,7 @@ function initLieux() {
   const cases = [...zone.querySelectorAll('[data-calque-choix]')];
   const pageCarte = zone.classList.contains('lieux-explorer--page');
   const simple = (s) => s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
-  const lieux = groupes.flatMap((g) => [...g.querySelectorAll('[data-lieu]')].map((l) => ({ g, l, calque: l.dataset.calque, texte: simple(g.querySelector('h3').textContent + ' ' + l.textContent) })));
+  const lieux = groupes.flatMap((g) => [...g.querySelectorAll('[data-lieu]')].map((l) => ({ g, l, calque: l.dataset.calque, texte: simple(g.querySelector('.lieux-groupe__titre').textContent + ' ' + l.textContent) })));
   const nommer = (n) => `${n} ${n > 1 ? zone.dataset.plusieurs : zone.dataset.un}`;
   const doux = () => (window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth');
   let tout = false;

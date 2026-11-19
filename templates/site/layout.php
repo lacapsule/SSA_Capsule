@@ -45,6 +45,12 @@ $email = (string) Site::get('email');
 <meta property="og:title" content="<?= e($title) ?>">
 <meta property="og:description" content="<?= e($meta['description'] ?? '') ?>">
 <meta property="og:url" content="<?= e($canonical) ?>">
+<?php // Image de partage générée depuis docs/source/partage/og.html (skill web-media, images-partage.mjs). ?>
+<meta property="og:image" content="<?= e(Site::url() . '/og.jpg') ?>">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="<?= e($name) ?>">
+<meta name="twitter:card" content="summary_large_image">
 <?php endif ?>
 <link rel="icon" href="/favicon.ico" sizes="48x48">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
