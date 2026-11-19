@@ -1,0 +1,85 @@
+/* Sauvegardes chiffrées (modules/sauvegarde-chiffree) : carte d'état et liste, dans le back-office.
+   Repose sur gabarits/admin-coquille (.adm-carte, .adm-tableau, .adm-alerte, .adm-champ), composants/bouton,
+   composants/pastille-statut et composants/dialogue. Préfixe propre .svc-. */
+
+.adm-page.svc { width: min(100%, calc(var(--measure) * 1.9)); }
+
+/* En-tête : titre et rythme à gauche, action principale à droite (dessous au téléphone). */
+.svc-entete { align-items: flex-start; padding-block: var(--space-3); }
+.svc-entete__textes { display: grid; flex: 1 1 18rem; gap: var(--space-1); min-width: 0; }
+.svc-entete__aide { max-width: var(--measure); font-size: var(--step--1); color: var(--color-text-muted); }
+.svc-entete__action { flex: none; margin: 0; }
+
+/* État : trois repères, une colonne au téléphone, trois dès 40 em de carte. */
+.svc-carte { container-type: inline-size; }
+.svc-etat {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  margin: 0;
+  border-bottom: 1px solid var(--color-line);
+}
+.svc-etat__item { display: grid; gap: var(--space-1); align-content: start; padding: var(--space-3) var(--space-4); }
+.svc-etat__item + .svc-etat__item { border-top: 1px solid var(--color-line); }
+.svc-etat dt { font-size: var(--step--2); font-weight: 600; letter-spacing: var(--etiquette-espacement); text-transform: uppercase; color: var(--color-text-muted); }
+.svc-etat dd { margin: 0; }
+.svc-etat__valeur { font-size: var(--step-0); font-weight: 700; font-variant-numeric: tabular-nums; }
+.svc-etat__valeur .pastille { font-size: var(--step--1); }
+.svc-etat__sous { font-size: var(--step--1); color: var(--color-text-muted); }
+@container (min-width: 40em) {
+  .svc-etat { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .svc-etat__item + .svc-etat__item { border-top: 0; border-left: 1px solid var(--color-line); }
+}
+
+.svc-alertes { padding: var(--space-3) var(--space-4) 0; }
+
+/* Liste */
+.svc-tableau th.svc-date { font-family: var(--font-mono); font-weight: 400; white-space: nowrap; }
+@media (min-width: 40em) {
+  .svc-tableau tr > :first-child { padding-left: var(--space-4); }
+  .svc-tableau tr > :last-child { padding-right: var(--space-4); }
+}
+.svc-chiffre { display: inline-flex; align-items: center; gap: var(--space-2); }
+.svc-chiffre > .adm-ico { color: var(--color-success); }
+.svc-tableau .btn--petit { min-height: var(--target); }
+
+.svc-pied { justify-content: space-between; padding-block: var(--space-3); }
+.svc-pied__texte { flex: 1 1 18rem; max-width: var(--measure); font-size: var(--step--1); color: var(--color-text-muted); }
+.svc-pied form { margin: 0; }
+
+@media (max-width: 29.99em) {
+  .svc-entete,
+  .svc-etat__item,
+  .svc-pied { padding-inline: var(--space-3); }
+  .svc-alertes { padding-inline: var(--space-3); }
+  .svc-entete__action,
+  .svc-entete__action .btn,
+  .svc-pied form,
+  .svc-pied .btn { width: 100%; }
+}
+
+/* Aperçu du catalogue seulement : intertitres et scène qui montre le dialogue ouvert sans le rendre modal. */
+.svc-apercu { display: grid; gap: var(--space-3); }
+.svc-intertitre {
+  width: min(100%, calc(var(--measure) * 1.9));
+  margin: var(--space-5) auto 0;
+  font: 600 var(--step--2) / 1.4 var(--font-mono);
+  letter-spacing: var(--etiquette-espacement);
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+.svc-intertitre:first-child { margin-top: 0; }
+.svc-scene {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  place-items: center;
+  width: min(100%, calc(var(--measure) * 1.9));
+  margin: 0 auto;
+  padding: var(--space-5) var(--space-3);
+  border-radius: var(--radius);
+  background: var(--color-backdrop);
+}
+.svc-scene .dialogue { width: min(100%, 32rem); max-width: 100%; max-height: none; }
+
+@media (forced-colors: active) {
+  .svc-chiffre > .adm-ico { color: CanvasText; }
+}

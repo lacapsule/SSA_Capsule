@@ -27,7 +27,7 @@ OPEN := xdg-open
 endif
 
 .DEFAULT_GOAL := help
-.PHONY: help dev contenus db migrate open info lint deps outils verify
+.PHONY: help dev contenus db test check migrate open info lint deps outils verify
 
 help: ## Affiche cette aide
 	@$(DEV) help $(MAKEFILE_LIST)
@@ -52,6 +52,12 @@ info: ## Vérifie PHP et les extensions nécessaires
 
 lint: ## Vérifie la syntaxe des fichiers PHP
 	$(DEV) lint
+
+test: ## Lance les tests automatiques (tests/run.php)
+	$(PHP) tests/run.php
+
+check: ## Contrôles qualité du code (syntaxe, motifs dangereux, fichiers sensibles, contraste)
+	$(PHP) scripts/controles.php
 
 KIT := .claude/skills/web-audit/scripts
 

@@ -19,9 +19,9 @@ DirectoryIndex index.php
     RewriteRule ^router\.php$ - [F,L]
 
     # Méthodes : GET, HEAD et OPTIONS partout ; POST seulement vers les formulaires réels du site.
-    # Un préfixe par formulaire : contact (français et breton) et administration. THE_REQUEST est lu aussi par LiteSpeed.
+    # Un préfixe par formulaire : contact (français et breton), administration et prolongation de session du back-office. THE_REQUEST est lu aussi par LiteSpeed.
     RewriteCond %{REQUEST_METHOD} !^(GET|HEAD|OPTIONS)$ [NC]
-    RewriteCond %{THE_REQUEST} !^POST\s/+(contact/|br/contact/|admin/)[^\s]*\s [NC]
+    RewriteCond %{THE_REQUEST} !^POST\s/+(contact/|br/contact/|admin/|session/)[^\s]*\s [NC]
     RewriteRule ^ - [F,L]
     # Scripts glissés parmi les fichiers envoyés : jamais exécutés.
     RewriteRule ^media/.*\.(?:php\d?|phtml|phar|cgi|pl|py|sh)$ - [F,L,NC]

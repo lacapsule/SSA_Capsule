@@ -83,6 +83,8 @@ $icones = [
     'logo' => 'M12 3 20 7.5v9L12 21l-8-4.5v-9zM12 12l8-4.5M12 12v9M12 12 4 7.5',
     'lettre' => 'M21 3 3 10l7 3 3 7zM10 13l11-10',
     'liens' => 'M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1',
+    // Ajout du projet SSA (rubrique Lieux conventionnés) : repère de lieu.
+    'lieu' => 'M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21zM12 12a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z',
     'cle' => 'M8 19a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM11 12l9-9M16 7l3 3',
     'documents' => 'M7 3h7l5 5v13H7zM14 3v5h5M10 13h6M10 17h6',
     'sondage' => 'M5 20V10M12 20V4M19 20v-7',
@@ -155,7 +157,10 @@ $marque = static fn (string $classe = ''): string =>
 <link rel="stylesheet" href="/assets/css/charte.css"><!-- charte du client (couleurs, polices), propre au projet -->
 <link rel="stylesheet" href="/assets/css/composants.css"><!-- bouton, pastille-statut, etat-vide-chargement, champ-mot-de-passe, centre-notifications -->
 <link rel="stylesheet" href="/assets/css/admin-coquille.css">
-<link rel="stylesheet" href="/assets/css/admin-ssa.css"><!-- univers SSA : logo du client, propre au projet -->
+<link rel="stylesheet" href="/assets/css/admin-ssa.css">
+<link rel="stylesheet" href="/assets/css/minuteur-session.css">
+<link rel="stylesheet" href="/assets/css/export.css">
+<script src="/assets/js/minuteur-session.js" defer></script><!-- univers SSA : logo du client, propre au projet -->
 <?php foreach ($styles as $href): ?><link rel="stylesheet" href="<?= e((string) $href) ?>">
 <?php endforeach; ?>
 <script src="/assets/js/admin-coquille.js" defer></script>
@@ -286,5 +291,6 @@ $marque = static fn (string $classe = ''): string =>
   </div>
 </div>
 <?= $apresContenu ?>
+<?php partial('session/minuteur') // avertissement avant la fin de session (rien sans session connectée) ?>
 </body>
 </html>

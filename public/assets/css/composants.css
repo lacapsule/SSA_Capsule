@@ -483,3 +483,323 @@
   .mdp-force__jauge span { transition: background-color var(--duration-fast) var(--ease); }
 }
 
+
+/* ---------- composants/dialogue (cadre du minuteur de session) ---------- */
+/* Dialogue natif (dialog + showModal) : confirmation, formulaire, feuille du bas au téléphone.
+   Boutons : composants/bouton (.btn) ; champs : composants/champs-formulaire (.champ, .saisie). */
+
+.dialogue {
+  width: 32rem;
+  max-width: calc(100% - var(--gutter) * 2);
+  max-height: calc(100dvh - var(--gutter) * 2);
+  margin: auto;
+  padding: 0;
+  border: 1px solid var(--color-line-strong);
+  border-radius: var(--radius-grand);
+  font: 400 var(--step-0) / 1.55 var(--font-ui);
+  color: var(--color-text);
+  background: var(--color-surface);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+/* Affiché seulement ouvert (le UA masque dialog:not([open]), un display auteur l'écraserait). */
+.dialogue[open],
+.dialogue--apercu {
+  display: flex;
+  flex-direction: column;
+}
+.dialogue--large { width: 40rem; }
+.dialogue::backdrop { background: var(--color-backdrop); }
+
+/* Défilement de la page bloqué tant qu'un dialogue modal est ouvert. */
+:root:has(.dialogue:modal) { overflow: hidden; }
+
+.dialogue__entete {
+  display: flex;
+  gap: var(--space-3);
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: var(--space-4) var(--space-4) 0;
+}
+.dialogue__titre {
+  margin: 0;
+  /* Centré optiquement sur la hauteur du bouton Fermer. */
+  padding-block: calc((var(--target) - 1.3em) / 2);
+  font: 700 var(--step-1) / 1.3 var(--font-ui);
+  text-wrap: balance;
+}
+.dialogue__fermer {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: var(--target);
+  height: var(--target);
+  margin: 0 calc(var(--space-2) * -1) 0 0;
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius);
+  color: var(--color-text-muted);
+  background: transparent;
+  transition: color var(--duration-fast) var(--ease), background-color var(--duration-fast) var(--ease);
+  cursor: pointer;
+}
+.dialogue__fermer:hover { color: var(--color-text); background: var(--color-surface-2); }
+.dialogue__fermer:focus-visible { outline: var(--focus-largeur) solid var(--color-focus); outline-offset: calc(var(--focus-ecart) * -1); }
+.dialogue__fermer svg { width: 1.25rem; height: 1.25rem; }
+
+/* Corps : seul à défiler quand le contenu dépasse, en-tête et actions restent visibles. */
+.dialogue__corps {
+  display: grid;
+  flex: 1 1 auto;
+  gap: var(--space-4);
+  min-height: 0;
+  padding: var(--space-2) var(--space-4) var(--space-4);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+.dialogue__corps > p { margin: 0; color: var(--color-text-muted); }
+.dialogue__corps strong { font-weight: 600; color: var(--color-text); }
+
+/* Objet visé par une confirmation : nommé en clair, dans un cadre neutre. */
+.dialogue__objet {
+  display: grid;
+  gap: var(--space-1);
+  margin: 0;
+  padding: var(--space-3);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius);
+  background: var(--color-surface-2);
+}
+.dialogue__objet dt { font-size: var(--step--1); color: var(--color-text-muted); }
+.dialogue__objet dd { margin: 0; font-weight: 600; overflow-wrap: anywhere; }
+
+.dialogue__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-3);
+  justify-content: flex-end;
+  margin: 0;
+  padding: var(--space-3) var(--space-4) var(--space-4);
+  border-top: 1px solid var(--color-line);
+}
+/* Formulaire en dialogue : le form englobe corps et actions. */
+.dialogue__form {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  min-height: 0;
+  margin: 0;
+}
+
+/* Liste d'actions (feuille du bas) : une ligne pleine largeur par action. */
+.dialogue__liste {
+  display: grid;
+  list-style: none;
+  margin: 0 calc(var(--space-2) * -1);
+  padding: 0;
+}
+.dialogue__action {
+  display: flex;
+  gap: var(--space-3);
+  align-items: center;
+  width: 100%;
+  min-height: var(--target);
+  padding: var(--space-2);
+  border: 0;
+  border-radius: var(--radius);
+  font: 500 var(--step-0) / 1.3 var(--font-ui);
+  text-align: start;
+  text-decoration: none;
+  color: var(--color-text);
+  background: transparent;
+  transition: background-color var(--duration-fast) var(--ease);
+  cursor: pointer;
+}
+.dialogue__action:hover { background: var(--color-surface-2); }
+.dialogue__action:focus-visible { outline: var(--focus-largeur) solid var(--color-focus); outline-offset: calc(var(--focus-ecart) * -1); }
+.dialogue__action svg { flex: none; width: 1.25rem; height: 1.25rem; color: var(--color-text-muted); }
+.dialogue__action--danger,
+.dialogue__action--danger svg { color: var(--color-danger); }
+
+/* Entrée et sortie : opacité et léger glissement, coupés en mouvement réduit. */
+.dialogue,
+.dialogue::backdrop {
+  transition:
+    opacity var(--duration-base) var(--ease),
+    transform var(--duration-base) var(--ease),
+    overlay var(--duration-base) allow-discrete,
+    display var(--duration-base) allow-discrete;
+}
+dialog.dialogue:not([open]) { opacity: 0; transform: translateY(1rem) scale(0.98); }
+dialog.dialogue:not([open])::backdrop { opacity: 0; }
+@starting-style {
+  .dialogue[open] { opacity: 0; transform: translateY(1rem) scale(0.98); }
+  .dialogue[open]::backdrop { opacity: 0; }
+}
+
+/* Feuille du bas au téléphone : ancrée en bas, pleine largeur, coins hauts arrondis, zone sûre respectée. */
+@media (max-width: 40em) {
+  .dialogue--feuille {
+    width: 100%;
+    max-width: 100%;
+    max-height: 90dvh;
+    margin: auto 0 0;
+    padding-bottom: env(safe-area-inset-bottom);
+    border-width: 1px 0 0;
+    border-radius: var(--radius-grand) var(--radius-grand) 0 0;
+  }
+  dialog.dialogue--feuille:not([open]) { transform: translateY(100%); }
+  @starting-style {
+    .dialogue--feuille[open] { transform: translateY(100%); }
+  }
+  /* Actions empilées pleine largeur, dans l'ordre du code (Annuler puis l'action, près du pouce). */
+  .dialogue__actions { flex-direction: column; }
+  .dialogue__actions > * { width: 100%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dialogue,
+  .dialogue::backdrop,
+  .dialogue__fermer,
+  .dialogue__action { transition: none; }
+}
+
+/* ---------- composants/alertes ---------- */
+/* Alertes : bandeaux info, succès, attention, erreur. Fond teinté, contour complet de 1 px, icône, titre, texte, action.
+   Jamais de bordure gauche : le niveau se lit à l'icône, à la teinte et au texte (préfixe masqué « Information : »…).
+   Une seule variable par ton (--alerte-ton) ; fond et contour en sont dérivés. */
+
+.alerte {
+  --alerte-ton: var(--color-info);
+  --alerte-fond: var(--color-info-soft);
+  --alerte-contour: color-mix(in srgb, var(--alerte-ton) 45%, transparent);
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: var(--space-3);
+  align-items: start;
+  max-width: var(--measure);
+  margin: 0;
+  padding: var(--space-3) clamp(var(--space-3), 0.5rem + 2vw, var(--space-4));
+  border: 1px solid var(--alerte-contour);
+  border-radius: var(--radius);
+  font: 400 var(--step-0) / 1.5 var(--font-ui);
+  color: var(--color-text);
+  background: var(--alerte-fond);
+}
+.alerte[hidden] { display: none; }
+/* Sans bouton fermer : deux colonnes, le texte va jusqu'au bord. */
+.alerte:not(:has(.alerte__fermer:not([hidden]))) { grid-template-columns: auto minmax(0, 1fr); }
+
+.alerte--succes { --alerte-ton: var(--color-success); --alerte-fond: var(--color-success-soft); }
+.alerte--attention { --alerte-ton: var(--color-warning); --alerte-fond: var(--color-warning-soft); }
+.alerte--erreur { --alerte-ton: var(--color-danger); --alerte-fond: var(--color-danger-soft); }
+
+/* Icône alignée sur la première ligne du titre. */
+.alerte__icone {
+  width: 1.5rem;
+  height: 1.5rem;
+  margin-top: calc((1.5em - 1.5rem) / 2);
+  color: var(--alerte-ton);
+}
+
+.alerte__corps { display: grid; gap: var(--space-1); min-width: 0; }
+.alerte__corps > * { margin: 0; }
+.alerte__titre { font-size: inherit; font-weight: 600; line-height: 1.5; text-wrap: pretty; }
+.alerte__texte { font-size: var(--step--1); line-height: 1.55; color: var(--color-text); }
+.alerte__texte + .alerte__texte { margin-top: var(--space-1); }
+
+/* Liste de liens (récapitulatif d'erreurs d'un formulaire). */
+.alerte__liste { display: grid; gap: var(--space-1); padding-inline-start: 1.25em; font-size: var(--step--1); }
+
+.alerte__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-4);
+  align-items: center;
+  margin-top: var(--space-2);
+}
+
+/* Lien d'action : couleur du texte, soulignement à la teinte du niveau. */
+.alerte__lien {
+  font-size: var(--step--1);
+  font-weight: 600;
+  text-decoration: underline;
+  text-decoration-color: var(--alerte-ton);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.25em;
+  color: var(--color-text);
+  transition: text-decoration-thickness var(--duration-fast) var(--ease);
+}
+.alerte__lien:hover { text-decoration-thickness: var(--filet-fort); }
+.alerte__lien:focus-visible { border-radius: var(--radius-small); outline: var(--focus-largeur) solid var(--color-focus); outline-offset: var(--focus-ecart); }
+
+/* Bouton d'action secondaire, propre à l'alerte (hauteur des contrôles de la boîte). */
+.alerte__bouton {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--target);
+  padding: 0 var(--space-3);
+  border: 1px solid var(--alerte-contour);
+  border-radius: var(--radius);
+  font: 600 var(--step--1) / 1.2 var(--font-ui);
+  color: var(--color-text);
+  background: transparent;
+  transition: background-color var(--duration-fast) var(--ease), border-color var(--duration-fast) var(--ease);
+  cursor: pointer;
+}
+.alerte__bouton:hover { border-color: var(--alerte-ton); background: var(--alerte-fond); }
+.alerte__bouton:focus-visible { outline: var(--focus-largeur) solid var(--color-focus); outline-offset: var(--focus-ecart); }
+
+/* Fermer : cible de 44 px, calée dans le coin sans agrandir l'alerte. */
+.alerte__fermer {
+  display: grid;
+  place-items: center;
+  width: var(--target);
+  height: var(--target);
+  margin: calc(var(--space-2) * -1) calc(var(--space-3) * -1) calc(var(--space-2) * -1) 0;
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius);
+  color: var(--color-text-muted);
+  background: transparent;
+  transition: color var(--duration-fast) var(--ease), background-color var(--duration-fast) var(--ease);
+  cursor: pointer;
+}
+.alerte__fermer:hover { color: var(--color-text); background: var(--alerte-fond); }
+.alerte__fermer:focus-visible { outline: var(--focus-largeur) solid var(--color-focus); outline-offset: calc(var(--focus-ecart) * -1); }
+.alerte__fermer[hidden] { display: none; }
+.alerte__fermer svg { width: 1.25rem; height: 1.25rem; }
+
+/* Compacte : une ligne de texte, sans titre (rappel dans un formulaire, une carte). */
+.alerte--compacte { gap: var(--space-2); padding: var(--space-2) var(--space-3); }
+.alerte--compacte .alerte__icone { width: 1.25rem; height: 1.25rem; margin-top: calc((var(--step--1) * 1.55 - 1.25rem) / 2); }
+
+/* Bandeau de page : pleine largeur, sans rayon, filets haut et bas seulement. */
+.alerte--bandeau {
+  max-width: none;
+  border-width: 1px 0;
+  border-radius: 0;
+}
+
+/* Récapitulatif d'erreurs : reçoit le focus à l'envoi (tabindex="-1"). */
+.alerte:focus-visible { outline: var(--focus-largeur) solid var(--color-focus); outline-offset: var(--focus-ecart); }
+
+/* Aussi dans gabarits/socle-css. */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  white-space: nowrap;
+  clip-path: inset(50%);
+  overflow: hidden;
+}
+
+/* Succès qui disparaît seul (script.js) : fondu court, coupé si le mouvement est réduit. */
+@media (prefers-reduced-motion: no-preference) {
+  .alerte { transition: opacity var(--duration-fast) var(--ease), transform var(--duration-fast) var(--ease); }
+  .alerte--sortie { opacity: 0; transform: translateY(calc(var(--space-1) * -1)); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .alerte__lien, .alerte__bouton, .alerte__fermer { transition: none; }
+}

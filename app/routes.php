@@ -15,5 +15,14 @@ require __DIR__ . '/Admin/routes-auth.php';
 (require __DIR__ . '/Admin/routes-tableau-de-bord.php')($router);
 (require __DIR__ . '/Admin/routes-comptes.php')($router);
 (require __DIR__ . '/Admin/routes-journal.php')($router);
+(require __DIR__ . '/Agenda/routes-admin.php')($router);
+(require __DIR__ . '/Actualites/routes-admin.php')($router);
+(require __DIR__ . '/Galerie/routes-admin.php')($router);
+$router->get(App\Admin\Admin::url('lieux/export'), [App\Admin\Exports::class, 'lieux']);
+$router->get(App\Admin\Admin::url('agenda/export'), [App\Admin\Exports::class, 'agenda']);
+(require __DIR__ . '/Sauvegarde/routes.php')($router);
+(require __DIR__ . '/Session/routes.php')($router);
+// Rubriques des contenus, après les routes fixes de l'administration (crud-declaratif : boucle sur config/ressources.php).
+(require __DIR__ . '/Admin/routes-ressources.php')($router);
 
 return $router;

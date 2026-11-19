@@ -1,0 +1,46 @@
+/* Export tableur : menu Exporter (primitive .adm-menu de gabarits/admin-coquille, .btn de composants/bouton)
+   et aperçu du classeur obtenu. À charger après la coquille. */
+
+/* Menu : deux choix décrits sur deux lignes, chevron qui pivote. */
+.exp-menu .adm-menu__panneau { min-width: min(18rem, calc(100vw - var(--gutter) * 2)); }
+.exp-menu__chevron { transition: transform var(--duration-fast) var(--ease); }
+.exp-menu[open] .exp-menu__chevron { transform: rotate(180deg); }
+.exp-choix { min-height: calc(var(--target) + var(--space-3)); padding-block: var(--space-1); }
+.exp-choix__textes { display: grid; gap: 0; line-height: 1.35; }
+.exp-choix__nom { font-weight: 600; }
+.exp-choix__aide { font-size: var(--step--2); color: var(--color-text-muted); }
+/* Sous 40 em, les actions passent sous le titre et Exporter est à gauche : le panneau s'ouvre vers la droite. */
+@media (max-width: 40em) {
+  .exp-menu .adm-menu__panneau { right: auto; left: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .exp-menu__chevron { transition: none; }
+}
+
+/* Aperçu du classeur : grille de tableur (lettres de colonnes, numéros de lignes, en-tête en gras). */
+.exp-classeur { min-width: 0; }
+.exp-classeur .adm-carte__entete { flex-wrap: wrap; gap: var(--space-1) var(--space-3); }
+.exp-classeur .adm-carte__titre { font-family: var(--font-mono); font-weight: 400; overflow-wrap: anywhere; }
+.exp-feuille-cadre { margin: var(--space-4); border: 1px solid var(--color-line-strong); border-radius: var(--radius-small); overflow-x: auto; }
+.exp-feuille-cadre:focus-visible { outline: var(--focus-largeur) solid var(--color-focus); outline-offset: var(--focus-ecart); }
+.exp-feuille { width: 100%; border-collapse: collapse; font-size: var(--step--1); white-space: nowrap; }
+.exp-feuille th, .exp-feuille td { padding: var(--space-1) var(--space-3); border: 1px solid var(--color-line); text-align: left; }
+.exp-feuille thead th, .exp-feuille tbody th, .exp-feuille__coin {
+  font: 400 var(--step--2) / 1.6 var(--font-mono);
+  text-align: center;
+  color: var(--color-text-muted);
+  background: var(--color-surface-2);
+}
+.exp-feuille tbody th { width: 2.5rem; }
+.exp-feuille tr:first-child > * { border-top: 0; }
+.exp-feuille tr:last-child > * { border-bottom: 0; }
+.exp-feuille tr > :first-child { border-left: 0; }
+.exp-feuille tr > :last-child { border-right: 0; }
+.exp-feuille__nombre { font-family: var(--font-mono); font-variant-numeric: tabular-nums; text-align: right; }
+.exp-feuille td.exp-feuille__nombre { text-align: right; }
+.exp-feuille__entete td { font-family: var(--font-ui); font-weight: 700; color: var(--color-text); background: var(--color-accent-soft); }
+.exp-feuille__entete > * { border-bottom: 1px solid var(--color-accent-line); }
+
+.exp-garanties { display: grid; gap: var(--space-2); list-style: none; margin: 0; padding: 0 var(--space-4) var(--space-4); font-size: var(--step--1); color: var(--color-text-muted); }
+.exp-garanties li { display: flex; align-items: flex-start; gap: var(--space-2); }
+.exp-garanties .adm-ico { flex: none; margin-top: 0.15em; color: var(--color-success); }

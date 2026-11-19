@@ -20,6 +20,19 @@ if (!empty($e['category']) && isset(Agenda::CATEGORIES[$e['category']])) {
 // Description dans le haut de page, sous la date et l'heure, avant l'ajout à l'agenda ou le prochain rendez-vous (demande
 // de Kouzia, 2026-11-17 : toute l'information de l'événement avant de proposer autre chose).
 $apres = !empty($e['description']) ? '<div class="page-head__description prose"' . langue_attr($e, 'description') . '>' . Texte::article((string) $e['description']) . '</div>' : '';
+// Liens de l'événement (inscription, sondage, document) : une adresse par ligne, repris de l'ancien site et saisis au
+// tableau de bord ; même présentation que les liens d'un article. Adresses web seulement (http, https).
+$liensEvenement = array_values(array_filter(preg_split('/\s+/', trim((string) ($e['links'] ?? ''))) ?: [], static fn (string $u): bool => preg_match('#^https?://[^\s/]+\.[^\s/]+#i', $u) === 1));
+if ($liensEvenement !== []) {
+    $sites = (array) \App\Site\Site::get('noms_sites', []);
+    $fleche = '<svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" focusable="false"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+    $apres .= '<section class="article__liens evenement__liens" aria-labelledby="liens-evenement-titre"><h2 id="liens-evenement-titre">' . e(t('actualites.liens')) . '</h2><ul class="article__liens-liste">';
+    foreach ($liensEvenement as $u) {
+        $hote = (string) preg_replace('/^www\./', '', (string) parse_url($u, PHP_URL_HOST));
+        $apres .= '<li><a class="article__lien" href="' . e($u) . '" rel="noopener"><span class="article__lien-site">' . e((string) ($sites[$hote] ?? $hote)) . '</span><span class="article__lien-texte">' . e(t('actualites.lien_ouvrir')) . ' · ' . e(t('actualites.site_exterieur')) . '</span>' . $fleche . '</a></li>';
+    }
+    $apres .= '</ul></section>';
+}
 if ($aVenir) {
     $liens = Ics::liens($e);
     ob_start();

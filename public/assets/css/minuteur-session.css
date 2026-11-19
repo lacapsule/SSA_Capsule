@@ -1,0 +1,57 @@
+/* Minuteur de session : avertissement avant expiration dans un dialogue natif (composants/dialogue pour le cadre,
+   composants/bouton pour les actions), état expiré, saisie remise, message sur la page de connexion (composants/alertes).
+   À copier en public/assets/css/minuteur.css. Tokens de base/tokens.css uniquement. */
+
+.minuteur__dialogue { width: 30rem; }
+
+/* Décompte : grand, en chiffres à chasse fixe, décoratif (le texte du dialogue dit la même chose). */
+.minuteur__compte {
+  display: flex;
+  gap: var(--space-3);
+  align-items: center;
+  justify-self: start;
+  padding: var(--space-2) var(--space-4) var(--space-2) var(--space-3);
+  border: 1px solid var(--color-accent-line);
+  border-radius: var(--radius-pill);
+  font: 400 var(--step-2) / 1 var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  color: var(--color-accent);
+  background: var(--color-accent-soft);
+}
+.minuteur__compte svg {
+  flex: none;
+  width: 1em;
+  height: 1em;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.75;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.minuteur__dialogue[data-etat="absolue"] .minuteur__compte { border-color: var(--color-warning); color: var(--color-warning); background: var(--color-warning-soft); }
+.minuteur__dialogue[data-etat="expiree"] .minuteur__compte { border-color: var(--color-line-strong); color: var(--color-text-muted); background: var(--color-surface-2); }
+.minuteur__dialogue strong { font-variant-numeric: tabular-nums; white-space: nowrap; }
+
+.minuteur__erreur {
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--color-danger);
+  border-radius: var(--radius-small);
+  font-size: var(--step--1);
+  color: var(--color-danger);
+  background: var(--color-danger-soft);
+}
+.minuteur [hidden] { display: none; }
+
+/* Saisie remise après reconnexion, en tête du formulaire. */
+.minuteur-restaure {
+  margin: 0 0 var(--space-3);
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--color-info);
+  border-radius: var(--radius-small);
+  font-size: var(--step--1);
+  color: var(--color-text);
+  background: var(--color-info-soft);
+}
+
+/* Message sur la page de connexion. */
+.minuteur-avis { margin-bottom: var(--space-4); }

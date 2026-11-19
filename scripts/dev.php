@@ -99,7 +99,8 @@ function serve(string $root, array $options): int
     $url = "http://$host:$port/";
     fwrite(STDOUT, PHP_EOL . '  Serveur de développement' . PHP_EOL . "  Adresse : $url" . PHP_EOL);
     fwrite(STDOUT, '  E-mails : data/mail.log (sans serveur d\'envoi réglé)' . PHP_EOL . '  Arrêt   : Ctrl+C' . PHP_EOL . PHP_EOL);
-    $cmd = escapeshellarg(PHP_BINARY) . extensionFlags(LOADABLE) . ' -S ' . escapeshellarg("$host:$port")
+    // Tailles d'envoi du tableau de bord, comme en production (public/.user.ini, que le serveur intégré ne lit pas).
+    $cmd = escapeshellarg(PHP_BINARY) . extensionFlags(LOADABLE) . ' -d upload_max_filesize=64M -d post_max_size=200M -d max_file_uploads=40 -S ' . escapeshellarg("$host:$port")
         . ' -t ' . escapeshellarg("$root/public") . ' ' . escapeshellarg("$root/public/router.php");
     passthru($cmd, $code);
     return $code;

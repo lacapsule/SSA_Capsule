@@ -162,12 +162,21 @@ $bilan = Db::transaction(static function () use ($contenus, $tables, $maintenant
     $sitesCorriges = [
         'Pôle ESS Pays de Morlaix' => 'https://ess29.org/', // 2026-11-16 : l'Adess 29 est devenue ESS Finistère
     ];
+    // Structures porteuses : nom complet, rôle et ordre affichés sur l'accueil et la page Projet (textes de la page
+    // Qui sommes-nous de l'ancien site), rangés dans la table que modifie le tableau de bord (2026-11-19).
+    $structures = [
+        '/media/partenaires/20251211-083116-1.webp' => [1, 'L\'ULAMIR-CPIE', 'Centre social et centre d\'éducation à l\'environnement.'],
+        '/media/partenaires/resam.webp' => [2, 'Le Résam', 'Maison des associations du Pays de Morlaix.'],
+        '/media/partenaires/buzuk.webp' => [3, 'Le Buzuk', 'Porteuse de la monnaie locale.'],
+        '/media/partenaires/ess.webp' => [4, 'L\'Adess du Pays de Morlaix', 'Pôle ESS du Pays de Morlaix.'],
+    ];
     foreach (['partenaire' => $contenus['partenaires'], 'financeur' => $contenus['financeurs']] as $groupe => $logos) {
         foreach ($logos as $pos => $l) {
             $l['url'] = $sitesCorriges[$l['nom']] ?? $l['url'];
             $r = $recadres[basename($l['logo'])] ?? null;
             $chemin = $r ? copierFichier(SOURCE . '/logos-recadres/' . $r['fichier'], 'partenaires') : copier($l['logo'], 'partenaires');
-            Db::run('INSERT INTO partenaires (nom, url, logo, groupe, position, hauteur_rem) VALUES (?, ?, ?, ?, ?, ?)', [$l['nom'], $l['url'], $chemin, $groupe, $pos, $r['hauteurRem'] ?? null]);
+            [$rang, $nom, $role] = $structures[$chemin] ?? [$pos, $l['nom'], null];
+            Db::run('INSERT INTO partenaires (nom, url, logo, groupe, position, hauteur_rem, description) VALUES (?, ?, ?, ?, ?, ?, ?)', [$nom, $l['url'], $chemin, $groupe, $rang, $r['hauteurRem'] ?? null, $role]);
         }
     }
 

@@ -977,6 +977,8 @@ html:not(.js) .lieux-explorer--page .lieux-panneau { display: grid; }
 .page-head__date strong { font: 800 clamp(2.5rem, 2rem + 2vw, 3.5rem) / 1 var(--font-titres); }
 .page-head__date span { margin-top: var(--space-1); font-size: var(--step--1); font-weight: 700; text-transform: uppercase; }
 .page-head__description { max-width: 40rem; margin-top: var(--space-4); }
+/* Liens d'un événement (inscription, sondage) sous sa description. */
+.page-head .evenement__liens { max-width: 38rem; margin-top: var(--space-4); padding-top: var(--space-3); }
 .page-head__description .article__attaque { font-size: var(--step-0); font-weight: 400; color: var(--color-text); }
 /* Lieu seul : adresse et itinéraire sur une ligne, la carte en bandeau dessous (aucun vide à côté de l'adresse). */
 .ajout-agenda { max-width: 38rem; margin-top: var(--space-4); padding: var(--space-4); border: 1px solid var(--filet); border-radius: var(--radius-grand); background: var(--color-surface); }

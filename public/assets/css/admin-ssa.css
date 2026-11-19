@@ -15,3 +15,23 @@
 .cnx-carte__titre:focus:not(:focus-visible) { outline: none; }
 /* Lien dans un message (rappel de la double authentification) : couleur du texte du message, souligné, en gras. */
 .adm-alerte__texte a { font-weight: 700; text-decoration: underline; text-underline-offset: 0.2em; color: inherit; }
+
+/* Fiche d'un article : photos supplémentaires (vignette, description, retrait), vidéo actuelle, lignes de liens. */
+.ssa-medias { display: grid; gap: var(--space-3); list-style: none; margin: 0 0 var(--space-4); padding: 0; }
+.ssa-medias__photo { display: grid; grid-template-columns: 10rem minmax(0, 1fr); align-items: start; gap: var(--space-2) var(--space-3); }
+.ssa-medias__photo img, .ssa-medias__video img { width: 10rem; height: 7.5rem; border-radius: var(--radius); object-fit: cover; }
+.ssa-medias__photo img { grid-row: span 2; }
+.ssa-medias__video { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-3); margin: 0 0 var(--space-2); }
+.ssa-lien { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr); gap: var(--space-3); margin: 0 0 var(--space-3); padding: 0; border: 0; }
+@media (max-width: 40rem) {
+  .ssa-medias__photo, .ssa-lien { grid-template-columns: minmax(0, 1fr); }
+  .ssa-medias__photo img { grid-row: auto; }
+}
+
+/* Galerie : grille des photos (vignette, description, retrait, flèches), enregistrement en bas, toujours visible. */
+.ssa-galerie { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 15rem), 1fr)); gap: var(--space-4); list-style: none; margin: var(--space-4) 0; padding: 0; }
+.ssa-galerie__photo { display: grid; align-content: start; gap: var(--space-2); padding: var(--space-3); border: 1px solid var(--color-line); border-radius: var(--radius); background: var(--color-surface); scroll-margin-top: var(--space-6); }
+.ssa-galerie__photo img { width: 100%; height: auto; aspect-ratio: 4 / 3; border-radius: var(--radius-small); object-fit: cover; }
+.ssa-galerie__actions { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: var(--space-2); }
+.ssa-galerie__fleches { display: flex; gap: var(--space-1); margin-left: auto; }
+.ssa-galerie__pied { position: sticky; bottom: 0; padding: var(--space-3) 0; background: var(--color-bg); }

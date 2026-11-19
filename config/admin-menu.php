@@ -12,9 +12,17 @@ return [
     ['groupe' => '', 'entrees' => [
         ['url' => '/admin/', 'libelle' => 'Tableau de bord', 'court' => 'Accueil', 'icone' => 'accueil', 'bas' => true],
     ]],
+    ['groupe' => 'Contenus', 'entrees' => [
+        ['url' => '/admin/actualites/', 'libelle' => 'Actualités', 'icone' => 'actualites', 'bas' => true],
+        ['url' => '/admin/agenda/', 'libelle' => 'Agenda', 'icone' => 'evenements', 'bas' => true],
+        ['url' => '/admin/galerie/', 'libelle' => 'Galerie', 'icone' => 'medias', 'bas' => true],
+        ['url' => '/admin/partenaires', 'libelle' => 'Partenaires et financeurs', 'court' => 'Partenaires', 'icone' => 'liens'],
+        ['url' => '/admin/lieux', 'libelle' => 'Lieux conventionnés', 'court' => 'Lieux', 'icone' => 'lieu'],
+    ]],
     ['groupe' => 'Réglages', 'entrees' => [
-        ['url' => '/admin/securite/', 'libelle' => 'Sécurité du compte', 'court' => 'Sécurité', 'icone' => 'cle', 'bas' => true],
+        ['url' => '/admin/securite/', 'libelle' => 'Sécurité du compte', 'court' => 'Sécurité', 'icone' => 'cle'],
         ['url' => '/admin/comptes/', 'libelle' => 'Comptes', 'icone' => 'comptes', 'role' => 'admin'],
         ['url' => '/admin/journal/', 'libelle' => 'Journal', 'icone' => 'journal', 'role' => 'admin'],
+        ['url' => '/admin/sauvegardes/', 'libelle' => 'Sauvegardes', 'icone' => 'dossier', 'role' => 'admin'],
     ]],
 ];

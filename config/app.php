@@ -57,6 +57,11 @@ return [
 
     'langues' => require __DIR__ . '/langues.php',
 
+    // Sauvegardes chiffrées de la base (modules/sauvegarde-chiffree) et minuteur de session du back-office
+    // (composants/minuteur-session).
+    'sauvegarde' => require __DIR__ . '/sauvegarde.php',
+    'session_minuteur' => require __DIR__ . '/session-minuteur.php',
+
     // Réglages des modules : un fichier par module, inclus ici, lus par config('contact.destinataire').
     // 'contact' => require __DIR__ . '/contact.php',
 ];

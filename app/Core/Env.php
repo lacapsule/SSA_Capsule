@@ -10,7 +10,7 @@ namespace App\Core;
 final class Env
 {
     /** Variables reprises de l'environnement du processus même absentes du .env. Ajouter ici celles du projet. */
-    private const KEYS = ['APP_ENV', 'APP_URL', 'APP_KEY', 'DB_DSN', 'DB_USER', 'DB_PASSWORD', 'MAIL_CATCHER'];
+    private const KEYS = ['APP_ENV', 'APP_URL', 'APP_KEY', 'DB_DSN', 'DB_USER', 'DB_PASSWORD', 'MAIL_CATCHER', 'BACKUP_KEY', 'BACKUP_REMOTE'];
 
     public static function load(string $file): void
     {

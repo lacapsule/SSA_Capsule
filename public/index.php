@@ -47,6 +47,8 @@ if ($method === 'GET' || $method === 'HEAD') {
 App\Core\Headers::send($path);
 
 try {
+    // Minuteur de session du back-office (composants/minuteur-session) : une session échue est vidée avant la route.
+    App\Session\Minuteur::surveiller($path);
     $router->dispatch($method, $path);
 } catch (App\Core\HttpException $e) {
     // Redirection telle quelle ; 404 public dans la mise en page du site ; autres statuts : page d'erreur du socle.
