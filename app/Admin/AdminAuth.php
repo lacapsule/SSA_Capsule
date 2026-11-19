@@ -135,12 +135,14 @@ final class AdminAuth
     }
 
     /**
-     * Poste de développement : APP_ENV=local, serveur intégré de PHP (php -S, jamais PHP-FPM ni LiteSpeed en
-     * production) et requête venue du poste lui-même. Les trois à la fois, sinon double authentification normale.
+     * Poste de développement : serveur intégré de PHP (php -S de make dev, jamais PHP-FPM ni LiteSpeed en production),
+     * requête venue du poste lui-même, et APP_ENV local ou non réglé (un serveur lancé avant que make dev ne pose
+     * APP_ENV=local reste ainsi un poste de développement). Toutes à la fois, sinon double authentification normale.
      */
     private static function developpementLocal(): bool
     {
-        return is_local() && PHP_SAPI === 'cli-server'
+        $env = (string) ($_ENV['APP_ENV'] ?? getenv('APP_ENV') ?: '');
+        return PHP_SAPI === 'cli-server' && in_array($env, ['', 'local'], true)
             && in_array((string) ($_SERVER['REMOTE_ADDR'] ?? ''), ['127.0.0.1', '::1'], true);
     }
 
