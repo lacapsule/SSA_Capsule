@@ -48,6 +48,11 @@ export const ECHELLE = `  --radius-pill: 999px;
  * tokens.css d'une piste : polices, couleurs claires par défaut, sombres selon la préférence du système ou data-theme.
  * baseFichiers : adresse du dossier des polices vu par la feuille (livrable, ou /polices une fois posée dans le site).
  */
+/** Réglages de charte propres au projet (docs/source/charte-reglages.json, facultatif) : { teinteSombre, fondsSombres }. */
+export function reglagesCharte() {
+  try { return JSON.parse(readFileSync(path.join(process.cwd(), 'docs/source/charte-reglages.json'), 'utf8')); } catch { return {}; }
+}
+
 export function tokensCss(piste, baseFichiers) {
   const lignes = (t) => Object.entries(t).map(([k, v]) => `  ${k}: ${v};`).join('\n');
   const faces = [piste.titres, piste.texte].filter((p) => p?.telechargee).map((p) => fontFace(p.telechargee, baseFichiers));
@@ -183,7 +188,7 @@ ${(id.univers ?? []).length ? `<h2>Univers</h2>
 
   for (const p of pistes) {
     p.clair = jeuCouleurs({ primaire: p.primaire, accent: p.accent, secondaire: p.secondaire, fond: p.fond, sombre: false, style: p.style });
-    p.sombre = jeuCouleurs({ primaire: p.primaire, accent: p.accent, secondaire: p.secondaire, sombre: true, style: p.style });
+    p.sombre = jeuCouleurs({ primaire: p.primaire, accent: p.accent, secondaire: p.secondaire, sombre: true, style: p.style, teinteSombre: reglagesCharte().teinteSombre, fondsSombres: reglagesCharte().fondsSombres });
     const verif = [...verifierJeu(p.clair), ...verifierJeu(p.sombre)];
     const echecs = verif.filter((v) => !v.ok);
     if (echecs.length) avert.push(`Piste ${p.numero} : ${echecs.length} contraste(s) insuffisant(s) (${echecs.slice(0, 3).map((e) => `${e.avant} sur ${e.fond} ${ratio(e.ratio)}:1`).join(', ')}).`);

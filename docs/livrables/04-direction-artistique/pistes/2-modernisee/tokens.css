@@ -63,31 +63,31 @@
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --color-bg: #0a1018;
-    --color-surface: #121923;
-    --color-surface-2: #1b222d;
+    --color-bg: #162236;
+    --color-surface: #202e45;
+    --color-surface-2: #162236;
     --color-text: #ebeff5;
     --color-text-muted: #a7aebb;
-    --color-line: #282e38;
-    --color-line-strong: #414853;
+    --color-line: #2e3b51;
+    --color-line-strong: #48566d;
     --color-border: #6b727e;
     --color-accent: #43c466;
     --color-accent-strong: #61de7f;
-    --color-accent-soft: #182e2b;
+    --color-accent-soft: #244049;
     --color-accent-text: #070b14;
     --color-focus: #43c466;
     --color-marque: #364a6b;
-    --color-marque-sur-fond: #738bb0;
+    --color-marque-sur-fond: #a4bbe1;
     --color-marque-texte: #ffffff;
-    --color-marque-2: #d38e00;
+    --color-marque-2: #fdb544;
     --color-marque-2-texte: #070b14;
     --color-danger: #ff968a;
     --color-success: #67d283;
     --color-warning: #f4a437;
     --color-info: #8db8ff;
-    --color-entete-fond: #0a1018;
+    --color-entete-fond: #162236;
     --color-entete-texte: #ebeff5;
-    --color-heros-fond: #182e2b;
+    --color-heros-fond: #244049;
     --color-heros-texte: #ebeff5;
     --color-entete-accent: #43c466;
     --color-heros-accent: #43c466;
@@ -96,31 +96,31 @@
 }
 
 :root[data-theme="dark"] {
-  --color-bg: #0a1018;
-  --color-surface: #121923;
-  --color-surface-2: #1b222d;
+  --color-bg: #162236;
+  --color-surface: #202e45;
+  --color-surface-2: #162236;
   --color-text: #ebeff5;
   --color-text-muted: #a7aebb;
-  --color-line: #282e38;
-  --color-line-strong: #414853;
+  --color-line: #2e3b51;
+  --color-line-strong: #48566d;
   --color-border: #6b727e;
   --color-accent: #43c466;
   --color-accent-strong: #61de7f;
-  --color-accent-soft: #182e2b;
+  --color-accent-soft: #244049;
   --color-accent-text: #070b14;
   --color-focus: #43c466;
   --color-marque: #364a6b;
-  --color-marque-sur-fond: #738bb0;
+  --color-marque-sur-fond: #a4bbe1;
   --color-marque-texte: #ffffff;
-  --color-marque-2: #d38e00;
+  --color-marque-2: #fdb544;
   --color-marque-2-texte: #070b14;
   --color-danger: #ff968a;
   --color-success: #67d283;
   --color-warning: #f4a437;
   --color-info: #8db8ff;
-  --color-entete-fond: #0a1018;
+  --color-entete-fond: #162236;
   --color-entete-texte: #ebeff5;
-  --color-heros-fond: #182e2b;
+  --color-heros-fond: #244049;
   --color-heros-texte: #ebeff5;
   --color-entete-accent: #43c466;
   --color-heros-accent: #43c466;

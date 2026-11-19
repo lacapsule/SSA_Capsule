@@ -120,12 +120,16 @@ export function couleursDeMarque(identite) {
 }
 
 /**
- * Jeu de tokens couleur d'un thème. options : { primaire, accent, fond (clair) , sombre (bool), teinteNeutre }.
+ * Jeu de tokens couleur d'un thème. options : { primaire, accent, fond (clair) , sombre (bool), teinteSombre }.
+ * teinteSombre : chroma des fonds et filets du thème sombre, teintés de la couleur de marque (0,02 par défaut, presque
+ * gris ; plus haut, fonds sombres dans la teinte du client). fondsSombres : [[clarté, chroma] × 3] pour bg, surface et
+ * surface-2, à la place des valeurs dérivées (ex. un seul fond pour toute la page : bg et surface-2 identiques, cartes
+ * plus claires). Réglages d'un projet : docs/source/charte-reglages.json.
  * Tous les rôles reprennent les noms de base/tokens.css de la boîte, plus --color-marque (fond) et --color-marque-texte,
  * --color-marque-sur-fond (marque en texte, 4,5:1 sur chaque fond du thème),
  * et --color-marque-2 et --color-marque-2-texte quand une couleur de marque secondaire est connue (couleur telle quelle, en fond).
  */
-export function jeuCouleurs({ primaire, accent, fond, secondaire = null, sombre = false, style = 'neutre' }) {
+export function jeuCouleurs({ primaire, accent, fond, secondaire = null, sombre = false, style = 'neutre', teinteSombre = 0.02, fondsSombres = null }) {
   const teinte = primaire ?? accent ?? '#6b7280';
   const neutre = (l, c = 0.012) => varier(teinte, { l, c });
   const t = {};
@@ -139,13 +143,17 @@ export function jeuCouleurs({ primaire, accent, fond, secondaire = null, sombre 
     t['--color-line-strong'] = neutre(0.8, 0.015);
     t['--color-border'] = ajusterContraste(neutre(0.58, 0.02), t['--color-bg'], 3.1);
   } else {
-    t['--color-bg'] = neutre(0.17, 0.02);
-    t['--color-surface'] = neutre(0.21, 0.022);
-    t['--color-surface-2'] = neutre(0.25, 0.024);
+    const k = teinteSombre / 0.02; // les trois fonds gardent leur écart de teinte relatif
+    const [fb, fs, fs2] = fondsSombres ?? [[0.17, teinteSombre], [0.21, 0.022 * k], [0.25, 0.024 * k]];
+    t['--color-bg'] = neutre(fb[0], fb[1]);
+    t['--color-surface'] = neutre(fs[0], fs[1]);
+    t['--color-surface-2'] = neutre(fs2[0], fs2[1]);
     t['--color-text'] = neutre(0.95, 0.01);
     t['--color-text-muted'] = ajusterContraste(neutre(0.75, 0.02), t['--color-surface-2'], 4.6);
-    t['--color-line'] = neutre(0.3, 0.02);
-    t['--color-line-strong'] = neutre(0.4, 0.02);
+    // Filets au-dessus du fond le plus clair (0,30 et 0,40 avec les fonds par défaut).
+    const haut = Math.max(fb[0], fs[0], fs2[0]);
+    t['--color-line'] = neutre(haut + 0.05, teinteSombre);
+    t['--color-line-strong'] = neutre(haut + 0.15, teinteSombre);
     t['--color-border'] = ajusterContraste(neutre(0.55, 0.02), t['--color-bg'], 3.1);
   }
   const plusExigeant = (c, cible) => [t['--color-bg'], t['--color-surface'], t['--color-surface-2']].reduce((x, f) => ajusterContraste(x, f, cible), c);
@@ -156,13 +164,14 @@ export function jeuCouleurs({ primaire, accent, fond, secondaire = null, sombre 
   t['--color-accent-text'] = contraste('#ffffff', t['--color-accent']) >= contraste(neutre(0.15, 0.02), t['--color-accent']) ? '#ffffff' : neutre(0.15, 0.02);
   t['--color-focus'] = plusExigeant(acc, 3.1);
   t['--color-marque'] = primaire ?? acc;
-  // Marque en texte (titre, chiffre, mot mis en avant) : même teinte, clarté ajustée pour 4,5:1 sur les trois fonds du thème.
+  // Marque en texte (titre, chiffre, mot mis en avant) : même teinte, clarté ajustée pour 4,5:1 sur les trois fonds du thème
+  // clair, 7:1 en sombre (une marque foncée juste éclaircie à 4,5:1 y tourne au gris terne).
   // --color-marque reste une couleur de fond, identique dans les deux thèmes.
-  t['--color-marque-sur-fond'] = plusExigeant(primaire ?? acc, 4.6);
+  t['--color-marque-sur-fond'] = plusExigeant(primaire ?? acc, sombre ? 7 : 4.6);
   t['--color-marque-texte'] = contraste('#ffffff', t['--color-marque']) >= 4.5 ? '#ffffff' : contraste(neutre(0.15, 0.02), t['--color-marque']) >= 4.5 ? neutre(0.15, 0.02) : ajusterContraste('#ffffff', t['--color-marque'], 4.5);
   // Couleur secondaire gardée telle quelle (le client la reconnaît) : utilisée en fond, avec le texte qui y contraste.
   if (secondaire) {
-    t['--color-marque-2'] = sombre ? varier(secondaire, { l: Math.min(versOklch(secondaire).l, 0.7) }) : secondaire;
+    t['--color-marque-2'] = secondaire; // identique dans les deux thèmes : l'assombrir en sombre la rend méconnaissable (jaune devenu brun)
     const fonce = neutre(0.15, 0.02);
     t['--color-marque-2-texte'] = contraste(fonce, t['--color-marque-2']) >= contraste('#ffffff', t['--color-marque-2']) ? ajusterContraste(fonce, t['--color-marque-2'], 4.6) : ajusterContraste('#ffffff', t['--color-marque-2'], 4.6);
   }
