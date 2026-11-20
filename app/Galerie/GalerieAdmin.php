@@ -50,7 +50,7 @@ final class GalerieAdmin
             Db::run('INSERT INTO galerie_photos (path, alt, position, created_at) VALUES (?, ?, ?, ?)', [$r['path'], '', ++$position, now()]);
             $ajoutees++;
         }
-        Auth::log('galerie.envoi', $ajoutees . ' photo(s)');
+        Auth::log('galerie.envoi', $ajoutees . ($ajoutees > 1 ? ' photos ajoutées' : ' photo ajoutée'));
         $texte = $ajoutees . ' photo' . ($ajoutees > 1 ? 's ajoutées' : ' ajoutée') . ($auDebut ? ' au début de la galerie.' : ' à la fin de la galerie.')
             . ($ajoutees > 0 ? ' Décrivez maintenant chacune (ce qu\'elle montre), pour les personnes qui ne la voient pas.' : '');
         Session::flash($texte . ($refus !== [] ? ' Refusées : ' . implode(' ', $refus) : ''), $refus !== [] ? 'attention' : 'succes');
@@ -81,7 +81,7 @@ final class GalerieAdmin
                 Db::run('UPDATE galerie_photos SET alt = ? WHERE id = ?', [mb_substr(trim((string) $alts[$id]), 0, 250), $id]);
             }
         }
-        Auth::log('galerie.modification', $retirees . ' retirée(s)');
+        Auth::log('galerie.modification', $retirees . ($retirees > 1 ? ' photos retirées' : ' photo retirée'));
         Session::flash('Galerie enregistrée.' . ($retirees > 0 ? ' ' . $retirees . ' photo' . ($retirees > 1 ? 's retirées.' : ' retirée.') : '')
             . ($gardees > 0 ? ' Les photos de la mosaïque de l\'accueil sont gardées.' : ''), $gardees > 0 ? 'attention' : 'succes');
         throw HttpException::redirect(Admin::url('galerie/'));

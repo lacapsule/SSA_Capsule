@@ -153,6 +153,9 @@ $marque = static fn (string $classe = ''): string =>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="robots" content="noindex, nofollow">
 <title><?= e($titre) ?> · Administration <?= e($nomSite) ?></title>
+<script src="/assets/js/js-actif.js"></script>
+<link rel="preload" href="/assets/polices/source-sans-3/source-sans-3-400-700-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/polices/outfit/outfit-400-700-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/assets/css/tokens.css">
 <link rel="stylesheet" href="/assets/css/charte.css"><!-- charte du client (couleurs, polices), propre au projet -->
 <link rel="stylesheet" href="/assets/css/composants.css"><!-- bouton, pastille-statut, etat-vide-chargement, champ-mot-de-passe, centre-notifications -->

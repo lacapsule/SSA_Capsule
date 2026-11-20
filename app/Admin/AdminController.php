@@ -264,9 +264,7 @@ final class AdminController
             'admin' => $admin,
             'recoveryLeft' => AdminAuth::recoveryLeft((int) $admin['id']),
             'log' => Db::run('SELECT action, target, ip, created_at FROM admin_log WHERE admin_id = ? ORDER BY id DESC LIMIT 15', [$admin['id']])->fetchAll(),
-            'pwErrors' => Session::old('admin-pw'),
             'newCodes' => is_array($newCodes) ? $newCodes : null,
-            'flashes' => Session::takeFlashes(),
             'wide' => true,
         ], self::shellLayout());
     }
@@ -279,9 +277,6 @@ final class AdminController
             $_SESSION['admin_new_codes'] = AdminAuth::regenerateRecovery((int) $admin['id']);
             AdminAuth::log('codes-secours.regeneres');
             Session::flash('Nouveaux codes de secours créés : les anciens ne fonctionnent plus.');
-        } elseif ($action === 'password') {
-            $errors = AdminAuth::changePassword((int) $admin['id'], (string) ($_POST['current'] ?? ''), (string) ($_POST['new'] ?? ''), (string) ($_POST['confirm'] ?? ''));
-            $errors === [] ? Session::flash('Mot de passe changé. Vos autres sessions ouvertes sont fermées.') : Session::old('admin-pw', $errors);
         } elseif ($action === 'password-link') {
             $sent = !FormGuard::rateLimited('admin-reset', 5, 15) && self::mailResetLink((string) $admin['email']);
             Session::flash($sent
@@ -291,6 +286,6 @@ final class AdminController
             AdminAuth::startReenroll();
             redirect(self::url('double-authentification/'));
         }
-        redirect(self::url('securite/') . ($action === 'password' ? '#mot-de-passe' : ''));
+        redirect(self::url('securite/'));
     }
 }

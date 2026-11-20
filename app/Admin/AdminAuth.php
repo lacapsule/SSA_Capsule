@@ -256,35 +256,6 @@ final class AdminAuth
     }
 
     /**
-     * Changement depuis le back-office : les autres sessions de ce compte sont fermées, celle-ci reste ouverte.
-     * @return array<string, string> erreurs par champ (current, new, confirm), vide si le mot de passe est changé
-     */
-    public static function changePassword(int $adminId, string $current, string $new, string $confirm): array
-    {
-        if (FormGuard::rateLimited('admin-password', 5, 15)) {
-            return ['current' => 'Trop d\'essais. Réessayez dans un quart d\'heure.'];
-        }
-        $hash = (string) Db::run('SELECT password_hash FROM admins WHERE id = ?', [$adminId])->fetchColumn();
-        $errors = [];
-        if (!password_verify($current, $hash)) {
-            $errors['current'] = 'Mot de passe actuel incorrect.';
-        }
-        if (text_length($new) < self::MIN_PASSWORD) {
-            $errors['new'] = 'Au moins ' . self::MIN_PASSWORD . ' caractères.';
-        } elseif ($new !== $confirm) {
-            $errors['confirm'] = 'Les deux saisies ne correspondent pas.';
-        }
-        if ($errors !== []) {
-            return $errors;
-        }
-        $_SESSION['admin_pw'] = self::fingerprint(self::setPassword($adminId, $new));
-        Session::regenerate();
-        FormGuard::clear('admin-password');
-        self::log('mot-de-passe.change');
-        return [];
-    }
-
-    /**
      * Nouveau mot de passe sans l'ancien (script de secours sur le serveur) : toutes les sessions fermées, blocage levé.
      * Avec $resetTwoFactor : double authentification à enrôler de nouveau (téléphone perdu).
      */

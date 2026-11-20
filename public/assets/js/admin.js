@@ -5,6 +5,12 @@
 // Sans JavaScript, chaque écran reste utilisable (listes complètes, formulaires sur leur propre page, suppression sans
 // fenêtre de confirmation).
 document.documentElement.classList.add('js');
+let restaurerListes = false; // vrai pendant swapMain : les listes reprennent page, recherche et filtres (initFilters)
+// Retour sur la liste : depuis une fiche ouverte en page (adresse sous celle de la liste), ou après un envoi de
+// formulaire depuis cette même page (galerie). Un clic dans le menu ne pose pas de marque : la liste repart de la page 1.
+let envoiEnCours = false;
+try { envoiEnCours = sessionStorage.getItem('adm-envoi') === '1'; sessionStorage.removeItem('adm-envoi'); } catch { /* stockage indisponible */ }
+document.addEventListener('submit', (event) => { if (event.defaultPrevented) return; try { sessionStorage.setItem('adm-envoi', '1'); } catch { /* stockage indisponible */ } });
 
 function initAdmin() {
   initConfirm();
@@ -142,7 +148,9 @@ function initModal() {
     main.replaceChildren(...fresh.childNodes);
     const target = new URL(at);
     history.replaceState(null, '', target.pathname + target.search);
+    restaurerListes = true;
     enhance(main);
+    restaurerListes = false;
     window.scrollTo(0, y);
     const notice = main.querySelector('.adm-alerte');
     if (live && notice) live.textContent = notice.textContent.trim();
@@ -257,7 +265,18 @@ function initPreview() {
 // [data-filter-row]) portant data-f-<clé>, et [data-filter-empty]. La recherche porte sur le texte de la ligne.
 // Pagination : au-delà de data-per-page lignes (20 par défaut), les lignes retenues s'affichent par pages, avec une
 // barre Précédentes / Suivantes sous la liste ; sans script, toute la liste reste affichée.
+// Page, recherche et filtres de chaque liste gardés pour l'onglet du navigateur (sessionStorage, état d'interface léger) :
+// rendus après un enregistrement dans la fenêtre (restaurerListes, posé par swapMain) ou au retour d'une fiche
+// ouverte en page (adresse précédente sous celle de la liste) ; une liste ouverte depuis le menu repart de la page 1.
+function retourDeFiche() {
+  try {
+    const avant = new URL(document.referrer);
+    if (avant.origin !== location.origin || !avant.pathname.startsWith(location.pathname)) return false;
+    return avant.pathname !== location.pathname || envoiEnCours;
+  } catch { return false; }
+}
 function initFilters(root) {
+  const listes = [...document.querySelectorAll('[data-list]')];
   root.querySelectorAll('[data-list]').forEach((list) => {
     if (list.dataset.ready) return;
     list.dataset.ready = '1';
@@ -291,6 +310,10 @@ function initFilters(root) {
     const norm = (s) => s.toLocaleLowerCase('fr').normalize('NFD').replace(/[̀-ͯ]/g, '');
     const key = (name) => `f${name[0].toUpperCase()}${name.slice(1)}`;
     rows.forEach((row) => { row.dataset.text = norm(row.textContent); });
+    const cle = `adm-liste:${location.pathname}:${listes.indexOf(list)}`;
+    const garder = () => {
+      try { sessionStorage.setItem(cle, JSON.stringify({ page, q: q ? q.value : '', f: selects.map((x) => x.value) })); } catch { /* stockage indisponible */ }
+    };
     const apply = (keepPage = false) => {
       const term = q ? norm(q.value.trim()) : '';
       const hits = rows.filter((row) => (term === '' || row.dataset.text.includes(term))
@@ -312,6 +335,7 @@ function initFilters(root) {
       grids.forEach((grid) => { grid.hidden = active && !grid.querySelector('tbody tr:not([hidden]), [data-filter-row]:not([hidden])'); });
       const reset = bar.querySelector('[data-filter-reset]');
       if (reset) reset.hidden = !active;
+      garder();
     };
     const turn = (delta) => {
       page += delta;
@@ -328,7 +352,18 @@ function initFilters(root) {
       apply();
       (q || selects[0])?.focus();
     }));
-    apply();
+    let repris = null;
+    if (restaurerListes || retourDeFiche()) {
+      try { repris = JSON.parse(sessionStorage.getItem(cle) || 'null'); } catch { repris = null; }
+    }
+    if (repris) {
+      if (q && typeof repris.q === 'string') q.value = repris.q;
+      selects.forEach((x, i) => { if (Array.isArray(repris.f) && typeof repris.f[i] === 'string') x.value = repris.f[i]; });
+      page = Math.max(1, Number(repris.page) || 1);
+      apply(true);
+    } else {
+      apply();
+    }
   });
 }
 

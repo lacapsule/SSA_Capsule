@@ -37,9 +37,13 @@ $hasFile = array_filter($res['fields'], static fn (array $f): bool => in_array($
   <?php /* Publication, enregistrement et suppression à droite, comme les actualités et l'agenda (admin/edition/form). */ ?>
   <aside class="adm-colonnes__cote" aria-label="Publication et enregistrement">
     <section class="adm-carte adm-carte--simple adm-publier" aria-labelledby="publi-titre">
-      <h2 class="adm-carte__titre" id="publi-titre"><?= isset($side['is_published']) || $side === [] ? 'Publication' : 'Options' ?></h2>
+      <?php if ($side !== []): ?>
+      <h2 class="adm-carte__titre" id="publi-titre"><?= isset($side['is_published']) ? 'Publication' : 'Options' ?></h2>
       <?php $formulaire = $formId; foreach ($side as $name => $f) { $value = $values[$name] ?? ''; $error = $errors[$name] ?? null; require ROOT . '/templates/admin/partials/field.php'; } $formulaire = ''; ?>
-      <div class="adm-publier__actions">
+      <?php else: ?>
+      <h2 class="adm-masque" id="publi-titre">Enregistrement</h2>
+      <?php endif ?>
+      <div class="adm-publier__actions" data-modal-foot>
         <button class="btn" type="submit" form="<?= $formId ?>">Enregistrer</button>
         <a class="btn btn--neutre" href="/admin/<?= e($key) ?>" data-modal-close>Annuler</a>
       </div>

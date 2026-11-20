@@ -30,21 +30,21 @@ $pastille = static fn (string $ton, string $texte): string => '<span class="past
 $derniere = $sauvegardes[0] ?? null;
 $total = array_sum(array_column($sauvegardes, 'taille'));
 ?>
-<div class="adm-page svc">
-  <section class="adm-carte svc-carte" aria-labelledby="svc-titre">
-    <div class="adm-carte__entete svc-entete">
-      <div class="svc-entete__textes">
-        <h1 class="adm-carte__titre" id="svc-titre">Sauvegardes</h1>
-        <p class="svc-entete__aide">Chiffrées chaque nuit, gardées <?= (int) $retention[0] ?>&nbsp;jours puis une par mois pendant <?= (int) $retention[1] ?>&nbsp;mois.</p>
-      </div>
-      <?php if ($actions): ?>
-        <form class="svc-entete__action" method="post" action="<?= e(Admin::url('sauvegardes/lancer/')) ?>">
-          <?= Csrf::field('sauvegarde') ?>
-          <button class="btn" type="submit"><svg class="adm-ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20 12a8 8 0 1 1-2.34-5.66M20 4v4h-4"/></svg>Lancer maintenant</button>
-        </form>
-      <?php endif; ?>
-    </div>
-
+<?php /* En-tête de page comme les autres rubriques (2026-11-20) ; la carte garde l'état et la liste. */ ?>
+<header class="adm-entete-page">
+  <div class="adm-entete-page__textes">
+    <h1 class="adm-entete-page__titre">Sauvegardes</h1>
+    <p class="adm-entete-page__sous-titre">Chiffrées chaque nuit, gardées <?= (int) $retention[0] ?>&nbsp;jours puis une par mois pendant <?= (int) $retention[1] ?>&nbsp;mois.</p>
+  </div>
+  <?php if ($actions): ?>
+  <form class="adm-entete-page__actions" method="post" action="<?= e(Admin::url('sauvegardes/lancer/')) ?>">
+    <?= Csrf::field('sauvegarde') ?>
+    <button class="btn" type="submit"><svg class="adm-ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20 12a8 8 0 1 1-2.34-5.66M20 4v4h-4"/></svg>Lancer maintenant</button>
+  </form>
+  <?php endif; ?>
+</header>
+<div class="svc">
+  <section class="adm-carte svc-carte" aria-label="État et liste des sauvegardes">
     <?php if ($alertes !== []): ?>
       <div class="svc-alertes adm-pile">
         <?php foreach ($alertes as [$ton, $texte]): ?>
@@ -105,7 +105,7 @@ $total = array_sum(array_column($sauvegardes, 'taille'));
     <?php endif; ?>
 
     <div class="adm-carte__pied svc-pied">
-      <p class="svc-pied__texte"><?= count($sauvegardes) ?> sauvegarde(s), <?= e(Sauvegarde::tailleLisible($total)) ?>. La clé BACKUP_KEY est gardée hors du serveur ; aucun téléchargement par le web.</p>
+      <p class="svc-pied__texte"><?= count($sauvegardes) ?> sauvegarde<?= count($sauvegardes) > 1 ? 's' : '' ?>, <?= e(Sauvegarde::tailleLisible($total)) ?> en tout. La clé BACKUP_KEY est gardée hors du serveur ; aucun téléchargement par le web.</p>
       <?php if ($actions && $sauvegardes !== []): ?>
         <form method="post" action="<?= e(Admin::url('sauvegardes/verifier/')) ?>">
           <?= Csrf::field('sauvegarde') ?>

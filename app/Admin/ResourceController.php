@@ -84,7 +84,7 @@ final class ResourceController
         );
         Auth::log("$key.creation", self::name($values));
         Session::flash(ucfirst((string) $res['singular']) . ' ajouté' . self::agree($res) . '.' . self::$geoNote);
-        throw HttpException::redirect("/admin/$key");
+        throw HttpException::redirect(self::liste($key, $res, $values));
     }
 
     public static function edit(string $key, string $id): void
@@ -122,7 +122,7 @@ final class ResourceController
         }
         Auth::log("$key.modification", self::name($values + $row));
         Session::flash('Modifications enregistrées.' . self::$geoNote);
-        throw HttpException::redirect("/admin/$key");
+        throw HttpException::redirect(self::liste($key, $res, $values + $row));
     }
 
     /** Monter ou descendre une fiche d'un rang parmi celles du même groupe. */
@@ -321,7 +321,7 @@ final class ResourceController
             http_response_code(422);
         }
         View::render('admin/resource/form', [
-            'title' => ($row ? 'Modifier : ' : 'Ajouter : ') . $res['singular'],
+            'title' => $row ? 'Modifier : ' . $res['singular'] : (empty($res['feminine']) ? 'Nouveau ' : 'Nouvelle ') . $res['singular'],
             'key' => $key,
             'res' => $res,
             'row' => $row,
@@ -354,9 +354,23 @@ final class ResourceController
     }
 
     /** @param array<string, mixed> $values */
+    /**
+     * Liste à rouvrir après un enregistrement : sur l'onglet de la fiche quand la liste est rangée en onglets
+     * (même calcul du nom d'onglet que templates/admin/resource/tabs.php), sinon la liste simple.
+     * @param array<string, mixed> $res @param array<string, mixed> $values
+     */
+    private static function liste(string $key, array $res, array $values): string
+    {
+        if (!isset($res['tabs'])) {
+            return "/admin/$key";
+        }
+        $v = strtolower((string) ($values[(string) $res['tabs']] ?? ''));
+        return "/admin/$key?onglet=t-" . (preg_replace('/[^a-z0-9_-]/', '-', $v) ?: 'vide');
+    }
+
     private static function name(array $values): string
     {
-        return (string) ($values['name'] ?? $values['title'] ?? $values['id'] ?? '');
+        return (string) ($values['nom'] ?? $values['name'] ?? $values['title'] ?? $values['id'] ?? '');
     }
 
     /** @param array<string, mixed> $res */

@@ -28,7 +28,7 @@ final class ActualitesAdmin
             'titre' => ['label' => 'Titre', 'type' => 'text', 'required' => true, 'max' => 190, 'large' => true],
             'date_article' => ['label' => 'Date', 'type' => 'date', 'required' => true, 'taille' => 'court', 'hint' => 'À venir : parution ce jour-là.'],
             'heure' => ['label' => 'Heure', 'type' => 'time', 'taille' => 'court', 'hint' => 'Facultative.'],
-            'lieu' => ['label' => 'Lieu', 'type' => 'text', 'max' => 300, 'large' => true, 'hint' => 'Facultatif.'],
+            'lieu' => ['label' => 'Lieu', 'type' => 'address', 'carte' => false, 'max' => 300, 'large' => true, 'suggestions' => '/admin/adresses?ressource=lieux', 'hint' => 'Facultatif. Nom du lieu ou adresse : les lieux connus et les adresses de l\'IGN sont proposés pendant la saisie.'],
             'resume' => ['label' => 'Résumé', 'type' => 'textarea', 'rows' => 2, 'max' => 300, 'hint' => 'Une ou deux phrases, montrées dans la liste des actualités et sur l\'accueil.'],
             'description' => ['label' => 'Texte de l\'article', 'type' => 'textarea', 'rows' => 8, 'required' => true, 'hint' => 'Une ligne vide sépare deux paragraphes.'],
             'image' => ['label' => 'Fichier de la photo', 'type' => 'image', 'folder' => 'actualites', 'widths' => [1600], 'hint' => 'JPG, PNG ou WebP, 15 Mo au plus. Convertie en WebP.'],

@@ -60,7 +60,7 @@ final class DescriptionsAdmin
                     [$texte, $texte === '' ? 1 : 0, $id])->rowCount();
             }
         }
-        Auth::log('photos.descriptions', $faites . ' photo(s) décrite(s)');
+        Auth::log('photos.descriptions', $faites . ($faites > 1 ? ' photos décrites' : ' photo décrite'));
         $reste = self::nombre();
         Session::flash($faites === 0 ? 'Aucune description enregistrée : écrivez au moins une description.' : ($faites . ' photo' . ($faites > 1 ? 's décrites' : ' décrite') . '.' . ($reste > 0 ? " Encore $reste à décrire." : ' Toutes les photos ont maintenant une description.')), $faites === 0 ? 'attention' : 'succes');
         $page = max(1, (int) ($_POST['page'] ?? 1));

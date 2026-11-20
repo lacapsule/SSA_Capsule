@@ -31,13 +31,13 @@ $filterKeys = [];
 </header>
 
 <div class="adm-onglets-js" data-tabset>
-  <div class="adm-onglets-js__liste" role="tablist" aria-label="<?= e((string) $res['fields'][$tabField]['label']) ?>" hidden data-tabset-list>
+  <div class="adm-onglets-js__liste" role="tablist" aria-label="<?= e((string) $res['fields'][$tabField]['label']) ?>" data-tabset-list>
     <?php foreach ($options as $value => $label): $s = $slug((string) $value); $n = count(array_filter($rows, static fn (array $r): bool => (string) $r[$tabField] === (string) $value)); ?>
     <button class="adm-onglets-js__onglet" type="button" role="tab" id="tab-<?= e($s) ?>" aria-controls="panel-<?= e($s) ?>" aria-selected="<?= $s === $active ? 'true' : 'false' ?>" tabindex="<?= $s === $active ? '0' : '-1' ?>" data-tab="<?= e($s) ?>"><?= e((string) $label) ?> <span class="adm-compteur adm-compteur--neutre"><?= $n ?></span></button>
     <?php endforeach ?>
   </div>
   <?php foreach ($options as $value => $label): $s = $slug((string) $value); $items = array_values(array_filter($rows, static fn (array $r): bool => (string) $r[$tabField] === (string) $value)); ?>
-  <section class="adm-onglets-js__panneau" id="panel-<?= e($s) ?>" role="tabpanel" aria-labelledby="tab-<?= e($s) ?>" data-tab-panel="<?= e($s) ?>">
+  <section class="adm-onglets-js__panneau" id="panel-<?= e($s) ?>" role="tabpanel" aria-labelledby="tab-<?= e($s) ?>" data-tab-panel="<?= e($s) ?>"<?= $s === $active ? ' data-actif' : '' ?>>
     <h2 class="adm-onglets-js__titre"><?= e((string) $label) ?></h2>
     <div class="adm-carte" data-list>
       <div class="adm-carte__entete">

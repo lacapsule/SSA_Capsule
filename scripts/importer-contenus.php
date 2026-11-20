@@ -68,6 +68,9 @@ function propre(string $t): string
 }
 
 $contenus = json_decode((string) file_get_contents(SOURCE . '/contenus.json'), true, 512, JSON_THROW_ON_ERROR);
+// Textes alternatifs des photos (galerie par nom de fichier, photo principale d'un article par adresse lisible), écrits
+// après examen de chaque photo (2026-11-20) ; une photo absente du fichier reste sans description, à écrire dans le tableau de bord.
+$descriptions = json_decode((string) file_get_contents(dirname(SOURCE) . '/descriptions-photos.json'), true, 512, JSON_THROW_ON_ERROR);
 $tables = ['article_images', 'articles', 'events', 'partenaires', 'galerie_photos', 'lieux_conventionnes'];
 $deja = array_sum(array_map(static fn (string $t): int => (int) Db::run("SELECT COUNT(*) FROM $t")->fetchColumn(), $tables));
 if ($deja > 0 && !in_array('--remplacer', $argv, true)) {
@@ -77,7 +80,7 @@ if ($deja > 0 && !in_array('--remplacer', $argv, true)) {
 
 $maintenant = date('Y-m-d H:i:s');
 $pris = [];
-$bilan = Db::transaction(static function () use ($contenus, $tables, $maintenant, &$pris): array {
+$bilan = Db::transaction(static function () use ($contenus, $descriptions, $tables, $maintenant, &$pris): array {
     foreach ($tables as $t) {
         Db::run("DELETE FROM $t");
     }
@@ -117,7 +120,7 @@ $bilan = Db::transaction(static function () use ($contenus, $tables, $maintenant
              VALUES (?, ?, ?, ?, ?, ?, 1, ?, ?, ?, ?, ?, ?, ?)',
             [
                 propre($a['titre']), propre($a['resume']), propre($a['description']), $a['date'],
-                $images[0] ?? null, $alt ?? '', $maintenant, $slug, propre($a['lieu']) ?: null, $a['heure'] ?: null,
+                $images[0] ?? null, $alt ?? ($images !== [] ? ($descriptions['actualites'][$slug] ?? '') : ''), $maintenant, $slug, propre($a['lieu']) ?: null, $a['heure'] ?: null,
                 $a['liens'] ? json_encode($a['liens'], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) : null,
                 $videos ? json_encode($videos, JSON_UNESCAPED_SLASHES) : null,
                 $a['ancien_numero'],
@@ -200,7 +203,7 @@ $bilan = Db::transaction(static function () use ($contenus, $tables, $maintenant
     }
 
     foreach ($contenus['galerie'] as $pos => $src) {
-        Db::run('INSERT INTO galerie_photos (path, alt, position, created_at) VALUES (?, ?, ?, ?)', [copier($src, 'galerie'), '', $pos, $maintenant]);
+        Db::run('INSERT INTO galerie_photos (path, alt, position, created_at) VALUES (?, ?, ?, ?)', [copier($src, 'galerie'), $descriptions['galerie'][basename((string) $src)] ?? '', $pos, $maintenant]);
     }
 
     return [$nArticles, count($contenus['evenements']), count($contenus['partenaires']) + count($contenus['financeurs']), count($contenus['galerie'])];

@@ -17,6 +17,7 @@ function initAddresses(root) {
     let active = -1;
     let request = 0;
     const setStatus = (text, kind = '') => {
+      if (!status) return; // champ sans carte (lieu d'un article) : suggestions seules
       status.textContent = text;
       status.className = `geo-status${kind ? ` geo-status--${kind}` : ''}`;
     };

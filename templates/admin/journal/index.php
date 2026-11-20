@@ -71,7 +71,7 @@ $last = min($total, $page * AuditController::PER_PAGE);
           <th scope="row" class="adm-insecable"><time datetime="<?= e(str_replace(' ', 'T', (string) $r['created_at'])) ?>Z"><?= e(Ui::date((string) $r['created_at'], true)) ?></time></th>
           <td data-label="Compte"><?= $r['email'] !== null ? e((string) ($r['name'] ?: $r['email'])) : ($r['actor'] !== null && $r['actor'] !== '' ? e((string) $r['actor']) . ' <span class="adm-discret">(compte supprimé)</span>' : '<span class="adm-discret">Sans compte</span>') ?></td>
           <td data-label="Action"><?= e(AuditController::label((string) $r['action'])) ?></td>
-          <td data-label="Objet" class="adm-extrait"><?= $r['target'] !== null && $r['target'] !== '' ? e((string) $r['target']) : '<span class="adm-discret">Aucun</span>' ?></td>
+          <td data-label="Objet" class="adm-extrait"><?= $r['target'] !== null && $r['target'] !== '' ? e((string) $r['target']) : '' ?></td>
           <td data-label="Adresse IP" class="adm-insecable"><?= e((string) $r['ip']) ?></td>
         </tr>
         <?php endforeach ?>

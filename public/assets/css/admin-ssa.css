@@ -69,7 +69,7 @@
 /* Seconde passe du tableau de bord (2026-11-20) : écrans à la taille de leur contenu.
    À la souris, contrôles plus compacts (36 px) ; au doigt, la cible de 44 px reste (WCAG 2.5.8 : 24 px au moins). */
 @media (pointer: fine) {
-  .adm-page, .adm-dialogue { --target: 2.25rem; }
+  .adm-page, .adm-fenetre { --target: 2.25rem; }
 }
 /* Zones de texte : trois lignes au départ, puis elles grandissent avec le texte quand le navigateur le permet. */
 .adm-champ textarea { min-height: calc(var(--target) * 2); max-height: 60vh; field-sizing: content; }
@@ -152,6 +152,7 @@
 .adm-publier__voir { display: inline-flex; align-items: center; gap: var(--space-2); justify-self: start; font-size: var(--step--1); }
 .adm-publier__actions { display: flex; flex-wrap: wrap; gap: var(--space-2); padding-top: var(--space-3); border-top: 1px solid var(--color-line); }
 .adm-publier__actions > .btn[type="submit"] { flex: 1 1 auto; }
+.adm-publier:not(:has(.adm-champ)) > .adm-publier__actions { padding-top: 0; border: 0; }
 .adm-supprimer { display: grid; justify-items: start; gap: var(--space-2); padding: 0 var(--space-2); }
 .adm-supprimer__texte { margin: 0; font-size: var(--step--1); color: var(--color-text-muted); }
 /* Listes dans une seule carte (recherche en tête, lignes, pagination) ; vignette recadrée à taille fixe, icône sans photo. */
@@ -166,7 +167,69 @@
 .securite-ligne__texte { flex: 1 1 18rem; margin: 0; font-size: var(--step--1); }
 .securite-ligne__texte > .pastille { margin-right: var(--space-2); }
 .securite-ligne--separe { padding-top: var(--space-3); border-top: 1px solid var(--color-line); }
-.securite-form { display: grid; gap: var(--space-3); max-width: 26rem; }
-.securite-form .champ { margin: 0; }
-.securite-form label { font-size: var(--step--1); }
 .securite-journal { max-height: 32rem; overflow-y: auto; }
+
+/* Fenêtre de modification (2026-11-20) : à la largeur de la fiche, contrôles compacts comme sur les pages,
+   Enregistrer et Annuler toujours visibles dans le pied, sans titre de carte qui répète celui de la fenêtre. */
+.adm-fenetre { width: min(100% - 2 * var(--space-3), 44rem); }
+.adm-fenetre:has(.compte-fiche) { width: min(100% - 2 * var(--space-3), 38rem); }
+.adm-fenetre__corps { padding: var(--space-3) var(--space-4) var(--space-4); }
+.adm-fenetre__corps .adm-colonnes { gap: var(--space-3); }
+.adm-fenetre__corps .adm-colonnes__principal > .adm-carte > .adm-carte__titre { display: none; }
+.adm-fenetre__corps .adm-grille-champs { gap: var(--space-3); margin-bottom: 0; }
+.adm-fenetre__corps .adm-colonnes .adm-publier { gap: var(--space-2); padding-top: var(--space-3); border-top: 1px solid var(--color-line); }
+.adm-fenetre__corps .adm-publier:not(:has(.adm-champ)) { display: none; }
+.adm-fenetre__corps .adm-publier > .adm-carte__titre { font-size: var(--step--1); }
+.adm-fenetre__corps .adm-colonnes .adm-supprimer { padding-top: var(--space-3); border-top: 1px solid var(--color-line); }
+.adm-fenetre__pied .adm-publier__actions { padding: 0; border: 0; }
+.adm-fenetre__pied .adm-publier__actions > .btn[type="submit"] { flex: none; }
+
+/* Fiche d'un compte : une colonne, aides sous la rangée qu'elles expliquent, mot de passe en une ligne. */
+.compte-fiche { display: grid; gap: var(--space-4); }
+.compte-fiche, .compte-fiche + .adm-pied-form { max-width: 46rem; }
+.compte-fiche > .adm-grille-champs { row-gap: var(--space-3); margin-bottom: 0; }
+.adm-grille-champs > .compte-fiche__aide { grid-column: 1 / -1; margin: calc(-1 * var(--space-2)) 0 0; }
+.adm-fenetre__corps .compte-fiche { padding: 0; border: 0; background: none; }
+.compte-fiche__mdp { padding-top: var(--space-3); border-top: 1px solid var(--color-line); }
+
+/* Pas de saut au changement de rubrique (2026-11-20) : avec JavaScript (classe posée par js-actif.js avant l'affichage),
+   la recherche, le bouton Réduire et la première page de chaque liste sont en place dès le premier rendu. */
+:root:not(.js) [data-filters] { display: none; }
+@media (min-width: 64em) {
+  .js .adm-coquille:not([data-pret]) .adm-replier { display: flex; }
+}
+.js [data-list]:not([data-ready]):not([data-per-page]) [data-filter-row]:nth-child(n + 21),
+.js [data-list]:not([data-ready]):not([data-per-page]) tbody > tr:nth-child(n + 21),
+.js [data-list]:not([data-ready])[data-per-page="24"] [data-filter-row]:nth-child(n + 25) { display: none; }
+:root:not(.js) [data-tabset-list] { display: none; }
+.js [data-tabset]:not([data-ready]) [data-tab-panel]:not([data-actif]) { display: none; }
+
+/* Liste des comptes : initiales, personne (nom, e-mail, rôle), état, actions ; l'état passe sous le nom quand la place manque. */
+@media (max-width: 39.99em) {
+  .comptes-liste__avatar { display: none; }
+}
+.comptes-liste__avatar { width: 2.5rem; height: 2.5rem; font-size: var(--step--1); background: var(--color-surface-2); }
+.comptes-liste__vous { font-weight: 400; color: var(--color-text-muted); }
+.comptes-liste__etat { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-1) var(--space-2); }
+.comptes-liste__actions { flex: none; margin-left: auto; }
+.comptes-liste__actions form { margin: 0; }
+
+/* Étiquettes d'état du tableau de bord (2026-11-20) : plus sobres que la pilule à contour de la boîte, à la manière
+   des outils de gestion : angle doux, sans contour, fond teinté, texte foncé de la même teinte (contraste AA), petite
+   capitale de taille fixe. Le point ou l'icône garde la couleur pure ; le libellé porte le sens. */
+.adm .pastille {
+  gap: 0.375em;
+  padding: 0.125em 0.5em;
+  border: 0;
+  border-radius: var(--radius-small);
+  font-size: var(--step--2);
+  font-weight: 600;
+  line-height: 1.5;
+  letter-spacing: 0.01em;
+  color: color-mix(in srgb, var(--pastille-couleur) 70%, var(--color-text));
+  background: color-mix(in srgb, var(--pastille-couleur) 13%, var(--color-surface));
+}
+.adm .pastille--point::before { width: 0.4375em; height: 0.4375em; background: var(--pastille-couleur); }
+.adm .pastille > svg { width: 1.05em; height: 1.05em; color: var(--pastille-couleur); }
+.adm .pastille--neutre { --pastille-couleur: var(--color-text-muted); color: var(--color-text-muted); background: var(--color-surface-2); }
+.svc-tableau th.svc-date { font-family: inherit; font-weight: 400; font-variant-numeric: tabular-nums; }

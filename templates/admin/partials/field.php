@@ -9,7 +9,8 @@
 $id = 'f-' . $name;
 $type = (string) $f['type'];
 $hint = (string) ($f['hint'] ?? '');
-$describedBy = trim(($type === 'address' ? "$id-geo " : '') . ($hint !== '' ? "$id-hint " : '') . ($error ? "$id-error" : ''));
+$carte = $type === 'address' && ($f['carte'] ?? true) !== false; // false : suggestions seules, aucune carte (lieu d'un article)
+$describedBy = trim(($carte ? "$id-geo " : '') . ($hint !== '' ? "$id-hint " : '') . ($error ? "$id-error" : ''));
 $aria = ($describedBy !== '' ? ' aria-describedby="' . $describedBy . '"' : '') . ($error ? ' aria-invalid="true"' : '');
 $req = !empty($f['required']) ? ' required' : '';
 // large : champ sur toute la largeur de la grille (titre, lieu) ; ajout du projet SSA.
@@ -67,7 +68,7 @@ $wide .= match ($f['taille'] ?? '') { 'court' => ' adm-champ--court', 'long' => 
     <input id="<?= $id ?>" name="<?= e($name) ?>" type="text" value="<?= e((string) $value) ?>" autocomplete="off" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="<?= $id ?>-list" data-address-input<?= $req . $aria ?>>
     <ul class="combo__list" id="<?= $id ?>-list" role="listbox" aria-label="Adresses suggérées" hidden data-address-list></ul>
   </div>
-  <p class="geo-status<?= $geoClass !== '' ? ' geo-status--' . $geoClass : '' ?>" id="<?= $id ?>-geo" aria-live="polite" data-address-status><?= e($geoText) ?></p>
+  <?php if ($carte): ?><p class="geo-status<?= $geoClass !== '' ? ' geo-status--' . $geoClass : '' ?>" id="<?= $id ?>-geo" aria-live="polite" data-address-status><?= e($geoText) ?></p><?php endif ?>
   <?php else: ?>
   <input id="<?= $id ?>" name="<?= e($name) ?>" type="<?= e($type) ?>" value="<?= e((string) $value) ?>"<?= isset($f['step']) ? ' step="' . e((string) $f['step']) . '"' : '' ?><?= isset($f['max']) && $type === 'text' ? ' maxlength="' . (int) $f['max'] . '"' : '' ?><?php /* Coordonnées d'une fiche, pas de la personne connectée : pas de remplissage automatique. */ ?><?= in_array($type, ['email', 'tel', 'url'], true) ? ' autocomplete="off"' : '' ?><?= $req . $aria ?>>
   <?php endif ?>

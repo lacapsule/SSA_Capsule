@@ -2,7 +2,7 @@
 /**
  * Réglages de sécurité du compte connecté : double authentification, codes de secours, mot de passe, activité récente.
  * @var array<string, mixed> $admin @var int $recoveryLeft @var list<array<string, mixed>> $log
- * @var array<string, string> $pwErrors @var list<string>|null $newCodes
+ * @var list<string>|null $newCodes
  */
 use App\Admin\AdminAuth;
 use App\Admin\AdminController as A;
@@ -29,14 +29,14 @@ $action = e(A::url('securite/'));
   </div>
   <form class="adm-entete-page__actions" method="post" action="<?= e(A::url('deconnexion/')) ?>"><?= Csrf::field() ?><button class="btn btn--neutre" type="submit">Se déconnecter</button></form>
 </header>
-<?php /* Réglages à gauche, activité à droite (2026-11-20) ; formulaires à la largeur de ce qu'ils contiennent. */ ?>
+<?php /* Réglages à gauche, activité à droite (2026-11-20). */ ?>
 <div class="adm-colonnes securite">
   <div class="adm-colonnes__principal">
     <section class="adm-carte adm-carte--simple securite-bloc" aria-labelledby="s-2fa">
       <h2 class="adm-carte__titre" id="s-2fa">Double authentification</h2>
       <?php if ($admin['totp_enabled_at'] !== null): ?>
       <div class="securite-ligne">
-        <p class="securite-ligne__texte"><span class="pastille pastille--point pastille--succes">Active</span> Application d'authentification reliée le <?= e(date('d/m/Y', (int) strtotime((string) $admin['totp_enabled_at']))) ?>.</p>
+        <p class="securite-ligne__texte"><span class="pastille pastille--point pastille--succes">Activée</span> Application d'authentification reliée le <?= e(date('d/m/Y', (int) strtotime((string) $admin['totp_enabled_at']))) ?>.</p>
         <form method="post" action="<?= $action ?>"><?= Csrf::field() ?><input type="hidden" name="action" value="reenroll"><button class="btn btn--neutre" type="submit">Changer de téléphone</button></form>
       </div>
       <div class="securite-ligne">
@@ -49,25 +49,18 @@ $action = e(A::url('securite/'));
       <?php endif ?>
       <?php else: ?>
       <div class="securite-ligne">
-        <p class="securite-ligne__texte"><span class="pastille pastille--point pastille--attention">À configurer</span> Aucune application d'authentification n'est reliée à ce compte.</p>
+        <p class="securite-ligne__texte"><span class="pastille pastille--point pastille--attention">Non activée</span> Aucune application d'authentification n'est reliée à ce compte.</p>
         <form method="post" action="<?= $action ?>"><?= Csrf::field() ?><input type="hidden" name="action" value="reenroll"><button class="btn" type="submit">Configurer</button></form>
       </div>
       <?php endif ?>
     </section>
 
     <section class="adm-carte adm-carte--simple securite-bloc" aria-labelledby="mot-de-passe">
-      <h2 class="adm-carte__titre" id="mot-de-passe">Changer mon mot de passe</h2>
-      <form class="securite-form" method="post" action="<?= $action ?>" novalidate>
-        <?= Csrf::field() ?><input type="hidden" name="action" value="password">
-        <?php if ($pwErrors): ?><p class="adm-alerte adm-alerte--erreur" role="alert">Mot de passe inchangé : corrigez le champ signalé.</p><?php endif ?>
-        <?php partial('password', ['id' => 'p-cur', 'name' => 'current', 'label' => 'Mot de passe actuel', 'autocomplete' => 'current-password', 'error' => $pwErrors['current'] ?? null]) ?>
-        <?php partial('password', ['id' => 'p-new', 'name' => 'new', 'label' => 'Nouveau mot de passe', 'autocomplete' => 'new-password', 'hint' => 'Au moins ' . AdminAuth::MIN_PASSWORD . ' caractères. Vos autres sessions ouvertes seront fermées.', 'error' => $pwErrors['new'] ?? null]) ?>
-        <?php partial('password', ['id' => 'p-confirm', 'name' => 'confirm', 'label' => 'Confirmer le nouveau mot de passe', 'autocomplete' => 'new-password', 'error' => $pwErrors['confirm'] ?? null]) ?>
-        <div class="adm-rangee"><button class="btn btn--neutre" type="submit">Changer mon mot de passe</button></div>
-      </form>
-      <form class="securite-ligne securite-ligne--separe" method="post" action="<?= $action ?>">
+      <h2 class="adm-carte__titre" id="mot-de-passe">Mot de passe</h2>
+      <?php /* Changement par lien reçu à l'adresse du compte seulement (demande du 2026-11-20) : pas de formulaire ici. */ ?>
+      <form class="securite-ligne" method="post" action="<?= $action ?>">
         <?= Csrf::field() ?><input type="hidden" name="action" value="password-link">
-        <p class="securite-ligne__texte">Mot de passe actuel oublié ? Recevez un lien à <strong><?= e((string) $admin['email']) ?></strong> pour en choisir un nouveau, valable <?= AdminAuth::RESET_MINUTES ?> minutes.</p>
+        <p class="securite-ligne__texte">Pour le changer, recevez un lien à <strong><?= e((string) $admin['email']) ?></strong>, valable <?= AdminAuth::RESET_MINUTES ?> minutes. Vos autres sessions seront fermées.</p>
         <button class="btn btn--neutre" type="submit">Recevoir un lien</button>
       </form>
     </section>
