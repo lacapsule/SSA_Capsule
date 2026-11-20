@@ -1,5 +1,8 @@
 <?php
-/** @var array<string, mixed> $user @var list<array{href: string, label: string, n: int}> $stats @var list<array<string, mixed>> $actions */
+/**
+ * @var array<string, mixed> $user @var list<array{href: string, label: string, n: int}> $stats @var list<array<string, mixed>> $actions
+ * @var list<array{href: string, label: string, action: string}> $aFaire travail en attente (config/tableau-de-bord.php)
+ */
 use App\Admin\Ui;
 
 $first = explode(' ', (string) ($user['name'] ?: $user['email']))[0];
@@ -17,6 +20,17 @@ $first = explode(' ', (string) ($user['name'] ?: $user['email']))[0];
   </div>
   <?php endif ?>
 </header>
+
+<?php if (!empty($aFaire)): ?>
+<section class="adm-carte" aria-labelledby="a-faire-titre">
+  <div class="adm-carte__entete"><h2 class="adm-carte__titre" id="a-faire-titre">À faire</h2></div>
+  <ul class="adm-lignes" role="list">
+    <?php foreach ($aFaire as $t): ?>
+    <li><span class="adm-lignes__principal adm-lignes__titre"><?= e($t['label']) ?></span><a class="btn btn--neutre" href="<?= e($t['href']) ?>"><?= e($t['action']) ?><?= Ui::icon('arrow') ?></a></li>
+    <?php endforeach ?>
+  </ul>
+</section>
+<?php endif ?>
 
 <?php if ($stats !== []): ?>
 <ul class="adm-chiffres" role="list">

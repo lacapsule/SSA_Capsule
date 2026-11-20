@@ -32,7 +32,8 @@ final class ActualitesAdmin
             'resume' => ['label' => 'Résumé', 'type' => 'textarea', 'max' => 300, 'hint' => 'Une ou deux phrases, montrées dans la liste des actualités et sur l\'accueil.'],
             'description' => ['label' => 'Texte de l\'article', 'type' => 'textarea', 'required' => true, 'hint' => 'Une ligne vide sépare deux paragraphes.'],
             'image' => ['label' => 'Fichier de la photo', 'type' => 'image', 'folder' => 'actualites', 'widths' => [1600], 'hint' => 'JPG, PNG ou WebP, 15 Mo au plus. Convertie en WebP.'],
-            'image_alt' => ['label' => 'Description de la photo', 'type' => 'text', 'max' => 250, 'large' => true, 'hint' => 'Ce que montre la photo, pour les personnes qui ne la voient pas. Laisser vide si elle est décorative.'],
+            'image_alt' => ['label' => 'Description de la photo', 'type' => 'text', 'max' => 250, 'large' => true, 'hint' => 'Ce que montre la photo, en une phrase, pour les personnes qui ne la voient pas (exemple : « Une vingtaine de personnes en cercle pendant l\'atelier cuisine »).'],
+            'image_decorative' => ['label' => 'Photo décorative', 'type' => 'checkbox', 'hint' => 'Seulement si la photo n\'apporte aucune information (fond, motif) : elle n\'a pas besoin de description.'],
             'is_published' => ['label' => 'Afficher sur le site', 'type' => 'checkbox', 'default' => 1],
         ];
     }
@@ -141,7 +142,7 @@ final class ActualitesAdmin
         $v = [];
         foreach (self::champs() as $nom => $f) {
             if ($f['type'] !== 'image') {
-                $v[$nom] = $nom === 'is_published' ? (isset($_POST[$nom]) ? 1 : 0) : trim((string) ($_POST[$nom] ?? ''));
+                $v[$nom] = $f['type'] === 'checkbox' ? (isset($_POST[$nom]) ? 1 : 0) : trim((string) ($_POST[$nom] ?? ''));
             }
         }
         $err = [];
@@ -162,6 +163,13 @@ final class ActualitesAdmin
         if ($v['description'] === '') {
             $err['description'] = 'Écrivez le texte de l\'article.';
         }
+        // Photo principale gardée ou envoyée : décrite, ou marquée décorative (décision du 2026-11-20).
+        $aPhoto = Upload::hasFile('image') || ($a !== null && (string) ($a['image'] ?? '') !== '' && !isset($_POST['image_remove']));
+        if ($aPhoto && $v['image_alt'] === '' && $v['image_decorative'] !== 1) {
+            $err['image_alt'] = 'Décrivez la photo en une phrase, ou cochez « Photo décorative ».';
+        } elseif (mb_strlen($v['image_alt']) > 250) {
+            $err['image_alt'] = '250 caractères au plus.';
+        }
         $liens = [];
         $textes = (array) ($_POST['liens_texte'] ?? []);
         foreach ((array) ($_POST['liens_url'] ?? []) as $i => $url) {
@@ -178,7 +186,7 @@ final class ActualitesAdmin
         $ligne = [
             'titre' => $v['titre'], 'date_article' => $v['date_article'], 'heure' => $v['heure'] !== '' ? $v['heure'] : null,
             'lieu' => $v['lieu'] !== '' ? mb_substr($v['lieu'], 0, 300) : null, 'resume' => $v['resume'] !== '' ? $v['resume'] : null,
-            'description' => $v['description'], 'image_alt' => $v['image_alt'], 'is_published' => $v['is_published'],
+            'description' => $v['description'], 'image_alt' => $v['image_decorative'] === 1 ? '' : $v['image_alt'], 'image_decorative' => $v['image_decorative'], 'is_published' => $v['is_published'],
             'liens' => $liens !== [] ? json_encode(array_map(static fn (array $l): array => $l + ['libelle' => (string) preg_replace('/^www\./', '', (string) parse_url($l['url'], PHP_URL_HOST))], $liens), JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) : null,
         ];
         return [$v, $err, $ligne, $liens];

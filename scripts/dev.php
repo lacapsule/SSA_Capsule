@@ -6,7 +6,7 @@ declare(strict_types=1);
  *   php scripts/dev.php serve [--host=127.0.0.1] [--port=8080]   site sur http://127.0.0.1:8080 (base créée si absente)
  *   php scripts/dev.php db      recrée data/dev.sqlite : migrations, database/seed.php s'il existe, contenus du site actuel
  *   php scripts/dev.php init    même chose, seulement si la base ou public/media/ manque (clone neuf)
- *   php scripts/dev.php compte  crée ou remet le compte de développement (base SQLite de data/ seulement)
+ *   php scripts/dev.php compte  migrations en attente, puis compte de développement créé ou remis (base SQLite de data/ seulement)
  *   php scripts/dev.php help Makefile [autres.mk]   liste les cibles commentées « ## » (make help)
  *   php scripts/dev.php info    vérifie PHP et les extensions
  *   php scripts/dev.php lint    vérifie la syntaxe de tous les fichiers PHP
@@ -162,6 +162,10 @@ function compteDev(string $root): int
     if ($base === false || $data === false || !str_starts_with($base, $data . DIRECTORY_SEPARATOR)) {
         fwrite(STDOUT, 'Compte de développement non créé : la base réglée n\'est pas une base SQLite de data/.' . PHP_EOL);
         return 0;
+    }
+    // Migrations ajoutées depuis la création de la base : appliquées sans recréer la base (make db efface tout).
+    foreach (App\Core\Migrator::run() as $m) {
+        fwrite(STDOUT, "Migration appliquée à la base de dev : $m" . PHP_EOL);
     }
     if (DEV_EMAIL !== App\Admin\AdminAuth::DEV_EMAIL || DEV_PASSWORD !== App\Admin\AdminAuth::DEV_PASSWORD) {
         return fail('Compte de développement : valeurs différentes entre scripts/dev.php et AdminAuth.');

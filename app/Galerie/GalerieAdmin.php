@@ -52,9 +52,10 @@ final class GalerieAdmin
         }
         Auth::log('galerie.envoi', $ajoutees . ' photo(s)');
         $texte = $ajoutees . ' photo' . ($ajoutees > 1 ? 's ajoutées' : ' ajoutée') . ($auDebut ? ' au début de la galerie.' : ' à la fin de la galerie.')
-            . ($ajoutees > 0 ? ' Pensez à décrire chacune (ce qu\'elle montre), pour les personnes qui ne la voient pas.' : '');
+            . ($ajoutees > 0 ? ' Décrivez maintenant chacune (ce qu\'elle montre), pour les personnes qui ne la voient pas.' : '');
         Session::flash($texte . ($refus !== [] ? ' Refusées : ' . implode(' ', $refus) : ''), $refus !== [] ? 'attention' : 'succes');
-        throw HttpException::redirect(Admin::url('galerie/'));
+        // Photos ajoutées : on passe aussitôt à leur description (saisie guidée, décision du 2026-11-20).
+        throw HttpException::redirect(Admin::url($ajoutees > 0 ? 'photos-a-decrire/' : 'galerie/'));
     }
 
     /** Descriptions et retraits, en un seul envoi. */

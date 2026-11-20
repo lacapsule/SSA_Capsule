@@ -16,7 +16,9 @@ $suppression = $suppression ?? null;
 $voir = $voir ?? null;
 $apres = $apres ?? '';
 $fichiers = !empty($fichiers);
-$publication = array_filter($champs, static fn (array $f): bool => $f['type'] === 'checkbox');
+// Publication : les cases qui ne sont rangées dans aucun groupe (une case d'un groupe, comme « Photo décorative », reste à sa place).
+$rangees = array_merge(...array_values($groupes));
+$publication = array_filter($champs, static fn (array $f, string $nom): bool => $f['type'] === 'checkbox' && !in_array($nom, $rangees, true), ARRAY_FILTER_USE_BOTH);
 $key = '';
 ?>
 <header class="adm-entete-page">

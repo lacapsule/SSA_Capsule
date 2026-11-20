@@ -12,4 +12,6 @@ return static function (Router $router): void {
     $router->post(Admin::url('galerie/'), [G::class, 'enregistrer']);
     $router->post(Admin::url('galerie/envoi/'), [G::class, 'envoyer']);
     $router->post(Admin::url('galerie/deplacer/'), [G::class, 'deplacer']);
+    $router->get(Admin::url('photos-a-decrire/'), [App\Galerie\DescriptionsAdmin::class, 'index']);
+    $router->post(Admin::url('photos-a-decrire/'), [App\Galerie\DescriptionsAdmin::class, 'enregistrer']);
 };

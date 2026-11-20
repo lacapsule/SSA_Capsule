@@ -30,7 +30,20 @@ final class DashboardController
             $stats[] = ['href' => (string) $s['href'], 'label' => (string) $s['label'], 'n' => $n];
         }
 
+        $aFaire = [];
+        foreach (array_filter((array) ($config['a_faire'] ?? []), $visible) as $t) {
+            try {
+                $n = (int) Db::run((string) $t['sql'])->fetchColumn();
+            } catch (\PDOException) {
+                continue;
+            }
+            if ($n > 0) {
+                $aFaire[] = ['href' => (string) $t['href'], 'label' => Ui::count($n, (string) $t['label'][0], (string) $t['label'][1]), 'action' => (string) $t['action']];
+            }
+        }
+
         View::render('admin/dashboard', [
+            'aFaire' => $aFaire,
             'title' => 'Tableau de bord',
             'user' => $user,
             'stats' => $stats,

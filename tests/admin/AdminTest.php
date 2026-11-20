@@ -18,6 +18,16 @@ $compte = static function (PDO $db, int $reprise, ?string $totp = null, ?string 
 };
 
 return [
+    'photos sans description : galerie et photos d\'article comptées, photo décorative ou décrite exclue' => static function (PDO $db): void {
+        $db->exec("INSERT INTO galerie_photos (path, alt, position, created_at) VALUES ('/media/a.webp', '', 1, '2026-11-20'), ('/media/b.webp', 'Un atelier', 2, '2026-11-20')");
+        $article = $db->prepare("INSERT INTO articles (titre, resume, description, date_article, image, image_alt, image_decorative, slug, created_at) VALUES (?, '', 'Texte', '2026-11-20', ?, ?, ?, ?, '2026-11-20')");
+        $article->execute(['A', '/media/c.webp', '', 0, 'a']);
+        $article->execute(['B', '/media/d.webp', '', 1, 'b']);
+        $article->execute(['C', '/media/e.webp', 'Une réunion', 0, 'c']);
+        $article->execute(['D', null, '', 0, 'd']);
+        affirmer_egal(2, App\Galerie\DescriptionsAdmin::nombre());
+    },
+
     'compte du poste de développement : refusé hors du serveur intégré de PHP, même avec le bon mot de passe' => static function (PDO $db): void {
         $db->prepare("INSERT INTO admins (email, name, password_hash, role, created_at) VALUES (?, 'Dev', ?, 'admin', ?)")
             ->execute([AdminAuth::DEV_EMAIL, password_hash(AdminAuth::DEV_PASSWORD, PASSWORD_DEFAULT), now()]);

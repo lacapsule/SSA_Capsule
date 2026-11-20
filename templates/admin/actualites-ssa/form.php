@@ -75,7 +75,7 @@ $apres = (string) ob_get_clean();
 $retour = Admin::url('actualites/');
 $retourLibelle = 'Actualités';
 $action = $a ? Admin::url('actualites/' . (int) $a['id'] . '/') : Admin::url('actualites/nouveau/');
-$groupes = ['L\'article' => ['titre', 'date_article', 'heure', 'lieu'], 'Texte' => ['resume', 'description'], 'Photo principale' => ['image', 'image_alt']];
+$groupes = ['L\'article' => ['titre', 'date_article', 'heure', 'lieu'], 'Texte' => ['resume', 'description'], 'Photo principale' => ['image', 'image_alt', 'image_decorative']];
 $suppression = $a ? Admin::url('actualites/' . (int) $a['id'] . '/supprimer/') : null;
 $voir = $a && (int) $a['is_published'] === 1 && $a['slug'] ? '/actualites/' . $a['slug'] . '/' : null;
 $nomFiche = $a ? (string) $a['titre'] : '';

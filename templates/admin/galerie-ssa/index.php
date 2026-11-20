@@ -17,6 +17,7 @@ $n = count($photos);
     <h1 class="adm-entete-page__titre">Galerie</h1>
     <p class="adm-entete-page__sous-titre">Les photos de la page Galerie, 24 par page, dans l'ordre ci-dessous. <?= $n ?> photo<?= $n > 1 ? 's' : '' ?><?= $sansDescription > 0 ? ', dont ' . $sansDescription . ' sans description' : '' ?>.</p>
   </div>
+  <?php if ($sansDescription > 0): ?><div class="adm-entete-page__actions"><a class="btn btn--neutre" href="<?= e(Admin::url('photos-a-decrire/')) ?>"><?= Ui::icon('edit') ?>Décrire les photos</a></div><?php endif ?>
 </header>
 <form class="adm-carte adm-carte--simple" method="post" action="<?= e($base . 'envoi/') ?>" enctype="multipart/form-data">
   <?= Csrf::field() ?>

@@ -111,3 +111,14 @@
 [data-lignes] > .adm-rangee { margin-top: var(--space-2); }
 /* Barre de filtres réduite au compteur (galerie sans filtre utile) : une ligne fine. */
 .adm-filtres:not(:has(.adm-champ)) { padding-block: var(--space-2); }
+/* Photos sans description : photo lisible à gauche, champ à droite ; empilés sur téléphone. */
+.ssa-decrire__liste { display: grid; gap: var(--space-4); list-style: none; margin: 0; padding: var(--space-4); }
+.ssa-decrire__photo { display: grid; grid-template-columns: minmax(0, 1fr); align-items: start; gap: var(--space-3) var(--space-4); }
+.ssa-decrire__photo + .ssa-decrire__photo { padding-top: var(--space-4); border-top: 1px solid var(--color-line); }
+.ssa-decrire__photo img { width: 100%; height: auto; aspect-ratio: 4 / 3; border-radius: var(--radius-small); object-fit: cover; }
+.ssa-decrire__champs { display: grid; gap: var(--space-2); }
+.ssa-decrire__champs > .adm-champ--pile { margin-bottom: 0; }
+@media (min-width: 48em) {
+  .ssa-decrire__photo { grid-template-columns: minmax(0, 22rem) minmax(0, 1fr); }
+}
+.ssa-decrire > .ssa-galerie__pied { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-3); padding-inline: var(--space-4); border-top: 1px solid var(--color-line); border-radius: 0 0 var(--radius) var(--radius); background: var(--color-surface); }
