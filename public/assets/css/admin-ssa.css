@@ -122,3 +122,16 @@
   .ssa-decrire__photo { grid-template-columns: minmax(0, 22rem) minmax(0, 1fr); }
 }
 .ssa-decrire > .ssa-galerie__pied { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-3); padding-inline: var(--space-4); border-top: 1px solid var(--color-line); border-radius: 0 0 var(--radius) var(--radius); background: var(--color-surface); }
+/* Titres de ligne entiers sur plusieurs lignes plutôt que coupés par « … » (titres d'articles longs sur téléphone). */
+.adm-lignes__titre { white-space: normal; text-overflow: clip; overflow-wrap: anywhere; }
+/* Tableaux : une pastille passe à la ligne au lieu de pousser le tableau hors de sa carte ; en pile (téléphone), la
+   valeur d'une ligne reprend sous son libellé si la place manque. */
+.adm-tableau .pastille { white-space: normal; }
+.adm-tableau td:not(.adm-col-actions) { overflow-wrap: anywhere; }
+@media (max-width: 39.99em) {
+  .adm-tableau--empile td[data-label] { flex-wrap: wrap; }
+}
+/* Comptes, de 40 à 64 em : actions empilées dans leur colonne, le tableau tient dans sa carte. */
+@media (max-width: 63.99em) {
+  .adm-col-actions > .adm-rangee { flex-wrap: wrap; }
+}
