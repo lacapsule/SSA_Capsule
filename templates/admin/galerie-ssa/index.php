@@ -38,11 +38,12 @@ $n = count($photos);
 <?php if ($photos === []): ?>
 <p class="adm-carte adm-carte--simple adm-carte__vide">Aucune photo pour l'instant.</p>
 <?php else: ?>
-<form method="post" action="<?= e($base) ?>">
+<form class="adm-carte ssa-galerie-liste" method="post" action="<?= e($base) ?>" data-list data-per-page="24">
   <?= Csrf::field() ?>
+  <?php $filters = $sansDescription > 0 && $sansDescription < $n ? ['description' => ['Description', ['sans' => 'Sans description', 'avec' => 'Avec description']]] : []; $recherche = false; $searchLabel = 'Photos'; $countWords = ['photo', 'photos']; $total = $n; require ROOT . '/templates/admin/partials/filters.php'; ?>
   <ul class="ssa-galerie" role="list">
     <?php foreach ($photos as $i => $p): $pid = (int) $p['id']; $surAccueil = in_array((string) $p['path'], $accueil, true); ?>
-    <li class="ssa-galerie__photo" id="photo-<?= $pid ?>">
+    <li class="ssa-galerie__photo" id="photo-<?= $pid ?>" data-filter-row data-f-description="<?= trim((string) $p['alt']) === '' ? 'sans' : 'avec' ?>">
       <img src="<?= e(Vignette::chemin((string) $p['path'], 400)) ?>" alt="" width="400" height="300" loading="lazy" decoding="async">
       <div class="adm-champ adm-champ--pile">
         <label for="alt-<?= $pid ?>">Description de la photo <?= $i + 1 ?></label>

@@ -21,6 +21,7 @@ function enhance(root) {
   initFilters(root);
   initTabsets(root);
   initLinkFields(root);
+  initRepeatRows(root);
   root.querySelectorAll('[data-mdp][hidden]').forEach((button) => { button.hidden = false; });
   if (root !== document && typeof window.admAlerteEphemere === 'function') window.admAlerteEphemere(root);
   document.dispatchEvent(new CustomEvent('admin:enhance', { detail: { root } }));
@@ -254,6 +255,8 @@ function initPreview() {
 
 // Filtres instantanés : <div data-list> contient [data-filters] (masqué sans script), des lignes (tbody tr ou
 // [data-filter-row]) portant data-f-<clé>, et [data-filter-empty]. La recherche porte sur le texte de la ligne.
+// Pagination : au-delà de data-per-page lignes (20 par défaut), les lignes retenues s'affichent par pages, avec une
+// barre Précédentes / Suivantes sous la liste ; sans script, toute la liste reste affichée.
 function initFilters(root) {
   root.querySelectorAll('[data-list]').forEach((list) => {
     if (list.dataset.ready) return;
@@ -269,18 +272,40 @@ function initFilters(root) {
     const grids = [...list.querySelectorAll('[data-filter-grid]')];
     const resets = [...list.querySelectorAll('[data-filter-reset]')];
     const words = (n) => `${n} ${n > 1 ? count.dataset.many : count.dataset.one}`;
+    const per = Math.max(1, Number(list.dataset.perPage) || 20);
+    let page = 1;
+    const pager = document.createElement('nav');
+    pager.className = 'adm-pages';
+    pager.setAttribute('aria-label', 'Pages de la liste');
+    pager.hidden = true;
+    const prev = document.createElement('button');
+    const next = document.createElement('button');
+    const etat = document.createElement('p');
+    prev.type = 'button'; next.type = 'button';
+    prev.className = 'btn btn--neutre'; next.className = 'btn btn--neutre';
+    prev.textContent = 'Précédentes'; next.textContent = 'Suivantes';
+    etat.className = 'adm-pages__etat';
+    etat.setAttribute('aria-live', 'polite');
+    pager.append(prev, etat, next);
+    if (empty) empty.before(pager); else list.append(pager);
     const norm = (s) => s.toLocaleLowerCase('fr').normalize('NFD').replace(/[̀-ͯ]/g, '');
     const key = (name) => `f${name[0].toUpperCase()}${name.slice(1)}`;
     rows.forEach((row) => { row.dataset.text = norm(row.textContent); });
-    const apply = () => {
+    const apply = (keepPage = false) => {
       const term = q ? norm(q.value.trim()) : '';
-      let shown = 0;
-      rows.forEach((row) => {
-        const hit = (term === '' || row.dataset.text.includes(term))
-          && selects.every((s) => s.value === '' || row.dataset[key(s.dataset.filter)] === s.value);
-        row.hidden = !hit;
-        if (hit) shown += 1;
-      });
+      const hits = rows.filter((row) => (term === '' || row.dataset.text.includes(term))
+        && selects.every((s) => s.value === '' || row.dataset[key(s.dataset.filter)] === s.value));
+      const shown = hits.length;
+      const pages = Math.max(1, Math.ceil(shown / per));
+      if (!keepPage) page = 1;
+      page = Math.min(page, pages);
+      const from = (page - 1) * per;
+      const visible = new Set(hits.slice(from, from + per));
+      rows.forEach((row) => { row.hidden = !visible.has(row); });
+      pager.hidden = pages < 2;
+      prev.disabled = page === 1;
+      next.disabled = page === pages;
+      etat.textContent = `${from + 1} à ${Math.min(from + per, shown)} sur ${shown}, page ${page} sur ${pages}`;
       const active = term !== '' || selects.some((s) => s.value !== '');
       if (count) count.textContent = active ? `${shown} sur ${words(rows.length)}` : words(rows.length);
       if (empty) empty.hidden = shown !== 0;
@@ -288,8 +313,15 @@ function initFilters(root) {
       const reset = bar.querySelector('[data-filter-reset]');
       if (reset) reset.hidden = !active;
     };
-    q?.addEventListener('input', apply);
-    selects.forEach((s) => s.addEventListener('change', apply));
+    const turn = (delta) => {
+      page += delta;
+      apply(true);
+      bar.scrollIntoView({ block: 'start' });
+    };
+    prev.addEventListener('click', () => turn(-1));
+    next.addEventListener('click', () => turn(1));
+    q?.addEventListener('input', () => apply());
+    selects.forEach((s) => s.addEventListener('change', () => apply()));
     resets.forEach((b) => b.addEventListener('click', () => {
       if (q) q.value = '';
       selects.forEach((s) => { s.value = ''; });
@@ -359,5 +391,39 @@ function initLinkFields(root) {
       if (!free.hasAttribute('data-off')) input.focus();
     });
     sync();
+  });
+}
+
+// Lignes répétées ([data-lignes] > [data-ligne], liens d'un article) : les lignes remplies et une ligne vide sont
+// affichées, les autres attendent le bouton « Ajouter » ; sans script, toutes les lignes restent visibles.
+function initRepeatRows(root) {
+  root.querySelectorAll('[data-lignes]').forEach((box) => {
+    if (box.dataset.ready) return;
+    box.dataset.ready = '1';
+    const rows = [...box.querySelectorAll('[data-ligne]')];
+    const isEmpty = (row) => [...row.querySelectorAll('input, textarea')].every((i) => i.value.trim() === '');
+    let spare = false;
+    rows.forEach((row) => {
+      if (!isEmpty(row)) return;
+      if (spare) row.hidden = true;
+      spare = true;
+    });
+    const hiddenRows = () => rows.filter((row) => row.hidden);
+    if (hiddenRows().length === 0) return;
+    const bar = document.createElement('div');
+    bar.className = 'adm-rangee';
+    const add = document.createElement('button');
+    add.type = 'button';
+    add.className = 'btn btn--neutre';
+    add.textContent = box.dataset.lignesAjout || 'Ajouter une ligne';
+    bar.append(add);
+    rows[rows.length - 1].after(bar);
+    add.addEventListener('click', () => {
+      const next = hiddenRows()[0];
+      if (!next) return;
+      next.hidden = false;
+      next.querySelector('input, textarea')?.focus();
+      bar.hidden = hiddenRows().length === 0;
+    });
   });
 }

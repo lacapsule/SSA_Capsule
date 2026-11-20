@@ -45,7 +45,8 @@ $sortable = isset($res['sortable']) && count($items) > 1;
       <?php if ($details !== []): ?><span class="adm-meta"><?= e(implode(' · ', $details)) ?></span><?php endif ?>
     </a>
     <?php if (isset($row['is_published']) && (int) $row['is_published'] !== 1): ?><span class="pastille pastille--point pastille--neutre">Masqué</span><?php endif ?>
-    <?php if (isset($res['geocode']) && ($row['latitude'] ?? null) === null): ?><span class="pastille pastille--point pastille--attention">Pas sur la carte</span><?php endif ?>
+    <?php if (isset($res['geocode']) && ($row['latitude'] ?? null) === null): ?><span class="pastille pastille--point pastille--attention">Pas sur la carte</span>
+    <?php elseif (isset($res['geocode']) && trim((string) ($row[((array) $res['geocode']['field'])[0]] ?? '')) === ''): ?><span class="pastille pastille--point pastille--neutre">Adresse à compléter</span><?php endif ?>
     <?php if ($sortable) { $isFirst = $n === 0; $isLast = $n === count($items) - 1; require ROOT . '/templates/admin/partials/move.php'; } ?>
     <a class="btn btn--neutre" href="<?= e($href) ?>" data-modal><?= Ui::icon('edit') ?>Modifier<span class="adm-masque"> <?= e($rowName) ?></span></a>
   </li>

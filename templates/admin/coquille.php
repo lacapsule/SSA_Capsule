@@ -157,12 +157,12 @@ $marque = static fn (string $classe = ''): string =>
 <link rel="stylesheet" href="/assets/css/charte.css"><!-- charte du client (couleurs, polices), propre au projet -->
 <link rel="stylesheet" href="/assets/css/composants.css"><!-- bouton, pastille-statut, etat-vide-chargement, champ-mot-de-passe, centre-notifications -->
 <link rel="stylesheet" href="/assets/css/admin-coquille.css">
-<link rel="stylesheet" href="/assets/css/admin-ssa.css">
 <link rel="stylesheet" href="/assets/css/minuteur-session.css">
 <link rel="stylesheet" href="/assets/css/export.css">
 <script src="/assets/js/minuteur-session.js" defer></script><!-- univers SSA : logo du client, propre au projet -->
 <?php foreach ($styles as $href): ?><link rel="stylesheet" href="<?= e((string) $href) ?>">
 <?php endforeach; ?>
+<link rel="stylesheet" href="<?= e(asset('/assets/css/admin-ssa.css')) ?>"><!-- couche du projet, en dernier : elle prime sur la coquille et les modules -->
 <script src="/assets/js/admin-coquille.js" defer></script>
 <?php foreach ($scripts as $src): $estModule = is_array($src) && !empty($src['module']); $src = is_array($src) ? (string) $src['src'] : (string) $src; ?><script src="<?= e($src) ?>"<?= $estModule ? ' type="module"' : ' defer' ?>></script>
 <?php endforeach; ?>

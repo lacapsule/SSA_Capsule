@@ -134,8 +134,10 @@ $compteLiens = is_file(ROOT . '/templates/admin/settings-securite.php') ? [['url
 $deconnexion = Admin::guard()->logoutUrl();
 $messages = array_map(static fn (array $f): array => ['type' => (string) $f['type'], 'texte' => (string) $f['message']], $flashes);
 // La coquille charge déjà tokens.css, composants.css, admin-coquille.css et admin-coquille.js : seulement le reste ici.
-$styles = [$asset('/assets/css/admin.css'), ...$modules];
-$scripts = [$asset('/assets/js/mot-de-passe.js'), $asset('/assets/js/admin.js')];
+// admin-ressources.css et adresses.js : fichier actuel avec « Retirer », adresse avec suggestions de l'IGN (fiches des
+// rubriques, lieux, agenda) ; adresses.js après admin.js (rejoué sur chaque fragment).
+$styles = [$asset('/assets/css/admin.css'), $asset('/assets/css/admin-ressources.css'), ...$modules];
+$scripts = [$asset('/assets/js/mot-de-passe.js'), $asset('/assets/js/admin.js'), $asset('/assets/js/adresses.js')];
 foreach ($scriptsModules as $src) {
     // Un script de module ES s'écrit ['src' => ..., 'module' => true].
     $scripts[] = is_array($src) ? ['src' => $asset((string) $src['src']), 'module' => !empty($src['module'])] : $asset((string) $src);

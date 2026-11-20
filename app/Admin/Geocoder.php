@@ -15,14 +15,16 @@ final class Geocoder
     /**
      * Suggestions pour la saisie (liste déroulante de l'admin).
      * @param array{0: float, 1: float}|null $centre latitude, longitude
-     * @return list<array{label: string, context: string}>
+     * @return list<array{label: string, context: string, name: string, postcode: string, city: string}>
      */
     public static function suggest(string $q, ?array $centre = null): array
     {
         $out = [];
         foreach (self::query($q, 6, $centre) as $f) {
             if (isset($f['properties']['label'])) {
-                $out[] = ['label' => (string) $f['properties']['label'], 'context' => (string) ($f['properties']['context'] ?? '')];
+                $pr = $f['properties'];
+                // name, postcode, city : rue (ou lieu-dit), code postal et commune, pour remplir les champs séparés.
+                $out[] = ['label' => (string) $pr['label'], 'context' => (string) ($pr['context'] ?? ''), 'name' => (string) ($pr['name'] ?? ''), 'postcode' => (string) ($pr['postcode'] ?? ''), 'city' => (string) ($pr['city'] ?? '')];
             }
         }
         return $out;

@@ -12,7 +12,7 @@ $describedBy = trim(($type === 'address' ? "$id-geo " : '') . ($hint !== '' ? "$
 $aria = ($describedBy !== '' ? ' aria-describedby="' . $describedBy . '"' : '') . ($error ? ' aria-invalid="true"' : '');
 $req = !empty($f['required']) ? ' required' : '';
 // large : champ sur toute la largeur de la grille (titre, lieu) ; ajout du projet SSA.
-$wide = in_array($type, ['textarea', 'image', 'pdf'], true) || !empty($f['large']) ? ' adm-champ--large' : '';
+$wide = in_array($type, ['textarea', 'image', 'pdf', 'address'], true) || !empty($f['large']) ? ' adm-champ--large' : '';
 ?>
 <div class="adm-champ adm-champ--pile<?= $wide ?>">
   <?php if ($type === 'checkbox'): ?>
@@ -26,11 +26,14 @@ $wide = in_array($type, ['textarea', 'image', 'pdf'], true) || !empty($f['large'
   </div>
   <?php if ($hint !== ''): ?><p class="adm-champ__aide" id="<?= $id ?>-hint"><?= e($hint) ?></p><?php endif ?>
   <?php else: ?>
-  <label for="<?= $id ?>"><?= e((string) $f['label']) ?><?= !empty($f['required']) ? ' <span class="adm-champ__requis">(obligatoire)</span>' : '' ?></label>
-  <?php if ($hint !== ''): ?><p class="adm-champ__aide" id="<?= $id ?>-hint"><?= e($hint) ?></p><?php endif ?>
-  <?php if ($error): ?><p class="adm-champ__erreur" id="<?= $id ?>-error">Erreur : <?= e($error) ?></p><?php endif ?>
+  <?php /* En-tête du champ (libellé, aide, erreur) : dans une grille, les contrôles voisins restent alignés (admin-ssa.css). */ ?>
+  <div class="adm-champ__tete">
+    <label for="<?= $id ?>"><?= e((string) $f['label']) ?><?= !empty($f['required']) ? ' <span class="adm-champ__requis">(obligatoire)</span>' : '' ?></label>
+    <?php if ($hint !== ''): ?><p class="adm-champ__aide" id="<?= $id ?>-hint"><?= e($hint) ?></p><?php endif ?>
+    <?php if ($error): ?><p class="adm-champ__erreur" id="<?= $id ?>-error">Erreur : <?= e($error) ?></p><?php endif ?>
+  </div>
   <?php if ($type === 'textarea'): ?>
-  <textarea id="<?= $id ?>" name="<?= e($name) ?>" rows="5"<?= isset($f['max']) ? ' maxlength="' . (int) $f['max'] . '"' : '' ?><?= $req . $aria ?>><?= e((string) $value) ?></textarea>
+  <textarea id="<?= $id ?>" name="<?= e($name) ?>" rows="<?= (int) ($f['rows'] ?? 3) ?>"<?= isset($f['max']) ? ' maxlength="' . (int) $f['max'] . '"' : '' ?><?= $req . $aria ?>><?= e((string) $value) ?></textarea>
   <?php elseif ($type === 'select'): ?>
   <select id="<?= $id ?>" name="<?= e($name) ?>"<?= $req . $aria ?>>
     <?php foreach ($f['options'] as $optValue => $optLabel): ?>
@@ -50,12 +53,14 @@ $wide = in_array($type, ['textarea', 'image', 'pdf'], true) || !empty($f['large'
     // État de la position sur la carte, d'après la fiche enregistrée ; adresses.js le met à jour pendant la saisie.
     $onMap = ($values['latitude'] ?? null) !== null && ($values['latitude'] ?? '') !== '';
     [$geoClass, $geoText] = match (true) {
+        $onMap && (string) $value === '' => ['', 'Sur la carte (position reprise de la carte du collectif), adresse à compléter.'],
         $onMap => ['ok', 'Sur la carte : l\'adresse a été trouvée.'],
         (string) $value !== '' => ['off', 'Pas sur la carte : adresse introuvable. Corrigez-la en choisissant une suggestion.'],
         default => ['', 'Sans adresse, la fiche figure dans la liste mais pas sur la carte.'],
     };
   ?>
-  <div class="combo" data-address data-address-source="/admin/adresses?ressource=<?= e($key) ?>">
+  <?php // remplit : champs remplis par la suggestion choisie (code postal, commune), ajout du projet SSA. ?>
+  <div class="combo" data-address data-address-source="/admin/adresses?ressource=<?= e($key) ?>"<?php foreach ((array) ($f['remplit'] ?? []) as $part => $champ): ?> data-address-fill-<?= e((string) $part) ?>="f-<?= e((string) $champ) ?>"<?php endforeach ?>>
     <input id="<?= $id ?>" name="<?= e($name) ?>" type="text" value="<?= e((string) $value) ?>" autocomplete="off" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="<?= $id ?>-list" data-address-input<?= $req . $aria ?>>
     <ul class="combo__list" id="<?= $id ?>-list" role="listbox" aria-label="Adresses suggérées" hidden data-address-list></ul>
   </div>

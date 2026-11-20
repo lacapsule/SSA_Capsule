@@ -65,3 +65,49 @@
 .ssa-galerie__actions { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: var(--space-2); }
 .ssa-galerie__fleches { display: flex; gap: var(--space-1); margin-left: auto; }
 .ssa-galerie__pied { position: sticky; bottom: 0; padding: var(--space-3) 0; background: var(--color-bg); }
+
+/* Seconde passe du tableau de bord (2026-11-20) : écrans à la taille de leur contenu.
+   À la souris, contrôles plus compacts (36 px) ; au doigt, la cible de 44 px reste (WCAG 2.5.8 : 24 px au moins). */
+@media (pointer: fine) {
+  .adm-page, .adm-dialogue { --target: 2.25rem; }
+}
+/* Zones de texte : trois lignes au départ, puis elles grandissent avec le texte quand le navigateur le permet. */
+.adm-champ textarea { min-height: calc(var(--target) * 2); max-height: 60vh; field-sizing: content; }
+/* Champ de fichier : bouton au style des boutons secondaires, zone de dépôt calme. */
+.adm-champ input[type="file"] { padding: var(--space-1); }
+.adm-champ input[type="file"]::file-selector-button {
+  min-height: calc(var(--target) - var(--space-2));
+  margin-right: var(--space-3);
+  padding: 0 var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-small);
+  font: inherit;
+  font-weight: 600;
+  color: var(--color-text);
+  background: var(--color-surface);
+  transition: border-color var(--duration-fast) var(--ease);
+  cursor: pointer;
+}
+.adm-champ input[type="file"]:hover::file-selector-button { border-color: var(--color-text-muted); }
+/* Fichier actuel : vignette et case « Retirer » côte à côte, centrées sur la même ligne. */
+.file-current { margin-bottom: var(--space-2); }
+.file-current__remove input { margin: 0; }
+/* Champs en grille : en-tête (libellé, aide, erreur), contrôle, puis ce qui suit (état de l'adresse) sur trois rangées
+   communes (sous-grille) ; une aide plus longue d'un côté ne décale plus le contrôle voisin. */
+.adm-champ__tete { display: grid; align-content: end; gap: var(--space-1); }
+.adm-champ__tete > label:not([class]) { padding: 0; font-size: var(--step--1); font-weight: 600; }
+.adm-grille-champs { align-items: start; }
+.adm-grille-champs > .adm-champ:has(> .adm-champ__tete) { grid-row: span 3; grid-template-rows: subgrid; row-gap: var(--space-1); }
+/* Lignes de liste : plus serrées, bouton Modifier discret. */
+.adm-lignes > li { padding-block: var(--space-1); }
+.adm-lignes .btn { min-height: calc(var(--target) - var(--space-1)); padding-inline: var(--space-3); font-size: var(--step--1); }
+/* Barre de pagination ajoutée par admin.js sous une liste. */
+[data-list] > .adm-pages { border-top: 1px solid var(--color-line); }
+.adm-filtres[data-filters] { scroll-margin-top: calc(var(--adm-haut-h) + var(--space-3)); }
+/* Galerie : liste des photos dans une carte, avec ses filtres et sa pagination. */
+.ssa-galerie-liste > .ssa-galerie { margin: 0; padding: var(--space-4); }
+.ssa-galerie-liste > .ssa-galerie__pied { padding-inline: var(--space-4); border-top: 1px solid var(--color-line); border-radius: 0 0 var(--radius) var(--radius); background: var(--color-surface); }
+/* Liens d'un article : lignes ajoutées une à une (admin.js, data-lignes). */
+[data-lignes] > .adm-rangee { margin-top: var(--space-2); }
+/* Barre de filtres réduite au compteur (galerie sans filtre utile) : une ligne fine. */
+.adm-filtres:not(:has(.adm-champ)) { padding-block: var(--space-2); }

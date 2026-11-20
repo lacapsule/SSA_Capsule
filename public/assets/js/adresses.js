@@ -34,8 +34,15 @@ function initAddresses(root) {
       input.setAttribute('aria-activedescendant', opts[active].id);
       opts[active].scrollIntoView({ block: 'nearest' });
     };
+    // Champs séparés (data-address-fill-postcode, -city) : la rue dans ce champ, le reste dans ses champs.
+    const fills = { postcode: box.dataset.addressFillPostcode, city: box.dataset.addressFillCity };
+    const separe = Boolean(fills.postcode || fills.city);
     const choose = (option) => {
-      input.value = option.dataset.value;
+      input.value = separe && option.dataset.name ? option.dataset.name : option.dataset.value;
+      Object.entries(fills).forEach(([part, id]) => {
+        const field = id && document.getElementById(id);
+        if (field && option.dataset[part]) field.value = option.dataset[part];
+      });
       close();
       setStatus('Adresse reconnue : elle sera placée sur la carte à l\'enregistrement.', 'ok');
       input.dispatchEvent(new Event('change', { bubbles: true }));
@@ -57,6 +64,9 @@ function initAddresses(root) {
           li.setAttribute('role', 'option');
           li.setAttribute('aria-selected', 'false');
           li.dataset.value = item.label;
+          li.dataset.name = item.name || '';
+          li.dataset.postcode = item.postcode || '';
+          li.dataset.city = item.city || '';
           const strong = document.createElement('strong');
           strong.textContent = item.label;
           const small = document.createElement('small');

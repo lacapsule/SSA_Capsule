@@ -52,12 +52,12 @@ ob_start(); ?>
     </div>
   </div>
 </section>
-<section class="adm-carte adm-carte--simple" aria-labelledby="liens-titre">
+<section class="adm-carte adm-carte--simple" aria-labelledby="liens-titre" data-lignes data-lignes-ajout="Ajouter un lien">
   <h2 class="adm-carte__titre" id="liens-titre">Liens</h2>
-  <p class="adm-carte__intro">Émission, article de presse, document : montrés sous le texte. Laisser une ligne vide pour ne rien ajouter.</p>
+  <p class="adm-carte__intro">Émission, article de presse, document : montrés sous le texte. Une ligne laissée vide n'ajoute rien.</p>
   <?php if (isset($erreurs['liens'])): ?><p class="adm-champ__erreur" id="liens-erreur">Erreur : <?= e($erreurs['liens']) ?></p><?php endif ?>
   <?php foreach ($liens as $i => $l): ?>
-  <fieldset class="ssa-lien">
+  <fieldset class="ssa-lien" data-ligne>
     <legend class="adm-masque">Lien <?= $i + 1 ?></legend>
     <div class="adm-champ adm-champ--pile">
       <label for="lien-texte-<?= $i ?>">Texte du lien <?= $i + 1 ?></label>

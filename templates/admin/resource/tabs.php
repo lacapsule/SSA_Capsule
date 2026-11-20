@@ -39,14 +39,18 @@ $filterKeys = [];
   <?php foreach ($options as $value => $label): $s = $slug((string) $value); $items = array_values(array_filter($rows, static fn (array $r): bool => (string) $r[$tabField] === (string) $value)); ?>
   <section class="adm-onglets-js__panneau" id="panel-<?= e($s) ?>" role="tabpanel" aria-labelledby="tab-<?= e($s) ?>" data-tab-panel="<?= e($s) ?>">
     <h2 class="adm-onglets-js__titre"><?= e((string) $label) ?></h2>
-    <div class="adm-carte">
+    <div class="adm-carte" data-list>
       <div class="adm-carte__entete">
-        <p class="adm-carte__titre"><?= e(Ui::count(count($items), $singular)) ?></p>
+        <p class="adm-carte__titre"><?= e(Ui::count(count($items), $singular, $res['plural'] ?? null)) ?></p>
         <a class="btn" href="/admin/<?= e($key) ?>/nouveau?<?= e(http_build_query([$tabField => $value])) ?>" data-modal><?= Ui::icon('plus') ?>Ajouter<span class="adm-masque"> <?= $article ?> <?= e($singular) ?> : <?= e((string) $label) ?></span></a>
       </div>
       <?php if ($items === []): ?>
       <p class="adm-carte__vide">Aucun<?= $article === 'une' ? 'e' : '' ?> <?= e($singular) ?> dans cet onglet.</p>
-      <?php else: $moveTab = $s; require __DIR__ . '/rows.php'; endif ?>
+      <?php else: ?>
+      <?php if (count($items) > 5) { $filters = []; $filterId = $s; $searchLabel = 'Rechercher un lieu (nom, commune)'; $countWords = [$singular, $res['plural'] ?? $singular . 's']; $total = count($items); require ROOT . '/templates/admin/partials/filters.php'; } ?>
+      <?php $moveTab = $s; require __DIR__ . '/rows.php'; ?>
+      <div class="adm-etat adm-etat--compact" data-filter-empty hidden><p class="adm-etat__titre">Aucun résultat</p><p class="adm-etat__texte">Aucune fiche de cet onglet ne correspond à la recherche.</p><button class="btn btn--neutre" type="button" data-filter-reset>Effacer la recherche</button></div>
+      <?php endif ?>
     </div>
   </section>
   <?php endforeach ?>

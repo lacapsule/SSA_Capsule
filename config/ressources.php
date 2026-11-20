@@ -31,6 +31,7 @@ return [
         'table' => 'lieux_conventionnes',
         'label' => 'Lieux conventionnés',
         'singular' => 'lieu',
+        'plural' => 'lieux',
         'intro' => 'Les lieux de la page « Où dépenser ses Buzuk SSA » et de sa carte. À l\'enregistrement, l\'adresse est placée sur la carte par l\'IGN ; vérifiez la position annoncée.',
         'order' => 'ville, nom',
         'partage' => true,
@@ -45,9 +46,11 @@ return [
         'fields' => [
             'nom' => ['label' => 'Nom', 'type' => 'text', 'required' => true, 'max' => 160],
             'statut' => ['label' => 'Statut', 'type' => 'select', 'required' => true, 'options' => ['ok' => 'Conventionné', 'attente' => 'En attente', 'refus' => 'Refusé', 'sans' => 'Sans conventionnement']],
-            'adresse' => ['label' => 'Adresse', 'type' => 'address', 'required' => true, 'max' => 300, 'hint' => 'Numéro et rue, ou lieu-dit.'],
-            'code_postal' => ['label' => 'Code postal', 'type' => 'text', 'required' => true, 'max' => 10],
-            'ville' => ['label' => 'Commune', 'type' => 'text', 'required' => true, 'max' => 120],
+            // Adresse facultative : 25 lieux de la carte du collectif n'ont qu'une position ; la fiche s'enregistre sans
+            // adresse et garde sa position (geocode ne touche à rien tant que l'adresse ne change pas).
+            'adresse' => ['label' => 'Adresse', 'type' => 'address', 'max' => 300, 'hint' => 'Numéro et rue, ou lieu-dit : choisissez une suggestion, le code postal et la commune se remplissent.', 'remplit' => ['postcode' => 'code_postal', 'city' => 'ville']],
+            'code_postal' => ['label' => 'Code postal', 'type' => 'text', 'max' => 10],
+            'ville' => ['label' => 'Commune', 'type' => 'text', 'max' => 120],
             'description' => ['label' => 'Produits et informations', 'type' => 'textarea', 'hint' => 'Ce que l\'on y trouve, en quelques mots. Une adresse web (boutique en ligne) y devient un lien.'],
             'horaires' => ['label' => 'Horaires', 'type' => 'textarea'],
             'is_published' => ['label' => 'Afficher sur le site', 'type' => 'checkbox', 'default' => 1],
