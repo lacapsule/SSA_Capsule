@@ -29,6 +29,18 @@
 @media (min-width: 30em) {
   .cnx-carte .cnx-carte__etape { top: var(--space-5); right: var(--space-5); }
 }
+/* Rappel du compte de test (poste de développement seulement) : posé en haut à droite de l'écran, hors du flux, pour
+   que le formulaire garde sa mise en page réelle. */
+.cnx-dev {
+  position: fixed;
+  top: var(--space-2);
+  right: var(--space-2);
+  max-width: min(22rem, calc(100% - var(--space-4)));
+  margin: 0;
+  font-size: var(--step--2);
+  box-shadow: var(--shadow);
+  z-index: 10;
+}
 /* Titre qui reçoit le focus à la bascule : pas de contour au clic, contour du site au clavier. */
 .cnx-carte__titre:focus:not(:focus-visible) { outline: none; }
 /* Lien dans un message (rappel de la double authentification) : couleur du texte du message, souligné, en gras. */

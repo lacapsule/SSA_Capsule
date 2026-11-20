@@ -22,7 +22,7 @@ if ($dev && $email === '') {
 <form class="cnx-form" method="post" action="<?= e(A::url('connexion/')) ?>" novalidate>
   <?= Csrf::field('admin-login') ?>
   <?php if ($error): ?><p class="adm-alerte adm-alerte--erreur" role="alert"><?= e($error) ?></p><?php endif ?>
-  <?php if ($dev): ?><p class="adm-alerte">Poste de développement : compte de test prérempli (<?= e(AdminAuth::DEV_EMAIL) ?>, mot de passe <?= e(AdminAuth::DEV_PASSWORD) ?>).</p><?php endif ?>
+  <?php if ($dev): ?><p class="adm-alerte cnx-dev">Poste de développement : compte de test prérempli (<?= e(AdminAuth::DEV_EMAIL) ?>, mot de passe <?= e(AdminAuth::DEV_PASSWORD) ?>).</p><?php endif ?>
   <div class="adm-champ">
     <label for="a-email">Adresse e-mail</label>
     <input class="adm-saisie" id="a-email" name="email" type="email" autocomplete="username" value="<?= e($email) ?>" required autofocus>
