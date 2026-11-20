@@ -52,12 +52,16 @@ if ($aVenir) {
 // du quartier au point exact quand l'IGN l'a reconnu, sinon de la commune, puis l'itinéraire.
 $cote = '';
 if (!empty($e['address'])) {
-    $position = \App\Lieux\Positions::pour((string) $e['address']);
+    // Position placée à l'enregistrement (colonnes de l'événement), sinon la liste versionnée des lieux d'événements.
+    $position = $e['latitude'] !== null
+        ? ['lat' => (float) $e['latitude'], 'lon' => (float) $e['longitude'], 'precision' => (string) $e['position_precision'], 'cle' => '', 'ign' => (string) $e['position_ign']]
+        : \App\Lieux\Positions::pour((string) $e['address']);
+    $quartierEvt = $e['latitude'] !== null && !empty($e['quartier']) ? json_decode((string) $e['quartier'], true) : null;
     $vers = $position !== null ? 'https://www.openstreetmap.org/directions?to=' . $position['lat'] . ',' . $position['lon'] : 'https://www.openstreetmap.org/search?query=' . rawurlencode((string) $e['address']);
     ob_start(); ?>
     <div class="evenement-lieu">
       <h2 class="evenement-lieu__titre"><?= $icone('M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21zM12 12a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z', 20) ?><span<?= langue_attr($e, 'address') ?>><?= e((string) $e['address']) ?></span></h2>
-      <?php partial('lieux/carte-lieu', ['adresse' => (string) $e['address'], 'libelle' => trim(explode(' - ', (string) $e['address'])[0]), 'titre' => t('carte.lieu_sur_carte')]) ?>
+      <?php partial('lieux/carte-lieu', ['adresse' => (string) $e['address'], 'libelle' => trim((string) preg_replace('/\s+\d{5}\s.*$/u', '', explode(' - ', (string) $e['address'])[0])), 'titre' => t('carte.lieu_sur_carte')] + ($quartierEvt !== null ? ['position' => $position, 'quartier' => $quartierEvt] : [])) ?>
       <p class="evenement-lieu__action"><a class="button button--ghost" href="<?= e($vers) ?>" rel="noopener"><?= $icone('M3 11l18-8-8 18-2-8-8-2z') ?><?= e(t('agenda.itineraire')) ?></a></p>
     </div>
     <?php $cote = (string) ob_get_clean();

@@ -40,6 +40,7 @@ $base = Admin::url('agenda/');
           <span class="adm-meta"><?= e(Dates::longue((string) $ev['starts_at']) . ', ' . Dates::heure((string) $ev['starts_at'])) ?><?= $ev['address'] ? ' · ' . e((string) $ev['address']) : '' ?></span>
         </a>
         <?php if ((int) $ev['is_published'] !== 1): ?><span class="pastille pastille--point pastille--neutre">Masqué</span><?php endif ?>
+        <?php if ($ev['address'] && $ev['latitude'] === null && App\Lieux\Positions::pour((string) $ev['address']) === null): ?><span class="pastille pastille--point pastille--attention">Carte de la commune</span><?php endif ?>
         <a class="btn btn--neutre" href="<?= e($href) ?>"><?= Ui::icon('edit') ?>Modifier<span class="adm-masque"> <?= e((string) $ev['title']) ?></span></a>
       </li>
       <?php endforeach ?>

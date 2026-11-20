@@ -68,7 +68,7 @@ final class Agenda
 
     public static function fiche(string $slug): void
     {
-        $e = Db::run('SELECT ' . self::CHAMPS . ' FROM events WHERE is_published = 1 AND slug = ?', [$slug])->fetch();
+        $e = Db::run('SELECT ' . self::CHAMPS . ', latitude, longitude, position_precision, position_ign, quartier FROM events WHERE is_published = 1 AND slug = ?', [$slug])->fetch();
         if ($e === false) {
             throw \App\Core\HttpException::notFound();
         }

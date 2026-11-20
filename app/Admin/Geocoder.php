@@ -33,7 +33,7 @@ final class Geocoder
     /**
      * Position d'une adresse, ou null si elle est introuvable ou trop incertaine.
      * @param array{0: float, 1: float}|null $centre
-     * @return array{lat: float, lon: float, label: string}|null
+     * @return array{lat: float, lon: float, label: string, type: string}|null type de l'IGN : housenumber, street, locality, municipality
      */
     public static function locate(string $address, ?array $centre = null): ?array
     {
@@ -42,7 +42,7 @@ final class Geocoder
             return null;
         }
         [$lon, $lat] = $hit['geometry']['coordinates'];
-        return ['lat' => round((float) $lat, 6), 'lon' => round((float) $lon, 6), 'label' => (string) ($hit['properties']['label'] ?? $address)];
+        return ['lat' => round((float) $lat, 6), 'lon' => round((float) $lon, 6), 'label' => (string) ($hit['properties']['label'] ?? $address), 'type' => (string) ($hit['properties']['type'] ?? '')];
     }
 
     /** @return list<array<string, mixed>> */

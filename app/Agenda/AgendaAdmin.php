@@ -5,10 +5,13 @@ namespace App\Agenda;
 
 use App\Admin\Admin;
 use App\Admin\Edition;
+use App\Admin\Geocoder;
 use App\Core\Auth;
 use App\Core\Db;
 use App\Core\HttpException;
 use App\Core\Session;
+use App\Lieux\Positions;
+use App\Lieux\Quartier;
 use App\Site\Dates;
 
 /**
@@ -28,7 +31,7 @@ final class AgendaAdmin
             'debut' => ['label' => 'Heure de début', 'type' => 'time', 'required' => true],
             'fin' => ['label' => 'Heure de fin', 'type' => 'time', 'required' => true],
             'date_fin' => ['label' => 'Dernier jour (sur plusieurs jours)', 'type' => 'date', 'hint' => 'Laisser vide pour un événement sur une seule journée.'],
-            'address' => ['label' => 'Lieu', 'type' => 'text', 'max' => 300, 'large' => true, 'hint' => 'Nom du lieu et commune, par exemple « locaux de l\'AFPA, Morlaix ».'],
+            'address' => ['label' => 'Lieu', 'type' => 'address', 'max' => 300, 'large' => true, 'suggestions' => '/admin/adresses?ressource=lieux', 'hint' => 'Nom du lieu, adresse et commune, par exemple « Locaux de l\'AFPA, 39 Bellevue de la Madeleine, Morlaix ». Une adresse choisie dans les suggestions place l\'événement au point exact sur la carte.'],
             'description' => ['label' => 'Description', 'type' => 'textarea', 'hint' => 'Une ligne vide sépare deux paragraphes.'],
             'links' => ['label' => 'Liens', 'type' => 'textarea', 'hint' => 'Inscription, sondage, document : une adresse complète par ligne (https://…).'],
             'is_published' => ['label' => 'Afficher sur le site', 'type' => 'checkbox', 'default' => 1],
@@ -40,7 +43,7 @@ final class AgendaAdmin
         Admin::page();
         $maintenant = date('Y-m-d H:i');
         $passes = isset($_GET['passes']);
-        $liste = Db::run('SELECT id, title, starts_at, ends_at, address, category, is_published, slug FROM events WHERE ends_at ' . ($passes ? '<' : '>=') . ' ? ORDER BY starts_at ' . ($passes ? 'DESC' : 'ASC'), [$maintenant])->fetchAll();
+        $liste = Db::run('SELECT id, title, starts_at, ends_at, address, latitude, category, is_published, slug FROM events WHERE ends_at ' . ($passes ? '<' : '>=') . ' ? ORDER BY starts_at ' . ($passes ? 'DESC' : 'ASC'), [$maintenant])->fetchAll();
         $nombres = [
             'avenir' => (int) Db::run('SELECT COUNT(*) FROM events WHERE ends_at >= ?', [$maintenant])->fetchColumn(),
             'passes' => (int) Db::run('SELECT COUNT(*) FROM events WHERE ends_at < ?', [$maintenant])->fetchColumn(),
@@ -64,10 +67,12 @@ final class AgendaAdmin
         }
         $ligne['slug'] = Edition::slugUnique('events', $ligne['title']);
         $ligne['created_at'] = now();
+        [$position, $note] = self::placer(null, $ligne['address']);
+        $ligne += $position;
         $cols = array_keys($ligne);
         $id = Db::insert('INSERT INTO events (' . implode(', ', $cols) . ') VALUES (' . implode(', ', array_fill(0, count($cols), '?')) . ')', array_values($ligne));
         Auth::log('agenda.creation', $ligne['title']);
-        Session::flash('Événement ajouté. Adresse sur le site : /agenda/' . $ligne['slug'] . '/');
+        Session::flash('Événement ajouté. Adresse sur le site : /agenda/' . $ligne['slug'] . '/' . $note);
         throw HttpException::redirect(Admin::url('agenda/' . $id . '/'));
     }
 
@@ -88,10 +93,12 @@ final class AgendaAdmin
             return;
         }
         $ligne['updated_at'] = now();
+        [$position, $note] = self::placer($e, $ligne['address']);
+        $ligne += $position;
         $set = implode(', ', array_map(static fn (string $c): string => "$c = ?", array_keys($ligne)));
         Db::run("UPDATE events SET $set WHERE id = ?", [...array_values($ligne), (int) $e['id']]);
         Auth::log('agenda.modification', $ligne['title']);
-        Session::flash('Événement enregistré.');
+        Session::flash('Événement enregistré.' . $note);
         throw HttpException::redirect(Admin::url('agenda/' . (int) $e['id'] . '/'));
     }
 
@@ -116,13 +123,48 @@ final class AgendaAdmin
         return $e;
     }
 
+    /**
+     * Position du lieu, placée à l'enregistrement depuis le serveur (décision du 2026-11-20) : lieu de la liste versionnée
+     * (config/lieux-evenements.tsv), sinon IGN (adresse ou lieu-dit reconnu ; une commune seule ne donne pas de point),
+     * puis le quartier dessiné. Adresse inchangée et déjà placée : rien n'est refait.
+     * @param ?array<string, mixed> $e fiche avant modification
+     * @return array{0: array<string, mixed>, 1: string} colonnes de position, phrase ajoutée au message
+     */
+    private static function placer(?array $e, ?string $adresse): array
+    {
+        $vide = ['latitude' => null, 'longitude' => null, 'position_precision' => null, 'position_ign' => null, 'quartier' => null];
+        if ($adresse === null || trim($adresse) === '') {
+            return [$vide, ''];
+        }
+        if ($e !== null && (string) $e['address'] === $adresse && $e['latitude'] !== null) {
+            return [[], ''];
+        }
+        $connu = Positions::pour($adresse);
+        if ($connu !== null) {
+            $quartier = Positions::quartier($connu['cle']);
+            return [['latitude' => $connu['lat'], 'longitude' => $connu['lon'], 'position_precision' => $connu['precision'], 'position_ign' => mb_substr($connu['ign'], 0, 300),
+                'quartier' => $quartier !== null ? json_encode($quartier, JSON_UNESCAPED_SLASHES) : null], ' Lieu placé sur la carte.'];
+        }
+        $hit = Geocoder::locate($adresse, [48.577, -3.828]);
+        $precision = match ($hit['type'] ?? '') { 'housenumber' => 'adresse', 'street' => 'quartier', 'locality' => 'lieu-dit', default => null };
+        if ($hit === null || $precision === null) {
+            return [$vide, ' Lieu non reconnu au point près : la fiche montre la carte de la commune. Pour un point exact, choisissez une adresse dans les suggestions.'];
+        }
+        $quartier = Quartier::recuperer($hit['lat'], $hit['lon']);
+        return [['latitude' => $hit['lat'], 'longitude' => $hit['lon'], 'position_precision' => $precision, 'position_ign' => mb_substr($hit['label'], 0, 300),
+            'quartier' => $quartier !== null ? json_encode($quartier, JSON_UNESCAPED_SLASHES) : null],
+            ' Lieu placé sur la carte : ' . $hit['label'] . ($precision !== 'adresse' ? ' (position approchée)' : '') . '. Vérifiez sur la fiche.'];
+    }
+
     /** @param array<string, mixed> $e @return array<string, mixed> */
     private static function versFormulaire(array $e): array
     {
         $debut = (string) $e['starts_at'];
         $fin = (string) $e['ends_at'];
         return [
-            'title' => $e['title'], 'category' => $e['category'] ?: 'pour_tous', 'address' => $e['address'], 'description' => $e['description'],
+            'title' => $e['title'], 'category' => $e['category'] ?: 'pour_tous', 'address' => $e['address'],
+            // Événement repris avant le 2026-11-20 : position de la liste versionnée tant qu'il n'est pas réenregistré.
+            'latitude' => $e['latitude'] ?? (Positions::pour((string) $e['address'])['lat'] ?? null), 'description' => $e['description'],
             'links' => $e['links'], 'is_published' => $e['is_published'],
             'date' => substr($debut, 0, 10), 'debut' => substr($debut, 11, 5), 'fin' => substr($fin, 11, 5),
             'date_fin' => substr($fin, 0, 10) !== substr($debut, 0, 10) ? substr($fin, 0, 10) : '',

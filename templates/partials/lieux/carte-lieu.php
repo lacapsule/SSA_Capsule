@@ -5,11 +5,14 @@
  * sinon rien. Zoom, déplacement et clavier par carte-zoom.js ; la page appelante charge ce script et met l'itinéraire.
  * @var string $adresse adresse saisie @var string $libelle nom du lieu près du repère @var ?string $cle position (contact)
  * @var string $titre nom accessible de la carte (« {lieu} sur la carte »)
+ * @var ?array{lat: float, lon: float, precision: string, cle: string, ign: string} $position facultatif @var ?array<string, mixed> $quartier facultatif
  */
 use App\Lieux\Positions;
 
-$position = !empty($cle) ? Positions::parCle((string) $cle) : Positions::pour((string) $adresse);
-$quartier = $position !== null ? Positions::quartier($position['cle']) : null;
+// position et quartier donnés par l'appelant (événement placé par l'IGN à l'enregistrement, décision du 2026-11-20),
+// sinon la liste versionnée des lieux d'événements.
+$position = isset($position) && is_array($position) ? $position : (!empty($cle) ? Positions::parCle((string) $cle) : Positions::pour((string) $adresse));
+$quartier = isset($quartier) && is_array($quartier) ? $quartier : ($position !== null && ($position['cle'] ?? '') !== '' ? Positions::quartier($position['cle']) : null);
 $icone = static fn (string $d): string => '<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><path d="' . $d . '" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 $controles = static function () use ($icone): void { ?>
   <div class="carte-lieu__controles" hidden data-controles>

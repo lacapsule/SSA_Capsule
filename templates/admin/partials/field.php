@@ -60,7 +60,7 @@ $wide = in_array($type, ['textarea', 'image', 'pdf', 'address'], true) || !empty
     };
   ?>
   <?php // remplit : champs remplis par la suggestion choisie (code postal, commune), ajout du projet SSA. ?>
-  <div class="combo" data-address data-address-source="/admin/adresses?ressource=<?= e($key) ?>"<?php foreach ((array) ($f['remplit'] ?? []) as $part => $champ): ?> data-address-fill-<?= e((string) $part) ?>="f-<?= e((string) $champ) ?>"<?php endforeach ?>>
+  <div class="combo" data-address data-address-source="<?= e((string) ($f['suggestions'] ?? '/admin/adresses?ressource=' . ($key ?? ''))) ?>"<?php foreach ((array) ($f['remplit'] ?? []) as $part => $champ): ?> data-address-fill-<?= e((string) $part) ?>="f-<?= e((string) $champ) ?>"<?php endforeach ?>>
     <input id="<?= $id ?>" name="<?= e($name) ?>" type="text" value="<?= e((string) $value) ?>" autocomplete="off" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="<?= $id ?>-list" data-address-input<?= $req . $aria ?>>
     <ul class="combo__list" id="<?= $id ?>-list" role="listbox" aria-label="Adresses suggérées" hidden data-address-list></ul>
   </div>
