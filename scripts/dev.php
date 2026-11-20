@@ -6,6 +6,7 @@ declare(strict_types=1);
  *   php scripts/dev.php serve [--host=127.0.0.1] [--port=8080]   site sur http://127.0.0.1:8080 (base créée si absente)
  *   php scripts/dev.php db      recrée data/dev.sqlite : migrations, database/seed.php s'il existe, contenus du site actuel
  *   php scripts/dev.php init    même chose, seulement si la base ou public/media/ manque (clone neuf)
+ *   php scripts/dev.php compte  crée ou remet le compte de développement (base SQLite de data/ seulement)
  *   php scripts/dev.php help Makefile [autres.mk]   liste les cibles commentées « ## » (make help)
  *   php scripts/dev.php info    vérifie PHP et les extensions
  *   php scripts/dev.php lint    vérifie la syntaxe de tous les fichiers PHP
@@ -20,6 +21,9 @@ const MIN_PHP = '8.2.0';
 // Extensions chargées à la volée si le php.ini ne les active pas (sans modifier le php.ini).
 const LOADABLE = ['pdo_sqlite', 'openssl', 'sodium', 'mbstring'];
 const REQUIRED = ['pdo_sqlite', 'pdo_mysql', 'openssl', 'sodium', 'mbstring'];
+// Mêmes valeurs que App\Admin\AdminAuth::DEV_EMAIL et DEV_PASSWORD (serve les affiche sans charger l'application).
+const DEV_EMAIL = 'dev@exemple.invalid';
+const DEV_PASSWORD = 'developpement-local';
 const SKIP_DIRS = ['.git', 'vendor', 'node_modules', 'data', '.claude'];
 
 if (PHP_OS_FAMILY === 'Windows' && function_exists('sapi_windows_cp_set')) {
@@ -35,7 +39,7 @@ foreach (array_slice($argv, 2) as $arg) {
     }
 }
 
-if ($command === 'db' || $command === 'init') {
+if (in_array($command, ['db', 'init', 'compte'], true)) {
     relaunchWithExtensions(['pdo_sqlite', 'sodium']);
 }
 
@@ -43,6 +47,7 @@ exit(match ($command) {
     'serve' => serve($root, $options),
     'db' => database($root),
     'init' => init($root),
+    'compte' => compteDev($root),
     'info' => info(),
     'help' => aide(array_slice($argv, 2)),
     'lint' => lint($root),
@@ -85,9 +90,11 @@ function serve(string $root, array $options): int
     if (!ctype_digit($port) || (int) $port < 1024 || (int) $port > 65535) {
         return fail("Port invalide : $port (1024 à 65535)");
     }
-    passthru(escapeshellarg(PHP_BINARY) . ' ' . escapeshellarg(__FILE__) . ' init', $code);
-    if ($code !== 0) {
-        return $code;
+    foreach (['init', 'compte'] as $etape) {
+        passthru(escapeshellarg(PHP_BINARY) . ' ' . escapeshellarg(__FILE__) . ' ' . $etape, $code);
+        if ($code !== 0) {
+            return $code;
+        }
     }
     // Poste de développement : APP_ENV=local (e-mails écrits dans data/mail.log, erreurs affichées, connexion au
     // back-office sans double authentification) si ni l'environnement ni le .env ne le règlent déjà.
@@ -98,7 +105,9 @@ function serve(string $root, array $options): int
     }
     $url = "http://$host:$port/";
     fwrite(STDOUT, PHP_EOL . '  Serveur de développement' . PHP_EOL . "  Adresse : $url" . PHP_EOL);
-    fwrite(STDOUT, '  E-mails : data/mail.log (sans serveur d\'envoi réglé)' . PHP_EOL . '  Arrêt   : Ctrl+C' . PHP_EOL . PHP_EOL);
+    fwrite(STDOUT, '  E-mails : data/mail.log (sans serveur d\'envoi réglé)' . PHP_EOL);
+    fwrite(STDOUT, "  Administration : {$url}admin/ (formulaire prérempli)" . PHP_EOL
+        . '    e-mail       ' . DEV_EMAIL . PHP_EOL . '    mot de passe ' . DEV_PASSWORD . PHP_EOL . '  Arrêt   : Ctrl+C' . PHP_EOL . PHP_EOL);
     // Tailles d'envoi du tableau de bord, comme en production (public/.user.ini, que le serveur intégré ne lit pas).
     $cmd = escapeshellarg(PHP_BINARY) . extensionFlags(LOADABLE) . ' -d upload_max_filesize=64M -d post_max_size=200M -d max_file_uploads=40 -S ' . escapeshellarg("$host:$port")
         . ' -t ' . escapeshellarg("$root/public") . ' ' . escapeshellarg("$root/public/router.php");
@@ -137,6 +146,36 @@ function init(string $root): int
     }
     fwrite(STDOUT, 'Base de dev ou médias absents : création avec les contenus du site actuel...' . PHP_EOL);
     return database($root);
+}
+
+/**
+ * Compte administrateur du poste de développement, mot de passe connu (affiché par make dev, prérempli sur la page de
+ * connexion). Écrit seulement dans une base SQLite de data/ : jamais dans une base distante réglée par le .env.
+ * AdminAuth le refuse hors du serveur intégré de PHP sur le poste local.
+ */
+function compteDev(string $root): int
+{
+    require $root . '/app/bootstrap.php';
+    $dsn = (string) ((require $root . '/config/database.php')['dsn'] ?? '');
+    $base = str_starts_with($dsn, 'sqlite:') ? realpath(substr($dsn, 7)) : false;
+    $data = realpath("$root/data");
+    if ($base === false || $data === false || !str_starts_with($base, $data . DIRECTORY_SEPARATOR)) {
+        fwrite(STDOUT, 'Compte de développement non créé : la base réglée n\'est pas une base SQLite de data/.' . PHP_EOL);
+        return 0;
+    }
+    if (DEV_EMAIL !== App\Admin\AdminAuth::DEV_EMAIL || DEV_PASSWORD !== App\Admin\AdminAuth::DEV_PASSWORD) {
+        return fail('Compte de développement : valeurs différentes entre scripts/dev.php et AdminAuth.');
+    }
+    $hash = (string) App\Core\Db::run('SELECT password_hash FROM admins WHERE email = ?', [DEV_EMAIL])->fetchColumn();
+    if ($hash === '') {
+        App\Core\Db::run("INSERT INTO admins (email, name, password_hash, role, created_at) VALUES (?, 'Compte de développement', ?, 'admin', ?)",
+            [DEV_EMAIL, password_hash(DEV_PASSWORD, defined('PASSWORD_ARGON2ID') ? PASSWORD_ARGON2ID : PASSWORD_DEFAULT), now()]);
+    } else {
+        // Mot de passe remis s'il a changé, blocage levé : le compte affiché par make dev marche toujours.
+        $nouveau = password_verify(DEV_PASSWORD, $hash) ? $hash : password_hash(DEV_PASSWORD, defined('PASSWORD_ARGON2ID') ? PASSWORD_ARGON2ID : PASSWORD_DEFAULT);
+        App\Core\Db::run("UPDATE admins SET password_hash = ?, role = 'admin', failed_logins = 0, locked_until = NULL WHERE email = ?", [$nouveau, DEV_EMAIL]);
+    }
+    return 0;
 }
 
 /** Cibles « nom: ## description » des fichiers make donnés (Makefile et fichiers inclus), dans l'ordre. @param list<string> $fichiers */

@@ -18,6 +18,13 @@ $compte = static function (PDO $db, int $reprise, ?string $totp = null, ?string 
 };
 
 return [
+    'compte du poste de développement : refusé hors du serveur intégré de PHP, même avec le bon mot de passe' => static function (PDO $db): void {
+        $db->prepare("INSERT INTO admins (email, name, password_hash, role, created_at) VALUES (?, 'Dev', ?, 'admin', ?)")
+            ->execute([AdminAuth::DEV_EMAIL, password_hash(AdminAuth::DEV_PASSWORD, PASSWORD_DEFAULT), now()]);
+        affirmer(!AdminAuth::developpementLocal(), 'les tests ne tournent pas sur le serveur intégré');
+        affirmer_egal(AdminAuth::LOGIN_FAILED, AdminAuth::password(AdminAuth::DEV_EMAIL, AdminAuth::DEV_PASSWORD));
+    },
+
     'lien d\'un éditeur : schémas dangereux et redirections détournées refusés' => static function (): void {
         foreach (['javascript:alert(1)', 'JavaScript:alert(1)', 'data:text/html,x', 'vbscript:x', '//autre.exemple', '/\\autre.exemple', "/\tchemin", 'ftp://exemple.org', 'https://', 'exemple.org', ''] as $l) {
             affirmer(!Edition::lienValide($l), "refusé : « $l »");

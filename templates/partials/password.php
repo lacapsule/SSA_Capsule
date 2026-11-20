@@ -10,12 +10,14 @@
  * @var bool|null $force variante .champ-mdp--force (création, changement) : critères cochés en direct et niveau écrit,
  *   règles de App\Securite\PasswordPolicy (même configuration que la validation serveur)
  * @var App\Securite\PasswordPolicy|null $politique politique à appliquer (par défaut : PasswordPolicy::parDefaut())
+ * @var string|null $value valeur préremplie (seulement le compte du poste de développement, page de connexion)
  * @var string|null $identifiantId id du champ e-mail ou identifiant du même formulaire : ajoute « Ne contient pas votre identifiant »
  */
 $hint = isset($hint) && $hint !== '' ? $hint : null;
 $error = isset($error) && $error !== '' ? $error : null;
 $forgotUrl = isset($forgotUrl) && $forgotUrl !== '' ? $forgotUrl : null;
 $disabled = !empty($disabled);
+$value = isset($value) && $value !== '' ? $value : null;
 $force = !empty($force);
 $identifiantId = isset($identifiantId) && $identifiantId !== '' ? $identifiantId : null;
 $politique = $force ? (isset($politique) && $politique instanceof App\Securite\PasswordPolicy ? $politique : App\Securite\PasswordPolicy::parDefaut()) : null;
@@ -37,7 +39,7 @@ $describedBy = trim(($hint !== null ? "$id-aide " : '') . ($force ? "$id-critere
   <?php if ($hint !== null): ?><p class="champ-aide" id="<?= e($id) ?>-aide"><?= e($hint) ?></p><?php endif ?>
   <?php if ($error !== null): ?><p class="champ-erreur" id="<?= e($id) ?>-erreur"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20Zm1 15h-2v-2h2Zm0-4h-2V7h2Z"/></svg><?= e($error) ?></p><?php endif ?>
   <div class="mdp">
-    <input id="<?= e($id) ?>" name="<?= e($name) ?>" type="password" autocomplete="<?= e($autocomplete) ?>" spellcheck="false" autocapitalize="off"
+    <input id="<?= e($id) ?>" name="<?= e($name) ?>" type="password" autocomplete="<?= e($autocomplete) ?>" spellcheck="false" autocapitalize="off"<?= $value !== null ? ' value="' . e($value) . '"' : '' ?>
       <?= ($required ?? true) ? 'required' : '' ?><?= isset($minlength) ? ' minlength="' . (int) $minlength . '"' : '' ?>
       <?= $describedBy !== '' ? 'aria-describedby="' . e($describedBy) . '"' : '' ?><?= $error !== null ? ' aria-invalid="true"' : '' ?><?= $disabled ? ' disabled' : '' ?>>
     <button class="mdp-bascule" type="button" data-mdp="<?= e($id) ?>" aria-controls="<?= e($id) ?>" aria-pressed="false" hidden>

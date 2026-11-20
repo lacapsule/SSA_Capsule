@@ -11,6 +11,24 @@
 /* Connexion et mot de passe oublié dans la même carte (admin-auth.js) : chaque volet garde l'espacement de la carte. */
 .cnx-carte > [data-volet] { display: grid; gap: var(--space-4); }
 .cnx-carte > [data-volet][hidden] { display: none; }
+/* Marque en haut à gauche de la carte, étape (« Étape 1 sur 2 ») en face à droite, sur la même ligne : l'étape est
+   sortie du flux du volet et posée dans la marge que la marque lui réserve (rien ne se chevauche). */
+.cnx-carte { position: relative; }
+.cnx-carte:has(.cnx-carte__etape) > .cnx-marque { padding-right: calc(var(--space-5) * 2.5); }
+/* Nom du site sur deux lignes plutôt que tronqué quand la place manque (téléphone). */
+.cnx-carte .cnx-marque__nom { white-space: normal; }
+.cnx-carte .cnx-carte__etape {
+  position: absolute;
+  top: var(--space-4);
+  right: var(--space-4);
+  display: flex;
+  align-items: center;
+  height: calc(var(--target) + var(--space-1));
+  margin: 0;
+}
+@media (min-width: 30em) {
+  .cnx-carte .cnx-carte__etape { top: var(--space-5); right: var(--space-5); }
+}
 /* Titre qui reçoit le focus à la bascule : pas de contour au clic, contour du site au clavier. */
 .cnx-carte__titre:focus:not(:focus-visible) { outline: none; }
 /* Lien dans un message (rappel de la double authentification) : couleur du texte du message, souligné, en gras. */

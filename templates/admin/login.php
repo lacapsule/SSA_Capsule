@@ -7,6 +7,13 @@
 use App\Admin\AdminAuth;
 use App\Admin\AdminController as A;
 use App\Core\Csrf;
+
+// Poste de développement (make dev) : compte de test prérempli, jamais ailleurs (même condition que la connexion sans
+// double authentification, AdminAuth::developpementLocal).
+$dev = AdminAuth::developpementLocal();
+if ($dev && $email === '') {
+    $email = AdminAuth::DEV_EMAIL;
+}
 ?>
 <div data-volet="connexion">
 <p class="cnx-carte__etape">Étape 1 sur 2</p>
@@ -15,11 +22,12 @@ use App\Core\Csrf;
 <form class="cnx-form" method="post" action="<?= e(A::url('connexion/')) ?>" novalidate>
   <?= Csrf::field('admin-login') ?>
   <?php if ($error): ?><p class="adm-alerte adm-alerte--erreur" role="alert"><?= e($error) ?></p><?php endif ?>
+  <?php if ($dev): ?><p class="adm-alerte">Poste de développement : compte de test prérempli (<?= e(AdminAuth::DEV_EMAIL) ?>, mot de passe <?= e(AdminAuth::DEV_PASSWORD) ?>).</p><?php endif ?>
   <div class="adm-champ">
     <label for="a-email">Adresse e-mail</label>
     <input class="adm-saisie" id="a-email" name="email" type="email" autocomplete="username" value="<?= e($email) ?>" required autofocus>
   </div>
-  <?php partial('password', ['id' => 'a-pass', 'name' => 'password', 'label' => 'Mot de passe', 'autocomplete' => 'current-password']) ?>
+  <?php partial('password', ['id' => 'a-pass', 'name' => 'password', 'label' => 'Mot de passe', 'autocomplete' => 'current-password', 'value' => $dev && $email === AdminAuth::DEV_EMAIL ? AdminAuth::DEV_PASSWORD : null]) ?>
   <button class="btn btn--plein" type="submit">Continuer</button>
 </form>
 <nav class="cnx-carte__bas" aria-label="Autres actions">

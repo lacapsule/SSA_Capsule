@@ -34,6 +34,12 @@ final class AdminAuth
     private const RESET_PER_ACCOUNT = 3;
 
     /** Seul message d'échec de l'étape 1, quel que soit le motif. */
+    /**
+     * Compte du poste de développement (créé par make dev dans la base SQLite de data/, jamais en production) : refusé
+     * hors du poste de développement (developpementLocal), même si la ligne arrivait dans une autre base.
+     */
+    public const DEV_EMAIL = 'dev@exemple.invalid';
+    public const DEV_PASSWORD = 'developpement-local';
     public const LOGIN_FAILED = 'Connexion refusée : e-mail ou mot de passe incorrect. Après plusieurs essais, la connexion est bloquée quelques minutes.';
 
     /** @return array<string, mixed>|null administrateur entièrement connecté (mot de passe et second facteur) */
@@ -88,7 +94,8 @@ final class AdminAuth
         // Vérification toujours faite (hachage factice si le compte n'existe pas) : même durée dans tous les cas.
         $valid = password_verify($password, $admin ? (string) $admin['password_hash'] : self::DUMMY_HASH);
         $locked = $admin && $admin['locked_until'] !== null && $admin['locked_until'] > now();
-        if (!$admin || !$valid || $locked) {
+        $devRefuse = $email === self::DEV_EMAIL && !self::developpementLocal();
+        if (!$admin || !$valid || $locked || $devRefuse) {
             self::failure($admin ? (int) $admin['id'] : 0);
             return self::LOGIN_FAILED;
         }
@@ -139,7 +146,7 @@ final class AdminAuth
      * requête venue du poste lui-même, et APP_ENV local ou non réglé (un serveur lancé avant que make dev ne pose
      * APP_ENV=local reste ainsi un poste de développement). Toutes à la fois, sinon double authentification normale.
      */
-    private static function developpementLocal(): bool
+    public static function developpementLocal(): bool
     {
         $env = (string) ($_ENV['APP_ENV'] ?? getenv('APP_ENV') ?: '');
         return PHP_SAPI === 'cli-server' && in_array($env, ['', 'local'], true)
