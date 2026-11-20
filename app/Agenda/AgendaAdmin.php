@@ -27,13 +27,13 @@ final class AgendaAdmin
         return [
             'title' => ['label' => 'Titre', 'type' => 'text', 'required' => true, 'max' => 190, 'large' => true],
             'category' => ['label' => 'Public', 'type' => 'select', 'required' => true, 'options' => $publics, 'hint' => 'Sert au filtre de la page Agenda.'],
-            'date' => ['label' => 'Date', 'type' => 'date', 'required' => true],
-            'debut' => ['label' => 'Heure de début', 'type' => 'time', 'required' => true],
-            'fin' => ['label' => 'Heure de fin', 'type' => 'time', 'required' => true],
-            'date_fin' => ['label' => 'Dernier jour (sur plusieurs jours)', 'type' => 'date', 'hint' => 'Laisser vide pour un événement sur une seule journée.'],
+            'date' => ['label' => 'Date', 'type' => 'date', 'required' => true, 'taille' => 'court'],
+            'debut' => ['label' => 'Début', 'type' => 'time', 'required' => true, 'taille' => 'court'],
+            'fin' => ['label' => 'Fin', 'type' => 'time', 'required' => true, 'taille' => 'court'],
+            'date_fin' => ['label' => 'Dernier jour', 'type' => 'date', 'taille' => 'court', 'hint' => 'Seulement sur plusieurs jours.'],
             'address' => ['label' => 'Lieu', 'type' => 'address', 'max' => 300, 'large' => true, 'suggestions' => '/admin/adresses?ressource=lieux', 'hint' => 'Nom du lieu, adresse et commune, par exemple « Locaux de l\'AFPA, 39 Bellevue de la Madeleine, Morlaix ». Une adresse choisie dans les suggestions place l\'événement au point exact sur la carte.'],
             'description' => ['label' => 'Description', 'type' => 'textarea', 'hint' => 'Une ligne vide sépare deux paragraphes.'],
-            'links' => ['label' => 'Liens', 'type' => 'textarea', 'hint' => 'Inscription, sondage, document : une adresse complète par ligne (https://…).'],
+            'links' => ['label' => 'Liens', 'type' => 'textarea', 'rows' => 2, 'hint' => 'Inscription, sondage, document : une adresse complète par ligne (https://…).'],
             'is_published' => ['label' => 'Afficher sur le site', 'type' => 'checkbox', 'default' => 1],
         ];
     }

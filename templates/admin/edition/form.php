@@ -26,17 +26,16 @@ $key = '';
     <a class="adm-retour" href="<?= e($retour) ?>"><?= Ui::icon('back') ?><?= e($retourLibelle) ?></a>
     <h1 class="adm-entete-page__titre"><?= e($title) ?></h1>
   </div>
-  <?php if ($voir !== null): ?>
-  <div class="adm-entete-page__actions"><a class="btn btn--neutre" href="<?= e($voir) ?>" target="_blank" rel="noopener"><?= Ui::icon('external') ?>Voir sur le site<span class="adm-masque"> (nouvel onglet)</span></a></div>
-  <?php endif ?>
 </header>
 <?php if ($erreurs !== []): ?>
 <div class="adm-alerte adm-alerte--erreur" role="alert"><?= Ui::icon('alert') ?><p><strong>Erreur :</strong> rien n'a été enregistré. Corrigez <?= count($erreurs) > 1 ? 'les ' . count($erreurs) . ' champs signalés' : 'le champ signalé' ?>.</p></div>
 <?php endif ?>
-<div class="adm-colonnes">
+<?php /* Contenu à gauche ; à droite, colonne collante : publication, enregistrement, puis suppression (demande de Kouzia,
+   2026-11-20). Les contrôles de droite appartiennent au formulaire par l'attribut form="fiche". */ ?>
+<div class="adm-colonnes adm-colonnes--edition">
   <form class="adm-colonnes__principal" id="fiche" method="post" action="<?= e($action) ?>"<?= $fichiers ? ' enctype="multipart/form-data"' : '' ?> novalidate>
     <?= Csrf::field() ?>
-    <?php foreach ($groupes as $titreGroupe => $noms): $idGroupe = 'g-' . substr(md5($titreGroupe), 0, 6); ?>
+    <?php $formulaire = ''; foreach ($groupes as $titreGroupe => $noms): $idGroupe = 'g-' . substr(md5($titreGroupe), 0, 6); ?>
     <section class="adm-carte adm-carte--simple" aria-labelledby="<?= $idGroupe ?>">
       <h2 class="adm-carte__titre" id="<?= $idGroupe ?>"><?= e($titreGroupe) ?></h2>
       <div class="adm-grille-champs">
@@ -45,25 +44,23 @@ $key = '';
     </section>
     <?php endforeach ?>
     <?= $apres ?>
-    <?php if ($publication !== []): ?>
-    <section class="adm-carte adm-carte--simple" aria-labelledby="publi-titre">
-      <h2 class="adm-carte__titre" id="publi-titre">Publication</h2>
-      <?php foreach ($publication as $name => $f) { $value = $valeurs[$name] ?? ($f['default'] ?? 0); $error = $erreurs[$name] ?? null; $values = $valeurs; require ROOT . '/templates/admin/partials/field.php'; } ?>
-    </section>
-    <?php endif ?>
-    <div class="adm-rangee">
-      <button class="btn" type="submit">Enregistrer</button>
-      <a class="btn btn--neutre" href="<?= e($retour) ?>">Annuler</a>
-    </div>
   </form>
-  <?php if ($suppression !== null): ?>
-  <aside class="adm-colonnes__cote" aria-label="Suppression">
-    <form class="adm-carte adm-carte--simple adm-zone-danger" method="post" action="<?= e($suppression) ?>" data-confirm="Supprimer « <?= e($nomFiche) ?> » ? Cette action est définitive.">
+  <aside class="adm-colonnes__cote" aria-label="Publication et enregistrement">
+    <section class="adm-carte adm-carte--simple adm-publier" aria-labelledby="publi-titre">
+      <h2 class="adm-carte__titre" id="publi-titre">Publication</h2>
+      <?php $formulaire = 'fiche'; foreach ($publication as $name => $f) { $value = $valeurs[$name] ?? ($f['default'] ?? 0); $error = $erreurs[$name] ?? null; $values = $valeurs; require ROOT . '/templates/admin/partials/field.php'; } $formulaire = ''; ?>
+      <?php if ($voir !== null): ?><a class="adm-lien adm-publier__voir" href="<?= e($voir) ?>" target="_blank" rel="noopener"><?= Ui::icon('external') ?>Voir sur le site<span class="adm-masque"> (nouvel onglet)</span></a><?php endif ?>
+      <div class="adm-publier__actions">
+        <button class="btn" type="submit" form="fiche">Enregistrer</button>
+        <a class="btn btn--neutre" href="<?= e($retour) ?>">Annuler</a>
+      </div>
+    </section>
+    <?php if ($suppression !== null): ?>
+    <form class="adm-supprimer" method="post" action="<?= e($suppression) ?>" data-confirm="Supprimer « <?= e($nomFiche) ?> » ? Cette action est définitive.">
       <?= Csrf::field() ?>
-      <h2 class="adm-carte__titre">Supprimer</h2>
-      <?php if ($publication !== []): ?><p>Pour retirer la fiche du site sans la perdre, désactivez plutôt « <?= e((string) reset($publication)['label']) ?> ».</p><?php endif ?>
+      <?php if ($publication !== []): ?><p class="adm-supprimer__texte">Pour retirer la fiche du site sans la perdre, désactivez plutôt « <?= e((string) reset($publication)['label']) ?> ».</p><?php endif ?>
       <button class="btn btn--danger btn--secondaire" type="submit"><?= Ui::icon('trash') ?>Supprimer définitivement</button>
     </form>
+    <?php endif ?>
   </aside>
-  <?php endif ?>
 </div>

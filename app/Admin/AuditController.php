@@ -47,7 +47,9 @@ final class AuditController
     ];
 
     /** Verbes génériques « objet.verbe » (ressources du module crud-declaratif). */
-    private const VERBS = ['creation' => 'ajout', 'modification' => 'modification', 'suppression' => 'suppression'];
+    private const VERBS = ['creation' => 'ajout', 'modification' => 'modification', 'suppression' => 'suppression', 'descriptions' => 'descriptions écrites', 'deplacement' => 'ordre changé'];
+    /** Rubriques écrites avec leurs accents (« actualites.creation » => « Actualités : ajout »). */
+    private const OBJETS = ['actualites' => 'Actualités', 'agenda' => 'Agenda', 'galerie' => 'Galerie', 'photos' => 'Photos', 'lieux' => 'Lieux conventionnés', 'partenaires' => 'Partenaires et financeurs', 'sauvegarde' => 'Sauvegarde'];
 
     public static function index(): void
     {
@@ -108,8 +110,12 @@ final class AuditController
         if (isset(self::LABELS[$action])) {
             return self::LABELS[$action];
         }
+        // Variante écrite à la connexion (« connexion (développement, sans double authentification) ») : déjà en clair.
+        if (str_contains($action, ' ')) {
+            return ucfirst($action);
+        }
         [$object, $verb] = array_pad(explode('.', $action, 2), 2, '');
-        return isset(self::VERBS[$verb]) ? ucfirst($object) . ' : ' . self::VERBS[$verb] : $action;
+        return isset(self::VERBS[$verb]) ? (self::OBJETS[$object] ?? ucfirst($object)) . ' : ' . self::VERBS[$verb] : $action;
     }
 
     /** Adresse de la page $n en gardant les filtres. */

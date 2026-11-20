@@ -26,11 +26,11 @@ final class ActualitesAdmin
     {
         return [
             'titre' => ['label' => 'Titre', 'type' => 'text', 'required' => true, 'max' => 190, 'large' => true],
-            'date_article' => ['label' => 'Date de l\'article', 'type' => 'date', 'required' => true, 'hint' => 'Date affichée. Une date à venir programme la parution : l\'article apparaît ce jour-là.'],
-            'heure' => ['label' => 'Heure (facultatif)', 'type' => 'time'],
-            'lieu' => ['label' => 'Lieu (facultatif)', 'type' => 'text', 'max' => 300, 'large' => true],
-            'resume' => ['label' => 'Résumé', 'type' => 'textarea', 'max' => 300, 'hint' => 'Une ou deux phrases, montrées dans la liste des actualités et sur l\'accueil.'],
-            'description' => ['label' => 'Texte de l\'article', 'type' => 'textarea', 'required' => true, 'hint' => 'Une ligne vide sépare deux paragraphes.'],
+            'date_article' => ['label' => 'Date', 'type' => 'date', 'required' => true, 'taille' => 'court', 'hint' => 'À venir : parution ce jour-là.'],
+            'heure' => ['label' => 'Heure', 'type' => 'time', 'taille' => 'court', 'hint' => 'Facultative.'],
+            'lieu' => ['label' => 'Lieu', 'type' => 'text', 'max' => 300, 'large' => true, 'hint' => 'Facultatif.'],
+            'resume' => ['label' => 'Résumé', 'type' => 'textarea', 'rows' => 2, 'max' => 300, 'hint' => 'Une ou deux phrases, montrées dans la liste des actualités et sur l\'accueil.'],
+            'description' => ['label' => 'Texte de l\'article', 'type' => 'textarea', 'rows' => 8, 'required' => true, 'hint' => 'Une ligne vide sépare deux paragraphes.'],
             'image' => ['label' => 'Fichier de la photo', 'type' => 'image', 'folder' => 'actualites', 'widths' => [1600], 'hint' => 'JPG, PNG ou WebP, 15 Mo au plus. Convertie en WebP.'],
             'image_alt' => ['label' => 'Description de la photo', 'type' => 'text', 'max' => 250, 'large' => true, 'hint' => 'Ce que montre la photo, en une phrase, pour les personnes qui ne la voient pas (exemple : « Une vingtaine de personnes en cercle pendant l\'atelier cuisine »).'],
             'image_decorative' => ['label' => 'Photo décorative', 'type' => 'checkbox', 'hint' => 'Seulement si la photo n\'apporte aucune information (fond, motif) : elle n\'a pas besoin de description.'],

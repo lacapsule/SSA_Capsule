@@ -4,6 +4,7 @@
  * (case interrupteur : erreur au-dessus, aide de la case sous son libellé).
  * @var string $name @var array<string, mixed> $f (label, type, required, hint, options, step, max) @var mixed $value
  * @var ?string $error @var string $key ressource (suggestions d'adresses) @var array<string, mixed> $values toutes les valeurs
+ * @var string|null $formulaire id du formulaire d'une case posée hors de lui (colonne de publication)
  */
 $id = 'f-' . $name;
 $type = (string) $f['type'];
@@ -13,6 +14,8 @@ $aria = ($describedBy !== '' ? ' aria-describedby="' . $describedBy . '"' : '') 
 $req = !empty($f['required']) ? ' required' : '';
 // large : champ sur toute la largeur de la grille (titre, lieu) ; ajout du projet SSA.
 $wide = in_array($type, ['textarea', 'image', 'pdf', 'address'], true) || !empty($f['large']) ? ' adm-champ--large' : '';
+// taille : largeur dans la grille de six colonnes (court : un tiers, long : deux tiers ; par défaut la moitié).
+$wide .= match ($f['taille'] ?? '') { 'court' => ' adm-champ--court', 'long' => ' adm-champ--long', default => '' };
 ?>
 <div class="adm-champ adm-champ--pile<?= $wide ?>">
   <?php if ($type === 'checkbox'): ?>
@@ -20,7 +23,7 @@ $wide = in_array($type, ['textarea', 'image', 'pdf', 'address'], true) || !empty
   <div class="adm-reglage adm-reglage--champ">
     <label class="adm-reglage__titre" for="<?= $id ?>"><?= e((string) $f['label']) ?></label>
     <span class="adm-interrupteur">
-      <input class="adm-interrupteur__controle" type="checkbox" role="switch" id="<?= $id ?>" name="<?= e($name) ?>" value="1"<?= (int) $value === 1 ? ' checked' : '' ?><?= $aria ?>>
+      <input class="adm-interrupteur__controle" type="checkbox" role="switch" id="<?= $id ?>" name="<?= e($name) ?>" value="1"<?= (int) $value === 1 ? ' checked' : '' ?><?= $aria ?><?= !empty($formulaire) ? ' form="' . e((string) $formulaire) . '"' : '' ?>>
       <span class="adm-interrupteur__etat" aria-hidden="true"><span class="adm-interrupteur__oui">Oui</span><span class="adm-interrupteur__non">Non</span></span>
     </span>
   </div>

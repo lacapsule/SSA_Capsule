@@ -26,9 +26,9 @@ $base = Admin::url('agenda/');
     <li><a href="<?= e($base . '?passes') ?>"<?= $passes ? ' aria-current="page"' : '' ?>>Passés <span class="adm-compteur adm-compteur--neutre"><?= $nombres['passes'] ?></span></a></li>
   </ul>
 </nav>
-<div data-list>
+<div class="adm-carte adm-liste" data-list>
   <?php if (count($evenements) > 5) { $filters = []; $searchLabel = 'Rechercher un événement'; $countWords = ['événement', 'événements']; $total = count($evenements); require ROOT . '/templates/admin/partials/filters.php'; } ?>
-  <section class="adm-carte" data-filter-grid aria-label="<?= $passes ? 'Événements passés' : 'Événements à venir' ?>">
+  <section data-filter-grid aria-label="<?= $passes ? 'Événements passés' : 'Événements à venir' ?>">
     <?php if ($evenements === []): ?>
     <p class="adm-carte__vide"><?= $passes ? 'Aucun événement passé.' : 'Aucun événement à venir.' ?><?php if (!$passes): ?> <a href="<?= e($base . 'nouveau/') ?>">Ajouter un événement</a><?php endif ?></p>
     <?php else: ?>
@@ -47,5 +47,5 @@ $base = Admin::url('agenda/');
     </ul>
     <?php endif ?>
   </section>
-  <div class="adm-carte adm-carte--simple adm-etat adm-etat--compact" data-filter-empty hidden><p class="adm-etat__titre">Aucun résultat</p><p class="adm-etat__texte">Aucun événement ne correspond à la recherche.</p><button class="btn btn--neutre" type="button" data-filter-reset>Effacer la recherche</button></div>
+  <div class="adm-etat adm-etat--compact" data-filter-empty hidden><p class="adm-etat__titre">Aucun résultat</p><p class="adm-etat__texte">Aucun événement ne correspond à la recherche.</p><button class="btn btn--neutre" type="button" data-filter-reset>Effacer la recherche</button></div>
 </div>
